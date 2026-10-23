@@ -393,7 +393,7 @@ Plné znění promptů, stav kroků a „co zůstalo na později“ jsou v soubo
 | `celek-9` | „Kam mi mizí čas?“: Seneca a Marcus Aurelius, cesta 34, doplnění otázky 1 | `docs/archiv/plany/celek-9.md` | podklady (P6) 18. 10. 2026; cesta 34 s kresbou Přesýpací hodiny (P8) 23. 10. 2026; revize celku (P10) 23. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-9-2026-10-23.md`); opravy (O) všech deseti nálezů 23. 10. 2026; schváleno, sloučeno a na GitHubu 23. 10. 2026 |
 | `rozhrani-v2` | Rozhraní mimo celky: jeden začátek na Domů, obsah profilu, ovládání mapy, reflexe ve Sporu, Na začátku × Teď, blok Návrat | `docs/archiv/plany/rozhrani-v2.md` | hotovo: R1 a R2 schválené, větev sloučená do hlavní větve a od 4. 10. 2026 na GitHubu spolu s celkem 4; autor ji uzavřel 5. 10. 2026 |
 
-**Další větve v pořadí** (23. 10. 2026, po uzavření celku 9): cesta 33 „Co když přijde to nejhorší?“ jako celek 10 (plán celku rozhodne, jestli Stockdale dostane medailonek, nebo zůstane jen v textu cesty) → souhrnná revize antiky (P11; patří do ní i kontrola, jestli jiná kresba ukazuje obsah teprve pohybem) a zkouška se studenty. Plán každé větve vznikne, až na ni přijde řada.
+**Další větve v pořadí** (23. 10. 2026, po uzavření celku 9): cesta 33 „Co když přijde to nejhorší?“ jako celek 10 (Stockdale bez medailonku, jen v textu cesty; rozhodnutí autora z 23. 10. 2026) → souhrnná revize antiky (P11; patří do ní i kontrola, jestli jiná kresba ukazuje obsah teprve pohybem) a zkouška se studenty. Plán každé větve vznikne, až na ni přijde řada.
 
 Po závěrečné revizi a schválení celku se větev sloučí do hlavní větve a hlavní větev se pošle na GitHub. Mezi tím se na GitHub nic neposílá.
 

@@ -4,6 +4,12 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 23. 10. 2026: Stockdale bez medailonku
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| James Stockdale nedostane medailonek; jeho příběh nese jen text cesty 33. Architektura ho z medailonků období 8 vyřadila | Autor: „Ne, Stockdale nemá dostat medailonek“ |
+
 ## 23. 10. 2026: Celek 9 uzavřený
 
 | Rozhodnutí | Důvod |
