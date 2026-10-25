@@ -191,7 +191,7 @@ test('Platón: text drží pravidla celku (kdo mluví, dopis, tradované příb�
 test('Platón: vstupy do cesty 3 a otázky 6 v hlavičce, u věty o jeskyni, v přehledu otázek a v Lidech', async ({ page }) => {
   await page.goto(PLATON);
   // Hlavička profilu nabízí cestu a otázku sama z dat.
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 3 · 8 kroků · asi 25 minut\s*Je to, co vidím, celá skutečnost\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 3 · 8 kroků · asi 27 minut\s*Je to, co vidím, celá skutečnost\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', '/cesta/je-to-co-vidim-cela-skutecnost/');
   // Věta o jeskyni v kapitole 03 vede na cestu; karta cesty v portrétu není (větu „Podobní nám“ nese až cesta).
   await expect(page.locator('#stul-a-stolovost a[href="/cesta/je-to-co-vidim-cela-skutecnost/"]')).toHaveText('Je to, co vidím, celá skutečnost?');
