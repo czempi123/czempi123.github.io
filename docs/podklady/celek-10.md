@@ -8,6 +8,14 @@ Ověřeno 25. 10. 2026 (P6). Celek: cesta 33 „Co když přijde to nejhorší?�
 
 **Čeho se drží celý celek.** Tři věci. První: cesta je o tom, co se změní, když ránu čekám, ne o tom, že mám myslet negativně. Seneca i Epiktétos radí představit si ztrátu, aby nepřišla jako nová, a obě rady mají jasný účel: ztráta pak „netrefí tak tvrdě“ a člověk se nechytá věcí, které mu nepatří. Druhá: Stockdale není hrdina k obdivu ani vzor, ale svědek, který si dvě Epiktétovy věty vyzkoušel tam, kde se nedá podvádět; jeho slova máme z jeho vlastních textů, sepsaných léta potom. Třetí: proti Senekovi stojí poctivý protivník už v antice. Epikúros podle Cicerona odmítal přemítat o budoucím zlu, protože kdo si ho představuje, trpí dvakrát. A týž Seneca v jiném dopise radí nebát se předem. Student, který říká „mě by to jen víc vyděsilo“, má na své straně Epikúra i Seneku.
 
+## Nejsilnější příběhy
+
+1. **Třicet vteřin pod padákem.** Pilot se roku 1965 katapultuje nad Severním Vietnamem a ví, že ho čeká zajetí. Po letech napsal, že si zašeptal: „Pět let tam dole, nejméně. Opouštím svět techniky a vstupuji do světa Epiktéta.“ Bylo jich skoro osm. — typ: doložený text (jeho vzpomínka) — zdroj: Courage Under Fire, s. 6; NHHC 2015 — formulace: oddíl a (a5–a7).
+2. **Knížka, o které profesor nemluvil.** Na rozloučenou mu profesor filozofie podal Epiktétovu Rukojeť; tři roky ji vozil na lodích, než zjistil, k čemu mu bude. Epiktétova věta o kulhání mu pak ulevila, napsal, „jen trochu“, a nejhorší nebyla bolest, ale stud. — typ: doložený text — zdroj: Courage Under Fire, s. 2, 10, 18; Stoic Warrior's Triad — formulace: a3, a9, a14.
+3. **Senátor jde na oběd.** Agrippinovi oznámí rozsudek cestou z tělocviku. „K vyhnanství, nebo ke smrti?“ „K vyhnanství.“ „Tak pojďme do Aricie a naobědváme se.“ Epiktétos: to znamená mít nacvičeno. — typ: doložený text (Epiktétos o současníkovi) — zdroj: Rozpravy I, 1, 28–31 — formulace: c13.
+4. **Lucilius a soud.** Příteli hrozí soud. Seneca nejdřív sám vysloví radu „proč si kazit přítomnost?“ a pak radí opak: představ si, že to přijde, změř to, strhni věcem masku. — typ: doložený text — zdroj: Dopisy 24, 1–2 a 12–13 — formulace: b1–b5.
+5. **Město, které shořelo za jednu noc.** Liberalis se připravoval na všechno, čeho se dá bát, a pak mu shořelo rodné Lugdunum. Seneca ho nekárá: nečekané tíží víc. — typ: doložený text — zdroj: Dopisy 91, 1–4 — formulace: b13.
+
 ## a) Stockdale z jeho vlastních textů (hotovo)
 
 ### Kdo to vypráví a kdy
@@ -267,3 +275,169 @@ Lucilius čekal na rozsudek (b1), student čeká na výběr: případ je stejné
 **Návrh C (do Návratu): Zpráva.** Kamarád ti napíše „musíme si promluvit“ a pak hodinu neodpovídá. Seneca 13, 12: mysl vykládá nejasné slovo k horšímu.
 
 **Co do případů nedávat:** nemoc v rodině, rozchod jako jistá ztráta, smrt (f). Rozchod jen jako fáma nebo obava (Návrat), ne jako cvičné „představ si, že tě opustí“.
+
+## h) Návrh cesty (hotovo)
+
+Bloky jsou z knihovny, která v atlasu existuje (`src/components/bloky/`: Příběh, Volba, Odkryj, Roztřiď, Změň jednu věc, Spor, Kdo žil dřív?, Návrat, Závěr cesty a kresby). Žádný nový blok cesta nepotřebuje, jen novou kresbu. Osnova je návrh; P8 ji může změnit, důvody má v oddílech a–g.
+
+### Osnova (8 kroků)
+
+| # | Krok | Obsah | Blok | Prameny |
+| --- | --- | --- | --- | --- |
+| 1 | **Třicet vteřin** | Září 1965, letadlo hoří, pilot se katapultuje. Pod padákem má asi třicet vteřin a ví, kam padá. Po letech napsal, co si tehdy zašeptal. Ještě než se to student dozví: **Volba** „Co by sis na jeho místě řekl(a) ty?“ (a) Třeba to nebude tak zlé. (b) Bude to zlé; jak to vydržím? (c) Teď na to nemysli, hlavně dobře přistát. (d) Nevím. Každá možnost s vlastní zpětnou vazbou bez hodnocení; pak jeho věta (a6) a pointa: čekal pět let, bylo jich skoro osm (a7). | Příběh, Volba | a5–a7 |
+| 2 | **Knížka od profesora** | Tři roky předtím mu profesor podal na rozloučenou tenkou knížku, o které v hodinách nemluvil (a3). Vozil ji na lodích. Ve vesnici mu zlomili nohu; vzpomněl si na Epiktétovu větu o kulhání a ulevilo se mu, napsal, „jen trochu“ (a9; odkaz na cestu 5). V zajetí přes čtyři roky o samotě; nejhorší podle něj nebyla bolest, ale stud (a14, c5). A noví spoluvězni slyšeli přes zeď: tady čistý není nikdo, jsme v tom spolu (a15). **Odkryj:** „Proč ho podle tebe nejvíc trápil stud, ne bolest?“ | Příběh, Odkryj | a3, a8–a15, c5 |
+| 3 | **Senátor jde na oběd** | Epiktétos vypráví o senátorovi, kterému cestou z tělocviku oznámí rozsudek (c13): „To znamená mít nacvičeno, co je třeba nacvičit.“ Cvičit se začíná od nejmenšího: hrnek (c9). **Volba:** „Co si myslíš o tom senátorovi?“ (je připravený / je mu to jedno / dělá statečného / nevím); zpětná vazba vysvětlí Epiktétovo rozlišení: na čem mi záleží, a co mi patří. | Příběh, Volba | c9, c13, c14 |
+| 4 | **Strhni masku** | Seneca a Lucilius, kterého čeká soud (b1). Seneca nejdřív sám řekne opačnou radu (proč si kazit přítomnost?) a pak: představ si, že se to stane, a změř to (b2); doufej v to nejspravedlivější a připrav se na to nejnespravedlivější (b4). A obraz: děti se leknou lidí, které mají rády, když si nasadí masku (b5). **Kresba Maska** (níže). | Příběh, kresba | b1, b2, b4, b5 |
+| 5 | **Víc, dřív, nebo vůbec?** | Námitka nahlas: „Mě by to jen víc vyděsilo.“ Seneca ji zná: víc nás straší, než tíží (b8); něco nás trápí víc, než má, dřív, než má, nebo vůbec nemá (b9). **Roztřiď** cizích vět (ne vlastních strachů: poučení) do košů „Trápí víc, než má · Trápí dřív, než má · Trápí, i když nemá · Trápí právem, je to blízko“. A Senekova hranice: promysli, co se může stát a co bys pak udělal; pak přestaň (98, 5–8). | Roztřiď | b8, b9, b10, b18 |
+| 6 | **Přišlo, co nikdo nečekal** | Liberalis, kterému shořelo rodné město za jedinou noc (b13). Připravoval se, a přišlo něco, co si nepředstavil. Seneca ho nekárá: nečekané tíží víc. Pak **Spor Seneca × Epikúros:** „Mám si dopředu představit, co se může pokazit?“ (oddíl d). Scéna Sporu stojí na Dopise 24, 1, kde Seneca Epikúrův argument vysloví sám. | Příběh, Spor | b13, b15, d5, d6, d12 |
+| 7 | **Kdy to pomáhá?** | Nový případ „Nominace“ (g, návrh A). **Změň jednu věc** se třemi podmínkami (část v tvých rukou / los / fáma). Zpětná vazba podle Seneky 98, 7, 24, 2 a 13, 8 a podle Epikúra. Odpovědi dávají smysl v každé podmínce (poučení). | Změň jednu věc | b10, b18, d12 |
+| 8 | **Kdo je na tvé straně** | Zastánci každé možnosti z kroků 1 a 3 (poučení: všech Voleb cesty): (a) Epikúros a Seneca z Dopisu 13; (b) Seneca z Dopisu 24 a 91, Epiktétos, Cicero; (c) Epikúros a Stockdale, kterému na padáku zbylo jen přistát; (d) Seneca, který přiznal Liberalisovi, že otřást se smí, a Epiktétos, který hotového stoika nikdy neviděl (c7). Zastánce možností z kroku 3 doplní P8 podle oddílu c (u „je mu to jedno“: Epiktétos lhostejnost sám odmítá, hráč s míčem, Rozpravy II, 5, citát `rozpravy-ii-5-1`; u „dělá statečného“: Seneca, podle kterého se otřást smí, 91, 3). Spojenec pro nesouhlasícího: Epikúros (ne „to přiznal sám Seneca“). Pak **Závěr cesty** (Na začátku × Teď) a vlastní pravidlo. | Závěr cesty | oddíly a–d |
+
+Čas: odhad 25–30 minut; spočítat skriptem `node scripts/slova-cesta.mjs <slug>` (poučení), neopisovat.
+
+### Kresba s pohybem „Maska“ (krok 4)
+
+**Obraz z pramene:** Dopisy 24, 13: děti se leknou lidí, které mají rády, když vidí masku; „nejen lidem, ale i věcem je třeba strhnout masku a vrátit jim jejich tvář“. Seneca psal i tragédie a divadelní maska je věc, kterou student pozná.
+
+**Pohyb:** velká tragická maska (otevřená ústa, prázdné oči) zakrývá něco menšího. Posuvník nebo tlačítko „Strhni masku“ ji pomalu sundá stranou; pod ní je obyčejná věc v obyčejném světle (například pomačkaný papír s nápisem „zkouška“, nebo jen silueta téhož předmětu bez úšklebku). Maska po sundání **zůstává vidět vedle**, aby šlo porovnat velikost.
+
+**Druhý pohyb (doporučuji, nese Liberala a námitku):** přepínač „Jiná maska“. Pod druhou maskou je tvář stejně velká jako maska. Popisek: „Někdy je pod maskou menší tvář. Někdy stejná. Ale už tě nepřekvapí.“ Tím kresba neslibuje, že všechno je menší, než se zdá (slabé místo 24, 2).
+
+**Zastavený obrázek a omezený pohyb:** výsledek, ne zamrzlý okamžik (poučení z celku 9): maska leží vedle věci, obě jsou vidět, popisek říká totéž slovy. Kdo zastaví pohyb hned po načtení, uvidí rovnou výsledek. V kresbě nic, co není součástí obrazu (žádné šípy, žádná hradba).
+
+**Proč ne jiné náměty:** dvě křivky strachu v čase by kreslily data, která nemáme (poučení: křivka nejsou data); stín na zdi je už jeskyně v cestě 3; padák a osa „5 let × 8 let“ jsou záloha, kdyby maska působila dětsky.
+
+### Závěrečné pravidlo
+
+Model (student si píše vlastní): „Když se něčeho bojím, nejdřív to změřím: co přesně se může stát, co bych pak udělal(a) a co z toho mám v rukou teď. Pak se netrápím dopředu.“
+
+Varianta pro toho, kdo stojí na Epikúrově straně: „Když vím, že by mě představa jen vyděsila, nechám ji být a myslím na to, co mám teď.“ Zpětná vazba u závěru má obě uznat.
+
+### Návrat (tři případy do deníku, bez pramenů a čísel)
+
+1. **Zpráva:** Kamarád ti napíše „musíme si promluvit“ a pak hodinu neodpovídá. Co uděláš s tou hodinou? (Seneca 13, 12: nejasné slovo k horšímu; 13, 8: fáma.)
+2. **Finále:** Trenér chce, aby si každý promyslel, co udělá, když budete o dva góly prohrávat. Spoluhráč říká, že tím to přivoláte. Kdo má pravdu? (Epiktétovo „zlé znamení“, c11; Seneca 91, 4.)
+3. **Stěhování:** Rodina se možná bude stěhovat do jiného města; jisté to bude až za měsíc. Co s tím měsícem? (Seneca 13, 11 „možná to bude, možná ne; zatím to není“; Epikúros, Menoikeovi 127.)
+
+### Zkus to žít: „Pět minut, jedna věc“
+
+Vyber si jednu malou věc, které se v nejbližších dnech trochu bojíš (test, zápas, prezentace, rozhovor). Na pět minut si ji promysli: Co nejhoršího se může rozumně stát? Co bych pak udělal(a) jako první? Co z toho mám v rukou dnes? Pak to odlož a jdi dělat něco, co máš rád(a). Když se ti to začne točit dokola, přestaň: tohle cvičení na to není. Po pár dnech, až věc přijde, si zapiš, jestli tě zaskočila.
+
+Odlišné od večerního ohlédnutí (Seneca, O hněvu III, 36: zpětně za dnem) a od „dvou půlek“ cesty 5 (třídění jedné věci, která už se stala). **Pro Stoický týden doporučuji tohle cvičení jako den „Představa nejhoršího“** (architektura: „představa nejhoršího (Seneca)“), v kratší podobě. Opora: Dopisy 24, 2 a 98, 5–7, O duševním klidu 11, 6; ověřeno výše.
+
+### Vazby na hotové stránky
+
+- **Portrét Seneky:** odkaz na cestu 33 v kapitole o dopisech (vedle odkazů na cesty 8 a 34, `seneca.mdx`, ř. 187–189) a karta v Kam dál. Text odkazu stojí na Liberalovi nebo Luciliově soudu, ne na Stockdalovi.
+- **Portrét Epiktéta:** karta cesty 33 v Kam dál; v textu nejvýš věta, že jeho knížku vozil s sebou jeden pilot (bez jména, nebo se jménem, rozhodne P8). Stockdale do dat nepřibude (rozhodnutí z 23. 10. 2026), takže stránka ho nemůže uvést jako vztah.
+- **Profil Epikúra:** karta cesty 33 (je stranou Sporu); věta jen tehdy, když P8 uzná, že spor o budoucí zlo je pro profil podstatný. Pozor na pravidlo z `docs/pouceni.md`: Epikúros mezi `filozofove` cesty nepatří (katalog: Seneca, Epiktétos).
+- **Stránka otázky 3:** karta cesty. **Nový hlas ne**: Seneca i Epiktétos na stránce mluví. Cesta přináší odpověď, která na stránce chybí (Dopisy 98, 11: „Mít ti může být vzato, to, že jsi měl, nikdy“), ale patří Senekovi, který tam už má hlas z Dopisu 61. Kdyby autor chtěl, šla by vyměnit myšlenka Senekova hlasu; nedoporučuji, revize celku 6 ji ladila.
+- **Cesta 5:** odkaz z kroku 2 (věta o kulhání); cesta 5 se nemění.
+- **Cesta 8:** nic; citáty `menoikeus-125-cekani` a `dl-x-22-radost` zůstávají tam, cesta 33 je nanejvýš připomene v podkladu Sporu.
+
+### Překryvy, kterým se cesta vyhne
+
+- Cesta 5: dělení na moje a nemoje znovu nevykládat; citát `rukojet-9` neopakovat (jen odkaz).
+- Cesta 8: smrt a strach ze smrti; Dopis 24, 18–26 patří jí.
+- Cesta 6: Dopis 18 (cvičení chudoby) ne.
+- Cesta 34 a portrét Seneky: čas, bohatství, Nero ne.
+- Stoický týden: ranní příprava (Marcus 2, 1) a pohled shora ne.
+- Portrét Epiktéta: `rukojet-17` neopakovat celé.
+
+## i) Obrázky (hotovo; nic nestaženo)
+
+| Soubor | Co zobrazuje | Autor / instituce | Licence | Odkaz | Doporučení |
+| --- | --- | --- | --- | --- | --- |
+| Formální portrét (U.S. Navy File Photo 050706-N-0000X-005) | Kontradmirál Stockdale v bílé slavnostní uniformě, po návratu (kolem 1976–1979); na Wikimedia Commons jako „James Stockdale Formal Portrait.jpg“, 1386 × 1976 px, 577 kB | U.S. Navy (Naval History and Heritage Command, galerie) | volné dílo: fotografie zaměstnance federální vlády USA při výkonu služby (17 U.S.C. § 105); NHHC uvádí „U.S. Navy photo (RELEASED)“ | usnhistory.navylive.dodlive.mil/Recent/Image-Gallery/igphoto/2002775676; stránku souboru na Commons jsem viděl jen v zrcadle (zhwiki.oracleblog.org) | **Doporučuji** pro vstup cesty, v duotónu jako ostatní podobizny. Před stažením otevřít originální stránku na Commons a ověřit zdroj. Pozor: uniforma s vyznamenáními; popisek bez výčtu medailí. |
+| Fotografie po propuštění (1973) | Kapitán Stockdale po návratu ze zajetí | National Archives, RG 80 (General Records of the Department of the Navy), přes DocsTeach | „Public Domain, Free of Known Copyright Restrictions“ (podle DocsTeach) | docsteach.org/documents/document/photograph-of-captain-james-stockdale-after-being-released-as-a-prisoner-of-war | **Záloha.** Silnější obraz (člověk po osmi letech), ale citlivější; obrázek jsem sám neviděl. |
+| Busta Seneky | | | | | Atlas má hermu (`seneca-herma`); cesta nepotřebuje další obraz. |
+
+Obraz pro Liberala (Lugdunum) nehledám: kresba Maska stojí v kroku 4 a cesta s dvěma obrazy a kresbou stačí.
+
+## j) Otevřené otázky pro autora (hotovo)
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Stockdalův paradox (optimisté, Collins).** Doporučuji do studentského textu nedávat (oddíl e): je z druhé ruky, s přímou řečí rekonstruovanou Collinsem, a jeho pointou je smrt spoluvězňů. Do listu pro učitele ano.
+   Odpověď:
+2. **Spor Seneca × Epikúros** (ne Seneca × Seneca). Doporučuji Epikúra: má stránku, je v datech a v Ciceronově podání vede právě tenhle spor; Seneca sám jeho argument vyslovuje (Dopis 24, 1).
+   Odpověď:
+3. **Pokus o sebevraždu (1969), stolička a Medaile cti.** Doporučuji do studentského textu nic z toho, ani narážkou; Medaili cti nezmiňovat, protože její zdůvodnění vede k tomu činu. Učiteli jednou větou.
+   Odpověď:
+4. **Řádek s Linkou bezpečí.** Doporučuji ne: cesta po vyřazení sebepoškození a smrti blízkých o sebevraždě ani smrti nemluví.
+   Odpověď:
+5. **Kresba Maska** (s druhou maskou „pod ní stejně velká tvář“). Doporučuji ji; záloha je padák s osou „5 let × 8 let“.
+   Odpověď:
+6. **Obrázek pro vstup.** Doporučuji formální portrét U.S. Navy (volné dílo, asi 577 kB); stáhnu ho v P8 po ověření stránky na Commons, pokud souhlasíš. Záloha je fotografie po propuštění (National Archives).
+   Odpověď:
+7. **Agrippinus jako příběh Epiktétovy části** (senátor jde po rozsudku na oběd), bez jména jako „jeden římský senátor“. Doporučuji ano: stojí na přípravě, ne na smrti, a v atlasu ještě není.
+   Odpověď:
+8. **Stoický týden:** cvičení „Pět minut, jedna věc“ jako den „Představa nejhoršího“. Doporučuji ano, v kratší podobě, až bude větev Stoického týdne.
+   Odpověď:
+9. **Stockdalovo jméno v portrétu Epiktéta.** Doporučuji v portrétu jen kartu cesty v Kam dál, bez věty o pilotovi; Stockdale v datech není a stránka by o něm mluvila bez vztahu.
+   Odpověď:
+
+## Citáty
+
+Všechny převody **vlastní**; řecké a latinské znění ověřené v textech uvedených v oddílech. Id jsou návrhy pro `src/data/zdroje.yaml`.
+
+| Id (návrh) | Znění v atlasu (vlastní převod) | Autor, dílo, místo | Originál | Poznámka |
+| --- | --- | --- | --- | --- |
+| `stockdale-cuf-padak` | „Pět let tam dole, nejméně. Opouštím svět techniky a vstupuji do světa Epiktéta.“ | James Stockdale, Courage Under Fire (1993), s. 6 | „Five years down there, at least. I'm leaving the world of technology and entering the world of Epictetus.“ | vzpomínka; uvést „po letech napsal“. Osoba v datech není: citát s `autor` a bez `osoba`, ověřit, že to schéma dovolí (jinak jen v textu kroku) |
+| `stockdale-cuf-uleva` | „Ulevilo se mi, ale jen trochu.“ | tamtéž, s. 10 | „I felt some relief––but only minor“ | parafráze možná lepší než citát |
+| `stockdale-cuf-stud` | „Člověka nezlomí bolest, ale stud.“ | tamtéž, s. 18 | „the thing that brings down a man is not pain but shame!“ | |
+| `stockdale-cuf-laborator` | „Byla-li Epiktétova škola nemocnice, moje vězení bylo laboratoř.“ | tamtéž, s. 18 | „If Epictetus's lecture room was a hospital, my prison was a laboratory“ | |
+| `rozpravy-iii-7-36` | „Přijdeš o člověka spolehlivého a slušného. Větší škodu nehledej.“ | Epiktétos, Rozpravy III, 7, 36 | ἀπολέσεις τὸν πιστόν, τὸν αἰδήμονα, τὸν κόσμιον. τούτων ἄλλας βλάβας μείζονας μὴ ζήτει. | zkrácené (τὸν κόσμιον vynecháno), výpustku nepsat, věta stojí sama |
+| `rozpravy-i-1-31` | „To znamená mít nacvičeno, co je třeba nacvičit.“ | Epiktétos, Rozpravy I, 1, 31 | τοῦτʼ ἔστι μεμελετηκέναι ἃ δεῖ μελετᾶν | za příběhem Agrippina |
+| `rukojet-3-hrnek` | „U všeho, co máš rád, si připomeň, jaké to je, a začni od nejmenších věcí. Máš-li rád hrnek, řekni si: Mám rád hrnek. Když se rozbije, nerozruší tě to.“ | Epiktétos, Rukojeť 3 | ἐφʼ ἑκάστου τῶν ψυχαγωγούντων … ἀπὸ τῶν σμικροτάτων ἀρξάμενος· ἂν χύτραν στέργῃς, ὅτι χύτραν στέργω. κατεαγείσης γὰρ αὐτῆς οὐ ταραχθήσῃ· | kratší podoba s vlastním id (poučení: citát, který končí obrazem, jemuž se celek vyhýbá); pokračování s dítětem jen učiteli |
+| `rozpravy-ii-19-24` | „Ukažte mi někoho, kdo je nemocný a šťastný, v nebezpečí a šťastný, … ve vyhnanství a šťastný. U bohů, toužím vidět stoika.“ | Epiktétos, Rozpravy II, 19, 24 | δείξατέ μοί τινα νοσοῦντα καὶ εὐτυχοῦντα … | výpustka za „umírající a šťastný“; volitelně |
+| `seneca-ep-24-12` | „Doufej v to nejspravedlivější a připrav se na to nejnespravedlivější.“ | Seneca, Dopisy Luciliovi 24, 12 | et quod aequissimum est spera, et ad id te quod est iniquissimum conpara | **citát cesty** |
+| `seneca-ep-24-13` | „Nejen lidem, ale i věcem je třeba strhnout masku a vrátit jim jejich tvář.“ | Seneca, Dopisy Luciliovi 24, 13 | Non hominibus tantum, sed rebus persona demenda est et reddenda facies sua. | ke kresbě |
+| `seneca-ep-24-2` | „Chceš-li se zbavit všech starostí, představ si, že to, čeho se bojíš, se určitě stane. A ať je to zlo jakékoli, změř si ho a odhadni svůj strach.“ | Seneca, Dopisy Luciliovi 24, 2 | si vis omnem sollicitudinem exuere, quicquid vereris ne eveniat, eventurum utique propone, et quodcumque est illud malum, tecum ipse metire ac timorem tuum taxa | bez druhé půlky (slib „není velké nebo dlouhé“ patří do textu kroku 5 jako to, co Seneca slibuje) |
+| `seneca-ep-13-4` | „Víc věcí nás straší, než nás tíží, a častěji trpíme představou než skutečností.“ | Seneca, Dopisy Luciliovi 13, 4 | Plura sunt, Lucili, quae nos terrent, quam quae premunt, et saepius opinione quam re laboramus. | **citát cesty** |
+| `seneca-ep-13-14` | „Jiný ať ti řekne: Možná to nepřijde. Ty si řekni: A co když přijde?“ | Seneca, Dopisy Luciliovi 13, 14 | Alius dicat: Fortasse non veniet. Tu dic: Quid porro, si veniet? | pro závěr Sporu |
+| `seneca-ep-91-3` | „Nečekané tíží víc; novost přidává neštěstí váhu.“ | Seneca, Dopisy Luciliovi 91, 3 | inexpectata plus adgravant; novitas adicit calamitatibus pondus | |
+| `seneca-ep-91-4` | „Mysl je třeba poslat napřed ke všemu a myslet ne na to, co se obvykle stává, ale na to, co se stát může.“ | Seneca, Dopisy Luciliovi 91, 4 | In omnia praemittendus animus cogitandumque non quidquid solet, sed quicquid potest fieri. | „praemittendus“ podle mladších rukopisů (BA mají „permittendus“) |
+| `seneca-ep-98-8` | „Víc trpí, než je nutné, kdo trpí dřív, než je nutné.“ | Seneca, Dopisy Luciliovi 98, 8 | Plus dolet quam necesse est, qui ante dolet quam necesse est | |
+| `seneca-ep-98-7` | „Čemu se dá vyhnout, tomu se vyhni. Co se dá rozvahou předvídat, předvídej. … Nic není ubožejšího ani hloupějšího než bát se předem.“ | Seneca, Dopisy Luciliovi 98, 7 | Tu vero metuenda declina. Quidquid consilio prospici potest, prospice. … Nihil est nec miserius nec stultius quam praetimere. | |
+| `seneca-ep-98-11` | „Mít ti může být vzato, to, že jsi měl, nikdy.“ | Seneca, Dopisy Luciliovi 98, 11 | Habere eripitur, habuisse numquam. | rezerva (otázka 3) |
+| `seneca-ep-78-29` | „Co se dlouho čeká, přichází mírněji.“ | Seneca, Dopisy Luciliovi 78, 29 | Quicquid expectatum est diu, lenius accedit. | „lenius“ je konjektura (Wolters), rukopisy „levius“ (lehčeji); smysl stejný |
+| `seneca-tranq-11-6` | „Kdo předem vidí všechno, co se může stát, jako by se to mělo stát, zmírní nápor všech neštěstí: připraveným a čekajícím nepřinesou nic nového.“ | Seneca, O duševním klidu 11, 6 | Quicquid enim fieri potest quasi futurum sit prospiciendo malorum omnium impetus molliet, qui ad praeparatos exspectantesque nihil afferunt noui | jen tato věta (kontext 11, 4–5 ne) |
+| `seneca-marcia-9-5` | „Kdo předem uviděl budoucí, bere přítomným neštěstím sílu.“ | Seneca, Útěcha Marcii 9, 5 | Aufert uim praesentibus malis qui futura prospexit. | bez kontextu útěchy |
+| `cicero-tusc-iii-29` | „Takové předem promýšlení budoucích zel zmírňuje jejich příchod: viděl jsi je přicházet zdaleka.“ | Cicero, Tuskulské hovory III, 29 | Haec igitur praemeditatio futurorum malorum lenit eorum adventum, quae venientia longe ante videris. | |
+| `cicero-tusc-iii-32` | Epikúros podle Cicerona: „Kdo pořád myslí na to, že se mu může přihodit něco zlého, tomu se z toho zla stává věčné; a když nepřijde, vzal na sebe dobrovolné trápení nadarmo.“ | Cicero, Tuskulské hovory III, 32 | qui autem semper cogitavisset accidere posse aliquid adversi, ei fieri illud sempiternum malum; si vero ne futurum quidem sit, frustra suscipi miseriam voluntariam | nepřímá řeč u Cicerona; v datech `autor: Cicero`, ve Sporu „podle Cicerona“ |
+| `cicero-tusc-iii-35` | „Poroučíš mi zapomenout, a to je proti přírodě.“ | Cicero, Tuskulské hovory III, 35 | Et tu oblivisci iubes, quod contra naturam est | |
+| `menoikeus-127` | „Pamatuj, že budoucnost není ani úplně naše, ani úplně ne naše: abychom na ni nečekali, jako by určitě přišla, ani nezoufali, jako by určitě nepřišla.“ | Epikúros, Dopis Menoikeovi 127 (Diogenés Laertios X, 127) | Μνημονευτέον δὲ ὡς τὸ μέλλον οὔτε ἡμέτερον οὔτε πάντως οὐχ ἡμέτερον, ἵνα μήτε πάντως προσμένωμεν ὡς ἐσόμενον μήτε ἀπελπίζωμεν ὡς πάντως οὐκ ἐσόμενον. | strana Epikúra ve Sporu |
+
+## Návrh dat
+
+**Osoby a vztahy:** žádné nové. Stockdale do `lide.yaml` nepřibude (rozhodnutí z 23. 10. 2026).
+
+**Prameny (`zdroje.yaml`, návrh):**
+
+```yaml
+- { id: stockdale-courage, druh: pramen, nazev: "Courage Under Fire (1993)", autor: James B. Stockdale, dilo: "Courage Under Fire. Testing Epictetus's Doctrines in a Laboratory of Human Behavior, Hoover Essays 6", url: "https://www.hoover.org/sites/default/files/uploads/documents/StockdaleCourage.pdf" }
+- { id: stockdale-usna, druh: pramen, nazev: "Stockdale on Stoicism I a II (1995)", autor: James B. Stockdale, dilo: "The Stoic Warrior's Triad; Master of My Fate (Stockdale Center, USNA)", url: "https://www.usna.edu/Ethics/_files/documents/stoicism1.pdf" }
+- { id: nhhc-stockdale, druh: clanek, nazev: "Navy Legend Vice Adm. Stockdale Led POW Resistance", autor: "Devon Hubbard Sorlie (NHHC)", dilo: "Naval History and Heritage Command, 13. 11. 2015", url: "https://usnhistory.navylive.dodlive.mil/Recent/Article-View/Article/2686213" }
+- { id: seneca-epistulae-nejhorsi, druh: pramen, nazev: "Dopisy Luciliovi 13, 24 (1–15), 78, 91 a 98", autor: Seneca, dilo: "Epistulae morales ad Lucilium (PerseusDL, phi1017.phi015)" }
+- { id: seneca-tranquillitate-11, druh: pramen, nazev: "O duševním klidu 11", autor: Seneca, dilo: "De tranquillitate animi (The Latin Library)" }
+- { id: seneca-marcia-9, druh: pramen, nazev: "Útěcha Marcii 9", autor: Seneca, dilo: "Ad Marciam de consolatione (The Latin Library)" }
+- { id: epiktetos-rozpravy-nejhorsi, druh: pramen, nazev: "Rozpravy I, 1, 28–31; II, 19, 24–25; III, 7, 36; III, 24, 84–94", autor: Epiktétos, dilo: "Dissertationes (H. Schenkl), PerseusDL" }
+- { id: cicero-tusculanae-iii, druh: pramen, nazev: "Tuskulské hovory III, 28–35, 52, 58 a 76", autor: Cicero, dilo: "Tusculanae disputationes (The Latin Library)" }
+```
+
+Tvar polí (`druh`, `url`, povinné položky) ověří P8 proti schématu; `seneca-marcia` a `seneca-tranquillitate` už existují s jinými kapitolami, P8 rozhodne, jestli je rozšířit, nebo přidat nové id. Citát bez `osoba` (Stockdale) zkontrolovat proti schématu dřív, než se zapíše.
+
+## Rozpory a rozhodnutí
+
+- **Stockdalův obor na Stanfordu.** NHHC: magisterium z filozofie; Stockdale sám: mezinárodní vztahy, filozofie navíc. Text: „studoval na univerzitě“.
+- **Počet bojových nasazení a mučení.** Druhé × třetí; patnáctkrát (Stockdale) × přes dvacetkrát (Collins). Text čísla neuvádí.
+- **Epiktétův životopis podle Stockdala** odporuje podkladům celku 3; platí celek 3.
+- **Seneca × Seneca** jsem nevolil (d): Dopis 13, 14 obě rady spojuje.
+- **Rukojeť 9 celá** jsem do cesty nedal: cesta 5 ji má jako vstup.
+- **Collinsův „paradox“** jsem do osnovy nedal (e, j1).
+- **Datace Lugdunu** bez roku; Tacitus má pohromu k roku 65.
+
+## Pro skill atlas-overeni
+
+- Stockdalovy texty jsou volně v PDF (Hoover, USNA); `pypdf` na Macu je čte, ale chrlí varování o písmech do výstupu: spouštět s `2>/dev/null`, jinak výstup zahltí kontext.
+- PerseusDL `canonical-latinLit` a `canonical-greekLit` jdou stáhnout z Macu přes `raw.githubusercontent.com`; skript s `xml.etree` vypíše místo podle čísla knihy, dopisu a oddílu. Pro záporné tvrzení („u Seneky to není“) je třeba prohledat i dialogy z The Latin Library; O dobrodiních IV–VII tam mají jinou adresu.
