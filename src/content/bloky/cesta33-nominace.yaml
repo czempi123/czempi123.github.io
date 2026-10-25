@@ -33,9 +33,9 @@ podminky:
       na výsledku, nebo na tom, jak chceš ty tři týdny prožít?
   - id: los
     prepinac: Rozhodne los
-    zmena: Míst je málo a trenérka řekne, že mezi stejně dobrými rozhodne los. Nic z toho nemáš v rukou.
+    zmena: Míst je málo a trenérka řekne, že mezi stejně dobrými rozhodne los. Mezi nimi jsi a víc už teď ovlivnit nemůžeš.
     posun: >-
-      Co rozhodlo: to, že teď nemůžeš udělat nic? Pomáhá myslet na věc, kterou nijak neovlivníš,
+      Co rozhodlo: to, že víc teď udělat nemůžeš? Pomáhá myslet na věc, kterou už neovlivníš,
       nebo je lepší ji pustit z hlavy?
     stejne: >-
       I když rozhodne los, odpovídáš stejně. Co ti tvoje rozhodnutí dává, když na výsledek nemá vliv?
