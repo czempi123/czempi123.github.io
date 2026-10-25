@@ -4,6 +4,14 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Celek 10, revize P10
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Verdikt „po opravách“; sedm nálezů jde do kroku O s hotovým zněním (`docs/revize/celek-10-2026-10-25.md`) | Čtyři důležité nálezy se týkají studenta, kterého k něčemu donutili, studenta s úzkostí, studenta, kterému někdo ubližuje, a opakování pramenů nad dvakrát |
+| Jedenáct drobností opraveno rovnou (čísla let, přesnější podání Epiktéta a Seneky, pochvala na úvod zpětné vazby, krkolomná otázka Roztřiď, „vyzkoušel pod padákem“ v přehledu) | Jednoznačné opravy bez změny významu; testy tyto věty nehlídají |
+| Nový pracovní skript `scripts/snimky-platno.mjs` fotí hodinu na plátně po zastaveních, u otevřené otázky i po Ukázat možnosti | Podoby na plátně se kontrolují v každé revizi; celek 9 na to měl jednorázový skript |
+
 ## 25. 10. 2026: Celek 10, krok P8 (cesta 33)
 
 | Rozhodnutí | Důvod |

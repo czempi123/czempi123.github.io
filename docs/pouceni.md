@@ -73,6 +73,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Úvodní obraz kapitoly nestav na most nad řekou: stejnou myšlenku unese břeh. A Roztřiď o tom, „co není“, nemá vlastní kartu: student po ztrátě by do ní napsal člověka.
 - Celek 7: citát, který soudí dvě věci (tělo a strach ze smrti), dostane otázku ke každé z nich. A otázka bloku za případem, ze kterého podle textu „nic neplyne“, se neptá, co si z něj student vezme.
 - Celek 9: popis prázdného volna („leží v posteli, je na obtíž sám sobě“) čte student, kterému je zle, jako popis sebe; obraz z pramene, který o nemoci není (sbírka bronzů, zápasy, holič), řekne totéž.
+- Celek 10: rada filozofa příteli v rozkazovacím způsobu („Představ si, že to, čeho se bojíš, se určitě stane“) čte student jako výzvu sobě; kde má výzva přijít až po námitce, piš radu ve třetí osobě, a stud z donucení nikdy ve druhé osobě s polem na psaní.
 
 ## Co se skládá z dat
 

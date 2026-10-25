@@ -47,3 +47,21 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Do plánu větve zapiš stav P8, oddíl „Po P8“ (co jsi zvažoval, co je potřeba rozhodnout) a zadání P10 (Opus 5.5 · high se skillem atlas-revize). Zadání P8 přesuň do docs/archiv/zadani/celek-10.md, rozhodnutí zapiš do docs/rozhodnuti.md. Plán větve nahraj do projektu Claude (docs/plany/celek-10.md). Nic neposílej na GitHub a nic nesluč. Pak mi krátce napiš, co je hotové, nad čím jsi váhal a co je potřeba rozhodnout.
 ```
+
+## Zadání P10: revize celku (provedeno 25. 10. 2026)
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem. **Opus 5.5 · high** se skillem `atlas-revize`.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok P10 celku 10 „Co když přijde to nejhorší?“: revize celku se skillem atlas-revize. Plán celku je v projektu Claude jako docs/plany/celek-10.md (oddíly Po P8 a Co rozhodnout po P8; moje odpovědi tam mají přednost, prázdná odpověď znamená souhlas), podklady v docs/podklady/celek-10.md. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); z podkladového listu jen oddíly a řádky, proti kterým kontroluješ.
+
+0. git switch celek-10 a git status bez necommitnutých změn. Restartuj náhled (npx astro dev stop, pak nohup npm run dev > /tmp/atlas-dev.log 2>&1 &).
+
+1. Reviduj celek: cesta 33 (src/content/cesty/co-kdyz-prijde-to-nejhorsi.mdx a co-kdyz-prijde-to-nejhorsi/, bloky src/content/bloky/cesta33-*.yaml včetně Návratu), kresba Maska (src/components/ostrovy/Maska.svelte, src/lib/maska.ts), nové prameny, citáty a obrázek celku 10 v src/data/zdroje.yaml, věta a karty v portrétu Seneky, karty v Kam dál u Epiktéta a Epikúra a všechno, co se skládá z dat (hlavičky Seneky a Epiktéta, Lidé, stránka otázky 3, Domů, katalog hodin). Všech šest pohledů ze skillu. Každé historické tvrzení a citát proti podkladům (oddíly a až e) a oddílu f) bez výjimky (mučení jen jednou větou, stolička, pokus o sebevraždu a Medaile cti nikde, válka jen jako kulisa, blízcí lidé jako možná ztráta nikde) a proti docs/pouceni.md, hlavně Prameny a formulace, Bloky, Celek a Student, kterého se téma bolestně týká: student s úzkostí, student, kterému někdo ubližuje, student, kterého k něčemu donutili, student z rodiny s vietnamskými kořeny, student, jehož blízký je nemocný.
+
+2. V prohlížeči projdi cestu na 390 a 1440 px v obou režimech, s odkrytím i bez (scripts/snimky-cesta.mjs), jednou jen klávesnicí (scripts/kontrola-fokus.mjs) a kresbu i s pohybem, jeho zastavením hned po načtení a omezeným pohybem (scripts/snimky-prvek.mjs). Ověř podoby na plátně (hodiny-v1): krok, bloky a kresbu v otevřené otázce, jen otázce a možnostech a jen kresbě.
+
+3. Záznam revize zapiš do docs/revize/celek-10-<datum>.md: nálezy seřazené podle dopadu, u každého návrh opravy, na konci verdikt. Zjevné drobnosti (překlep, sazba) oprav rovnou a commitni; ostatní nech na krok O.
+
+4. Do plánu větve zapiš stav P10, oddíl „Po P10“ (co rozhodnout) a zadání O (Opus 5.5 · high). Zadání P10 přesuň do docs/archiv/zadani/celek-10.md, nové poučení zapiš jednou větou do docs/pouceni.md, rozhodnutí do docs/rozhodnuti.md. Plán větve a docs/plan.md nahraj do projektu Claude. Nic neposílej na GitHub a nic nesluč. Pak mi krátce napiš verdikt a co rozhodnout.
+```
