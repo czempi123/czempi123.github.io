@@ -213,7 +213,7 @@ Autorské, bez historického nároku: šest karet v kroku 2 (spánek, pizza s ka
 | ~~Obrázek Epiktéta~~ | **Vyřízeno 2. 10. 2026:** autor zvolil rytinu s berlou (Oxford 1715). Soubor je z World History Encyclopedia (uvádí Public Domain), protože Commons nástroj neotevře; vydání knihy dokládá katalog Eton College. | V datech jako `epiktetos-1715`. Jména kreslíře a rytce (značka MB) nejsou doložena odborným zdrojem, popisek je neuvádí. Původ řeckého dvojverší pod obrazem neověřen. Výřez zkontrolovat v P7. |
 | Antická podobizna Epiktéta | Že žádná spolehlivá není, jsem odborným zdrojem nedoložil; v pěti otevřených sbírkách není. | Popisek obrázku to netvrdí, říká jen, čí představa to je. |
 | Carnuntum | V datech bez ID z Pleiad, souřadnice přibližné. | Doplnit s ostatními místy. |
-| Stoický týden | **Večerní ohlédnutí vyřízeno 8. 10. 2026 (celek 6):** O hněvu III, 36 ověřeno v latinském textu; tři otázky jsou Sextiovy, zvyk Senekův (citáty `seneca-ira-iii-36`, `seneca-ira-iii-36-otazky`, `seneca-ira-iii-36-odpoustim`). Představa nejhoršího ověřena není. | Představu nejhoršího ověřit s cestou 33. |
+| Stoický týden | **Večerní ohlédnutí vyřízeno 8. 10. 2026 (celek 6):** O hněvu III, 36 ověřeno v latinském textu; tři otázky jsou Sextiovy, zvyk Senekův (citáty `seneca-ira-iii-36`, `seneca-ira-iii-36-otazky`, `seneca-ira-iii-36-odpoustim`). **Představa nejhoršího vyřízena 25. 10. 2026 (celek 10, P6):** ověřeno latinsky v Senekových Dopisech 24, 2 a 12–13, 91, 3–4, 98, 5–8 a 78, 29, v O duševním klidu 11, 6 a Útěše Marcii 9, 2–5, řecky v Epiktétově Rukojeti 3 a Rozpravách I, 1, 28–31; název *praemeditatio futurorum malorum* je Ciceronův (Tuskulské hovory III, 29). Návrh cvičení „Pět minut, jedna věc“ s mezí proti přemítání: `docs/podklady/celek-10.md`, oddíl h. | Cvičení napsat ve větvi Stoického týdne; Rukojeť 21 a Rozpravy III, 24, 85–88 (smrt, dítě) do něj ne. |
 | Epikúros × Démokritos | Démokrita jako protivníka jmenuje jen Cicero (O osudu 23). **8. 10. 2026 (celek 6):** cesta 8 polemiku nepotřebuje. Diogenés Laertios má jen výčet nepřátelských pomluv (X, 8) a zprávu, že se Epikúros prohlašoval za samouka (X, 13); Cicero jinde píše, že Démokrita „jediného následoval“ (O nejvyšším dobru a zlu II, 102). Vliv textem je v datech. | Vztah `polemika` do dat až s celkem, který otevře otázku 4 u atomistů, nebo s profilem Démokrita. |
 | ~~`docs/styl.md`, dvojice 3~~ | **Vyřízeno 2. 10. 2026:** na pokyn autora opraveno na „Cassiovy písemnosti dal zničit nepřečtené“. | — |
 
@@ -795,3 +795,19 @@ Co se změnilo v textu a datech, aby to šlo dohledat:
 | Hlas Hipparchie | „ty, nebo to, co se od tebe čeká“ | „ty, nebo jen to, co se od tebe čeká“; „klidně i kvůli někomu jinému“ |
 
 Otevřené dál: linka 116 123 a mladí pečující v listu pro učitele, jména v Době a lidech jako odkazy (tabulka Po P10).
+
+## Celek 10 „Co když přijde to nejhorší?“ (P6)
+
+Podklady: `docs/podklady/celek-10.md` (25. 10. 2026).
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Stoický týden, představa nejhoršího | Ověřeno (viz řádek Stoický týden v oddíle celku 3). | Cvičení „Pět minut, jedna věc“ napsat s větví Stoického týdne. |
+| Stockdale, *In Love and War* (1984, 1990) | Nečteno; stolička známa jen z Hoover Digest (hoover.org/node/2061). | Do studentského textu se nepoužije; kdyby ano, přečíst knihu. |
+| Stockdale, *Thoughts of a Philosophical Fighter Pilot* (1995), *A Vietnam Experience* (1984), projev k pilotům 29. 4. 1965 (Naval War College Review 70/3, 2017) | Nečteno. | Jen kdyby P8 potřebovala něco mimo eseji a přednášky z roku 1995. |
+| Collins, *Good to Great* (2001) | Jen výňatek na jimcollins.com; s. 85 podle USNI Proceedings. | Učitelský list; stránku ověřit v knize, kdyby se citovala. |
+| „Tela praevisa minus feriunt“ | U Seneky není (dopisy, dialogy, Otázky přírody, O dobrodiních I–III); O dobrodiních IV–VII neprohledáno (jiná adresa na The Latin Library). Připsání Řehoři Velikému jen z tisku z 18. století. | Ověřit Řehořovu homilii jen tehdy, kdyby se přísloví mělo v atlasu objevit. |
+| Paconius Agrippinus (Rozpravy I, 1, 28–31) | Epiktétův text ověřen řecky; Tacitus, Letopisy XVI, 28–33 nečteno. | Do studentského textu bez jména a bez dat; učiteli s Tacitem po přečtení. |
+| Formální portrét Stockdala (U.S. Navy) | Licence z NHHC („U.S. Navy photo (RELEASED)“), stránka na Commons viděna jen v zrcadle. | Před stažením otevřít originál na Commons. |
+| Linka bezpečí | V celku 10 se nenavrhuje. | Rozhodne autor (podklady, oddíl j, otázka 4). |
+
