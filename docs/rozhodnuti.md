@@ -4,6 +4,14 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Souhrnná revize antiky (P11), plán větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Další krok je souhrnná revize antiky (P11) ve větvi `revize-antiky`, ne první cesta středověku | Autor zvolil 25. 10. 2026 z nabídky (P11, cesta 9, Stoický týden); pořadí z `docs/plan.md` |
+| Stoický týden jako vlastní větev `stoicky-tyden` po P11, ne uvnitř revize | Nový obsah se sedmi cvičeními a nejspíš novou komponentou potřebuje vlastní podklady, psaní a revizi; revize jen řekne, kam se napojí |
+| P11 jedním zadáním pro Fable 5.1 · high se záznamem psaným průběžně | Smysl P11 je srovnání napříč celky; rozdělení do více chatů by ho ztratilo |
+
 ## 25. 10. 2026: Celek 10 uzavřený
 
 | Rozhodnutí | Důvod |
