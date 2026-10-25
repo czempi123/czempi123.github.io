@@ -1,0 +1,61 @@
+# Změň jednu věc · cesta 33, krok 7: nový případ „Nominace“ (podklady docs/podklady/celek-10.md › g) návrh A).
+# Tři podmínky mění jen jednu věc: část výběru je v tvých rukou (Seneca 98, 7), rozhodne los (Seneca 24, 2
+# i Epikúros), jen fáma (Seneca 13, 8). Možnosti dávají smysl v každé podmínce: promyslet a pustit z hlavy (Seneca),
+# nepředstavovat si to (Epikúros), myslet na to každý den (to, před čím varuje námitka). Zpětné vazby nevidí, kterou
+# možnost student zvolil, a ptají se otázkou, která sedí na všechny. Oddíl má nadpis „Co by na to řekli“: případ je
+# vymyšlený a text je domněnka podle doložených rad, ne to, co kdo udělal. Bez nemoci, smrti a rozchodu (oddíl f).
+druh: zmena
+obdobi: 2
+nadtitulek: Nový případ
+scena: >-
+  Představ si, že za tři týdny trenérka vybírá, kdo pojede na mistrovství. Trénuješ na to dva roky.
+
+
+  Kamarádka ti říká: „Nemysli na to, co když tě nevyberou. Ještě to přivoláš.“
+  Táta říká: „Promysli si to i tak, ať tě to nesrazí.“
+otazka: Co uděláš s těmi třemi týdny?
+moznosti:
+  - id: promyslim
+    text: Promyslím si, co udělám, když mě nevyberou, a pak to pustím z hlavy.
+  - id: nepredstavuji
+    text: Nebudu si to představovat. Budu myslet na to, co mě baví teď.
+  - id: kazdy-den
+    text: Budu na to myslet každý den, ať mě nic nepřekvapí.
+podminky:
+  - id: trenink
+    prepinac: Záleží i na tréninku
+    zmena: Trenérka řekne, že rozhodnou poslední tři týdny tréninků. Část výběru teď máš v rukou.
+    posun: >-
+      Co rozhodlo: to, že výsledek teď zčásti ovlivníš? Mění to, kolik má smysl na výběr myslet,
+      nebo hlavně to, co s tím myšlením uděláš?
+    stejne: >-
+      Na tom, jestli výběr můžeš ovlivnit, tvoje rozhodnutí nestojí. Na čem tedy stojí:
+      na výsledku, nebo na tom, jak chceš ty tři týdny prožít?
+  - id: los
+    prepinac: Rozhodne los
+    zmena: Míst je málo a trenérka řekne, že mezi stejně dobrými rozhodne los. Nic z toho nemáš v rukou.
+    posun: >-
+      Co rozhodlo: to, že teď nemůžeš udělat nic? Pomáhá myslet na věc, kterou nijak neovlivníš,
+      nebo je lepší ji pustit z hlavy?
+    stejne: >-
+      I když rozhodne los, odpovídáš stejně. Co ti tvoje rozhodnutí dává, když na výsledek nemá vliv?
+  - id: fama
+    prepinac: Zaslechl jsi fámu
+    zmena: Spoluhráč ti řekne, že zaslechl, že tě nevyberou. Víc neví a trenérka nic neřekla.
+    posun: >-
+      Co rozhodlo: ta fáma? Kolik váhy má zpráva, o které nevíš, odkud je?
+    stejne: >-
+      Fáma tvoje rozhodnutí nezměnila. Je to tím, že jí nevěříš, nebo že by sis stejně poradil i s jistotou?
+coUdelal:
+  osoba: seneca
+  nadpis: Co by na to řekli
+  text: >-
+    Seneca radil: čemu se dá vyhnout, tomu se vyhni, a co se dá předvídat, předvídej. Kde rozhoduje trénink, dává podle
+    něj smysl myslet dopředu a trénovat. Kde rozhodne los, radil zlo změřit a nebát se předem. U fámy by se nejdřív
+    ptal po důkazu, protože nás podle něj většinou trápí podezření a fámy.
+
+
+    Epikúros by podle Cicerona ve všech třech případech radil netrápit se dopředu tím, co možná nepřijde, a myslet
+    na dobré, co máš teď. Na jednom by se oba shodli: trápit se dřív, než je nutné, nepomáhá. Liší se v tom,
+    jestli má smysl na zlo vůbec dopředu myslet.
+zdroje: [seneca-epistulae-nejhorsi, cicero-tusculanae-iii]
