@@ -1,0 +1,30 @@
+# Volba s důvodem · cesta 33 „Co když přijde to nejhorší?“, krok 1: co si říct pod padákem. Začátek cesty.
+# Podklad: docs/podklady/celek-10.md › a) a5–a7 a h) Osnova, krok 1. Možnosti jsou čtyři skutečné tahy a každý má
+# v posledním kroku zastánce. Blok nemá oddíl Co udělal: Stockdale v datech osob není (rozhodnutí z 23. 10. 2026),
+# jeho větu nese text kroku pod blokem (#co-si-zaseptal). Zpětné vazby nehodnotí a nevyzrazují, co si řekl on.
+druh: volba
+obdobi: 2
+nadtitulek: Tvůj tah
+otazka: Co by sis v těch třiceti vteřinách řekl ty?
+moznosti:
+  - text: Třeba to nebude tak zlé.
+    tah: doufat
+    zpetna: >-
+      Naděje ti pomůže přistát a nevzdat se. Kdo ale čeká jen to dobré, toho první rána zaskočí celá.
+      Co uděláš, když to zlé přece jen přijde?
+  - text: Bude to zlé. Musím vymyslet, jak to vydržím.
+    tah: počítat s tím nejhorším
+    zpetna: >-
+      Díváš se tomu do očí dřív, než to přijde. Necháš si ale místo i pro naději?
+      A pomůže ti vědět, že to bude zlé, nebo tě to jen dřív vyděsí?
+  - text: Teď na to nemysli. Hlavně dobře přistát.
+    tah: myslet jen na to, co je teď
+    zpetna: >-
+      Děláš jedinou věc, kterou teď opravdu ovlivníš. Za třicet vteřin ale budeš dole.
+      Bude ti tam chybět, že sis nic nepromyslel, nebo ti to ušetří trápení navíc?
+  - text: Nevím. Takhle dopředu se to říct nedá.
+    tah: přiznat, že to nevím
+    zpetna: >-
+      Poctivá odpověď: co by si člověk v takové chvíli řekl, se doma u stolu nezjistí.
+      Dá se na takovou chvíli vůbec připravit předem? A jak?
+zdroje: [stockdale-courage, nhhc-stockdale]
