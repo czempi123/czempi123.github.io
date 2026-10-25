@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Souhrnná revize antiky (P11), krok S
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Verdikt souhrnné revize antiky: po opravách; záznam `docs/revize/antika-2026-10-25.md` s deseti nálezy (šest důležitých, čtyři drobné), žádný blokující | Antika drží historicky i argumentačně; napříč ji ale nese jedna šablona (úvody, závěry, poslední krok), nejdelší krok je na konci cest a dvě kresby po zastavení neukazují obsah |
+| Úvody a závěrečné odstavce cest revize jen navrhla (hotové znění všech deseti), neopravila | Mění, co cesta studentovi slibuje; skill `atlas-psani` takové zásahy předává autorovi |
+| Antika se kvůli stejnému pořadí bloků nepřestavuje; nové bloky (Dialog, Slož argument, Úryvek s otázkou) a jiné pořadí přijdou ve středověku | Cesty jsou schválené a každá zvlášť obstojí; přestavba by byla nový celek, ne oprava |
+| Štítky času cest 1, 3, 5 a 6 přepočítané skriptem `slova-cesta` (15, 27, 23 a 19 minut) | Pocházely z doby před pravidlem, že se čas počítá, ne opisuje (`docs/pouceni.md`) |
+| Nestálý test průchodu cesty 1: `pripravit` posune každý nehydratovaný ostrov do okna a čeká na hydrataci 15 s | Spadl při souběhu na nehydratovaném ostrovu kresby šatů; samotný prošel třikrát po sobě |
+| Revize prošla všech devět bodů plánu, i když zadání v chatu mluvilo o osmi | Bod 9 (interaktivita) je v plánu větve od `004169c` jako přání autora |
+
 ## 25. 10. 2026: Skill atlas-psani
 
 | Rozhodnutí | Důvod |

@@ -1,3 +1,6 @@
+// Revize antiky (P11): hlavičky profilů na telefonu (390 × 844 a 390 × 667 px). Vyfotí první obrazovku profilů
+// Seneky, Epiktéta, Aristotela, Sókrata, Marka a Epikúra do Claude outputs/snimky-revize-antiky/ a vypíše počet vstupů.
+// node scripts/revize-hlavicky.mjs   (náhled sestaveného webu na portu 4323: npx astro preview --port 4323)
 import { chromium } from '@playwright/test';
 const b = await chromium.launch();
 const out='Claude outputs/snimky-revize-antiky';
