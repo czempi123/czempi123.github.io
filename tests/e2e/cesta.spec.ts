@@ -38,7 +38,16 @@ async function pripravit(page: Page) {
     }
     window.scrollTo(0, 0);
   });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+  // Při souběhu s ostatními testy se ostrov kresby (šaty v kroku 6) někdy nestihl hydratovat do pěti vteřin:
+  // ostrovy, které ještě čekají, se posunou do okna každý zvlášť a na hydrataci je víc času.
+  await page.evaluate(async () => {
+    for (const el of Array.from(document.querySelectorAll('astro-island[ssr]'))) {
+      el.scrollIntoView({ block: 'center' });
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    window.scrollTo(0, 0);
+  });
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15_000 });
 }
 
 async function axe(page: Page) {
