@@ -288,7 +288,7 @@ test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehl
   await expect(page.locator('#diogenes .karta__cesta')).toHaveText(['Cesta 6: Kolik je dost?', 'Cesta 7: Čí život vlastně žiju?']);
   await expect(page.locator('#sokrates .karta__cesta')).toHaveText(['Cesta 1: Kdy mám dobrý důvod věřit?', 'Cesta 4: Stačí vědět, co je správné?']);
   await expect(page.locator('#aristoteles .karta__cesta')).toHaveText('Cesta 4: Stačí vědět, co je správné?');
-  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 34: Kam mi mizí čas?']);
+  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 33: Co když přijde to nejhorší?', 'Cesta 34: Kam mi mizí čas?']);
   // Kdo nemá vlastní stránku, nemá na kartě ani cestu (Lucretius, filozof cesty 8).
   await expect(page.locator('#lucretius .karta__cesta')).toHaveCount(0);
 });
@@ -416,7 +416,7 @@ test('portréty Epiktéta a Marca Aurelia vedou na cestu 5 a na stránku otázky
     const kamDal = page.getByRole('navigation', { name: 'Kam dál' });
     await expect(kamDal.getByRole('link', { name: /Cesta 5\s*Co mám ve svých rukou\?/ })).toHaveAttribute('href', '/cesta/co-mam-ve-svych-rukou/');
     await expect(kamDal.getByRole('link', { name: /Velká otázka 4\s*Jsem svobodný\?/ })).toHaveAttribute('href', '/otazka/jsem-svobodny/');
-    await expect(kamDal.getByRole('link')).toHaveCount(id === 'marcus-aurelius' ? 5 : 4);
+    await expect(kamDal.getByRole('link')).toHaveCount(5);
     await expect(page.locator('.vstupy-osoby a').first()).toHaveText(/Cesta 5 · 8 kroků · asi 20 minut\s*Co mám ve svých rukou\?/);
   }
   await page.goto('/osobnost/epiktetos/');
@@ -426,7 +426,7 @@ test('portréty Epiktéta a Marca Aurelia vedou na cestu 5 a na stránku otázky
   await expect(karta).toHaveAttribute('href', '/cesta/co-mam-ve-svych-rukou/');
   await expect(karta).toContainText('Pokračuj cestou');
   await expect(page.locator('.cesta-karta')).toHaveCount(1);
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 5[\s\S]*Co mám ve svých rukou\?/, /Velká otázka 4\s*Jsem svobodný\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 5[\s\S]*Co mám ve svých rukou\?/, /Cesta 33[\s\S]*Co když přijde to nejhorší\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 4\s*Jsem svobodný\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
   await page.goto('/osobnost/marcus-aurelius/');
   await expect(page.locator('.cesta-karta')).toHaveCount(0);
   // Přehled otázek a Lidé: otázka 4 má vlastní stránku a cestu, oba lidé cestu na kartě.
@@ -434,7 +434,7 @@ test('portréty Epiktéta a Marca Aurelia vedou na cestu 5 a na stránku otázky
   await expect(page.locator('#jsem-svobodny .cesta')).toHaveText(/Cesta 5\s*Co mám ve svých rukou\?/);
   await expect(page.locator('#jsem-svobodny a[href="/otazka/jsem-svobodny/"]')).toHaveCount(1);
   await page.goto('/lide/');
-  await expect(page.locator('#epiktetos .karta__cesta')).toHaveText('Cesta 5: Co mám ve svých rukou?');
+  await expect(page.locator('#epiktetos .karta__cesta')).toHaveText(['Cesta 5: Co mám ve svých rukou?', 'Cesta 33: Co když přijde to nejhorší?']);
   await expect(page.locator('#marcus-aurelius .karta__cesta')).toHaveText(['Cesta 5: Co mám ve svých rukou?', 'Cesta 34: Kam mi mizí čas?']);
 });
 
@@ -493,7 +493,9 @@ test('otázka 3: fotografie třídy, pět hlasů, které se poznají, a cesta 8'
   await expect(page.locator('#hlas-epiktetos .citat')).toContainText('jako diváka sebe i svých děl');
   // Hlasy tu říkají něco jiného než na stránkách otázek 1 a 4; co nese cesta 8 a portrét, se neopakuje.
   for (const cast of ['.odpovedi', '.hlas']) for (const e of await page.locator(`#ma-zivot-smysl-po ${cast}`).all()) await expect(e).not.toContainText(/kdo komu slouží|hrnek sýra|netýká|zrcadl|lamp|bez hradeb|Lucreti|Plútarch|Paulin|vynucen/i);
-  await expect(page.locator('.cesta-karta')).toHaveAttribute('href', '/cesta/proc-se-bat-smrti/');
+  await expect(page.locator('.cesta-karta')).toHaveCount(2);
+  await expect(page.locator('.cesta-karta').first()).toHaveAttribute('href', '/cesta/proc-se-bat-smrti/');
+  await expect(page.locator('.cesta-karta').nth(1)).toHaveAttribute('href', '/cesta/co-kdyz-prijde-to-nejhorsi/');
   await axe(page);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
 });
@@ -501,18 +503,18 @@ test('otázka 3: fotografie třídy, pět hlasů, které se poznají, a cesta 8'
 test('cesta 8 a otázka 3 jsou dosažitelné z profilů Seneky a Epikúra, z přehledu otázek a z Lidí', async ({ page }) => {
   await page.goto('/osobnost/seneca/');
   // Hlavička se skládá z dat: cesta, pak otázka, ke které cesta vede, pak ostatní otázky.
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 8 · 9 kroků · asi \d+ minut\s*Proč se bát smrti\?/, /Cesta 34 · 8 kroků · asi \d+ minut\s*Kam mi mizí čas\?/, /Velká otázka 1\s*Jak mám žít\?/, /Velká otázka 3\s*Má život smysl\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 8 · 9 kroků · asi \d+ minut\s*Proč se bát smrti\?/, /Cesta 33 · 8 kroků · asi \d+ minut\s*Co když přijde to nejhorší\?/, /Cesta 34 · 8 kroků · asi \d+ minut\s*Kam mi mizí čas\?/, /Velká otázka 1\s*Jak mám žít\?/, /Velká otázka 3\s*Má život smysl\?/]);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', '/cesta/proc-se-bat-smrti/');
   await page.goto('/osobnost/epikuros/');
   await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 6[\s\S]*Kolik je dost\?/, /Cesta 8[\s\S]*Proč se bát smrti\?/, /Velká otázka 1\s*Jak mám žít\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 4\s*Jsem svobodný\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/]);
   await page.goto('/otazky/');
-  await expect(page.locator('#ma-zivot-smysl .cesta')).toHaveText(/Cesta 8\s*Proč se bát smrti\?/);
+  await expect(page.locator('#ma-zivot-smysl .cesta')).toHaveText([/Cesta 8\s*Proč se bát smrti\?/, /Cesta 33\s*Co když přijde to nejhorší\?/]);
   await expect(page.locator('#ma-zivot-smysl a[href="/otazka/ma-zivot-smysl/"]')).toHaveCount(1);
   await page.goto('/lide/');
-  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 34: Kam mi mizí čas?']);
+  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 33: Co když přijde to nejhorší?', 'Cesta 34: Kam mi mizí čas?']);
   await expect(page.locator('#epikuros .karta__cesta')).toHaveText(['Cesta 6: Kolik je dost?', 'Cesta 8: Proč se bát smrti?']);
   // Karta cesty: vstup neříká nic o nemoci ani o způsobu.
   await page.goto('/otazka/ma-zivot-smysl/');
   await page.evaluate(() => document.documentElement.removeAttribute('data-otazka-zavreno'));
-  await expect(page.locator('.cesta-karta')).toContainText('V poslední den života psal příteli o šťastném dni a o dětech, které tu zůstanou.');
+  await expect(page.locator('.cesta-karta').first()).toContainText('V poslední den života psal příteli o šťastném dni a o dětech, které tu zůstanou.');
 });

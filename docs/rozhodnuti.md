@@ -4,6 +4,37 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Celek 10, opravy O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Na tři otázky po P10 autor neodpověděl, platí doporučení: krok 2 podle nálezu 1; věta „Bránili svou vesnici.“ doplněna; portrét s Medailí cti zůstává | NHHC větu nese („villagers defending their community“, článek otevřen 25. 10. 2026); oříznutí nad límec by nechalo jen hlavu a medaile by z části zůstala |
+| Všech sedm nálezů opraveno podle záznamu revize; karta „smich“ bez čárky před „a“ („Co z toho v rukou má a s čím by mu měl pomoct někdo jiný?“) | Dvě souřadné tázací věty spojené „a“ čárku nemají |
+| V „Co by na to řekli“ kroku 7 navíc bez „nebát se předem“ (Dopis 98, 7) a se závěrem „samo trápení nepomáhá“ místo „trápit se dřív, než je nutné“ (98, 8) | Obě místa stála v celku třikrát (98, 7 i v krocích 5 a 8, 98, 8 ve Sporu a kroku 8); revize je nejmenovala, pravidlo o opakování je chytilo při přeměření |
+| Zpětná vazba podmínky „los“ srovnaná s novým zněním („víc teď udělat nemůžeš“, „věc, kterou už neovlivníš“) | Stará věta „nemůžeš udělat nic“ opakovala rozpor, který nález 7 odstranil z podmínky |
+| Čas cesty zůstává 29 minut | `slova-cesta.mjs` po opravách 3328 slov, 28,7 min |
+
+## 25. 10. 2026: Celek 10, revize P10
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Verdikt „po opravách“; sedm nálezů jde do kroku O s hotovým zněním (`docs/revize/celek-10-2026-10-25.md`) | Čtyři důležité nálezy se týkají studenta, kterého k něčemu donutili, studenta s úzkostí, studenta, kterému někdo ubližuje, a opakování pramenů nad dvakrát |
+| Jedenáct drobností opraveno rovnou (čísla let, přesnější podání Epiktéta a Seneky, pochvala na úvod zpětné vazby, krkolomná otázka Roztřiď, „vyzkoušel pod padákem“ v přehledu) | Jednoznačné opravy bez změny významu; testy tyto věty nehlídají |
+| Nový pracovní skript `scripts/snimky-platno.mjs` fotí hodinu na plátně po zastaveních, u otevřené otázky i po Ukázat možnosti | Podoby na plátně se kontrolují v každé revizi; celek 9 na to měl jednorázový skript |
+
+## 25. 10. 2026: Celek 10, krok P8 (cesta 33)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Na devět otázek po P6 autor neodpověděl, platí tedy doporučení podkladů: Stockdalův paradox jen učiteli; Spor Seneca × Epikúros; pokus o sebevraždu, stolička a Medaile cti nikde, ani narážkou; bez řádku s Linkou bezpečí; kresba Maska; formální portrét U.S. Navy stažený; senátor (Agrippinus) bez jména; cvičení „Pět minut, jedna věc“ i do Stoického týdne; v portrétu Epiktéta jen karta cesty | Zadání P8: prázdná odpověď znamená souhlas (`docs/podklady/celek-10.md`, oddíl j) |
+| Stockdalova slova („Pět let tam dole…“, laboratoř) stojí jen v textu kroků jako jeho vzpomínka („po letech napsal“), ne jako citát v datech | Schéma citátu vyžaduje osobu z dat a Stockdale do dat nepřibude (rozhodnutí z 23. 10. 2026); pramen `stockdale-courage` nese Volba v kroku 1 |
+| Návrat má jeden případ, „Měsíc čekání“ (stěhování, o kterém se rozhodne za měsíc), ne tři | Schéma dovoluje jeden návrat na cestu; ze tří případů v podkladech je nejdál od nového případu Nominace (Finále by opakovalo sport, Zpráva fámu ze třetí podmínky) |
+| Kroky 1, 2 a 3 mají blok před textem, který odpověď nese: Stockdalova věta, Epiktétova odpověď o studu a Epiktétův soud o senátorovi stojí pod blokem, ke kterému vede vlastní Kam dál | Citát nebo pointa před hlasováním by zněly jako odpověď předem (atlas-cesta, Poslední slovo před otázkou) |
+| Kresba Maska: smyčka (maska drží na tváři, sjede stranou, leží vedle, zmizí a nasadí se znovu), dva pohledy (tvář menší, tvář skoro stejně velká); zastavená a při omezeném pohybu ukáže masku vedle tváře | Obsah kresby vzniká teprve pohybem, zamrzlý okamžik by tvář schoval (poučení z celku 9); druhá maska drží slabé místo Dopisu 24, 2 (slib „není to velké, nebo dlouhé“) |
+| Roztřiď v kroku 5 má čtvrtý koš „Právem“ a jen cizí věty | Žádná karta nemusí skončit mezi zbytečnými strachy; vlastní karta by byla zpověď |
+| Změň jednu věc v kroku 7 má třetí možnost „myslet na to každý den“ a jejím zastáncem v posledním kroku je Cicero (Tuskulské hovory III, 34) | Možnost, před kterou varuje námitka, je skutečný tah; Cicero ho v antice hájil, Seneca se k němu staví jen otázkou, jestli to je ještě promýšlení |
+| Čas cesty 29 minut | `node scripts/slova-cesta.mjs` spočítal 28,7 min (3323 slov a ovládání) |
+
 ## 23. 10. 2026: Stockdale bez medailonku
 
 | Rozhodnutí | Důvod |

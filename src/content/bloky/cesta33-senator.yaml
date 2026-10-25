@@ -1,0 +1,31 @@
+# Volba s důvodem · cesta 33, krok 3: co si myslet o senátorovi, který po rozsudku jde na oběd (Rozpravy I, 1, 28–31).
+# Podklad: docs/podklady/celek-10.md › c) c13 a h) Osnova, krok 3. Senátor zůstává bez jména (styl, pravidlo 6).
+# Blok stojí před Epiktétovou větou: citát před hlasováním by zněl jako odpověď předem (atlas-cesta, Poslední slovo
+# před otázkou). Oddíl Co udělal nemá, Epiktétovo slovo nese text pod blokem (#mit-nacviceno). Každá možnost má
+# zastánce v posledním kroku.
+druh: volba
+obdobi: 2
+nadtitulek: Tvůj tah
+otazka: Co si o tom senátorovi myslíš?
+moznosti:
+  - text: Je připravený. Na tohle myslel dřív, než to přišlo.
+    tah: vidět v klidu přípravu
+    zpetna: >-
+      Vidíš za klidem práci, ne povahu. Jak se ale člověk připraví na rozsudek,
+      aniž by se celé dny trápil, jak dopadne?
+  - text: Je mu to jedno.
+    tah: vidět v klidu lhostejnost
+    zpetna: >-
+      Klid může vypadat jako lhostejnost. Proč by se ale ptal, jestli ho poslali do vyhnanství, nebo na smrt,
+      a co bude s majetkem? Dá se být klidný a zároveň vědět, o co jde?
+  - text: Dělá statečného. Uvnitř je mu zle.
+    tah: nevěřit klidu
+    zpetna: >-
+      Klid navenek ještě neznamená klid uvnitř. Možná máš pravdu. Jak bys ale poznal,
+      jestli jen hraje, nebo jestli je opravdu klidný?
+  - text: Nevím. Z jedné historky to nepoznám.
+    tah: nesoudit
+    zpetna: >-
+      O senátorovi tu opravdu víme jen pár vět. Epiktétos ho ale žákům vyprávěl kvůli něčemu.
+      Co myslíš, čemu je chtěl naučit?
+zdroje: [epiktetos-rozpravy-nejhorsi]

@@ -1,0 +1,49 @@
+# Spor · cesta 33, krok 6: Seneca × Epikúros „Máš si dopředu představit, co se může pokazit?“
+# Podklad: docs/podklady/celek-10.md › d) Spor (d5, d6, d8, d12; nejsilnější verze a odpovědi na námitky), b1, b15,
+# b12 a b18. Epikúros mluví podle Cicerona (Tuskulské hovory III, 32–33), kromě věty o budoucnosti, která je jeho
+# vlastní (Dopis Menoikeovi 127). Námitku Epikúra řekne scéna a začátek třetího argumentu Seneky, aby první strana
+# na telefonu neodpovídala na nic, co ještě nezaznělo. Epikúrův třetí argument odpovídá Ciceronovi („zapomenout
+# neumíme“), který stojí v argumentu Seneky. Postoje nejsou krajnější než prameny: Seneca neradí trápit se,
+# Epikúros neradí strkat hlavu do písku. Že se nepotkali, říká scéna; Epikúros mezi filozofy cesty nepatří.
+druh: spor
+obdobi: 2
+nadtitulek: Spor
+scena: >-
+  Seneca psal Luciliovi před soudem, ať si to nejhorší představí a změří. V tomtéž dopise ale nejdřív sám dal
+  opačnou radu: proč si kazit dnešek strachem z toho, co možná nepřijde? Tak radil už Epikúros.
+
+
+  Epikúrovu radu známe hlavně z Cicerona, který s ní nesouhlasil. Epikúros a Seneca se nepotkali, dělí je přes
+  dvě stě šedesát let. Kdo z nich má pravdu, rozhodni sám.
+otazka: Máš si dopředu představit, co se může pokazit?
+strany:
+  - osoba: seneca
+    postoj: Ano. Promysli to a změř to.
+    argumenty:
+      - >-
+        Nečekané tíží víc. Kdo si dopředu promyslí, co se může stát, toho rána nezaskočí jako nová.
+        Proto podle Seneky nestačí myslet na to, co se obvykle stává: mysl je třeba poslat napřed ke všemu,
+        co se stát může.
+      - >-
+        Promýšlet neznamená trápit se. Seneca sám napsal, že kdo trpí dřív, než je nutné, trpí víc, než je nutné.
+        Jeho rada je jiná: promysli, co se může stát, a změř to. Nešťastný předčasně ale nebuď.
+      - >-
+        Epikúros namítá, že kdo myslí na zlo, které třeba nepřijde, trápí se nadarmo. Na to má Seneca větu
+        z jiného dopisu: jiný ti řekne, že to možná nepřijde; ty si řekni, a co když přijde? A Cicero, od kterého
+        Epikúrovu radu známe, dodal, že na zlé věci stejně myslíme, i když nechceme. Zapomenout na rozkaz neumíme.
+  - osoba: epikuros
+    postoj: Ne. Netrap se dopředu.
+    argumenty:
+      - >-
+        Podle Cicerona Epikúros tvrdil, že kdo pořád myslí na to, že se mu může přihodit něco zlého, tomu se
+        z toho zla stává věčné. A když nepřijde, trápil se nadarmo. Každé zlo je dost nepříjemné, až opravdu přijde.
+      - >-
+        Seneca slibuje, že předem promyšlená rána dopadne slaběji. Epikúros podle Cicerona tvrdil opak: zla předem
+        promyšlená lehčí nejsou. Že nečekané zaskočí víc, ještě neznamená, že promyšlené bolí míň.
+        Kdo se připravuje, nese tutéž ránu jen déle.
+      - >-
+        Neznamená to strkat hlavu do písku. Epikúros sám napsal, že budoucnost není ani úplně naše, ani úplně ne
+        naše: nemáme na ni čekat, jako by určitě přišla, ani zoufat, jako by určitě nepřišla. Cicero namítá, že
+        zapomenout neumíme. Epikúros podle něj věřil, že mysl umí poslechnout rozum: odvrátit se od trápení
+        a obrátit se k tomu dobrému, co bylo a je.
+zdroje: [seneca-epistulae-nejhorsi, cicero-tusculanae-iii, dl-x-122]

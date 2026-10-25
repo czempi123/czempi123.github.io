@@ -1,0 +1,90 @@
+# Roztřiď · cesta 33, krok 5: sedm cizích vět o starostech do čtyř košů podle Seneky (Dopisy 13, 5: víc, dřív, vůbec).
+# Podklad: docs/podklady/celek-10.md › b) b8–b11 a b18, e) námitka a h) Osnova, krok 5. Karty jsou autorské a nejsou
+# studentovy: blok nemá vlastní karty (poučení: kde by vlastní karta byla zpověď, blok ji nemá). Čtvrtý koš „Právem“
+# je tu proto, aby žádná karta nemusela skončit mezi zbytečnými. Žádná karta není o nemoci, smrti ani rozchodu
+# (oddíl f). Karta o prezentaci má v sobě dvě věci (nehotová práce a strach z ní). Žádný koš není správně.
+druh: roztrid
+obdobi: 2
+nadtitulek: Tvůj tah
+scena: Sedm vět, které by mohl říct kdokoli ze třídy.
+otazka: Jak starost trápí toho, kdo ji má?
+kose:
+  - id: vic
+    nazev: Víc, než má
+    popis: Starost je větší než věc sama.
+  - id: driv
+    nazev: Dřív, než má
+    popis: Věc ještě nepřišla a trápí už teď.
+  - id: zbytecne
+    nazev: Bez důvodu
+    popis: "Věc možná vůbec nepřijde, nebo za ní stojí jen domněnka."
+  - id: pravem
+    nazev: Právem
+    popis: "Věc je blízko a dá se s ní něco dělat."
+karty:
+  - id: test
+    text: Zítra píšu test a celou noc nespím.
+    zpetna: >-
+      Test je zítra, to je blízko. Probdělá noc ho ale nezlepší.
+      Pomohlo by tomu, kdo nespí, víc promyslet, co ještě umí udělat, nebo jít spát?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Test je opravdu zítra. Trápí ale právem i ta probdělá noc?
+  - id: neodepsal
+    text: Kamarád mi neodepsal, asi se na mě zlobí.
+    zpetna: >-
+      Za větou stojí jedno neodepsání a domněnka. Kolik jiných důvodů může mít to ticho?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Co by muselo platit, aby to zlobení nebyla jen domněnka?
+  - id: maturita
+    text: Za dva roky maturita a já už teď panikařím.
+    zpetna: >-
+      Maturita přijde, ale až za dva roky. Kolik z té paniky je práce, kterou jde udělat už teď,
+      a kolik jen čekání?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Co by ten, kdo to říká, mohl pro maturitu udělat už tento týden?
+  - id: petka
+    text: Jedna pětka a jsem úplně odepsaný.
+    zpetna: >-
+      Pětka je skutečná, „úplně odepsaný“ je slovo navíc. Jak velká je ta věc, když si ji změříš:
+      jedna známka, jeden předmět, jedno pololetí?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Pětka opravdu je. Trápí ale právem i to „úplně“?
+  - id: ucitelka
+    text: Učitelka chce, abych po hodině zůstal. Mám průšvih.
+    zpetna: >-
+      Učitelka řekla jednu větu, zbytek doplnil strach. Seneca píše, že mysl vykládá nejasné slovo k horšímu.
+      Co jiného mohla chtít?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Co ví ten, kdo to říká, jistě, a co si domýšlí?
+  - id: prezentace
+    text: Zítra prezentuju a ještě to nemám hotové.
+    zpetna: >-
+      V téhle větě jsou dvě věci: prezentace, která není hotová, a strach z ní.
+      S tou první se dá ještě dnes něco udělat. A s tou druhou?
+    kdyz:
+      vic: >-
+        Dal jsi ji k tomu, co trápí víc, než má. Platí to i o té nehotové části, nebo jen o strachu?
+  - id: smich
+    text: Když to pokazím, budou se mi všichni smát.
+    zpetna: >-
+      Ještě se nic nepokazilo a smích je zatím jen představa.
+      Kolik z té věty je jisté a kolik si ten, kdo ji říká, představuje dopředu?
+    kdyz:
+      pravem: >-
+        Dal jsi ji k tomu, co trápí právem. Smích druhých ale nemá v rukou ten, kdo to říká.
+        Co z toho v rukou má a s čím by mu měl pomoct někdo jiný?
+srovnani:
+  osoba: seneca
+  nadpis: Jak třídil Seneca
+  text: >-
+    Seneca radil u každého strachu nejdřív hledat důkaz. Co stojí jen na domněnce nebo na nejasném slově,
+    trápí podle něj zbytečně. Co ještě nepřišlo, předbíháme. A čemu se dá vyhnout, tomu se máme vyhnout.
+
+
+    Která věta ti šla zařadit nejhůř? Pomohla by ti s ní některá z jeho tří rad?
+zdroje: [seneca-epistulae-nejhorsi]

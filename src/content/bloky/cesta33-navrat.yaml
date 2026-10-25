@@ -1,0 +1,21 @@
+# Návrat · cesta 33 „Co když přijde to nejhorší?“: měsíc, než se rozhodne o stěhování.
+# Podklad: docs/podklady/celek-10.md › h) Návrat, případ 3 (Stěhování). Blok má jeden případ na cestu; ze tří případů
+# v podkladech je vybraný ten, který je nejdál od nového případu cesty (Nominace v kroku 7): Finále by opakovalo sport
+# a výběr, Zpráva fámu ze třetí podmínky. O stěhování rozhoduje někdo jiný a teprve za měsíc, takže jde posoudit
+# Senekovým pravidlem (promyslet, co bych udělal, a odložit) i Epikúrovým (nenechat to být dřív, než to je).
+# Bez pramenů a čísel, bez nemoci a smrti; věty v přítomném a budoucím čase, ať rod neřeší.
+druh: navrat
+obdobi: 2
+cesta: co-kdyz-prijde-to-nejhorsi
+pravidlo: cesta33-moje-pravidlo
+nazev: Měsíc čekání
+scena: >-
+  Představ si, že se tvoje rodina možná bude stěhovat do jiného města. Jisté to bude až za měsíc.
+  Kdyby se stěhovalo, čeká tě nová škola a partu uvidíš jen o prázdninách.
+
+
+  Dnes večer jdeš za partou. Celou cestu přemýšlíš, jestli jim to říct, nebo na to vůbec nemyslet, dokud to není jisté.
+po:
+  ano: "Co tvoje pravidlo říká udělat s tím měsícem: promyslet, co by bylo, nebo to nechat být, dokud to není jisté?"
+  upravim: Co mu chybí pro věc, o které rozhodne někdo jiný a teprve za měsíc?
+  nevim: "Na čem to vázne: na tom, že to ještě není jisté, nebo na tom, že to nemáš v rukou?"

@@ -1,0 +1,16 @@
+---
+// Strhni masku: kresba k Senekovu obrazu z Dopisů Luciliovi 24, 13 (cesta 33, krok 4). Maska sjede z tváře a leží
+// vedle, aby šly porovnat velikosti; druhý pohled má pod maskou tvář skoro stejně velkou. Nic se neukládá a kresba
+// nenabízí Kam dál.
+// Použití v MDX: <Maska id="maska" />
+import Ostrov from '../ostrovy/Maska.svelte';
+
+interface Props {
+  /** kotva kresby */
+  id?: string;
+  /** barva období (1–8) */
+  obdobi?: number;
+}
+const { id = 'maska', obdobi = 2 } = Astro.props;
+---
+<Ostrov client:visible id={id} obdobi={obdobi} />
