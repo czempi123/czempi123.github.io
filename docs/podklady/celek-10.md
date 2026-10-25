@@ -103,3 +103,90 @@ Nejsilnější scéna je padák: třicet vteřin, ve kterých pilot ví, co ho �
 ### Co z toho cesta potřebuje
 
 Seneca dává cestě oba tahy i jejich spojení: představ si to, změř si to (24, 2; 24, 12), ale netrp předem (13, 4; 98, 6–8). Pro vstup do jeho části se nejvíc hodí Liberalis a Lugdunum (91): přítel, který se připravoval, a přišlo něco, co si nepředstavil. Seneca ho nekárá. Je to poctivější obraz než slib, že kdo se připraví, toho nic nezaskočí, a dobře se rýmuje se Stockdalovými pěti lety, ze kterých bylo osm.
+
+## c) Epiktétos: místa, o která se Stockdale opíral, a příprava na ztrátu (hotovo)
+
+**Jak se ověřovalo.** Řecky (H. Schenkl, PerseusDL `tlg0557.tlg001` a `tlg002`, `perseus-grc2`) s anglickým překladem G. Longa (`perseus-eng3`), stejně jako v celku 3. Atlas Epiktéta cituje ve **vlastním převodu podle Schenklova textu a Longa** (`preklad: druh: vlastni`), tak i tady. Co je ověřené v celku 3 (`docs/podklady/celek-3-co-mam-v-rukou.md`, oddíly Život, Role a herec, Svoboda otroka), neopakuji.
+
+### Místa, která Stockdale sám jmenuje nebo cituje
+
+| # | Místo | Řecky (začátek) | Vlastní převod | Stav v atlasu | Pro cestu 33 |
+| --- | --- | --- | --- | --- | --- |
+| c1 | Rukojeť 9 | νόσος σώματός ἐστιν ἐμπόδιον, προαιρέσεως δὲ οὔ … καὶ τοῦτο ἐφʼ ἑκάστου τῶν ἐμπιπτόντων ἐπίλεγε· εὑρήσεις γὰρ αὐτὸ ἄλλου τινὸς ἐμπόδιον, σὸν δὲ οὔ. | „Nemoc je překážkou těla, ne vůle, pokud to vůle sama nechce. Kulhání je překážkou nohy, ne vůle. Říkej si to u všeho, co se ti přihodí: zjistíš, že je to překážka něčeho jiného, ne tvoje.“ | první dvě věty jsou citát `rukojet-9`, nese ho **vstup cesty 5** (Epiktétova noha) | **Jen připomenout** (hranice z plánu): „vzpomněl si na Epiktétovu větu o kulhání“ s odkazem na cestu 5. Kdyby P8 chtěla celé znění se třetí větou, které Stockdale cituje, nové id `rukojet-9-cele`. |
+| c2 | Rukojeť 17 | μέμνησο, ὅτι ὑποκριτὴς εἶ δράματος … ἂν χωλόν … | herec ve hře; i role chromého; „tvoje je roli dobře zahrát, vybrat ji náleží jinému“ | citát `rukojet-17` (portrét Epiktéta) | jednou větou: „rozhodl se tu roli zahrát dobře“; citát ne, má ho portrét |
+| c3 | Rukojeť 14 | κύριος ἑκάστου ἐστὶν ὁ … | pánem je ten, kdo má moc nad tím, co chceš | citát `rukojet-14` (cesta 5) | ne (cesta 5) |
+| c4 | Rukojeť 12 | κρεῖσσον γὰρ λιμῷ ἀποθανεῖν ἄλυπον καὶ ἄφοβον γενόμενον ἢ ζῆν ἐν ἀφθόνοις ταρασσόμενον | „lepší je umřít hladem bez zármutku a strachu než žít v hojnosti a zmatku“ | není | ne: věta o otrokovi, kterého je třeba trestat, a Stockdalův výklad vede k vyjednávání ve vězení |
+| c5 | Rozpravy III, 7, 36 | ποίαν βλάβην; ἄλλην οὐδεμίαν, ἀλλὰ τὸ μὴ ποιῆσαι ἃ δεῖ· ἀπολέσεις τὸν πιστόν, τὸν αἰδήμονα, τὸν κόσμιον. τούτων ἄλλας βλάβας μείζονας μὴ ζήτει. | „Jakou škodu? Žádnou jinou, než že neuděláš, co máš. Přijdeš o člověka spolehlivého, který se umí stydět a drží se řádu. Větší škody než tyhle nehledej.“ | není | **Ano**, je to Stockdalova „stoická škoda“ (a14); krátká podoba: „Přijdeš o člověka spolehlivého a slušného. Větší škody nehledej.“ (αἰδήμων je ten, kdo má stud, cit pro to, co se nedělá; „slušný“ to nese bez moralizování) |
+| c6 | Rozpravy III, 23, 30 | ἰατρεῖόν ἐστιν, ἄνδρες, τὸ τοῦ φιλοσόφου σχολεῖον | „Škola filozofa je nemocnice“ | citát `rozpravy-iii-23-30` | jen jako ozvěna Stockdalovy věty o laboratoři (a19) |
+| c7 | Rozpravy II, 19, 24–25 | δείξατέ μοί τινα νοσοῦντα καὶ εὐτυχοῦντα … ἐπιθυμῶ τινα νὴ τοὺς θεοὺς ἰδεῖν Στωικόν. | „Ukažte mi někoho, kdo je nemocný a šťastný, v nebezpečí a šťastný, ve vyhnanství a šťastný, v hanbě a šťastný. Ukažte! U bohů, toužím vidět stoika.“ A hned: hotového mi ukázat nemůžete; ukažte mi aspoň toho, kdo se jím stává; „nezáviďte starci podívanou, kterou dosud neviděl.“ | není | **Ano, pro poctivost:** sám Epiktétos hotového stoika nikdy neviděl. Stockdale větu cituje (CUF, s. 5). Výčet obsahuje i „umírající a šťastný“: v převodu pro cestu tuhle položku vynechat a výpustku označit. |
+| c8 | Rozpravy III, 24, 31–32 | „život je vojenská služba“ | | není | ne (vojenský rámec) |
+
+### Místa o přípravě na ztrátu
+
+| # | Místo | Co tam je | Typ | Doporučení |
+| --- | --- | --- | --- | --- |
+| c9 | Rukojeť 3 | U každé věci, kterou máš rád, si připomeň, jaká je, „a začni od nejmenších“: máš-li rád hrnek, řekni si „mám rád hrnek“; když se rozbije, nerozruší tě to. Pak: když líbáš své dítě nebo ženu, řekni si, že líbáš člověka; když zemře, nerozruší tě to. | doložený text | **Do studentského textu jen hrnek**, s větou „začni od nejmenších věcí“: tak to Epiktétos sám stupňuje, takže výňatek nezkresluje. Druhá půlka (dítě, žena) zůstává mimo jako v celku 3; učiteli celé. |
+| c10 | Rozpravy III, 24, 84–88 | Totéž rozvedené: začni u hrnku a skleničky; pak když líbáš dítě, bratra, přítele, nenech dojem rozlít se celý, připomínej si, že miluješ smrtelníka, „jako fík, jako hrozen, v určitou roční dobu“; a nakonec: co je zlého na tom zašeptat, když líbáš dítě, „zítra umřeš“? | doložený text | **Učiteli, ne do cesty.** Nejsilnější a nejtvrdší místo stoické přípravy; obraz fíku v zimě je krásný, ale stojí na smrti dítěte. |
+| c11 | Rozpravy III, 24, 89–94 | Námitka posluchače: „To jsou slova zlého znamení!“ Epiktétos: zlé znamení je jen slovo, které znamená něco zlého (zbabělost, malost, zármutek, nestoudnost); sklizeň klasů taky znamená zánik klasů, ale ne světa. | doložený text | **Pro námitku (e):** stoik sám zná výtku, že to je chmurné. Do cesty parafrázovat bez dítěte: „Když mu posluchači vyčítali, že mluví jako o zlém znamení…“ s obrazem sklizně. |
+| c12 | Rukojeť 21 | „Smrt, vyhnanství a všechno, co se zdá strašné, měj každý den před očima, a nejvíc smrt. Nikdy pak nebudeš myslet na nic malicherného ani po ničem příliš toužit.“ | doložený text | **Do studentského textu ne** (celek 6: nepsat „mysli každý den na smrt“; a smrt je tu výslovně „nejvíc“). Učiteli jako nejkratší Epiktétova podoba cvičení. |
+| c13 | Rozpravy I, 1, 28–31 | Senátorovi Agrippinovi oznámí, že jeho věc projednává senát. „Ať to dobře dopadne. Ale je pátá hodina,“ v tu dobu chodíval cvičit a koupat se ve studené vodě, „pojďme si zacvičit.“ Když docvičí, přijde zpráva: „Odsoudili tě.“ „K vyhnanství, nebo ke smrti?“ „K vyhnanství.“ „A majetek?“ „Ten ti nevzali.“ „Tak pojďme do Aricie a naobědváme se tam.“ Epiktétos: „To znamená mít nacvičeno, co je třeba nacvičit.“ | doložený text; Epiktétos vypráví o současníkovi (Paconius Agrippinus, vypovězen za Nerona; Tacitus, Letopisy XVI, 28–33, nečetl jsem) | **Nejlepší Epiktétův příběh pro cestu:** člověk dostane nejhorší zprávu a jde na oběd. Ukazuje, co je „nacvičit“, a stojí na přípravě, ne na smrti. Jméno: „jeden římský senátor“ (styl, pravidlo 6); otázka „k vyhnanství, nebo ke smrti?“ smí zůstat, je to dobová volba rozsudku a padne vyhnanství. Pokračování 1, 1, 31–32 („musím zemřít…“) ne. |
+| c14 | Rozpravy I, 1, 28 | „Já sám sobě překážkou nebudu.“ | doložený text | Spojka mezi Agrippinem a Rukojetí 9 (překážka); volitelně. |
+
+### Co z toho cesta potřebuje
+
+Epiktétova část cesty nemá znovu vykládat dělení na moje a nemoje (cesta 5). Nese ji Agrippinus (c13): příprava není chmurné přemítání, ale cvičení, po kterém jde člověk klidně na oběd. Hrnek (c9) je nejmenší krok, který student zvládne, a odpověď na výtku „zlé znamení“ (c11) patří k námitce. Ze Stockdala zůstává věta o škodě (c5) a Epiktétova přiznání, že hotového stoika nikdy neviděl (c7).
+
+## d) Spor: připravit se, nebo se nemučit předem? (hotovo)
+
+**Jak se ověřovalo.** Cicero, Tuskulské hovory III, latinsky celé oddíly 25–36, 52 a 58 a 76 (The Latin Library; číslování oddílů v hranatých závorkách odpovídá běžnému vydání). Epikúros, Dopis Menoikeovi 127, řecky (Diogenés Laertios X, 127; PerseusDL `tlg0004.tlg001.perseus-grc2`). Vatikánský výrok 55 jsem neotevřel. Seneca viz oddíl b.
+
+### Čísla a kdo co říká
+
+Zadání tipovalo III, 28–35 a 76; sedí. Přesně:
+
+| # | Místo | Kdo | Co (výklad, převody vlastní) | Typ |
+| --- | --- | --- | --- | --- |
+| d1 | III, 28 | Cicero o Epikúrovi a kyrénaicích | Podle Epikúra vzniká zármutek z představy zla, kdykoli si člověk myslí, že ho potkalo. Kyrénaikové soudí, že ne z každého zla, jen z **nečekaného**: „všechno náhlé se zdá těžší“. Cicero: to je pro zvětšení zármutku velmi důležité. Pak verše o otci, který věděl, že zplodil smrtelné syny. | doložený text (Cicero shrnuje) |
+| d2 | III, 29 | Cicero | „Takové předem promýšlení budoucích zel (*praemeditatio futurorum malorum*) zmírňuje jejich příchod: viděl jsi je přicházet zdaleka.“ Euripidův Théseus, který si v duchu předem probíral smrt, vyhnanství, „aby ho žádná rána nezastihla nepřipraveného“. | doložený text; **odtud pochází latinský název cvičení** |
+| d3 | III, 30 | Cicero o Anaxagorovi | Euripidés byl Anaxagorovým žákem; Anaxagorás prý řekl, když mu oznámili synovu smrt: „Věděl jsem, že jsem zplodil smrtelníka.“ Pak Terentius: kdo se vrací z cesty, ať myslí na nebezpečí, škody, synovu chybu, ženinu smrt, dceřinu nemoc. | tradovaný výrok („ferunt“); Anaxagorás je v datech (`anaxagoras`) |
+| d4 | III, 31 | Cicero | Sókratova tvář prý byla podle Xanthippy vždy stejná, když vycházel z domu i když se vracel. Cicero přebírá od kyrénaiků „tyhle zbraně proti náhodám“ a vyvozuje: kdyby zlo bylo ve věci, proč by předvídané bylo lehčí? Je tedy v našem mínění. | doložený text (Sókratés tradovaně, „dicitur“) |
+| d5 | III, 32 | Cicero o Epikúrovi | Epikúros: zla se časem nezmenšují a předem promyšlená nejsou lehčí; je hloupé promýšlet budoucí zlo, které třeba ani nepřijde; každé zlo je dost nepříjemné, až přijde; kdo pořád myslí na to, že se mu může přihodit něco zlého, tomu se z toho zla stává věčné; a když nepřijde, vzal na sebe dobrovolné trápení nadarmo. Člověk by se tak trápil pořád, buď zlem, nebo myšlenkou na ně. | doložený text (Cicero shrnuje Epikúra) |
+| d6 | III, 33 | Cicero o Epikúrovi | Úlevu vidí Epikúros ve dvou krocích: **odvrátit** mysl od myšlenek na trápení a **obrátit** ji k radostem, ke vzpomínce na minulé a k naději na budoucí. Mysl prý umí poslechnout rozum. | doložený text (Cicero shrnuje) |
+| d7 | III, 34 | Cicero proti Epikúrovi | Nic zármutek neotupí tolik jako myšlenka, že se může stát cokoli. Ta „nevede k tomu, abychom pořád truchlili, ale abychom netruchlili nikdy“. Kdo myslí na lidský úděl, netruchlí, když na něj myslí; plní úkol moudrosti. | doložený text |
+| d8 | III, 35 | Cicero proti Epikúrovi | Odvrátit mysl nejde: zapomenout není v naší moci, věci, které máme za zlé, nás bodají a nedají vydechnout. „Poroučíš mi zapomenout, a to je proti přírodě.“ | doložený text; **nejsilnější tah proti Epikúrovi** |
+| d9 | III, 52 | Cicero, Chrýsippos | I Chrýsippos soudí, že co nebylo předvídáno, zasáhne prudčeji; dva důvody: není čas změřit, jak velké to je, a zdá se, že se to dalo předejít, takže k zármutku přibude pocit viny. | doložený text (Chrýsippos jen z Cicerona) |
+| d10 | III, 58 | Cicero | Kdo si zlo předem promýšlí, tomu se stane totéž co tomu, koho léčí čas, jen rychleji, rozumem. | doložený text |
+| d11 | III, 76 | Cicero | Přehled útěch: Kleanthés (zlo vůbec není zlem), peripatetici (není velké), Epikúros (odvést od zlého k dobrému), kyrénaikové (ukázat, že se nestalo nic nečekaného), Chrýsippos. Každého podle Cicerona hýbe něco jiného. A útěcha potřebuje svůj čas. | doložený text |
+| d12 | Dopis Menoikeovi 127 | Epikúros sám | „Pamatuj, že budoucnost není ani úplně naše, ani úplně ne naše: abychom na ni nečekali, jako by určitě přišla, ani nezoufali, jako by určitě nepřišla.“ | doložený text (vlastní slova; řecky ověřeno) |
+| d13 | Dopis Menoikeovi 125 | Epikúros sám | „Co netrápí, když je to tady, trápí naprázdno, když se na to čeká.“ | citát `menoikeus-125-cekani` v atlasu (cesta 8, o smrti) |
+| d14 | Diogenés Laertios X, 22 | Epikúros v posledním dopise | Proti bolesti stavěl radost ze vzpomínky na rozhovory s přítelem. | citát `dl-x-22-radost` v atlasu (cesta 8) |
+
+### Je to poctivé čtení obou stran?
+
+**Ano, s jednou výhradou ke každé straně.**
+
+- **Epikúros** je tu v podání Cicerona, který s ním nesouhlasí a sám to říká (III, 33: „řekli jsme to po svém, epikurejci to říkají po svém“). Obrys ale potvrzují Epikúrova vlastní slova: budoucnost není jistě naše (Menoikeovi 127), čekat na zlo trápí naprázdno (125, v atlasu o smrti), a v poslední den proti bolesti stavěl vzpomínku (X, 22). Epikúros tedy neradí strkat hlavu do písku. Radí neprožívat dopředu, co možná nepřijde, a mysl obracet k tomu dobrému, co bylo a je. **Výhrada:** výraz „hloupé“ (*stultam*) a „věčné zlo“ jsou Ciceronova slova o Epikúrovi, ne Epikúrova; ve studentském textu proto „podle Cicerona Epikúros tvrdil…“ (pravidlo z `docs/pouceni.md`: co stojí na jediném prameni, říká text s větou o prameni).
+- **Seneca** nestojí proti Epikúrovi celou vahou. Dopis 24 sám začíná Epikúrovým argumentem (b1) a Dopis 98 ho přebírá skoro doslova („kdo trpí dřív, než je nutné, trpí víc, než je nutné“). Senekova pozice je: promysli, co se může stát, změř to, a pak se netrap. **Výhrada:** Seneca slibuje, že změřené zlo vyjde „malé nebo krátké“ (24, 2), a to není vždycky pravda. Tady je slabé místo stoika a patří do námitky (e).
+
+Napětí „Seneca × Seneca“ (Dopis 13 proti 91) se rozpouští, když člověk dopisy čte celé: 13, 14 obě rady spojuje. Spor jen uvnitř Seneky by proto byl uměle ostřejší, než je pramen. Skutečný protivník je Epikúros.
+
+### Nejsilnější verze každé strany (jedna věta)
+
+- **Seneca:** Kdo si dopředu promyslí, co se může stát, a změří to, toho rána nezaskočí jako nová a dopadne slaběji, protože nečekané tíží víc než čekané.
+- **Epikúros:** Každé zlo je dost nepříjemné, až přijde, a kdo si ho představuje dopředu, trpí dvakrát, nebo dokonce nadarmo, když nepřijde; mysl patří k tomu dobrému, co bylo a je.
+
+### Jak strany odpovídají na nejsilnější námitku druhé
+
+- **Seneca na „trpíš dvakrát“:** netrp, jen promysli. „Tím ti neradím trápit se, radím ti nebýt zaskočen“: Dopis 98, 6–7 (bát se předem je hloupé, předvídat je moudré) a 13, 4 (nebuď nešťastný předčasně). A Ciceronův argument III, 35: na zlé věci stejně myslet budeme, zapomenout neumíme; lepší je promyslet je, než je odhánět.
+- **Epikúros na „nečekané tíží víc“:** budoucnost není jistá ani jedním směrem (Menoikeovi 127); kdo myslí na zlo, které nepřijde, ztratil přítomnost pro nic. A když přijde, máme vzpomínku na dobré (X, 22). Epikúros přitom nepopírá, že nečekané bolí víc; popírá, že by předem promyšlené bolelo míň (III, 32).
+
+### Doporučení pro blok Spor
+
+**Seneca × Epikúros.** Oba mají v atlasu vlastní stránku (portrét, profil), oba jsou osoby v datech, nová osoba nepřibývá. Otázka sporu: „Mám si dopředu představit, co se může pokazit?“ Scéna Sporu: Lucilius se bojí soudu (b1) a Seneca sám nejdřív vysloví Epikúrovu radu, pak řekne „já tě povedu jinou cestou“. Tím scéna neohlašuje vítěze a protivník zazní dřív, než mu kdo odpovídá (pravidlo z `docs/pouceni.md` pro telefon).
+
+- **Strana Seneky:** citát b4 nebo b23; argument: změř to a nebudeš zaskočen.
+- **Strana Epikúra:** citát d12 (vlastní slova); argument podle Cicerona d5 a d6, s větou o prameni.
+- **Pozor:** Epikúros nesmí vyjít jako „hlava do písku“. Jeho rada obrátit mysl k dobrému je cvičení (vzpomínka, vděčnost), ne útěk; v posledním dopise ji dělal v bolesti.
+- **Kdo by dal za pravdu komu** (pro poslední krok): kdo se bojí, že by ho představa vyděsila víc, má Epikúra a Seneku z Dopisu 13 a 98; kdo chce být připravený, Seneku z Dopisu 24 a 91, Cicerona a Epiktéta; kdo říká „záleží na tom, jestli se to dá ovlivnit“, má Seneku z 98, 7 (čemu se dá vyhnout, vyhni se) a Chrýsippa podle Cicerona (vina za nepředvídané).
+
+Cicero a Chrýsippos jsou v datech (oba s hloubkou profil a stránkou medailonku); do Sporu jako strany ne, nanejvýš jménem v posledním kroku. Anaxagorás je v datech taky (medailonek), jeho výrok o synovi ale do studentského textu nepatří (oddíl f).
