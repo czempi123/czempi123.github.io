@@ -4,6 +4,15 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Celek 10 uzavřený
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Celek 10 „Co když přijde to nejhorší?“ je schválený, větev `celek-10` sloučená do hlavní větve (`7925ead`) a hlavní větev je na GitHubu; plán v `docs/archiv/plany/celek-10.md` | Autor nechal odpověď na schválení prázdnou; prázdná odpověď znamená souhlas |
+| Nestálý test průchodu cesty 1 (`cesta.spec.ts:79`) se opraví v souhrnné revizi antiky (P11), ne v celku 10 | Prázdná odpověď, souhlas s doporučením; opravy celku 10 se cesty 1 netýkají |
+| Hlavička Seneky se třemi cestami na telefonu zůstává beze změny do P11 | Prázdná odpověď, souhlas s doporučením; v P11 přibude Stoický týden |
+| Další v pořadí je souhrnná revize antiky (P11) a Stoický týden, pak zkouška se studenty | Pořadí z `docs/plan.md`; cesta 33 byla poslední cesta antiky |
+
 ## 25. 10. 2026: Celek 10, opravy O
 
 | Rozhodnutí | Důvod |
