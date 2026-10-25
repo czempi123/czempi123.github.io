@@ -14,6 +14,14 @@ Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jso
 | Oddíl Ať text nezní jako stroj žije jen v `atlas-psani` (doplněný podle Wikipedie o přechodníkové otevírky, trpný rod, stejnou délku vět, otázku se sebezodpovězením a stejnou šablonu napříč); `atlas-cesta`, `atlas-osobnost` a `atlas-revize` na něj odkazují, `atlas-data` a `atlas-overeni` jednou větou | Tři stejné kopie po padesáti řádcích se rozcházely a stály tokeny při každém načtení |
 | Souhrnná revize antiky (P11) čte úvody, citáty a čtivost podle `atlas-psani` a navrhne nové znění úvodů všech deseti cest | Revize ještě neběžela a je první místo, kde jde pravidla použít napříč celou antikou |
 
+## 25. 10. 2026: Interaktivita napříč atlasem
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Interaktivní kresby, animace a hry s myšlenkou patří všude, kde něco naučí: v cestách, profilech, na stránkách otázek, na mapě i u medailonků | Přání autora z 25. 10. 2026: interaktivní část je pro učení nejsilnější; jeskyně v cestě 3 a další kresby to potvrdily |
+| Měřítko: student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba, body a pohyb bez obsahu ne; obsah vidět i v zastaveném obrázku | Navazuje na pravidla z celků 4 a 9 a na `CLAUDE.md` › Do atlasu nepatří |
+| P11 přidává bod 9: inventura interaktivity na všech typech stránek a tabulka návrhů; nové komponenty vzniknou ve vlastní větvi (`interaktivita-v1`), P13 promítne hledání místa pro interaktivní prvek do skillů `atlas-osobnost` a `atlas-data` | U medailonků musí prvek vycházet z dat, aby posloužil všem osobám najednou, i v dalších obdobích |
+
 ## 25. 10. 2026: Souhrnná revize antiky (P11), plán větve
 
 | Rozhodnutí | Důvod |

@@ -6,7 +6,7 @@ Antika má hotových všech deset cest z katalogu (1–8, 33, 34), dvanáct str�
 | --- | --- | --- | --- |
 | S | Souhrnná revize antiky: čtení napříč celky, kontroly dat a rozhraní, inventura mezer vůči F3, připravenost na zkoušku se studenty | Fable 5.1 · high se skillem `atlas-revize` | zadání níž |
 | O | Opravy po revizi | Opus 5.5 · high (xhigh u delších zásahů do UI) | zadání vznikne po S |
-| P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md` | Opus 5.5 · high | zadání vznikne po O |
+| P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md`; hledání místa pro interaktivní prvek i ve skillech `atlas-osobnost` (profily, medailonky) a `atlas-data` | Opus 5.5 · high | zadání vznikne po O |
 | Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | zadání vznikne po P13 |
 
 Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v plném znění přesouvají do `docs/archiv/zadani/revize-antiky.md`.
@@ -76,6 +76,21 @@ Inventura proti `docs/plan.md` (Plán etap, F3) a `docs/architektura.md` (Pořad
 
 Co je potřeba, aby šla jedna skutečná hodina nebo několik domácích průchodů: které cesty vybrat, co sledovat, jak sbírat zjištění. Web zatím běží jen lokálně; plán z 29. 9. 2026 říká, že o zveřejnění se rozhodne před zkouškou. Revize připraví podklad pro to rozhodnutí (GitHub Pages: co by se zveřejnilo, licence obrázků, co by se muselo dodělat), rozhodne autor.
 
+### 9. Interaktivita: kde chybí kresba, animace nebo hra s myšlenkou
+
+Přání autora z 25. 10. 2026: pohyblivé kresby a interaktivní prvky jsou pro učení to nejlepší, co atlas má (jeskyně v cestě 3 a další), a mají být všude, kde dávají smysl, klidně i u medailonků. Dnes jsou hlavně v cestách a v části profilů; medailonky, stránky otázek a mapa mají jen statické prvky (`MiniMapa`, `MiniOsa`, Doba a lidé).
+
+Revize projde všechny typy stránek antiky a u každé řekne, kde by interaktivní prvek něco naučil. **Měřítko účelnosti:** student něco udělá (posune, přetáhne, přepne, odhadne) a uvidí myšlenku, kterou by z textu pochopil hůř. Ozdoba, hra na body nebo pohyb bez obsahu do atlasu nepatří. Platí pravidla, která už máme: obsah je vidět i v zastaveném obrázku a při omezeném pohybu, jde to ovládat klávesnicí a myší i prstem, žádný kód v rozhraní, nejdřív znovu použít hotovou komponentu.
+
+Náměty k prověření (revize je může zamítnout a přidat vlastní):
+
+- **Medailonky, z dat a pro všechny najednou:** „Kdo žil dřív?“ s náhodným současníkem nebo předchůdcem z dat; „žili současně 14 let / dělí je 519 let“ s posuvníkem dvou životů; trasa života na mini-mapě, kde se podle let rozsvěcují místa s rolí (narození, působení, exil). Prvek z dat poslouží 34 medailonkům dnes a stovce dalších v pozdějších obdobích bez psaní textu.
+- **Profily a portréty:** velké myšlenky, které stojí jen na textu, i když by je ukázala kresba (třeba Parmenidovo „co není, nemůže být“ nebo Prótagorovo „člověk je měrou“); kresby z cest, na které by profil mohl odkázat místo vlastní.
+- **Stránky otázek:** rozhovor napříč staletími jako posuvná osa hlasů, kde se student postaví k tomu, kdo je mu nejblíž, a uvidí, jak daleko od sebe ti lidé žili.
+- **Mapa a čas:** co z plánu mapy (Změř vzdálenost, stín odkazu, trasa míst podle let) je hotové a co by antice nejvíc pomohlo.
+
+Výstupem je tabulka: místo, co student dělá, co tím pochopí, hotová nebo nová komponenta, odhad náročnosti, priorita (před zkouškou se studenty / před středověkem / později). Drobné použití hotové komponenty může jít do O; nové komponenty mají vlastní větev se skillem `atlas-komponenta`.
+
 ## Nad čím jsem váhal
 
 - **Stoický týden uvnitř P11, nebo zvlášť:** zvolil jsem zvlášť. Je to nový obsah se sedmi cvičeními, nejspíš i s novou komponentou (týdenní výzva v deníku), a potřebuje vlastní podklady, psaní a revizi. V revizi by se míchalo hodnocení hotového s psaním nového. Kdybys ho chtěl v téhle větvi, stačí říct; přibude krok mezi O a P13.
@@ -84,6 +99,7 @@ Co je potřeba, aby šla jedna skutečná hodina nebo několik domácích průch
 ## Co zůstává na později
 
 - **Stoický týden** jako vlastní větev po P11 (`stoicky-tyden`); ověřená cvičení jsou v `docs/podklady/k-overeni.md` (večerní ohlédnutí, představa nejhoršího „Pět minut, jedna věc“).
+- **Interaktivní prvky z bodu 9** jako vlastní větev (`interaktivita-v1`) se skillem `atlas-komponenta`; revize doporučí, jestli před zkouškou se studenty, nebo po ní.
 - **Zkouška se studenty** po P11 a Stoickém týdnu; před ní rozhodnutí o zveřejnění.
 - **Plán středověku (P12)** se skillem `atlas-obdobi`, cesta 9 „Je Bůh?“ jako první celek období 3.
 
@@ -92,11 +108,11 @@ Co je potřeba, aby šla jedna skutečná hodina nebo několik domácích průch
 V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem. **Fable 5.1 · high.** Běží dlouho; nech ho pracovat a vrať se k hotovému záznamu.
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok S větve revize-antiky: souhrnná revize celé antiky (P11). Plán větve je v projektu Claude i v repozitáři jako docs/plany/revize-antiky.md; řiď se oddílem „Co revize prověří“ (osm bodů). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv otevři jen tam, kde to plán jmenuje.
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok S větve revize-antiky: souhrnná revize celé antiky (P11). Plán větve je v projektu Claude i v repozitáři jako docs/plany/revize-antiky.md; řiď se oddílem „Co revize prověří“ (devět bodů). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv otevři jen tam, kde to plán jmenuje.
 
-0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md skill atlas-revize (kontrolní seznam platí pro každou stránku; plán větve přidává pohled napříč) a skill atlas-psani (čtivost, úvody, citáty, lidský hlas; v oddílu Postup při revizi jsou příkazy, které vypíšou úvody cest a první věty kroků vedle sebe). Restartuj náhled npm run dev.
+0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, skill atlas-revize (kontrolní seznam platí pro každou stránku; plán větve přidává pohled napříč) a skill atlas-psani (čtivost, úvody, citáty, lidský hlas; v oddílu Postup při revizi jsou příkazy, které vypíšou úvody cest a první věty kroků vedle sebe). Restartuj náhled npm run dev.
 
-1. Inventura: vypiš si všechny stránky antiky (cesty, osobnosti, medailonky, otázky, deník, mapa, hodina), délky cest přes scripts/slova-cesta.mjs, seznam kreseb a animací v src/components/ostrovy a citátů podle id v src/content (které id se používá na víc stránkách). Inventuru dej do záznamu jako první oddíl.
+1. Inventura: vypiš si všechny stránky antiky (cesty, osobnosti, medailonky, otázky, deník, mapa, hodina), délky cest přes scripts/slova-cesta.mjs, seznam kreseb a animací v src/components/ostrovy s tím, na kterých stránkách jsou (a které typy stránek nemají žádnou), a citátů podle id v src/content (které id se používá na víc stránkách). Inventuru dej do záznamu jako první oddíl.
 
 2. Čtení napříč: projdi cesty v pořadí katalogu, pak osobnosti a otázky, s otevřeným zápisníkem opakování (citát, příběh, případ, Zkus to žít, obrat, stavba kroku). Snímky přes scripts/snimky-listy.mjs a scripts/snimky-cesta.mjs; prohlížej listy, ne jednotlivé obrazovky. Záznam piš průběžně do docs/revize/antika-<dnešní datum>.md po oddílech plánu, ať se při dlouhé práci nic neztratí.
 
@@ -104,7 +120,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 4. Drobnosti (překlep, rozbitý odkaz, nesoulad roku s daty, oprava testu) oprav rovnou, každý druh v samostatném commitu, a zapiš je do záznamu. Zásadní nálezy neopravuj: seřaď je podle dopadu (blokující, důležité, drobné) ve formátu skillu atlas-revize, každý s konkrétním návrhem opravy.
 
-5. Do záznamu přidej oddíl „Co z plánu F3 chybí“ (bod 7 plánu) jako tabulku s doporučením u každé položky (před zkouškou / před středověkem / později) a návrh pořadí dalších větví, a oddíl „Zkouška se studenty“ (bod 8): které cesty, co sledovat, a podklad pro rozhodnutí o zveřejnění (bez zveřejňování). Verdikt revize: schváleno / po opravách / přepracovat.
+5. Do záznamu přidej oddíl „Co z plánu F3 chybí“ (bod 7 plánu) jako tabulku s doporučením u každé položky (před zkouškou / před středověkem / později) a návrh pořadí dalších větví, a oddíl „Zkouška se studenty“ (bod 8): které cesty, co sledovat, a podklad pro rozhodnutí o zveřejnění (bez zveřejňování), a oddíl „Interaktivita“ (bod 9) s tabulkou návrhů; u tří nejlepších popiš, co student uvidí v zastaveném obrázku a co se pohne. Verdikt revize: schváleno / po opravách / přepracovat.
 
 6. Do plánu větve napiš oddíl „Po S (datum)“: co jsi našel, nad čím jsi váhal a co jsi zvolil, a oddíl „Co rozhodnout po S“ s očíslovanými otázkami, každou s doporučením a prázdným řádkem „Odpověď:“ (prázdná odpověď znamená souhlas). Připrav tam i zadání kroku O ve stejné podobě jako toto (model, úsilí, text promptu). Zadání S přesuň do docs/archiv/zadani/revize-antiky.md. Rozhodnutí zapiš do docs/rozhodnuti.md, aktualizuj řádek revize-antiky v docs/plan.md. Commit.
 
