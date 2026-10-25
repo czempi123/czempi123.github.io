@@ -8,7 +8,7 @@ Celek 10 staví cestu 33 z katalogu (`docs/architektura.md`): pilot James Stockd
 | P8 | Cesta 33 se závěrem a Návratem, kresba, karta cesty na stránce otázky 3, případné vazby z portrétů Seneky a Epiktéta | Opus 5.5 · high se skillem `atlas-cesta` (xhigh při zaseknutí) | hotovo 25. 10. 2026: osm kroků, kresba Maska, Návrat, vazby (Po P8) |
 | P10 | Revize celku | Opus 5.5 · high se skillem `atlas-revize` | hotovo 25. 10. 2026, verdikt „po opravách“ (`docs/revize/celek-10-2026-10-25.md`) |
 | O | Opravy po revizi | Opus 5.5 · high | hotovo 25. 10. 2026: všech sedm nálezů a dvě další trojice z Dopisu 98 (Po O) |
-| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | čeká na schválení, zadání níže |
+| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | hotovo 25. 10. 2026: schváleno, sloučeno, hlavní větev na GitHubu |
 
 P7 v celku není: nová osoba nepřibývá a drobné úpravy hotových portrétů (odkaz na cestu, věta v Kam dál) udělá P8, pokud je podklady doporučí.
 
@@ -184,11 +184,11 @@ Hotovo 25. 10. 2026. Všech sedm nálezů je zapracovaných, každý v samostatn
 ## Co rozhodnout před uzavřením (prázdná odpověď znamená souhlas s doporučením)
 
 1. **Schválení celku 10:** přečti si cestu jako student (asi 29 minut) a celek schval; pak se větev sloučí do hlavní větve a hlavní větev pošle na GitHub. Doporučuji schválit.
-   Odpověď:
+   Odpověď: bez odpovědi, tedy souhlas; celek schválen autorem 25. 10. 2026.
 2. **Nestálý test `cesta.spec.ts:79`:** spadl podruhé za sebou jen při celém běhu. Doporučuji opravit v souhrnné revizi antiky (P11), ne v celku 10: čekání na hydrataci v `pripravit` delší než pět vteřin, nebo posun po menších krocích.
-   Odpověď:
+   Odpověď: bez odpovědi, tedy souhlas (25. 10. 2026); oprava testu patří do P11.
 3. **Otázka 4 po P8 (hlavička Seneky se třemi cestami na telefonu)** zůstává pro P11, jak jsi odsouhlasil mlčením.
-   Odpověď:
+   Odpověď: bez odpovědi, tedy souhlas (25. 10. 2026); rozhodne se v P11.
 
 ## Zadání Uzavření
 
