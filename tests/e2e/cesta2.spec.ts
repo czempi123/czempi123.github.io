@@ -424,5 +424,5 @@ test('cesta 2 a otázka 5 jsou dosažitelné z profilů, z přehledu otázek, z 
   await expect(page.locator('#herakleitos .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
   await expect(page.locator('#parmenides .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
   // Seneca a Plútarchos mluví ve Sporu, ale filozofy cesty 2 nejsou: jejich karty a Senekova hlavička se nemění.
-  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 34: Kam mi mizí čas?']);
+  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 33: Co když přijde to nejhorší?', 'Cesta 34: Kam mi mizí čas?']);
 });
