@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Celek 10, opravy O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Na tři otázky po P10 autor neodpověděl, platí doporučení: krok 2 podle nálezu 1; věta „Bránili svou vesnici.“ doplněna; portrét s Medailí cti zůstává | NHHC větu nese („villagers defending their community“, článek otevřen 25. 10. 2026); oříznutí nad límec by nechalo jen hlavu a medaile by z části zůstala |
+| Všech sedm nálezů opraveno podle záznamu revize; karta „smich“ bez čárky před „a“ („Co z toho v rukou má a s čím by mu měl pomoct někdo jiný?“) | Dvě souřadné tázací věty spojené „a“ čárku nemají |
+| V „Co by na to řekli“ kroku 7 navíc bez „nebát se předem“ (Dopis 98, 7) a se závěrem „samo trápení nepomáhá“ místo „trápit se dřív, než je nutné“ (98, 8) | Obě místa stála v celku třikrát (98, 7 i v krocích 5 a 8, 98, 8 ve Sporu a kroku 8); revize je nejmenovala, pravidlo o opakování je chytilo při přeměření |
+| Zpětná vazba podmínky „los“ srovnaná s novým zněním („víc teď udělat nemůžeš“, „věc, kterou už neovlivníš“) | Stará věta „nemůžeš udělat nic“ opakovala rozpor, který nález 7 odstranil z podmínky |
+| Čas cesty zůstává 29 minut | `slova-cesta.mjs` po opravách 3328 slov, 28,7 min |
+
 ## 25. 10. 2026: Celek 10, revize P10
 
 | Rozhodnutí | Důvod |

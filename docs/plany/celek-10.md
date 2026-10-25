@@ -7,8 +7,8 @@ Celek 10 staví cestu 33 z katalogu (`docs/architektura.md`): pilot James Stockd
 | P6 | Podklady: Stockdalův příběh z jeho vlastních textů, Seneca a představa nejhoršího, Epiktétos, spor se skutečným protivníkem, nejsilnější námitka, citlivá místa, návrh kroků cesty | Opus 5.5 · high s vyhledáváním | hotovo 25. 10. 2026, `docs/podklady/celek-10.md` |
 | P8 | Cesta 33 se závěrem a Návratem, kresba, karta cesty na stránce otázky 3, případné vazby z portrétů Seneky a Epiktéta | Opus 5.5 · high se skillem `atlas-cesta` (xhigh při zaseknutí) | hotovo 25. 10. 2026: osm kroků, kresba Maska, Návrat, vazby (Po P8) |
 | P10 | Revize celku | Opus 5.5 · high se skillem `atlas-revize` | hotovo 25. 10. 2026, verdikt „po opravách“ (`docs/revize/celek-10-2026-10-25.md`) |
-| O | Opravy po revizi | Opus 5.5 · high | zadání níže |
-| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | čeká |
+| O | Opravy po revizi | Opus 5.5 · high | hotovo 25. 10. 2026: všech sedm nálezů a dvě další trojice z Dopisu 98 (Po O) |
+| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | čeká na schválení, zadání níže |
 
 P7 v celku není: nová osoba nepřibývá a drobné úpravy hotových portrétů (odkaz na cestu, věta v Kam dál) udělá P8, pokud je podklady doporučí.
 
@@ -167,18 +167,43 @@ Prázdná odpověď znamená souhlas.
 3. **Portrét s Medailí cti:** nechat, jak jsi schválil po P6 (popisek ji nejmenuje), nebo oříznout nad límec? Doporučuji nechat: oříznutí nad límec nechá jen hlavu a medaile u krku stejně z části zůstane.
    Odpověď:
 
-## Zadání O: opravy po revizi
+## Po O (25. 10. 2026)
 
-V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem. **Opus 5.5 · high.**
+Hotovo 25. 10. 2026. Všech sedm nálezů je zapracovaných, každý v samostatném commitu (`0bf6060` až `9e0ef55`); na tři otázky po P10 jsi neodpověděl, platí tedy doporučení. Zadání O je v `docs/archiv/zadani/celek-10.md`, rozhodnutí v `docs/rozhodnuti.md`. Nic na GitHubu, nic sloučeno.
+
+- *Krok 2* (nález 1): Odkryj se ptá ve třetí osobě („Platí i pro člověka, kterého k tomu, za co se stydí, někdo donutil?“), druhý komentář „Je ale stud totéž co vina? Může se stydět i ten, kdo nic špatného neudělal?“ a pod „jsme v tom spolu“ nový odstavec s otázkou „Proč mohlo pomoct právě tohle?“ (a17, a15). „Po letech o tom napsal“ je teď „Po letech napsal“: „o tom“ by mířilo na otázku.
+- *Krok 4* (nález 2): Senekova rada Luciliovi ve třetí osobě („Ať si podle něj představí…“).
+- *Karta „smich“ a Zkus to žít* (nález 3) podle záznamu; v kartě bez čárky před „a“ (dvě souřadné tázací věty).
+- *Opakování* (nález 4): krok 8 odkazuje na Epikúrovu větu na konci kroku, karta „neodepsal“ bez „Seneca by se ptal po důkazu“, „Co by na to řekli“ v kroku 7 podle záznamu. Při přeměření jsem našel dvě trojice, které revize nejmenovala: „bát se předem“ (98, 7) v krocích 5, 7 a 8 a „dřív, než je nutné“ (98, 8) ve Sporu, kroku 7 a kroku 8. V kroku 7 proto „Kde rozhodne los, radil zlo změřit.“ (bez „a nebát se předem“) a závěr „Na jednom by se oba shodli: samo trápení nepomáhá.“ Každé místo z pramenů teď stojí v celku nejvýš dvakrát.
+- *Spor* (nález 5): „Jeho rada je jiná: promysli, co se může stát, a změř to. Nešťastný předčasně ale nebuď.“
+- *Vesnice* (nález 6): NHHC větu nese („villagers defending their community“, článek otevřen 25. 10. 2026), krok 2 má „Lidé z vesnice, kde přistál, ho zbili. Bránili svou vesnici.“ Poznámka u pramene `nhhc-stockdale` to zapisuje. Portrét s Medailí cti zůstává.
+- *Podmínka „los“* (nález 7) podle záznamu; zpětná vazba podmínky s ní srovnaná („víc teď udělat nemůžeš“, „věc, kterou už neovlivníš“), stará věta „nemůžeš udělat nic“ opakovala tentýž rozpor.
+
+**Ověření.** Testy opravované věty nehlídají (grep v `tests/`). `npm run build` prošlo, katalog hodin 107 stránek a Chyb 0, `cesta33.spec.ts` 6 testů. Čas cesty 3328 slov, 22,2 + 6,5 = 28,7 minuty; štítek 29 platí. Snímky kroků 2, 4, 5 a 8 na 390 px světle s odkrytím jsou v `Claude outputs/snimky-celek10-O/`; kartu „smich“ v koši Právem jsem vykreslil zvlášť (všechny karty do Právem, `krok5-vse-pravem.png`) a přečetl ve stránce, Zkus to žít na snímku kroku 8. Celé `npm test`: vitest 727 prošlo, v prohlížeči 542 prošlo a 1 spadl, `cesta.spec.ts:79` (průchod cesty 1) na nehydratovaném ostrovu při souběhu, stejně jako po P8; samotný prošel třikrát za sebou (`--repeat-each=3`). Opravy se cesty 1 netýkají.
+
+## Co rozhodnout před uzavřením (prázdná odpověď znamená souhlas s doporučením)
+
+1. **Schválení celku 10:** přečti si cestu jako student (asi 29 minut) a celek schval; pak se větev sloučí do hlavní větve a hlavní větev pošle na GitHub. Doporučuji schválit.
+   Odpověď:
+2. **Nestálý test `cesta.spec.ts:79`:** spadl podruhé za sebou jen při celém běhu. Doporučuji opravit v souhrnné revizi antiky (P11), ne v celku 10: čekání na hydrataci v `pripravit` delší než pět vteřin, nebo posun po menších krocích.
+   Odpověď:
+3. **Otázka 4 po P8 (hlavička Seneky se třemi cestami na telefonu)** zůstává pro P11, jak jsi odsouhlasil mlčením.
+   Odpověď:
+
+## Zadání Uzavření
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem. **Opus 5.5 · medium.** Začne až po tvém schválení (otázka 1 výš).
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok O celku 10 „Co když přijde to nejhorší?“: opravy po revizi. Plán celku je v projektu Claude jako docs/plany/celek-10.md (oddíly Po P10 a Co rozhodnout po P10; moje odpovědi tam mají přednost, prázdná odpověď znamená souhlas), nálezy s hotovým zněním v docs/revize/celek-10-2026-10-25.md. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); z podkladů docs/podklady/celek-10.md jen řádky, které nález jmenuje (a15, a17, b8, b10, b18, c7, d12, e, f).
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok Uzavření celku 10 „Co když přijde to nejhorší?“. Plán celku je v projektu Claude jako docs/plany/celek-10.md (oddíl Co rozhodnout před uzavřením; moje odpovědi mají přednost, prázdná odpověď znamená souhlas). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
 
-0. git switch celek-10 a git status bez necommitnutých změn. Restartuj náhled (npx astro dev stop, pak nohup npm run dev > /tmp/atlas-dev.log 2>&1 &).
+0. Ověř, že jsem celek schválil (otázka 1); jestli ne nebo jestli jsem napsal připomínky, nic neslučuj, zapiš je do plánu větve a napiš mi, co je potřeba udělat.
 
-1. Oprav všech sedm nálezů podle záznamu revize; hotové znění přeměř proti stylu (věty do 25 slov, odpověď bez pochvaly) a proti pravidlu o opakování (tentýž citát a detail nejvýš dvakrát v celku). U nálezu 6 otevři stránku NHHC o Stockdalovi (pramen nhhc-stockdale) a větu „Bránili svou vesnici.“ doplň, jen když ji článek nese. Každou opravovanou větu najdi nejdřív v tests/ a test uprav v tomtéž commitu. Commit po nálezech nebo po krocích, česky.
+1. git switch celek-10 a git status bez necommitnutých změn. Do plánu větve zapiš moje odpovědi a schválení s datem. npm run build a PW_BEZ_BUILDU=1 npx playwright test tests/e2e/cesta33.spec.ts.
 
-2. Po opravách npm run build, node scripts/hodiny-katalog.mjs, PW_BEZ_BUILDU=1 npx playwright test tests/e2e/cesta33.spec.ts, node scripts/slova-cesta.mjs co-kdyz-prijde-to-nejhorsi (když se čas změní, oprav minut v přehledu cesty) a snímky kroků 2, 4, 5 a 8 na 390 px ve světlém režimu s odkrytím (scripts/snimky-cesta.mjs). Kartu „smich“ v koši Právem a Zkus to žít přečti ve vykreslené stránce. Celé npm test jednou před posledním commitem (na pozadí s výstupem do souboru).
+2. git switch main, git merge --no-ff celek-10 se zprávou „Sloučení větve celek-10: „Co když přijde to nejhorší?“ (cesta 33 s kresbou Maska, vazby v portrétech Seneky, Epiktéta a Epikúra), revize a opravy“. Na hlavní větvi celé npm test jednou (na pozadí s výstupem do souboru); nestálý cesta.spec.ts:79 při neúspěchu pusť samotný.
 
-3. Do plánu větve zapiš stav O, oddíl „Po O“ a zadání Uzavření (schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub; Opus 5.5 · medium). Zadání O přesuň do docs/archiv/zadani/celek-10.md, nové poučení zapiš jednou větou do docs/pouceni.md, rozhodnutí do docs/rozhodnuti.md. Plán větve a docs/plan.md nahraj do projektu Claude. Nic neposílej na GitHub a nic nesluč. Pak mi krátce napiš, co je opravené a co zbývá ke schválení.
+3. Plán větve přesuň do docs/archiv/plany/celek-10.md (git mv), v docs/plan.md uprav řádek celek-10 v tabulce větví (soubor v archivu, stav „schváleno, sloučeno a na GitHubu“ s datem), řádek P10 v katalogu promptů a odstavec Další větve v pořadí (další krok: souhrnná revize antiky P11 a Stoický týden, plán vznikne, až na ně přijde řada). Rozhodnutí zapiš do docs/rozhodnuti.md. Commit „Celek 10 uzavřen: plán větve v archivu, plán a rozhodnutí; další souhrnná revize antiky (P11)“.
+
+4. git push origin main. Větev celek-10 na GitHub neposílej. docs/plan.md nahraj do projektu Claude a docs/plany/celek-10.md z projektu odeber, pokud to jde, jinak ho nahraď poznámkou, že je v archivu. Pak mi krátce napiš, co je sloučené a co je na řadě.
 ```

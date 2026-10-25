@@ -65,3 +65,19 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 4. Do plánu větve zapiš stav P10, oddíl „Po P10“ (co rozhodnout) a zadání O (Opus 5.5 · high). Zadání P10 přesuň do docs/archiv/zadani/celek-10.md, nové poučení zapiš jednou větou do docs/pouceni.md, rozhodnutí do docs/rozhodnuti.md. Plán větve a docs/plan.md nahraj do projektu Claude. Nic neposílej na GitHub a nic nesluč. Pak mi krátce napiš verdikt a co rozhodnout.
 ```
+
+## Zadání O: opravy po revizi (provedeno 25. 10. 2026)
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem. **Opus 5.5 · high.**
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok O celku 10 „Co když přijde to nejhorší?“: opravy po revizi. Plán celku je v projektu Claude jako docs/plany/celek-10.md (oddíly Po P10 a Co rozhodnout po P10; moje odpovědi tam mají přednost, prázdná odpověď znamená souhlas), nálezy s hotovým zněním v docs/revize/celek-10-2026-10-25.md. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); z podkladů docs/podklady/celek-10.md jen řádky, které nález jmenuje (a15, a17, b8, b10, b18, c7, d12, e, f).
+
+0. git switch celek-10 a git status bez necommitnutých změn. Restartuj náhled (npx astro dev stop, pak nohup npm run dev > /tmp/atlas-dev.log 2>&1 &).
+
+1. Oprav všech sedm nálezů podle záznamu revize; hotové znění přeměř proti stylu (věty do 25 slov, odpověď bez pochvaly) a proti pravidlu o opakování (tentýž citát a detail nejvýš dvakrát v celku). U nálezu 6 otevři stránku NHHC o Stockdalovi (pramen nhhc-stockdale) a větu „Bránili svou vesnici.“ doplň, jen když ji článek nese. Každou opravovanou větu najdi nejdřív v tests/ a test uprav v tomtéž commitu. Commit po nálezech nebo po krocích, česky.
+
+2. Po opravách npm run build, node scripts/hodiny-katalog.mjs, PW_BEZ_BUILDU=1 npx playwright test tests/e2e/cesta33.spec.ts, node scripts/slova-cesta.mjs co-kdyz-prijde-to-nejhorsi (když se čas změní, oprav minut v přehledu cesty) a snímky kroků 2, 4, 5 a 8 na 390 px ve světlém režimu s odkrytím (scripts/snimky-cesta.mjs). Kartu „smich“ v koši Právem a Zkus to žít přečti ve vykreslené stránce. Celé npm test jednou před posledním commitem (na pozadí s výstupem do souboru).
+
+3. Do plánu větve zapiš stav O, oddíl „Po O“ a zadání Uzavření (schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub; Opus 5.5 · medium). Zadání O přesuň do docs/archiv/zadani/celek-10.md, nové poučení zapiš jednou větou do docs/pouceni.md, rozhodnutí do docs/rozhodnuti.md. Plán větve a docs/plan.md nahraj do projektu Claude. Nic neposílej na GitHub a nic nesluč. Pak mi krátce napiš, co je opravené a co zbývá ke schválení.
+```

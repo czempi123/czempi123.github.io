@@ -43,6 +43,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 ## Celek
 
 - Tentýž citát a tentýž doložený detail nejvýš dvakrát v celku. Scéna z portrétu se v cestě neopakuje doslova; cesta přitom musí stát i bez portrétu.
+- Opakování počítej podle klíčových slov každého místa z pramenů (předem, nutné, důkaz, předčasně) napříč kroky i bloky včetně „Co by na to řekli“ a srovnání: shrnutí, které parafrázuje už použitou větu, je další výskyt (celek 10, O: revize přehlédla dvě trojice z Dopisu 98).
 - Úvodní případ stránky otázky je jiného druhu než nový případ cesty.
 - Každý hlas na stránce otázky se pozná a nezmenšuje se to, čím se liší. Odpověď hlasu má nejvýš dvě věty. Výklad u hlasu ověř v tomtéž díle a místě, ze kterého je citát; myšlenka odjinud (Seneca, Dopisy 93, 2 u citátu z Dopisu 61) dostane svůj pramen a jméno autora, ne školy.
 - Když poslední krok slíbí, že každá odpověď má zastánce, projdi možnosti prvního bloku jednu po druhé; shrnutí možností z minulého kroku jmenuje všechny, i tu, kterou volí věřící student.
