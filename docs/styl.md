@@ -1,6 +1,6 @@
 # Průvodce stylem: jak v atlasu psát
 
-Atlas má znít jako dobrý vypravěč, který filozofii miluje a studentovi věří. Ne jako posudek, učebnice ani právní dokument. Tento průvodce ukazuje rozdíl na deseti dvojicích. Příklady „takhle ne“ jsou skutečné věty z prototypu v9 (`docs/archiv/`).
+Atlas má znít jako dobrý vypravěč, který filozofii miluje a studentovi věří. Ne jako posudek, učebnice ani právní dokument. Tento průvodce ukazuje rozdíl na deseti dvojicích. Jak text napsat, aby se četl jako dobrá kniha a nezněl jako stroj (úvody, citáty, rytmus, seznam strojových obratů), drží skill `atlas-psani`. Příklady „takhle ne“ jsou skutečné věty z prototypu v9 (`docs/archiv/`).
 
 ## Šest pravidel
 
@@ -96,6 +96,7 @@ Proč: slogan je snadný, ale nepravdivý. Nejsilnější verze filozofa je zár
 ## Rychlá kontrola před odevzdáním textu
 
 - Začíná text scénou, člověkem nebo otázkou?
+- Říká úvod, o čem text je a co si student odnese, místo osnovy? Odpovídá každý citát na otázku před ním?
 - Nese každé jméno a každý detail příběh nebo myšlenku? Ostatní popsat, nebo vynechat.
 - Je v něm věta, která mluví o naší práci místo o filozofii? Smazat.
 - Má každá volba vlastní zpětnou vazbu s důvodem?

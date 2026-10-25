@@ -11,6 +11,7 @@ Než začneš pracovat, přečti si `docs/styl.md` (tón), `docs/pouceni.md` (co
 - **Pochybnost patří filozofii, ne redakci.** Námitky, spory a otevřené otázky jsou obsah výuky a zůstávají. Pochybnosti o pramenech se řeší v podkladech (`docs/podklady/`), ne v textu pro studenty.
 - **Nejdřív student, pak filozof.** Před výkladem vlastní pokus; odpověď a zpětná vazba se odkrývají až po něm.
 - **Nejsilnější verze druhého.** Každý filozof i protivník dostane svůj nejlepší argument.
+- **Jako dobrá kniha.** Text se má číst sám: otázka táhne dál, informaci nese scéna, úvod řekne, o čem to je a co si student odnese, citát odpovídá na otázku textu a nic nezní jako stroj. Jak na to, drží skill `atlas-psani`.
 - **Příklady, které chytnou.** Skutečné příběhy filozofů, klasické myšlenkové pokusy a situace, které teenagery opravdu zajímají (přátelství, strach, láska, sociální sítě, rozhodování o budoucnosti). Ne úřední školní scénky.
 - **Osobní rovina je dobrovolná.** Zpětná vazba hodnotí důvody, nikdy souhlas s filozofem. Názory se neznámkují.
 - **Úkoly jako otázky:** „Co bys udělal?“, „Který důvod tě přesvědčuje?“, „Změní se tvá odpověď, když…?“
@@ -59,7 +60,7 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 
 ## Workflow a skilly
 
-Celek (velká otázka s cestou a potřebnými profily) prochází kroky: podklady (`atlas-overeni`) → psaní přímo do atlasu (`atlas-cesta`, `atlas-osobnost`, `atlas-data`) → revize (`atlas-revize`) → schválení autorem. Nová komponenta vzniká se skillem `atlas-komponenta`, nové období se plánuje se skillem `atlas-obdobi`. Zdrojová verze skillů je ve složce `skills/` (používají se uložené v účtu Claude); ty, které zatím chybí, vzniknou podle plánu. Když skill upravíš, uprav i jeho kopii ve `skills/`.
+Celek (velká otázka s cestou a potřebnými profily) prochází kroky: podklady (`atlas-overeni`) → psaní přímo do atlasu (`atlas-cesta`, `atlas-osobnost`, `atlas-data`) → revize (`atlas-revize`) → schválení autorem. Každý text pro studenty se píše i reviduje se skillem `atlas-psani` (čtivost, úvody, citáty, lidský hlas); skilly psaní a revize na něj odkazují. Nová komponenta vzniká se skillem `atlas-komponenta`, nové období se plánuje se skillem `atlas-obdobi`. Zdrojová verze skillů je ve složce `skills/` (používají se uložené v účtu Claude); ty, které zatím chybí, vzniknou podle plánu. Když skill upravíš, uprav i jeho kopii ve `skills/`.
 
 **Bez mezikroku schvalování** (rozhodnutí autora ze 4. 10. 2026). Osnovu ani návrh neposílej předem ke schválení. Kde si nejsi jistý, zvol podle sebe nejlepší cestu, práci dokonči a ve zprávě na konci napiš, nad čím jsi váhal, co jsi zvolil a co by šlo jinak; autor řekne, co změnit. Předem se ptej jen na to, co nejde snadno vrátit nebo co smí rozhodnout jen autor: GitHub a slučování větví, stahování obrázků, nové osoby v datech, mazání. Kde skill nebo starší zadání říká „navrhni autorovi a počkej na odpověď“, platí tohle pravidlo.
 

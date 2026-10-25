@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 25. 10. 2026: Skill atlas-psani
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nový skill `atlas-psani` pro psaní i revizi každého studentského textu: co dělá dobrou knihu, úvody, citáty, příběh a informace dohromady, seznam strojových obratů, tři čtení po napsání | Autor chce, aby se atlas četl jako dobrá kniha, ne jako povinnost: příběhově a zároveň informativně, lidsky, s citáty navázanými na téma |
+| Úvod (přehled cesty, profil, otázka) řekne, o čem text je, proč se studenta týká a co si odnese; osnovu kroků neshrnuje a nekončí v každé cestě stejnou formulí | Přání autora z 25. 10. 2026; dosavadní úvody cest často popisují stavbu cesty („Cesta začíná…“, „K člověku se dostaneme až potom“) |
+| Citát odpovídá na otázku, kterou text těsně před ním položil, má uvozovací větu se situací a text se po něm vrací k případu; žádná sbírka citátů | Přání autora z 25. 10. 2026 |
+| Oddíl Ať text nezní jako stroj žije jen v `atlas-psani` (doplněný podle Wikipedie o přechodníkové otevírky, trpný rod, stejnou délku vět, otázku se sebezodpovězením a stejnou šablonu napříč); `atlas-cesta`, `atlas-osobnost` a `atlas-revize` na něj odkazují, `atlas-data` a `atlas-overeni` jednou větou | Tři stejné kopie po padesáti řádcích se rozcházely a stály tokeny při každém načtení |
+| Souhrnná revize antiky (P11) čte úvody, citáty a čtivost podle `atlas-psani` a navrhne nové znění úvodů všech deseti cest | Revize ještě neběžela a je první místo, kde jde pravidla použít napříč celou antikou |
+
 ## 25. 10. 2026: Souhrnná revize antiky (P11), plán větve
 
 | Rozhodnutí | Důvod |

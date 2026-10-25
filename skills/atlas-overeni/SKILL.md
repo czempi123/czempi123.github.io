@@ -30,6 +30,7 @@ Tady se odvádí všechna pramenná práce, aby studentský text mohl vyprávět
 ## Zásady
 
 - Pochybnosti se řeší tady, ne ve studentském textu. Výsledkem je formulace, která je pravdivá sama o sobě.
+- Doporučená formulace je studentský text, který se do atlasu často přenese beze změny: piš ji podle skillu `atlas-psani` (konkrétní věc, činný rod, bez nafouknutého významu) a nikdy silněji, než říká tvrzení.
 - Když se zdroje rozcházejí, zapiš obě verze a doporuč, kterou atlas použije a proč.
 - Datování: rok nula neexistuje. Záporná čísla v datech znamenají roky př. n. l.
 - Vztah mezi dvěma lidmi zapisuj s typem: `ucitel`, `znali-se`, `vliv-textem`, `polemika`. Současnost dvou lidí sama nedokazuje, že se znali.

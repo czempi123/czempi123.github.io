@@ -5,13 +5,13 @@ description: "Revize hotového celku Atlasu myšlení očima filozofa, historika
 
 # Revize celku
 
-Revize hledá to, co by studentovi vadilo nebo co by ho zavedlo: nepřesnost, slabou námitku, nudný vstup, nejasný úkol, rozbitý krok. Nehodnotí délku textu ani vkus, pokud nebrání učení. Strojově znějící text se za vkus nepočítá: prázdná věta zabírá místo faktu a student, který ji pozná, přestane číst pozorně.
+Revize hledá to, co by studentovi vadilo nebo co by ho zavedlo: nepřesnost, slabou námitku, nudný vstup, nejasný úkol, rozbitý krok. Nehodnotí délku textu ani vkus, pokud nebrání učení. Strojově znějící ani nudný text se za vkus nepočítá: prázdná věta zabírá místo faktu, a student, který ji pozná nebo se u textu nudí, přestane číst pozorně.
 
 ## Postup
 
 1. **Připrav si podklady:** zadání celku, podkladový list z `docs/podklady/`, `docs/styl.md` a samotný obsah (MDX a data). U hotového webu spusť `npm run build` a `npm test`.
 2. **Projdi celek jako student.** Celý průchod od vstupu po návrat, včetně odboček do profilů a mapy. Zkus odpovědět špatně, přeskočit krok, vrátit se, obnovit stránku, otevřít krok přímým odkazem. Na hotovém webu na šířce 390 a 1440 px, ve světlém i tmavém režimu a klávesnicí; pořiď snímky obrazovek a prohlédni je. Projdi ho i jako student, který s filozofem celku nesouhlasí (chce hodně vydělávat, nevěří, že stačí málo): najde v celku někoho, kdo mu dává za pravdu? Celek o tom, co má člověk unést, přijmout nebo odpustit (stoici, osud, role), projdi i jako student, kterému doma nebo ve třídě někdo ubližuje: čte někde, že se má smířit? Spočítej slova, která student na cestě opravdu přečte (jednu zpětnou vazbu na volbu, citáty, texty kreseb); při 150 slovech za minutu a s ovládáním se má vejít do 20 minut a štítek `minut` má říkat, kolik vyšlo.
-3. **Projdi šest perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, lidský hlas. Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
+3. **Projdi šest perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, lidský hlas a čtivost (skill `atlas-psani`). Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
 4. **Oprav rovnou**, co je drobné a jednoznačné: překlepy, konvence (jména, letopočty, uvozovky), redakční vsuvky ve studentském textu, rozbité odkazy, strojové obraty, které jdou škrtnout nebo přepsat beze změny významu (navazovací vata, pochvala na úvod zpětné vazby, zbytky značek, pomlčka místo čárky). Zásahy do významu, příběhu nebo struktury jen navrhni; patří k nim i věta, která po škrtnutí zůstane prázdná a potřebuje fakt z podkladů. Větu, kterou opravuješ, najdi nejdřív v `tests/`: testy hlídají přesné znění a upravují se v tomtéž commitu.
 5. **Zapiš nálezy** do `docs/revize/<id-celku>-<datum>.md` ve formátu níže, nejvýš deset nejdůležitějších. Studentský obsah nikdy nedoplňuj o poznámky z revize.
 6. **Předej** v pár větách: verdikt (připraveno ke schválení / po opravách / přepracovat), tři nejdůležitější nálezy a co bylo ověřeno technicky.
@@ -27,7 +27,7 @@ Revize hledá to, co by studentovi vadilo nebo co by ho zavedlo: nepřesnost, sl
 ```
 
 - **Blokující:** věcná chyba, podvržený citát, nefunkční krok, zpětná vazba, která hodnotí názor, nebo text, který by student pochopil opačně.
-- **Důležité:** slabá námitka, nudný nebo úřední vstup, nejasný úkol, chybějící zpětná vazba u volby, zploštělý filozof, problém na telefonu, shluk strojových obratů v jednom kroku nebo kapitole.
+- **Důležité:** slabá námitka, nudný nebo úřední vstup, úvod, který shrnuje osnovu místo toho, o čem text je, sbírka citátů bez otázky, nejasný úkol, chybějící zpětná vazba u volby, zploštělý filozof, problém na telefonu, shluk strojových obratů v jednom kroku nebo kapitole.
 - **Drobné:** styl, délka, drobná nekonzistence, ojedinělý strojový obrat.
 
 ## Zásady
@@ -114,7 +114,15 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Vedou všechny odkazy na hotový obsah? Žádné slepé uličky ani „připravujeme“.
 - Prošly automatické kontroly (`npm run build`, `npm test`)?
 
-### 6. Lidský hlas
+### 6. Lidský hlas a čtivost
+
+Řídí se skillem `atlas-psani`; tady jsou otázky, které v revizi kladeš.
+
+- Čte se celek jako dobrá kniha? Kde bych jako student přestal číst, protože se nic neděje nebo čtu totéž podruhé?
+- Říká přehled cesty a úvod stránky, o čem to je a co si student odnese, nebo jen osnovu kroků?
+- Odpovídá každý citát na otázku těsně před ním, má uvozovací větu se situací a vrací se text po něm k případu? Nestojí citáty za sebou jako sbírka? Projde citát zkouškou zakrytím?
+- Nese informace scéna, nebo stojí fakta v holých větách? Je v každém textu aspoň jedna konkrétní věc k zapamatování?
+- Nezačínají všechny kroky, úvody nebo zpětné vazby stejně? Vypiš si úvody cest a první věty kroků vedle sebe (příkaz v `atlas-psani` › Postup při revizi).
 
 - Dala by se některá věta beze změny napsat o jiném filozofovi?
 - Končí odstavec přívěskem, který hodnotí („čímž ukázal…“), nebo shrnutím toho, co už řekl?
@@ -126,55 +134,4 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Zůstaly v textech bloků značky Markdownu, výplně nebo zbytky rozhovoru s modelem?
 - Stojí v textu pomlčka tam, kde stačí čárka nebo tečka?
 
-Podrobný seznam s příklady je v oddílu Ať text nezní jako stroj níže.
-
----
-
-## Ať text nezní jako stroj
-
-Platí pro každý text, který uvidí student: odstavce v MDX, scény a zpětné vazby v YAML, titulky, popisky i „Kde jsme“. Východiskem je seznam, který si pro úklid strojových textů vedou wikipedisté (`https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing`). Tady je převedený do češtiny a na atlas; anglická slova ze seznamu jsou nahrazená českými protějšky.
-
-Jazykový model táhne k průměru. Zvláštní, doložený detail nahradí hladkou obecnou větou, která by seděla na kohokoli. Oprava je proto vždy stejná: vrať do věty konkrétní věc z podkladů. Škrtnout podezřelé slovo a prázdnou větu nechat nestačí.
-
-**Test jedné věty:** dala by se beze změny napsat o jiném filozofovi? Pak nic neříká. Přepiš ji z podkladů, nebo ji smaž.
-
-### Obsah
-
-- **Nafouknutý význam.** „Je svědectvím…“, „sehrál klíčovou roli“, „zásadní zlom“, „položil základy“, „zanechal nesmazatelnou stopu“, „trvalý odkaz“, „dodnes fascinuje“, „připravil půdu pro…“, „odráží širší proměnu“. Napiš, co člověk udělal a co se stalo potom: „Dožil se asi sedmdesáti let a čtyřicet z nich učil.“
-- **Rozbor naoko.** Přívěsek na konci věty, který hodnotí, místo aby něco sdělil: „…, čímž podtrhl význam rozumu“, „…, což ukazuje jeho odvahu“, „…, a zdůraznil tak…“. Věta končí tím, co se stalo; závěr si udělá student.
-- **Průvodcovský a reklamní tón.** „Bohaté kulturní dědictví“, „pulzující přístav“, „úchvatný“, „malebný“, „v samém srdci Athén“, „pyšní se“. Místo popiš tím, co tam člověk viděl nebo dělal.
-- **Mlhavé odvolávky.** „Odborníci se shodují“, „badatelé upozorňují“, „často se uvádí“, „podle některých“, „jak známo“. V atlasu má pramen jméno („Platón vypráví…“), nebo poctivé „Vypráví se…“.
-- **Redakční vsuvky.** „Je důležité si uvědomit“, „stojí za zmínku“, „je třeba dodat“, „nelze nezmínit“, „zajímavé je, že“. Řekni rovnou tu věc.
-- **Závěr podle šablony.** „Závěrem lze říci“, „celkově“, „shrnuto“, „navzdory tomu všemu zůstává…“, výhled typu „jeho myšlenky budou inspirovat další generace“ a poslední věta, která opakuje, co odstavec už řekl.
-
-### Jazyk
-
-- **Slova, která model nadužívá.** Klíčový, zásadní, stěžejní, komplexní, nadčasový, fascinující, spletitý, bohatý (o dějinách a kultuře), hluboký (o myšlence); podtrhnout, zdůraznit, odhalit, utvářet, rezonovat, ponořit se, prozkoumat; krajina myšlení, mozaika, tapisérie, dobrodružství poznání. Jedno takové slovo může být na místě. Dvě v jednom odstavci jsou důvod odstavec přepsat.
-- **Vyhýbání se „je“ a „má“.** „Slouží jako“, „představuje“, „stává se symbolem“, „nabízí“, „vyznačuje se“. Když jde říct „je“ nebo „má“, napiš to tak.
-- **Záporná paralela.** „Nejde jen o X, jde o Y.“ „Nebyl to jen učitel, byl to…“ „Nejen…, ale i…“ Vyvrací tvrzení, které nikdo neřekl. Smí zůstat jen tam, kde X opravdu někdo tvrdí: postava ve scéně nebo student ve své volbě.
-- **Trojice ze zvyku.** Tři přídavná jména, tři příklady, tři krátké věty za sebou („Bez peněz. Bez domova. Bez strachu.“). Počet urči podle podkladů: když jsou věci dvě, napiš dvě.
-- **Střídání synonym.** Sókratés, pak „athénský myslitel“, „slavný filozof“ a „Platónův učitel“ v jednom odstavci. Opakuj jméno nebo zájmeno; vedlejší postava má jeden popis a ten se nemění.
-- **Falešné rozpětí.** „Od etiky po politiku“, „od otroků po císaře“ tam, kde mezi krajními body žádná škála není. Vyjmenuj, co opravdu máš.
-- **Navazovací vata.** Věty, které začínají „Navíc“, „Kromě toho“, „Zároveň“, „Dále“, „Nicméně“, „Na druhou stranu“. Když věty navazují obsahem, spojku nepotřebují.
-
-### Sazba a forma
-
-- **Pomlčka jako dramatická pauza** nebo jako náhrada čárky, dvojtečky a závorky. V textu pro studenty nanejvýš výjimečně; rozsahů („15–20 minut“) se to netýká. Dlouhá anglická pomlčka (—) do českého textu nepatří vůbec.
-- **Tučné písmo uvnitř vyprávění** a odrážky s tučným heslem a dvojtečkou („**Odvaha:** …“). Důraz v atlasu nese kurzíva v titulku a stavba věty.
-- **Odrážky a mezititulky tam, kde má být vyprávění.** Emoji nikde. Nadpis s Každým Slovem Velkým je anglický zvyk.
-- **Uvozovky.** Anglický seznam hlídá oblé uvozovky; u nás je to naopak. Správně jsou české „ “, chybou jsou rovné " a anglické “ ”.
-- **Zbytky značek.** `**`, `#`, zpětné apostrofy a `[odkaz](…)` v polích YAML a v atributech, kde se Markdown nevykreslí.
-
-### Zbytky rozhovoru s modelem
-
-- **Oslovení a nabídky.** „Tady je…“, „Jistě!“, „Doufám, že to pomůže“, „Dej vědět, jestli…“.
-- **Pochvala na úvod zpětné vazby.** „Skvělá volba!“, „Zajímavý postřeh.“, „To je dobrá otázka.“ Zpětná vazba začíná tím, co tah umí.
-- **Věty o tom, co se neví.** „Konkrétní podrobnosti nejsou doloženy“, „dostupné prameny neuvádějí“. Pochybnosti patří do podkladů.
-- **Výplně a značky.** „[doplnit]“, „XY“, „TODO“, `turn0search0`, `oaicite`, `utm_source=chatgpt.com` v adrese zdroje.
-- **Zdroj, který nejde otevřít a ověřit.** Citát, místo v díle nebo odkaz, který neexistuje. Citáty jen ze `zdroje.yaml`, tvrzení jen z podkladů.
-
-### Co znakem není
-
-Bezchybný pravopis, spisovná čeština, neobvyklé slovo ani jedna spojka na začátku věty nic nedokazují. Jeden znak z tohoto seznamu taky ne; vadí, když se jich sejde víc. Text proto schválně nekaz: žádné úmyslné chyby, žádná hovorovost naoko. A nenahrazuj jeden obrat jiným ze seznamu („klíčový“ za „stěžejní“, pomlčku za středník).
-
-V revizi: ojedinělý obrat oprav rovnou, když se význam nemění. Shluk zapiš jako nález a novou větu vezmi z podkladového listu: kdo, kde, co udělal, co řekl.
+Podrobný seznam s příklady je ve skillu `atlas-psani`, oddíl Ať text nezní jako stroj. Ojedinělý obrat oprav rovnou, když se význam nemění; shluk zapiš jako nález a novou větu vezmi z podkladového listu: kdo, kde, co udělal, co řekl.

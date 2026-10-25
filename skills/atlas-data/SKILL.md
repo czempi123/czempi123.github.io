@@ -33,6 +33,7 @@ Hlídá to `tests/data/medailonky.test.ts` (funkce `chybiMedailonku` v `src/lib/
 
 - **Pramen, ne paměť.** Rok, místo ani vztah nepiš z hlavy, i když ho „víš“. Když pramen nemáš otevřený, údaj nevyplníš.
 - **Přibližné značkou, ne slovem.** Nejistotu nese `priblizne`, `nejpozdeji`, `nejdrive`, `rozmezi` nebo `tradovany`. Do vět „kdo“ a „proč“ nepiš „asi“, „snad“, „údajně“.
+- **Věty „kdo“ a „proč“ jsou studentský text.** Ukazuje je karta v Mapě a čase a stránka medailonku: konkrétní čin nebo otázka místo hodnocení, žádný nafouknutý význam („položil základy“, „sehrál klíčovou roli“). Zkontroluj je podle skillu `atlas-psani` › Ať text nezní jako stroj.
 - **Rok nula neexistuje.** Po 1 př. n. l. (`-1`) následuje 1 n. l. (`1`). Záporná čísla = př. n. l.
 - **Narození před úmrtím, pobyt uvnitř života** (u přibližných dat tolerance 10 let), **rok u místa `narozeni` = rok v `narozen`**, u `smrt` = `zemrel`. **Učitel je starší než žák.** Kontroluje `kontrolaCasu` v `src/lib/kontroly.ts`.
 - **Současnost nedokazuje setkání.** `znali-se` jen tam, kde pramen setkání popisuje. Kde to tvrdí jen antická tradice (Diogenés Laertios) a moderní prameny pochybují, přidej `tradovany: true`.

@@ -52,9 +52,13 @@ Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v pln�
 - Nestálý test `cesta.spec.ts:79`: oprava (čekání na hydrataci v `pripravit` delší než pět vteřin, nebo posun po menších krocích).
 - Celé `npm test`, axe, snímky klíčových stránek na 390 a 1440 px ve světlém i tmavém režimu.
 
-### 6. Lidský hlas napříč
+### 6. Lidský hlas a čtivost napříč
 
-Znaky strojového textu, které se v jednom celku neprojeví, ale v deseti ano: oblíbené obraty, stejné otevírání kroků, stejná stavba zpětné vazby.
+Podle skillu `atlas-psani` (vznikl 25. 10. 2026). Znaky strojového textu, které se v jednom celku neprojeví, ale v deseti ano: oblíbené obraty, stejné otevírání kroků, stejná stavba zpětné vazby. Dál:
+
+- **Úvody všech deseti cest a stránek otázek:** říkají, o čem cesta je a co si student odnese, nebo shrnují kroky a končí pořád stejnou větou („Než si přečteš…, odpověz sám“)? U úvodů cest navrhni nové znění všech deseti, i těch, které obstojí, ať se nečtou stejně.
+- **Citáty:** odpovídá každý na otázku textu před ním, nebo jsou někde sbírkou? Zkouška zakrytím u citátů, které se opakují napříč celky.
+- **Čtivost:** kde by student v cestě přestal číst; holá fakta na začátku profilů a kapitol.
 
 ### 7. Co z plánu F3 chybí
 
@@ -90,7 +94,7 @@ V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop C
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok S větve revize-antiky: souhrnná revize celé antiky (P11). Plán větve je v projektu Claude i v repozitáři jako docs/plany/revize-antiky.md; řiď se oddílem „Co revize prověří“ (osm bodů). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv otevři jen tam, kde to plán jmenuje.
 
-0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a skill atlas-revize (kontrolní seznam platí pro každou stránku; plán větve přidává pohled napříč). Restartuj náhled npm run dev.
+0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md skill atlas-revize (kontrolní seznam platí pro každou stránku; plán větve přidává pohled napříč) a skill atlas-psani (čtivost, úvody, citáty, lidský hlas; v oddílu Postup při revizi jsou příkazy, které vypíšou úvody cest a první věty kroků vedle sebe). Restartuj náhled npm run dev.
 
 1. Inventura: vypiš si všechny stránky antiky (cesty, osobnosti, medailonky, otázky, deník, mapa, hodina), délky cest přes scripts/slova-cesta.mjs, seznam kreseb a animací v src/components/ostrovy a citátů podle id v src/content (které id se používá na víc stránkách). Inventuru dej do záznamu jako první oddíl.
 
