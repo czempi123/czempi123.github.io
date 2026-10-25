@@ -145,7 +145,7 @@ prameny:
 
   # Celek 3 „Co mám ve svých rukou?“ (docs/podklady/celek-3-co-mam-v-rukou.md): řecké a latinské texty z PerseusDL a First1KGreek.
   - { id: epiktetos-rozpravy, druh: pramen, nazev: "Rozpravy", autor: Epiktétos, dilo: "Dissertationes ab Arriano digestae, řecky H. Schenkl (Teubner 1916), angl. G. Long (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0557/tlg001/tlg0557.tlg001.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Arriánův úvodní dopis (zapisoval, co slyšel, jako poznámky pro sebe); co je v naší moci, vítr, „nohu mi spoutáš“ (I, 1); Helvidius Priscus, vousy (I, 2); Musonius (I, 7, 32; I, 9, 29–30); chromý stařec (I, 16, 20); lampa (I, 18, 15–16; I, 29, 21); Epafroditos a švec (I, 19, 19–22; I, 26, 11–12); hra s míčem (II, 5); Níkopolis a zemětřesení (II, 6, 20); role (II, 10); ne jako socha (III, 2, 4); cvičení od svítání (III, 3, 14–16); škola jako ordinace (III, 23, 30); o svobodě (IV, 1). 8. 10. 2026 (celek 6): člověk jako divák a vykladač; „k čemu jste se narodili“ (I, 6, 19–25)." }
-  - { id: epiktetos-rukojet, druh: pramen, nazev: "Rukojeť", autor: Epiktétos, dilo: "Encheiridion, řecky H. Schenkl (Teubner 1916), angl. G. Long (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0557/tlg002/tlg0557.tlg002.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Co je a není v naší moci, cvičení s dojmem (1); touha a odpor (2); věci a soudy (5); kulhání je překážkou nohy, ne vůle (9); kdo chce být svobodný (14); herec (17); urážka (20); povinnosti a vztahy (30); dvě ucha (43)." }
+  - { id: epiktetos-rukojet, druh: pramen, nazev: "Rukojeť", autor: Epiktétos, dilo: "Encheiridion, řecky H. Schenkl (Teubner 1916), angl. G. Long (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0557/tlg002/tlg0557.tlg002.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Co je a není v naší moci, cvičení s dojmem (1); touha a odpor (2); věci a soudy (5); kulhání je překážkou nohy, ne vůle (9); kdo chce být svobodný (14); hrnek a „začni od nejmenších věcí“ (3); herec (17); urážka (20); povinnosti a vztahy (30); dvě ucha (43)." }
   - { id: marcus-hovory, druh: pramen, nazev: "Hovory k sobě", autor: Marcus Aurelius, dilo: "Ad se ipsum, řecky J. H. Leopold (Teubner 1908), PerseusDL", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0562/tlg001/tlg0562.tlg001.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Rusticus a Epiktétovy zápisky (I, 7); místní údaje „u Kvádů na Granui“ (konec knihy I) a „v Carnuntu“ (konec knihy II); ráno (II, 1; V, 1); Epiktétos jmenován (IV, 41; VII, 19; XI, 34 a 36), opsaná místa XI, 33–38; soudy (IV, 3; IV, 7; VIII, 47); pevnost (VIII, 48); pohled shora (VII, 48; IX, 30; XII, 24); VI, 6; VI, 30; VI, 41; VI, 44; VII, 7; VIII, 59; IX, 5; IX, 7; X, 16. 8. 10. 2026 (celek 6): II, 11; nikdo neztrácí jiný život než ten, který žije (II, 14); II, 17; nežij, jako bys měl žít deset tisíc let (IV, 17); VII, 56; IX, 3; tři dějství jsou celá hra (XII, 36)." }
   - { id: origenes-kelsos, druh: pramen, nazev: "Proti Kelsovi VII, 53–54", autor: Órigenés, dilo: "Contra Celsum, řecky P. Koetschau (1899), First1KGreek", url: "https://github.com/OpenGreekAndLatin/First1KGreek/blob/master/data/tlg2042/tlg001/tlg2042.tlg001.perseus-grc1.xml", overeno: 2026-10-02, poznamka: "Kelsos: pán kroutil Epiktétovi nohou, ten s pousmáním řekl „zlomíš ji“ a potom „neříkal jsem, že ji zlomíš?“; pán není jmenován. Tradovaný příběh: Kelsos psal asi roku 178, Órigenés asi 248." }
   - { id: gellius-epiktetos, druh: pramen, nazev: "Attické noci I, 2; II, 18; XV, 11; XVII, 19; XIX, 1", autor: Aulus Gellius, dilo: "Noctes Atticae, lat. a angl. J. C. Rolfe (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1254/phi001/phi1254.phi001.perseus-lat2.xml", overeno: 2026-10-02, poznamka: "Héródés Attikos: Epiktétos, největší ze stoiků (I, 2, 6); Epiktétos byl otrok (II, 18, 10); za Domitiana byli filozofové usnesením senátu vyhnáni z Říma a Itálie a Epiktétos odešel do Níkopole (XV, 11, 3–5, bez roku); „snášej a zdrž se“ podle Favorina (XVII, 19, 5–6); z páté knihy Rozprav: dojmy nejsou v naší moci, souhlas ano, i moudrý zbledne (XIX, 1, 14–21)." }
@@ -383,6 +383,13 @@ prameny:
   - { id: seneca-tranquillitate-otium, druh: pramen, nazev: "O duševním klidu 3–4 a 13; O volném čase 3", autor: Seneca, dilo: "De tranquillitate animi, De otio (The Latin Library)", url: "https://www.thelatinlibrary.com/sen/sen.tranq.shtml", overeno: 2026-10-18, poznamka: "Athénodóros radí ustoupit z fóra (3); Seneca: utekl příliš rychle, kdo nemůže sloužit jako občan, ať slouží jako člověk, nejlepší je mísit volno s prací (4, 1–8); Démokritos, dělej málo, vztaženo na zbytečné (13, 1). O volném čase (sen.otio.shtml): Epikúros a Zénón o vstupu do veřejných věcí (3, 2–3); prospět mnohým, několika, nejbližším, sobě (3, 5)." }
   - { id: oecd-pisa-screen-time, druh: data, nazev: "Managing screen time (PISA in Focus 124)", autor: OECD, dilo: "PISA in Focus 2024/124, data PISA 2022", url: "https://www.oecd.org/en/publications/managing-screen-time_7c225af4-en.html", overeno: 2026-10-18, poznamka: "Dotazník patnáctiletých; 54 % se podle sebe snadno nechá rozptýlit (průměr OECD); méně rozptýlení u těch, kdo vypínají upozornění, nemají zařízení otevřené a necítí tlak odpovídat; do hodiny sítí denně lepší výsledek v matematice než vůbec; tři čtvrtiny přes hodinu denně na sítích ve všední den. Souvislosti, ne pokus." }
   - { id: meta-10k-2025, druh: data, nazev: "Form 10-K za rok 2025, oddíl Revenue", autor: "Meta Platforms, Inc.", dilo: "výroční zpráva pro SEC", url: "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm", overeno: 2026-10-18, poznamka: "Příjmy 200 966 mil. USD, z toho reklama 196 175 mil. USD; růst reklamy díky většímu počtu zobrazených reklam a vyšší ceně za reklamu. Tabulka viděna ve výsledku vyhledávání, stránka zprávy neotevřena." }
+  # Celek 10 (cesta 33 „Co když přijde to nejhorší?“): prameny z podkladů docs/podklady/celek-10.md. Stockdale v datech osob
+  # není (rozhodnutí autora z 23. 10. 2026): jeho slova stojí jen v textu cesty, schéma citátu bez osoby nedovolí.
+  - { id: stockdale-courage, druh: pramen, nazev: "Courage Under Fire (1993)", autor: "James B. Stockdale", dilo: "Courage Under Fire. Testing Epictetus's Doctrines in a Laboratory of Human Behavior, Hoover Essays 6 (Hoover Institution)", url: "https://www.hoover.org/sites/default/files/uploads/documents/StockdaleCourage.pdf", overeno: 2026-10-25, poznamka: "Čteno celé 25. 10. 2026 (celek 10, P6). Na univerzitě (Stanford, 1962) zabloudil na filozofii; profesor mu na rozloučenou podal Epiktétovu Rukojeť, o které v hodinách nemluvil (s. 1–2); tři roky ji vozil na lodích (s. 5); 9. 9. 1965 sestřelen nad Severním Vietnamem, pod padákem asi třicet vteřin a věta „Five years down there, at least. I'm leaving the world of technology and entering the world of Epictetus“ (s. 6); ve vesnici zbit, těžce zlomená noha, Rukojeť 9 a úleva „only minor“ (s. 10–11); přes čtyři roky o samotě; nejhorší nebyla bolest, ale stud (s. 12 a 18) s Rozpravami III, 7, 36; noví vězni a „jsme v tom spolu“ přes zeď (s. 12); Epiktétova škola nemocnice, jeho vězení laboratoř (s. 18). Do studentského textu mučení jen jednou větou bez popisu; sebepoškození, pokus o sebevraždu a Medaile cti nikde (podklady celku 10, oddíl f)." }
+  - { id: nhhc-stockdale, druh: data, nazev: "Navy Legend Vice Adm. Stockdale Led POW Resistance", autor: "Devon Hubbard Sorlie", dilo: "Naval History and Heritage Command (13. 11. 2015)", url: "https://usnhistory.navylive.dodlive.mil/Recent/Article-View/Article/2686213", overeno: 2026-10-25, poznamka: "Sestřelen 9. 9. 1965 nad Severním Vietnamem, propuštěn 12. 2. 1973 (Operation Homecoming): odhadoval nejméně pět let, bylo jich skoro osm. Větu pod padákem cituje stejně jako esej." }
+  - { id: seneca-epistulae-nejhorsi, druh: pramen, nazev: "Dopisy Luciliovi 13, 24 (1–15), 91 a 98", autor: Seneca, dilo: "Epistulae morales, lat. R. M. Gummere (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1017/phi015/phi1017.phi015.perseus-lat2.xml", overeno: 2026-10-25, poznamka: "Čteno celé latinsky 25. 10. 2026 (celek 10, P6). Víc nás straší, než tíží; nebuď nešťastný předčasně (13, 4); víc, dřív, nebo vůbec (13, 5); nejdřív zkoumej důkazy, fámy a podezření (13, 8–11); jiný řekne „možná to nepřijde“, ty si řekni „a co když přijde?“ (13, 14). Lucilius čeká soud; Seneca nejdřív sám vysloví radu nekazit si přítomnost a pak radí jinou cestou (24, 1); představ si, že se to stane, a změř to (24, 2); doufej v nejspravedlivější, připrav se na nejnespravedlivější (24, 12); maska (24, 13). Liberalis a požár Lugduna za jedinou noc; nečekané tíží víc (91, 1–3); mysl poslat napřed (91, 4). Předvídej, co se dá, ale nebát se předem (98, 5–8). Dopis 24, 3–11 a 14 a 91, 15 a 21 (dobrovolná smrt, mučidla) do studentského textu ne." }
+  - { id: epiktetos-rozpravy-nejhorsi, druh: pramen, nazev: "Rozpravy I, 1, 28–31 a III, 7, 36", autor: Epiktétos, dilo: "Dissertationes ab Arriano digestae, řecky H. Schenkl (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0557/tlg001/tlg0557.tlg001.perseus-grc2.xml", overeno: 2026-10-25, poznamka: "Senátor Agrippinus jde po rozsudku k vyhnanství cvičit a pak na oběd do Aricie; „to znamená mít nacvičeno, co je třeba nacvičit“ (I, 1, 28–31). Jaká škoda? Přijdeš o člověka spolehlivého, který se umí stydět (III, 7, 36)." }
+  - { id: cicero-tusculanae-iii, druh: pramen, nazev: "Tuskulské hovory III, 28–35", autor: Cicero, dilo: "Tusculanae disputationes (The Latin Library)", url: "https://www.thelatinlibrary.com/cicero/tusc3.shtml", overeno: 2026-10-25, poznamka: "Kyrénaikové: zármutek působí hlavně nečekané (28); praemeditatio futurorum malorum zmírňuje příchod zla (29); Epikúros podle Cicerona: předem promyšlená zla nejsou lehčí, kdo na zlo pořád myslí, tomu se stává věčným, a když nepřijde, trápil se nadarmo (32); lék je odvrátit mysl od trápení a obrátit ji k radostem (33); Cicero proti: zapomenout neumíme (34–35). Výroky otců o smrtelných synech (28 a 30) do studentského textu ne." }
 
 citaty:
   - id: obrana-38a
@@ -4040,6 +4047,95 @@ citaty:
       druh: vlastni
       podle: "řecký text (J. H. Leopold); citovaná věta je Démokritův zlomek (DK 68 B3), Marcus ji uvozuje jen φησίν"
     zdroj: marcus-hovory
+  # Celek 10 (cesta 33): vlastní převody podle podkladů docs/podklady/celek-10.md › Citáty.
+  - id: rozpravy-iii-7-36
+    osoba: epiktetos
+    autor: Epiktétos
+    dilo: Rozpravy
+    misto: III, 7, 36
+    cesky: "Přijdeš o člověka spolehlivého a slušného. Větší škodu nehledej."
+    original: "ἀπολέσεις τὸν πιστόν, τὸν αἰδήμονα, τὸν κόσμιον. τούτων ἄλλας βλάβας μείζονας μὴ ζήτει."
+    preklad:
+      druh: vlastni
+      podle: "řecký text (H. Schenkl) a angl. G. Long; zkráceno: τὸν κόσμιον v převodu chybí, αἰδήμων je ten, kdo má stud a cit pro to, co se nedělá"
+    zdroj: epiktetos-rozpravy-nejhorsi
+  - id: rozpravy-i-1-31
+    osoba: epiktetos
+    autor: Epiktétos
+    dilo: Rozpravy
+    misto: I, 1, 31
+    cesky: "To znamená mít nacvičeno, co je třeba nacvičit."
+    original: "τοῦτʼ ἔστι μεμελετηκέναι ἃ δεῖ μελετᾶν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (H. Schenkl) a angl. G. Long"
+    zdroj: epiktetos-rozpravy-nejhorsi
+  - id: rukojet-3-hrnek
+    osoba: epiktetos
+    autor: Epiktétos
+    dilo: Rukojeť
+    misto: "3"
+    cesky: "U všeho, co máš rád, si připomeň, jaké to je, a začni od nejmenších věcí. Máš-li rád hrnek, řekni si: Mám rád hrnek. Když se rozbije, nerozruší tě to."
+    original: "ἐφʼ ἑκάστου τῶν ψυχαγωγούντων … ἀπὸ τῶν σμικροτάτων ἀρξάμενος· ἂν χύτραν στέργῃς, ὅτι χύτραν στέργω. κατεαγείσης γὰρ αὐτῆς οὐ ταραχθήσῃ·"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (H. Schenkl) a angl. G. Long; kratší podoba bez pokračování o dítěti a ženě (to jen učiteli)"
+    zdroj: epiktetos-rukojet
+  - id: seneca-ep-24-12
+    osoba: seneca
+    autor: Seneca
+    dilo: Dopisy Luciliovi
+    misto: 24, 12
+    cesky: "Doufej v to nejspravedlivější a připrav se na to nejnespravedlivější."
+    original: "et quod aequissimum est spera, et ad id te quod est iniquissimum conpara"
+    preklad:
+      druh: vlastni
+      podle: "latinský text (Gummere); jde o rozsudek, proto „spravedlivý“"
+    zdroj: seneca-epistulae-nejhorsi
+  - id: seneca-ep-24-13
+    osoba: seneca
+    autor: Seneca
+    dilo: Dopisy Luciliovi
+    misto: 24, 13
+    cesky: "Nejen lidem, ale i věcem je třeba strhnout masku a vrátit jim jejich tvář."
+    original: "Non hominibus tantum, sed rebus persona demenda est et reddenda facies sua."
+    preklad:
+      druh: vlastni
+      podle: "latinský text (Gummere)"
+    zdroj: seneca-epistulae-nejhorsi
+  - id: seneca-ep-13-4
+    osoba: seneca
+    autor: Seneca
+    dilo: Dopisy Luciliovi
+    misto: 13, 4
+    cesky: "Víc věcí nás straší, než nás tíží, a častěji trpíme představou než skutečností."
+    original: "Plura sunt, Lucili, quae nos terrent, quam quae premunt, et saepius opinione quam re laboramus."
+    preklad:
+      druh: vlastni
+      podle: "latinský text (Gummere); oslovení „Lucili“ v převodu chybí"
+    zdroj: seneca-epistulae-nejhorsi
+  - id: seneca-ep-91-3
+    osoba: seneca
+    autor: Seneca
+    dilo: Dopisy Luciliovi
+    misto: 91, 3
+    cesky: "Nečekané tíží víc; novost přidává neštěstí váhu."
+    original: "inexpectata plus adgravant; novitas adicit calamitatibus pondus"
+    preklad:
+      druh: vlastni
+      podle: "latinský text (Gummere)"
+    zdroj: seneca-epistulae-nejhorsi
+  - id: menoikeus-127
+    osoba: epikuros
+    autor: Epikúros
+    dilo: Dopis Menoikeovi
+    misto: 127 (Diogenés Laertios X, 127)
+    cesky: "Pamatuj, že budoucnost není ani úplně naše, ani úplně ne naše: abychom na ni nečekali, jako by určitě přišla, ani nezoufali, jako by určitě nepřišla."
+    original: "Μνημονευτέον δὲ ὡς τὸ μέλλον οὔτε ἡμέτερον οὔτε πάντως οὐχ ἡμέτερον, ἵνα μήτε πάντως προσμένωμεν ὡς ἐσόμενον μήτε ἀπελπίζωμεν ὡς πάντως οὐκ ἐσόμενον."
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Hicks)"
+    zdroj: dl-x-122
 
 obrazky:
   - id: sokrates-louvre
@@ -4208,3 +4304,15 @@ obrazky:
     instituce: "Rijksmuseum, Amsterdam, inv. RP-P-1878-A-651"
     licence: "CC0 (Public Domain, otevřená data Rijksmusea)"
     url: "https://id.rijksmuseum.nl/200166152"
+  # Celek 10: formální portrét U.S. Navy (asi 1979). Stránka souboru na Wikimedia Commons otevřena 25. 10. 2026:
+  # licence {{PD-USGov-Military-Navy}} (revize licence 18. 7. 2010), autor „U.S. Navy File Photo“, zdroj navy.mil
+  # view_image.asp?id=25931. Autor atlasu souhlasil se stažením (podklady celku 10, oddíl j, otázka 6, prázdná odpověď).
+  # Originál 1386 × 1976 px je mimo repozitář v ~/Pictures/Atlas-originaly/stockdale-portret-original.jpg; v repozitáři
+  # zmenšený na delší stranu 1280 px, nezesvětleno. Popisek bez výčtu vyznamenání.
+  - id: stockdale-portret
+    soubor: obrazky/stockdale-portret.jpg
+    popisek: "James Stockdale na oficiální fotografii amerického námořnictva, asi roku 1979, už po návratu ze zajetí."
+    autor: "U.S. Navy (File Photo), asi 1979"
+    instituce: "U.S. Navy, Naval History and Heritage Command"
+    licence: "Public Domain (dílo federální vlády USA, PD-USGov-Military-Navy)"
+    url: "https://commons.wikimedia.org/wiki/File:James_Stockdale_Formal_Portrait.jpg"
