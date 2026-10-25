@@ -54,7 +54,7 @@
 
 {#if denik}
   {#if denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0}
-    <p class="t-perex">Zatím je prázdný. Když u osobnosti nebo otázky napíšeš vlastní odpověď nebo přijmeš výzvu, najdeš ji tady.</p>
+    <p class="t-perex">Zatím je prázdný. Když v cestě, u osobnosti nebo u otázky napíšeš vlastní odpověď nebo přijmeš výzvu, najdeš ji tady.</p>
   {:else}
     {#if nabidka}
       <section class="navrat" aria-labelledby="navrat-nadpis">
