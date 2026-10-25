@@ -190,3 +190,80 @@ Napětí „Seneca × Seneca“ (Dopis 13 proti 91) se rozpouští, když člov�
 - **Kdo by dal za pravdu komu** (pro poslední krok): kdo se bojí, že by ho představa vyděsila víc, má Epikúra a Seneku z Dopisu 13 a 98; kdo chce být připravený, Seneku z Dopisu 24 a 91, Cicerona a Epiktéta; kdo říká „záleží na tom, jestli se to dá ovlivnit“, má Seneku z 98, 7 (čemu se dá vyhnout, vyhni se) a Chrýsippa podle Cicerona (vina za nepředvídané).
 
 Cicero a Chrýsippos jsou v datech (oba s hloubkou profil a stránkou medailonku); do Sporu jako strany ne, nanejvýš jménem v posledním kroku. Anaxagorás je v datech taky (medailonek), jeho výrok o synovi ale do studentského textu nepatří (oddíl f).
+
+## e) Nejsilnější námitka: představa nejhoršího jako cesta k úzkosti (hotovo)
+
+### Námitka v nejsilnější podobě
+
+Kdo se už teď bojí (zkoušek, nemoci rodičů, budoucnosti), tomu rada „představ si to nejhorší“ nepomůže, ale přidá. Úzkostný člověk si to nejhorší představuje pořád; nepotřebuje cvičení, potřebuje přestat. A stoický slib „změř to a zjistíš, že to není velké“ je pro některé rány prostě nepravdivý: některé věci jsou velké i dlouhé a změřit je znamená vidět je celé.
+
+Námitka není moderní vynález. V antice ji vede **Epikúros** (podle Cicerona: kdo si zlo představuje, tomu se stává věčným, d5), zná ji **Seneca** sám (Dopis 24, 1 ji vyslovuje; 98, 6–8 ji přijímá) a **Epiktétos** na ni odpovídá (posluchači mu vyčítají, že mluví jako o zlém znamení, c11). Cesta ji tedy nemusí vymýšlet naším hlasem: řeknou ji filozofové.
+
+### Co by odpověděli
+
+| Kdo | Odpověď | Kde | Kde je slabá |
+| --- | --- | --- | --- |
+| **Seneca** | Rozlišuje promýšlet a trpět. Promysli, co se může stát, a změř to; pak to odlož. Trpět dopředu je „ubohé a hloupé“ (98, 7), být nešťastný předčasně je zbytečné (13, 4). A nejdřív prověř, jestli máš pro strach důvod, nebo jen fámu (13, 8). | Dopisy 13, 4–11; 24, 2; 98, 5–8 | Slib „vyjde to malé nebo krátké“ (24, 2) neplatí vždy. A jak přesně se promýšlení liší od přemítání, Seneca neříká: hranici má poznat každý sám. |
+| **Epiktétos** | Cvičení začíná od nejmenších věcí (hrnek), ne od nejhoršího (Rukojeť 3). Smyslem není strach, ale vědět, co mi patří: kdo to ví, toho nic nezaskočí (Agrippinus, Rozpravy I, 1, 28–31). „Zlé znamení“ je jen slovo, které znamená něco zlého, ne slovo o tom, co se v přírodě děje (III, 24, 89–91). | viz c9–c13 | Epiktétos dovádí cvičení až k blízkým lidem a smrti (III, 24, 85–88; Rukojeť 21); tam jeho odpověď zní chladně a cesta ji neukazuje. Kdo se bojí o rodiče, tomu „řekni si, že miluješ smrtelníka“ nepomůže. |
+| **Cicero** | Promýšlení nevede k tomu, abychom truchlili pořád, ale abychom netruchlili nikdy; a zapomenout na zlé stejně neumíme (Tusk. III, 34–35). | d7, d8 | Je to tvrzení, ne doklad; Cicero sám psal po smrti dcery útěchu sobě, a podle III, 76 věděl, že každého hýbe něco jiného. |
+| **Stockdale** | Čekal pět let a bylo jich osm; věta o noze mu ulevila „jen trochu“; nejvíc pomohlo, že nebyl sám („jsme v tom spolu“). | a6–a9, a15 | Jeho svědectví samo říká, že příprava nestačí; to je síla příběhu, ne slabina. |
+
+### Doporučení pro cestu
+
+- Námitka zazní **nahlas a brzy** (krok 5, viz h), ne až v posledním kroku. Student s úzkostí ji má slyšet dřív, než ho cesta vyzve něco si představit.
+- Hranici mezi promýšlením a přemítáním drží cesta Senekovými slovy: **promysli, co se může stát, co bys pak udělal, a co z toho máš v rukou teď. Pak to odlož.** Kdo se točí dokola, to už není Senekovo cvičení (98, 7).
+- Zkus to žít (h) je krátké, ohraničené (pár minut, jedna malá věc) a končí obratem k něčemu jinému (Epikúrova rada). Výslovně ne: „představ si nejhorší věc, která tě může potkat“.
+- Spojenec pro studenta, kterému by představa ublížila: **Epikúros** a Seneca z Dopisu 13 a 98. Řekne to poslední krok.
+
+### „Stockdalův paradox“
+
+**Co je doložené.** Jim Collins v knize Good to Great (2001, s. 85 podle citace v USNI Proceedings) líčí, jak se se Stockdalem prošel po Stanfordu. Collins se ptá, kdo z vězení nevyšel; Stockdale podle něj odpoví „optimisté“: ti, kdo říkali „do Vánoc budeme venku“, pak „do Velikonoc“, a „zemřeli na zlomené srdce“. A dodá: nikdy nezaměňuj víru, že nakonec obstojíš, s odvahou čelit nejtvrdším faktům své současné situace. Ověřeno v Collinsově výňatku na jeho webu (jimcollins.com, The Stockdale Paradox).
+
+**Co je čí.**
+
+- Rozhovor je **Collinsova vzpomínka**, kterou zapsal asi deset let potom, s Collinsovými uvozovkami. Přímá řeč je Collinsova rekonstrukce.
+- Název „Stockdalův paradox“ a jeho použití na firmy jsou **Collinsovy**. Collins sám píše, že větu „Do Vánoc nebudeme venku, smiř se s tím!“ si Stockdalovi jen představuje.
+- Ve Stockdalových vlastních textech, které jsem četl (esej a dvě přednášky), o optimistech nic není. Do jiných jeho textů jsem nenahlédl.
+- „Zemřeli na zlomené srdce“: Collins se ptá „kdo nevyšel“, v pozdější Collinsově přednášce (2024, přepis bouldercrest.org, jen z vyhledávání) „kdo nevyšel tak silný jako vy“. Kolik lidí v zajetí zemřelo a proč, z toho neplyne.
+- Collins píše, že Stockdale byl mučen „víc než dvacetkrát“; Stockdale sám uvádí patnáctkrát.
+
+**Doporučení.** Do studentského textu **ne**. Tři důvody: je to anekdota z druhé ruky s přímou řečí, kterou atlas skutečným lidem nevkládá, pokud není z pramene; zavádí smrt spoluvězňů jako pointu („zemřeli na zlomené srdce“), kterou cesta nepotřebuje; a nese jinou otázku (naděje × realismus), než je otázka cesty (k čemu je čekat ránu). Do listu pro učitele ano, s tím, co je Collinsovo. Kdyby ji autor chtěl, pak jednou větou v posledním kroku jako hlas pro studenta, který řekne „hlavně neztratit naději“: „Po letech řekl jednomu spisovateli, že naději neztratil nikdy, ale nikdy si nenamlouval, že to bude brzy.“ Bez optimistů a bez smrti.
+
+## f) Citlivá místa (hotovo)
+
+Opírám se o pravidla celku 6 (`docs/archiv/plany/celek-6.md`, Po P6, a podklady celku 6, oddíl Citlivá místa: WHO 2023, NÚDZ Media Guide 2025) a o zásadu autora z 9. 10. 2026 (`docs/rozhodnuti.md`): citlivé místo se vynechává jen tehdy, když není podstatné nebo když proti němu stojí víc než ohled.
+
+| Místo | Co víme | Doporučení pro studentský text | Důvod |
+| --- | --- | --- | --- |
+| **Mučení** | Stockdale líčí „lana“ podrobně (CUF, s. 8), NHHC ještě podrobněji. Mučen patnáctkrát, čtyři roky samovazby, dva roky v poutech. | **Že byl mučen a zavřený o samotě, ano, jednou větou. Jak, ne.** Žádný popis lan, poloh, bolesti. | Podstatné je, že to bylo, a co ho podle něj zlomilo víc (stud). Popis nic nevysvětluje a šestnáctiletému čtenáři ublíží (zásada z 9. 10.: podrobnosti, které nic nevysvětlují, ne). |
+| **Sebepoškození (stolička)** | Podle *In Love and War* (z druhé ruky, a1 Co je jen z druhé ruky) si rozbil obličej, aby ho nemohli natočit pro propagandu. | **Ne.** Nanejvýš: „Odmítal se nechat použít pro jejich propagandu, i když za to platil.“ | Popis sebepoškození jako hrdinského činu je přesně to, co WHO a NÚDZ žádají nedělat; navíc z druhé ruky. Pro otázku cesty podstatné není. |
+| **Pokus o sebevraždu (podzim 1969)** | Stockdale sám popisuje v eseji (CUF, s. 19–20), že si v noci před výslechem rozřezal zápěstí, aby nevydal spoluvězně; našli ho a zachránili. Podle něj tím mučení skončilo pro všechny. Medaili cti dostal mimo jiné za tento čin (NHHC: „action of self-sacrifice“, 4. 9. 1969). | **Ne, v žádné podobě, ani narážkou.** Medaili cti v cestě nezmiňovat (její zdůvodnění vede přímo k tomuto činu). | Pravidla celku 6 bez výjimky: nic, co by šlo číst jako obhajobu nebo ocenění dobrovolné smrti; riziko nápodoby je u dospívajících vyšší (NÚDZ). Proti zásadě z 9. 10. tu stojí víc než ohled: bezpečí čtenáře. Otázku cesty to nenese. Učiteli jednou větou s upozorněním. |
+| **Politika vietnamské války** | Stockdale vedl první nálet na Severní Vietnam (CUF, s. 5). Zajatci byli podle něj pro Vietnamce „zločinci“. | **Válka jen jako kulisa:** „ve válce ve Vietnamu ho sestřelili nad Severním Vietnamem“. Bez hodnocení stran, bez náletů, bez slova „nepřítel“. Vesničany, kteří ho zbili, nepopisovat jako zlé: bránili svou vesnici (tak to říká i NHHC). Kandidatura 1992 ne. | Evenhandedness; atlas není dějepis války. Student z rodiny s vietnamskými kořeny (v Česku běžný) nesmí v textu číst jednostranný obraz. |
+| **Student s úzkostí** | Námitka (e). | Cvičení krátké a ohraničené, s výslovnou mezí („když se ti to začne točit dokola, přestaň“); námitka zazní dřív než výzva; Epikúros jako spojenec. Žádné „představ si nejhorší věc, která tě může potkat“. | Pravidla poučení (student, kterého se téma týká). |
+| **Student, jehož blízký je vážně nemocný** | Seneca i Epiktétos dovádějí cvičení k blízkým (Dopisy 98, 5; Rukojeť 3; Rozpravy III, 24, 85–88; Útěcha Marcii 9). | **Blízcí lidé jako „možná ztráta“ v cestě nikde.** Případy cesty i Návratu: zkouška, zápas, stěhování, fáma, ne nemoc ani smrt. Z Rukojeti 3 jen hrnek. | Celek 3 a 6 tak rozhodly; nemoc v rodině jako cvičný příklad by z cizího strachu udělala hru. |
+| **Anaxagorás a syn, Telamón a synové** (Tusk. III, 28 a 30) | Tradované výroky otců, kteří „věděli, že zplodili smrtelníky“. | **Ne**; učiteli. | Smrt dítěte jako doklad, že příprava pomáhá. |
+| **Stoická obhajoba dobrovolné smrti** | Dopisy 24, 6–11 (Cato, Scipio), 91, 15 a 21; O duševním klidu 11, 4–5. | **Ne.** Citáty z těchto dopisů jen z oddílů, které jsou v b označené k použití. | Pravidla celku 6. |
+| **Řádek s Linkou bezpečí** | Celek 6 ho má (rozhodnutí autora 8. 10. 2026), celek 7 ne. | **Doporučuji ne.** Cesta po vyřazení sebepoškození a smrti blízkých o sebevraždě ani smrti nemluví; úzkost řeší obsah cesty sám. | Kontakt patří k textům, které se tématu sebevraždy dotknou (WHO, NÚDZ). Rozhodne autor (j). |
+
+**Jak o Stockdalovi mluvit, aby nebyl hrdina k obdivu.** Ne „hrdina z Hanoje“, ne „vydržel všechno“. Ano: pilot, který si pod padákem řekl větu z knížky, a po letech napsal, co z ní obstálo a co ne. Jeho vlastní věty, že úleva byla „jen malá“ a že nejhorší byl stud, nesou poctivost lépe než jakýkoli výklad.
+
+## g) Dnešní případ pro studenta (hotovo)
+
+Pointa: ne „mysli negativně“, ale „co se změní, když tu ránu čekám“. Případ musí dovolit obě rady (Seneca i Epikúros) a mít části, které jsou i nejsou v rukou studenta. Bez skutečných osob, „Představ si…“.
+
+**Návrh A (doporučuji pro nový případ, krok 7): Nominace.**
+
+> Představ si: za tři týdny trenérka vybírá, kdo pojede na mistrovství. Trénuješ na to dva roky. Kamarádka ti říká: „Nemysli na to, co když tě nevyberou. Přivoláš to.“ Táta říká: „Promysli si to i tak, ať tě to nesrazí.“
+
+Pro blok Změň jednu věc tři podmínky:
+1. **Výběr závisí i na tom, jak budeš trénovat** (část je v tvých rukou) → Seneca 98, 7: čemu se dá vyhnout, vyhni se; co se dá předvídat, předvídej.
+2. **Výběr je losem** (nic není v tvých rukou) → Seneca 24, 2 i Epikúros: změř to, nebo to pusť z hlavy; obě rady mají smysl.
+3. **Jen jsi zaslechl/a fámu, že tě nevyberou** → Seneca 13, 8: nejdřív zkoumej, jestli máš důkaz.
+
+Lucilius čekal na rozsudek (b1), student čeká na výběr: případ je stejné stavby, ale ze světa studenta.
+
+**Návrh B (záloha): Přijímačky.** Za týden výsledky přijímacích zkoušek na vysněnou školu. Blízké studentovi, ale u maturantů a deváťáků může být příliš ostré; a výsledek už nejde ovlivnit (jen podmínka 2).
+
+**Návrh C (do Návratu): Zpráva.** Kamarád ti napíše „musíme si promluvit“ a pak hodinu neodpovídá. Seneca 13, 12: mysl vykládá nejasné slovo k horšímu.
+
+**Co do případů nedávat:** nemoc v rodině, rozchod jako jistá ztráta, smrt (f). Rozchod jen jako fáma nebo obava (Návrat), ne jako cvičné „představ si, že tě opustí“.
