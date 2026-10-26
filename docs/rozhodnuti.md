@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, krok K
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Týden je data: kolekce `tydny` (`src/content/tydny/<id>.yaml`, schéma `src/lib/tydny-schema.ts`) a jedna šablona `/tyden/<id>/`. Sestavení zastaví chybějící citát, pramen nebo osoba a mezera v číslech dnů; test hlídá, že citát týdne nezazní víc než dvakrát v týdnu ani v týdnu a zbytku atlasu dohromady | Další týdny (epikurejský, sokratovský) přibudou bez přestavby; pravidlo „nejvýš dvakrát“ z `docs/pouceni.md` hlídá stroj |
+| Přijetí týdne je výzva `tyden-<id>` (poznámka ze dne 7 u ní); hotové dny, den, na kterém student skončil, a věta sobě jsou v nepovinném poli deníku `tydny` s jedním časem změny `kdy`, dny žádná data nemají. Hotovo a psaní týden přijmou samy, Další den bez přijetí nic nezapíše | Rozhodnutí z 26. 10. 2026 (poznámky jen v deníku, značka hotových dnů bez dat a sérií); čas změny potřebuje spojení se souborem („vyhraje novější“), student ho nikde nevidí |
+| Spojení deníku ze souboru: u téhož týdne vyhraje novější záznam celý (hotové dny se nesčítají); u výzvy zůstane dřívější přijetí a poznámka z té strany, kde se měnila později (`upraveno`) | Sečtení by vrátilo den, jehož značku student zrušil; poznámka bez času změny by se při spojení ztratila |
+| Otevře se den, na kterém student skončil (po Hotovo další, po Další den ten, na který přešel), jinak den po posledním hotovém; odkaz `#den-N` otevře ten den. Stránka se sama neposune | „Student pokračuje dnem, na kterém skončil“ bez kalendáře; přeskočený den se nikde nepočítá |
+| Vstupy: řádek v Kam dál na přehledu cest 5, 33 a 34 (kam vede Dokončit cestu) z pole `nabizet.cesty`, karta v Kam dál portrétů Seneky, Epiktéta a Marca, tichý odkaz v deníku, dokud týden není přijatý. Karty Věta pro sebe a Tři otázky večer beze změny | Poslední krok cesty končí závěrečným pravidlem; odkaz mezi textem a pravidlem by studenta odvedl dřív, než pravidlo napíše |
+| V přípravě hodiny je týden jedno zastavení `t:<id>` (druh `tyden`, celá stránka); dny zastavením nejsou. Při promítání jde Hotovo i přijetí do deníku promítání | Zadání K: jeden odkaz, třída týden projde doma; promítání nic nezapíše |
+
 ## 26. 10. 2026: Stoický týden, založení větve
 
 | Rozhodnutí | Důvod |

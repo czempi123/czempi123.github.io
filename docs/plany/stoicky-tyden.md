@@ -7,7 +7,7 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
 | P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
-| K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | zadání níž (odpovědi po P6 hotové) |
+| K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | hotovo 26. 10. 2026 (Po K) |
 | T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | po K |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | po T |
 | O | Opravy po revizi | Opus 5.5 · high | po R |
@@ -154,3 +154,43 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 
 7. Do plánu větve oddíl „Po K (datum)“: co je hotové, co ne, nad čím jsi váhal; „Co rozhodnout po K“ s doporučeními, pokud je co rozhodnout. Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
 ```
+
+## Po K (26. 10. 2026)
+
+**Hotové.**
+
+- **Data:** kolekce `tydny`, `src/content/tydny/stoicky.yaml` se schématem `src/lib/tydny-schema.ts` (název, období, vstup, úvod, námitka s citátem, pravidla, odkud se nabízí, prameny, dny: číslo, název, osoba, doba, text, citát, mez, odkaz, psaní). Texty jsou prozatímní („Návrh znění pro T“, dny 3 a 6 zkrácené karty) a soubor to říká v komentáři nahoře. Den 5 je bez citátu: `seneca-ep-18-6-val` přidá T. Kontrola (`kontrolaTydne`) zastaví sestavení při chybějícím citátu, prameni, osobě nebo mezeře v číslech; test hlídá nejvýš dva výskyty citátu v týdnu i v týdnu a atlasu dohromady (dnes všechny 1 nebo 2).
+- **Stránka `/tyden/stoicky/`** (ostrov `Tyden.svelte`): hlavička s námitkou a citátem `rozpravy-iii-2-4`, pravidla jednou větou, Přijmout týden, sedm dnů pod sebou, jeden otevřený. Hotovo jako přepínač (označit i zrušit), Další den (přeskočí bez značky, fokus na další den), mez u každého dne, ve dni 7 pole na větu a poznámku, které se ukládají samy. Otevře se den, na kterém student skončil; `#den-N` otevře den N.
+- **Deník:** výzva `tyden-stoicky` (poznámka u ní), nepovinné pole `tydny` (hotové dny, den, věta, čas změny jen pro spojení), export i nahrání ze souboru; v deníku řádek „Hotové dny: 1 ze 7“ a věta s poznámkou, nepřijatý týden jako tichý odkaz v oddílu Zkus to žít.
+- **Vstupy:** Kam dál na přehledu cest 5, 33 a 34 (z dat), karta v Kam dál portrétů Seneky, Epiktéta a Marca, deník. Karty Věta pro sebe a Tři otázky večer beze změny.
+- **Příprava hodiny:** zastavení `t:stoicky` (druh `tyden`, skupina „Týdny Zkus to žít“, štítek „Celý týden“); promítání zapisuje jen do deníku promítání.
+- **Testy:** `tests/data/tydny.test.ts` (schéma, kontrola, citáty, den k otevření, počet dnů, deník, export, spojení), doplněné `hodiny.test.ts` a `skladatel.test.ts`, `tests/e2e/tyden.spec.ts` (stránka, Hotovo a zrušení, přeskočení, den 7 a deník po obnovení, deník bez týdne, klávesnice, axe na 375 a 1440 px ve světlém i tmavém režimu, promítání, vstupy, katalog), stránka týdne v `prohlidka.spec.ts`. Snímky jsou v `Claude outputs/tyden/`. Popis v `docs/design.md` (Komponenty › Týden cvičení, Co se ukládá), rozhodnutí v `docs/rozhodnuti.md`.
+
+**Nehotové (patří T):** texty dnů, úvodu, meze a popisků polí; citát dne 5; list `ucitel/stoicky-tyden.md`; věta pro studenta, kterému týden nepomohl (podklady, den 7).
+
+**Nad čím jsem váhal.**
+
+- **Kde je vstup z cest.** Zadání nabízelo poslední krok, Kam dál nebo kartu. Poslední krok končí závěrečným pravidlem a cesty 33 a 34 už v něm mají kartu Zkus to žít; další odkaz by studenta odvedl dřív, než pravidlo napíše. Zvolil jsem řádek v Kam dál na přehledu cesty, kam vede Dokončit cestu. Šlo by i vložit odkaz pod kartu v posledním kroku.
+- **Přijmout týden vedle Hotovo.** Hotovo i psaní týden přijmou samy, takže tlačítko nahoře je navíc. Nechal jsem ho, protože zadání mluví o přijetí a student, který si týden chce jen „vzít“, nemusí nic označovat.
+- **Čas změny v deníku.** Rozhodnutí říká „bez dat“. Dny data nemají; jediný čas je u celého záznamu a slouží jen tomu, aby při nahrání souboru vyhrál novější. Nikde se neukazuje.
+- **Spojení hotových dnů.** U cest se otevřené kroky sčítají, u týdne vyhraje novější záznam celý: sečtení by vrátilo den, jehož značku student zrušil.
+- **Nadpis meze „Kdy přestat“** sedí na dny 1 až 6, mez dne 7 („Deník je tvůj…“) zní jinak. Nechávám na T.
+- **Jeden citát na den.** Den 6 má jen tři otázky (`seneca-ira-iii-36-otazky`); „Teď ti odpouštím“ by potřebovalo druhý citát, schéma ho nemá.
+- **Drobečky** „Lidé a směry / Stoický týden“ a sekce Lidé, dokud není stránka směru stoicismus.
+
+## Co rozhodnout po K
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Vstup z cest 5, 33 a 34 jen v Kam dál na přehledu cesty**, ne v textu posledního kroku. Doporučuji.
+   Odpověď:
+2. **Den 6 s jedním citátem** (tři otázky); „Teď ti odpouštím“ zůstane v portrétu. Kdyby T chtěl oba, přidám do schématu seznam citátů. Doporučuji jeden.
+   Odpověď:
+3. **Nadpis meze „Kdy přestat“** u všech dnů; T přepíše mez dne 7 tak, aby pod něj seděla. Doporučuji.
+   Odpověď:
+4. **Drobečky přes Lidé a směry**, dokud nevznikne stránka směru stoicismus; pak povedou přes ni. Doporučuji.
+   Odpověď:
+
+## Zadání T
+
+Vznikne po odpovědích na otázky po K.
