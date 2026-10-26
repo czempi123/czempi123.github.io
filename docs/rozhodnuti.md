@@ -4,6 +4,12 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, založení větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Zkouška se studenty se odkládá, až autor studenty bude mít; pořadí větví pokračuje `stoicky-tyden`. Atlas zůstává zveřejněný s `noindex` | Autor zatím studenty nemá; ostatní větve na zkoušce nezávisí |
+
 ## 26. 10. 2026: Souhrnná revize antiky (P11), Uzavření: příprava zveřejnění
 
 | Rozhodnutí | Důvod |
