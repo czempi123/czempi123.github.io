@@ -226,7 +226,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await expect(vyzva).toContainText('Táž, a všechno je v ní jiné');
   await expect(vyzva).toContainText('Kterou z nich bys bránil víc, kdyby ji někdo chtěl nahradit přesnou kopií?');
   await expect(vyzva).not.toContainText(/ty sám|na sobě|změnil ses|strun|stan|síť|nápis|signál/i);
-  await expect(obsah8).toContainText('Vrať se ke svému tahu z kroku 1. Odpověděl bys teď stejně?');
+  await expect(obsah8).toContainText('Podívej se na svou odpověď o lodi z kroku 1. Řekl bys teď totéž o sobě?');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 1 · Loď');
   await expect(panel.locator('.zacatek .cast').nth(0)).toHaveText('Přestala jí být někde cestou.');
@@ -257,7 +257,7 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['U člověka na téže otázce záleží víc.', 'Kde tedy dělá chybu? A dělá ji vůbec?'],
     ['Dva z nich z ní vyvodili opačné závěry a oba psali o člověku.', 'Postav se mezi ně dřív, než si přečteš jejich důvody.'],
     ['něco se v těle mění za dny, něco za roky a něco vůbec', 'Dá se na nich ale vyzkoušet, co by které pravidlo řeklo o těle.'],
-    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'Podobně se dělí i dvě lodě ze čtvrtého kroku.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Vrať se ke svému tahu z kroku 1.'],
+    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'Podobně se dělí i dvě lodě ze čtvrtého kroku.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
   ];
   await page.goto(`${CESTA2}1/`);
   for (let n = 1; n <= KROKY2.length; n++) {

@@ -224,7 +224,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text8).toContainText('Aristotelés by řekl, že na zdraví, přátelích a pověsti záleží');
   await expect(text8.getByRole('link', { name: 'Jsem svobodný?' })).toHaveAttribute('href', '/otazka/jsem-svobodny/');
   await expect(text8.getByRole('link', { name: 'Jak mám žít?' })).toHaveAttribute('href', '/otazka/jak-zit/');
-  await expect(text8).toContainText('Vrať se ke svým košům z kroku 2.');
+  await expect(text8).toContainText('Kterou věc z koše „Zčásti“ teď dokážeš roztrhnout na dvě půlky?');
   // Vedle pravidla stojí koše, jak je student v kroku 2 opravdu uložil.
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 2 · Tři koše');
@@ -259,7 +259,7 @@ test('cesta 5 bez odkrytí bloků: lišta vede až na konec a text mimo bloky dr
     ['První věta byla Epiktétova, druhá Marcova.', 'mluví naprázdno', 'jestli mu velká rána bere kus štěstí', 'Aristotelés zemřel dřív, než stoická škola vznikla.'],
     ['Kdo získá čas, snáz se ovládne.', 'je otrocké', 'vyfotí tvou zprávu ze soukromého chatu'],
     ['Nemám být bez citu jako socha.', 'pracovalo tělo naopak víc'],
-    ['Souhlasit s nimi nemusíš.', 'Aristotelés by řekl, že na zdraví, přátelích a pověsti záleží', 'Vrať se ke svým košům z kroku 2.'],
+    ['Souhlasit s nimi nemusíš.', 'Aristotelés by řekl, že na zdraví, přátelích a pověsti záleží', 'Kterou věc z koše „Zčásti“ teď dokážeš roztrhnout na dvě půlky?'],
   ];
   await page.goto(`${CESTA5}1/`);
   for (let n = 1; n <= KROKY5.length; n++) {

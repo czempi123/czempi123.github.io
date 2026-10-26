@@ -179,7 +179,7 @@ test('cesta 7: průchod s odpověďmi na telefonu, zastánci všech Voleb, záv�
   await expect(vyzva).toContainText('Nejdřív ty');
   await expect(vyzva).toContainText('Nikomu to říkat nemusíš.');
   await expect(vyzva).not.toContainText(/stydíš|nahlas před|ukaž|zveřejni/i);
-  await expect(page.locator('.krok__obsah')).toContainText('Vrať se ke svému tahu z kroku 1. Odpověděl bys teď stejně?');
+  await expect(page.locator('.krok__obsah')).toContainText('Komu podle tebe patřilo Hipparchiino rozhodnutí?');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 1 · Ženich a jeho majetek');
   await expect(panel.locator('.zacatek .cast').nth(0)).toHaveText('Rodičům. Mají o ni strach a znají svět.');
@@ -207,7 +207,7 @@ test('cesta 7 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['Kdo okázale pohrdá míněním druhých, pořád hraje pro ně, jen jinou roli.', 'Vzdor ještě není svoboda.'],
     ['Nezasvěcený seděl předposlední', 'Neustoupit neznamenalo vzdorovat.', 'Říká, jak těžké je být jediný.'],
     ['Žádnou z nich cesta nevyvrátila a každá má zastánce. Nejen mezi kyniky.'],
-    ['Vrať se ke svému tahu z kroku 1.'],
+    ['Komu podle tebe patřilo Hipparchiino rozhodnutí?'],
   ];
   await page.goto(`${CESTA7}1/`);
   for (let n = 1; n <= KROKY7.length; n++) {
