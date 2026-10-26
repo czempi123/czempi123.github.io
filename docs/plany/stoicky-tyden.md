@@ -8,7 +8,7 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | --- | --- | --- | --- |
 | P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
 | K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | hotovo 26. 10. 2026 (Po K) |
-| T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | po K |
+| T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | zadání níž |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | po T |
 | O | Opravy po revizi | Opus 5.5 · high | po R |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web) | Opus 5.5 · medium | po O |
@@ -193,4 +193,24 @@ Autor 26. 10. 2026: souhlas se vším kromě otázky 1.
 
 ## Zadání T
 
-Vznikne po odpovědích na otázky po K.
+Model: Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta`. Odpovědi po K jsou zapsané výše a v `docs/rozhodnuti.md` (26. 10. 2026, krok K a odpovědi autora).
+
+```
+Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyden. Krok T Stoického týdne: všechny texty týdne pro studenty a list pro učitele, se skilly atlas-psani a atlas-cesta. Stránka, deník a karta týdne jsou hotové z kroku K; komponenty neměň, jen když text bez úpravy nejde (pak to napiš do Po T). Čti jen, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch stoicky-tyden, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md (hlavně Student, kterého se téma bolestně týká, a Celek), skills/atlas-psani/SKILL.md, tento plán (tabulku, Po K, Co rozhodnout po K), docs/podklady/stoicky-tyden.md celý (je to podklad pro všechny texty), src/content/tydny/stoicky.yaml, v docs/design.md oddíl Komponenty › Týden cvičení. Jako vzor tónu jen karty seneca-vecer (src/content/osobnosti/seneca.mdx) a cesta33-pet-minut (src/content/cesty/co-kdyz-prijde-to-nejhorsi/8-kdo-je-na-tve-strane.mdx).
+
+1. Texty týdne v src/content/tydny/stoicky.yaml, všechny podle atlas-psani a pravidel týdne z podkladů (oddíl Pravidla týdne):
+   - úvod (proč týden a co si student odnese, ne osnova), námitka jednou větou před citátem rozpravy-iii-2-4, vstup (jde na kartu týdne, do deníku a do popisu stránky) a pravidla jednou větou;
+   - sedm dnů: název, doba, text cvičení (pár minut, bez pomůcek; psaní jen den 7), mez jednou větou, která sedí pod nadpis „Kdy přestat“ (mez dne 7 přepiš), text odkazu na celé cvičení; každý den čti očima studenta, kterému někdo ubližuje, který truchlí, je nemocný nebo má potíže s jídlem (meze z podkladů u každého dne);
+   - den 3 a 6: zkrácené karty podle podkladů, bez vět mířících za týden; den 6 s jedním citátem (seneca-ira-iii-36-otazky), text nesmí citát opisovat;
+   - den 5: přidej do src/data/zdroje.yaml citát seneca-ep-18-6-val přesně podle návrhu v podkladech (oddíl Návrh dat) a dej ho dni 5; věta, že jídlo, pití, spánek, léky a teplo do cvičení nepatří, zůstane ve studentském textu;
+   - den 7: popisky obou polí a jedna věta pro studenta, kterému týden nepomohl (podklady, den 7: je to platná odpověď);
+   - smaž komentář PROZATÍMNÍ ZNĚNÍ nahoře v YAML.
+2. Ostatní studentské texty týdne: text karty v Kam dál portrétů Seneky, Epiktéta a Marca (src/content/osobnosti/*.mdx), tichý odkaz v deníku (src/components/ostrovy/Denik.svelte, oddíl Zkus to žít), věta po přijetí týdne a hlášení v ostrově Tyden.svelte (texty, ne logiku). Krátce, žádná povinnost, žádné „měl bys“.
+3. Citáty: po změnách projdi počty (nejvýš dvakrát v týdnu i v týdnu a atlasu dohromady; test tests/data/tydny.test.ts) a opakování podle klíčových slov z pramenů napříč dny, kartou a kartami Zkus to žít v portrétech (docs/pouceni.md › Celek).
+4. seneca-ep-18-9 v cestě „Kolik je dost?“, krok 4 (odpověď 3 po P6): jen se podívej, jestli věta o Epikúrových hladových dnech neodporuje pravidlu o jídle; nic neměň, napiš nález a doporučení do Po T.
+5. List pro učitele ucitel/stoicky-tyden.md: k čemu týden je, jak ho dát třídě (zastavení t:stoicky v přípravě hodiny, třída ho projde doma), co se nesbírá (poznámky jsou jen v deníku studenta, učitel je nevidí), jak o cvičeních mluvit po týdnu bez hodnocení a bez vyptávání na osobní věci, meze dnů pro učitele, námitka „stoik beze citu“ s doklady z podkladů (Diogenés Laertios VII, 116–117, Gellius XIX, 1, Seneca, Dopisy 63 a 99) a co je pozdější podání (Hadot, moderní stoicismus). Jména Gellia a Diogena Laertia jen tady, ne ve studentském textu.
+6. Testy, které hlídají studentské věty přesným zněním, uprav v témže commitu (grep -rn v tests/). Sestav web, pusť dotčené testy (tests/e2e/tyden.spec.ts, seneca.spec.ts, otazka.spec.ts, denik-soubor.spec.ts, vitest), node scripts/slova-cesta.mjs nepouštěj (týden není cesta). Snímky: node scripts/snimky-listy.mjs /tyden/stoicky/ na 390 světlý a 1440 tmavý, snimky-prvek.mjs na den 5, den 7 s poli a kartu týdne na /cesta/kam-mi-mizi-cas/8/; prohlédni je. Celé npm test jednou před posledním commitem, na Macu přes Desktop Commander na pozadí s výstupem do souboru.
+7. Do plánu větve oddíl „Po T (datum)“: co je hotové, co ne, nad čím jsi váhal (u každého dne jednou větou, co jsi z podkladů vzal a co ne); „Co rozhodnout po T“ s doporučeními, pokud je co rozhodnout; a hned za tím zadání kroku R (revize větve se skillem atlas-revize), ať se nečeká na pokyn. Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
+```
