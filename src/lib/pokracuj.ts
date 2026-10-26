@@ -61,7 +61,7 @@ export interface Zacatek {
   stav: 'zacit' | 'pokracovat' | 'dalsi';
   text: string;
   href: string;
-  /** řádek pod tlačítkem („Cesta 1 · asi 20 minut · 7 kroků“) */
+  /** řádek pod tlačítkem („První cesta · asi 20 minut · 7 kroků“); čísla cest student nevidí */
   udaj: string;
 }
 
@@ -103,7 +103,7 @@ export function zacatekDomu(
       stav: 'pokracovat',
       text: 'Pokračovat v cestě',
       href: '/cesta/' + nej + '/' + krok + '/',
-      udaj: 'Cesta' + N + c.cislo + ' · ' + c.nazev + ' · krok' + N + krok + N + 'z' + N + c.pocet,
+      udaj: c.nazev + ' · krok' + N + krok + N + 'z' + N + c.pocet,
     };
   }
   const c1 = cesty[prvni];
@@ -115,7 +115,7 @@ export function zacatekDomu(
       text: zbyva ? 'Vybrat další cestu' : 'Vybrat otázku',
       href: '/otazky/',
       udaj: zbyva
-        ? 'Cesta' + N + c1.cislo + ' je hotová · ' + tvar(zbyva, 'zbývá', 'zbývají', 'zbývá') + N + zbyva + N + tvar(zbyva, 'cesta', 'cesty', 'cest')
+        ? 'První cesta je hotová · ' + tvar(zbyva, 'zbývá', 'zbývají', 'zbývá') + N + zbyva + N + tvar(zbyva, 'cesta', 'cesty', 'cest')
         : 'Všechny cesty máš za sebou.',
     };
   }
@@ -124,7 +124,7 @@ export function zacatekDomu(
     text: 'Začít první cestu',
     href: '/cesta/' + prvni + '/1/',
     udaj:
-      'Cesta' + N + c1.cislo +
+      'První' + N + 'cesta' +
       (c1.minut ? ' · asi' + N + c1.minut + N + tvar(c1.minut, 'minuta', 'minuty', 'minut') : '') +
       ' · ' + c1.pocet + N + tvar(c1.pocet, 'krok', 'kroky', 'kroků'),
   };

@@ -57,7 +57,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA8);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 8');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('9 kroků');
   // Přehled: tichý řádek pomoci stojí pod úvodem, jedním zněním a bez výzvy; nemoc ani způsob na přehledu nejsou.
   const uvod = page.locator('.uvod');

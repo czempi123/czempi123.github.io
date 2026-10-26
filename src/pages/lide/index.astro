@@ -64,7 +64,7 @@ const HLOUBKY = [
                             <span class="t-popisek karta__roky">{zivot(l)}{l.smery.length > 0 && <> · {l.smery.map((s) => nazevSmeru.get(s)).join(', ')}</>}</span>
                             <span class="karta__kdo">{nezlomitelne(l.kdo)}</span>
                             {h.id === 'portret' && l.atribut && <span class="t-popisek karta__proc">Proč {l.atribut.nazev}? {nezlomitelne(l.atribut.proc)}</span>}
-                            {stranka && cestyOsoby(l.id, cesty).map((c) => <span class="karta__cesta">Cesta {c.cislo}: {c.nazev}</span>)}
+                            {stranka && cestyOsoby(l.id, cesty).map((c) => <span class="karta__cesta">Cesta: {c.nazev}</span>)}
                           </span>
                         </Tag>
                       </li>

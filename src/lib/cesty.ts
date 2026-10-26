@@ -59,3 +59,29 @@ export function dalsiKrok(kroky: KrokInfo[], slug: string, n: number): { href: s
   if (dalsi) return { href: adresaKroku(slug, dalsi.krok), text: `Další krok: ${dalsi.nazev}` };
   return { href: `${adresaCesty(slug)}#hotovo`, text: 'Dokončit cestu' };
 }
+
+/**
+ * Pořadí, ve kterém Kam dál hotové cesty nabízí „Další cestu“ (revize antiky, O, nález 9): nejdřív další cesty
+ * téže velké otázky (po této, pak před ní), potom ostatní podle katalogu od téhle dál a znovu od začátku.
+ * Kterou z nich student opravdu uvidí, vybere stránka podle deníku: první, kterou ještě nemá hotovou.
+ */
+export function poradiDalsichCest<C extends { slug: string; cislo: number; otazka: number; nenabizet?: string[] }>(slug: string, cesty: C[]): C[] {
+  const tato = cesty.find((c) => c.slug === slug);
+  if (!tato) return [];
+  const ostatni = cesty.filter((c) => c.slug !== slug && !tato.nenabizet?.includes(c.slug)).sort((a, b) => a.cislo - b.cislo);
+  const po = (c: C) => c.cislo > tato.cislo;
+  const stejna = (c: C) => c.otazka === tato.otazka;
+  return [
+    ...ostatni.filter((c) => stejna(c) && po(c)),
+    ...ostatni.filter((c) => stejna(c) && !po(c)),
+    ...ostatni.filter((c) => !stejna(c) && po(c)),
+    ...ostatni.filter((c) => !stejna(c) && !po(c)),
+  ];
+}
+
+/** Je cesta podle deníku hotová? Má čas dokončení, nebo prošel všechny kroky. */
+export function cestaHotova(p: { navstivene?: unknown; pocet?: unknown; dokonceno?: unknown } | undefined): boolean {
+  if (!p) return false;
+  if (typeof p.dokonceno === 'string') return true;
+  return Array.isArray(p.navstivene) && typeof p.pocet === 'number' && p.navstivene.length >= p.pocet;
+}

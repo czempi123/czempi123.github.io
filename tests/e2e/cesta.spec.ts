@@ -115,7 +115,7 @@ test('cesta: průchod, Kam dál z bloku, lišta Další, Pokračuj na Domů a v 
   const hlavni = page.locator('[data-zacatek-tlacitko]');
   await expect(hlavni).toHaveText('Pokračovat v cestě');
   await expect(hlavni).toHaveAttribute('href', `${CESTA}3/`);
-  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('Cesta 1 · Kdy mám dobrý důvod věřit? · krok 3 z 7');
+  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('Kdy mám dobrý důvod věřit? · krok 3 z 7');
   await expect(page.locator('astro-island[component-url*="Pokracuj"]:not([ssr])')).toHaveCount(1);
   await expect(page.getByRole('navigation', { name: 'Pokračuj, kde jsi skončil' })).toHaveCount(0);
 
@@ -273,7 +273,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA6);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 6');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('7 kroků');
   // Kam dál na přehledu vede do mapy k Epikúrovi, ne k Sókratovi.
   await expect(page.locator('#hotovo a[href^="/mapa/"]')).toHaveAttribute('href', '/mapa/?rok=-306&osoba=epikuros');

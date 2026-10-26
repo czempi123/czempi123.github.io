@@ -31,7 +31,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA5);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 5');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   await expect(page.locator('#hotovo a[href^="/mapa/"]')).toHaveAttribute('href', '/mapa/?rok=110&osoba=epiktetos');
   const zacit = page.getByRole('link', { name: 'Začít cestu' });

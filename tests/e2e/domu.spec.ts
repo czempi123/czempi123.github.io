@@ -58,7 +58,7 @@ test('Domů: jedna výzva k začátku, údaj z dat cesty a vedlejší odkaz na S
   await expect(hlavni).toHaveCount(1);
   await expect(hlavni).toHaveText('Začít první cestu');
   await expect(hlavni).toHaveAttribute('href', `${CESTA}1/`);
-  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('Cesta 1 · asi 15 minut · 7 kroků');
+  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('První cesta · asi 14 minut · 7 kroků');
   await expect(page.locator('.uvod').getByRole('link', { name: 'Poznat Sókrata' })).toHaveAttribute('href', '/osobnost/sokrates/');
   // Mapa zůstává v hlavičce a ve třech vstupech, ne v úvodu; karta cesty ani druhé tlačítko tu nejsou.
   await expect(page.locator('.uvod a[href="/mapa/"]')).toHaveCount(0);
@@ -68,7 +68,7 @@ test('Domů: jedna výzva k začátku, údaj z dat cesty a vedlejší odkaz na S
   // Panel první cesty říká, o čem cesta je, a vede na tentýž krok.
   const panel = page.locator('.prvni-cesta');
   await expect(panel).toHaveAttribute('href', `${CESTA}1/`);
-  await expect(panel).toContainText('Cesta 1 · Kdy mám dobrý důvod věřit?');
+  await expect(panel).toContainText('První cesta · Kdy mám dobrý důvod věřit?');
   await expect(panel).toContainText('Nikdo není moudřejší.');
   // Nový student žádné Pokračuj nevidí.
   await expect(page.locator('astro-island[component-url*="Pokracuj"]:not([ssr])')).toHaveCount(1);
@@ -93,7 +93,7 @@ test('Domů: vracející se student má tlačítko podle deníku hned, bez ček�
   await otevri({ cesty: ROZPRACOVANA });
   await expect(hlavni).toHaveText('Pokračovat v cestě');
   await expect(hlavni).toHaveAttribute('href', `${CESTA}4/`);
-  await expect(udaj).toHaveText('Cesta 1 · Kdy mám dobrý důvod věřit? · krok 4 z 7');
+  await expect(udaj).toHaveText('Kdy mám dobrý důvod věřit? · krok 4 z 7');
   // Ohyb drží i s delším údajem.
   const m = await hrany(page);
   expect(m.udaj.dole).toBeLessThanOrEqual(m.okno.dole);
@@ -101,7 +101,7 @@ test('Domů: vracející se student má tlačítko podle deníku hned, bez ček�
   await otevri({ cesty: HOTOVA });
   await expect(hlavni).toHaveText('Vybrat další cestu');
   await expect(hlavni).toHaveAttribute('href', '/otazky/');
-  await expect(udaj).toHaveText('Cesta 1 je hotová · zbývá 9 cest');
+  await expect(udaj).toHaveText('První cesta je hotová · zbývá 9 cest');
 
   // Cizí nebo rozbitý záznam začátek nerozbije.
   await page.evaluate(() => localStorage.setItem('atlas-denik', '{"verze":1,"cesty":"nesmysl"'));

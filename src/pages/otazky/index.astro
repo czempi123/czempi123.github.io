@@ -28,7 +28,7 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
                 {cestyOtazky(o.data.cislo, cesty).map((c) => (
                   <li class={`obdobi-${c.obdobi}`}>
                     <a class="cesta" href={`/cesta/${c.slug}/`}>
-                      <span class="cesta__nad">Cesta {c.cislo}</span>
+                      <span class="cesta__nad">Cesta</span>
                       <span class="cesta__nazev">{c.nazev}</span>
                       <Ikona id="dal" velikost={18} />
                     </a>

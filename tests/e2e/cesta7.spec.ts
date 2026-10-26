@@ -44,7 +44,7 @@ test('cesta 7: průchod s odpověďmi na telefonu, zastánci všech Voleb, záv�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA7);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 7');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Filozofové cesty jsou Diogenés, Kratés a Hipparchia; Kratés a Hipparchia vedou na společný profil.
   const lide = page.locator('.cesta__hlava .lide a');
@@ -313,8 +313,8 @@ test('cesta 7 je dosažitelná z profilů, z Lidí, z přehledu otázek a z Dom�
   await expect(page.locator('#volba').getByRole('link', { name: 'Čí život vlastně žiju?' })).toHaveAttribute('href', CESTA7);
   await expect(page.locator('.kamdal').getByRole('link', { name: /Čí život vlastně žiju\?/ })).toHaveAttribute('href', CESTA7);
   await page.goto('/lide/');
-  await expect(page.locator('#krates .karta__cesta')).toHaveText('Cesta 7: Čí život vlastně žiju?');
-  await expect(page.locator('#hipparchia .karta__cesta')).toHaveText('Cesta 7: Čí život vlastně žiju?');
+  await expect(page.locator('#krates .karta__cesta')).toHaveText('Cesta: Čí život vlastně žiju?');
+  await expect(page.locator('#hipparchia .karta__cesta')).toHaveText('Cesta: Čí život vlastně žiju?');
   await page.goto('/otazky/');
   await expect(page.locator('#jak-zit .cesta')).toHaveCount(4);
 });

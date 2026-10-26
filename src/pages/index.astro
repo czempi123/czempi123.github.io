@@ -72,7 +72,7 @@ const vstupy = [
     <a class={`prvni-cesta obdobi-${prvni.data.obdobi}`} href={`/cesta/${PRVNI}/1/`}>
       <span class="prvni-cesta__mince" aria-hidden="true">{filozofove.map((o) => <Mince osoba={o} varianta="sel" velikost={56} />)}</span>
       <span class="prvni-cesta__text">
-        <span class="t-nadtitulek prvni-cesta__nad">Cesta {prvni.data.cislo} · {prvni.data.nazev}</span>
+        <span class="t-nadtitulek prvni-cesta__nad">První cesta · {prvni.data.nazev}</span>
         <span class="t-h2">Nikdo není <em>moudřejší.</em></span>
         <span class="t-perex">{nezlomitelne(prvni.data.vstup)}</span>
       </span>

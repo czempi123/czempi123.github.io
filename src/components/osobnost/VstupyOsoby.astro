@@ -3,6 +3,8 @@
 // Hlavička profilu je skládá ze dvou částí: cesty stojí hned pod jménem, otázky pod deskou (na telefonu)
 // nebo pod cestou vlevo od desky (od 900 px). Tak cesta nezapadne a otázky neodsunou desku a první
 // odstavec z první obrazovky telefonu (revize celku 7, nález 6: Aristotelés a Epikúros měli sedm tlačítek).
+// Na telefonu (pod 600 px) jsou cesty jen řádek odkazů s názvy: karty by u Seneky (tři cesty) odsunuly desku
+// pod první obrazovku (revize antiky, nález 6). Od 600 px plné karty.
 // Vše se bere z dat (filozofove v přehledu cesty, hlasy na stránce otázky); nic se nepíše ručně.
 // Použití: <VstupyOsoby osoba={osoba} cast="cesty" /> a <VstupyOsoby osoba={osoba} cast="otazky" />
 import { getCollection } from 'astro:content';
@@ -30,13 +32,13 @@ const popisek = dalsi.length
   : `${druh}, kde potkáš ${osoba.jmeno2 ?? osoba.jmeno}`;
 ---
 {(cesty.length > 0 || otazky.length > 0) && (
-  <nav class:list={['vstupy-osoby', `vstupy-osoby--${cast}`]} aria-label={popisek} data-pagefind-ignore>
+  <nav class:list={['vstupy-osoby', `vstupy-osoby--${cast}`, { 'vstupy-osoby--dvojice': dalsi.length > 0 }]} aria-label={popisek} data-pagefind-ignore>
     <ul>
       {cesty.map((c) => (
         <li>
           <a class="vstup vstup--cesta" href={`/cesta/${c.slug}/`}>
             <span class="vstup__text">
-              <span class="t-nadtitulek vstup__nad">Cesta {c.cislo}<span class="vstup__meta"> · {c.kroku} kroků{c.minut && ` · asi ${c.minut} minut`}</span></span>
+              <span class="t-nadtitulek vstup__nad">Cesta<span class="vstup__meta"> · {c.kroku} kroků{c.minut && ` · asi ${c.minut} minut`}</span></span>
               <span class="vstup__nazev">{c.nazev}</span>
             </span>
             <Ikona id="dal" velikost={22} />
@@ -89,6 +91,25 @@ const popisek = dalsi.length
   .vstup--otazka .vstup__nazev { font-size: var(--fs-text); }
   .vstup--otazka:hover { background: var(--sunk); }
   .vstup:hover .vstup__nazev { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  /* Telefon: cesty jako řádek odkazů (nadtitulek a název, bez desky, kroků a minut), deska a první odstavec
+     zůstanou na první obrazovce. Společný profil má vlastní malé karty vedle otázky (StrankaProfilu). */
+  @media (max-width: 599.98px) {
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) ul { gap: var(--s-2) var(--s-5); }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) li { flex: 0 1 auto; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--ink); }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__nad { color: var(--pc); }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__meta,
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta :global(svg) { display: none; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__nazev {
+      font-family: var(--font-sans);
+      font-size: var(--fs-ovladani-l);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: var(--pc);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.2em;
+    }
+  }
   @media (min-width: 700px) {
     ul { align-items: center; }
     li { flex: 0 1 auto; }

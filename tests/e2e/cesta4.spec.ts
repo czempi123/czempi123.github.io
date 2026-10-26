@@ -48,7 +48,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA4);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 4');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Karta ani přehled neříkají, co se na hostině stalo: jen že to Alexandr hned věděl.
   await expect(page.locator('main')).not.toContainText(/zabil|opil/i);

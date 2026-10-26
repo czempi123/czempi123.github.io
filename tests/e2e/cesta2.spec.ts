@@ -44,7 +44,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA2);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 2');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Filozofové cesty jsou Hérakleitos a Parmenidés; řádek s pomocí cesta nemá (žádné krizové téma neotevírá).
   await expect(page.locator('.cesta__hlava .lide a')).toHaveText(['Hérakleitos', 'Parmenidés']);
@@ -413,16 +413,16 @@ test('otázka 5: kdo tě zná líp, sedm hlasů, které se poznají, a cesta 2',
 test('cesta 2 a otázka 5 jsou dosažitelné z profilů, z přehledu otázek, z Lidí a z Domů', async ({ page }) => {
   await page.goto('/osobnost/herakleitos/');
   // Hlavička se skládá z dat: cesta, pak otázka, ke které cesta vede.
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 2 · 8 kroků · asi \d+ minut\s*Jsem pořád tentýž, když se měním\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta · 8 kroků · asi \d+ minut\s*Jsem pořád tentýž, když se měním\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', CESTA2);
   await page.goto('/osobnost/parmenides/');
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 2[\s\S]*Jsem pořád tentýž, když se měním\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta[\s\S]*Jsem pořád tentýž, když se měním\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/]);
   await page.goto('/otazky/');
-  await expect(page.locator('#kdo-vlastne-jsem .cesta')).toHaveText(/Cesta 2\s*Jsem pořád tentýž, když se měním\?/);
+  await expect(page.locator('#kdo-vlastne-jsem .cesta')).toHaveText(/Cesta\s*Jsem pořád tentýž, když se měním\?/);
   await expect(page.locator('#kdo-vlastne-jsem a[href="/otazka/kdo-vlastne-jsem/"]')).toHaveCount(1);
   await page.goto('/lide/');
-  await expect(page.locator('#herakleitos .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
-  await expect(page.locator('#parmenides .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
+  await expect(page.locator('#herakleitos .karta__cesta')).toHaveText('Cesta: Jsem pořád tentýž, když se měním?');
+  await expect(page.locator('#parmenides .karta__cesta')).toHaveText('Cesta: Jsem pořád tentýž, když se měním?');
   // Seneca a Plútarchos mluví ve Sporu, ale filozofy cesty 2 nejsou: jejich karty a Senekova hlavička se nemění.
-  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 33: Co když přijde to nejhorší?', 'Cesta 34: Kam mi mizí čas?']);
+  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta: Proč se bát smrti?', 'Cesta: Co když přijde to nejhorší?', 'Cesta: Kam mi mizí čas?']);
 });
