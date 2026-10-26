@@ -28,7 +28,7 @@ Studentům to řekněte jednou větou, když jim týden dáváte: „Co si zapí
 Ptejte se na cvičení, ne na studentův život. Rozhovor drží odstup, když se týká toho, co radili stoikové a jak se to dalo dělat, a ne toho, co student doma prožívá.
 
 - Který den se dal dělat snadno a který vůbec ne? Čím to?
-- Den 5: proč asi Seneca radil zkoušet nepohodlí předem, „dokud se nic neděje“? Je na tom něco pravdy, nebo je to jen otužování?
+- Den 5: proč asi Seneca radil zkoušet nepohodlí předem, v klidu, kdy se nic neděje? Je na tom něco pravdy, nebo je to jen otužování?
 - Den 2 a „Jsi dojem“: na co se ta věta hodí a na co ne? (Třída by sama měla dojít k tomu, že na to, co někdo opravdu dělá, ne.)
 - Den 4: pomáhá dívat se na starost shora? Kdy by to bylo necitlivé?
 - Čím se stoický klid liší od lhostejnosti? (Námitka níž.)
@@ -49,7 +49,7 @@ Každý den má ve studentském textu jednu větu pod nadpisem „Kdy přestat�
 | --- | --- | --- | --- |
 | 1 | Ranní příprava (Hovory V, 1) | Když je ta věc člověk, který ubližuje, nebo se nechce vstávat celé týdny: cvičení to nespraví, říct to někomu. | Hovory V, 1 pokračuje výtkou „nemiluješ sám sebe“; studentovi, kterému je dlouho zle, by přidala vinu. Hovory II, 1 (ráno si říct, jaké lidi potkám: lstivé, zpupné) týden schválně nebere: pro studenta, kterému někdo ubližuje, je to pokyn smířit se. Cvičení se proto týká jedné věci, ne člověka. |
 | 2 | Co je v mé moci (Rukojeť 1, 5) | Na to, co dělá člověk, který ubližuje, ne: to není dojem. | „Jsi dojem“ by u šikany nebo násilí znamenalo „namlouváš si to“. „Tělo není v naší moci“ (Rukojeť 1, 1) týden schválně nepřipomíná. |
-| 3 | Představa nejhoršího (Dopis 13, 4) | Když se věc už točí v hlavě, nebo jde o člověka, který ubližuje: přeskočit. | Pro studenta, který se trápí předem, je přemítání to, čemu má cvičení zabránit (celek 10, podklady oddíl e a h). Jen malé věci, žádní blízcí ani nemoc. |
+| 3 | Představa nejhoršího (karta v cestě 33; citát Dopis 13, 4) | Když se věc už točí v hlavě, nebo jde o člověka, který ubližuje: přeskočit. | Pro studenta, který se trápí předem, je přemítání to, čemu má cvičení zabránit (celek 10, podklady oddíl e a h). Jen malé věci, žádní blízcí ani nemoc. |
 | 4 | Pohled shora (Hovory IX, 30) | Ne na ztrátu, nemoc, strach o někoho ani na to, co někdo dělá; při pocitu odcizení přestat. | Pohled shora zmenšuje; u bolesti by to bylo přehlížení. Konec IX, 30 („ani sláva ani nic jiného není hodno řeči“) a XII, 24 („budeš jimi pohrdat“) do týdne schválně nejdou. Návrat „pojmenuj tři věci kolem sebe“ je v textu kvůli studentům, kterým představa pohledu zvenku na sebe nedělá dobře; to je úsudek o riziku, ne doložená věc. |
 | 5 | Den bez jednoho pohodlí (Dopis 18, 6) | Když napadne jídlo nebo něco s tělem: přeskočit. Jídlo, pití, spánek, léky a teplo výslovně ne. | Viz oddíl o dni 5 níž. |
 | 6 | Večerní ohlédnutí (O hněvu III, 36) | Když večer vypíše jen chyby: zastavit se u poslední otázky a odpustit si. | Seneca končí „Teď ti odpouštím“. Věta „nic před sebou neskrývám, nic nepřecházím“ do týdne nejde: pro perfekcionistu je to pokyn k seznamu chyb. Ohlédnutí je jen za tím, co dělal student, ne co mu dělali druzí. |
@@ -97,4 +97,4 @@ V týdnu je námitka na první obrazovce jednou větou s citátem a ve dni 2 odk
 - **Linka první psychické pomoci 116 123.** Pro dospělé, zdarma. Ověřeno 16. 10. 2026 (celek 8).
 - **Tísňová linka 112.**
 
-Do studentského textu řádek s pomocí nedáváme: týden krizové téma neotevírá a každý den má svou mez s větou „řekni to někomu, komu věříš“.
+Do studentského textu řádek s pomocí nedáváme: týden krizové téma neotevírá a dny, kde se může vrátit něco těžkého, mají ve své mezi větu „řekni to někomu, komu věříš“.

@@ -4,6 +4,13 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, krok R
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Revize větve s verdiktem „po opravách“ (`docs/revize/stoicky-tyden-2026-10-26.md`): dva důležité nálezy (věta námitky, meze dnů 3 a 4) a tři drobné; opravy jdou do kroku O | Námitka upírala Epiktétovi klid, o který mu šlo; meze dnů 3 a 4 nedržely pravidla týdne z podkladů (nemoc a strach o někoho, „řekni to někomu“) |
+| Nadtitulek karty týdne v Kam dál portrétů je „Zkus to žít · 7 dní“, stejně jako na stránce a kartě týdne | Jeden týden měl dva nadtitulky |
+
 ## 26. 10. 2026: Stoický týden, krok T
 
 | Rozhodnutí | Důvod |

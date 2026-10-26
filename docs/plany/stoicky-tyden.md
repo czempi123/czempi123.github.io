@@ -9,8 +9,8 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
 | K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | hotovo 26. 10. 2026 (Po K) |
 | T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | hotovo 26. 10. 2026 (Po T) |
-| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | zadání níž |
-| O | Opravy po revizi | Opus 5.5 · high | po R |
+| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 26. 10. 2026 (Po R) |
+| O | Opravy po revizi | Opus 5.5 · high | zadání níž |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web) | Opus 5.5 · medium | po O |
 
 ## Co už atlas má
@@ -278,4 +278,49 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 2. Drobnosti oprav rovnou (testy hlídají přesné znění: grep -rn v tests/, uprav v témže commitu). Zásadní nálezy zapiš do docs/revize/stoicky-tyden-<datum>.md ve formátu atlas-revize, seřazené podle dopadu, s hotovým zněním opravy a verdiktem.
 3. Celé npm test jednou před posledním commitem, na Macu přes Desktop Commander na pozadí s výstupem do souboru.
 4. Do plánu větve oddíl „Po R (datum)“ (verdikt, nálezy jednou větou, co je opravené rovnou) a „Co rozhodnout po R“ s doporučeními; hned za tím zadání kroku O (opravy po revizi). Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
+```
+
+## Po R (26. 10. 2026)
+
+Záznam revize: `docs/revize/stoicky-tyden-2026-10-26.md`. **Verdikt: po opravách**, dva důležité nálezy, tři drobné, žádný blokující.
+
+**Nálezy jednou větou.**
+
+1. **[důležité] Námitka** na první obrazovce říká, že Epiktétos od žáků chtěl „něco jiného“ než snést věci bez hnutí; chtěl právě to a odmítal jen necitelnost sochy.
+2. **[důležité] Meze dnů 3 a 4** nedrží pravidla týdne: den 3 nevylučuje nemoc a strach o někoho, den 4 u pocitu odcizení neříká, komu to říct.
+3. **[drobné] Den 3:** spojovací věta připisuje Dopisu 13, 4 odpověď, proč na nejhorší myslet (ten říká „netrp předem“), a dny 3 až 5 začínají „Vyber“.
+4. **[drobné] Den 5:** „odpověď na zprávu až večer“ odporuje „nikdo si nevšimne, že chybí“.
+5. **[drobné] Den 2:** „Vztek ani strach tím nezmizí“ je přísnější než Epiktétos; stačí „hned nezmizí“.
+
+**Opraveno rovnou:** nejednoznačná věta ve dni 4 („řekni si jednu“), nadtitulek karty týdne v Kam dál portrétů sjednocen na „Zkus to žít · 7 dní“, tři věty v listu pro učitele (uvozovky u dne 5, den 3 v tabulce mezí, věta o mezích na konci). Ověřeno: citáty týdne proti originálu, Senekova otázka, světlo a žena, „Epiktétos učil žáky“; kontrola fokusu na stránce týdne, kartách cest, portrétech a deníku na obou šířkách bez nálezu; celé `npm test` prošlo.
+
+**Nad čím jsem váhal.**
+
+- **Karta týdne na telefonu** je se sedmi dlaždicemi pod sebou vysoká (asi 800 px) a na kroku 8 cest 33 a 34 stojí pod kartou Zkus to žít. Autor chtěl týden vidět, nález jsem z toho nedělal.
+- **Mez pod nadpisem „Kdy přestat“ stojí za cvičením,** student ji tedy čte až po pokynu. U dnů 3 a 4 to opravují první věty („malá věc“, „starost, která se týká jen tebe“); přesouvat mez nad text jsem nenavrhoval.
+- **„Řekni to někomu, komu věříš“** zní po opravě ve dnech 1 až 4 a 7. Je to věta, kterou má student najít v každém dni, kde se může vrátit něco těžkého; opakování beru jako záměr, ne šablonu.
+
+## Co rozhodnout po R
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Opravit všech pět nálezů** podle hotového znění v záznamu revize. Doporučuji.
+   Odpověď:
+2. **Nová věta námitky:** „Česky se ‚stoicky‘ říká tomu, co člověk snese bez hnutí. Epiktétos chtěl po svých žácích klid, a přesto jim říkal:“. Doporučuji.
+   Odpověď:
+
+## Zadání O
+
+Model: Opus 5.5 · high se skillem `atlas-psani`.
+
+```
+Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyden. Krok O Stoického týdne: opravy po revizi. Čti jen, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch stoicky-tyden, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, skills/atlas-psani/SKILL.md (oddíly Citáty a Ať text nezní jako stroj), tento plán (tabulku, Po R, Co rozhodnout po R s odpověďmi) a záznam revize docs/revize/stoicky-tyden-2026-10-26.md celý.
+
+1. Oprav nálezy 1 až 5 podle hotového znění v záznamu revize, s ohledem na odpovědi autora: námitka (src/content/tydny/stoicky.yaml, namitka.text), meze dnů 3 a 4, první dva odstavce dne 3, příklady dne 5, text za citátem dne 2. U nálezu 2 uprav i řádky 3 a 4 tabulky mezí v ucitel/stoicky-tyden.md, u nálezu 4 větu o pohodlí v oddílu Den 5 téhož listu.
+2. Každé nové znění přečti očima studenta, kterému někdo ubližuje, který truchlí, je nemocný nebo má potíže s jídlem (docs/pouceni.md), a proti pravidlům atlas-psani (věty do 25 slov, žádná šablona napříč dny). Když hotové znění z revize nesedí, uprav ho a napiš proč.
+3. Testy hlídají přesné znění: grep -rn v tests/ (hlavně tests/e2e/tyden.spec.ts) a uprav je v témže commitu. Po npm run build pusť PW_BEZ_BUILDU=1 npx playwright test tests/e2e/tyden.spec.ts a npx vitest run tests/data/tydny.test.ts; snímek node scripts/snimky-listy.mjs /tyden/stoicky/ tyden-o-390 390 light 4 2000 1 (VEN="Claude outputs/tyden") a snimky-prvek.mjs na dny 3 a 4, prohlédni je. Celé npm test jednou před posledním commitem, na Macu přes Desktop Commander na pozadí s výstupem do souboru.
+4. Do docs/pouceni.md jednou větou, co se z revize má dodržovat napříč atlasem (spojovací věta k námitce nesmí filozofovi upřít to, co opravdu chtěl; mez cvičení o představě nejhoršího vylučuje i nemoc a strach o někoho).
+5. Do plánu větve oddíl „Po O (datum)“ (co je opravené, co ne a proč, nad čím jsi váhal) a „Uzavření“ s otázkou na schválení, sloučení a push hlavní větve (nasadí web). Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
 ```
