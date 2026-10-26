@@ -5,7 +5,7 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 
 const CESTY = [
   { slug: 'kdy-mam-dobry-duvod-verit', kroku: 7, pravidlo: 'cesta1-moje-pravidlo', spor: 'cesta1-meritko-spor', zacatek: 'Krok 2 · Jak bys to zjišťoval ty?' },
-  { slug: 'kolik-je-dost', kroku: 7, pravidlo: 'cesta6-moje-pravidlo', spor: 'cesta6-kynici-spor', zacatek: 'Krok 2 · Tři koše' },
+  { slug: 'kolik-je-dost', kroku: 7, pravidlo: 'cesta6-moje-pravidlo', spor: 'cesta6-kynici-spor', zacatek: 'Krok 2 · Nutné, přirozené, prázdné' },
   { slug: 'co-mam-ve-svych-rukou', kroku: 8, pravidlo: 'cesta5-moje-pravidlo', spor: 'cesta5-aristoteles-spor', zacatek: 'Krok 2 · Tři koše' },
   { slug: 'je-to-co-vidim-cela-skutecnost', kroku: 8, pravidlo: 'cesta3-moje-pravidlo', spor: 'cesta3-aristoteles-spor', zacatek: 'Krok 2 · Odkud to vím?' },
   { slug: 'staci-vedet-co-je-spravne', kroku: 8, pravidlo: 'cesta4-moje-pravidlo', spor: 'cesta4-vedel-to', zacatek: 'Krok 2 · Co ti tehdy chybělo?' },

@@ -8,7 +8,7 @@ import AxeBuilder from '@axe-core/playwright';
 const CESTA = '/cesta/kdy-mam-dobry-duvod-verit/';
 const KROKY = ['Odpověď z Delf', 'Jak bys to zjišťoval ty?', 'Politik, básníci, řemeslníci', 'Podle čeho to poznáš?', 'Člověk je měřítkem', 'Bílozlaté, nebo modročerné?', 'Tvoje pravidlo'];
 const CESTA6 = '/cesta/kolik-je-dost/';
-const KROKY6 = ['Host v Zahradě', 'Tři koše', 'Kde má slast strop?', 'Žít jako kynik?', 'Měsíc na minimum', 'Peníze a štěstí', 'Tvoje pravidlo'];
+const KROKY6 = ['Host v Zahradě', 'Nutné, přirozené, prázdné', 'Kde má slast strop?', 'Žít jako kynik?', 'Měsíc na minimum', 'Peníze a štěstí', 'Tvoje pravidlo'];
 const CESTA5 = '/cesta/co-mam-ve-svych-rukou/';
 const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Záleží na tom, co mě potká?', 'Snímek z chatu', 'Kamenná tvář', 'Tvoje pravidlo'];
 const CESTA3 = '/cesta/je-to-co-vidim-cela-skutecnost/';
@@ -422,7 +422,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   // Vedle pravidla stojí koše, jak je student v kroku 2 opravdu uložil.
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel.getByRole('heading', { name: 'Na začátku' })).toBeVisible();
-  await expect(panel).toContainText('Krok 2 · Tři koše');
+  await expect(panel).toContainText('Krok 2 · Nutné, přirozené, prázdné');
   await expect(panel.locator('.cast').first()).toContainText('Potřebuju');
   await expect(panel.locator('.cast').first().locator('li')).toHaveText(['Vyspat se po probdělé noci', 'Někdo, komu řeknu, co mě trápí']);
   await expect(panel.getByRole('heading', { name: 'Teď' })).toBeVisible();
