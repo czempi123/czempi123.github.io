@@ -214,7 +214,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
     'Jestli jsi řekl, že záleží na tom, na co se ptáš, řekl jsi větu, na které Hobbes postavil celou odpověď.',
   ]) await expect(obsah8).toContainText(veta);
   // Kdo ve čtvrtém kroku zvolil „obě“ nebo „žádná“, najde svou odpověď taky (revize celku 7, nález 5).
-  await expect(obsah8).toContainText('Podobně se dělí i dvě lodě ze čtvrtého kroku.');
+  await expect(obsah8).toContainText('I tady se zastánci dělí podobně.');
   await expect(obsah8).toContainText('Jestli jsi řekl obě, každou v jiném smyslu, bereš si od Hobbese větu o jménu, pod kterým se ptáš.');
   await expect(obsah8).toContainText('A jestli jsi řekl žádná, chceš po Théseově lodi obojí naráz');
   await expect(obsah8).toContainText('Podle Seneky tentýž není ani po jediné noci.');
@@ -257,7 +257,7 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['U člověka na téže otázce záleží víc.', 'Kde tedy dělá chybu? A dělá ji vůbec?'],
     ['Dva z nich z ní vyvodili opačné závěry a oba psali o člověku.', 'Postav se mezi ně dřív, než si přečteš jejich důvody.'],
     ['něco se v těle mění za dny, něco za roky a něco vůbec', 'Dá se na nich ale vyzkoušet, co by které pravidlo řeklo o těle.'],
-    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'Podobně se dělí i dvě lodě ze čtvrtého kroku.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
+    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'I tady se zastánci dělí podobně.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
   ];
   await page.goto(`${CESTA2}1/`);
   for (let n = 1; n <= KROKY2.length; n++) {
