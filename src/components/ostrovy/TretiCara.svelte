@@ -84,6 +84,8 @@
   :global(.kresba--pohyb) .bublina--4 { animation-name: cara-b4; }
   :global(.kresba--pohyb) .bublina--5 { animation-name: cara-b5; }
   :global(.kresba--pohyb) .bublina--6 { animation-name: cara-b6; }
+  /* Zastavený pohyb ukáže totéž co omezený: všechny bubliny naráz, i hned po načtení (revize antiky, nález 5). */
+  :global(.kresba--pohyb:not(.kresba--bezi)) .bublina { animation-name: none; }
   @keyframes cara-b0 { 0% { opacity: 0; } 3%, 93% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes cara-b1 { 0%, 10% { opacity: 0; } 13%, 93% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes cara-b2 { 0%, 20% { opacity: 0; } 23%, 93% { opacity: 1; } 100% { opacity: 0; } }
