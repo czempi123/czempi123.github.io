@@ -4,7 +4,7 @@
 // Spuštění po `npm run build`: node scripts/hodiny-katalog.mjs
 import { readFileSync, existsSync } from 'node:fs';
 
-const DRUHY = ['cesta', 'krok', 'blok', 'pribeh', 'profil', 'kapitola', 'oddil', 'otazka', 'hlas'];
+const DRUHY = ['cesta', 'krok', 'blok', 'pribeh', 'profil', 'kapitola', 'oddil', 'otazka', 'hlas', 'tyden'];
 const soubor = 'dist/hodina/katalog.json';
 if (!existsSync(soubor)) {
   console.error(`Chybí ${soubor}: nejdřív npm run build.`);
