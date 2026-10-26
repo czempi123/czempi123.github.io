@@ -54,11 +54,11 @@ Prázdná odpověď znamená souhlas s doporučením.
 1. **Stránka `/tyden/stoicky/`** se sedmi dny, vstupy z cest 5, 33, 34, portrétů Seneky, Epiktéta a Marca a z deníku. Doporučuji.
    Odpověď:
 2. **Dny bez kalendáře a bez série:** student si týden přijme, každý den označí jako hotový a připíše poznámku; pokračuje, kde skončil, nic se nepočítá jako přerušení. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 3. **Dny 3 a 6** s vlastním krátkým zněním a odkazem na celé cvičení v cestě 33 a portrétu Seneky. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 4. **Učitel:** týden jako zastavení v přípravě hodiny a list `ucitel/stoicky-tyden.md`. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 
 ## Zadání P6
 
@@ -180,16 +180,16 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 
 ## Co rozhodnout po K
 
-Prázdná odpověď znamená souhlas s doporučením.
+Autor 26. 10. 2026: souhlas se vším kromě otázky 1.
 
 1. **Vstup z cest 5, 33 a 34 jen v Kam dál na přehledu cesty**, ne v textu posledního kroku. Doporučuji.
-   Odpověď:
+   Odpověď (26. 10. 2026): nesouhlas, řádek je „dost nenápadně zahrabaný“; týden potřebuje přehlednou strukturu a místo, kde ho jde vidět. **Provedeno:** karta týdne se sedmi dny (`src/components/tyden/TydenKarta.astro`) na posledním kroku cest 5, 33 a 34 pod závěrečným pravidlem a na přehledu cesty v Kam dál místo řádku; kde se ukáže, říká `nabizet.cesty`. Snímky `Claude outputs/tyden/karta-*`.
 2. **Den 6 s jedním citátem** (tři otázky); „Teď ti odpouštím“ zůstane v portrétu. Kdyby T chtěl oba, přidám do schématu seznam citátů. Doporučuji jeden.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 3. **Nadpis meze „Kdy přestat“** u všech dnů; T přepíše mez dne 7 tak, aby pod něj seděla. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 4. **Drobečky přes Lidé a směry**, dokud nevznikne stránka směru stoicismus; pak povedou přes ni. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 
 ## Zadání T
 

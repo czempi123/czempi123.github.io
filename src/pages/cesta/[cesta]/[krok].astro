@@ -5,6 +5,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../../layouts/Zakladni.astro';
 import CestaHlavicka from '../../../components/cesta/CestaHlavicka.astro';
 import CestaLista from '../../../components/cesta/CestaLista.astro';
+import TydenKarta from '../../../components/tyden/TydenKarta.astro';
 import { krokyCesty, adresaKroku, adresaCesty, zacatekCesty } from '../../../lib/cesty';
 
 export async function getStaticPaths() {
@@ -28,6 +29,8 @@ const c = cesta.data;
 const seznam = kroky.map((x) => ({ ...x, href: adresaKroku(cesta.id, x.n) }));
 const pred = seznam.find((x) => x.n === k.krok - 1);
 const dal = seznam.find((x) => x.n === k.krok + 1);
+// Poslední krok: pod závěrečným pravidlem karta týdne, který se po této cestě nabízí (nabizet.cesty v datech týdne).
+const tydny = dal ? [] : (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.includes(cesta.id));
 ---
 <Zakladni titulek={`${k.nazev} · ${c.nazev}`} popis={c.vstup} hledat={false}>
   <CestaHlavicka slot="hlavicka" slug={cesta.id} nazev={c.nazev} kroky={seznam} aktualni={k.krok} />
@@ -38,6 +41,7 @@ const dal = seznam.find((x) => x.n === k.krok + 1);
       {k.kdeJsme && <p class="kde t-ovladani"><span class="t-popisek">Kde jsme:</span> {k.kdeJsme}</p>}
     </header>
     <div class="krok__obsah"><Content /></div>
+    {tydny.map((t) => <TydenKarta tyden={t} />)}
   </article>
   <CestaLista
     slot="lista"

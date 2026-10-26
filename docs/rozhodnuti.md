@@ -4,6 +4,13 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, krok K, odpovědi autora
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Vstup z cest 5, 33 a 34 je karta týdne se sedmi dny (`TydenKarta.astro`): na posledním kroku pod závěrečným pravidlem a na přehledu cesty v Kam dál. Kde se ukáže, říká pole `nabizet.cesty` v datech týdne. Nahrazuje řádek v Kam dál z kroku K | Autor 26. 10. 2026: řádek v Kam dál je „dost nenápadně zahrabaný“, týden potřebuje přehlednou strukturu a místo, kde ho jde vidět. Pod pravidlem studenta neodvede dřív, než pravidlo napíše |
+| Den 6 s jedním citátem, nadpis meze „Kdy přestat“ u všech dnů (mez dne 7 přepíše T), drobečky přes Lidé a směry, dokud nevznikne stránka směru | Autor 26. 10. 2026: souhlas s doporučeními 2 až 4 |
+
 ## 26. 10. 2026: Stoický týden, krok K
 
 | Rozhodnutí | Důvod |

@@ -165,13 +165,28 @@ test('promítání: Hotovo ani přijetí nezapíšou nic do deníku studenta', a
   expect(await ulozeny(page)).toBeNull();
 });
 
-test('vstupy: Kam dál na přehledu cest 5, 33 a 34 a v portrétech Seneky, Epiktéta a Marca; zastavení v katalogu hodin', async ({ page }) => {
-  for (const c of ['co-mam-ve-svych-rukou', 'co-kdyz-prijde-to-nejhorsi', 'kam-mi-mizi-cas']) {
+test('vstupy: karta týdne na posledním kroku a v Kam dál cest 5, 33 a 34, Kam dál portrétů Seneky, Epiktéta a Marca; zastavení v katalogu hodin', async ({ page }) => {
+  for (const [c, posledni] of [['co-mam-ve-svych-rukou', 8], ['co-kdyz-prijde-to-nejhorsi', 8], ['kam-mi-mizi-cas', 8]] as const) {
+    // Poslední krok: karta stojí pod závěrečným pravidlem, se sedmi dny a odkazem na týden.
+    await page.goto(`/cesta/${c}/${posledni}/`);
+    const karta = page.locator('.tyden-karta');
+    await expect(karta).toHaveCount(1);
+    await expect(karta.getByRole('heading', { name: 'Stoický týden' })).toBeVisible();
+    await expect(karta.locator('.tyden-karta__dny a')).toHaveCount(7);
+    await expect(karta.locator('.tyden-karta__dny a').nth(2)).toHaveAttribute('href', `${ADRESA}#den-3`);
+    await expect(karta.getByRole('link', { name: 'Otevřít stoický týden' })).toHaveAttribute('href', ADRESA);
+    const [obsah, kartaY] = await Promise.all([page.locator('.krok__obsah').boundingBox(), karta.boundingBox()]);
+    expect(kartaY!.y).toBeGreaterThanOrEqual(obsah!.y + obsah!.height - 1);
+    // Předchozí krok kartu nemá; přehled ji má v Kam dál, kam vede Dokončit cestu.
+    await page.goto(`/cesta/${c}/${posledni - 1}/`);
+    await expect(page.locator('.tyden-karta')).toHaveCount(0);
     await page.goto(`/cesta/${c}/`);
-    await expect(page.locator('#hotovo').getByRole('link', { name: 'Stoický týden: sedm krátkých cvičení, jedno na den' })).toHaveAttribute('href', ADRESA);
+    await expect(page.locator('#hotovo .tyden-karta').getByRole('heading', { level: 3, name: 'Stoický týden' })).toBeVisible();
   }
+  await page.goto('/cesta/kdy-mam-dobry-duvod-verit/7/');
+  await expect(page.locator('.tyden-karta')).toHaveCount(0);
   await page.goto('/cesta/kdy-mam-dobry-duvod-verit/');
-  await expect(page.locator(`#hotovo a[href="${ADRESA}"]`)).toHaveCount(0);
+  await expect(page.locator(`#hotovo a[href^="${ADRESA}"]`)).toHaveCount(0);
   for (const o of ['seneca', 'epiktetos', 'marcus-aurelius']) {
     await page.goto(`/osobnost/${o}/`);
     await expect(page.locator(`.kamdal a[href="${ADRESA}"]`)).toContainText('Stoický týden');
@@ -179,3 +194,17 @@ test('vstupy: Kam dál na přehledu cest 5, 33 a 34 a v portrétech Seneky, Epik
   const katalog = await (await page.request.get('/hodina/katalog.json')).json();
   expect(katalog.zastaveni.find((z: { id: string }) => z.id === 't:stoicky')).toMatchObject({ druh: 'tyden', adresa: ADRESA, kotva: null });
 });
+
+for (const rezim of ['light', 'dark'] as const) {
+  for (const sirka of [375, 1440]) {
+    test(`karta týdne na posledním kroku · ${sirka} px · ${rezim}`, async ({ page }) => {
+      await page.setViewportSize({ width: sirka, height: 900 });
+      await page.emulateMedia({ colorScheme: rezim, reducedMotion: 'reduce' });
+      await page.goto('/cesta/kam-mi-mizi-cas/8/');
+      const axe = await new AxeBuilder({ page }).include('.tyden-karta').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+      for (const a of await page.locator('.tyden-karta a').all()) expect((await a.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    });
+  }
+}
