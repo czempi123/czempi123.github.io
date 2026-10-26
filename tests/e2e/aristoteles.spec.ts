@@ -165,13 +165,13 @@ test('Aristotelés: text drží pravidla celku (co nese cesta 4, tradované př�
   await expect(page.locator('.kapitola .citat').filter({ hasText: 'dětinsky štítit' })).toHaveCount(0);
   // Kam dál: cesta 4 jako první, portréty Platóna a Epiktéta a otázka 1 jako poslední.
   const kamDal = page.getByRole('navigation', { name: 'Kam dál' });
-  await expect(kamDal.getByRole('link')).toHaveText([/Cesta 4\s*Stačí vědět, co je správné\?/, /Platón/, /Epiktétos/, /Velká otázka 1\s*Jak mám žít\?/]);
+  await expect(kamDal.getByRole('link')).toHaveText([/Cesta\s*Stačí vědět, co je správné\?/, /Platón/, /Epiktétos/, /Velká otázka 1\s*Jak mám žít\?/]);
   await expect(kamDal.getByRole('link').first()).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
   await expect(kamDal.getByRole('link').last()).toHaveAttribute('href', '/otazka/jak-zit/');
   // Kapitoly 01 a 04 na cestu odkazují názvem; hlavička profilu ji nabízí jako první vstup.
   await expect(page.locator('#syn-lekare').getByRole('link', { name: 'Stačí vědět, co je správné?' })).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
   await expect(page.locator('#skola-a-pratele').getByRole('link', { name: 'Stačí vědět, co je správné?' })).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
-  await expect(page.locator('.vstupy-osoby a').first()).toHaveText(/Cesta 4 · 8 kroků · asi \d+ minut\s*Stačí vědět, co je správné\?/);
+  await expect(page.locator('.vstupy-osoby a').first()).toHaveText(/Cesta · 8 kroků · asi \d+ minut\s*Stačí vědět, co je správné\?/);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
   // Kdo žil dřív? má dvojici, která na jiných stránkách není.
   await expect(page.locator('[id="kdo-sokrates-aristoteles-vzdalenost"]')).toContainText('Sókratés a Aristotelés');

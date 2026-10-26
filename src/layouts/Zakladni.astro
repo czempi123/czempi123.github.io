@@ -35,7 +35,8 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{plnyTitulek}</title>
     <meta name="description" content={popis} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {/* Do konce zkoušky se studenty: celý zveřejněný atlas mimo vyhledávače. Po zkoušce smaž tento řádek a vrať původní podmínku `noindex &&` (dílna zůstane mimo vyhledávače). */}
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />

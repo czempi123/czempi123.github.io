@@ -200,3 +200,20 @@ test('kresba cesty ven: dvojice jde nahoru, pohyb jde zastavit; přepínač a po
   await page.keyboard.press('Enter');
   expect(await stav('.hvezda')).toBe('running');
 });
+
+test('cesta ven zastavená hned po načtení ukáže totéž co při omezeném pohybu: vězně na strmé cestě', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const kde = async (kresba: ReturnType<Page['locator']>) => kresba.locator('.dvojice').evaluate((e) => { const m = new DOMMatrixReadOnly(getComputedStyle(e).transform); return { x: Math.round(m.m41), y: Math.round(m.m42) }; });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const klid = await kde(await priprav(page, 3, 'jeskyne-ven'));
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const kresba = await priprav(page, 3, 'jeskyne-ven');
+  await kresba.getByRole('button', { name: 'Zastavit pohyb' }).click();
+  await expect(kresba.getByRole('button', { name: 'Pustit pohyb' })).toBeVisible();
+  // Revize antiky, nález 5: zastavená kresba nestojí na začátku smyčky dole mezi vězni.
+  expect(await kresba.locator('.dvojice').evaluate((e) => getComputedStyle(e).animationName)).toBe('none');
+  expect(await kde(kresba)).toEqual(klid);
+  expect(klid).toEqual({ x: 104, y: 144 });
+  await kresba.getByRole('button', { name: 'Pustit pohyb' }).click();
+  expect(await kresba.locator('.dvojice').evaluate((e) => getComputedStyle(e).animationName)).toContain('dvojice');
+});

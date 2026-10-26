@@ -5,7 +5,7 @@ import Zakladni from '../../../layouts/Zakladni.astro';
 import PostupCesty from '../../../components/cesta/PostupCesty.svelte';
 import Mince from '../../../components/ui/Mince.astro';
 import { osoba } from '../../../lib/data';
-import { krokyCesty, adresaKroku } from '../../../lib/cesty';
+import { krokyCesty, adresaKroku, poradiDalsichCest } from '../../../lib/cesty';
 import { adresaOtazky } from '../../../lib/otazky';
 import { adresaStranekOsob, medailonky } from '../../../lib/stranky-osob';
 import { nezlomitelne } from '../../../lib/sazba.js';
@@ -38,6 +38,10 @@ for (const o of lide) {
 const otazky = await getCollection('otazky');
 const otazka = otazky.find((o) => o.data.cislo === c.otazka);
 const odkazOtazky = otazka ? adresaOtazky(otazka.id, otazka.data) : undefined;
+// Další cesta: stránka ukáže první, kterou student podle deníku ještě nemá hotovou (skript dole); bez deníku
+// a bez JavaScriptu první v pořadí. Nejdřív cesty téže otázky (revize antiky, O, nález 9).
+const dalsi = poradiDalsichCest(cesta.id, (await getCollection('cesty')).map((x) => ({ slug: x.id, ...x.data })))
+  .map((x) => ({ slug: x.slug, nazev: x.nazev }));
 const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(cesta.id, k.krok) }));
 ---
 <Zakladni
@@ -47,12 +51,12 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
   drobecky={[
     { text: 'Otázky', href: '/otazky/' },
     ...(otazka ? [{ text: otazka.data.otazka, href: odkazOtazky }] : []),
-    { text: `Cesta ${c.cislo}` },
+    { text: 'Cesta' },
   ]}
 >
   <article class={`cesta stranka obdobi-${c.obdobi}`}>
     <header class="cesta__hlava ctenarsky">
-      <p class="t-nadtitulek nadtitulek">Cesta {c.cislo}{c.minut && <> · asi {c.minut} minut</>} · {kroky.length} kroků</p>
+      <p class="t-nadtitulek nadtitulek">Cesta{c.minut && <> · asi {c.minut} minut</>} · {kroky.length} kroků</p>
       <h1 class="t-h1">{c.nazev}</h1>
       <p class="t-perex">{nezlomitelne(c.vstup)}</p>
       <p class="lide t-ovladani">
@@ -66,6 +70,7 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
     <section class="ctenarsky kam-dal" id="hotovo" aria-labelledby="kam-dal-nadpis">
       <h2 class="t-h3" id="kam-dal-nadpis">Kam dál</h2>
       <ul>
+        {dalsi[0] && <li data-dalsi-cesta={JSON.stringify(dalsi)}><a href={`/cesta/${dalsi[0].slug}/`}>Další cesta: <span data-dalsi-nazev>{dalsi[0].nazev}</span></a></li>}
         {profilyCesty.map((p) => <li><a href={p.href}>{p.jmena}: {p.medailonek ? 'medailonek' : 'celý příběh'}</a></li>)}
         {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {c.mapa.text}</a></li>}
         {otazka && <li><a href={odkazOtazky}>Velká otázka {otazka.data.cislo}: {otazka.data.otazka}</a></li>}
@@ -73,6 +78,25 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
     </section>
   </article>
 </Zakladni>
+
+<script>
+  import { nacti } from '../../../lib/denik';
+  import { cestaHotova } from '../../../lib/cesty';
+  // Další cesta podle deníku: první z pořadí, kterou student nemá hotovou. Když má hotové všechny, odkaz zmizí.
+  const li = document.querySelector<HTMLElement>('[data-dalsi-cesta]');
+  if (li) {
+    try {
+      const poradi = JSON.parse(li.dataset.dalsiCesta ?? '[]') as { slug: string; nazev: string }[];
+      const postup = nacti().cesty;
+      const volna = poradi.find((c) => !cestaHotova(postup[c.slug]));
+      if (!volna) li.hidden = true;
+      else {
+        li.querySelector('a')!.setAttribute('href', `/cesta/${volna.slug}/`);
+        li.querySelector('[data-dalsi-nazev]')!.textContent = volna.nazev;
+      }
+    } catch { /* bez deníku zůstane první v pořadí */ }
+  }
+</script>
 
 <style>
   .cesta { padding-bottom: var(--s-8); }

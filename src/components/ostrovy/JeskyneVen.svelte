@@ -188,6 +188,8 @@
   :global(.kresba--pohyb) .paprsky { animation: paprsky 24s linear infinite; }
   :global(.kresba--pohyb) .odraz { animation: odraz 2.8s ease-in-out infinite alternate; }
   :global(.kresba--pohyb) .oslneni { animation: oslneni 1.6s ease-in-out infinite alternate; }
+  /* Zastavený pohyb ukáže totéž co omezený: vězeň na strmé cestě, ne dole mezi ostatními (revize antiky, nález 5). */
+  :global(.kresba--pohyb:not(.kresba--bezi)) .dvojice { animation-name: none; }
 
   @keyframes dvojice {
     0%, 6% { transform: translate(276px, 214px); }

@@ -44,7 +44,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA2);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 2');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Filozofové cesty jsou Hérakleitos a Parmenidés; řádek s pomocí cesta nemá (žádné krizové téma neotevírá).
   await expect(page.locator('.cesta__hlava .lide a')).toHaveText(['Hérakleitos', 'Parmenidés']);
@@ -214,7 +214,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
     'Jestli jsi řekl, že záleží na tom, na co se ptáš, řekl jsi větu, na které Hobbes postavil celou odpověď.',
   ]) await expect(obsah8).toContainText(veta);
   // Kdo ve čtvrtém kroku zvolil „obě“ nebo „žádná“, najde svou odpověď taky (revize celku 7, nález 5).
-  await expect(obsah8).toContainText('Podobně se dělí i dvě lodě ze čtvrtého kroku.');
+  await expect(obsah8).toContainText('I tady se zastánci dělí podobně.');
   await expect(obsah8).toContainText('Jestli jsi řekl obě, každou v jiném smyslu, bereš si od Hobbese větu o jménu, pod kterým se ptáš.');
   await expect(obsah8).toContainText('A jestli jsi řekl žádná, chceš po Théseově lodi obojí naráz');
   await expect(obsah8).toContainText('Podle Seneky tentýž není ani po jediné noci.');
@@ -226,7 +226,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await expect(vyzva).toContainText('Táž, a všechno je v ní jiné');
   await expect(vyzva).toContainText('Kterou z nich bys bránil víc, kdyby ji někdo chtěl nahradit přesnou kopií?');
   await expect(vyzva).not.toContainText(/ty sám|na sobě|změnil ses|strun|stan|síť|nápis|signál/i);
-  await expect(obsah8).toContainText('Vrať se ke svému tahu z kroku 1. Odpověděl bys teď stejně?');
+  await expect(obsah8).toContainText('Podívej se na svou odpověď o lodi z kroku 1. Řekl bys teď totéž o sobě?');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 1 · Loď');
   await expect(panel.locator('.zacatek .cast').nth(0)).toHaveText('Přestala jí být někde cestou.');
@@ -257,7 +257,7 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['U člověka na téže otázce záleží víc.', 'Kde tedy dělá chybu? A dělá ji vůbec?'],
     ['Dva z nich z ní vyvodili opačné závěry a oba psali o člověku.', 'Postav se mezi ně dřív, než si přečteš jejich důvody.'],
     ['něco se v těle mění za dny, něco za roky a něco vůbec', 'Dá se na nich ale vyzkoušet, co by které pravidlo řeklo o těle.'],
-    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'Podobně se dělí i dvě lodě ze čtvrtého kroku.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Vrať se ke svému tahu z kroku 1.'],
+    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'I tady se zastánci dělí podobně.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
   ];
   await page.goto(`${CESTA2}1/`);
   for (let n = 1; n <= KROKY2.length; n++) {
@@ -413,16 +413,16 @@ test('otázka 5: kdo tě zná líp, sedm hlasů, které se poznají, a cesta 2',
 test('cesta 2 a otázka 5 jsou dosažitelné z profilů, z přehledu otázek, z Lidí a z Domů', async ({ page }) => {
   await page.goto('/osobnost/herakleitos/');
   // Hlavička se skládá z dat: cesta, pak otázka, ke které cesta vede.
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 2 · 8 kroků · asi \d+ minut\s*Jsem pořád tentýž, když se měním\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta · 8 kroků · asi \d+ minut\s*Jsem pořád tentýž, když se měním\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/]);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', CESTA2);
   await page.goto('/osobnost/parmenides/');
-  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta 2[\s\S]*Jsem pořád tentýž, když se měním\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/]);
+  await expect(page.locator('.vstupy-osoby a')).toHaveText([/Cesta[\s\S]*Jsem pořád tentýž, když se měním\?/, /Velká otázka 6\s*Co je skutečné\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/]);
   await page.goto('/otazky/');
-  await expect(page.locator('#kdo-vlastne-jsem .cesta')).toHaveText(/Cesta 2\s*Jsem pořád tentýž, když se měním\?/);
+  await expect(page.locator('#kdo-vlastne-jsem .cesta')).toHaveText(/Cesta\s*Jsem pořád tentýž, když se měním\?/);
   await expect(page.locator('#kdo-vlastne-jsem a[href="/otazka/kdo-vlastne-jsem/"]')).toHaveCount(1);
   await page.goto('/lide/');
-  await expect(page.locator('#herakleitos .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
-  await expect(page.locator('#parmenides .karta__cesta')).toHaveText('Cesta 2: Jsem pořád tentýž, když se měním?');
+  await expect(page.locator('#herakleitos .karta__cesta')).toHaveText('Cesta: Jsem pořád tentýž, když se měním?');
+  await expect(page.locator('#parmenides .karta__cesta')).toHaveText('Cesta: Jsem pořád tentýž, když se měním?');
   // Seneca a Plútarchos mluví ve Sporu, ale filozofy cesty 2 nejsou: jejich karty a Senekova hlavička se nemění.
-  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta 8: Proč se bát smrti?', 'Cesta 33: Co když přijde to nejhorší?', 'Cesta 34: Kam mi mizí čas?']);
+  await expect(page.locator('#seneca .karta__cesta')).toHaveText(['Cesta: Proč se bát smrti?', 'Cesta: Co když přijde to nejhorší?', 'Cesta: Kam mi mizí čas?']);
 });

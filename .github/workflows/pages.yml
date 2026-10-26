@@ -1,0 +1,47 @@
+# Zveřejnění Atlasu myšlení na GitHub Pages po každém pushi do hlavní větve.
+# Kontroly a testy běží zvlášť v kontroly.yml; tady se jen sestaví web s vyhledáváním (Pagefind) a nasadí dist/.
+name: Zveřejnění na GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Běží nejvýš jedno nasazení; rozběhnuté se nepřeruší.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  sestaveni:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalace závislostí
+        run: npm ci
+      - name: Sestavení a vyhledávací index
+        run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  nasazeni:
+    needs: sestaveni
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.nasazeni.outputs.page_url }}
+    steps:
+      - id: nasazeni
+        uses: actions/deploy-pages@v4

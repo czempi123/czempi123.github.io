@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { parse } from 'yaml';
-import { krokyCesty, krokZAdresy, dalsiKrok, adresaKroku, zacatekCesty } from '../../src/lib/cesty';
+import { krokyCesty, krokZAdresy, dalsiKrok, adresaKroku, zacatekCesty, poradiDalsichCest, cestaHotova } from '../../src/lib/cesty';
 
 const k = [
   { cesta: 'c', krok: 2, nazev: 'Dva' },
@@ -77,4 +77,22 @@ describe('obsah cest', () => {
       expect(posledni.body).toMatch(/<ZaverCesty id="[a-z0-9-]+" otazka="[^"]+" \/>/);
     });
   }
+});
+
+describe('další cesta v Kam dál hotové cesty', () => {
+  const c = (slug: string, cislo: number, otazka: number) => ({ slug, cislo, otazka });
+  const antika = [c('c1', 1, 7), c('c2', 2, 5), c('c3', 3, 6), c('c4', 4, 1), c('c5', 5, 4), c('c6', 6, 1), c('c7', 7, 1), c('c8', 8, 3), c('c33', 33, 3), c('c34', 34, 1)];
+  it('nejdřív cesty téže otázky po této a před ní, pak ostatní podle katalogu od této dál', () => {
+    expect(poradiDalsichCest('c6', antika).map((x) => x.slug)).toEqual(['c7', 'c34', 'c4', 'c8', 'c33', 'c1', 'c2', 'c3', 'c5']);
+    expect(poradiDalsichCest('c33', antika).map((x) => x.slug)).toEqual(['c8', 'c34', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7']);
+    expect(poradiDalsichCest('nic', antika)).toEqual([]);
+    const bez = antika.map((x) => (x.slug === 'c8' ? { ...x, nenabizet: ['c33'] } : x));
+    expect(poradiDalsichCest('c8', bez).map((x) => x.slug)).toEqual(['c34', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7']);
+  });
+  it('hotová cesta podle deníku', () => {
+    expect(cestaHotova(undefined)).toBe(false);
+    expect(cestaHotova({ navstivene: [1, 2], pocet: 3 })).toBe(false);
+    expect(cestaHotova({ navstivene: [1, 2, 3], pocet: 3 })).toBe(true);
+    expect(cestaHotova({ navstivene: [1], pocet: 3, dokonceno: '2026-10-01T10:00:00Z' })).toBe(true);
+  });
 });

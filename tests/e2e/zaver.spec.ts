@@ -47,7 +47,7 @@ test('závěr cesty 1: tah z kroku 2 vedle pravidla, otázka pod srovnáním a n
 
   await page.goto(`${C1}7/`);
   await pripravit(page);
-  await expect(page.locator('.krok__obsah')).toContainText('Vrať se ke svému tahu z kroku 2. Platí pořád?');
+  await expect(page.locator('.krok__obsah')).toContainText('Ve druhém kroku jsi vymýšlel, jak věštírnu prověřit.');
   const p = panel(page);
   await expect(p.getByRole('heading', { name: 'Na začátku' })).toBeVisible();
   await expect(p.getByRole('heading', { name: 'Teď' })).toBeVisible();

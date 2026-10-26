@@ -358,6 +358,96 @@ export function exportuj(): void {
   URL.revokeObjectURL(a.href);
 }
 
+// ─── Nahrání deníku ze souboru (revize antiky, O) ───────────────────────────
+
+/** Deník ze staženého souboru, nebo null, když text deník atlasu není. */
+export function rozeberDenik(text: string): Denik | null {
+  try {
+    return rozeber(text);
+  } catch {
+    return null;
+  }
+}
+
+const novejsi = (a?: string, b?: string) => String(a ?? '') >= String(b ?? '');
+
+/** Seznam spojený podle klíče: ze dvou záznamů se stejným klíčem zůstane novější. Výsledek od nejnovějšího. */
+function spojPodle<T>(a: T[], b: T[], klic: (x: T) => string, kdy: (x: T) => string): T[] {
+  const m = new Map<string, T>();
+  for (const x of [...a, ...b]) {
+    const k = klic(x);
+    const pred = m.get(k);
+    if (!pred || !novejsi(kdy(pred), kdy(x))) m.set(k, x);
+  }
+  return [...m.values()].sort((x, y) => kdy(y).localeCompare(kdy(x)));
+}
+
+/**
+ * Spojí deník v prohlížeči (`ten`) s deníkem ze souboru (`soubor`). Nic se neztratí: co je jen v jednom, zůstane.
+ * Když je totéž v obou (odpověď ve stejném bloku, postup v téže cestě), vyhraje novější podle času; stav bloku jde
+ * s časem jeho poslední aktivity, a když ho nezná ani jeden, zůstane ten z prohlížeče. Postup v cestě sečte
+ * otevřené kroky a čas dokončení vezme ten dřívější. Vrací nový objekt.
+ */
+export function spojDeniky(ten: Denik, soubor: Denik): Denik {
+  // Ze souboru jen záznamy s poli, podle kterých se spojuje a řadí; ruční úprava souboru nesmí rozbít deník.
+  const s = (x: unknown, ...pole: string[]) => !!x && typeof x === 'object' && pole.every((p) => typeof (x as Record<string, unknown>)[p] === 'string');
+  const pole = <T>(x: unknown, ...p: string[]) => (Array.isArray(x) ? x.filter((y) => s(y, ...p)) : []) as T[];
+  const novy: Denik = {
+    ...soubor,
+    zapisy: pole<Zapis>(soubor.zapisy, 'id', 'otazka', 'odpoved', 'odkaz', 'kdy'),
+    vyzvy: pole<Vyzva>(soubor.vyzvy, 'id', 'nazev', 'odkaz', 'prijato'),
+    navstivene: pole<Denik['navstivene'][number]>(soubor.navstivene, 'odkaz', 'nazev', 'kdy'),
+    aktivita: pole<Aktivita>(soubor.aktivita, 'id', 'odkaz', 'otazka', 'kdy'),
+  };
+  const aktivita = spojPodle(ten.aktivita, novy.aktivita, (a) => a.id, (a) => a.kdy).slice(0, 30);
+  const casBloku = (d: Denik, id: string) => d.aktivita.find((a) => a.id === id)?.kdy;
+  const bloky: Record<string, unknown> = { ...novy.bloky, ...ten.bloky };
+  for (const id of Object.keys(novy.bloky)) {
+    if (!(id in ten.bloky)) continue;
+    const t = casBloku(ten, id);
+    const n = casBloku(novy, id);
+    if (n && (!t || n > t)) bloky[id] = novy.bloky[id];
+  }
+  // Postup ze souboru bere jen celé záznamy; poškozený by rozbil Pokračuj i deník.
+  const platne = Object.fromEntries(Object.entries(novy.cesty).filter(([, c]) =>
+    !!c && typeof c.nazev === 'string' && typeof c.pocet === 'number' && typeof c.krok === 'number' && typeof c.kdy === 'string' && Array.isArray(c.navstivene)));
+  const cesty: Record<string, PostupCesty> = { ...platne, ...ten.cesty };
+  for (const [slug, n] of Object.entries(platne)) {
+    const t = ten.cesty[slug];
+    if (!t) continue;
+    const posledni = novejsi(t.kdy, n.kdy) ? t : n;
+    const navstivene = [...new Set([...t.navstivene, ...n.navstivene])].sort((a, b) => a - b);
+    const pocet = Math.max(t.pocet, n.pocet);
+    const casy = [t.dokonceno, n.dokonceno].filter((x): x is string => typeof x === 'string').sort();
+    const dokonceno = casy[0] ?? (navstivene.length >= pocet ? posledni.kdy : undefined);
+    cesty[slug] = { nazev: posledni.nazev, pocet, krok: posledni.krok, navstivene, kdy: posledni.kdy, ...(dokonceno ? { dokonceno } : {}) };
+  }
+  const prectene: Record<string, string[]> = { ...(novy.prectene ?? {}) };
+  for (const [s, k] of Object.entries(ten.prectene ?? {})) prectene[s] = [...new Set([...k, ...(prectene[s] ?? [])])];
+  const vysledek: Denik = {
+    ...ten,
+    verze: 1,
+    zapisy: spojPodle(ten.zapisy, novy.zapisy, (z) => z.id, (z) => z.kdy).reverse(),
+    vyzvy: [...ten.vyzvy, ...novy.vyzvy.filter((v) => !ten.vyzvy.some((x) => x.id === v.id))],
+    navstivene: spojPodle(ten.navstivene, novy.navstivene, (v) => v.odkaz, (v) => v.kdy).slice(0, 20),
+    bloky,
+    aktivita,
+    cesty,
+  };
+  if (ten.cteni || novy.cteni) vysledek.cteni = Object.fromEntries(Object.entries({ ...(novy.cteni ?? {}), ...(ten.cteni ?? {}) }).slice(-CTENI_NEJVYS));
+  if (ten.prectene || novy.prectene) vysledek.prectene = prectene;
+  if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
+  return vysledek;
+}
+
+/** Nahraje deník ze souboru a přidá ho k deníku v prohlížeči. Vrací false, když text deník atlasu není. */
+export function nahrajDenik(text: string): boolean {
+  const novy = rozeberDenik(text);
+  if (!novy) return false;
+  uloz(spojDeniky(nacti(), novy));
+  return true;
+}
+
 /** Jen pro testy: zapomene deník držený v paměti (když localStorage chybí). */
 export function _zapomenPamet(): void {
   vPameti = null;

@@ -5,13 +5,13 @@ description: "Psaní cesty, kroku cesty, myšlenkového pokusu, případu pro N�
 
 # Cesta Atlasu myšlení
 
-Cesta je 15–20 minut vedeného průchodu jednou velkou otázkou. Student nejdřív sám zkusí odpovědět, pak potká filozofa, narazí na silnou námitku, vyzkouší myšlenku na novém případu a zapíše si vlastní pravidlo. Je hotová, když ji šestnáctiletý člověk projde na telefonu bez nápovědy, dostane zpětnou vazbu k důvodům (ne ke shodě s filozofem) a na konci ví víc, než si myslel.
+Cesta je vedený průchod jednou velkou otázkou, v antice 14 až 35 minut (průměrně 27). Student nejdřív sám zkusí odpovědět, pak potká filozofa, narazí na silnou námitku, vyzkouší myšlenku na novém případu a zapíše si vlastní pravidlo. Je hotová, když ji šestnáctiletý člověk projde na telefonu bez nápovědy, dostane zpětnou vazbu k důvodům (ne ke shodě s filozofem) a na konci ví víc, než si myslel.
 
-Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty uvnitř bloků.
+Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty uvnitř bloků. Jak psát, aby se cesta četla jako dobrá kniha a nezněla jako stroj (úvody, citáty, rytmus, strojové obraty), drží skill `atlas-psani`: načti ho před psaním.
 
 ## Postup
 
-1. **Přečti** `CLAUDE.md`, `docs/styl.md`, `docs/pouceni.md` (co se z revizí hotových celků má dodržovat), v `docs/architektura.md` řádek cesty v Katalogu cest, v `docs/design.md` oddíly **Bloky**, **Cesta** a **Velká otázka** (API a stavba) a ukázkovou cestu 1 (`src/content/cesty/kdy-mam-dobry-duvod-verit*`). Záznam revize hotového celku (`docs/archiv/revize/`) otevři, jen když upravuješ jeho cestu.
+1. **Přečti** `CLAUDE.md`, `docs/styl.md`, skill `atlas-psani`, `docs/pouceni.md` (co se z revizí hotových celků má dodržovat), v `docs/architektura.md` řádek cesty v Katalogu cest, v `docs/design.md` oddíly **Bloky**, **Cesta** a **Velká otázka** (API a stavba) a ukázkovou cestu 1 (`src/content/cesty/kdy-mam-dobry-duvod-verit*`). Záznam revize hotového celku (`docs/archiv/revize/`) otevři, jen když upravuješ jeho cestu.
 2. **Podklady nejdřív.** Každé historické tvrzení, citát a příběh musí být v podkladovém listu (`docs/podklady/`, skill `atlas-overeni`). Co ověřené není, do cesty nepiš; zapiš to do `docs/podklady/k-overeni.md`. Vymyšlené situace uváděj „Představ si…“ a nevkládej do nich historické osoby.
 3. **Navrhni si osnovu** (6–8 kroků). Autorovi ji předem neposílej: kde váháš, zvol nejlepší cestu a na konci napiš, nad čím jsi váhal a co by šlo jinak. Každý krok má jeden úkol pro studenta. Osvědčené pořadí:
 
@@ -27,18 +27,22 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
    | Souvislosti | Kdo kdy žil, s kým se mohl potkat | Kdo žil dřív? |
    | Tvoje pravidlo | Vrátí se ke svému prvnímu tahu a zapíše si vlastní pravidlo; pole je vidět hned a ukládá se samo. Vedle něj stojí, co uložil na začátku | Závěr cesty (`ZaverCesty`) |
 
-   Ne každý blok musí být v každé cestě. Dva stejné bloky za sebou jen výjimečně. Kde text popisuje prostor, děj nebo pořadí, které si student musí představit, zvaž k němu kresbu s pohybem (níž v Jak psát bloky).
+   Ne každý blok musí být v každé cestě. Dva stejné bloky za sebou jen výjimečně.
+
+   **Stavba podle látky, ne podle tabulky.** V antice mají všechny cesty stejné pořadí (Volba nebo Roztřiď, filozof, Spor, nový případ, zastánci, pravidlo) a student ho od třetí cesty čte jako formulář. Každé období proto zkusí aspoň jednu cestu jiné stavby a nové bloky (Dialog, Slož argument, Úryvek s otázkou) dřív, než vznikne další cesta stejné stavby. Před osnovou si vypiš bloky hotových cest období (`grep -ohE '<[A-Z][A-Za-z]+ id' src/content/cesty/*/*.mdx`) a názvy jejich kroků: stejný krok 2 ani stejný název kroku podruhé nepoužij (Tři koše v cestách 5 a 6). Kde text popisuje prostor, děj nebo pořadí, které si student musí představit, zvaž k němu kresbu s pohybem (níž v Jak psát bloky).
 4. **Napiš soubory** (návod v `docs/design.md` › Cesta a › Bloky):
-   - přehled `src/content/cesty/<slug>.mdx` (frontmatter `cislo`, `nazev`, `obdobi`, `otazka`, `vstup`, `filozofove`, `minut`, `zacatek`; text = krátký úvod, dvě až tři věty; `minut` spočítej ze slov, která student opravdu přečte, při 150 za minutu a přidej ovládání, neopisuj ho z minulé cesty),
+   - přehled `src/content/cesty/<slug>.mdx` (frontmatter `cislo`, `nazev`, `obdobi`, `otazka`, `vstup`, `filozofove`, `minut`, `zacatek`; text = krátký úvod, dvě až tři věty: o čem cesta je, proč se studenta týká a co si z ní odnese, bez osnovy kroků (`atlas-psani` › Úvody); napiš ho naposledy, spolu se závěrečným odstavcem, a porovnej s úvody ostatních cest téhož období (příkaz v `atlas-psani` › Postup při revizi); `minut` spočítej ze slov, která student opravdu přečte, při 150 za minutu a přidej ovládání, neopisuj ho z minulé cesty),
    - kroky `src/content/cesty/<slug>/<n>-<nazev>.mdx` (frontmatter `cesta`, `krok`, `nazev`, `kdeJsme`), číslované 1…n bez mezer,
    - obsah Volby, Roztřiď, Změň jednu věc a Sporu do `src/content/bloky/<id>.yaml`; v MDX jen `<Volba id="…" />`.
    Text kroku patří před blok: po dokončení nabídne blok další krok a text pod ním student přeskočí.
    Bloky v kroku nabídnou „Kam dál“ na další krok samy; `client:visible` ani odkaz do deníku nepiš.
    - **Závěr:** poslední krok končí mimo čtenářský sloupec řádkem `<ZaverCesty id="<cesta>-moje-pravidlo" otazka="… Napiš svoje pravidlo." />`. Do přehledu cesty zapiš `zacatek: <id bloku>`: blok, ve kterém student poprvé sám odpověděl (obvykle krok 2). Poslední krok pak ukáže jeho odpověď vedle pravidla („Na začátku“ × „Teď“). Kdo začátek přeskočil, panel neuvidí; věta, která na začátek odkazuje, proto musí sedět s panelem i bez něj: „Vrať se ke svému tahu z kroku&nbsp;2“, ne „Níž vidíš svůj tah“.
+   - **Závěrečný odstavec** před `ZaverCesty` píšeš naposledy a porovnáš ho se závěry ostatních cest období. Nevyjmenovává, co student v cestě dělal („Ty jsi dnes třídil…, stál mezi…“), a ptá se konkrétně na první tah téhle cesty: „Podívej se na své koše z kroku&nbsp;2. Kterou kartu bys teď dal jinam?“ Obecné „Odpověděl bys teď stejně?“ jen tam, kde by konkrétní otázka mířila na bolest (cesta 8).
+   - **Kdo je na tvé straně** (zastánci odpovědí, vlastní krok za novým případem): mezititulky podle bloků a odpovědí, ke kterým zastánci patří („Loď z prvního kroku“, „Senátor“), ať student skočí ke své odpovědi a cizí číst nemusí. Krok s víc než asi 450 slovy dostane mezititulky vždy; slova kroků vypíše `node scripts/slova-cesta.mjs <slug>`.
    - **Návrat:** ke každé cestě napiš jeden případ do `src/content/bloky/<cesta>-navrat.yaml` (`docs/design.md` › Bloky › Návrat; jak ho psát, je níž v Jak psát bloky). Do MDX cesty se nevkládá, nabízí ho deník.
    - **Krok se dvěma bloky** (odhad a čtení pokusu): první blok dostane vlastní Kam dál na kotvu pod sebou, `<Volba id="…" dal={{ href: '#co-vyslo', text: 'Co z pokusu vyšlo' }} />`. Jinak nabídne další krok a student přeskočí text mezi bloky. Další krok nabízí až poslední blok.
-5. **Vstupy do cesty:** karta `<CestaKarta slug="…" />` u filozofa cesty a odkaz v jeho Kam dál; u velké otázky odkaz na cestu. Kartu nedávej hned za kapitolu, kterou první kroky cesty převyprávějí; student by tytéž odstavce četl dvakrát za sebou. Na Domů jen jedna doporučená cesta.
-6. **Ověř** `npm test` celé, projdi cestu v prohlížeči na 390 a 1440 px ve světlém i tmavém režimu a jen klávesnicí, snímky si prohlédni. Fotí je `scripts/snimky-cesta.mjs` (kroky s odpověďmi i bez nich) a `scripts/snimky-prvek.mjs` (jeden blok nebo kresba). Projdi ji jednou i bez odkrytí bloků (viz Jak psát). Projdi ji i očima studenta, který s filozofem cesty nesouhlasí. Všechny texty cesty včetně zpětných vazeb v YAML přečti ještě jednou jen podle oddílu Ať text nezní jako stroj. Pak skill `atlas-revize`.
+5. **Vstupy do cesty:** karta `<CestaKarta slug="…" />` u filozofa cesty a odkaz v jeho Kam dál; u velké otázky odkaz na cestu. Kartu nedávej hned za kapitolu, kterou první kroky cesty převyprávějí; student by tytéž odstavce četl dvakrát za sebou. Na Domů jen jedna doporučená cesta. Číslo cesty (`cislo`) je jen v datech a v přípravě hodiny: student ho nevidí, v textu i v Kam dál je cesta názvem s nadtitulkem „Cesta“. Kam dál přehledu nabídne Další cestu sám podle deníku; cestu, kterou by student po téhle četl jinak, než je myšlená (po cestě o smrti „Co když přijde to nejhorší?“), vyluč polem `nenabizet` v přehledu.
+6. **Ověř** `npm test` celé, projdi cestu v prohlížeči na 390 a 1440 px ve světlém i tmavém režimu a jen klávesnicí, snímky si prohlédni. Fotí je `scripts/snimky-cesta.mjs` (kroky s odpověďmi i bez nich) a `scripts/snimky-prvek.mjs` (jeden blok nebo kresba). Projdi ji jednou i bez odkrytí bloků (viz Jak psát). Projdi ji i očima studenta, který s filozofem cesty nesouhlasí. Všechny texty cesty včetně zpětných vazeb v YAML přečti třikrát podle Postupu při psaní ve skillu `atlas-psani` (čtivost, úvody a citáty, stroj). Pak skill `atlas-revize`.
 7. **Zapiš** stav do plánu větve (`docs/plany/<větev>.md`), do `docs/rozhodnuti.md` zásadní volby, potřeby ověření do `k-overeni.md`. Commituj česky po ucelených krocích ve vlastní větvi.
 
 ## Jak psát
@@ -47,14 +51,16 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
 - **Pointa má přednost před sporem badatelů.** Historická tvrzení (kdo, kdy, kde, co řekl) jen z podkladů. Výklad myšlenky, o kterém se badatelé přou, smí do textu, když slouží pointě a podává se jako výklad, ne jako fakt (Prótagorova odpověď na sebevyvrácení).
 - **Shrnutí drží rozdíly z pramene.** Když pramen líčí několik skupin nebo kroků, nezobecňuj je do jedné věty. V Obraně opravdu rozuměli jen řemeslníci; politik si jen myslel, že ví, a básníci nevěděli, co říkají. Citát dej hned k tomu, o kom mluví.
 - **Text drží souvislost i bez bloků.** Na co navazuje další odstavec (protipříklad, odpověď filozofa, obrat v rozhovoru), musí stát v hlavním textu, ne jen ve zpětné vazbě nebo ve srovnání v Odkryj. Srovnání v Odkryj vede studenta ke zkoušce jeho vlastní odpovědi; příběh dopředu nevyzrazuje.
+- **Citát odpovídá na otázku kroku.** Stojí za větou, která ji položila, má uvozovací větu se situací (komu, kdy, na co odpovídal) a text se po něm vrací k případu. Žádná sbírka citátů za sebou (`atlas-psani` › Citáty).
 - **Přímá řeč skutečných osob jen jako citát** ze `zdroje.yaml` přes `<Citat id="…" />`. Ostatní v nepřímé řeči nebo jako výklad; ani otázku filozofa nepiš jako vymyšlenou přímou řeč. Postoj ve Sporu („To, co vidím.“) je zkratka stanoviska, ne citát.
 - **Jména a podrobnosti střídmě** (`docs/styl.md`, pravidlo 6). Jménem nazvi jen toho, kdo nese příběh nebo myšlenku; ostatní popiš tím, kým jsou: „Sókratův přítel“, „žena, která šaty viděla na svatbě“, „mladý básník“. Vedlejší postava smí jménem nanejvýš v první větě, kde vstoupí; v popiscích, „Kde jsme“ a scénách bloků už popisem. Vzhled, povaha, místa, částky a data jen tam, kde něco říkají o člověku nebo o myšlence.
 - **„Kde jsme“** orientuje studenta, který zná jen dosavadní kroky: místo a chvíli, případně dialog („Platónův dialog Theaitétos. Athény, krátce před Sókratovým soudem“). Neodkazuje na události, o kterých cesta nemluví.
 - **Myšlenka má přednost před ozdobou.** Když podklad nabízí další krok argumentu (Prótagorův lékař, Sókratova budoucnost), vezmi ho; když nabízí jen další jméno, kulisu nebo posměšek, vynech ho.
 - **Krok neříká dopředu, co řekne další.** Když text slíbí „dozvíš se za chvíli“, srovnání v bloku to nesmí hned vyzradit celé: řekne jen tolik, kolik student potřebuje ke zkoušce své odpovědi, zbytek nese citát v dalším kroku.
 - **Spojovací věta není historické tvrzení zadarmo.** „Proti Epiktétovi tu otázku položil už Aristotelés“ tvrdí spor, který nebyl, a otázku, kterou Aristotelés nepoložil. Piš, co kdo opravdu tvrdil („podle něj záleží i na tom, co člověka potká“), a že se nepotkali.
-- **Neopakuj, co student v celku už četl.** Cesta musí stát sama, takže smí převyprávět scénu z portrétu. Na stránce otázky a v profilu ale ukaž filozofa na jiném příkladu (Sókratés s Lachétem místo Delf). Tentýž citát nanejvýš dvakrát v celém celku. Totéž platí pro doložený detail: Epikúrovy dny skrovného jídla smějí v cestě zaznít dvakrát, ne třikrát, i když pokaždé jinými slovy.
+- **Neopakuj, co student v celku už četl.** Cesta musí stát sama, takže smí vyprávět scénu z portrétu; portrét ji pak vypráví kratší a odkáže na krok cesty (`atlas-osobnost`). Píšeš cestu k hotovému portrétu, zkrať v témže celku jeho kapitolu (portrét Sókrata opakoval cestu 1 slovo od slova). Na stránce otázky a v profilu ale ukaž filozofa na jiném příkladu (Sókratés s Lachétem místo Delf). Tentýž citát nanejvýš dvakrát v celém celku. Totéž platí pro doložený detail: Epikúrovy dny skrovného jídla smějí v cestě zaznít dvakrát, ne třikrát, i když pokaždé jinými slovy.
 - **Hlas i proti filozofovi cesty.** Cesta o tom, jak žít (peníze, věci, úspěch), nesmí mluvit jen zkouškou svého filozofa. Každá zpětná vazba může být v pořádku, a celek přesto tlačí k jedné odpovědi. Závěrečný krok proto řekne, že souhlasit student nemusí, a pošle ho za myslitelem, který odpovídá jinak (hlas na stránce velké otázky). Srovnání s filozofem v bloku se zeptá i proti němu („A nechal bys to tam i tak?“).
+- **Počty z jiných stránek do textu nepiš** („odpovídají tam i tři další“): zastarají s prvním novým hlasem nebo cestou (závěr cesty 4). Napiš, kam jít, a když počet potřebuješ, ověř ho proti sestavené stránce; při přidání hlasu nebo cesty hledej počty v textech, které na stránku odkazují.
 - **Pravidlo filozofa není pravidlo atlasu.** „Smíš“, „musíš“ a „stačí ti“ piš s „podle něj“.
 - **Student, kterému někdo ubližuje.** Cestu o tom, co má člověk unést, přijmout nebo co nemá v moci, čti jeho očima, hlavně první obrazovku každého kroku. Citát o ráně nebo bití nedávej na začátek kroku: z téže kapitoly vyber větu, která nese myšlenku bez rány (z Rukojeti 20 „Když tě někdo podráždí…“, ne „kdo tě bije“). Otázka kroku ať je stejně široká jako citát („když tě někdo urazí“, ne „když ti někdo ublíží“). Křivdu nenazývej slovem, které z ní dělá studentovu ostudu („trapas“). Hlas, který říká, že křivdu je třeba nazvat a řešit, má stát na téže obrazovce jako věta, která by šla číst jako rada snášet.
 - **Poslední slovo před otázkou.** Citát filozofa těsně před hlasováním zní jako odpověď předem. Jeho citáty dej na začátek kroku; před blokem ať stojí věta, která nikomu nestraní.
@@ -81,7 +87,7 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
   - *Text drží i bez ní.* Kresba nenese nic, co neříká text kroku; kdo ji přeskočí nebo neuvidí, o nic nepřijde. Text pod kresbou říká totéž slovy.
   - *Odkud se student dívá.* Výchozí pohled ho nechává v situaci (mezi vězni), ne nad ní. Pohled shora dostane větu, komu patří, a nenechá studenta nad těmi dole („Tenhle pohled nemá žádný z nich. Ty jsi ho před chvílí taky neměl.“).
   - *Pramen.* Popisy pohledů a stupňů jsou studentský text: věty do 25 slov, jen to, co je v podkladech, a „kdyby“ zůstává „kdyby“. Co je v kresbě naše volba (které věci nosiči nesou, kolik je vězňů), zapiš do `k-overeni.md`.
-  - *Ovládání:* přepínač, kde jsou dva pohledy na totéž; posuvník, kde jde o pořadí nebo míru. Samo se nic nestřídá: pohyb je děj uvnitř jednoho pohledu a jde zastavit.
+  - *Ovládání:* přepínač, kde jsou dva pohledy na totéž; posuvník, kde jde o pořadí nebo míru. Samo se nic nestřídá: pohyb je děj uvnitř jednoho pohledu a jde zastavit. Zastavená kresba ukáže totéž co při omezeném pohybu, ne začátek smyčky (`atlas-komponenta`).
 - **Zkus to žít v posledním kroku** (`ZkusToZitKarta`) jen tam, kde výzva stojí na radě filozofa cesty (Aristotelovo křivé dřevo v cestě 4). Karta stojí hned za citátem s radou, dovoluje nezkoušet nic, nenapovídá, jak má pokus dopadnout, a nemíří na druhého člověka. Cesta bez takové rady končí jen vlastním pravidlem.
 - **Kdo žil dřív?** jen pro dvojice, kde výsledek překvapí nebo souvisí s příběhem (Sókratés a Diogenés žili současně, Platón byl při Sókratově smrti mladý muž).
 - **Návrat:** krátký nový případ, který deník nabídne pár dní po dokončení cesty. Student na něm zkouší své závěrečné pravidlo; není to opakování cvičení.
@@ -104,54 +110,11 @@ Stránka `/otazka/<slug>/` (`docs/design.md` › Velká otázka) je rozhovor nap
 - **Citát** jen ze `zdroje.yaml` a jen ten, který patří téže osobě (kontroluje sestavení). `zdroje` = prameny věty.
 - Cesty k otázce se na stránce ukážou samy z `otazka:` v přehledu cesty. Na otázku odkazuj adresou `/otazka/<slug>/`.
 
-## Ať text nezní jako stroj
+## Čtivost a lidský hlas
 
-Platí pro každý text, který uvidí student: odstavce v MDX, scény a zpětné vazby v YAML, titulky, popisky i „Kde jsme“. Východiskem je seznam, který si pro úklid strojových textů vedou wikipedisté (`https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing`). Tady je převedený do češtiny a na atlas; anglická slova ze seznamu jsou nahrazená českými protějšky.
+Cesta se má číst jako dobrá kniha, ne jako cvičení: otázka táhne dál, informaci nese scéna, citát přijde jako odpověď a nic nezní jako stroj. Všechno k tomu je ve skillu `atlas-psani` (Co dělá dobrou knihu, Úvody, Citáty, Ať text nezní jako stroj, Postup při psaní); platí pro každý text cesty včetně scén a zpětných vazeb v YAML, titulků, popisků a „Kde jsme“.
 
-Jazykový model táhne k průměru. Zvláštní, doložený detail nahradí hladkou obecnou větou, která by seděla na kohokoli. Oprava je proto vždy stejná: vrať do věty konkrétní věc z podkladů. Škrtnout podezřelé slovo a prázdnou větu nechat nestačí.
-
-**Test jedné věty:** dala by se beze změny napsat o jiném filozofovi? Pak nic neříká. Přepiš ji z podkladů, nebo ji smaž.
-
-### Obsah
-
-- **Nafouknutý význam.** „Je svědectvím…“, „sehrál klíčovou roli“, „zásadní zlom“, „položil základy“, „zanechal nesmazatelnou stopu“, „trvalý odkaz“, „dodnes fascinuje“, „připravil půdu pro…“, „odráží širší proměnu“. Napiš, co člověk udělal a co se stalo potom: „Dožil se asi sedmdesáti let a čtyřicet z nich učil.“
-- **Rozbor naoko.** Přívěsek na konci věty, který hodnotí, místo aby něco sdělil: „…, čímž podtrhl význam rozumu“, „…, což ukazuje jeho odvahu“, „…, a zdůraznil tak…“. Věta končí tím, co se stalo; závěr si udělá student.
-- **Průvodcovský a reklamní tón.** „Bohaté kulturní dědictví“, „pulzující přístav“, „úchvatný“, „malebný“, „v samém srdci Athén“, „pyšní se“. Místo popiš tím, co tam člověk viděl nebo dělal.
-- **Mlhavé odvolávky.** „Odborníci se shodují“, „badatelé upozorňují“, „často se uvádí“, „podle některých“, „jak známo“. V atlasu má pramen jméno („Platón vypráví…“), nebo poctivé „Vypráví se…“.
-- **Redakční vsuvky.** „Je důležité si uvědomit“, „stojí za zmínku“, „je třeba dodat“, „nelze nezmínit“, „zajímavé je, že“. Řekni rovnou tu věc.
-- **Závěr podle šablony.** „Závěrem lze říci“, „celkově“, „shrnuto“, „navzdory tomu všemu zůstává…“, výhled typu „jeho myšlenky budou inspirovat další generace“ a poslední věta, která opakuje, co odstavec už řekl.
-
-### Jazyk
-
-- **Slova, která model nadužívá.** Klíčový, zásadní, stěžejní, komplexní, nadčasový, fascinující, spletitý, bohatý (o dějinách a kultuře), hluboký (o myšlence); podtrhnout, zdůraznit, odhalit, utvářet, rezonovat, ponořit se, prozkoumat; krajina myšlení, mozaika, tapisérie, dobrodružství poznání. Jedno takové slovo může být na místě. Dvě v jednom odstavci jsou důvod odstavec přepsat.
-- **Vyhýbání se „je“ a „má“.** „Slouží jako“, „představuje“, „stává se symbolem“, „nabízí“, „vyznačuje se“. Když jde říct „je“ nebo „má“, napiš to tak.
-- **Záporná paralela.** „Nejde jen o X, jde o Y.“ „Nebyl to jen učitel, byl to…“ „Nejen…, ale i…“ Vyvrací tvrzení, které nikdo neřekl. Smí zůstat jen tam, kde X opravdu někdo tvrdí: postava ve scéně nebo student ve své volbě.
-- **Trojice ze zvyku.** Tři přídavná jména, tři příklady, tři krátké věty za sebou („Bez peněz. Bez domova. Bez strachu.“). Počet urči podle podkladů: když jsou věci dvě, napiš dvě.
-- **Střídání synonym.** Sókratés, pak „athénský myslitel“, „slavný filozof“ a „Platónův učitel“ v jednom odstavci. Opakuj jméno nebo zájmeno; vedlejší postava má jeden popis a ten se nemění.
-- **Falešné rozpětí.** „Od etiky po politiku“, „od otroků po císaře“ tam, kde mezi krajními body žádná škála není. Vyjmenuj, co opravdu máš.
-- **Navazovací vata.** Věty, které začínají „Navíc“, „Kromě toho“, „Zároveň“, „Dále“, „Nicméně“, „Na druhou stranu“. Když věty navazují obsahem, spojku nepotřebují.
-
-### Sazba a forma
-
-- **Pomlčka jako dramatická pauza** nebo jako náhrada čárky, dvojtečky a závorky. V textu pro studenty nanejvýš výjimečně; rozsahů („15–20 minut“) se to netýká. Dlouhá anglická pomlčka (—) do českého textu nepatří vůbec.
-- **Tučné písmo uvnitř vyprávění** a odrážky s tučným heslem a dvojtečkou („**Odvaha:** …“). Důraz v atlasu nese kurzíva v titulku a stavba věty.
-- **Odrážky a mezititulky tam, kde má být vyprávění.** Emoji nikde. Nadpis s Každým Slovem Velkým je anglický zvyk.
-- **Uvozovky.** Anglický seznam hlídá oblé uvozovky; u nás je to naopak. Správně jsou české „ “, chybou jsou rovné " a anglické “ ”.
-- **Zbytky značek.** `**`, `#`, zpětné apostrofy a `[odkaz](…)` v polích YAML a v atributech, kde se Markdown nevykreslí.
-
-### Zbytky rozhovoru s modelem
-
-- **Oslovení a nabídky.** „Tady je…“, „Jistě!“, „Doufám, že to pomůže“, „Dej vědět, jestli…“.
-- **Pochvala na úvod zpětné vazby.** „Skvělá volba!“, „Zajímavý postřeh.“, „To je dobrá otázka.“ Zpětná vazba začíná tím, co tah umí.
-- **Věty o tom, co se neví.** „Konkrétní podrobnosti nejsou doloženy“, „dostupné prameny neuvádějí“. Pochybnosti patří do podkladů.
-- **Výplně a značky.** „[doplnit]“, „XY“, „TODO“, `turn0search0`, `oaicite`, `utm_source=chatgpt.com` v adrese zdroje.
-- **Zdroj, který nejde otevřít a ověřit.** Citát, místo v díle nebo odkaz, který neexistuje. Citáty jen ze `zdroje.yaml`, tvrzení jen z podkladů.
-
-### Co znakem není
-
-Bezchybný pravopis, spisovná čeština, neobvyklé slovo ani jedna spojka na začátku věty nic nedokazují. Jeden znak z tohoto seznamu taky ne; vadí, když se jich sejde víc. Text proto schválně nekaz: žádné úmyslné chyby, žádná hovorovost naoko. A nenahrazuj jeden obrat jiným ze seznamu („klíčový“ za „stěžejní“, pomlčku za středník).
-
-Po dopsání přečti texty cesty ještě jednou jen s tímto oddílem. Každý nález přepiš z podkladového listu: kdo, kde, co udělal, co řekl. Když v podkladech nic konkrétního není, věta do cesty nepatří.
+V cestě hlídej hlavně dvě věci, které se v ní opakují deset kroků za sebou: aby kroky nezačínaly pořád stejně (vždy „Představ si…“, vždy citát) a aby zpětné vazby nebyly psané podle jedné formy.
 
 ## Časté chyby
 
@@ -176,11 +139,17 @@ Po dopsání přečti texty cesty ještě jednou jen s tímto oddílem. Každý 
 - Zpětná vazba vlastní karty nebo podmínky předpokládá něco, co student nezvolil nebo nenapsal.
 - Shrnutí studie vynechá pokyn, který skupina dostala, a krok pak vyznívá jako důkaz.
 - Věta by se dala beze změny napsat o jiném filozofovi, nebo zpětná vazba začíná pochvalou („Skvělá volba!“).
+- Přehled cesty shrnuje, co bude v krocích („Cesta začíná…, pak…“), místo aby řekl, o čem cesta je a co si student odnese.
+- Citáty stojí za sebou jako sbírka, nebo citát neodpovídá na otázku, kterou krok těsně před ním položil.
+- Všechny kroky začínají stejně, nebo všechny zpětné vazby mají stejnou stavbu.
 - Případ pro Návrat opakuje nový případ cesty, napovídá odpověď, nebo věta po odpovědi hodnotí místo toho, aby se ptala.
 - Věta posledního kroku počítá s panelem „Na začátku“, který student bez počáteční odpovědi neuvidí.
 - Kresba s pohybem nese pointu, kterou text nemá, nebo dává studentovi pohled, který mu lichotí.
 - Koše v Roztřiď neodpovídají na otázku stejným tvarem, nebo karta nemá koš, kam se dá poctivě dát.
 - Krok má dva bloky a první nabízí další krok: student přeskočí text mezi nimi.
+- Závěrečný odstavec vyjmenovává, co student dělal, a končí stejnou otázkou jako ostatní cesty období.
+- Poslední krok vyjmenuje zastánce všech odpovědí za sebou bez mezititulků; student svou hledá v řadě cizích.
+- Cesta má stejnou stavbu a stejný krok 2 jako jiná cesta období.
 
 ## Kdy je hotovo
 
@@ -188,10 +157,10 @@ Po dopsání přečti texty cesty ještě jednou jen s tímto oddílem. Každý 
 - Kroky 1…n fungují na telefonu i notebooku, lišta Další vede až k Dokončit cestu a přehled cesty ukáže prošlé kroky.
 - Text dává smysl i tomu, kdo bloky neodkryje.
 - Každá zpětná vazba vysvětluje důvod a ptá se dál; nic se neboduje.
-- Texty prošly čtením podle oddílu Ať text nezní jako stroj.
+- Texty prošly třemi čteními podle skillu `atlas-psani`; přehled cesty říká, o čem cesta je a co si student odnese. Úvod a závěrečný odstavec jsou porovnané s ostatními cestami období; krok se zastánci má mezititulky.
 - Na konci se student vrátí ke svému prvnímu tahu a zapíše si vlastní pravidlo do deníku; přehled cesty má `zacatek` a poslední krok `ZaverCesty`.
 - Cesta má případ pro Návrat: jiný než její nové případy, s jednou větou po každé ze tří odpovědí.
 - Student, který s filozofem cesty nesouhlasí, najde v cestě nebo na jejím konci myslitele, který mu dává za pravdu.
 - Student, kterému někdo ubližuje, projde cestou, aniž by četl, že se má smířit.
-- Kresba s pohybem, pokud v cestě je, jde zastavit, při omezeném pohybu stojí a text pod ní i text kroku říkají totéž co ona.
+- Kresba s pohybem, pokud v cestě je, jde zastavit a zastavená hned po načtení ukáže obsah, při omezeném pohybu stojí a text pod ní i text kroku říkají totéž co ona.
 - `npm test` prošlo celé, snímky jsou prohlédnuté, revize (`atlas-revize`) bez zásadních nálezů.

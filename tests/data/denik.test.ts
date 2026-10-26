@@ -2,7 +2,8 @@
 // a bez úložiště fungují aspoň v paměti.
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { nacti, ulozZapis, najdiZapis, smazZapis, stavBloku, ulozStavBloku, smazStavBloku, zaznamenejKrok, dokonceniCesty, ulozCteni, cteniStranky, _zapomenPamet,
-  kapitolaDoctena, sPrectenou, ulozPrectenou, prectene, PRELETENI_SLOV_ZA_MINUTU, NEJKRATSI_CTENI_MS, sHodinou, zaznamenejHodinu, HODINY_NEJVYS } from '../../src/lib/denik';
+  kapitolaDoctena, sPrectenou, ulozPrectenou, prectene, PRELETENI_SLOV_ZA_MINUTU, NEJKRATSI_CTENI_MS, sHodinou, zaznamenejHodinu, HODINY_NEJVYS,
+  spojDeniky, rozeberDenik, nahrajDenik, type Denik } from '../../src/lib/denik';
 
 class Uloziste {
   data = new Map<string, string>();
@@ -264,5 +265,76 @@ describe('deník: otevřené hodiny', () => {
     expect(nacti().hodiny).toEqual([{ adresa: '/hodina/?a', nazev: 'A', kdy: 'x' }]);
     u.setItem('atlas-denik', JSON.stringify({ verze: 1, zapisy: [], vyzvy: [], navstivene: [], hodiny: 'x' }));
     expect(nacti().hodiny).toBeUndefined();
+  });
+});
+
+// Nahrání deníku ze souboru (revize antiky, O): soubor se přidá k deníku v prohlížeči a nic nesmaže.
+describe('spojení deníku ze souboru s deníkem v prohlížeči', () => {
+  const zaklad = (d: Partial<Denik>): Denik => ({ verze: 1, zapisy: [], vyzvy: [], navstivene: [], bloky: {}, aktivita: [], cesty: {}, ...d });
+  const zapis = (id: string, odpoved: string, kdy: string) => ({ id, otazka: 'Otázka', odpoved, odkaz: '/x/', kdy });
+
+  it('co je jen v jednom, zůstane; u stejného zápisu vyhraje novější', () => {
+    const tady = zaklad({ zapisy: [zapis('a', 'tady', '2026-10-01T10:00:00Z'), zapis('b', 'jen tady', '2026-10-02T10:00:00Z')] });
+    const soubor = zaklad({ zapisy: [zapis('a', 'ze souboru', '2026-10-05T10:00:00Z'), zapis('c', 'jen v souboru', '2026-09-30T10:00:00Z')] });
+    const s = spojDeniky(tady, soubor);
+    expect(s.zapisy.map((z) => [z.id, z.odpoved])).toEqual([['c', 'jen v souboru'], ['b', 'jen tady'], ['a', 'ze souboru']]);
+    expect(spojDeniky(soubor, tady).zapisy.find((z) => z.id === 'a')!.odpoved).toBe('ze souboru');
+  });
+
+  it('stav bloku jde s časem poslední aktivity; bez času zůstane ten z prohlížeče', () => {
+    const akt = (id: string, kdy: string) => ({ id, odkaz: '/x/', otazka: 'O', druh: 'volba' as const, hotovo: true, kdy });
+    const tady = zaklad({ bloky: { a: 'tady', b: 'tady', d: 'tady' }, aktivita: [akt('a', '2026-10-01T10:00:00Z'), akt('b', '2026-10-09T10:00:00Z')] });
+    const soubor = zaklad({ bloky: { a: 'soubor', b: 'soubor', c: 'soubor', d: 'soubor' }, aktivita: [akt('a', '2026-10-03T10:00:00Z'), akt('b', '2026-10-02T10:00:00Z')] });
+    const s = spojDeniky(tady, soubor);
+    expect(s.bloky).toEqual({ a: 'soubor', b: 'tady', c: 'soubor', d: 'tady' });
+    expect(s.aktivita.map((x) => [x.id, x.kdy])).toEqual([['b', '2026-10-09T10:00:00Z'], ['a', '2026-10-03T10:00:00Z']]);
+  });
+
+  it('postup v cestě sečte otevřené kroky, krok vezme z novějšího a dokončení z dřívějšího', () => {
+    const tady = zaklad({ cesty: { c: { nazev: 'C', pocet: 4, krok: 2, navstivene: [1, 2], kdy: '2026-10-05T10:00:00Z' } } });
+    const soubor = zaklad({ cesty: { c: { nazev: 'C', pocet: 4, krok: 4, navstivene: [1, 3, 4], kdy: '2026-10-03T10:00:00Z' }, d: { nazev: 'D', pocet: 2, krok: 2, navstivene: [1, 2], kdy: '2026-10-01T10:00:00Z', dokonceno: '2026-10-01T10:00:00Z' } } });
+    const s = spojDeniky(tady, soubor);
+    expect(s.cesty.c).toEqual({ nazev: 'C', pocet: 4, krok: 2, navstivene: [1, 2, 3, 4], kdy: '2026-10-05T10:00:00Z', dokonceno: '2026-10-05T10:00:00Z' });
+    expect(s.cesty.d.dokonceno).toBe('2026-10-01T10:00:00Z');
+    const a = zaklad({ cesty: { c: { ...soubor.cesty.c, navstivene: [1, 2, 3, 4], dokonceno: '2026-10-04T10:00:00Z' } } });
+    const b = zaklad({ cesty: { c: { ...soubor.cesty.c, navstivene: [1, 2, 3, 4], dokonceno: '2026-10-02T10:00:00Z' } } });
+    expect(spojDeniky(a, b).cesty.c.dokonceno).toBe('2026-10-02T10:00:00Z');
+  });
+
+  it('výzvy, navštívené stránky, dočtené kapitoly a hodiny bez opakování', () => {
+    const tady = zaklad({ vyzvy: [{ id: 'v', nazev: 'V', odkaz: '/v/', prijato: '2026-10-01T10:00:00Z', poznamka: 'tady' }], navstivene: [{ odkaz: '/a/', nazev: 'A', kdy: '2026-10-01T10:00:00Z' }], prectene: { '/p/': ['a'] }, hodiny: [{ adresa: '/h/', nazev: 'H', kdy: '2026-10-01T10:00:00Z' }] });
+    const soubor = zaklad({ vyzvy: [{ id: 'v', nazev: 'V', odkaz: '/v/', prijato: '2026-10-03T10:00:00Z' }, { id: 'w', nazev: 'W', odkaz: '/w/', prijato: '2026-10-03T10:00:00Z' }], navstivene: [{ odkaz: '/a/', nazev: 'A', kdy: '2026-10-04T10:00:00Z' }, { odkaz: '/b/', nazev: 'B', kdy: '2026-10-02T10:00:00Z' }], prectene: { '/p/': ['b', 'a'], '/q/': ['c'] }, hodiny: [{ adresa: '/h/', nazev: 'H', kdy: '2026-10-05T10:00:00Z' }] });
+    const s = spojDeniky(tady, soubor);
+    expect(s.vyzvy.map((v) => v.id)).toEqual(['v', 'w']);
+    expect(s.vyzvy[0].poznamka).toBe('tady');
+    expect(s.navstivene.map((v) => [v.odkaz, v.kdy])).toEqual([['/a/', '2026-10-04T10:00:00Z'], ['/b/', '2026-10-02T10:00:00Z']]);
+    expect(s.prectene).toEqual({ '/p/': ['a', 'b'], '/q/': ['c'] });
+    expect(s.hodiny).toEqual([{ adresa: '/h/', nazev: 'H', kdy: '2026-10-05T10:00:00Z' }]);
+  });
+
+  it('poškozené záznamy ze souboru se vynechají a jiný soubor deník není', () => {
+    const soubor = { ...zaklad({}), zapisy: [{ id: 'x' }, null, zapis('ok', 'ano', '2026-10-01T10:00:00Z')], cesty: { zle: { nazev: 'Z' } } } as unknown as Denik;
+    const s = spojDeniky(zaklad({}), soubor);
+    expect(s.zapisy.map((z) => z.id)).toEqual(['ok']);
+    expect(s.cesty).toEqual({});
+    expect(rozeberDenik('{"verze":2}')).toBeNull();
+    expect(rozeberDenik('nic')).toBeNull();
+    expect(rozeberDenik('null')).toBeNull();
+  });
+});
+
+describe('nahrání deníku do úložiště', () => {
+  let u: Uloziste;
+  beforeEach(() => { u = new Uloziste(); g.localStorage = u; _zapomenPamet(); });
+  afterEach(() => { delete g.localStorage; });
+
+  it('přidá soubor k deníku v prohlížeči a cizí soubor odmítne beze změny', () => {
+    ulozZapis({ id: 'tady', otazka: 'O', odpoved: 'A', odkaz: '/x/' });
+    const soubor = JSON.stringify({ verze: 1, zapisy: [{ id: 'jinde', otazka: 'O', odpoved: 'B', odkaz: '/y/', kdy: '2026-10-01T10:00:00Z' }], vyzvy: [], navstivene: [], bloky: {}, aktivita: [], cesty: {} });
+    expect(nahrajDenik(soubor)).toBe(true);
+    expect(nacti().zapisy.map((z) => z.id).sort()).toEqual(['jinde', 'tady']);
+    const pred = u.getItem('atlas-denik');
+    expect(nahrajDenik('{"jine":true}')).toBe(false);
+    expect(u.getItem('atlas-denik')).toBe(pred);
   });
 });

@@ -12,7 +12,7 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
   <div class="stranka">
     <header class="hlava ctenarsky">
       <h1 class="t-h1">Deset velkých otázek</h1>
-      <p class="t-perex">Na tyhle otázky odpovídá každá doba po svém. Než si přečteš, co říkali filozofové, zkus si odpovědět sám. U otázek najdeš i cesty, které k nim vedou.</p>
+      <p class="t-perex">Na tyhle otázky odpovídá každá doba po svém. U otázek najdeš místo pro svou první odpověď, hlasy filozofů a cesty, které k nim vedou.</p>
     </header>
     <ol class="otazky">
       {otazky.map((o) => (
@@ -28,7 +28,7 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
                 {cestyOtazky(o.data.cislo, cesty).map((c) => (
                   <li class={`obdobi-${c.obdobi}`}>
                     <a class="cesta" href={`/cesta/${c.slug}/`}>
-                      <span class="cesta__nad">Cesta {c.cislo}</span>
+                      <span class="cesta__nad">Cesta</span>
                       <span class="cesta__nazev">{c.nazev}</span>
                       <Ikona id="dal" velikost={18} />
                     </a>

@@ -107,6 +107,11 @@ const cesty = defineCollection({
      * Sestavení se zastaví, když blok nestojí v některém dřívějším kroku téže cesty (zacatekCesty v src/lib/cesty.ts).
      */
     zacatek: id.optional(),
+    /**
+     * Cesty, které Kam dál po této cestě jako „Další cestu“ nenabídne, i když by na ně přišla řada (poradiDalsichCest).
+     * Cesta 8: po strachu ze smrti ne hned „Co když přijde to nejhorší?“ (slovo, kterému se cesta 8 vyhýbá).
+     */
+    nenabizet: z.array(id).optional(),
   }),
 });
 

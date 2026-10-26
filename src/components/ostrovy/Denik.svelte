@@ -1,9 +1,9 @@
 <script lang="ts">
   // Můj deník: rozpracované cesty a otázky, odpovědi a stanoviska, přijaté výzvy a export do souboru.
-  // Vše jen v tomto prohlížeči. Nahoře nejvýš jedna tichá nabídka Návratu: nový případ ke zkoušce vlastního
+  // Vše jen v tomto prohlížeči; stažený soubor jde nahrát zpět a přidá se k deníku tady (spojDeniky). Nahoře nejvýš jedna tichá nabídka Návratu: nový případ ke zkoušce vlastního
   // pravidla, nejdřív tři dny po dokončení cesty. Jde zkusit, odložit, nebo skrýt; jinde v atlasu o ní nic neví.
   import { onMount, tick } from 'svelte';
-  import { nacti, exportuj, stavBloku, ulozStavBloku, type Denik } from '../../lib/denik';
+  import { nacti, exportuj, nahrajDenik, stavBloku, ulozStavBloku, type Denik } from '../../lib/denik';
   import { nabidkaNavratu, platnyStavNavratu, type NavratDeniku } from '../../lib/navrat';
   import Navrat from './Navrat.svelte';
   import MojeHodiny from '../hodina/MojeHodiny.svelte';
@@ -21,6 +21,8 @@
   let zprava = $state('');
   let obalNavratu = $state<HTMLElement>();
   let zpravaPrvek = $state<HTMLElement>();
+  let vyberSouboru = $state<HTMLInputElement>();
+  let zpravaSouboru = $state('');
   let cesty = $derived(denik ? Object.entries(denik.cesty).sort((a, b) => b[1].kdy.localeCompare(a[1].kdy)) : []);
   let rozpracovane = $derived(denik ? denik.aktivita.filter((a) => !a.hotovo) : []);
   // Hodiny, které student otevřel z odkazu učitele (nejnovější první); Moje hodiny učitele jsou zvlášť.
@@ -34,6 +36,18 @@
     window.addEventListener('atlas-denik', obnov);
     return () => window.removeEventListener('atlas-denik', obnov);
   });
+
+  /** Přidá deník ze staženého souboru k deníku v tomto prohlížeči; nic nesmaže. */
+  async function nahraj() {
+    const soubor = vyberSouboru?.files?.[0];
+    if (!soubor) return;
+    let text = '';
+    try { text = await soubor.text(); } catch { /* nečitelný soubor */ }
+    zpravaSouboru = nahrajDenik(text)
+      ? 'Deník ze souboru je přidaný k tomuto. Nic se nesmazalo.'
+      : 'Tenhle soubor deník z atlasu není. Vyber soubor, který jsi stáhl tady v deníku.';
+    if (vyberSouboru) vyberSouboru.value = '';
+  }
 
   async function zkusit() {
     otevreny = true;
@@ -54,7 +68,7 @@
 
 {#if denik}
   {#if denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0}
-    <p class="t-perex">Zatím je prázdný. Když u osobnosti nebo otázky napíšeš vlastní odpověď nebo přijmeš výzvu, najdeš ji tady.</p>
+    <p class="t-perex">Zatím je prázdný. Když v cestě, u osobnosti nebo u otázky napíšeš vlastní odpověď nebo přijmeš výzvu, najdeš ji tady.</p>
   {:else}
     {#if nabidka}
       <section class="navrat" aria-labelledby="navrat-nadpis">
@@ -131,7 +145,13 @@
     {/if}
   {/if}
   <MojeHodiny />
-  <button type="button" class="export" onclick={exportuj}>Stáhnout deník do souboru</button>
+  <div class="soubor">
+    <button type="button" class="export" onclick={exportuj}>Stáhnout deník do souboru</button>
+    <button type="button" class="export" onclick={() => vyberSouboru?.click()}>Nahrát deník ze souboru</button>
+    <input bind:this={vyberSouboru} type="file" accept=".json,application/json" class="vizualne-skryte" tabindex="-1" aria-hidden="true" onchange={nahraj} />
+  </div>
+  <p class="t-popisek soubor__popis">Nahraný deník se přidá k tomu, co máš tady. Nic se nesmaže.</p>
+  {#if zpravaSouboru}<p class="soubor__zprava t-ovladani" role="status">{zpravaSouboru}</p>{/if}
 {/if}
 
 <style>
@@ -152,8 +172,10 @@
   .otazka a { display: inline-block; min-height: 24px; }
   .postup { display: block; max-width: 240px; height: 6px; margin-top: var(--s-2); border-radius: var(--r-full); background: var(--sunk); overflow: hidden; }
   .postup span { display: block; height: 100%; background: var(--period-1); }
+  .soubor { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-6); }
+  .soubor__popis { margin: var(--s-3) 0 0; }
+  .soubor__zprava { margin: var(--s-3) 0 0; color: var(--ink-2); }
   .export {
-    margin-top: var(--s-6);
     min-height: 48px;
     padding: 0 var(--s-5);
     border: 1.5px solid var(--ink);

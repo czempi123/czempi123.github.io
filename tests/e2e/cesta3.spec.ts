@@ -48,7 +48,7 @@ test('cesta 3: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA3);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 3');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   await expect(page.locator('#hotovo a[href^="/mapa/"]')).toHaveAttribute('href', '/mapa/?rok=-370&osoba=platon');
   await page.getByRole('link', { name: 'Začít cestu' }).focus();
@@ -220,7 +220,7 @@ test('cesta 3: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text8).toContainText('Souhlasit s ním nemusíš.');
   await expect(text8).toContainText('Jestli ti stíny připadají skutečné dost, máš v něm spojence.');
   await expect(text8.getByRole('link', { name: 'Co je skutečné?' })).toHaveAttribute('href', '/otazka/co-je-skutecne/');
-  await expect(text8).toContainText('Vrať se ke svým košům z kroku 2.');
+  await expect(text8).toContainText('Projdi své koše z kroku 2.');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 2 · Odkud to vím?');
   await expect(panel.locator('.cast__nadpis')).toHaveText([SAM, LIDE, OBRAZOVKA, HLAVA]);
@@ -253,7 +253,7 @@ test('cesta 3 bez odkrytí bloků: lišta vede až na konec a text mimo bloky dr
     ['Platí o čtverci samém', 'Ideje nepřijal.', 'Rozcházejí se v tom, kde to obecné je.', 'Kdo z nich má pravdu, rozhodni sám.'],
     ['Jde o to, kam je člověk otočený.', 'na tři měsíce ubrali asi třetinu příspěvků', 'Na jejich názorech se to neprojevilo.', 'Mluví ten pokus pro jeskyni, nebo proti ní?'],
     ['Oči má plné tmy', 'nesmí nahoře zůstat', 'Říká se tomu ušlechtilá lež.', 'věřil bys mu?'],
-    ['Souhlasit s ním nemusíš.', 'máš v něm spojence', 'Vrať se ke svým košům z kroku 2.'],
+    ['Souhlasit s ním nemusíš.', 'máš v něm spojence', 'Projdi své koše z kroku 2.'],
   ];
   await page.goto(`${CESTA3}1/`);
   for (let n = 1; n <= KROKY3.length; n++) {

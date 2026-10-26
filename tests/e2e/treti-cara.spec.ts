@@ -135,3 +135,21 @@ test('třetí čára: bubliny přicházejí jedna po druhé a jdou zastavit; př
   })).toBe(true);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{"zapisy":[]}').zapisy.length)).toBe(0);
 });
+
+test('třetí čára zastavená hned po načtení ukáže totéž co při omezeném pohybu: všechny odpovědi a otazník nad tebou', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const kresba = await priprav(page);
+  await kresba.getByRole('button', { name: 'Zastavit pohyb' }).click();
+  await expect(kresba.getByRole('button', { name: 'Pustit pohyb' })).toBeVisible();
+  // Nic nesvítí napůl a nic nečeká na pohyb (revize antiky, nález 5).
+  expect(await kresba.locator('.bublina').evaluateAll((g) => g.every((e) => getComputedStyle(e).animationName === 'none' && getComputedStyle(e).opacity === '1'))).toBe(true);
+  await expect(kresba.locator('.bublina')).toHaveCount(7);
+  await expect(kresba.locator('.bublina--ty text')).toHaveText('?');
+  // I v druhém pohledu, dokud pohyb nepustí.
+  await kresba.getByRole('radio', { name: 'Se spojencem' }).check({ force: true });
+  expect(await kresba.locator('.bublina').evaluateAll((g) => g.every((e) => getComputedStyle(e).opacity === '1'))).toBe(true);
+  // Pustit pohyb začne kolo znovu.
+  await kresba.getByRole('button', { name: 'Pustit pohyb' }).click();
+  expect(await kresba.locator('.bublina').first().evaluate((e) => getComputedStyle(e).animationName)).toContain('cara-b');
+});

@@ -4,6 +4,79 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Souhrnná revize antiky (P11), Uzavření: příprava zveřejnění
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Atlas se zveřejní na GitHub Pages v kořeni adresy `https://czempi123.github.io/`: repozitář `czempi123/atlas` se přejmenuje na `czempi123.github.io`, `astro.config` má `site`, `base` ne | Odpovědi po P13, otázka 3 (a): odkazy začínající `/` zůstanou, jak jsou; podadresa by znamenala úpravu asi 180 odkazů |
+| Repozitář bude veřejný včetně `docs/`, `ucitel/`, podkladů a historie | Otázka 4: GitHub Pages na bezplatném účtu chce veřejný repozitář; kontrola repozitáře před zveřejněním nenašla nic, co veřejné být nemá |
+| Do konce zkoušky se studenty má každá stránka `<meta name="robots" content="noindex">` ze základního rozvržení (dílna dál `noindex, nofollow`); `robots.txt` nic nezakazuje. Hlídá to `tests/e2e/noindex.spec.ts` | Otázka 5: vyhledávač musí stránku přečíst, aby značku viděl; po zkoušce ji sundá jeden commit i s testem |
+| Web sestaví a nasadí `.github/workflows/pages.yml` po každém pushi do `main` (`npm ci`, `npm run build` s Pagefindem, `actions/deploy-pages`); `kontroly.yml` se nemění | Kontroly a nasazení zvlášť: nasazení nečeká na Playwright a kontroly běží jako dosud |
+| Příběh s obrazem v kroku cesty ukazuje pod popiskem autora a licenci s odkazem na zdroj; profil je má dál v Pramenech. Hlídá to `tests/e2e/obrazky-licence.spec.ts` pro každou stránku v `dist/` | Kontrola licencí: čtyři vstupy cest (Stockdale, jeskyně, Cats, číše s loděmi) ukazovaly jen popisek. Licence všech 17 obrázků zveřejnění dovolují (CC0, volné dílo, CC BY-SA 2.5 u Sókrata, CC BY-NC-SA 4.0 u Seneky, obojí se jménem a licencí na stránce) |
+
+## 26. 10. 2026: Souhrnná revize antiky (P11), krok P13
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Poučení z antiky jsou ve skillech, `docs/pouceni.md` má jen řádek s odkazem; `atlas-psani` zůstává jediným místem pro pravidla čtivosti | Zadání P13; skill je to, co se při psaní opravdu načte |
+| `atlas-cesta`: stavba cesty podle látky (každé období aspoň jedna cesta jiné stavby, nové bloky dřív než další cesta stejné stavby); úvod a závěrečný odstavec naposledy a porovnané s cestami období; závěr se ptá na první tah; zastánci s mezititulky, nad asi 450 slov vždy; počty z jiných stránek do textu nepsat; číslo cesty jen v datech | Revize antiky, nálezy 1, 2, 4, 9, 10 a oddíl Monotónnost; závěr cesty 4 zastaral s novými hlasy |
+| `atlas-revize`: nový krok Srovnej celek s ostatními cestami období; délka sama nález není | Šablona se v jednom celku neprojeví; autor nekrátí kvůli délce |
+| `atlas-komponenta` a `docs/design.md`: zastavená kresba kreslí totéž co při omezeném pohybu, každá kresba s pohybem má test zastavení hned po načtení | Nález 5; pravidlo z Přesýpacích hodin platí pro všechny kresby |
+| `atlas-osobnost`: scénu, kterou nese cesta, vypráví portrét kratší s odkazem na krok; u každé velké myšlenky otázka, jestli by jí student mohl pohnout. `atlas-data`: oddíl Prvky z dat | Nález 3; přání autora z 25. 10. 2026 (interaktivita všude, kde dává smysl, i u medailonků) |
+| Poznámky pro budoucí skill `atlas-obdobi` v `skills/atlas-obdobi/poznamky.md` | Skill ještě není; poznámky leží tam, kde vznikne |
+| `docs/design.md` dopsán i mimo kresby (čísla cest, hlavička na telefonu, Další cesta, `nenabizet`, délka cesty) | Krok O ho nechal po staru |
+
+## 26. 10. 2026: Souhrnná revize antiky (P11), krok O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Úvody a závěrečné odstavce všech deseti cest přepsané podle návrhů revize (s odchylkami v cestách 4, 6 a 34); závěr se ptá na první tah té cesty a nevyjmenovává, co student dělal | Odpověď 1 po S; jedna šablona v deseti cestách. Aristotelés se Sókratem nepřel (narodil se po jeho smrti), návrh pro cestu 6 opakoval otázku ze zpětné vazby kroku 2 |
+| Poslední kroky se zastánci odpovědí mají mezititulky podle bloků; blok, který z deníku ukáže nejdřív zastánce studentových odpovědí, přijde ve větvi `interaktivita-v1` | Odpověď 2 po S |
+| Číslo cesty student nevidí (Domů „První cesta“, karty a hlavičky „Cesta“); zůstává v datech, v přípravě hodiny a u velkých otázek | Odpověď 4 po S; cesty 33 a 34 nesou čísla z architektury |
+| Na telefonu (pod 600 px) jsou cesty v hlavičce profilu řádek odkazů, od 600 px karty; společný profil má své malé karty | Odpověď 3 po S; u Seneky karty odsunuly desku pod první obrazovku |
+| Kam dál hotové cesty nabízí Další cestu: první nehotovou podle deníku, nejdřív z téže otázky. Nové pole `nenabizet` v přehledu cesty; cesta 8 nenabízí cestu 33 | Nález 9; cesta 8 se slovu „nejhorší“ vyhýbá (test cesty 8) |
+| Deník jde nahrát ze staženého souboru a spojí se s deníkem v prohlížeči: nic se nesmaže, u téhož vyhraje novější | Odpověď 8 po S: domácí průchody budou, protože se atlas před zkouškou zveřejní (odpověď 6) |
+| Zastavená kresba kreslí obsah jako při omezeném pohybu (Třetí čára, Cesta ven), s testem zastavení hned po načtení | Nález 5 |
+| Rozsah v `docs/architektura.md`: cesty 14 až 35 minut, průměrně 27, 35 cest kolem 16 hodin; štítek cesty 1 je 14 minut | Odpověď 7 po S; měřeno skriptem `slova-cesta` |
+| Pořadí: P13 a uzavření této větve se zveřejněním na GitHub Pages (`noindex`), zkouška se studenty, `stoicky-tyden`, `interaktivita-v1`, `antika-doplnky`, skill `atlas-obdobi` a plán středověku (P12) | Odpovědi 5, 6, 10 a 11 po S |
+
+## 25. 10. 2026: Souhrnná revize antiky (P11), krok S
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Verdikt souhrnné revize antiky: po opravách; záznam `docs/revize/antika-2026-10-25.md` s deseti nálezy (šest důležitých, čtyři drobné), žádný blokující | Antika drží historicky i argumentačně; napříč ji ale nese jedna šablona (úvody, závěry, poslední krok), nejdelší krok je na konci cest a dvě kresby po zastavení neukazují obsah |
+| Úvody a závěrečné odstavce cest revize jen navrhla (hotové znění všech deseti), neopravila | Mění, co cesta studentovi slibuje; skill `atlas-psani` takové zásahy předává autorovi |
+| Antika se kvůli stejnému pořadí bloků nepřestavuje; nové bloky (Dialog, Slož argument, Úryvek s otázkou) a jiné pořadí přijdou ve středověku | Cesty jsou schválené a každá zvlášť obstojí; přestavba by byla nový celek, ne oprava |
+| Štítky času cest 1, 3, 5 a 6 přepočítané skriptem `slova-cesta` (15, 27, 23 a 19 minut) | Pocházely z doby před pravidlem, že se čas počítá, ne opisuje (`docs/pouceni.md`) |
+| Nestálý test průchodu cesty 1: `pripravit` posune každý nehydratovaný ostrov do okna a čeká na hydrataci 15 s | Spadl při souběhu na nehydratovaném ostrovu kresby šatů; samotný prošel třikrát po sobě |
+| Revize prošla všech devět bodů plánu, i když zadání v chatu mluvilo o osmi | Bod 9 (interaktivita) je v plánu větve od `004169c` jako přání autora |
+
+## 25. 10. 2026: Skill atlas-psani
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nový skill `atlas-psani` pro psaní i revizi každého studentského textu: co dělá dobrou knihu, úvody, citáty, příběh a informace dohromady, seznam strojových obratů, tři čtení po napsání | Autor chce, aby se atlas četl jako dobrá kniha, ne jako povinnost: příběhově a zároveň informativně, lidsky, s citáty navázanými na téma |
+| Úvod (přehled cesty, profil, otázka) řekne, o čem text je, proč se studenta týká a co si odnese; osnovu kroků neshrnuje a nekončí v každé cestě stejnou formulí | Přání autora z 25. 10. 2026; dosavadní úvody cest často popisují stavbu cesty („Cesta začíná…“, „K člověku se dostaneme až potom“) |
+| Citát odpovídá na otázku, kterou text těsně před ním položil, má uvozovací větu se situací a text se po něm vrací k případu; žádná sbírka citátů | Přání autora z 25. 10. 2026 |
+| Oddíl Ať text nezní jako stroj žije jen v `atlas-psani` (doplněný podle Wikipedie o přechodníkové otevírky, trpný rod, stejnou délku vět, otázku se sebezodpovězením a stejnou šablonu napříč); `atlas-cesta`, `atlas-osobnost` a `atlas-revize` na něj odkazují, `atlas-data` a `atlas-overeni` jednou větou | Tři stejné kopie po padesáti řádcích se rozcházely a stály tokeny při každém načtení |
+| Souhrnná revize antiky (P11) čte úvody, citáty a čtivost podle `atlas-psani` a navrhne nové znění úvodů všech deseti cest | Revize ještě neběžela a je první místo, kde jde pravidla použít napříč celou antikou |
+
+## 25. 10. 2026: Interaktivita napříč atlasem
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Interaktivní kresby, animace a hry s myšlenkou patří všude, kde něco naučí: v cestách, profilech, na stránkách otázek, na mapě i u medailonků | Přání autora z 25. 10. 2026: interaktivní část je pro učení nejsilnější; jeskyně v cestě 3 a další kresby to potvrdily |
+| Měřítko: student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba, body a pohyb bez obsahu ne; obsah vidět i v zastaveném obrázku | Navazuje na pravidla z celků 4 a 9 a na `CLAUDE.md` › Do atlasu nepatří |
+| P11 přidává bod 9: inventura interaktivity na všech typech stránek a tabulka návrhů; nové komponenty vzniknou ve vlastní větvi (`interaktivita-v1`), P13 promítne hledání místa pro interaktivní prvek do skillů `atlas-osobnost` a `atlas-data` | U medailonků musí prvek vycházet z dat, aby posloužil všem osobám najednou, i v dalších obdobích |
+
+## 25. 10. 2026: Souhrnná revize antiky (P11), plán větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Další krok je souhrnná revize antiky (P11) ve větvi `revize-antiky`, ne první cesta středověku | Autor zvolil 25. 10. 2026 z nabídky (P11, cesta 9, Stoický týden); pořadí z `docs/plan.md` |
+| Stoický týden jako vlastní větev `stoicky-tyden` po P11, ne uvnitř revize | Nový obsah se sedmi cvičeními a nejspíš novou komponentou potřebuje vlastní podklady, psaní a revizi; revize jen řekne, kam se napojí |
+| P11 jedním zadáním pro Fable 5.1 · high se záznamem psaným průběžně | Smysl P11 je srovnání napříč celky; rozdělení do více chatů by ho ztratilo |
+
 ## 25. 10. 2026: Celek 10 uzavřený
 
 | Rozhodnutí | Důvod |

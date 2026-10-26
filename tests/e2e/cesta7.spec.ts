@@ -44,7 +44,7 @@ test('cesta 7: průchod s odpověďmi na telefonu, zastánci všech Voleb, záv�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA7);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 7');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Filozofové cesty jsou Diogenés, Kratés a Hipparchia; Kratés a Hipparchia vedou na společný profil.
   const lide = page.locator('.cesta__hlava .lide a');
@@ -179,7 +179,7 @@ test('cesta 7: průchod s odpověďmi na telefonu, zastánci všech Voleb, záv�
   await expect(vyzva).toContainText('Nejdřív ty');
   await expect(vyzva).toContainText('Nikomu to říkat nemusíš.');
   await expect(vyzva).not.toContainText(/stydíš|nahlas před|ukaž|zveřejni/i);
-  await expect(page.locator('.krok__obsah')).toContainText('Vrať se ke svému tahu z kroku 1. Odpověděl bys teď stejně?');
+  await expect(page.locator('.krok__obsah')).toContainText('Komu podle tebe patřilo Hipparchiino rozhodnutí?');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 1 · Ženich a jeho majetek');
   await expect(panel.locator('.zacatek .cast').nth(0)).toHaveText('Rodičům. Mají o ni strach a znají svět.');
@@ -207,7 +207,7 @@ test('cesta 7 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['Kdo okázale pohrdá míněním druhých, pořád hraje pro ně, jen jinou roli.', 'Vzdor ještě není svoboda.'],
     ['Nezasvěcený seděl předposlední', 'Neustoupit neznamenalo vzdorovat.', 'Říká, jak těžké je být jediný.'],
     ['Žádnou z nich cesta nevyvrátila a každá má zastánce. Nejen mezi kyniky.'],
-    ['Vrať se ke svému tahu z kroku 1.'],
+    ['Komu podle tebe patřilo Hipparchiino rozhodnutí?'],
   ];
   await page.goto(`${CESTA7}1/`);
   for (let n = 1; n <= KROKY7.length; n++) {
@@ -313,8 +313,8 @@ test('cesta 7 je dosažitelná z profilů, z Lidí, z přehledu otázek a z Dom�
   await expect(page.locator('#volba').getByRole('link', { name: 'Čí život vlastně žiju?' })).toHaveAttribute('href', CESTA7);
   await expect(page.locator('.kamdal').getByRole('link', { name: /Čí život vlastně žiju\?/ })).toHaveAttribute('href', CESTA7);
   await page.goto('/lide/');
-  await expect(page.locator('#krates .karta__cesta')).toHaveText('Cesta 7: Čí život vlastně žiju?');
-  await expect(page.locator('#hipparchia .karta__cesta')).toHaveText('Cesta 7: Čí život vlastně žiju?');
+  await expect(page.locator('#krates .karta__cesta')).toHaveText('Cesta: Čí život vlastně žiju?');
+  await expect(page.locator('#hipparchia .karta__cesta')).toHaveText('Cesta: Čí život vlastně žiju?');
   await page.goto('/otazky/');
   await expect(page.locator('#jak-zit .cesta')).toHaveCount(4);
 });

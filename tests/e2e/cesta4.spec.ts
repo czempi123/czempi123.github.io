@@ -48,7 +48,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(CESTA4);
   await pripravit(page);
-  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta 4');
+  await expect(page.locator('.t-nadtitulek').first()).toContainText('Cesta · asi');
   await expect(page.locator('.t-nadtitulek').first()).toContainText('8 kroků');
   // Karta ani přehled neříkají, co se na hostině stalo: jen že to Alexandr hned věděl.
   await expect(page.locator('main')).not.toContainText(/zabil|opil/i);
@@ -287,7 +287,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   const vyzva = page.locator('#zkus-to-zit');
   await expect(vyzva).toContainText('Kam tě to táhne?');
   await expect(vyzva).toContainText('nezkoušej nic: i všímat si je začátek');
-  await expect(text8).toContainText('Vrať se ke svému tahu z kroku 2.');
+  await expect(text8).toContainText('Vzpomeň si znovu na svou chvíli z kroku 2.');
   const panel = page.getByRole('region', { name: 'Na začátku a teď' });
   await expect(panel).toContainText('Krok 2 · Co ti tehdy chybělo?');
   await expect(panel.locator('.zacatek')).toContainText('Věděl jsem to, ale nebylo to v mé moci.');
@@ -321,7 +321,7 @@ test('cesta 4 bez odkrytí bloků: lišta vede až na konec a text mimo bloky dr
     ['správný čin ještě nedělá správného člověka', 'Kdo se neudržel, ví, že to bylo špatně.', 'Druhý říká, že se to děje denně.', 'Kdo z nich má pravdu, rozhodni sám.'],
     ['Co ale znamená dobře?', 'Střed vzhledem k nám jeden není.', 'Kresba má jednu čáru.', 'říkáš nahlas to, co Aristotelés přiznal'],
     ['Kolik času?', 'každý den odpovídali, jak samozřejmě jim to už jde', 'Prostřední hodnota byla 66 dní.', 'nejpomalejšímu vycházelo čtrnáctkrát víc dní než nejrychlejšímu', 'Komu ten pokus dává za pravdu?'],
-    ['Souhlasit s ním nemusíš.', 'Špatný člověk podle něj o své špatnosti neví.', 'Vrať se ke svému tahu z kroku 2.'],
+    ['Souhlasit s ním nemusíš.', 'Špatný člověk podle něj o své špatnosti neví.', 'Vzpomeň si znovu na svou chvíli z kroku 2.'],
   ];
   await page.goto(`${CESTA4}1/`);
   for (let n = 1; n <= KROKY4.length; n++) {

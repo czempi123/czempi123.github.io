@@ -78,18 +78,18 @@ describe('zacatekDomu: hlavní tlačítko na Domů', () => {
       expect(z.stav).toBe('zacit');
       expect(z.text).toBe('Začít první cestu');
       expect(z.href).toBe('/cesta/prvni/1/');
-      expect(bez(z.udaj)).toBe('Cesta 1 · asi 20 minut · 7 kroků');
+      expect(bez(z.udaj)).toBe('První cesta · asi 20 minut · 7 kroků');
     }
   });
   it('údaj drží nezlomitelné mezery a tvary podle čísla; bez minut je vynechá', () => {
-    expect(zacatekDomu(null, cesty, 'prvni').udaj).toBe(`Cesta${NB}1 · asi${NB}20${NB}minut · 7${NB}kroků`);
-    expect(bez(zacatekDomu(null, cesty, 'sesta').udaj)).toBe('Cesta 6 · 7 kroků');
-    expect(bez(zacatekDomu(null, { a: { cislo: 2, nazev: 'A', pocet: 3, minut: 2 } }, 'a').udaj)).toBe('Cesta 2 · asi 2 minuty · 3 kroky');
-    expect(bez(zacatekDomu(null, { a: { cislo: 2, nazev: 'A', pocet: 1, minut: 1 } }, 'a').udaj)).toBe('Cesta 2 · asi 1 minuta · 1 krok');
+    expect(zacatekDomu(null, cesty, 'prvni').udaj).toBe(`První${NB}cesta · asi${NB}20${NB}minut · 7${NB}kroků`);
+    expect(bez(zacatekDomu(null, cesty, 'sesta').udaj)).toBe('První cesta · 7 kroků');
+    expect(bez(zacatekDomu(null, { a: { cislo: 2, nazev: 'A', pocet: 3, minut: 2 } }, 'a').udaj)).toBe('První cesta · asi 2 minuty · 3 kroky');
+    expect(bez(zacatekDomu(null, { a: { cislo: 2, nazev: 'A', pocet: 1, minut: 1 } }, 'a').udaj)).toBe('První cesta · asi 1 minuta · 1 krok');
   });
   it('rozpracovaná první cesta: pokračuje se naposledy otevřeným krokem', () => {
     const z = zacatekDomu({ cesty: { prvni: { krok: 4, navstivene: [1, 2, 3, 4], kdy: '2026-10-01T10:00:00Z' } } }, cesty, 'prvni');
-    expect(z).toEqual({ stav: 'pokracovat', text: 'Pokračovat v cestě', href: '/cesta/prvni/4/', udaj: `Cesta${NB}1 · Kdy mám dobrý důvod věřit? · krok${NB}4${NB}z${NB}7` });
+    expect(z).toEqual({ stav: 'pokracovat', text: 'Pokračovat v cestě', href: '/cesta/prvni/4/', udaj: `Kdy mám dobrý důvod věřit? · krok${NB}4${NB}z${NB}7` });
   });
   it('z více rozpracovaných cest vede tlačítko do té naposledy otevřené; první cesta nemusí být začatá', () => {
     const d = {
@@ -100,7 +100,7 @@ describe('zacatekDomu: hlavní tlačítko na Domů', () => {
     };
     const z = zacatekDomu(d, cesty, 'prvni');
     expect(z.href).toBe('/cesta/pata/3/');
-    expect(bez(z.udaj)).toBe('Cesta 5 · Co mám ve svých rukou? · krok 3 z 8');
+    expect(bez(z.udaj)).toBe('Co mám ve svých rukou? · krok 3 z 8');
   });
   it('krok za koncem cesty a cesta, která v datech není, tlačítko nerozbijí', () => {
     const z = zacatekDomu({ cesty: { zrusena: { krok: 2, navstivene: [1, 2], kdy: '2026-10-03T08:00:00Z' }, prvni: { krok: 9, navstivene: [1, 9], kdy: '2026-10-01T08:00:00Z' } } }, cesty, 'prvni');
@@ -111,8 +111,8 @@ describe('zacatekDomu: hlavní tlačítko na Domů', () => {
     expect(z.stav).toBe('dalsi');
     expect(z.text).toBe('Vybrat další cestu');
     expect(z.href).toBe('/otazky/');
-    expect(bez(z.udaj)).toBe('Cesta 1 je hotová · zbývají 2 cesty');
-    expect(bez(zacatekDomu({ cesty: { prvni: hotova(7), pata: hotova(8) } }, cesty, 'prvni').udaj)).toBe('Cesta 1 je hotová · zbývá 1 cesta');
+    expect(bez(z.udaj)).toBe('První cesta je hotová · zbývají 2 cesty');
+    expect(bez(zacatekDomu({ cesty: { prvni: hotova(7), pata: hotova(8) } }, cesty, 'prvni').udaj)).toBe('První cesta je hotová · zbývá 1 cesta');
   });
   it('první cesta hotová, jiná rozpracovaná: pokračuje se v rozpracované', () => {
     const z = zacatekDomu({ cesty: { prvni: hotova(7, '2026-10-03T09:00:00Z'), sesta: { krok: 2, navstivene: [1, 2], kdy: '2026-10-02T10:00:00Z' } } }, cesty, 'prvni');
