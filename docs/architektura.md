@@ -86,7 +86,7 @@ Celkem 27 portrétů, 62 profilů a asi 100 medailonků. Nefilozofové s přesah
 
 ## Katalog cest
 
-Cesta je 15–20 minut vedeného průchodu: příběh, vlastní pokus, setkání s filozofem, silná námitka, nový případ a pozdější návrat. Každá má jednu hlavní velkou otázku (sloupec Q). Cesty 1, 5 a 6 existují v prototypu a přepíšou se podle nového stylu; cesty 33–35 přibyly po schválení.
+Cesta je 14–35 minut vedeného průchodu (v antice průměrně 27): příběh, vlastní pokus, setkání s filozofem, silná námitka, nový případ a pozdější návrat. Každá má jednu hlavní velkou otázku (sloupec Q). Cesty 1, 5 a 6 existují v prototypu a přepíšou se podle nového stylu; cesty 33–35 přibyly po schválení.
 
 | # | Období | Cesta | Vstupní příběh nebo pokus | Filozofové | Q |
 | --- | --- | --- | --- | --- | --- |
@@ -224,7 +224,7 @@ Období vznikají chronologicky, protože na sebe navazuje mapa, časová osa i 
 - **Informační architektura:** přibývá typ stránky Náboženství a vstup Náboženství světa v části Lidé a směry.
 - **Mapa (P4):** osm výřezů podle tabulky období, přepínání linie a náboženství jako vrstvy.
 - **Skilly:** `atlas-data` bude potřeba nejpozději ve F3, kdy přibude hromada medailonků; `atlas-obdobi` na konci F3 na základě této architektury.
-- **Rozsah pro studenta:** 35 cest po 15–20 minutách je asi 10 až 11 hodin vedeného samostudia; k tomu pokusy, profily, náboženství a deník.
+- **Rozsah pro studenta:** cesty antiky trvají 14 až 35 minut, v průměru asi 27 (`scripts/slova-cesta.mjs`, 26. 10. 2026). 35 cest je tak kolem 16 hodin vedeného samostudia; k tomu pokusy, profily, náboženství a deník. Do jedné vyučovací hodiny se celá cesta nevejde: učitel si z ní hodinu složí a zbytek dá domů (příprava hodiny).
 
 ## Rozhodnutí (brána F0, 29. 9. 2026)
 

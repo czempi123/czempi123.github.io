@@ -3,7 +3,8 @@
 // node scripts/revize-hlavicky.mjs   (náhled sestaveného webu na portu 4323: npx astro preview --port 4323)
 import { chromium } from '@playwright/test';
 const b = await chromium.launch();
-const out='Claude outputs/snimky-revize-antiky';
+const out = process.env.VEN ?? 'Claude outputs/snimky-revize-antiky';
+(await import('node:fs')).mkdirSync(out, { recursive: true });
 for (const [u,n] of [['/osobnost/seneca/','seneca'],['/osobnost/epiktetos/','epiktetos'],['/osobnost/aristoteles/','aristoteles'],['/osobnost/sokrates/','sokrates'],['/osobnost/marcus-aurelius/','marcus'],['/osobnost/epikuros/','epikuros']]) {
   for (const h of [844, 667]) {
   const p = await b.newPage({ viewport: { width: 390, height: h } });
