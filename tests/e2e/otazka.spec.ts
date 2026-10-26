@@ -312,7 +312,7 @@ test('otázka 4: úvodní případ, čtyři hlasy, které se poznají, a cesta 5
   await expect(page.locator('h1')).toHaveText('Jsem svobodný?');
   // Úvod je vymyšlená situace bez historických osob a končí otázkami.
   const uvod = page.locator('.uvod');
-  await expect(uvod).toContainText('Představ si, že ti kamarád v hádce řekne něco hodně ošklivého.');
+  await expect(uvod).toContainText('Může člověk za to, jaký je? Kamarád ti v hádce řekne něco hodně ošklivého.');
   await expect(uvod).not.toContainText(/Epikúr|Epiktét|Chrýsipp|Aristotel/);
   await expect(uvod.locator('p').last()).toContainText('?');
   // Nejdřív student: hlasy se ukážou až po prvním názoru.
