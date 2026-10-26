@@ -10,8 +10,8 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | hotovo 26. 10. 2026 (Po K) |
 | T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | hotovo 26. 10. 2026 (Po T) |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 26. 10. 2026 (Po R) |
-| O | Opravy po revizi | Opus 5.5 · high | zadání níž |
-| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web) | Opus 5.5 · medium | po O |
+| O | Opravy po revizi | Opus 5.5 · high | hotovo 26. 10. 2026 (Po O) |
+| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web) | Opus 5.5 · medium | čeká na autora (Uzavření) |
 
 ## Co už atlas má
 
@@ -305,9 +305,9 @@ Záznam revize: `docs/revize/stoicky-tyden-2026-10-26.md`. **Verdikt: po opravá
 Prázdná odpověď znamená souhlas s doporučením.
 
 1. **Opravit všech pět nálezů** podle hotového znění v záznamu revize. Doporučuji.
-   Odpověď:
+   Odpověď: bez odpovědi, tedy souhlas s doporučením (26. 10. 2026).
 2. **Nová věta námitky:** „Česky se ‚stoicky‘ říká tomu, co člověk snese bez hnutí. Epiktétos chtěl po svých žácích klid, a přesto jim říkal:“. Doporučuji.
-   Odpověď:
+   Odpověď: bez odpovědi, tedy souhlas s doporučením (26. 10. 2026).
 
 ## Zadání O
 
@@ -324,3 +324,39 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 4. Do docs/pouceni.md jednou větou, co se z revize má dodržovat napříč atlasem (spojovací věta k námitce nesmí filozofovi upřít to, co opravdu chtěl; mez cvičení o představě nejhoršího vylučuje i nemoc a strach o někoho).
 5. Do plánu větve oddíl „Po O (datum)“ (co je opravené, co ne a proč, nad čím jsi váhal) a „Uzavření“ s otázkou na schválení, sloučení a push hlavní větve (nasadí web). Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
 ```
+
+## Po O (26. 10. 2026)
+
+**Opraveno, všech pět nálezů.**
+
+1. **Námitka:** „Česky se ‚stoicky‘ říká tomu, co člověk snese bez hnutí. Epiktétos chtěl po svých žácích klid, a přesto jim říkal:“ přesně podle revize; test na první obrazovce hlídá i druhou větu.
+2. **Meze dnů 3 a 4** vylučují nemoc a strach o někoho a říkají, komu to říct; v listu pro učitele řádky 3 a 4 tabulky mezí podle toho. Nový test v `tests/data/tydny.test.ts` hlídá obě meze a „komu věříš“ v mezích dnů 1 až 4 a 7.
+3. **Den 3:** první odstavec začíná otázkou („Které malé věci se v nejbližších dnech trochu bojíš?“), spojovací věta nese Dopis 13, 4 jako to, „jak to se strachem bývá“.
+4. **Den 5:** „večer bez seriálu“ místo „odpověď na zprávu až večer“, v listu pro učitele totéž.
+5. **Den 2:** „Vztek ani strach tím hned nezmizí.“
+
+**Kde jsem znění z revize upravil a proč.**
+
+- **Den 3, první odstavec** má po úpravě šest vět, CLAUDE.md dovoluje čtyři. Rozdělil jsem ho na dva: co si vybrat, a tři otázky na pět minut.
+- **Den 3, spojovací věta:** „Seneca ale příteli napsal“ bez „v dopise“. Den 5 má „Seneca na to v dopise odpověděl“ a „příteli napsal“ dopis říká i tak.
+- **Den 3, mez:** „Nemoc, strach o někoho ani člověk, který ti ubližuje, sem nepatří: o tom řekni někomu, komu věříš.“ Revize navrhla „Na nemoc, strach o někoho ani na člověka… cvičení není“; spolu s mezí dne 2 („Na to, co ti dělá…, tohle cvičení není“) a dne 4 („Na ztrátu, nemoc… cvičení není“) by to byla stejná věta tři dny po sobě.
+- **List pro učitele, den 3:** důvod v tabulce nově jmenuje případ z revize (blízký čeká na výsledky vyšetření) místo „žádní blízcí ani nemoc“, protože to už stojí v mezi.
+
+**Neopraveno:** nic. Dny 4 a 5 dál začínají slovesem „vybrat“ („Vyber jednu starost“, „Ráno si vyber jedno pohodlí“); po změně dne 3 to už nejsou tři dny po sobě a každý vybírá něco jiného, tak jsem je nechal.
+
+**Ověřeno očima studenta:** kdo truchlí nebo je nemocný, čte ve dni 3 i 4 výslovně, že jeho věc do cvičení nepatří, a komu to říct; den 5 nikde nesahá na jídlo ani na druhé lidi; den 2 už neříká, že cvičení na cit nepůsobí. Vitest týdne (16 testů) a `tyden.spec.ts` (16) prošly po sestavení; snímky `Claude outputs/tyden/tyden-o-*` (stránka na 390, dny 3 a 4). Celé `npm test` prošlo (vitest 753, Playwright 570).
+
+**Do `docs/pouceni.md`** dvě věty: spojovací věta k námitce nesmí filozofovi upřít, co chtěl; mez představy nejhoršího vylučuje i nemoc a strach o někoho.
+
+**Nad čím jsem váhal.**
+
+- **„Sem nepatří“ ve dni 3** zní příkřeji než „cvičení na to není“. Je ale krátké a pod nadpisem „Kdy přestat“ se čte jako hranice cvičení, ne jako soud o studentovi; hned za ním je, komu to říct.
+- **„Nemoc“ bez přivlastnění** (ve dni 3 i 4): kryje vlastní nemoc i nemoc blízkého, a to je záměr.
+
+## Uzavření
+
+Větev je po opravách hotová: stránka týdne, deník, vstupy z cest 5, 33, 34 a portrétů, zastavení `t:stoicky`, list pro učitele a opravy po revizi.
+
+**Otázka pro autora:** schvaluješ Stoický týden? Po schválení větev sloučím do hlavní větve a hlavní větev pošlu na GitHub, čímž se týden objeví na `https://czempi123.github.io/` (pořád s `noindex`). Další v pořadí z 26. 10. 2026 je `interaktivita-v1`.
+
+Odpověď:

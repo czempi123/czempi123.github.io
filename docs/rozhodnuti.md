@@ -4,6 +4,15 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, krok O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Všech pět nálezů revize opraveno podle hotového znění; námitka nově „Epiktétos chtěl po svých žácích klid, a přesto jim říkal:“ | Odpovědi autora po R (obě prázdné, tedy souhlas) |
+| Den 3 citát `seneca-ep-13-4` nese jako to, „jak to se strachem bývá“, ne jako odpověď na otázku, proč na nejhorší myslet. Opravuje důvod zapsaný u kroku T | Dopis 13, 4 je v Senekově dvojici rad „netrp předem“ (revize R, nález 3) |
+| Mez dne 3 má jinou stavbu než meze dnů 2 a 4 („Nemoc, strach o někoho ani člověk, který ti ubližuje, sem nepatří“) | Znění z revize („Na … cvičení není“) by dalo tři dny po sobě stejnou větu |
+| Meze dnů 1 až 4 a 7 říkají, komu to říct; hlídá to test v `tests/data/tydny.test.ts` | Pravidla týdne z podkladů, body 2 a 5 |
+
 ## 26. 10. 2026: Stoický týden, krok R
 
 | Rozhodnutí | Důvod |

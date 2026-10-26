@@ -5,7 +5,7 @@ obdobi: 2
 vstup: Na každý den jedno krátké stoické cvičení
 uvod: Ráno se ti nechce vstávat, o přestávce tě rozhodí jedna zpráva a večer ti hlavou běží, co se nepovedlo. Stoikové měli na takové chvíle krátká cvičení, která se dala dělat kdekoli. Sedm z nich tu máš, na každý den jedno, od bývalého otroka, od císaře a od Neronova učitele. Na konci týdne budeš vědět, které ti sedí, a budeš mít větu, kterou si z týdne necháš.
 namitka:
-  text: "Česky se „stoicky“ říká tomu, co člověk snese bez hnutí, ale Epiktétos od svých žáků chtěl něco jiného:"
+  text: "Česky se „stoicky“ říká tomu, co člověk snese bez hnutí. Epiktétos chtěl po svých žácích klid, a přesto jim říkal:"
   citat: rozpravy-iii-2-4
 pravidla: Kterýkoli den můžeš přeskočit a kdykoli přestat, nic se nepočítá.
 nabizet:
@@ -36,7 +36,7 @@ dny:
     poCitatu: |
       Pak se zeptej: Je tohle moje? Co s tím můžu udělat já?
 
-      Vztek ani strach tím nezmizí. Dostaneš jen chvíli, než podle nich něco uděláš.
+      Vztek ani strach tím hned nezmizí. Dostaneš jen chvíli, než podle nich něco uděláš.
     mez: "Na to, co ti dělá člověk, který ti ubližuje, tohle cvičení není: to není dojem, o tom řekni někomu, komu věříš."
     odkaz:
       href: /cesta/co-mam-ve-svych-rukou/7/
@@ -47,13 +47,15 @@ dny:
     osoba: seneca
     doba: pět minut
     text: |
-      Vyber si jednu malou věc, které se v nejbližších dnech trochu bojíš: test, rozhovor. Na pět minut si ji promysli. Co nejhoršího se může rozumně stát? Co bys pak udělal jako první? Co z toho máš v rukou už dnes?
+      Které malé věci se v nejbližších dnech trochu bojíš? Třeba testu nebo rozhovoru. Vezmi jednu a na pět minut si ji promysli.
 
-      Proč na to myslet schválně, když se toho bojíš? Seneca to příteli vysvětlil v dopise:
+      Co nejhoršího se může rozumně stát? Co bys pak udělal jako první? Co z toho máš v rukou už dnes?
+
+      Myslet na to, čeho se bojíš, zní jako zbytečné trápení. Seneca ale příteli napsal, jak to se strachem bývá:
     citat: seneca-ep-13-4
     poCitatu: |
       Jestli to platí i o tvé věci, poznáš až po těch pěti minutách. Pak to odlož a jdi dělat něco, co máš rád.
-    mez: "Když se ti ta věc točí v hlavě už teď, dnešek přeskoč; na člověka, který ti ubližuje, cvičení není, o tom řekni někomu."
+    mez: "Když se ti ta věc točí v hlavě už teď, dnešek přeskoč. Nemoc, strach o někoho ani člověk, který ti ubližuje, sem nepatří: o tom řekni někomu, komu věříš."
     odkaz:
       href: /cesta/co-kdyz-prijde-to-nejhorsi/8/#zkus-to-zit
       text: "Pět minut, jedna věc: celé cvičení v cestě o nejhorším"
@@ -69,14 +71,14 @@ dny:
       Tvoje mapa bude jiná. Klidně zavři oči a vzlétni: tvoje ulice, město, země a všude lidé, z nichž každý má svůj den. Kde v tom je tvoje starost?
 
       Pak se vrať a pojmenuj tři věci kolem sebe. Nakonec si řekni jednu věc, kterou s tou starostí dnes uděláš.
-    mez: Na ztrátu, nemoc, strach o někoho ani na to, co ti někdo dělá, cvičení není, a když se po něm cítíš od všeho daleko, přestaň.
+    mez: Na ztrátu, nemoc, strach o někoho ani na to, co ti někdo dělá, cvičení není. Když se po něm cítíš od všeho daleko, přestaň a řekni to někomu, komu věříš.
 
   - cislo: 5
     nazev: Den bez jednoho pohodlí
     osoba: seneca
     doba: celý den
     text: |
-      Ráno si vyber jedno pohodlí, bez kterého se dnes obejdeš a nikdo si nevšimne, že chybí. Cesta autobusem bez sluchátek, přestávka bez telefonu, odpověď na zprávu až večer. Jídlo, pití, spánek, léky a teplo do cvičení nepatří.
+      Ráno si vyber jedno pohodlí, bez kterého se dnes obejdeš a nikdo si nevšimne, že chybí. Cesta autobusem bez sluchátek, přestávka bez telefonu, večer bez seriálu. Jídlo, pití, spánek, léky a teplo do cvičení nepatří.
 
       Proč si dělat den schválně nepohodlný, když se nic neděje? Seneca na to v dopise odpověděl obrazem z vojska:
     citat: seneca-ep-18-6-val

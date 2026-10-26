@@ -44,6 +44,17 @@ describe('data týdnů', () => {
     expect(stoicky.nabizet.osobnosti).toEqual(['seneca', 'epiktetos', 'marcus-aurelius']);
   });
 
+  it('meze dnů o představě nejhoršího a pohledu shora vylučují nemoc i strach o někoho a říkají, komu to říct (revize R)', () => {
+    for (const n of [3, 4]) {
+      const mez = stoicky.dny.find((d) => d.cislo === n)!.mez;
+      expect(mez).toMatch(/nemoc/i);
+      expect(mez).toContain('strach o někoho');
+      expect(mez).toContain('někomu, komu věříš');
+    }
+    // Dny 1 až 4 a 7, kde se může vrátit něco těžkého, mají v mezi komu to říct (list pro učitele, Kontakty).
+    for (const n of [1, 2, 3, 4, 7]) expect(stoicky.dny.find((d) => d.cislo === n)!.mez).toMatch(/někomu, komu věříš/);
+  });
+
   it('žádný citát týdne nezazní v týdnu víc než dvakrát, ani v týdnu a zbytku atlasu dohromady', () => {
     for (const t of tydny) {
       for (const [c, n] of pocetCitatu(citatyTydne(t.data))) {

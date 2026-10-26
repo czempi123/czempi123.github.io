@@ -19,6 +19,8 @@ test('stránka: námitka, pravidla, sedm dnů, první otevřený; žádné séri
   await otevri(page);
   await expect(page.locator('h1')).toHaveText('Stoický týden');
   await expect(page.locator('.namitka')).toContainText('Česky se „stoicky“ říká tomu, co člověk snese bez hnutí');
+  // Epiktétos klid chtěl; odmítal jen necitelnost sochy (revize R, nález 1).
+  await expect(page.locator('.namitka')).toContainText('Epiktétos chtěl po svých žácích klid');
   await expect(page.locator('.tyden__hlava .citat')).toContainText('Nemám být bez citu jako socha.');
   await expect(page.locator('.pravidla')).toContainText('Kterýkoli den můžeš přeskočit a kdykoli přestat, nic se nepočítá.');
   await expect(page.locator('.den')).toHaveCount(7);
