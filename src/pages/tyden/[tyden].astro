@@ -1,0 +1,71 @@
+---
+// /tyden/<id>/: týden cvičení v duchu Zkus to žít (Stoický týden). Skládá se z dat v src/content/tydny/<id>.yaml;
+// dny, Hotovo a deník obstará ostrov Tyden.svelte. Kontrola dat (citáty, osoby, prameny) zastaví sestavení.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import Citat from '../../components/ui/Citat.astro';
+import Tyden from '../../components/ostrovy/Tyden.svelte';
+import { citatyPodleId, osoba, osoby, pramenyPodleId } from '../../lib/data';
+import { adresaTydne, kontrolaTydne } from '../../lib/tydny';
+import { odstavce, radek } from '../../lib/bloky';
+import { nezlomitelne } from '../../lib/sazba.js';
+
+export async function getStaticPaths() {
+  const tydny = await getCollection('tydny');
+  const znam = { citaty: new Set(citatyPodleId.keys()), prameny: new Set(pramenyPodleId.keys()), osoby: new Set(osoby.keys()) };
+  const chyby = tydny.flatMap((t) => kontrolaTydne(t.id, t.data, znam));
+  if (chyby.length) throw new Error(`Týdny neprošly kontrolou:\n- ${chyby.join('\n- ')}`);
+  return tydny.map((t) => ({ params: { tyden: t.id }, props: { tyden: t } }));
+}
+interface Props { tyden: CollectionEntry<'tydny'> }
+const { tyden } = Astro.props;
+const t = tyden.data;
+const odkaz = adresaTydne(tyden.id);
+const dny = t.dny.map((d) => {
+  const c = d.citat ? citatyPodleId.get(d.citat)! : undefined;
+  return {
+    cislo: d.cislo,
+    nazev: nezlomitelne(d.nazev),
+    kdo: osoba(d.osoba).jmeno,
+    doba: nezlomitelne(d.doba),
+    text: odstavce(d.text),
+    ...(c ? { citat: { cesky: nezlomitelne(c.cesky), autor: c.autor, dilo: c.dilo, misto: c.misto } } : {}),
+    mez: radek(d.mez),
+    ...(d.odkaz ? { odkaz: { href: d.odkaz.href, text: nezlomitelne(d.odkaz.text) } } : {}),
+    ...(d.psani ? { psani: d.psani } : {}),
+  };
+});
+---
+<Zakladni
+  titulek={t.nazev}
+  popis={`${t.vstup}.`}
+  sekce="lide"
+  drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: t.nazev }]}
+  kratkyTitulek={t.nazev}
+>
+  <article class={`tyden stranka obdobi-${t.obdobi}`}>
+    <header class="tyden__hlava ctenarsky">
+      <p class="t-nadtitulek nadtitulek">Zkus to žít · {t.dny.length} dní</p>
+      <h1 class="t-h1">{t.nazev}</h1>
+      <p class="t-perex">{nezlomitelne(t.uvod)}</p>
+      <p class="namitka" set:html={radek(t.namitka.text)} />
+      {t.namitka.citat && <Citat id={t.namitka.citat} kompaktni />}
+      <p class="pravidla t-ovladani" set:html={radek(t.pravidla)} />
+    </header>
+    <div class="ctenarsky">
+      <Tyden client:load id={tyden.id} nazev={t.nazev} odkaz={odkaz} dny={dny} />
+    </div>
+  </article>
+</Zakladni>
+
+<style>
+  .tyden { padding-bottom: var(--s-8); }
+  /* Středová osa jako u cesty a profilu. */
+  .tyden :global(.ctenarsky) { margin-inline: auto; }
+  .tyden__hlava { padding: var(--s-6) 0 var(--s-5); }
+  .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  h1 { margin-bottom: var(--s-4); }
+  .namitka { margin: var(--s-5) 0 0; }
+  .namitka + :global(.citat) { margin-top: var(--s-2); }
+  .pravidla { margin: var(--s-5) 0 0; padding: var(--s-3) var(--s-4); border-left: 3px solid var(--pc); background: var(--surface); color: var(--ink); }
+</style>

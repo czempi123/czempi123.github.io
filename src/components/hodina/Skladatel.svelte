@@ -39,6 +39,7 @@
     { druh: 'cesta', nadpis: 'Cesty' },
     { druh: 'profil', nadpis: 'Profily' },
     { druh: 'otazka', nadpis: 'Velké otázky' },
+    { druh: 'tyden', nadpis: 'Týdny Zkus to žít' },
   ] as const;
 
   // ─── Hodina ───

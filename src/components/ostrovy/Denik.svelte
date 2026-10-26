@@ -7,12 +7,15 @@
   import { nabidkaNavratu, platnyStavNavratu, type NavratDeniku } from '../../lib/navrat';
   import Navrat from './Navrat.svelte';
   import MojeHodiny from '../hodina/MojeHodiny.svelte';
+  import { cisteDny, hotoveDnyText, idVyzvyTydne } from '../../lib/tydny';
 
   interface Props {
     /** návraty všech cest (obsah z YAML); který a kdy nabídnout, rozhodne nabidkaNavratu */
     navraty?: NavratDeniku[];
+    /** týdny cvičení (Stoický týden): přijatý se ukáže mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz */
+    tydny?: { id: string; nazev: string; odkaz: string; vstup: string; pocet: number }[];
   }
-  let { navraty = [] }: Props = $props();
+  let { navraty = [], tydny = [] }: Props = $props();
 
   let denik = $state<Denik | null>(null);
   // Nabídka se určí jednou při otevření deníku: po odložení nebo skrytí se hned nenabídne další.
@@ -27,6 +30,9 @@
   let rozpracovane = $derived(denik ? denik.aktivita.filter((a) => !a.hotovo) : []);
   // Hodiny, které student otevřel z odkazu učitele (nejnovější první); Moje hodiny učitele jsou zvlášť.
   let hodiny = $derived(denik?.hodiny ?? []);
+  // Týdny, které student ještě nepřijal: jen odkaz, bez výzvy k povinnosti.
+  let nabidkaTydnu = $derived(denik ? tydny.filter((t) => !denik!.vyzvy.some((v) => v.id === idVyzvyTydne(t.id))) : []);
+  const tydenVyzvy = (id: string) => tydny.find((t) => idVyzvyTydne(t.id) === id);
   const datum = (iso: string) => new Date(iso).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
 
   onMount(() => {
@@ -69,6 +75,7 @@
 {#if denik}
   {#if denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0}
     <p class="t-perex">Zatím je prázdný. Když v cestě, u osobnosti nebo u otázky napíšeš vlastní odpověď nebo přijmeš výzvu, najdeš ji tady.</p>
+    {@render nabidka_tydnu()}
   {:else}
     {#if nabidka}
       <section class="navrat" aria-labelledby="navrat-nadpis">
@@ -136,13 +143,20 @@
       <h2 class="t-h3 nadpis">Přijaté výzvy</h2>
       <ul class="seznam">
         {#each denik.vyzvy as v (v.id)}
+          {@const t = tydenVyzvy(v.id)}
           <li>
             <p class="t-popisek">přijato {datum(v.prijato)}</p>
             <p class="otazka"><a href={v.odkaz}>{v.nazev}</a></p>
+            {#if t}
+              <p class="t-popisek tyden-pocet">{hotoveDnyText(cisteDny(denik.tydny?.[t.id]?.hotove, t.pocet).length, t.pocet)}</p>
+              {#if denik.tydny?.[t.id]?.veta}<p class="odpoved">{denik.tydny[t.id].veta}</p>{/if}
+            {/if}
+            {#if v.poznamka}<p class="odpoved">{v.poznamka}</p>{/if}
           </li>
         {/each}
       </ul>
     {/if}
+    {@render nabidka_tydnu()}
   {/if}
   <MojeHodiny />
   <div class="soubor">
@@ -153,6 +167,20 @@
   <p class="t-popisek soubor__popis">Nahraný deník se přidá k tomu, co máš tady. Nic se nesmaže.</p>
   {#if zpravaSouboru}<p class="soubor__zprava t-ovladani" role="status">{zpravaSouboru}</p>{/if}
 {/if}
+
+{#snippet nabidka_tydnu()}
+  {#if nabidkaTydnu.length}
+    <h2 class="t-h3 nadpis" id="denik-tydny">Zkus to žít</h2>
+    <ul class="seznam seznam--tydny" aria-labelledby="denik-tydny">
+      {#each nabidkaTydnu as t (t.id)}
+        <li>
+          <p class="otazka"><a href={t.odkaz}>{t.nazev}</a></p>
+          <p class="t-popisek">{t.vstup}. Kdykoli budeš chtít.</p>
+        </li>
+      {/each}
+    </ul>
+  {/if}
+{/snippet}
 
 <style>
   .nadpis { margin: var(--s-7) 0 var(--s-4); }

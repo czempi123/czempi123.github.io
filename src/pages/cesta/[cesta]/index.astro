@@ -9,6 +9,7 @@ import { krokyCesty, adresaKroku, poradiDalsichCest } from '../../../lib/cesty';
 import { adresaOtazky } from '../../../lib/otazky';
 import { adresaStranekOsob, medailonky } from '../../../lib/stranky-osob';
 import { nezlomitelne } from '../../../lib/sazba.js';
+import { adresaTydne } from '../../../lib/tydny';
 
 export async function getStaticPaths() {
   const cesty = await getCollection('cesty');
@@ -43,6 +44,9 @@ const odkazOtazky = otazka ? adresaOtazky(otazka.id, otazka.data) : undefined;
 const dalsi = poradiDalsichCest(cesta.id, (await getCollection('cesty')).map((x) => ({ slug: x.id, ...x.data })))
   .map((x) => ({ slug: x.slug, nazev: x.nazev }));
 const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(cesta.id, k.krok) }));
+// Týdny cvičení, které se po této cestě nabízejí (pole nabizet.cesty v src/content/tydny/<id>.yaml).
+const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.includes(cesta.id));
+const malym = (s: string) => s.charAt(0).toLocaleLowerCase('cs') + s.slice(1);
 ---
 <Zakladni
   titulek={c.nazev}
@@ -74,6 +78,7 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
         {profilyCesty.map((p) => <li><a href={p.href}>{p.jmena}: {p.medailonek ? 'medailonek' : 'celý příběh'}</a></li>)}
         {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {c.mapa.text}</a></li>}
         {otazka && <li><a href={odkazOtazky}>Velká otázka {otazka.data.cislo}: {otazka.data.otazka}</a></li>}
+        {tydny.map((t) => <li><a href={adresaTydne(t.id)}>{t.data.nazev}: {malym(t.data.vstup)}</a></li>)}
       </ul>
     </section>
   </article>

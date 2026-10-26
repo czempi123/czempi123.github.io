@@ -1,0 +1,106 @@
+# Stoický týden: sedm krátkých cvičení, jedno na den (docs/architektura.md › Stoický týden,
+# plán větve docs/plany/stoicky-tyden.md, podklady docs/podklady/stoicky-tyden.md).
+#
+# PROZATÍMNÍ ZNĚNÍ (krok K): texty dnů, úvod, meze a popisky jsou „Návrh znění pro T“ z podkladů,
+# u dnů 3 a 6 zkrácené hotové karty. Krok T je přepíše podle atlas-psani; do T se větev nesloučí.
+# Den 5 zatím nemá citát: seneca-ep-18-6-val (Dopis 18, 6) přidá do zdroje.yaml krok T.
+nazev: Stoický týden
+obdobi: 2
+vstup: Sedm krátkých cvičení, jedno na den
+uvod: Sedm krátkých cvičení od Marca Aurelia, Epiktéta a Seneky, na každý den jedno. Každé zabere pár minut a nepotřebuješ k němu nic.
+namitka:
+  text: "Stoik neznamená člověk beze citu. Epiktétos o tom píše:"
+  citat: rozpravy-iii-2-4
+pravidla: Kdykoli přestaň, den můžeš přeskočit, nic se nepočítá.
+nabizet:
+  cesty: [co-mam-ve-svych-rukou, co-kdyz-prijde-to-nejhorsi, kam-mi-mizi-cas]
+  osobnosti: [seneca, epiktetos, marcus-aurelius]
+zdroje: [marcus-hovory, epiktetos-rukojet, epiktetos-rozpravy, seneca-de-ira]
+dny:
+  - cislo: 1
+    nazev: Ranní příprava
+    osoba: marcus-aurelius
+    doba: minuta ráno
+    text: |
+      Než vstaneš, vyber jednu věc dneška, která bude těžká nebo se do ní nechce.
+
+      Řekni si: tohle je dnes moje práce. Víc nepotřebuješ.
+    citat: hovory-v-1
+    mez: Když se ti nechce vstávat už celé týdny, tohle cvičení na to není a řekni to někomu, komu věříš.
+
+  - cislo: 2
+    nazev: Co je v mé moci
+    osoba: epiktetos
+    doba: minuta, kdykoli během dne
+    text: |
+      Když tě dnes něco rozčílí nebo vyděsí, řekni si: Je to dojem.
+
+      Pak se zeptej: je tohle moje, nebo ne? Co s tím můžu udělat já?
+    citat: rukojet-1-5
+    mez: Na to, co ti dělá člověk, který ti ubližuje, tohle cvičení není, protože to není jen dojem.
+    odkaz:
+      href: /cesta/co-mam-ve-svych-rukou/7/
+      text: Kamenná tvář, krok cesty o stoicích a citech
+
+  - cislo: 3
+    nazev: Představa nejhoršího
+    osoba: seneca
+    doba: pět minut
+    text: |
+      Vyber si jednu malou věc, které se v nejbližších dnech trochu bojíš: test, rozhovor. Na pět minut si ji promysli. Co nejhoršího se může rozumně stát? Co bys pak udělal jako první? Co z toho máš v rukou už dnes?
+
+      Pak to odlož a jdi dělat něco, co máš rád.
+    citat: rukojet-3-hrnek
+    mez: Když se ti ta věc už teď vrací v hlavě, dnešek přeskoč, nic nezmeškáš.
+    odkaz:
+      href: /cesta/co-kdyz-prijde-to-nejhorsi/8/#zkus-to-zit
+      text: Celé cvičení Pět minut, jedna věc
+
+  - cislo: 4
+    nazev: Pohled shora
+    osoba: marcus-aurelius
+    doba: dvě až tři minuty
+    text: |
+      Vyber jednu starost, která se týká toho, co si o tobě pomyslí druzí nebo jak ti něco dopadne.
+
+      Dívej se shora: ulice, město, země, spousta lidí a každý má svůj den. Kde je tam tvoje starost? Pak se vrať: pojmenuj tři věci kolem sebe a řekni si, co s ní dnes uděláš.
+    citat: hovory-ix-30
+    mez: Na ztrátu, nemoc, strach o někoho ani na to, co ti někdo dělá, tohle cvičení není.
+
+  - cislo: 5
+    nazev: Den bez jednoho pohodlí
+    osoba: seneca
+    doba: jeden den
+    text: |
+      Vyber jedno pohodlí, které není nutné a nikdo by si nevšiml, že chybí. Ne jídlo, pití, spánek, léky ani teplo. Dnes se bez něj obejdi.
+
+      Večer se zeptej: bylo to to, čeho jsem se bál?
+    mez: Tohle cvičení není o jídle, a když tě napadne jídlo, den přeskoč.
+
+  - cislo: 6
+    nazev: Večerní ohlédnutí
+    osoba: seneca
+    doba: pár minut večer
+    text: |
+      Dnes večer, než usneš, si v duchu odpověz na tři otázky, které si kladl Seneca. Nic nepiš.
+    citat: seneca-ira-iii-36-otazky
+    mez: Když ti to večer vypíše jen chyby, zastav se u třetí otázky.
+    odkaz:
+      href: /osobnost/seneca/#zkus-to-zit
+      text: Celé cvičení Tři otázky večer
+
+  - cislo: 7
+    nazev: Jedna věta sobě
+    osoba: marcus-aurelius
+    doba: pár minut
+    text: |
+      Napiš si jednu větu: co si z týdne chceš nechat. Oslov se v ní „ty“, jako Marcus. Nikomu ji neukazuj.
+
+      Pak si do deníku napiš poznámku: který den ti pomohl a který ne.
+    mez: Deník je tvůj, a když píšeš o něčem těžkém, řekni to i někomu.
+    odkaz:
+      href: /osobnost/marcus-aurelius/#zkus-to-zit
+      text: Sedm vět za sedm dní, karta Věta pro sebe
+    psani:
+      veta: Tvoje věta
+      poznamka: Poznámka do deníku

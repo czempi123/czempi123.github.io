@@ -25,12 +25,23 @@ const vstup: VstupKatalogu = {
   osobnosti: obsahove('osobnosti').map((f) => ({ id: stem(f), ...soubor(`${C}/osobnosti/${f}`) })),
   otazky: obsahove('otazky').map((f) => ({ id: stem(f), ...soubor(`${C}/otazky/${f}`) })),
   bloky: readdirSync(`${C}/bloky`).filter((f) => f.endsWith('.yaml')).map((f) => ({ id: f.replace(/\.yaml$/, ''), data: parse(readFileSync(`${C}/bloky/${f}`, 'utf8')) })),
+  tydny: readdirSync(`${C}/tydny`).filter((f) => f.endsWith('.yaml')).map((f) => ({ id: f.replace(/\.yaml$/, ''), data: parse(readFileSync(`${C}/tydny/${f}`, 'utf8')) })),
   osoby,
 };
 const katalog = katalogZastaveni(vstup);
 const z = (id: string) => katalog.find((x) => x.id === id)!;
 
 describe('katalog zastavení z obsahu a dat', () => {
+  it('týden cvičení je jedno zastavení celé stránky (t:stoicky), bez dnů a bez rodiče', () => {
+    expect(z('t:stoicky')).toMatchObject({
+      druh: 'tyden', nazev: 'Stoický týden', kde: 'Stoický týden', stranka: '/tyden/stoicky/', adresa: '/tyden/stoicky/', kotva: null, obdobi: 2, rodic: null,
+    });
+    expect(katalog.filter((x) => x.stranka === '/tyden/stoicky/')).toHaveLength(1);
+    expect(ID_ZASTAVENI.test('t:stoicky')).toBe(true);
+    // Starší vstup bez týdnů katalog složí taky.
+    expect(katalogZastaveni({ ...vstup, tydny: undefined }).some((x) => x.druh === 'tyden')).toBe(false);
+  });
+
   it('každá cesta má přehled a tolik kroků, kolik má souborů', () => {
     for (const s of slugyCest) {
       const pocet = readdirSync(`${C}/cesty/${s}`).filter((f) => /^\d.*\.mdx$/.test(f)).length;

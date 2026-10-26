@@ -49,9 +49,9 @@ export function stromKatalogu(katalog: Zastaveni[]): Skupina[] {
 export const proHledani = (s: string): string =>
   s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 
-/** Druhy ve filtru výběru; „stranky“ jsou celé stránky (přehled cesty, profil, stránka otázky). */
+/** Druhy ve filtru výběru; „stranky“ jsou celé stránky (přehled cesty, profil, stránka otázky, týden). */
 export const DRUHY_VYBERU = [
-  { id: 'stranky', nazev: 'Celé stránky', druhy: ['cesta', 'profil', 'otazka'] },
+  { id: 'stranky', nazev: 'Celé stránky', druhy: ['cesta', 'profil', 'otazka', 'tyden'] },
   { id: 'krok', nazev: 'Kroky cest', druhy: ['krok'] },
   { id: 'blok', nazev: 'Bloky a kresby', druhy: ['blok'] },
   { id: 'pribeh', nazev: 'Příběhy', druhy: ['pribeh'] },
@@ -133,6 +133,7 @@ export function stitekDruhu(z: Zastaveni): string {
     case 'otazka': return 'Stránka otázky';
     case 'hlas': return 'Hlas';
     case 'pribeh': return 'Příběh';
+    case 'tyden': return 'Celý týden';
     case 'blok': return z.typ && z.typ in NAZVY_KRESEB ? 'Kresba' : (TYPY_BLOKU[z.typ ?? ''] ?? 'Blok');
   }
 }
@@ -147,14 +148,14 @@ export function stitekStudenta(z: Zastaveni): string {
 
 /** Kde zastavení stojí, jak se ukáže v hodině: „Kdy mám dobrý důvod věřit? · krok 3“, „Sókratés“, otázka u hlasu. */
 export function kdeStoji(z: Zastaveni): string {
-  if (z.druh === 'cesta' || z.druh === 'profil' || z.druh === 'otazka') return z.kde;
+  if (z.druh === 'cesta' || z.druh === 'profil' || z.druh === 'otazka' || z.druh === 'tyden') return z.kde;
   if (z.krok !== undefined && z.druh !== 'krok') return `${z.kde} · krok ${z.krok}`;
   return z.kde;
 }
 
 /** Nadpis skupiny ve výběru: „Cesta 1“ se nečísluje (číslo katalog nenese), proto druh stránky a název. */
 export function druhStranky(z: Zastaveni): string {
-  return z.druh === 'cesta' ? 'Cesta' : z.druh === 'profil' ? 'Profil' : 'Velká otázka';
+  return z.druh === 'cesta' ? 'Cesta' : z.druh === 'profil' ? 'Profil' : z.druh === 'tyden' ? 'Zkus to žít' : 'Velká otázka';
 }
 
 /** Přesune položku o jedno místo nahoru (−1) nebo dolů (+1); na kraji vrátí seznam beze změny. */
