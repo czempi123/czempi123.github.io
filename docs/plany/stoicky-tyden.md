@@ -6,7 +6,7 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
-| P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | zadání níž |
+| P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
 | K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | po P6 a odpovědích |
 | T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | po K |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | po T |
@@ -79,3 +79,54 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 4. Otevřené otázky pro autora a řádky do docs/podklady/k-overeni.md (oddíl Stoický týden).
 5. Do plánu větve oddíl „Po P6 (datum)“: co je ověřené, co ne, nad čím jsi váhal; „Co rozhodnout po P6“ s doporučeními, pokud je co rozhodnout. Commit ve větvi, nic neposílej na GitHub.
 ```
+
+## Po P6 (26. 10. 2026)
+
+Podklady: `docs/podklady/stoicky-tyden.md`; řádky v `docs/podklady/k-overeni.md` u řádku Stoický týden (celek 3). Do zdrojů ani do obsahu jsem nesáhl; návrh jednoho nového citátu je v podkladech.
+
+**Ověřeno (řecky nebo latinsky přečteno v tomhle kroku):** Marcus II, 1, V, 1, VII, 48, IX, 30, XII, 24; Epiktétos, Rukojeť 1, 3, 4, Rozpravy III, 2, III, 3, 1, I, 1, 25; Seneca, Dopisy 18, 63, 99, O hněvu III, 36; Gellius XIX, 1; Diogenés Laertios VII, 116–117. U deseti citátů, které atlas už má, se `original` shoduje slovo od slova.
+
+**Neověřeno:** Hadot, Irvine, Ellis, Beck jen z recenzí; český překlad Hovorů, Rukojeti a Rozprav neotevřen; číslování oddílů v Dopisech 18, 63, 99, v Gelliovi a v Diogenovi Laertiovi jsem v souborech z Perseu nemohl zkontrolovat; Rukojeť 33 a 47, Marcus I, 7 a Epikúrův dopis Polyainovi nečteny.
+
+**Čtyři dny jsou jinak, než říkala architektura:**
+
+- **Den 5 se nestaví na Dopisu 18, 5–9.** Je to celé o nejhorším jídle, hrubém lůžku a Epikúrových hladových dnech, tedy přesně to, co zadání zakázalo. Navrhuju „Den bez jednoho pohodlí“ na principu z 18, 6 (voják v míru staví val), s větou, že jídlo, pití, spánek, léky a teplo do cvičení nepatří.
+- **Den 1 ne z II, 1, ale z V, 1.** II, 1 je výčet lidí, které ráno potkám; to nesmí mířit na toho, kdo ubližuje.
+- **Dny 3 a 6** se jen převezmou z hotových karet a zkrátí (vyndat věty mířící za týden).
+- **Den 7** není „deník Marcův“: Hovory deník nejsou (SEP) a Seneca ohlédnutí nezapisoval. Den 7 = jedna věta sobě a poznámka do deníku; překrývá se s kartou „Věta pro sebe“.
+
+**Námitka „stoik beze citu“** už má v atlasu dva domovy (cesta 5, krok 7; cesta 7, krok 7). Týden nový Spor nestaví: jedna věta na první obrazovce a odkaz ve dni 2. Poctivě musí zaznít i slabé místo: stoikové zármutek podle nauky nepřijímají bez výhrad.
+
+**Nad čím jsem váhal.**
+
+- **Jestli den 5 nevynechat úplně.** Vynechání by bylo nejbezpečnější a týden by měl šest dnů. Nechal jsem ho, protože princip z 18, 6 se dá cvičit bez jídla a bez chudoby, a protože týden bez jediného „dělání“ (vše ostatní je v hlavě) by byl jednostranný. Je to na autorovi (otázka 2).
+- **`seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4.** Epikúrovy hladové dny tam jsou už dnes. Mimo tuhle větev jsem nic neměnil, jen to hlásím (otázka 3).
+- **Jak hluboko cvičení zasahuje.** Dny 2 a 4 („jsi dojem“, „shora“) se dají číst jako „není to skutečné“; v obou jsem napsal výslovnou mez (nepoužívat na to, co ti někdo dělá, ani na ztrátu). Je to můj úsudek o riziku, ne doložená věc.
+- **Večerní ohlédnutí jako rytmus všech dnů** (nápad z tohoto plánu) nedoporučuju: dvě cvičení denně by překročila „pár minut“ a trestala by vynechaný den.
+- **Deník.** Kde se poznámky týdne ukládají a co vidí učitel, je otázka pro K; v podkladech je jako otázka 6.
+- **Zdroje.** Perseus jsem četl místo Leopolda; shodu jsem zkontroloval jen u míst, která jsou v datech.
+
+## Co rozhodnout po P6
+
+Prázdná odpověď znamená souhlas s doporučením. Úplné znění otázek je v `docs/podklady/stoicky-tyden.md` (Otevřené otázky pro autora).
+
+1. **Den 1 z V, 1 místo II, 1.** Doporučuji.
+   Odpověď:
+2. **Den 5 jako „Den bez jednoho pohodlí“** s Dopisem 18, 6 a výslovnou větou o jídle, pití, spánku, lécích a teplu; ne Dopis 18, 5–9. Doporučuji. Alternativy: den 5 vynechat (týden o šesti dnech), nebo ho nahradit jiným cvičením po ověření.
+   Odpověď:
+3. **`seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4:** podívat se, zda věta o Epikúrových hladových dnech neodporuje pravidlu o jídle. Doporučuji jen podívat se; nic neměním bez tebe.
+   Odpověď:
+4. **Název dne 5:** „Den bez jednoho pohodlí“ místo „Jeden den skromnosti“ („skromnost“ přivolává „stačí málo“). Doporučuji.
+   Odpověď:
+5. **Den 7 jako jedna věta**, karta „Věta pro sebe“ zůstane samostatnou sedmidenní variantou; konec karty „Tři otázky večer“ se v týdnu přesune do dne 7. Doporučuji.
+   Odpověď:
+6. **Soukromí poznámek týdne** (uložení, sdílení, co vidí učitel v režimu třídy): rozhodnout před K.
+   Odpověď:
+7. **Námitka v týdnu:** jedna věta s `rozpravy-iii-2-4` na první obrazovce, odkaz na cestu 5, krok 7 ve dni 2, nový Spor nestavět. Doporučuji.
+   Odpověď:
+8. **Plán píše devatenáct karet Zkus to žít, napočítal jsem osmnáct.** Překlep, nebo mi karta uniká?
+   Odpověď:
+9. **`hovory-vi-6`** („Nejlepší obrana je nestat se stejným“) v týdnu nepoužít. Doporučuji.
+   Odpověď:
+10. **Gellius a Diogenés Laertios** (jako doklad k námitce) jen v listu pro učitele, ne ve studentském textu. Doporučuji.
+    Odpověď:
