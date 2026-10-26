@@ -7,9 +7,9 @@ Antika má hotových všech deset cest z katalogu (1–8, 33, 34), dvanáct str�
 | S | Souhrnná revize antiky: čtení napříč celky, kontroly dat a rozhraní, inventura mezer vůči F3, připravenost na zkoušku se studenty | Fable 5.1 · high se skillem `atlas-revize` | hotovo 25. 10. 2026, verdikt „po opravách“ (`docs/revize/antika-2026-10-25.md`); zadání v `docs/archiv/zadani/revize-antiky.md` |
 | O | Opravy po revizi | Opus 5.5 · high (xhigh u delších zásahů do UI) | hotovo 26. 10. 2026 (`c20d1f1` až `fa227da`), oddíl Po O; zadání v `docs/archiv/zadani/revize-antiky.md` |
 | P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md`; hledání místa pro interaktivní prvek i ve skillech `atlas-osobnost` (profily, medailonky) a `atlas-data` | Opus 5.5 · high | hotovo 26. 10. 2026, oddíl Po P13; zadání v `docs/archiv/zadani/revize-antiky.md` |
-| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub, zveřejnění na GitHub Pages s `noindex` | Opus 5.5 · medium | příprava hotová 26. 10. 2026 (oddíl Po Uzavření – příprava); čeká na „schvaluji“ a na přejmenování a zveřejnění repozitáře |
+| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub, zveřejnění na GitHub Pages s `noindex` | Opus 5.5 · medium | hotovo 26. 10. 2026: schváleno, sloučeno, na GitHubu a zveřejněno na `https://czempi123.github.io/` (oddíly Po Uzavření – příprava a Po Uzavření); zadání v `docs/archiv/zadani/revize-antiky.md` |
 
-Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v plném znění přesouvají do `docs/archiv/zadani/revize-antiky.md`.
+Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v plném znění přesouvají do `docs/archiv/zadani/revize-antiky.md`. Větev je uzavřená a plán je v archivu.
 
 ## Proč teď a proč takhle
 
@@ -258,28 +258,11 @@ Nad čím jsem váhal a co jsem zvolil:
 - **Kde ukázat licenci v cestě.** Řádek pod popiskem Příběhu jen v kroku cesty, ne Prameny na konci kroku: krok žádné Prameny nemá a čtyři obrázky by kvůli tomu dostaly nový oddíl. U PD a CC0 to zákon nežádá, ale zadání chce autora a licenci vidět všude.
 - **Nestálý test průchodu cesty 1** spadl při plném souběhu znovu (revize S ho opravovala delším čekáním). Samostatně i v menší sadě prochází. Nechal jsem ho být; patří k `interaktivita-v1` nebo dalšímu zásahu do testů, ne k zveřejnění.
 
-## Zadání Uzavření
+## Po Uzavření (26. 10. 2026)
 
-V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem, až odpovíš na otázky výš. **Opus 5.5 · medium.**
+Schváleno autorem 26. 10. 2026. Větev `revize-antiky` je sloučená do `main` (`86fc68f`, `--no-ff`); celé `npm test` na `main` prošlo (vitest 735, Playwright 550, bez selhání).
 
-```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok Uzavření větve revize-antiky: připravit zveřejnění na GitHub Pages s noindex, po mém schválení sloučit do hlavní větve, poslat na GitHub a zveřejnit. Moje odpovědi jsou v plánu větve docs/plany/revize-antiky.md v oddílu „Co rozhodnout po P13“ (prázdná odpověď znamená souhlas). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
-
-0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/pouceni.md, v plánu větve oddíly Po P13 a Co rozhodnout po P13 a v záznamu revize docs/revize/antika-2026-10-25.md oddíl 11 (Zkouška se studenty, Podklad pro rozhodnutí o zveřejnění).
-
-1. Příprava ve větvi revize-antiky:
-   - astro.config: `site` podle odpovědi 3 (a `base` jen tehdy, když jsem zvolil podadresu; pak se zastav a napiš mi, co úprava odkazů obnáší, nic nepřepisuj).
-   - noindex podle odpovědi 5: značka v src/layouts/Zakladni.astro s komentářem „do konce zkoušky se studenty“; test, že ji má každá stránka v dist/.
-   - Workflow .github/workflows/pages.yml: po pushi do hlavní větve npm ci, npm run build (s Pagefindem) a nasazení dist/ přes actions/deploy-pages; Node jako v kontroly.yml. kontroly.yml nech beze změny.
-   - Licence před zveřejněním: projdi všechny obrázky v zdroje.yaml › obrazky (licence dovoluje zveřejnění na webu, autor a licence jsou na stránce vidět) a zvlášť fotografie 20. století (Stockdale) a vše, co není CC, PD nebo vlastní kresba; licence písem v public/ (OFL a podobné). Obrázek s nejasnou licencí nemaž ani nestahuj: zapiš ho do plánu větve a zastav se, rozhodnu já.
-   - Projdi repozitář (soubory i historii, git log -p jen hledáním), jestli v něm není nic, co nemá být veřejné: osobní údaje, e-maily mimo commity, tokeny a klíče, jména studentů. Nálezy mi napiš, nic nepřepisuj v historii.
-   - npm test celé (na pozadí s výstupem do souboru), npm run build a npx astro preview: projdi Domů, cestu, profil, hledání a deník pod cílovou adresou.
-   - CLAUDE.md: věta „Web zatím běží jen lokálně“ podle stavu po zveřejnění (adresa, noindex do konce zkoušky).
-   - Do plánu větve oddíl „Po Uzavření – příprava (datum)“, rozhodnutí do docs/rozhodnuti.md, commit.
-
-2. Pak se zastav a napiš mi krátce: co je připravené, výsledek licencí a kontroly repozitáře, co musím udělat sám na GitHubu (přejmenování nebo zveřejnění repozitáře, Settings › Pages › Source: GitHub Actions) a že čekáš na moje „schvaluji“. Bez něj nic neslučuj a nic neposílej.
-
-3. Po mém schválení: git switch main, git merge --no-ff revize-antiky, npm test celé, git push origin main. Po doběhnutí workflow ověř zveřejněný web (Domů, jedna cesta, jeden profil, hledání, ikony, noindex přes curl). Do plánu větve oddíl „Po Uzavření (datum)“, řádek revize-antiky v docs/plan.md (hotovo, sloučeno, zveřejněno, adresa) a odstavec Další větve v pořadí (další je zkouška se studenty), zadání Uzavření přesuň do docs/archiv/zadani/revize-antiky.md, plán větve přesuň do docs/archiv/plany/. Commit a push hlavní větve.
-
-4. docs/plan.md a plán větve (z archivu) nahraj do projektu Claude. Napiš mi adresu webu a jednou větou, jak noindex po zkoušce sundat.
-```
+- **Repozitář:** autor přejmenoval `czempi123/atlas` na `czempi123.github.io` a nastavil Settings › Pages › Source: GitHub Actions; repozitář byl veřejný od začátku. Adresu `origin` přepsal a `main` poslal autor sám: bezpečnostní kontrola v prostředí Clauda přepsání adresy a push do přejmenovaného repozitáře zastavila.
+- **Nasazení:** workflow Zveřejnění na GitHub Pages doběhl úspěšně, Sestavení a kontroly běží zvlášť.
+- **Zveřejněný web `https://czempi123.github.io/`:** Domů, krok cesty 1 a 33, profil Seneky a deník 200 s `noindex` a ikonami; hledání „Epiktétos“ pět výsledků; žádný požadavek s chybou (`scripts/kontrola-zverejneni.mjs` s adresou webu). `curl` na Domů a profil vrací `<meta name="robots" content="noindex">`, `robots.txt` neexistuje.
+- **Jak `noindex` po zkoušce sundat:** v `src/layouts/Zakladni.astro` vrátit řádek na `{noindex && <meta name="robots" content="noindex, nofollow" />}`, smazat `tests/e2e/noindex.spec.ts` a větu o `noindex` v `CLAUDE.md`, commit a push do `main`.

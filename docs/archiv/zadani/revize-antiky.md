@@ -72,3 +72,29 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 3. Rozhodnutí zapiš do docs/rozhodnuti.md. Do plánu větve napiš oddíl „Po P13 (datum)“: co se změnilo ve kterém skillu, nad čím jsi váhal, a „Co rozhodnout po P13“ (očíslované otázky s doporučením a prázdným řádkem „Odpověď:“). Připrav zadání kroku Uzavření (Opus 5.5 · medium): schválení autorem, sloučení revize-antiky do hlavní větve, hlavní větev na GitHub a zveřejnění na GitHub Pages s noindex do konce zkoušky se studenty (podklad v záznamu revize, oddíl 11 Zkouška se studenty; licence obrázků ověřit před zveřejněním). Zadání P13 přesuň do docs/archiv/zadani/revize-antiky.md, aktualizuj řádek revize-antiky v docs/plan.md. Commit.
 4. Nic neslučuj a nic neposílej na GitHub. Plán větve a docs/plan.md nahraj do projektu Claude. Napiš mi, které skilly si mám znovu uložit do účtu Claude (soubory ve skills/), a krátce, nad čím jsi váhal a na co mám odpovědět.
 ```
+
+## Zadání Uzavření
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem, až odpovíš na otázky výš. **Opus 5.5 · medium.**
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok Uzavření větve revize-antiky: připravit zveřejnění na GitHub Pages s noindex, po mém schválení sloučit do hlavní větve, poslat na GitHub a zveřejnit. Moje odpovědi jsou v plánu větve docs/plany/revize-antiky.md v oddílu „Co rozhodnout po P13“ (prázdná odpověď znamená souhlas). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/pouceni.md, v plánu větve oddíly Po P13 a Co rozhodnout po P13 a v záznamu revize docs/revize/antika-2026-10-25.md oddíl 11 (Zkouška se studenty, Podklad pro rozhodnutí o zveřejnění).
+
+1. Příprava ve větvi revize-antiky:
+   - astro.config: `site` podle odpovědi 3 (a `base` jen tehdy, když jsem zvolil podadresu; pak se zastav a napiš mi, co úprava odkazů obnáší, nic nepřepisuj).
+   - noindex podle odpovědi 5: značka v src/layouts/Zakladni.astro s komentářem „do konce zkoušky se studenty“; test, že ji má každá stránka v dist/.
+   - Workflow .github/workflows/pages.yml: po pushi do hlavní větve npm ci, npm run build (s Pagefindem) a nasazení dist/ přes actions/deploy-pages; Node jako v kontroly.yml. kontroly.yml nech beze změny.
+   - Licence před zveřejněním: projdi všechny obrázky v zdroje.yaml › obrazky (licence dovoluje zveřejnění na webu, autor a licence jsou na stránce vidět) a zvlášť fotografie 20. století (Stockdale) a vše, co není CC, PD nebo vlastní kresba; licence písem v public/ (OFL a podobné). Obrázek s nejasnou licencí nemaž ani nestahuj: zapiš ho do plánu větve a zastav se, rozhodnu já.
+   - Projdi repozitář (soubory i historii, git log -p jen hledáním), jestli v něm není nic, co nemá být veřejné: osobní údaje, e-maily mimo commity, tokeny a klíče, jména studentů. Nálezy mi napiš, nic nepřepisuj v historii.
+   - npm test celé (na pozadí s výstupem do souboru), npm run build a npx astro preview: projdi Domů, cestu, profil, hledání a deník pod cílovou adresou.
+   - CLAUDE.md: věta „Web zatím běží jen lokálně“ podle stavu po zveřejnění (adresa, noindex do konce zkoušky).
+   - Do plánu větve oddíl „Po Uzavření – příprava (datum)“, rozhodnutí do docs/rozhodnuti.md, commit.
+
+2. Pak se zastav a napiš mi krátce: co je připravené, výsledek licencí a kontroly repozitáře, co musím udělat sám na GitHubu (přejmenování nebo zveřejnění repozitáře, Settings › Pages › Source: GitHub Actions) a že čekáš na moje „schvaluji“. Bez něj nic neslučuj a nic neposílej.
+
+3. Po mém schválení: git switch main, git merge --no-ff revize-antiky, npm test celé, git push origin main. Po doběhnutí workflow ověř zveřejněný web (Domů, jedna cesta, jeden profil, hledání, ikony, noindex přes curl). Do plánu větve oddíl „Po Uzavření (datum)“, řádek revize-antiky v docs/plan.md (hotovo, sloučeno, zveřejněno, adresa) a odstavec Další větve v pořadí (další je zkouška se studenty), zadání Uzavření přesuň do docs/archiv/zadani/revize-antiky.md, plán větve přesuň do docs/archiv/plany/. Commit a push hlavní větve.
+
+4. docs/plan.md a plán větve (z archivu) nahraj do projektu Claude. Napiš mi adresu webu a jednou větou, jak noindex po zkoušce sundat.
+```
