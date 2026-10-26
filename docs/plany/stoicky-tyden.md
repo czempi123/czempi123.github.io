@@ -8,8 +8,8 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | --- | --- | --- | --- |
 | P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
 | K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | hotovo 26. 10. 2026 (Po K) |
-| T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | zadání níž |
-| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | po T |
+| T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | hotovo 26. 10. 2026 (Po T) |
+| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | zadání níž |
 | O | Opravy po revizi | Opus 5.5 · high | po R |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web) | Opus 5.5 · medium | po O |
 
@@ -213,4 +213,69 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyd
 5. List pro učitele ucitel/stoicky-tyden.md: k čemu týden je, jak ho dát třídě (zastavení t:stoicky v přípravě hodiny, třída ho projde doma), co se nesbírá (poznámky jsou jen v deníku studenta, učitel je nevidí), jak o cvičeních mluvit po týdnu bez hodnocení a bez vyptávání na osobní věci, meze dnů pro učitele, námitka „stoik beze citu“ s doklady z podkladů (Diogenés Laertios VII, 116–117, Gellius XIX, 1, Seneca, Dopisy 63 a 99) a co je pozdější podání (Hadot, moderní stoicismus). Jména Gellia a Diogena Laertia jen tady, ne ve studentském textu.
 6. Testy, které hlídají studentské věty přesným zněním, uprav v témže commitu (grep -rn v tests/). Sestav web, pusť dotčené testy (tests/e2e/tyden.spec.ts, seneca.spec.ts, otazka.spec.ts, denik-soubor.spec.ts, vitest), node scripts/slova-cesta.mjs nepouštěj (týden není cesta). Snímky: node scripts/snimky-listy.mjs /tyden/stoicky/ na 390 světlý a 1440 tmavý, snimky-prvek.mjs na den 5, den 7 s poli a kartu týdne na /cesta/kam-mi-mizi-cas/8/; prohlédni je. Celé npm test jednou před posledním commitem, na Macu přes Desktop Commander na pozadí s výstupem do souboru.
 7. Do plánu větve oddíl „Po T (datum)“: co je hotové, co ne, nad čím jsi váhal (u každého dne jednou větou, co jsi z podkladů vzal a co ne); „Co rozhodnout po T“ s doporučeními, pokud je co rozhodnout; a hned za tím zadání kroku R (revize větve se skillem atlas-revize), ať se nečeká na pokyn. Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
+```
+
+## Po T (26. 10. 2026)
+
+Krok navázal na necommitnuté změny z dřívějšího běhu téhož zadání (stejný den 18:13–18:15, nedokončený): převzal jsem je jako návrh a všechno prošel znovu.
+
+**Hotové.**
+
+- **Texty týdne** v `src/content/tydny/stoicky.yaml`: úvod, námitka jednou větou před `rozpravy-iii-2-4`, vstup („Na každý den jedno krátké stoické cvičení“), pravidla jednou větou, sedm dnů (název, doba, text, mez pod „Kdy přestat“, odkaz na celé cvičení), popisky polí dne 7 („Věta, kterou si necháš“, „Který den ti pomohl a který ne“) a věta pro studenta, kterému týden nepomohl („Když nepomohl žádný, napiš to tak. I to je odpověď.“). Komentář PROZATÍMNÍ ZNĚNÍ je pryč.
+- **Citát dne 5** `seneca-ep-18-6-val` v `src/data/zdroje.yaml` přesně podle návrhu v podkladech; pramen `seneca-epistulae` má v poznámce 18, 5–6 s větou, že týden bere jen 18, 6.
+- **Nové pole dne `poCitatu`** (odstavce za citátem): schéma, kontrola (text za citátem bez citátu zastaví sestavení), stránka, ostrov `Tyden.svelte` (jen vykreslení, logika beze změny), test v `tydny.test.ts` a věta v `docs/design.md`. Komponentu jsem změnil, protože bez úpravy text nešel: ostrov skládal den jako text → citát → mez, takže šest dnů ze sedmi by končilo citátem jako tečkou a k případu by se po citátu vrátit nešlo (`atlas-psani` › Citáty). Teď je den případ nebo otázka → citát → co uděláš ty.
+- **Ostatní studentské texty:** karty Stoického týdne v Kam dál portrétů Seneky, Epiktéta a Marca říkají, které dny jsou od koho; tichý odkaz v deníku „… Začni, až budeš chtít.“. Větu po přijetí („Týden je v tvém deníku. Začni, kdy chceš.“) a hlášení v ostrově jsem nechal: jsou krátké a nic neukládají za povinnost.
+- **List pro učitele** `ucitel/stoicky-tyden.md`: k čemu týden je, jak ho dát třídě (zastavení `t:stoicky`), co se nesbírá, jak o týdnu mluvit potom (otázky i co nedělat), meze dnů v tabulce s důvody, den 5 a proč ne Senekův půst, námitka s doklady (Rozpravy III, 2, 4; Diogenés Laertios VII, 116–117; Gellius XIX, 1; Dopisy 63 a 99) a kde je odpověď slabá, doložené × pozdější podání (Hadot, Irvine, Ellis, Beck), kontakty.
+- **Testy:** `tyden.spec.ts` (námitka, pravidla, popisky polí, odkaz v deníku), `tydny.test.ts`. Dotčené testy prošly (vitest 46, Playwright 41: týden, Seneca, otázky, deník ze souboru); celé `npm test` prošlo (vitest 752, Playwright 570). Snímky v `Claude outputs/tyden/tyden-t-*` (stránka 390 světlá a 1440 tmavá, den 5, den 7 s poli, karta na kroku 8 cesty 34).
+
+**Citáty a opakování.** V týdnu zazní každý citát jednou. V týdnu a atlasu dohromady dvakrát: `rozpravy-iii-2-4` (cesta 5, krok 7), `seneca-ira-iii-36-otazky` (portrét Seneky), `seneca-ep-13-4` (cesta 33, krok 5); ostatní jednou. Doložené detaily: večer, odnesené světlo a žena, která zmlkne (O hněvu III, 36, 3), stojí v portrétu citátem a ve dni 6 slovy, tedy dvakrát; Sextius v kartě Tři otázky večer a ve dni 6. Den 3 přebírá kartu Pět minut, jedna věc, jak podklady chtěly. „Zápisník“ u Marca je jen ve dni 1, „pokyny sám sobě“ jen ve dni 7.
+
+**Co jsem z podkladů vzal a co ne, po dnech.**
+
+1. Vzal jsem V, 1 a obě meze (člověk, který ubližuje; nechce se vstávat celé týdny) v jedné větě; II, 1 a Rukojeť 4 ne a „není to lenost“ vypadlo, aby se mez vešla do jedné věty.
+2. Vzal jsem `rukojet-1-5` a otázku „Je tohle moje?“ s mezí o ubližování; druhou mez z podkladů („když nic necítíš, přestaň“) nese místo meze věta za citátem „Vztek ani strach tím nezmizí.“ a odkaz na Kamennou tvář.
+3. Vzal jsem kartu Pět minut zkrácenou o věty mířící za týden; místo nepovinného hrnku (Epiktétos, láska a ztráta věci) dávám Senekův Dopis 13, 4, protože den je Senekův a citát odpovídá na otázku, proč na nejhorší myslet schválně; věta „nic nezmeškáš“ vypadla.
+4. Vzal jsem IX, 30 v krátké podobě, mapu shora a návrat přes tři věci kolem sebe; konec IX, 30 a XII, 24 ne, oči zavřít je „klidně“, ne pokyn.
+5. Vzal jsem 18, 6 (voják a val) a Senekovu otázku „Tohle bylo to, čeho jsem se bál?“, výčet toho, co do cvičení nepatří, i mez o jídle a těle; z 18, 5 a 18, 9 nic.
+6. Vzal jsem tři otázky a zvyk se světlem a ženou; „Teď ti odpouštím“ jen jako slovo v mezi („odpusť si, jako si odpouštěl Seneca“), „nic nepřecházím“ ne, „každý večer v týdnu“ a věta o konci týdne vypadly.
+7. Vzal jsem jednu větu sobě ve druhé osobě, poznámku a „žádný nepomohl je odpověď“; Epiktétovo denní psaní (Rozpravy I, 1, 25) jen v listu, větu „až ta věc přijde, všimni si…“ z karty dne 3 do dne 7 nepřevádím, vázala by den 7 na den 3.
+
+**Nad čím jsem váhal.**
+
+- **Meze dnů 1 a 2 pod nadpisem „Kdy přestat“.** Nejsou o přestávání, ale o tom, na co cvičení není. Pod nadpisem se čtou dobře; přepisovat je na „Přestaň, když…“ by je prodloužilo.
+- **Den 2 bez meze o necitlivosti.** Mez má jednu větu a přednost dostal člověk, který ubližuje. Námitka je na první obrazovce a v odkazu.
+- **„Proč…? Seneca…“ ve dnech 3 a 5.** Dva dny s otázkou před citátem; uvozovací věty jsem rozlišil („vysvětlil v dopise“, „odpověděl obrazem z vojska“), stavba zůstává podobná. Den 1, 2, 4 a 6 začínají jinak.
+- **Sextius ve studentském textu.** V datech osob není, ale portrét Seneky ho jmenuje už v kartě; nechal jsem ho, nese původ otázek.
+
+**`seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4 (odpověď 3 po P6).** Nález: odstavec před citátem chválí, že se kynici „cvičili v nepohodlí tak dlouho, dokud je nepřestalo bolet“, a citát pokračuje „Cvičil se i Epikúros“: dny, kdy jen skrovně tišil hlad, aby viděl, jestli mu něco chybí. Studenta nevyzývá, ale omezování jídla podává jako vzorné cvičení. To je přesně to, co týden vylučuje, a student s potížemi s jídlem si to přečte jako návod. Doporučení: ve větvi `antika-doplnky` citát a uvozovací větu vyměnit za větu, která drží pointu kroku („Kynik i Epikúros tedy jedli chléb a pili vodu. Každý ale kvůli něčemu jinému.“) bez hladu, třeba `menoikeus-131-maza` („Ječná placka a voda dají tu nejvyšší slast, když je jí ten, kdo je potřebuje.“; v atlasu jednou, portrét Epikúra). Nic jsem neměnil.
+
+## Co rozhodnout po T
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Pole `poCitatu`** (odstavec za citátem dne) zůstane a unese i další týdny. Doporučuji.
+   Odpověď:
+2. **Den 3 se Senekovým Dopisem 13, 4** místo nepovinného hrnku z Rukojeti 3. Doporučuji.
+   Odpověď:
+3. **`seneca-ep-18-9` v cestě „Kolik je dost?“** vyměnit ve větvi `antika-doplnky` za `menoikeus-131-maza` nebo jinou větu bez hladu. Doporučuji.
+   Odpověď:
+
+## Zadání R
+
+Model: Opus 5.5 · high se skillem `atlas-revize` (perspektiva čtivosti se skillem `atlas-psani`).
+
+```
+Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyden. Krok R Stoického týdne: revize celé větve se skillem atlas-revize. Čti jen, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch stoicky-tyden, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, skills/atlas-revize/SKILL.md, skills/atlas-psani/SKILL.md, tento plán (tabulku, Po K, Co rozhodnout po K, Po T, Co rozhodnout po T), z docs/podklady/stoicky-tyden.md oddíly Pravidla týdne, meze dnů a Nejsilnější námitka, v docs/design.md oddíl Komponenty › Týden cvičení, záznamy 26. 10. 2026 ke Stoickému týdnu v docs/rozhodnuti.md. Změny větve proti hlavní větvi: git diff main...stoicky-tyden --stat, pak jen soubory, které revize potřebuje.
+
+1. Projdi větev perspektivami atlas-revize:
+   - filozof a historik: každá věta dne, úvodu, námitky a listu pro učitele proti podkladům a citátům v zdroje.yaml (seneca-ep-18-6-val proti latině, Senekova otázka „Tohle bylo to, čeho jsem se bál?“, světlo a žena z O hněvu III, 36, „Epiktétos učil žáky“ u Rukojeti 1, 5); co je výklad (Hadot, moderní stoicismus) a co pramen;
+   - student, kterého se téma bolestně týká (docs/pouceni.md): každý den otevři a čti očima studenta, kterému někdo ubližuje, který truchlí, je nemocný, má potíže s jídlem nebo se cítí odcizený; meze dnů, den 4 (pohled shora), den 5 (pohodlí), den 7 (psaní);
+   - učitel: list ucitel/stoicky-tyden.md, zastavení t:stoicky v přípravě hodiny, promítání;
+   - čtivost a lidský hlas podle atlas-psani: úvod, první věty dnů vedle sebe, uvozovací věty citátů, poCitatu (vrací se text k případu?), opakování napříč dny, kartami Zkus to žít v portrétech a cestami 5, 33 a 34;
+   - uživatel: stránka /tyden/stoicky/ na 390 a 1440 px ve světlém i tmavém režimu, klávesnicí (scripts/kontrola-fokus.mjs), Hotovo, zrušení, Další den, den 7 a deník po obnovení, karta týdne na posledním kroku a přehledu cest 5, 33, 34, Kam dál v portrétech, deník bez přijatého týdne, export a nahrání deníku; snímky node scripts/snimky-listy.mjs a snimky-prvek.mjs do Claude outputs/tyden/, prohlédni je.
+2. Drobnosti oprav rovnou (testy hlídají přesné znění: grep -rn v tests/, uprav v témže commitu). Zásadní nálezy zapiš do docs/revize/stoicky-tyden-<datum>.md ve formátu atlas-revize, seřazené podle dopadu, s hotovým zněním opravy a verdiktem.
+3. Celé npm test jednou před posledním commitem, na Macu přes Desktop Commander na pozadí s výstupem do souboru.
+4. Do plánu větve oddíl „Po R (datum)“ (verdikt, nálezy jednou větou, co je opravené rovnou) a „Co rozhodnout po R“ s doporučeními; hned za tím zadání kroku O (opravy po revizi). Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
 ```

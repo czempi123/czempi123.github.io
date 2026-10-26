@@ -4,6 +4,15 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, krok T
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Den týdne má nepovinné pole `poCitatu` (odstavce za citátem); den se skládá jako případ nebo otázka → citát → co uděláš ty. Text za citátem bez citátu zastaví sestavení | Bez něj by šest dnů ze sedmi končilo citátem jako tečkou a text by se k případu nevrátil (`atlas-psani` › Citáty) |
+| Den 3 má citát `seneca-ep-13-4` (Seneca, Dopisy 13, 4) místo nepovinného `rukojet-3-hrnek` | Den je Senekův a citát odpovídá na otázku, proč na nejhorší myslet schválně; hrnek je o lásce k věci a její ztrátě. V atlasu tím zazní dvakrát (cesta 33, krok 5) |
+| Den 5 má citát `seneca-ep-18-6-val` (Dopisy 18, 6) podle návrhu v podkladech; studentský text říká, že jídlo, pití, spánek, léky a teplo do cvičení nepatří | Odpovědi autora po P6 (2 a 4) |
+| `seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4, podává omezování jídla jako vzorné cvičení; doporučeno vyměnit ve větvi `antika-doplnky`, v tomto kroku beze změny | Odpověď autora po P6 (3): jen se podívat |
+
 ## 26. 10. 2026: Stoický týden, krok K, odpovědi autora
 
 | Rozhodnutí | Důvod |
