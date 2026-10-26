@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Souhrnná revize antiky (P11), krok O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Úvody a závěrečné odstavce všech deseti cest přepsané podle návrhů revize (s odchylkami v cestách 4, 6 a 34); závěr se ptá na první tah té cesty a nevyjmenovává, co student dělal | Odpověď 1 po S; jedna šablona v deseti cestách. Aristotelés se Sókratem nepřel (narodil se po jeho smrti), návrh pro cestu 6 opakoval otázku ze zpětné vazby kroku 2 |
+| Poslední kroky se zastánci odpovědí mají mezititulky podle bloků; blok, který z deníku ukáže nejdřív zastánce studentových odpovědí, přijde ve větvi `interaktivita-v1` | Odpověď 2 po S |
+| Číslo cesty student nevidí (Domů „První cesta“, karty a hlavičky „Cesta“); zůstává v datech, v přípravě hodiny a u velkých otázek | Odpověď 4 po S; cesty 33 a 34 nesou čísla z architektury |
+| Na telefonu (pod 600 px) jsou cesty v hlavičce profilu řádek odkazů, od 600 px karty; společný profil má své malé karty | Odpověď 3 po S; u Seneky karty odsunuly desku pod první obrazovku |
+| Kam dál hotové cesty nabízí Další cestu: první nehotovou podle deníku, nejdřív z téže otázky. Nové pole `nenabizet` v přehledu cesty; cesta 8 nenabízí cestu 33 | Nález 9; cesta 8 se slovu „nejhorší“ vyhýbá (test cesty 8) |
+| Deník jde nahrát ze staženého souboru a spojí se s deníkem v prohlížeči: nic se nesmaže, u téhož vyhraje novější | Odpověď 8 po S: domácí průchody budou, protože se atlas před zkouškou zveřejní (odpověď 6) |
+| Zastavená kresba kreslí obsah jako při omezeném pohybu (Třetí čára, Cesta ven), s testem zastavení hned po načtení | Nález 5 |
+| Rozsah v `docs/architektura.md`: cesty 14 až 35 minut, průměrně 27, 35 cest kolem 16 hodin; štítek cesty 1 je 14 minut | Odpověď 7 po S; měřeno skriptem `slova-cesta` |
+| Pořadí: P13 a uzavření této větve se zveřejněním na GitHub Pages (`noindex`), zkouška se studenty, `stoicky-tyden`, `interaktivita-v1`, `antika-doplnky`, skill `atlas-obdobi` a plán středověku (P12) | Odpovědi 5, 6, 10 a 11 po S |
+
 ## 25. 10. 2026: Souhrnná revize antiky (P11), krok S
 
 | Rozhodnutí | Důvod |

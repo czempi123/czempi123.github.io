@@ -27,3 +27,25 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 ```
 
 Provedeno 25. 10. 2026 (Opus 5.5 místo Fable 5.1 v tomto chatu); záznam `docs/revize/antika-2026-10-25.md`.
+
+## Zadání O
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem, až odpovíš na otázky výš. **Opus 5.5 · high** (xhigh, když se zasekne úprava hlavičky profilu nebo kreseb).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok O větve revize-antiky: opravy po souhrnné revizi antiky (P11). Záznam revize je docs/revize/antika-2026-10-25.md, moje odpovědi jsou v plánu větve docs/plany/revize-antiky.md v oddílu „Co rozhodnout po S“ (prázdná odpověď znamená souhlas s doporučením). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, skill atlas-psani a ze záznamu revize oddíl 9 Nálezy; pro úpravy UI skill atlas-komponenta. Restartuj náhled npm run dev.
+
+1. Texty (nálezy 1, 2, 3, 4, 7 a 10, podle mých odpovědí 1, 2 a 7): nové úvody všech deseti cest a nové závěrečné odstavce posledních kroků; kapitola Věštba z Delf v portrétu Sókrata; mezititulky v posledních krocích cest 2, 7, 8, 33 a 34; krok 2 cesty 6; úvod seznamu otázek; odstavec Rozsah pro studenta v docs/architektura.md. Návrhy ze záznamu ber jako výchozí znění: ověř je proti textu cesty a datům bloků (názvy košů a vrstev), věty do 25 slov, žádné nové tvrzení bez podkladů. Každou větu, kterou měníš, najdi nejdřív v tests/ (grep -rn) a test uprav v tomtéž commitu. Commit po druzích: úvody, závěry, portrét a krok 6, mezititulky.
+
+2. Kresby (nález 5): Třetí čára a Cesta ven v zastaveném stavu (.kresba--pohyb bez .kresba--bezi) kreslí stav jako při omezeném pohybu: šest jedniček a otazník nad „ty“, vězeň na strmé cestě. Ověř node scripts/revize-pohyb.mjs (snímky si prohlédni) a přidej test zastavení hned po načtení podle vzoru Přesýpacích hodin. Doplň Masku a Přesýpací hodiny do dílny (/dilna/bloky/).
+
+3. Navigace (nálezy 6, 8 a 9, podle odpovědí 3, 4 a 8): hlavička profilu na telefonu, čísla cest ve studentském rozhraní, „Další cesta“ v Kam dál hotové cesty, a jestli platí odpověď 8, nahrání deníku ze souboru (ověř, že soubor ze Stáhnout deník do souboru jde nahrát zpět, a co se stane s jiným deníkem v prohlížeči). Ověř na 390 a 1440 px ve světlém i tmavém režimu, klávesnicí a node scripts/kontrola-fokus.mjs na profilech Seneky, Epikúra, Epiktéta a Aristotela; hlavičky vyfoť node scripts/revize-hlavicky.mjs.
+
+4. Ověření: node scripts/slova-cesta.mjs pro všech deset cest a štítky minut podle výsledku; npm run build; node scripts/hodiny-katalog.mjs (Chyb: 0); celé npm test jednou na pozadí s výstupem do souboru; axe přes node scripts/revize-axe.mjs na stránkách, které jsi změnil. Snímky změněných kroků přes scripts/snimky-cesta.mjs do Claude outputs/snimky-revize-antiky-O/ a prohlédni listy.
+
+5. Do plánu větve napiš oddíl „Po O (datum)“: co jsi změnil, nad čím jsi váhal a co jsi zvolil, a „Co rozhodnout po O“ s očíslovanými otázkami, doporučením a prázdným řádkem „Odpověď:“. Připrav zadání kroku P13 ve stejné podobě (model, úsilí, text promptu); P13 zobecní do skillů a docs/pouceni.md poučení z antiky: šablona napříč cestami (úvody, závěry, Kdo je na tvé straně), délka posledního kroku, kresba po zastavení, opakování mezi portrétem a cestou, pořadí bloků pro středověk, hledání místa pro interaktivní prvek v atlas-osobnost a atlas-data. Zadání O přesuň do docs/archiv/zadani/revize-antiky.md. Rozhodnutí zapiš do docs/rozhodnuti.md, aktualizuj řádek revize-antiky v docs/plan.md. Commit.
+
+6. Nic neslučuj a nic neposílej na GitHub. Plán větve, docs/plan.md a docs/architektura.md (jestli se změnila) nahraj do projektu Claude. Pak mi krátce napiš, co je hotové, nad čím jsi váhal a na co mám odpovědět.
+```
