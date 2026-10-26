@@ -1,6 +1,6 @@
 # Plán větve stoicky-tyden: Stoický týden
 
-Architektura slibuje sérii sedmi krátkých cvičení v duchu Zkus to žít, jedno na den, kterou si student spustí po cestě 5, 33 nebo 34 a učitel ji může dát třídě jako týdenní výzvu (`docs/architektura.md` › Stoický týden). Atlas má dnes devatenáct karet Zkus to žít, každá je výzva na týden; žádná neprovede studenta týdnem den po dni. Tahle větev týden postaví: podklady ke cvičením, stránku týdne, propojení s deníkem a místy, odkud se spouští, a list pro učitele. Větev založena z hlavní větve 26. 10. 2026, plán připraven týž den. Rozhodnutí se zapisují do `docs/rozhodnuti.md`.
+Architektura slibuje sérii sedmi krátkých cvičení v duchu Zkus to žít, jedno na den, kterou si student spustí po cestě 5, 33 nebo 34 a učitel ji může dát třídě jako týdenní výzvu (`docs/architektura.md` › Stoický týden). Atlas má dnes osmnáct karet Zkus to žít, každá je výzva na týden; žádná neprovede studenta týdnem den po dni. Tahle větev týden postaví: podklady ke cvičením, stránku týdne, propojení s deníkem a místy, odkud se spouští, a list pro učitele. Větev založena z hlavní větve 26. 10. 2026, plán připraven týž den. Rozhodnutí se zapisují do `docs/rozhodnuti.md`.
 
 Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26. 10. 2026), autor ale zatím studenty nemá. Atlas je zveřejněný s `noindex` a čeká na ně; mezitím pokračuje pořadí z 26. 10. 2026 další větví.
 
@@ -121,11 +121,11 @@ Autor 26. 10. 2026: „Souhlasím s doporučeními“ (u všech deseti). Úplné
 5. **Den 7 jako jedna věta**, karta „Věta pro sebe“ zůstane samostatnou sedmidenní variantou; konec karty „Tři otázky večer“ se v týdnu přesune do dne 7. Doporučuji.
    Odpověď: souhlas s doporučením (26. 10. 2026).
 6. **Soukromí poznámek týdne** (uložení, sdílení, co vidí učitel v režimu třídy): rozhodnout před K.
-   Odpověď: bez doporučení, zůstává otevřené; vrátit se k tomu před K.
+   Odpověď: autor 26. 10. 2026 přenechal rozhodnutí mně. **Doporučení a platí:** poznámky týdne jsou jen v deníku v prohlížeči (`Vyzva.poznamka`, localStorage, nic se neodesílá, součást exportu do souboru), týden přidá jen značku hotových dnů, bez dat a sérií; učitel žádné poznámky nevidí a list pro učitele řekne, že se nesbírají; promítání týdne do deníku nic nezapíše (jako každé promítání). Student může poznámku vynechat a deník může mazat.
 7. **Námitka v týdnu:** jedna věta s `rozpravy-iii-2-4` na první obrazovce, odkaz na cestu 5, krok 7 ve dni 2, nový Spor nestavět. Doporučuji.
    Odpověď: souhlas s doporučením (26. 10. 2026).
 8. **Plán píše devatenáct karet Zkus to žít, napočítal jsem osmnáct.** Překlep, nebo mi karta uniká?
-   Odpověď: bez doporučení, zůstává otevřené; vrátit se k tomu před K.
+   Odpověď: autor 26. 10. 2026 přenechal rozhodnutí mně. **Ověřeno:** v obsahu je 18 různých karet (`ZkusToZitKarta id=`), žádná se neopakuje; „devatenáct“ byl překlep a je opraveno na osmnáct.
 9. **`hovory-vi-6`** („Nejlepší obrana je nestat se stejným“) v týdnu nepoužít. Doporučuji.
    Odpověď: souhlas s doporučením (26. 10. 2026).
 10. **Gellius a Diogenés Laertios** (jako doklad k námitce) jen v listu pro učitele, ne ve studentském textu. Doporučuji.

@@ -376,9 +376,9 @@ Prázdná odpověď = souhlas s doporučením.
 3. **`seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4** (`src/content/cesty/kolik-je-dost/4-zit-jako-kynik.mdx`): citát o Epikúrových hladových dnech. Zadání týdne zakazuje všechno, co by se dalo číst jako omezování jídla; stejná věta tam už je. Mimo tuhle větev; **nenavrhuju změnu bez tebe, jen aby ses podíval**. Odpověď:
 4. **Název dne 5:** „Jeden den skromnosti“ (architektura) × „Den bez jednoho pohodlí“. „Skromnost“ přivolává „stačí málo“. Doporučuju nový název. Odpověď:
 5. **Den 7 × „Věta pro sebe“** (`marcus-veta-pro-sebe`) **a konec „Tří otázek večer“:** nezdvojit (viz den 7). Doporučuju den 7 = jedna věta a karta zůstane. Odpověď:
-6. **Soukromí poznámek týdne** (uložení, sdílení se souborem, co vidí učitel v režimu třídy): otázka pro krok K, ne pro P6; píšu ji sem, aby se neztratila. Odpověď:
+6. **Soukromí poznámek týdne** (uložení, sdílení se souborem, co vidí učitel v režimu třídy): otázka pro krok K, ne pro P6; píšu ji sem, aby se neztratila. Odpověď: vyřízeno 26. 10. 2026 (autor přenechal rozhodnutí): poznámky jen v deníku v prohlížeči (`src/lib/denik.ts`: localStorage, nic se neodesílá, export do souboru), učitel je nevidí, promítání do deníku nic nezapíše; týden přidá jen značku hotových dnů, bez dat a sérií.
 7. **Námitka v týdnu:** jedna věta na první obrazovce + odkaz ve dni 2; nový Spor nestavět. Doporučuju. Odpověď:
-8. **„Devatenáct karet“** v plánu × osmnáct, které jsem nalezl: je to překlep, nebo mi karta uniká? Odpověď:
+8. **„Devatenáct karet“** v plánu × osmnáct, které jsem nalezl: je to překlep, nebo mi karta uniká? Odpověď: vyřízeno 26. 10. 2026: v obsahu je 18 různých karet, plán opraven.
 9. **`hovory-vi-6`** („Nejlepší obrana je nestat se stejným“): v týdnu ji nenavrhuju. Chceš ji jako citát k dnu 6, s mezí „na to, co ti někdo dělá, ne“? Odpověď:
 10. **Nové osoby ve studentském textu:** Gellius a Diogenés Laertios (jako zdroj, ne postava) se ve studentském textu neobjeví; učitel je dostane v listu. Souhlasíš? Odpověď:
 

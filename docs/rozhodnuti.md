@@ -9,6 +9,8 @@ Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jso
 | Rozhodnutí | Důvod |
 | --- | --- |
 | Zkouška se studenty se odkládá, až autor studenty bude mít; pořadí větví pokračuje `stoicky-tyden`. Atlas zůstává zveřejněný s `noindex` | Autor zatím studenty nemá; ostatní větve na zkoušce nezávisí |
+| Podklady P6 Stoického týdne (`docs/podklady/stoicky-tyden.md`): den 1 z Hovorů V, 1 místo II, 1; den 5 „Den bez jednoho pohodlí“ s Dopisem 18, 6 místo Dopisu 18, 5–9, s výslovnou větou, že jídlo, pití, spánek, léky a teplo do cvičení nepatří; den 7 jedna věta sobě a poznámka do deníku; dny 3 a 6 se převezmou z hotových karet a zkrátí; pořadí dnů z architektury; námitka „stoik beze citu“ jednou větou na první obrazovce a odkazem ve dni 2, bez nového Sporu; Gellius a Diogenés Laertios jen v listu pro učitele | Autor 26. 10. 2026: „Souhlasím s doporučeními“. Dopis 18, 5–9 je o nejhorším jídle a hladových dnech, což zadání zakázalo; II, 1 je výčet lidí, na které cvičení nesmí mířit |
+| Poznámky Stoického týdne zůstávají jen v deníku v prohlížeči; týden přidá značku hotových dnů, bez dat a sérií; učitel poznámky nevidí a promítání do deníku nic nezapíše. Karet Zkus to žít je 18, ne 19 | Autor 26. 10. 2026 rozhodnutí přenechal mně. Deník je soukromý v localStorage a nic neodesílá; počet karet jsem přepočítal |
 
 ## 26. 10. 2026: Souhrnná revize antiky (P11), Uzavření: příprava zveřejnění
 
