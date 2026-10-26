@@ -108,25 +108,25 @@ Podklady: `docs/podklady/stoicky-tyden.md`; řádky v `docs/podklady/k-overeni.m
 
 ## Co rozhodnout po P6
 
-Prázdná odpověď znamená souhlas s doporučením. Úplné znění otázek je v `docs/podklady/stoicky-tyden.md` (Otevřené otázky pro autora).
+Autor 26. 10. 2026: „Souhlasím s doporučeními“ (u všech deseti). Úplné znění otázek je v `docs/podklady/stoicky-tyden.md` (Otevřené otázky pro autora).
 
 1. **Den 1 z V, 1 místo II, 1.** Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 2. **Den 5 jako „Den bez jednoho pohodlí“** s Dopisem 18, 6 a výslovnou větou o jídle, pití, spánku, lécích a teplu; ne Dopis 18, 5–9. Doporučuji. Alternativy: den 5 vynechat (týden o šesti dnech), nebo ho nahradit jiným cvičením po ověření.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 3. **`seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4:** podívat se, zda věta o Epikúrových hladových dnech neodporuje pravidlu o jídle. Doporučuji jen podívat se; nic neměním bez tebe.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 4. **Název dne 5:** „Den bez jednoho pohodlí“ místo „Jeden den skromnosti“ („skromnost“ přivolává „stačí málo“). Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 5. **Den 7 jako jedna věta**, karta „Věta pro sebe“ zůstane samostatnou sedmidenní variantou; konec karty „Tři otázky večer“ se v týdnu přesune do dne 7. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 6. **Soukromí poznámek týdne** (uložení, sdílení, co vidí učitel v režimu třídy): rozhodnout před K.
-   Odpověď:
+   Odpověď: bez doporučení, zůstává otevřené; vrátit se k tomu před K.
 7. **Námitka v týdnu:** jedna věta s `rozpravy-iii-2-4` na první obrazovce, odkaz na cestu 5, krok 7 ve dni 2, nový Spor nestavět. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 8. **Plán píše devatenáct karet Zkus to žít, napočítal jsem osmnáct.** Překlep, nebo mi karta uniká?
-   Odpověď:
+   Odpověď: bez doporučení, zůstává otevřené; vrátit se k tomu před K.
 9. **`hovory-vi-6`** („Nejlepší obrana je nestat se stejným“) v týdnu nepoužít. Doporučuji.
-   Odpověď:
+   Odpověď: souhlas s doporučením (26. 10. 2026).
 10. **Gellius a Diogenés Laertios** (jako doklad k námitce) jen v listu pro učitele, ne ve studentském textu. Doporučuji.
-    Odpověď:
+    Odpověď: souhlas s doporučením (26. 10. 2026).
