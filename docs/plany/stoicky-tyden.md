@@ -7,7 +7,7 @@ Proč teď: zkouška se studenty měla jít před týdnem (rozhodnutí 25. a 26.
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
 | P6 | Podklady: sedm cvičení, prameny, citáty, meze, co už atlas má | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 26. 10. 2026 (Po P6) |
-| K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | po P6 a odpovědích |
+| K | Stránka týdne a deník: nová komponenta podle `atlas-komponenta` | Opus 5.5 · high (xhigh při zaseknutí) | zadání níž (odpovědi po P6 hotové) |
 | T | Texty sedmi dnů, úvod, vstupy z cest a profilů, list pro učitele | Opus 5.5 · high se skilly `atlas-psani` a `atlas-cesta` | po K |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | po T |
 | O | Opravy po revizi | Opus 5.5 · high | po R |
@@ -130,3 +130,27 @@ Autor 26. 10. 2026: „Souhlasím s doporučeními“ (u všech deseti). Úplné
    Odpověď: souhlas s doporučením (26. 10. 2026).
 10. **Gellius a Diogenés Laertios** (jako doklad k námitce) jen v listu pro učitele, ne ve studentském textu. Doporučuji.
     Odpověď: souhlas s doporučením (26. 10. 2026).
+
+## Zadání K
+
+Model: Opus 5.5 · high; xhigh, když se zasekne (data a export deníku, katalog zastavení). Odpovědi po P6 jsou zapsané výše a v `docs/rozhodnuti.md` (26. 10. 2026); podklady jsou `docs/podklady/stoicky-tyden.md`.
+
+```
+Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev stoicky-tyden. Krok K Stoického týdne: stránka týdne a deník, se skillem atlas-komponenta. Čti jen, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti. Texty sedmi dnů nepíšeš, to je krok T; K staví, do čeho se vejdou.
+
+0. git switch stoicky-tyden, git status bez necommitnutých změn (dvě nesledované položky, „Atlas myšlení — kritika…md“ a „Claude outputs/“, nech být a necommituj). Přečti CLAUDE.md, skills/atlas-komponenta/SKILL.md, docs/styl.md, docs/pouceni.md, docs/design.md (jen tokeny a oddíly o stránce, kartě a mapě na telefonu), tento plán (tabulku, Po P6, Co rozhodnout po P6 s odpověďmi), z docs/podklady/stoicky-tyden.md oddíl Pravidla týdne a mez každého dne, z docs/rozhodnuti.md záznamy 26. 10. 2026 ke Stoickému týdnu a k hodinám (zastavení, promítání). Jako vzor stránky a karty otevři jen src/pages/osobnost/[id].astro, ZkusToZitKarta a src/lib/denik.ts (Vyzva, export, slučování). src/lib/hodiny.ts jen oddíl Zastavení.
+
+1. Data týdne. Týden je data, ne napevno psané stránky, aby unesl další týdny (epikurejský, sokratovský) bez přestavby: kolekce nebo YAML se schématem (id týdne, název, úvodní věta, sedm dnů; u dne číslo, název, doba, text cvičení, citát podle id ze zdroje.yaml nebo bez citátu, mez jednou větou, odkaz na celé cvičení). Schéma zkontroluje, že citát existuje, a test hlídá, že žádný citát v týdnu nezazní víc než dvakrát. Texty dnů jsou zatím prozatímní: vezmi „Návrh znění pro T“ z podkladů a v souboru je označ komentářem. Do T se nic nesloučí.
+
+2. Stránka /tyden/stoicky/. Sedm dnů pod sebou, jeden den otevřený, ostatní sbalené; nahoře jedna věta o tom, že stoik neznamená člověk beze citu, a pravidla týdne jednou větou („Kdykoli přestaň, den můžeš přeskočit, nic se nepočítá“). U každého dne mez a tlačítko Hotovo; den lze označit i zrušit a vynechat. Žádné série, body, procenta, pořadí ani odznaky a nic jako „přerušil jsi“; student pokračuje dnem, na kterém skončil. Den 7 má pole na jednu větu a poznámku. Telefon první, 44 px cíle, klávesnice, čtečka, světlý i tmavý režim, bez autoplay, bez zvuku.
+
+3. Deník. Poznámky týdne jsou jen v deníku v prohlížeči. Rozhodnutí z 26. 10. 2026: týden přidá značku hotových dnů, bez dat a sérií; učitel poznámky nevidí; promítání do deníku nic nezapíše. Přijetí týdne je Vyzva (název, odkaz, kdy přijata, poznámka); hotové dny a věta ze dne 7 jsou v nepovinném poli deníku (starší deníky ho nemají, verze zůstává 1), součástí exportu i slučování souboru (u téhož vyhraje novější, nic se nemaže). Deník týden ukáže stejně jako ostatní výzvy a „hotové dny“ jen jako počet z N, bez procent. Vstup do týdne se v deníku nesmí tvářit jako povinnost.
+
+4. Odkud se týden spouští. Z cest 5, 33 a 34 (poslední krok, KamDal nebo karta), z portrétů Seneky, Epiktéta a Marca (KamDal) a z deníku. Pozor: texty těch odkazů jsou studentský text, napiš je podle atlas-psani a drž je krátké. Karta „Věta pro sebe“ (marcus-veta-pro-sebe) a „Tři otázky večer“ (seneca-vecer) zůstanou, jak jsou; jen se k nim případně přidá odkaz na týden.
+
+5. Příprava hodiny. Týden jako zastavení (id t:<týden>, např. t:stoicky) v katalogu v src/lib/hodiny.ts: jeden odkaz, třída ho projde doma; poznámky učitele do odkazu nejdou. Promítání týdne nezapíše nic do deníku a Hotovo v něm nic neukládá. List pro učitele (ucitel/stoicky-tyden.md) a režim třídy sem nepatří, to je T a pozdější větev.
+
+6. Testy a snímky. Vitest: schéma a počty citátů, slučování a export deníku s novým polem včetně starého deníku bez něj, katalog zastavení. Playwright: otevření stránky, Hotovo a zrušení, poznámka ve dni 7, přeskočení dne, deník po obnovení stránky, telefon 375 px, světlý i tmavý režim, klávesnice; node scripts/snimky-listy.mjs a snimky-prvek.mjs na stránku týdne. Celé npm test jednou před posledním commitem. V linuxovém prostředí (device_bash) npm nespouštěj, spouštěj ho na Macu přes Desktop Commander.
+
+7. Do plánu větve oddíl „Po K (datum)“: co je hotové, co ne, nad čím jsi váhal; „Co rozhodnout po K“ s doporučeními, pokud je co rozhodnout. Rozhodnutí do docs/rozhodnuti.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/stoicky-tyden.md), nic dalšího do projektu nepřidávej. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
+```
