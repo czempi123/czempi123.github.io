@@ -417,7 +417,9 @@ test('portréty Epiktéta a Marca Aurelia vedou na cestu 5 a na stránku otázky
     const kamDal = page.getByRole('navigation', { name: 'Kam dál' });
     await expect(kamDal.getByRole('link', { name: /Cesta\s*Co mám ve svých rukou\?/ })).toHaveAttribute('href', '/cesta/co-mam-ve-svych-rukou/');
     await expect(kamDal.getByRole('link', { name: /Velká otázka 4\s*Jsem svobodný\?/ })).toHaveAttribute('href', '/otazka/jsem-svobodny/');
-    await expect(kamDal.getByRole('link')).toHaveCount(5);
+    // Pět vlastních pokračování a Stoický týden (větev stoicky-tyden, krok K).
+    await expect(kamDal.getByRole('link', { name: /Stoický týden/ })).toHaveAttribute('href', '/tyden/stoicky/');
+    await expect(kamDal.getByRole('link')).toHaveCount(6);
     await expect(page.locator('.vstupy-osoby a').first()).toHaveText(/Cesta · 8 kroků · asi 23 minut\s*Co mám ve svých rukou\?/);
   }
   await page.goto('/osobnost/epiktetos/');
