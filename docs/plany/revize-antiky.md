@@ -6,8 +6,8 @@ Antika má hotových všech deset cest z katalogu (1–8, 33, 34), dvanáct str�
 | --- | --- | --- | --- |
 | S | Souhrnná revize antiky: čtení napříč celky, kontroly dat a rozhraní, inventura mezer vůči F3, připravenost na zkoušku se studenty | Fable 5.1 · high se skillem `atlas-revize` | hotovo 25. 10. 2026, verdikt „po opravách“ (`docs/revize/antika-2026-10-25.md`); zadání v `docs/archiv/zadani/revize-antiky.md` |
 | O | Opravy po revizi | Opus 5.5 · high (xhigh u delších zásahů do UI) | hotovo 26. 10. 2026 (`c20d1f1` až `fa227da`), oddíl Po O; zadání v `docs/archiv/zadani/revize-antiky.md` |
-| P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md`; hledání místa pro interaktivní prvek i ve skillech `atlas-osobnost` (profily, medailonky) a `atlas-data` | Opus 5.5 · high | zadání níž, po odpovědích v oddílu Co rozhodnout po O |
-| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub | Opus 5.5 · medium | zadání vznikne po P13 |
+| P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md`; hledání místa pro interaktivní prvek i ve skillech `atlas-osobnost` (profily, medailonky) a `atlas-data` | Opus 5.5 · high | hotovo 26. 10. 2026, oddíl Po P13; zadání v `docs/archiv/zadani/revize-antiky.md` |
+| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub, zveřejnění na GitHub Pages s `noindex` | Opus 5.5 · medium | zadání níž, po odpovědích v oddílu Co rozhodnout po P13 |
 
 Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v plném znění přesouvají do `docs/archiv/zadani/revize-antiky.md`.
 
@@ -197,25 +197,69 @@ Prázdná odpověď znamená souhlas s doporučením.
 5. **Další krok:** P13 (skilly a poučení) v novém chatu podle zadání níž, pak uzavření větve se zveřejněním na GitHub Pages s `noindex` do konce zkoušky (odpověď 6 po S). Doporučuji.
    Odpověď:
 
-## Zadání P13
+## Po P13 (26. 10. 2026)
 
-V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem, až odpovíš na otázky výš. **Opus 5.5 · high.**
+Krok P13 hotový v jednom commitu, podle odpovědí 1 až 5 po O (všechny prázdné, tedy souhlas). Poučení z antiky jsou v těch skillech, které je při psaní a revizi použijí; `docs/pouceni.md` má jen řádek s odkazem. `atlas-psani` jsem neměnil: pravidla čtivosti (úvody, šablona napříč) zůstávají jen v něm a ostatní skilly na něj odkazují.
+
+Co se změnilo:
+
+- **`atlas-cesta`:** délka cesty podle antiky (14 až 35 minut, průměrně 27) místo 15–20; v osnově **Stavba podle látky** (každé období aspoň jedna cesta jiné stavby, nové bloky dřív než další cesta stejné stavby, výpis bloků a názvů kroků hotových cest, žádný druhý krok „Tři koše“); úvod a **závěrečný odstavec** se píšou naposledy a porovnávají s cestami období, závěr se ptá na první tah té cesty a nevyjmenovává; krok **Kdo je na tvé straně** s mezititulky podle bloků, nad asi 450 slov vždy (slova kroků vypíše `slova-cesta.mjs`); číslo cesty jen v datech a v přípravě hodiny, Další cesta a pole `nenabizet`; scéna z portrétu (portrét ji pak vypráví kratší s odkazem); **počty z jiných stránek** do textu nepsat; zastavená kresba ukáže obsah. Tři nové Časté chyby a dva body Kdy je hotovo.
+- **`atlas-revize`:** nový krok 3 **Srovnej celek s ostatními cestami období** (úvody, závěry, názvy kroků, bloky, portrét vedle kroku cesty; vzor potřetí je nález „důležité“), kroky přečíslované 1–7; místo „vejít se do 20 minut“ věta, že délka sama nález není, nález je krok, kde by student přestal číst; v kontrolním seznamu zastavená kresba, počty, mezititulky, portrét × cesta, číslo cesty a Další cesta, závěr na první tah.
+- **`atlas-komponenta`:** past **Zastavená kresba kreslí obsah, ne začátek smyčky** (pod `.kresba--pohyb:not(.kresba--bezi)` jméno animace `none`, test zastavení hned po načtení); totéž v `references/kontrolni-seznam.md`.
+- **`atlas-osobnost`:** **Scénu, kterou nese cesta, vyprávěj kratší** (odkaz na krok, citát z kapitoly pryč, citát v celku nejvýš dvakrát); u velkých myšlenek **Mohl by student myšlenkou pohnout?** s měřítkem účelnosti a „nejdřív hotová komponenta“; šablona Kam dál „Cesta“ bez čísla a poznámka k tomu; dva body Rychlé kontroly.
+- **`atlas-data`:** nový oddíl **Prvky z dat** (Kdo žil dřív?, Dva životy, trasa míst; proto úplné roky, místa s `od`/`do` a vztahy; náměty do podkladů vlny; staví `atlas-komponenta` ve větvi `interaktivita-v1`).
+- **`skills/atlas-obdobi/poznamky.md`** (nový): co skill `atlas-obdobi` musí převzít z antiky: stavba cest, protihlas z jiné tradice, vyváženost otázek, délka, úvody a závěry napříč, jeden prvek k pohybu na celek a Slož argument před cestou 9.
+- **`docs/pouceni.md`:** šest řádků v oddílu Celek s odkazy na skilly, řádek o kresbě v Technice zobecněný na všechny kresby, hlavička (celky 1 až 10 a souhrnná revize).
+- **`docs/design.md`:** Kresba s pohybem › Pohyb: zastavená kresba = stav při omezeném pohybu, test zastavení; Přesýpací hodiny už nejsou odchylka. Navíc jsem dopsal, co O v `design.md` nechal po staru: čísla cest (Začátek na Domů, Karta cesty, Vstupy osobnosti, Cesta › Přehled a Vstupy), řádek odkazů pod 600 px, Kam dál s Další cestou, pole `nenabizet` a délku cesty.
+
+Délka skillů po úpravě: `atlas-cesta` 4 811 slov (dřív 4 364), `atlas-osobnost` 2 970 (2 790), `atlas-revize` 2 315 (2 124), `atlas-komponenta` 1 418 (1 344), `atlas-data` 1 383 (1 259), `atlas-psani` beze změny 3 180.
+
+Nad čím jsem váhal a co jsem zvolil:
+
+- **Poznámky pro `atlas-obdobi`.** Skill ještě není. Zapsal jsem je do `skills/atlas-obdobi/poznamky.md`, do složky budoucího skillu: v `docs/architektura.md` (schválený stav) by překážely a v `docs/pouceni.md` by se ztratily mezi poučeními z psaní. Do účtu Claude se soubor neukládá. Otázka 1.
+- **Pravidlo o konci úvodu** („Než si přečteš…“) jsem do `atlas-cesta` nepsal: je v `atlas-psani` › Úvody. `atlas-cesta` má jen postup (napsat naposledy, porovnat). Závěrečný odstavec ano: je to pravidlo stavby závěru cesty a `atlas-psani` o něm nemluví.
+- **`atlas-cesta` přerostl k 4 800 slovům.** Nezkracoval jsem ho: zkracovat schválená pravidla je jiný zásah než zobecnit poučení. Otázka 2.
+- **Práh „potřetí“** v revizi napříč: revize antiky psala, že student šablonu pozná od třetí cesty; dvě stejné věty v období nález nejsou.
+- **`design.md` mimo kresbu.** Zadání jmenovalo jen oddíl Kresba s pohybem; čísla cest a hlavičku na telefonu jsem opravil taky, jinak by další komponenta stavěla podle popisu, který neplatí.
+- **Zveřejnění.** Repozitář je `czempi123/atlas`, na GitHub Pages by atlas byl na adrese `czempi123.github.io/atlas/`. V obsahu a komponentách je asi 180 odkazů, které začínají `/` (k tomu odkazy skládané ve skriptech): pod podadresou by vedly mimo atlas. Rozhodnout je potřeba před Uzavřením (otázky 3 a 4).
+
+## Co rozhodnout po P13
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Poznámky pro `atlas-obdobi`** v `skills/atlas-obdobi/poznamky.md`; až skill vznikne, zapracují se do něj a soubor zmizí. Doporučuji nechat.
+   Odpověď:
+2. **Délka `atlas-cesta`:** při tvorbě skillu `atlas-obdobi` přesunout oddíly Jak psát bloky a Stránka velké otázky do `skills/atlas-cesta/references/`, ať `SKILL.md` drží postup a skill se načítá levněji. Doporučuji tehdy, ne teď.
+   Odpověď:
+3. **Adresa webu:** (a) přejmenovat repozitář na `czempi123.github.io`, atlas bude v kořeni a odkazy zůstanou, jak jsou; (b) vlastní doména (placená, také kořen); (c) podadresa `/atlas/` a úprava všech odkazů na `base` (velký zásah, vlastní větev, zveřejnění by se posunulo). Doporučuji (a).
+   Odpověď:
+4. **Veřejný repozitář:** GitHub Pages na bezplatném účtu chce veřejný repozitář, takže budou vidět i `docs/`, `ucitel/`, podklady a historie commitů. Uzavření předtím projde repozitář, jestli v něm není nic, co veřejné být nemá. Doporučuji ano; rozhoduješ ty.
+   Odpověď:
+5. **`noindex`:** značka `<meta name="robots" content="noindex">` v základním rozvržení na všech stránkách, bez zákazu v `robots.txt` (vyhledávač musí stránku přečíst, aby značku viděl). Po zkoušce ji jeden commit sundá. Doporučuji.
+   Odpověď:
+
+## Zadání Uzavření
+
+V novém chatu projektu Atlas s připojenou složkou Atlas a zapnutým Desktop Commanderem, až odpovíš na otázky výš. **Opus 5.5 · medium.**
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok P13 větve revize-antiky: úprava skillů po fázi antiky. Co se v antice opakovaně nepovedlo, zobecni do skillů a do docs/pouceni.md tak, aby se to ve středověku neopakovalo. Moje odpovědi jsou v plánu větve docs/plany/revize-antiky.md v oddílu „Co rozhodnout po O“ (prázdná odpověď znamená souhlas). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Krok Uzavření větve revize-antiky: připravit zveřejnění na GitHub Pages s noindex, po mém schválení sloučit do hlavní větve, poslat na GitHub a zveřejnit. Moje odpovědi jsou v plánu větve docs/plany/revize-antiky.md v oddílu „Co rozhodnout po P13“ (prázdná odpověď znamená souhlas). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
 
-0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/pouceni.md, v plánu větve oddíly Po S a Po O a ze záznamu revize docs/revize/antika-2026-10-25.md oddíly 2 (Antika jako celek), 6 (Lidský hlas a čtivost), 9 (Nálezy) a 12 (Interaktivita). Skilly ve skills/ otevírej jen ty, které upravuješ.
+0. git switch revize-antiky, git status bez necommitnutých změn. Přečti CLAUDE.md, docs/pouceni.md, v plánu větve oddíly Po P13 a Co rozhodnout po P13 a v záznamu revize docs/revize/antika-2026-10-25.md oddíl 11 (Zkouška se studenty, Podklad pro rozhodnutí o zveřejnění).
 
-1. Poučení z antiky zobecni a zapiš tam, kam patří (skill, ne opis do pouceni; do docs/pouceni.md jen věta s odkazem, kde jde o pravidlo napříč skilly):
-   - Šablona napříč cestami: úvody, závěrečné odstavce a krok Kdo je na tvé straně. Do atlas-cesta pravidlo, že úvod cesty i závěrečný odstavec se píší naposledy a porovnají se s úvody a závěry ostatních cest téhož období (příkaz z atlas-psani › Postup při revizi); závěr se ptá konkrétně na první tah té cesty a nevyjmenovává, co student dělal. Do atlas-revize kontrolu napříč cestami období.
-   - Délka posledního kroku: zastánci odpovědí mají mezititulky podle bloků; krok s více než asi 450 slovy dostane mezititulky vždy. Do atlas-cesta a do kontrolního seznamu atlas-revize.
-   - Kresba po zastavení: zastavený stav (.kresba--pohyb bez .kresba--bezi) kreslí obsah jako při omezeném pohybu, ne začátek smyčky; každá kresba s pohybem má test zastavení hned po načtení. Do atlas-komponenta (Časté pasti a kontrolní seznam) a do docs/design.md › Kresba s pohybem.
-   - Opakování mezi portrétem a cestou: když scénu nese cesta, portrét ji vypráví kratší a odkáže na krok cesty; citát stojí v celku nejvýš dvakrát. Do atlas-osobnost a atlas-cesta.
-   - Pořadí bloků pro středověk: v antice mají všechny cesty stejnou stavbu (Volba nebo Roztřiď, filozof, Spor, nový případ, zastánci, pravidlo). Do atlas-cesta a do poznámek pro skill atlas-obdobi zapiš, že každé období zkusí aspoň jednu cestu jiné stavby a nové bloky (Dialog, Slož argument, Úryvek s otázkou) dřív, než vznikne další cesta stejné stavby.
-   - Hledání místa pro interaktivní prvek: do atlas-osobnost (profily a portréty: u každé velké myšlenky se zeptat, jestli by ji student pochopil líp, kdyby něčím pohnul; nejdřív hotová komponenta) a do atlas-data (medailonky: prvky z dat jako Kdo žil dřív? a Dva životy poslouží všem osobám bez psaní textu). Měřítko účelnosti z plánu větve, bod 9.
-   - Navigace: číslo cesty je jen v datech a v přípravě hodiny; studentské rozhraní ho neukazuje (Kam dál profilů píše nadtitulek „Cesta“). Do atlas-osobnost a atlas-cesta.
-   - Údaje, které se rozejdou s daty: věta „odpovídají tam i tři další“ v závěru cesty 4 zastarala, když na otázku 1 přibyly hlasy. Do atlas-cesta: počty hlasů a cest v textu nepiš, nebo je ověř proti stránce, když přibude hlas.
-2. Každou úpravu skillu udělej ve skills/<skill>/SKILL.md (zdrojová verze) a stručně; nic neopakuj, co skill už říká. Poučení, která skilly drží, z docs/pouceni.md nemaž. Zkontroluj, že skilly nepřesáhly rozumnou délku a že atlas-psani zůstal jediným místem pro pravidla čtivosti.
-3. Rozhodnutí zapiš do docs/rozhodnuti.md. Do plánu větve napiš oddíl „Po P13 (datum)“: co se změnilo ve kterém skillu, nad čím jsi váhal, a „Co rozhodnout po P13“ (očíslované otázky s doporučením a prázdným řádkem „Odpověď:“). Připrav zadání kroku Uzavření (Opus 5.5 · medium): schválení autorem, sloučení revize-antiky do hlavní větve, hlavní větev na GitHub a zveřejnění na GitHub Pages s noindex do konce zkoušky se studenty (podklad v záznamu revize, oddíl 11 Zkouška se studenty; licence obrázků ověřit před zveřejněním). Zadání P13 přesuň do docs/archiv/zadani/revize-antiky.md, aktualizuj řádek revize-antiky v docs/plan.md. Commit.
-4. Nic neslučuj a nic neposílej na GitHub. Plán větve a docs/plan.md nahraj do projektu Claude. Napiš mi, které skilly si mám znovu uložit do účtu Claude (soubory ve skills/), a krátce, nad čím jsi váhal a na co mám odpovědět.
+1. Příprava ve větvi revize-antiky:
+   - astro.config: `site` podle odpovědi 3 (a `base` jen tehdy, když jsem zvolil podadresu; pak se zastav a napiš mi, co úprava odkazů obnáší, nic nepřepisuj).
+   - noindex podle odpovědi 5: značka v src/layouts/Zakladni.astro s komentářem „do konce zkoušky se studenty“; test, že ji má každá stránka v dist/.
+   - Workflow .github/workflows/pages.yml: po pushi do hlavní větve npm ci, npm run build (s Pagefindem) a nasazení dist/ přes actions/deploy-pages; Node jako v kontroly.yml. kontroly.yml nech beze změny.
+   - Licence před zveřejněním: projdi všechny obrázky v zdroje.yaml › obrazky (licence dovoluje zveřejnění na webu, autor a licence jsou na stránce vidět) a zvlášť fotografie 20. století (Stockdale) a vše, co není CC, PD nebo vlastní kresba; licence písem v public/ (OFL a podobné). Obrázek s nejasnou licencí nemaž ani nestahuj: zapiš ho do plánu větve a zastav se, rozhodnu já.
+   - Projdi repozitář (soubory i historii, git log -p jen hledáním), jestli v něm není nic, co nemá být veřejné: osobní údaje, e-maily mimo commity, tokeny a klíče, jména studentů. Nálezy mi napiš, nic nepřepisuj v historii.
+   - npm test celé (na pozadí s výstupem do souboru), npm run build a npx astro preview: projdi Domů, cestu, profil, hledání a deník pod cílovou adresou.
+   - CLAUDE.md: věta „Web zatím běží jen lokálně“ podle stavu po zveřejnění (adresa, noindex do konce zkoušky).
+   - Do plánu větve oddíl „Po Uzavření – příprava (datum)“, rozhodnutí do docs/rozhodnuti.md, commit.
+
+2. Pak se zastav a napiš mi krátce: co je připravené, výsledek licencí a kontroly repozitáře, co musím udělat sám na GitHubu (přejmenování nebo zveřejnění repozitáře, Settings › Pages › Source: GitHub Actions) a že čekáš na moje „schvaluji“. Bez něj nic neslučuj a nic neposílej.
+
+3. Po mém schválení: git switch main, git merge --no-ff revize-antiky, npm test celé, git push origin main. Po doběhnutí workflow ověř zveřejněný web (Domů, jedna cesta, jeden profil, hledání, ikony, noindex přes curl). Do plánu větve oddíl „Po Uzavření (datum)“, řádek revize-antiky v docs/plan.md (hotovo, sloučeno, zveřejněno, adresa) a odstavec Další větve v pořadí (další je zkouška se studenty), zadání Uzavření přesuň do docs/archiv/zadani/revize-antiky.md, plán větve přesuň do docs/archiv/plany/. Commit a push hlavní větve.
+
+4. docs/plan.md a plán větve (z archivu) nahraj do projektu Claude. Napiš mi adresu webu a jednou větou, jak noindex po zkoušce sundat.
 ```

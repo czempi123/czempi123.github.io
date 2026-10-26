@@ -17,7 +17,7 @@
 - Fokus z klávesnice nezůstane pod pevnou lištou: dolní okraj prvku s fokusem je nad horním okrajem lišty.
 - Nic se nepřekrývá: ovládací prvky ani popisky v SVG, na 390 i 1440 px.
 - Snímek každé kombinace do `test-results/snimky/<blok>-<sirka>-<svetly|tmavy>.png`.
-- Kresba s pohybem: běží, jde zastavit a zůstane stát; při omezeném pohybu stojí a nemá tlačítko pohybu; pohledy a posuvník jdou klávesnicí.
+- Kresba s pohybem: běží a jde zastavit; zastavená hned po načtení ukáže totéž co při omezeném pohybu (test), při omezeném pohybu stojí a nemá tlačítko pohybu; pohledy a posuvník jdou klávesnicí.
 
 ## Než řekneš „hotovo“
 

@@ -45,6 +45,7 @@ Stránka směru a pojmu se řídí stejnými zásadami (scéna, nejsilnější v
 - **Co s příběhem děláme my, nepřipisuj filozofovi.** Epiktétos nevyprávěl o senátorovi jako odpověď na námitku rezignace; za odpověď ho bereme my. Piš „Epiktétos k ní má příběh“, ne „na ni odpovídal příběhem“. Stejně tak spojovací věta k jinému mysliteli nesmí tvrdit spor nebo otázku, které nebyly („Proti Epiktétovi tu otázku položil už Aristotelés“).
 - **Formulace nesmí být silnější než tvrzení v podkladech.** „Velkou část vlády“ není „skoro celou vládu“; porovnej doporučenou formulaci se sloupcem Tvrzení.
 - **Scéna, kde silnější odmítne pomoct nebo kde hrdina křivdu mlčky unese,** dostane hned za sebou otázku pro studenta („Stačila by ti taková odpověď od učitele?“). Student, kterému někdo ubližuje, jinak čte, že se ho nikdo zastat nemá.
+- **Scénu, kterou nese cesta, vyprávěj kratší.** Kapitola dá scénu v pár větách a odkáže na krok cesty, kde ji student prožije celou; citát, který stojí v cestě, z kapitoly vyjmi (Sókratés, Věštba z Delf → cesta 1, krok 3). Tentýž citát stojí v celku nejvýš dvakrát: cesta, portrét a stránka otázky dohromady.
 - **Konec kapitoly** nech na silné větě nebo na otázce pro studenta v kurzívě. Pointu nevysvětluj.
 - **Titulek kapitoly** je pointa s kurzívou na konci: „Místo trestu *odměna.*“, „Spravedlnost dostal *každý.*“
 
@@ -72,6 +73,7 @@ Možnosti ve Volbě jsou skutečné tahy, každá se zpětnou vazbou, která ře
 - Titulek je teze s pointou v kurzívě. Výklad má dvě až čtyři věty v nejsilnější verzi, bez sloganu (`docs/styl.md`, dvojice 10).
 - Pak otázka v kurzívě, která tezi vystaví protipříkladu („*Platí to všude? Je krutost špatná jen pro toho, komu se špatná zdá?*“), a vlastní pokus: `<MojeStanovisko client:visible id="<osoba>-<tema>" otazka="…" odkaz="/osobnost/<id>/#myslenky" />`.
 - Myšlenka, kterou nese jiný blok (Spor v cestě, stránka velké otázky), se na stránce osobnosti neopakuje.
+- **Mohl by student myšlenkou pohnout?** U každé velké myšlenky a kapitoly se zeptej, jestli by ji student pochopil líp, kdyby něco posunul, přepnul, přetáhl nebo odhadl (Prótagorovo „člověk je měrou“ a Stejný vítr; Parmenidovo „co není, nemůže být“). Prvek patří tam, kde student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba, body a pohyb bez obsahu ne. Nejdřív hotová komponenta nebo odkaz na kresbu cesty; novou zapiš do plánu větve jako námět pro `atlas-komponenta`, stránka kvůli ní nečeká.
 
 ## Zkus to žít
 
@@ -152,7 +154,7 @@ Výzva na týden.
 </ZkusToZitKarta>
 
 <KamDal odkazy={[
-  { href: '/cesta/<slug>/', nadtitulek: 'Cesta N', text: '…' },
+  { href: '/cesta/<slug>/', nadtitulek: 'Cesta', text: '…' },
   { href: '/osobnost/<id>/', nadtitulek: 'Portrét', text: '…' },
   { href: '/otazky/#<kotva>', nadtitulek: 'Velká otázka N', text: '…' },
 ]} />
@@ -160,6 +162,7 @@ Výzva na týden.
 
 Poznámky k šabloně:
 
+- Číslo cesty student nevidí: v Kam dál má cesta nadtitulek „Cesta“, v textu ji nazvi názvem. Velké otázky čísla nesou („Velká otázka 1“).
 - Velký citát z úvodu se v textu nemusí opakovat; když se k němu kapitola vrací, odkaž na něj slovy („začínala právě větou o člověku jako měřítku“). Znovu jako citát má smysl jen tam, kde zazněl (Sókratés, Obrana 38a v kapitole Soud).
 - Osoba bez autentického portrétu má na desce minci s atributem; nic nepřidávej. Fotografie jen s ověřenou licencí v `zdroje.yaml` › `obrazky`. Popisek obrázku (`popisek`) se ukazuje pod deskou vedle „Proč …?“: u rytiny, kresby nebo pozdější sochy v něm řekni, čí je to představa a z kdy, hlavně když obraz ukazuje něco, co text popírá (Epiktétos s perem × „Sám nenapsal nic“).
 - Doba a lidé skládá skupiny vztahů z dat: „Znali se a přeli se“ jen pro `znali-se` a `polemika` lidí, kteří se přít mohli, vliv přes texty má skupiny „Četli ho a navázali“ a „Koho četl“. Lidem, kteří se nepotkali, dej v `vztahy.yaml` typ `vliv-textem`; když jeden s druhým nesouhlasil, typ `polemika` (stránka ji sama zařadí pod „S kým se přel na dálku“ a „Kdo se s ním přel později“) a do poznámky otázku, o kterou šlo, ne větu s podmětem. Po sestavení si oddíl přečti, nikdo jiný ho nepíše.
@@ -214,5 +217,6 @@ Hned za tím Změň jednu věc „Utečeš?“ a teprve pak Sókratova odpověď
 - Dala by se některá věta beze změny napsat o jiném filozofovi? Prošel text třemi čteními podle skillu `atlas-psani`? Odpovídá každý citát na otázku před ním?
 - Věty do 25 slov, odstavce do 4 vět, tykání, jména a skloňování podle `lide.yaml`, letopočty s nezlomitelnými mezerami?
 - Je-li ve stránce kresba s pohybem: říká text totéž i bez ní, jde pohyb zastavit a neopakuje kresbu z cesty?
+- Neopakuje kapitola scénu nebo citát, které nese cesta celku? Zeptal ses u každé myšlenky, jestli by jí student mohl pohnout?
 - Prošlo `npm test` celé a jsou snímky na 390 a 1440 px ve světlém i tmavém režimu prohlédnuté?
 - Přečetl by to šestnáctiletý člověk dobrovolně až do konce?

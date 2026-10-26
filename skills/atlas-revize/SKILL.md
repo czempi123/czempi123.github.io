@@ -10,11 +10,12 @@ Revize hledá to, co by studentovi vadilo nebo co by ho zavedlo: nepřesnost, sl
 ## Postup
 
 1. **Připrav si podklady:** zadání celku, podkladový list z `docs/podklady/`, `docs/styl.md` a samotný obsah (MDX a data). U hotového webu spusť `npm run build` a `npm test`.
-2. **Projdi celek jako student.** Celý průchod od vstupu po návrat, včetně odboček do profilů a mapy. Zkus odpovědět špatně, přeskočit krok, vrátit se, obnovit stránku, otevřít krok přímým odkazem. Na hotovém webu na šířce 390 a 1440 px, ve světlém i tmavém režimu a klávesnicí; pořiď snímky obrazovek a prohlédni je. Projdi ho i jako student, který s filozofem celku nesouhlasí (chce hodně vydělávat, nevěří, že stačí málo): najde v celku někoho, kdo mu dává za pravdu? Celek o tom, co má člověk unést, přijmout nebo odpustit (stoici, osud, role), projdi i jako student, kterému doma nebo ve třídě někdo ubližuje: čte někde, že se má smířit? Spočítej slova, která student na cestě opravdu přečte (jednu zpětnou vazbu na volbu, citáty, texty kreseb); při 150 slovech za minutu a s ovládáním se má vejít do 20 minut a štítek `minut` má říkat, kolik vyšlo.
-3. **Projdi šest perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, lidský hlas a čtivost (skill `atlas-psani`). Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
-4. **Oprav rovnou**, co je drobné a jednoznačné: překlepy, konvence (jména, letopočty, uvozovky), redakční vsuvky ve studentském textu, rozbité odkazy, strojové obraty, které jdou škrtnout nebo přepsat beze změny významu (navazovací vata, pochvala na úvod zpětné vazby, zbytky značek, pomlčka místo čárky). Zásahy do významu, příběhu nebo struktury jen navrhni; patří k nim i věta, která po škrtnutí zůstane prázdná a potřebuje fakt z podkladů. Větu, kterou opravuješ, najdi nejdřív v `tests/`: testy hlídají přesné znění a upravují se v tomtéž commitu.
-5. **Zapiš nálezy** do `docs/revize/<id-celku>-<datum>.md` ve formátu níže, nejvýš deset nejdůležitějších. Studentský obsah nikdy nedoplňuj o poznámky z revize.
-6. **Předej** v pár větách: verdikt (připraveno ke schválení / po opravách / přepracovat), tři nejdůležitější nálezy a co bylo ověřeno technicky.
+2. **Projdi celek jako student.** Celý průchod od vstupu po návrat, včetně odboček do profilů a mapy. Zkus odpovědět špatně, přeskočit krok, vrátit se, obnovit stránku, otevřít krok přímým odkazem. Na hotovém webu na šířce 390 a 1440 px, ve světlém i tmavém režimu a klávesnicí; pořiď snímky obrazovek a prohlédni je. Projdi ho i jako student, který s filozofem celku nesouhlasí (chce hodně vydělávat, nevěří, že stačí málo): najde v celku někoho, kdo mu dává za pravdu? Celek o tom, co má člověk unést, přijmout nebo odpustit (stoici, osud, role), projdi i jako student, kterému doma nebo ve třídě někdo ubližuje: čte někde, že se má smířit? Spočítej slova, která student na cestě opravdu přečte (`node scripts/slova-cesta.mjs <slug>`, i po krocích); štítek `minut` má říkat, kolik vyšlo. Délka sama nález není (autor nekrátí kvůli délce); nález je krok, kde by unavený student přestal číst, a poslední krok bez mezititulků.
+3. **Srovnej celek s ostatními cestami období.** Vypiš si vedle sebe úvody, závěrečné odstavce, názvy kroků a bloky všech hotových cest období (příkazy v `atlas-psani` › Postup při revizi a v `atlas-cesta` › Postup, krok 3) a kapitolu portrétu, která vypráví scénu cesty, polož vedle jejího kroku. Vzor, který se opakuje potřetí (stejný konec úvodu, výčet v závěru, krok Kdo je na tvé straně, stejný krok 2), je nález „důležité“, i když každá věta zvlášť obstojí; kapitola portrétu, která opakuje krok cesty slovo od slova, taky.
+4. **Projdi šest perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, lidský hlas a čtivost (skill `atlas-psani`). Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
+5. **Oprav rovnou**, co je drobné a jednoznačné: překlepy, konvence (jména, letopočty, uvozovky), redakční vsuvky ve studentském textu, rozbité odkazy, strojové obraty, které jdou škrtnout nebo přepsat beze změny významu (navazovací vata, pochvala na úvod zpětné vazby, zbytky značek, pomlčka místo čárky). Zásahy do významu, příběhu nebo struktury jen navrhni; patří k nim i věta, která po škrtnutí zůstane prázdná a potřebuje fakt z podkladů. Větu, kterou opravuješ, najdi nejdřív v `tests/`: testy hlídají přesné znění a upravují se v tomtéž commitu.
+6. **Zapiš nálezy** do `docs/revize/<id-celku>-<datum>.md` ve formátu níže, nejvýš deset nejdůležitějších. Studentský obsah nikdy nedoplňuj o poznámky z revize.
+7. **Předej** v pár větách: verdikt (připraveno ke schválení / po opravách / přepracovat), tři nejdůležitější nálezy a co bylo ověřeno technicky.
 
 ## Formát nálezu
 
@@ -77,8 +78,9 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Nezpřísňuje text filozofa na citlivém místě tak, že ztratí rozdíl, který pramen dělá („za omluvu to nemá“ × „méně ošklivé, omluvitelnější“)? Neříká, co si filozof myslel („úplně jistý si nebyl“), místo toho, co stojí v textu?
 - Nenese graf nebo kresba, která ukazuje jen směr, jméno měřené věci („Jeden účastník“)?
 - Je u rytiny, kresby nebo pozdější sochy vidět, čí je to představa a z kdy? Neodporuje obraz textu (Epiktétos s perem × „Sám nenapsal nic“)?
-- Kresba s pohybem: říká text kroku i text pod ní totéž co ona, drží se pramene („kdyby“ zůstává „kdyby“) a nenechává studenta dívat se shora tam, kde má sedět uvnitř? Jde pohyb zastavit a stojí při omezeném pohybu?
+- Kresba s pohybem: říká text kroku i text pod ní totéž co ona, drží se pramene („kdyby“ zůstává „kdyby“) a nenechává studenta dívat se shora tam, kde má sedět uvnitř? Jde pohyb zastavit a stojí při omezeném pohybu? Ukáže kresba, zastavená hned po načtení, obsah jako při omezeném pohybu, ne začátek smyčky?
 - Je poznámka u vztahu v Době a lidech věta pro studenta, ne odkaz na místo v díle? Neodporuje popisku typu vztahu („znal ho z textů · … od Kratyla“)?
+- Sedí počty v textu („odpovídají tam i tři další“) se stránkou, na kterou odkazují?
 - Je doba vylíčená tak, aby student pochopil, proč se tehdy myslelo právě takhle?
 
 ### 3. Šestnáctiletý student
@@ -91,6 +93,8 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Nemám pocit, že mě někdo hodnotí za názor nebo tlačí k „správnému“ životnímu postoji?
 - Projdu celkem, i když mi někdo ubližuje, aniž bych četl, že se mám smířit? Hledej v úvodech kroků, ve výzvě Zkus to žít (nemíří cvičení na člověka, který ubližuje?), ve zpětné vazbě vlastní karty („co je tvoje dílo“ zní jako vina), ve scéně, kde silnější odmítne pomoct, a ve slovech, která křivdu zlehčují („trapas“).
 - Je ve studentském textu jediná věta, která mluví o práci autorů místo o filozofii? (Má zmizet.)
+- Najdu v posledním kroku svou odpověď podle mezititulku, nebo čtu zastánce všech odpovědí za sebou? Má krok s víc než asi 450 slovy mezititulky?
+- Nečtu v portrétu znovu scénu nebo citát z cesty, kterou jsem prošel?
 - Vydržím do konce? Kde bych to zavřel? Neříká srovnání na konci kroku totéž, čím začíná další krok?
 - Přijde v úvodu profilu první myšlenka dřív než výčet míst a dat? Nenapovídá výzva Zkus to žít, jak má dopadnout?
 
@@ -111,7 +115,8 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Nekončí řádek jednopísmennou předložkou? (Doplňuje sestavení; nález znamená text, který ho míjí.)
 - Fungují přímé odkazy na krok, zpět a vpřed, obnovení stránky a návrat z odbočky?
 - Zůstávají odpovědi uložené a dá se začít znovu?
-- Vedou všechny odkazy na hotový obsah? Žádné slepé uličky ani „připravujeme“.
+- Vedou všechny odkazy na hotový obsah? Žádné slepé uličky ani „připravujeme“. Nabídne hotová cesta další cestu?
+- Nevidí student číslo cesty z katalogu (nadtitulek, karta, Kam dál, drobečky)?
 - Prošly automatické kontroly (`npm run build`, `npm test`)?
 
 ### 6. Lidský hlas a čtivost
@@ -122,7 +127,7 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Říká přehled cesty a úvod stránky, o čem to je a co si student odnese, nebo jen osnovu kroků?
 - Odpovídá každý citát na otázku těsně před ním, má uvozovací větu se situací a vrací se text po něm k případu? Nestojí citáty za sebou jako sbírka? Projde citát zkouškou zakrytím?
 - Nese informace scéna, nebo stojí fakta v holých větách? Je v každém textu aspoň jedna konkrétní věc k zapamatování?
-- Nezačínají všechny kroky, úvody nebo zpětné vazby stejně? Vypiš si úvody cest a první věty kroků vedle sebe (příkaz v `atlas-psani` › Postup při revizi).
+- Nezačínají všechny kroky, úvody nebo zpětné vazby stejně a nekončí cesty období stejným závěrečným odstavcem? Ptá se závěr na první tah právě téhle cesty? Vypiš si úvody cest a první věty kroků vedle sebe (příkaz v `atlas-psani` › Postup při revizi).
 
 - Dala by se některá věta beze změny napsat o jiném filozofovi?
 - Končí odstavec přívěskem, který hodnotí („čímž ukázal…“), nebo shrnutím toho, co už řekl?

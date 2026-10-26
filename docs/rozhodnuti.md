@@ -4,6 +4,18 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Souhrnná revize antiky (P11), krok P13
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Poučení z antiky jsou ve skillech, `docs/pouceni.md` má jen řádek s odkazem; `atlas-psani` zůstává jediným místem pro pravidla čtivosti | Zadání P13; skill je to, co se při psaní opravdu načte |
+| `atlas-cesta`: stavba cesty podle látky (každé období aspoň jedna cesta jiné stavby, nové bloky dřív než další cesta stejné stavby); úvod a závěrečný odstavec naposledy a porovnané s cestami období; závěr se ptá na první tah; zastánci s mezititulky, nad asi 450 slov vždy; počty z jiných stránek do textu nepsat; číslo cesty jen v datech | Revize antiky, nálezy 1, 2, 4, 9, 10 a oddíl Monotónnost; závěr cesty 4 zastaral s novými hlasy |
+| `atlas-revize`: nový krok Srovnej celek s ostatními cestami období; délka sama nález není | Šablona se v jednom celku neprojeví; autor nekrátí kvůli délce |
+| `atlas-komponenta` a `docs/design.md`: zastavená kresba kreslí totéž co při omezeném pohybu, každá kresba s pohybem má test zastavení hned po načtení | Nález 5; pravidlo z Přesýpacích hodin platí pro všechny kresby |
+| `atlas-osobnost`: scénu, kterou nese cesta, vypráví portrét kratší s odkazem na krok; u každé velké myšlenky otázka, jestli by jí student mohl pohnout. `atlas-data`: oddíl Prvky z dat | Nález 3; přání autora z 25. 10. 2026 (interaktivita všude, kde dává smysl, i u medailonků) |
+| Poznámky pro budoucí skill `atlas-obdobi` v `skills/atlas-obdobi/poznamky.md` | Skill ještě není; poznámky leží tam, kde vznikne |
+| `docs/design.md` dopsán i mimo kresby (čísla cest, hlavička na telefonu, Další cesta, `nenabizet`, délka cesty) | Krok O ho nechal po staru |
+
 ## 26. 10. 2026: Souhrnná revize antiky (P11), krok O
 
 | Rozhodnutí | Důvod |

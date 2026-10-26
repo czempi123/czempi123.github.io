@@ -1,6 +1,6 @@
 # Poučení z revizí a z psaní
 
-Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů revizí celků 1 až 5 (`docs/archiv/revize/`, `docs/revize/`); totéž drží skilly. Záznamy revizí kvůli tomu číst netřeba. Nové poučení sem připiš jednou větou.
+Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů revizí celků 1 až 10 a souhrnné revize antiky (`docs/archiv/revize/`, `docs/revize/`); totéž drží skilly. Záznamy revizí kvůli tomu číst netřeba. Nové poučení sem připiš jednou větou.
 
 ## Prameny a formulace
 
@@ -43,6 +43,12 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 ## Celek
 
 - Tentýž citát a tentýž doložený detail nejvýš dvakrát v celku. Scéna z portrétu se v cestě neopakuje doslova; cesta přitom musí stát i bez portrétu.
+- Kapitola portrétu se scénou, kterou nese cesta, se vypráví kratší s odkazem na krok cesty; jinak ji opakuje slovo od slova (portrét Sókrata a cesta 1; `atlas-osobnost`, `atlas-cesta`).
+- Šablona napříč cestami se v jednom celku neprojeví, v deseti ano: úvod a závěrečný odstavec se píšou naposledy a porovnávají s cestami období, závěr se ptá na první tah té cesty a krok se zastánci má mezititulky (`atlas-cesta`, `atlas-revize`; revize antiky).
+- Každé období zkusí aspoň jednu cestu jiné stavby a nové bloky dřív, než vznikne další cesta stejné stavby (`atlas-cesta`, `skills/atlas-obdobi/poznamky.md`).
+- Počet hlasů nebo cest v textu („tři další“) zastará s prvním novým hlasem: nepiš ho, nebo ho ověř proti stránce (závěr cesty 4; `atlas-cesta`).
+- Číslo cesty z katalogu student nevidí; v textu a v Kam dál je cesta názvem s nadtitulkem „Cesta“ (`atlas-cesta`, `atlas-osobnost`).
+- U každé myšlenky profilu a u medailonků hledej místo pro prvek, kterým student pohne a uvidí myšlenku líp než z textu (`atlas-osobnost`, `atlas-data`).
 - Opakování počítej podle klíčových slov každého místa z pramenů (předem, nutné, důkaz, předčasně) napříč kroky i bloky včetně „Co by na to řekli“ a srovnání: shrnutí, které parafrázuje už použitou větu, je další výskyt (celek 10, O: revize přehlédla dvě trojice z Dopisu 98).
 - Úvodní případ stránky otázky je jiného druhu než nový případ cesty.
 - Každý hlas na stránce otázky se pozná a nezmenšuje se to, čím se liší. Odpověď hlasu má nejvýš dvě věty. Výklad u hlasu ověř v tomtéž díle a místě, ze kterého je citát; myšlenka odjinud (Seneca, Dopisy 93, 2 u citátu z Dopisu 61) dostane svůj pramen a jméno autora, ne školy.
@@ -103,7 +109,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Po přidání stránky, bloku nebo změně dat restartuj běžící `npm run dev`. Starý náhled ukáže stránku bez obsahu a odkazy na kotvy nikam nevedou.
 - Playwright před každým během maže `test-results/`. Pracovní skripty patří do `scripts/`, snímky pro autora do `Claude outputs/`.
 - Kresba s pohybem: pohyb jde zastavit, při omezeném pohybu kresba stojí a text pod ní říká totéž slovy. V kresbě, která tvrdí „vyměnilo se všechno“, nesmí zůstat nic, co vyměnit nejde (stěžeň, vesla): co není součást modelu, do obrazu nepatří. Na telefonu má jednotka kresby vyjít asi na pixel, jinak popisky nejdou přečíst. Novou kresbu stav na rámu `Kresba.svelte`; pasti (animace pod `.kresba--pohyb`, `transform` v SVG) má skill `atlas-komponenta`. Dojem z barvy nevznikne z barevného pozadí: chce věci známé barvy ve stejném světle (šaty v cestě 1). Kresbu, která má vyvolat dojem, ukaž autorovi dřív, než ji popíšeš jako hotovou.
-- Kresba, jejíž obsah vzniká teprve pohybem (písek, který se usazuje), ukáže po zastavení výsledek, ne zamrzlý okamžik: kdo pohyb zastaví hned po načtení, by jinak obsah nikdy neviděl; zkoušej Zastavit pohyb hned a pak posuň ovládání (celek 9, P10).
+- Každá kresba s pohybem ukáže po zastavení totéž co při omezeném pohybu, ne zamrzlý začátek smyčky: kdo pohyb zastaví hned po načtení, by jinak obsah nikdy neviděl (celek 9, P10; revize antiky, nález 5). Má na to test; zkoušej Zastavit pohyb hned a pak posuň ovládání (`atlas-komponenta`).
 - Chromium nevyfotí najednou stránku vyšší než asi 16 000 px; dlouhé stránky foť po částech (`scripts/snimky-listy.mjs`).
 - Prvek s fokusem z klávesnice zůstane pod pevnou lištou, když leží ve viditelné části okna: prohlížeč stránku neposune a `scroll-padding` to nespraví. Dorovnává to základní rozvržení. Při revizi zkoušej skutečným tabulátorem na dvou výškách okna a skriptem `scripts/kontrola-fokus.mjs`.
 - Studentské věty hlídají testy přesným zněním. Než opravíš větu, najdi ji v `tests/` (`grep -rn`) a test uprav v tomtéž commitu. Věta s jednopísmennou předložkou má v sestavené stránce nezlomitelnou mezeru: `toContainText` ji snese, `textContent.includes` ne. Výpis nezkracuj: průchod cesty bez odkrytí hlídá věty každého kroku až na konci souboru (`cesta8.spec.ts:314`).
