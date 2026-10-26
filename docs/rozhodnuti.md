@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Interaktivita v1, založení větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Větev `interaktivita-v1` z hlavní větve s commitem 6bb5180 (typ nadpisu v kartě týdne), který na GitHub půjde s ní | Pořadí z 26. 10. 2026; commit je jen typová oprava |
+| Obsah: blok Kdo je na tvé straně (cesty 2, 7, 8, 33, 34), Slož argument (cesta 8, krok 3), Dva životy a Kdo žil dřív? z dat u medailonků; osa hlasů, Přehrát život a deník na konci období zůstávají na později | Revize antiky, oddíl 12 (tři nejlepší návrhy a Kdo žil dřív? u medailonků) a nález 4 |
+| Prvním krokem K0 je oprava kontroly typů (`astro check` padá na typu pluginu sazby v `astro.config.mjs`) a `astro check` v `npm test` | Kontrola na GitHubu padá od 17. 10. 2026 a lokální `npm test` ji nepouštěl; nová chyba by v červených kontrolách zapadla |
+| Pořadí K0, K1, T1, K2, K3, T2, R, O, Uzavření; komponenta vždy před texty | Kdo je na tvé straně má v revizi nejvyšší prioritu, prvky medailonků jsou nejlevnější, Slož argument jediný potřebuje nový obsah ověřený v pramenech |
+| Navrženo k odsouhlasení před K0 (`docs/plany/interaktivita-v1.md`, otázky 1 až 9): text Kdo je na tvé straně v MDX s obaly, ne v YAML; prvky medailonků z pevného pravidla, ne náhodné; Dva životy v Době a lidech na všech stránkách osob | Prázdná odpověď znamená souhlas |
+
 ## 26. 10. 2026: Stoický týden, uzavření
 
 | Rozhodnutí | Důvod |
