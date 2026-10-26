@@ -17,6 +17,8 @@
     /** odstavce textu jako HTML (radek: kurzíva, nezlomitelné mezery) */
     text: string[];
     citat?: { cesky: string; autor: string; dilo: string; misto: string };
+    /** odstavce za citátem jako HTML */
+    poCitatu?: string[];
     /** mez jako HTML */
     mez: string;
     odkaz?: { href: string; text: string };
@@ -145,6 +147,7 @@
               <blockquote><p>„{d.citat.cesky}“</p></blockquote>
               <figcaption class="t-popisek">{d.citat.autor}, <cite>{d.citat.dilo}</cite> {d.citat.misto}</figcaption>
             </figure>
+            {#each d.poCitatu ?? [] as o}<p>{@html o}</p>{/each}
           {/if}
           <p class="den__mez"><span class="den__mez-nadpis">Kdy přestat</span> {@html d.mez}</p>
           {#if d.psani}

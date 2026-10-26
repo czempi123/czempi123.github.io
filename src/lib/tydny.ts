@@ -31,6 +31,7 @@ export function kontrolaTydne(
   t.dny.forEach((d, i) => {
     if (d.cislo !== i + 1) chyby.push(`Týden „${id}“: den na místě ${i + 1} má číslo ${d.cislo}.`);
     if (!znam.osoby.has(d.osoba)) chyby.push(`Týden „${id}“, den ${d.cislo}: osoba „${d.osoba}“ není v lide.yaml.`);
+    if (d.poCitatu && !d.citat) chyby.push(`Týden „${id}“, den ${d.cislo}: text za citátem bez citátu.`);
   });
   for (const c of citatyTydne(t)) {
     if (!znam.citaty.has(c)) chyby.push(`Týden „${id}“: citát „${c}“ není v zdroje.yaml.`);

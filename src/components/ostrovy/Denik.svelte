@@ -175,7 +175,7 @@
       {#each nabidkaTydnu as t (t.id)}
         <li>
           <p class="otazka"><a href={t.odkaz}>{t.nazev}</a></p>
-          <p class="t-popisek">{t.vstup}. Kdykoli budeš chtít.</p>
+          <p class="t-popisek">{t.vstup}. Začni, až budeš chtít.</p>
         </li>
       {/each}
     </ul>

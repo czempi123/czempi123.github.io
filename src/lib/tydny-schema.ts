@@ -23,6 +23,8 @@ export const Den = z
     text: Text,
     /** citát dne (id v zdroje.yaml); den může být i bez citátu */
     citat: Id.optional(),
+    /** odstavce za citátem: návrat k případu po citátu (atlas-psani); jen u dne s citátem */
+    poCitatu: Text.optional(),
     /** kdy cvičení nechat, jednou větou */
     mez: Text,
     /** kde je celé cvičení nebo k němu víc (karta Zkus to žít, krok cesty) */

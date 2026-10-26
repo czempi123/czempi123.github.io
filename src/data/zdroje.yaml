@@ -127,7 +127,7 @@ prameny:
   - { id: dl-x-136, druh: pramen, nazev: "Životy filozofů X, 136–138", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Klidová slast (ataraxia, aponia) a slast v pohybu (radost, veselí), citát ze spisu O volbě (136); rozdíl od kyrénaiků (136–137)." }
   - { id: dl-x-139, druh: pramen, nazev: "Hlavní myšlenky (Životy filozofů X, 139–154)", autor: Epikúros, dilo: "Kyriai doxai u Diogena Laertia, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "KD 3 strop slasti (139); KD 15 bohatství přírody, KD 18 slast se jen obměňuje (144); KD 26–28 nenutné touhy, přátelství (148); KD 29 trojí dělení tužeb se scholiem (149). 3. 10. 2026 (celek 4): KD 34–35, nespravedlnost a strach z odhalení (151). 8. 10. 2026 (celek 6): KD 2 smrt se nás netýká (139); KD 4 velká bolest je krátká (140); KD 19–21 omezený čas pojme stejně slasti jako nekonečný (145–146)." }
   - { id: gnomologium-vaticanum, druh: pramen, nazev: "Vatikánské výroky", autor: Epikúros, dilo: "Gnomologium Vaticanum Epicureum, vyd. P. von der Mühll (Teubner 1922), First1KGreek", url: "https://github.com/OpenGreekAndLatin/First1KGreek/blob/master/data/tlg0537/tlg014/tlg0537.tlg014.1st1K-grc1.xml", overeno: 2026-10-01, poznamka: "VS 23 přátelství (rukopis ἀρετή, vydavatel αἱρετή); VS 25 chudoba a bohatství; VS 33 hlas těla (jméno Dia doplněk); VS 52 přátelství tančí kolem světa; VS 68 komu je málo, co stačí. 8. 10. 2026 (celek 6): VS 14 rodíme se jednou a život se promarní odkládáním; VS 31 kvůli smrti bydlíme ve městě bez hradeb; VS 38 malý je, kdo má mnoho důvodů odejít ze života (do studentského textu ne); VS 55 neštěstí léčit vděčností za to, co bylo; VS 66 soucit s přáteli péčí, ne nářkem." }
-  - { id: seneca-epistulae, druh: pramen, nazev: "Dopisy Luciliovi 18 a 21", autor: Seneca, dilo: "Epistulae morales, lat. R. M. Gummere (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1017/phi015/phi1017.phi015.perseus-lat2.xml", overeno: 2026-10-01, poznamka: "Epikúros měl dny skrovného jídla, méně než as, Metrodóros celý (18, 9, podle dopisu Polyainovi z roku archonta Charína); nápis na zahradách, správce, polenta a voda (21, 10; rukopisy se v místě nápisu rozcházejí); žaludek je skromný věřitel (21, 11)." }
+  - { id: seneca-epistulae, druh: pramen, nazev: "Dopisy Luciliovi 18 a 21", autor: Seneca, dilo: "Epistulae morales, lat. R. M. Gummere (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1017/phi015/phi1017.phi015.perseus-lat2.xml", overeno: 2026-10-01, poznamka: "Voják i v míru staví val, cvičit předem, „hoc est quod timebatur?“ (18, 5–6; Stoický týden bere jen 18, 6, ne jídlo z 18, 5–9). Epikúros měl dny skrovného jídla, méně než as, Metrodóros celý (18, 9, podle dopisu Polyainovi z roku archonta Charína); nápis na zahradách, správce, polenta a voda (21, 10; rukopisy se v místě nápisu rozcházejí); žaludek je skromný věřitel (21, 11)." }
   - { id: seneca-vita-beata, druh: pramen, nazev: "O blaženém životě", autor: Seneca, dilo: "De vita beata (The Latin Library)", url: "https://www.thelatinlibrary.com/sen/sen.vita.shtml", overeno: 2026-10-01, poznamka: "Blažený život je v souladu s přírodou, dary štěstěny užívá, neslouží jim (3, 3); Epikúrova slast je střízlivá, škola má neprávem špatnou pověst (12, 4 – 13, 2); výčitka pokrytectví (17, 1–2); moudrý bohatství neodmítá (23, 3), bohatství není dobro, ale je užitečné (24, 5); u moudrého slouží, u hlupáka vládne (26, 1)." }
   - { id: tacitus-annales, druh: pramen, nazev: "Letopisy XIII, 42 a XIV, 53–54", autor: Tacitus, dilo: "Annales, lat. C. D. Fisher (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1351/phi005/phi1351.phi005.perseus-lat1.xml", overeno: 2026-10-01, poznamka: "Suillius vyčítá Senekovi 300 milionů sesterciů za čtyři roky u dvora (XIII, 42); Seneca prosí Nerona, ať si majetek vezme zpět (XIV, 53–54, stylizovaná řeč)." }
   - { id: cicero-nd-i-93, druh: pramen, nazev: "O povaze bohů I, 93", autor: Cicero, dilo: "De natura deorum, lat. O. Plasberg (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi0474/phi050/phi0474.phi050.perseus-lat2.xml", overeno: 2026-10-01, poznamka: "Akademik Cotta posměšně: i Leontion se odvážila psát proti Theofrastovi, sice vytříbenou attičtinou." }
@@ -682,6 +682,17 @@ citaty:
     preklad:
       druh: vlastni
       podle: "latinský text (Gummere); zkráceno"
+    zdroj: seneca-epistulae
+  - id: seneca-ep-18-6-val
+    osoba: seneca
+    autor: Seneca
+    dilo: Dopisy Luciliovi
+    misto: 18, 6
+    cesky: "Voják i uprostřed míru cvičí, bez jediného nepřítele staví val a unavuje se zbytečnou prací, aby zvládl tu nutnou."
+    original: "Miles in media pace decurrit, sine ullo hoste vallum iacit et supervacuo labore lassatur, ut sufficere necessario possit."
+    preklad:
+      druh: vlastni
+      podle: "latinský text (Perseus); zkráceno o následující větu"
     zdroj: seneca-epistulae
   - id: vita-beata-13
     osoba: seneca

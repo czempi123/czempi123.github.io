@@ -30,6 +30,7 @@ const dny = t.dny.map((d) => {
     doba: nezlomitelne(d.doba),
     text: odstavce(d.text),
     ...(c ? { citat: { cesky: nezlomitelne(c.cesky), autor: c.autor, dilo: c.dilo, misto: c.misto } } : {}),
+    ...(c && d.poCitatu ? { poCitatu: odstavce(d.poCitatu) } : {}),
     mez: radek(d.mez),
     ...(d.odkaz ? { odkaz: { href: d.odkaz.href, text: nezlomitelne(d.odkaz.text) } } : {}),
     ...(d.psani ? { psani: d.psani } : {}),

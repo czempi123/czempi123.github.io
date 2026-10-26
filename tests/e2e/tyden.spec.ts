@@ -18,9 +18,9 @@ test('stránka: námitka, pravidla, sedm dnů, první otevřený; žádné séri
   await page.setViewportSize({ width: 375, height: 812 });
   await otevri(page);
   await expect(page.locator('h1')).toHaveText('Stoický týden');
-  await expect(page.locator('.namitka')).toContainText('Stoik neznamená člověk beze citu.');
+  await expect(page.locator('.namitka')).toContainText('Česky se „stoicky“ říká tomu, co člověk snese bez hnutí');
   await expect(page.locator('.tyden__hlava .citat')).toContainText('Nemám být bez citu jako socha.');
-  await expect(page.locator('.pravidla')).toContainText('Kdykoli přestaň, den můžeš přeskočit, nic se nepočítá.');
+  await expect(page.locator('.pravidla')).toContainText('Kterýkoli den můžeš přeskočit a kdykoli přestat, nic se nepočítá.');
   await expect(page.locator('.den')).toHaveCount(7);
   await expect(hlava(page, 1)).toHaveAttribute('aria-expanded', 'true');
   for (const n of [2, 3, 4, 5, 6, 7]) {
@@ -98,16 +98,16 @@ test('den 7: věta a poznámka se uloží samy, vydrží obnovení a deník je u
   await page.setViewportSize({ width: 375, height: 812 });
   await otevri(page, `${ADRESA}#den-7`);
   await expect(hlava(page, 7)).toHaveAttribute('aria-expanded', 'true');
-  await page.getByLabel('Tvoje věta').fill('Vstáváš k práci člověka.');
-  await page.getByLabel('Poznámka do deníku').fill('Pomohl mi čtvrtý den.');
+  await page.getByLabel('Věta, kterou si necháš').fill('Vstáváš k práci člověka.');
+  await page.getByLabel('Který den ti pomohl a který ne').fill('Pomohl mi čtvrtý den.');
   await expect(page.getByText('Uloženo v deníku.')).toBeVisible();
   await den(page, 7).getByRole('button', { name: 'Hotovo', exact: true }).click();
 
   await page.reload();
   await page.waitForSelector('astro-island[component-url*="Tyden"]:not([ssr])', { state: 'attached' });
   await hlava(page, 7).click();
-  await expect(page.getByLabel('Tvoje věta')).toHaveValue('Vstáváš k práci člověka.');
-  await expect(page.getByLabel('Poznámka do deníku')).toHaveValue('Pomohl mi čtvrtý den.');
+  await expect(page.getByLabel('Věta, kterou si necháš')).toHaveValue('Vstáváš k práci člověka.');
+  await expect(page.getByLabel('Který den ti pomohl a který ne')).toHaveValue('Pomohl mi čtvrtý den.');
 
   await page.goto('/denik/');
   await page.waitForSelector('astro-island[component-url*="Denik"]:not([ssr])', { state: 'attached' });
@@ -124,7 +124,7 @@ test('deník bez přijatého týdne ho nabídne tiše jako odkaz; prázdný den�
   await page.waitForSelector('astro-island[component-url*="Denik"]:not([ssr])', { state: 'attached' });
   const nabidka = page.locator('.seznam--tydny');
   await expect(nabidka.getByRole('link', { name: 'Stoický týden' })).toHaveAttribute('href', ADRESA);
-  await expect(nabidka).toContainText('Sedm krátkých cvičení, jedno na den. Kdykoli budeš chtít.');
+  await expect(nabidka).toContainText('Na každý den jedno krátké stoické cvičení. Začni, až budeš chtít.');
 });
 
 test('klávesnice: Tab na hlavičku dne, Enter ho otevře, mezerník označí Hotovo', async ({ page }) => {

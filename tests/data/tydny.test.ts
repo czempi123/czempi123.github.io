@@ -62,7 +62,7 @@ describe('data týdnů', () => {
     }
   });
 
-  it('kontrola najde chybějící citát, osobu, pramen, mezeru v číslech, trojí citát i dvě psaní', () => {
+  it('kontrola najde chybějící citát, osobu, pramen, mezeru v číslech, trojí citát, dvě psaní i text za chybějícím citátem', () => {
     const den = stoicky.dny[0];
     const spatny = {
       ...stoicky,
@@ -72,6 +72,7 @@ describe('data týdnů', () => {
         { ...den, cislo: 1, citat: 'hovory-v-1' },
         { ...den, cislo: 3, osoba: 'nikdo', citat: 'hovory-v-1', psani: { veta: 'a', poznamka: 'b' } },
         { ...den, cislo: 4, citat: 'neni-citat', psani: { veta: 'a', poznamka: 'b' } },
+        { ...den, cislo: 5, citat: undefined, poCitatu: 'Text za citátem.' },
       ],
     };
     const chyby = kontrolaTydne('x', spatny, znam).join('\n');
@@ -81,6 +82,7 @@ describe('data týdnů', () => {
     expect(chyby).toContain('pramen „neni-pramen“');
     expect(chyby).toContain('„hovory-v-1“ zazní 3krát');
     expect(chyby).toContain('psaní smí mít nejvýš jeden den');
+    expect(chyby).toContain('den 5: text za citátem bez citátu');
   });
 
   it('schéma odmítne neznámé pole a odkaz mimo atlas', () => {
