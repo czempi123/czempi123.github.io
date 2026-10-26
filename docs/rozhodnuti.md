@@ -4,6 +4,13 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, uzavření
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Stoický týden schválen, větev `stoicky-tyden` sloučena do hlavní větve a poslána na GitHub; plán a provedená zadání v archivu | Autor: „Schvaluju uzavření“ |
+| Další větev je `interaktivita-v1` | Pořadí z 26. 10. 2026 (`docs/plan.md` › Další větve v pořadí) |
+
 ## 26. 10. 2026: Stoický týden, krok O
 
 | Rozhodnutí | Důvod |
