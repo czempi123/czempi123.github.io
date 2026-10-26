@@ -7,7 +7,7 @@ Antika má hotových všech deset cest z katalogu (1–8, 33, 34), dvanáct str�
 | S | Souhrnná revize antiky: čtení napříč celky, kontroly dat a rozhraní, inventura mezer vůči F3, připravenost na zkoušku se studenty | Fable 5.1 · high se skillem `atlas-revize` | hotovo 25. 10. 2026, verdikt „po opravách“ (`docs/revize/antika-2026-10-25.md`); zadání v `docs/archiv/zadani/revize-antiky.md` |
 | O | Opravy po revizi | Opus 5.5 · high (xhigh u delších zásahů do UI) | hotovo 26. 10. 2026 (`c20d1f1` až `fa227da`), oddíl Po O; zadání v `docs/archiv/zadani/revize-antiky.md` |
 | P13 | Úprava skillů po fázi: co se v antice opakovaně nepovedlo, zobecnit do skillů a `docs/pouceni.md`; hledání místa pro interaktivní prvek i ve skillech `atlas-osobnost` (profily, medailonky) a `atlas-data` | Opus 5.5 · high | hotovo 26. 10. 2026, oddíl Po P13; zadání v `docs/archiv/zadani/revize-antiky.md` |
-| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub, zveřejnění na GitHub Pages s `noindex` | Opus 5.5 · medium | zadání níž, po odpovědích v oddílu Co rozhodnout po P13 |
+| Uzavření | Schválení autorem, sloučení do hlavní větve, hlavní větev na GitHub, zveřejnění na GitHub Pages s `noindex` | Opus 5.5 · medium | příprava hotová 26. 10. 2026 (oddíl Po Uzavření – příprava); čeká na „schvaluji“ a na přejmenování a zveřejnění repozitáře |
 
 Stav a zadání dalších kroků se zapisují sem. Provedená zadání se v plném znění přesouvají do `docs/archiv/zadani/revize-antiky.md`.
 
@@ -237,6 +237,26 @@ Prázdná odpověď znamená souhlas s doporučením.
    Odpověď:
 5. **`noindex`:** značka `<meta name="robots" content="noindex">` v základním rozvržení na všech stránkách, bez zákazu v `robots.txt` (vyhledávač musí stránku přečíst, aby značku viděl). Po zkoušce ji jeden commit sundá. Doporučuji.
    Odpověď:
+
+## Po Uzavření – příprava (26. 10. 2026)
+
+Příprava podle odpovědí 1 až 5 po P13 (všechny prázdné, tedy souhlas): adresa (a), veřejný repozitář, `noindex`. Nic se neslučovalo ani neposílalo.
+
+- **Adresa:** `astro.config.mjs` má `site: 'https://czempi123.github.io'`, bez `base`. Atlas pojede v kořeni, až se repozitář `czempi123/atlas` přejmenuje na `czempi123.github.io`.
+- **`noindex`:** základní rozvržení dává každé stránce `<meta name="robots" content="noindex">` s komentářem „do konce zkoušky se studenty“; dílna má dál `noindex, nofollow` (jedna značka na stránku). `robots.txt` atlas nemá. Test `tests/e2e/noindex.spec.ts` čte všechny stránky v `dist/`.
+- **Workflow** `.github/workflows/pages.yml`: po pushi do `main` (a ručně) `npm ci`, `npm run build` s Pagefindem, `actions/upload-pages-artifact` z `dist/` a `actions/deploy-pages`; Node 22 jako v `kontroly.yml`. `kontroly.yml` je beze změny (jeho první komentář „Web se nenasazuje“ teď neplatí; zadání ho kázalo nechat).
+- **Licence obrázků:** všech 17 obrázků v `zdroje.yaml` zveřejnění na webu dovoluje: jedenáct CC0 nebo Public Domain z muzeí (Met, Art Institute of Chicago, Rijksmuseum, NGA), tři volná díla (dva odlitky ze SMK, rytina z roku 1715), Stockdale jako dílo federální vlády USA (PD-USGov-Military-Navy), Sókratés CC BY-SA 2.5 a dvě fotografie Seneky CC BY-NC-SA 4.0 (atlas je nekomerční; obě vyžadují jméno a licenci, ty jsou na profilu v Pramenech). Nejasná licence žádná.
+- **Licence vidět na stránce:** profily je mají v Pramenech, ale čtyři vstupy cest s obrazem (cesta 2 číše s loděmi, cesta 3 jeskyně, cesta 7 Cats, cesta 33 Stockdale) ukazovaly jen popisek. `Pribeh.astro` teď v kroku cesty přidá pod popisek řádek „autor. Licence [licence s odkazem].“; profil ho nemá (zdvojil by Prameny). Test `tests/e2e/obrazky-licence.spec.ts`: každá stránka v `dist/` s obrázkem ze `zdroje.yaml` má jeho licenci i odkaz na zdroj. Snímky na 390 a 1440 px ve světlém i tmavém režimu jsou v `Claude outputs/snimky-uzavreni/`.
+- **Písma a ostatní:** Newsreader a Instrument Sans jsou pod SIL Open Font License 1.1 (zveřejnění na webu dovoluje); ikony v `public/ikony/` jsou vlastní; podklad mapy je Natural Earth (volné dílo) z balíčku world-atlas (ISC).
+- **Kontrola repozitáře (soubory i historie):** žádné tokeny, klíče, hesla ani soubory `.env`; v historii čtyři shody vzoru klíče jsou náhodné řetězce uvnitř base64 obrázku. Telefony a e-maily v souborech jsou jen veřejné kontakty linek pomoci (Linka bezpečí, Vigvam, Anabell, 116 123) v podkladech, listech pro učitele a v `zdroje.yaml`; patří tam. Jména studentů, údaje o škole, kanceláři nebo bydlišti v repozitáři nejsou. Uživatelské jméno na Macu je v cestách v `CLAUDE.md` a v zadáních (`/Users/vojtechczempka/Atlas`). Dva commity mají autora `czempi123 <angelus.cz@gmail.com>`, ostatní (423) `czempi123@users.noreply.github.com`: po zveřejnění bude ta adresa u dvou commitů vidět; historie se nepřepisovala.
+- **Testy:** celé `npm test` (vitest 735, Playwright 548 prošlo, 1 spadl: průchod cesty 1 `cesta.spec.ts:88` čekal přes 15 s na hydrataci ostrovu při plném souběhu). Po úpravě Příběhu nové sestavení a dotčené testy (licence, `noindex`, odkazy, cesty 1, 2, 3, 7 a 33): 70 prošlo, průchod cesty 1 také.
+- **Náhled** (`npx astro preview`, `scripts/kontrola-zverejneni.mjs`): Domů, krok cesty 1 a 33, profil Seneky a deník 200 s `noindex` a ikonami, hledání „Epiktétos“ pět výsledků (první profil Epiktéta), žádný požadavek s chybou.
+- **CLAUDE.md:** místo „Web zatím běží jen lokálně“ adresa, workflow a `noindex` do konce zkoušky. Rozhodnutí v `docs/rozhodnuti.md`.
+
+Nad čím jsem váhal a co jsem zvolil:
+
+- **Kde ukázat licenci v cestě.** Řádek pod popiskem Příběhu jen v kroku cesty, ne Prameny na konci kroku: krok žádné Prameny nemá a čtyři obrázky by kvůli tomu dostaly nový oddíl. U PD a CC0 to zákon nežádá, ale zadání chce autora a licenci vidět všude.
+- **Nestálý test průchodu cesty 1** spadl při plném souběhu znovu (revize S ho opravovala delším čekáním). Samostatně i v menší sadě prochází. Nechal jsem ho být; patří k `interaktivita-v1` nebo dalšímu zásahu do testů, ne k zveřejnění.
 
 ## Zadání Uzavření
 

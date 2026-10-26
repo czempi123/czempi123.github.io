@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Souhrnná revize antiky (P11), Uzavření: příprava zveřejnění
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Atlas se zveřejní na GitHub Pages v kořeni adresy `https://czempi123.github.io/`: repozitář `czempi123/atlas` se přejmenuje na `czempi123.github.io`, `astro.config` má `site`, `base` ne | Odpovědi po P13, otázka 3 (a): odkazy začínající `/` zůstanou, jak jsou; podadresa by znamenala úpravu asi 180 odkazů |
+| Repozitář bude veřejný včetně `docs/`, `ucitel/`, podkladů a historie | Otázka 4: GitHub Pages na bezplatném účtu chce veřejný repozitář; kontrola repozitáře před zveřejněním nenašla nic, co veřejné být nemá |
+| Do konce zkoušky se studenty má každá stránka `<meta name="robots" content="noindex">` ze základního rozvržení (dílna dál `noindex, nofollow`); `robots.txt` nic nezakazuje. Hlídá to `tests/e2e/noindex.spec.ts` | Otázka 5: vyhledávač musí stránku přečíst, aby značku viděl; po zkoušce ji sundá jeden commit i s testem |
+| Web sestaví a nasadí `.github/workflows/pages.yml` po každém pushi do `main` (`npm ci`, `npm run build` s Pagefindem, `actions/deploy-pages`); `kontroly.yml` se nemění | Kontroly a nasazení zvlášť: nasazení nečeká na Playwright a kontroly běží jako dosud |
+| Příběh s obrazem v kroku cesty ukazuje pod popiskem autora a licenci s odkazem na zdroj; profil je má dál v Pramenech. Hlídá to `tests/e2e/obrazky-licence.spec.ts` pro každou stránku v `dist/` | Kontrola licencí: čtyři vstupy cest (Stockdale, jeskyně, Cats, číše s loděmi) ukazovaly jen popisek. Licence všech 17 obrázků zveřejnění dovolují (CC0, volné dílo, CC BY-SA 2.5 u Sókrata, CC BY-NC-SA 4.0 u Seneky, obojí se jménem a licencí na stránce) |
+
 ## 26. 10. 2026: Souhrnná revize antiky (P11), krok P13
 
 | Rozhodnutí | Důvod |

@@ -49,7 +49,7 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 - `npm run dev` spustí atlas lokálně, `npm run build` sestaví, `npm test` spustí kontroly dat a testy v Playwrightu.
 - Písma a ikony lokálně, žádné externí závislosti za běhu. Postup studenta a deník v localStorage s exportem.
 - Každou změnu UI ověř v prohlížeči na šířce 390 a 1440 px, ve světlém i tmavém režimu, a ovládáním klávesnicí.
-- Web zatím běží jen lokálně.
+- Web je zveřejněný na GitHub Pages (`https://czempi123.github.io/`): po každém pushi do `main` ho sestaví a nasadí `.github/workflows/pages.yml`. Do konce zkoušky se studenty má každá stránka `noindex` (`src/layouts/Zakladni.astro`), aby atlas nebyl ve vyhledávačích.
 
 ## Práce na autorově Macu
 
