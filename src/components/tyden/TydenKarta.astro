@@ -12,7 +12,7 @@ const { tyden, uroven = 2 } = Astro.props;
 const t = tyden.data;
 const adresa = adresaTydne(tyden.id);
 const idNadpisu = `tyden-karta-${tyden.id}`;
-const Nadpis = `h${uroven}`;
+const Nadpis = `h${uroven}` as 'h2' | 'h3';
 ---
 <section class={`tyden-karta obdobi-${t.obdobi}`} aria-labelledby={idNadpisu}>
   <p class="t-nadtitulek tyden-karta__nad">Zkus to žít · {t.dny.length} dní</p>
