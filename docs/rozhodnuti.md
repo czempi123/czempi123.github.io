@@ -4,6 +4,64 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 26. 10. 2026: Stoický týden, uzavření
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Stoický týden schválen, větev `stoicky-tyden` sloučena do hlavní větve a poslána na GitHub; plán a provedená zadání v archivu | Autor: „Schvaluju uzavření“ |
+| Další větev je `interaktivita-v1` | Pořadí z 26. 10. 2026 (`docs/plan.md` › Další větve v pořadí) |
+
+## 26. 10. 2026: Stoický týden, krok O
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Všech pět nálezů revize opraveno podle hotového znění; námitka nově „Epiktétos chtěl po svých žácích klid, a přesto jim říkal:“ | Odpovědi autora po R (obě prázdné, tedy souhlas) |
+| Den 3 citát `seneca-ep-13-4` nese jako to, „jak to se strachem bývá“, ne jako odpověď na otázku, proč na nejhorší myslet. Opravuje důvod zapsaný u kroku T | Dopis 13, 4 je v Senekově dvojici rad „netrp předem“ (revize R, nález 3) |
+| Mez dne 3 má jinou stavbu než meze dnů 2 a 4 („Nemoc, strach o někoho ani člověk, který ti ubližuje, sem nepatří“) | Znění z revize („Na … cvičení není“) by dalo tři dny po sobě stejnou větu |
+| Meze dnů 1 až 4 a 7 říkají, komu to říct; hlídá to test v `tests/data/tydny.test.ts` | Pravidla týdne z podkladů, body 2 a 5 |
+
+## 26. 10. 2026: Stoický týden, krok R
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Revize větve s verdiktem „po opravách“ (`docs/revize/stoicky-tyden-2026-10-26.md`): dva důležité nálezy (věta námitky, meze dnů 3 a 4) a tři drobné; opravy jdou do kroku O | Námitka upírala Epiktétovi klid, o který mu šlo; meze dnů 3 a 4 nedržely pravidla týdne z podkladů (nemoc a strach o někoho, „řekni to někomu“) |
+| Nadtitulek karty týdne v Kam dál portrétů je „Zkus to žít · 7 dní“, stejně jako na stránce a kartě týdne | Jeden týden měl dva nadtitulky |
+
+## 26. 10. 2026: Stoický týden, krok T
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Den týdne má nepovinné pole `poCitatu` (odstavce za citátem); den se skládá jako případ nebo otázka → citát → co uděláš ty. Text za citátem bez citátu zastaví sestavení | Bez něj by šest dnů ze sedmi končilo citátem jako tečkou a text by se k případu nevrátil (`atlas-psani` › Citáty) |
+| Den 3 má citát `seneca-ep-13-4` (Seneca, Dopisy 13, 4) místo nepovinného `rukojet-3-hrnek` | Den je Senekův a citát odpovídá na otázku, proč na nejhorší myslet schválně; hrnek je o lásce k věci a její ztrátě. V atlasu tím zazní dvakrát (cesta 33, krok 5) |
+| Den 5 má citát `seneca-ep-18-6-val` (Dopisy 18, 6) podle návrhu v podkladech; studentský text říká, že jídlo, pití, spánek, léky a teplo do cvičení nepatří | Odpovědi autora po P6 (2 a 4) |
+| `seneca-ep-18-9` v cestě „Kolik je dost?“, krok 4, podává omezování jídla jako vzorné cvičení; doporučeno vyměnit ve větvi `antika-doplnky`, v tomto kroku beze změny | Odpověď autora po P6 (3): jen se podívat |
+
+## 26. 10. 2026: Stoický týden, krok K, odpovědi autora
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Vstup z cest 5, 33 a 34 je karta týdne se sedmi dny (`TydenKarta.astro`): na posledním kroku pod závěrečným pravidlem a na přehledu cesty v Kam dál. Kde se ukáže, říká pole `nabizet.cesty` v datech týdne. Nahrazuje řádek v Kam dál z kroku K | Autor 26. 10. 2026: řádek v Kam dál je „dost nenápadně zahrabaný“, týden potřebuje přehlednou strukturu a místo, kde ho jde vidět. Pod pravidlem studenta neodvede dřív, než pravidlo napíše |
+| Den 6 s jedním citátem, nadpis meze „Kdy přestat“ u všech dnů (mez dne 7 přepíše T), drobečky přes Lidé a směry, dokud nevznikne stránka směru | Autor 26. 10. 2026: souhlas s doporučeními 2 až 4 |
+
+## 26. 10. 2026: Stoický týden, krok K
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Týden je data: kolekce `tydny` (`src/content/tydny/<id>.yaml`, schéma `src/lib/tydny-schema.ts`) a jedna šablona `/tyden/<id>/`. Sestavení zastaví chybějící citát, pramen nebo osoba a mezera v číslech dnů; test hlídá, že citát týdne nezazní víc než dvakrát v týdnu ani v týdnu a zbytku atlasu dohromady | Další týdny (epikurejský, sokratovský) přibudou bez přestavby; pravidlo „nejvýš dvakrát“ z `docs/pouceni.md` hlídá stroj |
+| Přijetí týdne je výzva `tyden-<id>` (poznámka ze dne 7 u ní); hotové dny, den, na kterém student skončil, a věta sobě jsou v nepovinném poli deníku `tydny` s jedním časem změny `kdy`, dny žádná data nemají. Hotovo a psaní týden přijmou samy, Další den bez přijetí nic nezapíše | Rozhodnutí z 26. 10. 2026 (poznámky jen v deníku, značka hotových dnů bez dat a sérií); čas změny potřebuje spojení se souborem („vyhraje novější“), student ho nikde nevidí |
+| Spojení deníku ze souboru: u téhož týdne vyhraje novější záznam celý (hotové dny se nesčítají); u výzvy zůstane dřívější přijetí a poznámka z té strany, kde se měnila později (`upraveno`) | Sečtení by vrátilo den, jehož značku student zrušil; poznámka bez času změny by se při spojení ztratila |
+| Otevře se den, na kterém student skončil (po Hotovo další, po Další den ten, na který přešel), jinak den po posledním hotovém; odkaz `#den-N` otevře ten den. Stránka se sama neposune | „Student pokračuje dnem, na kterém skončil“ bez kalendáře; přeskočený den se nikde nepočítá |
+| Vstupy: řádek v Kam dál na přehledu cest 5, 33 a 34 (kam vede Dokončit cestu) z pole `nabizet.cesty`, karta v Kam dál portrétů Seneky, Epiktéta a Marca, tichý odkaz v deníku, dokud týden není přijatý. Karty Věta pro sebe a Tři otázky večer beze změny | Poslední krok cesty končí závěrečným pravidlem; odkaz mezi textem a pravidlem by studenta odvedl dřív, než pravidlo napíše |
+| V přípravě hodiny je týden jedno zastavení `t:<id>` (druh `tyden`, celá stránka); dny zastavením nejsou. Při promítání jde Hotovo i přijetí do deníku promítání | Zadání K: jeden odkaz, třída týden projde doma; promítání nic nezapíše |
+
+## 26. 10. 2026: Stoický týden, založení větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Zkouška se studenty se odkládá, až autor studenty bude mít; pořadí větví pokračuje `stoicky-tyden`. Atlas zůstává zveřejněný s `noindex` | Autor zatím studenty nemá; ostatní větve na zkoušce nezávisí |
+| Podklady P6 Stoického týdne (`docs/podklady/stoicky-tyden.md`): den 1 z Hovorů V, 1 místo II, 1; den 5 „Den bez jednoho pohodlí“ s Dopisem 18, 6 místo Dopisu 18, 5–9, s výslovnou větou, že jídlo, pití, spánek, léky a teplo do cvičení nepatří; den 7 jedna věta sobě a poznámka do deníku; dny 3 a 6 se převezmou z hotových karet a zkrátí; pořadí dnů z architektury; námitka „stoik beze citu“ jednou větou na první obrazovce a odkazem ve dni 2, bez nového Sporu; Gellius a Diogenés Laertios jen v listu pro učitele | Autor 26. 10. 2026: „Souhlasím s doporučeními“. Dopis 18, 5–9 je o nejhorším jídle a hladových dnech, což zadání zakázalo; II, 1 je výčet lidí, na které cvičení nesmí mířit |
+| Poznámky Stoického týdne zůstávají jen v deníku v prohlížeči; týden přidá značku hotových dnů, bez dat a sérií; učitel poznámky nevidí a promítání do deníku nic nezapíše. Karet Zkus to žít je 18, ne 19 | Autor 26. 10. 2026 rozhodnutí přenechal mně. Deník je soukromý v localStorage a nic neodesílá; počet karet jsem přepočítal |
+
 ## 26. 10. 2026: Souhrnná revize antiky (P11), Uzavření: příprava zveřejnění
 
 | Rozhodnutí | Důvod |

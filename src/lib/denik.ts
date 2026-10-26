@@ -17,6 +17,8 @@ export interface Vyzva {
   odkaz: string;
   prijato: string;
   poznamka?: string;
+  /** kdy se naposledy změnila poznámka; jen pro spojení deníku ze souboru, nikde se neukazuje */
+  upraveno?: string;
 }
 export interface Denik {
   verze: 1;
@@ -44,6 +46,23 @@ export interface Denik {
   prectene?: Record<string, string[]>;
   /** Hodiny, které student otevřel z odkazu (nejnovější první, nejvýš deset). Nepovinné; součást exportu. */
   hodiny?: HodinaVDeniku[];
+  /**
+   * Týdny cvičení (Stoický týden) podle id týdne: hotové dny, den, na kterém student skončil, a věta ze dne
+   * s psaním. Nepovinné (starší deníky ho nemají), součást exportu. Přijetí týdne a poznámka jsou výzva (`vyzvy`).
+   */
+  tydny?: Record<string, StavTydne>;
+}
+
+/** Stav týdne cvičení v deníku. Žádná data dnů a žádné série: jen které dny jsou hotové. */
+export interface StavTydne {
+  /** hotové dny (1…N), seřazené */
+  hotove: number[];
+  /** den, na kterém student skončil (po Hotovo nebo Další den); podle něj se týden otevře */
+  den?: number;
+  /** věta sobě ze dne s psaním */
+  veta?: string;
+  /** poslední změna; jen pro spojení deníku ze souboru (vyhraje novější), nikde se neukazuje */
+  kdy: string;
 }
 
 export interface HodinaVDeniku {
@@ -177,6 +196,10 @@ function rozeber(t: string | null): Denik | null {
         if (plny.prectene !== undefined) {
           if (!objekt(plny.prectene)) delete plny.prectene;
           else plny.prectene = Object.fromEntries(Object.entries(plny.prectene).filter(([, k]) => Array.isArray(k)).map(([s, k]) => [s, (k as unknown[]).filter((x): x is string => typeof x === 'string')]));
+        }
+        if (plny.tydny !== undefined) {
+          if (!objekt(plny.tydny)) delete plny.tydny;
+          else plny.tydny = cisteTydny(plny.tydny);
         }
         if (plny.hodiny !== undefined) {
           if (!Array.isArray(plny.hodiny)) delete plny.hodiny;
@@ -336,6 +359,57 @@ export function zaznamenejHodinu(adresa: string, nazev: string): void {
   uloz(sHodinou(nacti(), { adresa, nazev }, new Date().toISOString()));
 }
 
+// ─── Týdny cvičení (Stoický týden) ────────────────────────────────────────────
+
+/** Jen platné záznamy týdnů (ruční úprava souboru nesmí rozbít deník). */
+function cisteTydny(x: Record<string, unknown>): Record<string, StavTydne> {
+  const ven: Record<string, StavTydne> = {};
+  for (const [id, t] of Object.entries(x)) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) continue;
+    const r = t as Record<string, unknown>;
+    if (typeof r.kdy !== 'string' || !Array.isArray(r.hotove)) continue;
+    const hotove = [...new Set(r.hotove.filter((d): d is number => Number.isInteger(d) && (d as number) >= 1))].sort((a, b) => a - b);
+    ven[id] = {
+      hotove,
+      ...(Number.isInteger(r.den) && (r.den as number) >= 1 ? { den: r.den as number } : {}),
+      ...(typeof r.veta === 'string' ? { veta: r.veta } : {}),
+      kdy: r.kdy,
+    };
+  }
+  return ven;
+}
+
+/** Stav týdne v deníku, nebo undefined. */
+export function stavTydne(id: string, d: Denik = nacti()): StavTydne | undefined {
+  return d.tydny?.[id];
+}
+
+/** Deník se změněným stavem týdne (hotové dny, den, věta) a novým časem změny. Vrací nový objekt. */
+export function sTydnem(d: Denik, id: string, zmena: Partial<Omit<StavTydne, 'kdy'>>, kdy: string): Denik {
+  const pred = d.tydny?.[id] ?? { hotove: [], kdy };
+  const novy: StavTydne = { ...pred, ...zmena, kdy };
+  if (!novy.veta) delete novy.veta;
+  return { ...d, tydny: { ...(d.tydny ?? {}), [id]: novy } };
+}
+
+/** Zapíše změnu týdne do deníku. */
+export function ulozTyden(id: string, zmena: Partial<Omit<StavTydne, 'kdy'>>): void {
+  uloz(sTydnem(nacti(), id, zmena, new Date().toISOString()));
+}
+
+/** Uloží poznámku k přijaté výzvě (prázdná poznámku smaže). Výzvu, která v deníku není, nezaloží. */
+export function ulozPoznamkuVyzvy(id: string, poznamka: string): void {
+  const d = nacti();
+  const v = d.vyzvy.find((x) => x.id === id);
+  if (!v) return;
+  const text = poznamka.trim();
+  if ((v.poznamka ?? '') === text) return;
+  const { poznamka: _stara, ...bez } = v;
+  const nova: Vyzva = { ...bez, ...(text ? { poznamka: text } : {}), upraveno: new Date().toISOString() };
+  d.vyzvy = d.vyzvy.map((x) => (x.id === id ? nova : x));
+  uloz(d);
+}
+
 export function prijmiVyzvu(v: Omit<Vyzva, 'prijato'>): void {
   const d = nacti();
   if (!d.vyzvy.some((x) => x.id === v.id)) d.vyzvy.push({ ...v, prijato: new Date().toISOString() });
@@ -428,7 +502,7 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
     ...ten,
     verze: 1,
     zapisy: spojPodle(ten.zapisy, novy.zapisy, (z) => z.id, (z) => z.kdy).reverse(),
-    vyzvy: [...ten.vyzvy, ...novy.vyzvy.filter((v) => !ten.vyzvy.some((x) => x.id === v.id))],
+    vyzvy: spojVyzvy(ten.vyzvy, novy.vyzvy),
     navstivene: spojPodle(ten.navstivene, novy.navstivene, (v) => v.odkaz, (v) => v.kdy).slice(0, 20),
     bloky,
     aktivita,
@@ -436,8 +510,36 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
   };
   if (ten.cteni || novy.cteni) vysledek.cteni = Object.fromEntries(Object.entries({ ...(novy.cteni ?? {}), ...(ten.cteni ?? {}) }).slice(-CTENI_NEJVYS));
   if (ten.prectene || novy.prectene) vysledek.prectene = prectene;
+  if (ten.tydny || novy.tydny) {
+    const tydny: Record<string, StavTydne> = { ...cisteTydny(novy.tydny ?? {}) };
+    for (const [id, t] of Object.entries(ten.tydny ?? {})) if (!tydny[id] || novejsi(t.kdy, tydny[id].kdy)) tydny[id] = t;
+    vysledek.tydny = tydny;
+  }
   if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
   return vysledek;
+}
+
+/**
+ * Výzvy z obou deníků bez opakování. U téže výzvy zůstane dřívější přijetí a poznámka z té strany, kde se měnila
+ * později (`upraveno`); když poznámku má jen jedna strana, zůstane. Nic se nesmaže.
+ */
+function spojVyzvy(ten: Vyzva[], soubor: Vyzva[]): Vyzva[] {
+  const cas = (v: Vyzva) => v.upraveno ?? '';
+  const vysledek = ten.map((t) => {
+    const s = soubor.find((x) => x.id === t.id);
+    if (!s) return t;
+    const [novejsiV, starsi] = cas(s) > cas(t) ? [s, t] : [t, s];
+    const poznamka = novejsiV.upraveno ? novejsiV.poznamka : (novejsiV.poznamka ?? starsi.poznamka);
+    const upraveno = novejsiV.upraveno ?? starsi.upraveno;
+    const { poznamka: _p, upraveno: _u, ...zaklad } = t;
+    return {
+      ...zaklad,
+      prijato: novejsi(s.prijato, t.prijato) ? t.prijato : s.prijato,
+      ...(poznamka ? { poznamka } : {}),
+      ...(upraveno ? { upraveno } : {}),
+    };
+  });
+  return [...vysledek, ...soubor.filter((v) => !ten.some((x) => x.id === v.id))];
 }
 
 /** Nahraje deník ze souboru a přidá ho k deníku v prohlížeči. Vrací false, když text deník atlasu není. */

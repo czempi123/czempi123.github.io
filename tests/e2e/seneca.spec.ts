@@ -157,7 +157,7 @@ test('Seneca: text drží pravidla celku (smrt na rozkaz, kdo co vypráví, co p
   await expect(page.locator('#co-zustalo .radek-pomoci')).toHaveText(/^\s*Pro případ, že by se to hodilo: Linka bezpečí 116\s111, zdarma a nonstop, i jako chat na linkabezpeci\.cz\.\s*$/);
 
   const kamDal = page.getByRole('navigation', { name: 'Kam dál' });
-  await expect(kamDal.getByRole('link')).toHaveText([/Cesta\s*Proč se bát smrti\?/, /Cesta\s*Co když přijde to nejhorší\?/, /Cesta\s*Kam mi mizí čas\?/, /Epiktétos/, /Marcus Aurelius/, /Velká otázka 1\s*Jak mám žít\?/]);
+  await expect(kamDal.getByRole('link')).toHaveText([/Cesta\s*Proč se bát smrti\?/, /Cesta\s*Co když přijde to nejhorší\?/, /Cesta\s*Kam mi mizí čas\?/, /Zkus to žít · 7 dní\s*Stoický týden/, /Epiktétos/, /Marcus Aurelius/, /Velká otázka 1\s*Jak mám žít\?/]);
   await expect(page.locator('[id="kdo-sokrates-seneca-vzdalenost"]')).toContainText('Sókratés a Seneca');
 });
 

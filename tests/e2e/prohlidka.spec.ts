@@ -31,6 +31,7 @@ const STRANKY: { cesta: string; nazev: string; nadpis: RegExp; preskocit?: strin
   { cesta: '/cesta/staci-vedet-co-je-spravne/', nazev: 'cesta-4', nadpis: /Stačí vědět, co je správné\?/ },
   { cesta: '/cesta/proc-se-bat-smrti/', nazev: 'cesta-8', nadpis: /Proč se bát smrti\?/ },
   { cesta: '/cesta/jsem-porad-tentyz-kdyz-se-menim/', nazev: 'cesta-2', nadpis: /Jsem pořád tentýž, když se měním\?/ },
+  { cesta: '/tyden/stoicky/', nazev: 'tyden-stoicky', nadpis: /Stoický týden/ },
 ];
 const SIRKY = [
   { sirka: 390, vyska: 844 },

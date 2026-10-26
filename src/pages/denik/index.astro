@@ -3,9 +3,13 @@
 import Zakladni from '../../layouts/Zakladni.astro';
 import Denik from '../../components/ostrovy/Denik.svelte';
 import { nactiNavraty } from '../../components/bloky/_navraty';
+import { getCollection } from 'astro:content';
+import { adresaTydne } from '../../lib/tydny';
 
 // Návraty cest: deník z nich nabídne nejvýš jeden, a to až pár dní po dokončení cesty.
 const navraty = await nactiNavraty();
+// Týdny cvičení: deník ukáže přijatý týden mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz.
+const tydny = (await getCollection('tydny')).map((t) => ({ id: t.id, nazev: t.data.nazev, odkaz: adresaTydne(t.id), vstup: t.data.vstup, pocet: t.data.dny.length }));
 ---
 <Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} kratkyTitulek="Můj deník" hledat={false}>
   <div class="stranka ctenarsky">
@@ -13,7 +17,7 @@ const navraty = await nactiNavraty();
       <h1 class="t-h1">Můj deník</h1>
       <p class="t-perex">Tvoje odpovědi, stanoviska a výzvy. Zůstávají jen v tomto prohlížeči; nikdo jiný je nevidí a nic se nehodnotí.</p>
     </header>
-    <Denik client:load navraty={navraty} />
+    <Denik client:load navraty={navraty} tydny={tydny} />
   </div>
 </Zakladni>
 

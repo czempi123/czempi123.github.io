@@ -109,6 +109,16 @@ describe('popisky', () => {
     expect(druhStranky(najdi('o:epiktetos'))).toBe('Profil');
     expect(druhStranky(najdi('h:jak-zit'))).toBe('Velká otázka');
   });
+  it('týden cvičení: celá stránka, štítek „Celý týden“, skupina „Zkus to žít“, ve filtru celých stránek', () => {
+    const t = z({ id: 't:stoicky', druh: 'tyden', nazev: 'Stoický týden', kde: 'Stoický týden', stranka: '/tyden/stoicky/', adresa: '/tyden/stoicky/', obdobi: 2 });
+    expect(stitekDruhu(t)).toBe('Celý týden');
+    expect(stitekStudenta(t)).toBe('Celý týden');
+    expect(kdeStoji(t)).toBe('Stoický týden');
+    expect(druhStranky(t)).toBe('Zkus to žít');
+    expect([...filtrujKatalog([...katalog, t], { hledat: '', obdobi: null, druh: 'stranky' }).shoda]).toContain('t:stoicky');
+    expect([...filtrujKatalog([...katalog, t], { hledat: 'stoicky', obdobi: 2, druh: null }).shoda]).toEqual(['t:stoicky']);
+    expect(stromKatalogu([...katalog, t]).map((g) => g.koren.id)).toContain('t:stoicky');
+  });
   it('počet zastavení', () => {
     expect(pocetZastaveni(0)).toBe('žádné zastavení');
     expect(pocetZastaveni(5)).toBe('5\u00a0zastavení');

@@ -24,6 +24,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Prosba o pomoc není předání rozhodnutí: rodiče, kteří Kratéta prosili, ať jí to rozmluví, mu rozhodnutí „nesvěřili“. Spojovací věta, která to tvrdí, dělá z rodičů ty, kdo rozhodují přes hlavu dítěte.
 - Výtka proti předvádění („kdo dělá opak toho, co se čeká, řídí se pořád tím, co se čeká“) zasáhne i toho, kdo se od rodiny liší tím, kým je: zužuj ji na to, kvůli čemu výtka padla („jen proto, aby se vymezil“).
 - Heslo SEP nebo IEP stahuj na Macu (`curl -sL -A "Mozilla/5.0"`, Python odstraní značky, `grep` v textu): WebFetch vrací celou stránku a zaplní kontext (heslo o Plútarchovi má přes sto tisíc znaků). Britannica `curl` nepustí (vrátí pár znaků), Perseus Hopper ano (`perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0258:book=6:chapter=1`), text knihy Diogena Laertia je tak lepší než XML z GitHubu.
+- Spojovací věta k námitce nesmí filozofovi upřít to, co opravdu chtěl: Epiktétos klid chtěl a odmítal jen necitelnost sochy, „chtěl něco jiného“ z námitky dělá slovní hříčku (stoicky-tyden, R).
 - Hotové znění z revize ověř v prameni celé, ne jen v citovaném řádku: Politika VII, 9 nevylučuje z občanství jen řemeslníky a obchodníky, ale i rolníky, a důvod volna stojí právě u nich (celek 9, O).
 - Medailonek dostane jen to, co nese pramen z `zdroje`: když pramen osobě žádné místo nedává (Lucretius v SEP), medailonek nevznikne a místo se neodhaduje.
 
@@ -81,6 +82,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Celek 7: citát, který soudí dvě věci (tělo a strach ze smrti), dostane otázku ke každé z nich. A otázka bloku za případem, ze kterého podle textu „nic neplyne“, se neptá, co si z něj student vezme.
 - Celek 9: popis prázdného volna („leží v posteli, je na obtíž sám sobě“) čte student, kterému je zle, jako popis sebe; obraz z pramene, který o nemoci není (sbírka bronzů, zápasy, holič), řekne totéž.
 - Celek 10: rada filozofa příteli v rozkazovacím způsobu („Představ si, že to, čeho se bojíš, se určitě stane“) čte student jako výzvu sobě; kde má výzva přijít až po námitce, piš radu ve třetí osobě, a stud z donucení nikdy ve druhé osobě s polem na psaní.
+- Mez cvičení o představě nejhoršího (a o pohledu shora) vylučuje i nemoc a strach o někoho, nejen přemítání a člověka, který ubližuje, a řekne, komu to říct: jinak si student, jehož blízký čeká na výsledky vyšetření, vybere právě tohle (stoicky-tyden, R).
 
 ## Co se skládá z dat
 

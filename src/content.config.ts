@@ -5,6 +5,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { Blok } from './lib/bloky-schema';
+import { Tyden } from './lib/tydny-schema';
 
 const id = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const obdobi = z.number().int().min(1).max(8);
@@ -155,4 +156,10 @@ const bloky = defineCollection({
   schema: Blok,
 });
 
-export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, pojmy, pribehy, nabozenstvi, bloky, kroky };
+/** Týdny cvičení v duchu Zkus to žít (Stoický týden): src/content/tydny/<id>.yaml → stránka /tyden/<id>/. */
+const tydny = defineCollection({
+  loader: glob({ pattern: '[^_]*.yaml', base: './src/content/tydny' }),
+  schema: Tyden,
+});
+
+export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, pojmy, pribehy, nabozenstvi, bloky, kroky, tydny };

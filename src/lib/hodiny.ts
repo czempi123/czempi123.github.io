@@ -15,9 +15,10 @@ import { ODDILY } from './oddily';
 /**
  * Druh zastavení. Id má tvar `<předpona>:<stránka>[/<část>]`:
  * k:<cesta> přehled cesty, k:<cesta>/<n> krok · o:<profil> celý profil, o:<profil>/<kotva> kapitola nebo oddíl ·
- * h:<otázka> celá stránka otázky, h:<otázka>/<osoba> hlas · b:<id bloku> blok · p:<id příběhu> příběh.
+ * h:<otázka> celá stránka otázky, h:<otázka>/<osoba> hlas · b:<id bloku> blok · p:<id příběhu> příběh ·
+ * t:<týden> celý týden cvičení (Stoický týden; třída ho projde doma, dny zastavením nejsou).
  */
-export type DruhZastaveni = 'cesta' | 'krok' | 'profil' | 'kapitola' | 'oddil' | 'otazka' | 'hlas' | 'blok' | 'pribeh';
+export type DruhZastaveni = 'cesta' | 'krok' | 'profil' | 'kapitola' | 'oddil' | 'otazka' | 'hlas' | 'blok' | 'pribeh' | 'tyden';
 
 export interface Zastaveni {
   id: string;
@@ -55,7 +56,7 @@ export interface Zastaveni {
 }
 
 /** Tvar id zastavení; jiný řetězec v odkazu se zahodí. */
-export const ID_ZASTAVENI = /^[kohbp]:[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/;
+export const ID_ZASTAVENI = /^[kohbpt]:[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/;
 
 // ─── Vstup katalogu: tvar kolekcí Astra, jen pole, která katalog potřebuje ───
 
@@ -77,6 +78,8 @@ export interface VstupKatalogu {
   otazky: { id: string; data: { cislo: number; otazka: string; hlasy?: { osoba: string }[] } }[];
   /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor */
   bloky: { id: string; data: { otazka?: string; nadtitulek?: string } }[];
+  /** týdny cvičení (src/content/tydny); starší vstup je nemá */
+  tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
   osoby: Map<string, OsobaKatalogu>;
 }
 
@@ -122,7 +125,7 @@ const adresa = (stranka: string, kotva: string | null) => (kotva ? `${stranka}#$
 
 /**
  * Seznam všech zastavení: cesty (přehled, kroky, bloky a příběhy v krocích), profily (celá stránka, kapitoly,
- * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy) a stránky otázek s hlasy. Medailonky v katalogu nejsou.
+ * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), stránky otázek s hlasy a týdny cvičení. Medailonky v katalogu nejsou.
  * Zastaví sestavení, když blok chybí v datech, kapitola v textu nesedí na kapitoly ve frontmatteru, nebo když
  * dvě zastavení dostanou stejné id.
  */
@@ -251,6 +254,12 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
       const kotva = `hlas-${o.id}`;
       vse.push({ id: `h:${q.id}/${o.id}`, druh: 'hlas', nazev: o.jmeno, kotva, adresa: adresa(stranka, kotva), obdobi: o.obdobi, osoba: o.id, rodic: idStranky, poradi: i + 1, ...spolecne });
     });
+  }
+
+  // Týdny cvičení: jen celá stránka, jeden odkaz; třída ho projde doma.
+  for (const t of [...(v.tydny ?? [])].sort((a, b) => a.data.obdobi - b.data.obdobi || a.id.localeCompare(b.id))) {
+    const stranka = `/tyden/${t.id}/`;
+    vse.push({ id: `t:${t.id}`, druh: 'tyden', nazev: t.data.nazev, kde: t.data.nazev, stranka, kotva: null, adresa: stranka, obdobi: t.data.obdobi, rodic: null, poradi: 0 });
   }
 
   const videne = new Map<string, Zastaveni>();

@@ -1,0 +1,65 @@
+---
+// Karta týdne cvičení (Stoický týden): kam týden vede a jakých sedm dnů ho tvoří, s odkazem na každý den.
+// Stojí sama tam, kde ji data týdne nabízejí (nabizet.cesty): na posledním kroku cesty pod závěrečným pravidlem
+// a na přehledu cesty v Kam dál. Nic se tu neukládá; stav dnů zná jen stránka týdne a deník.
+// <TydenKarta tyden={zaznam} uroven={2} />
+import type { CollectionEntry } from 'astro:content';
+import { adresaTydne, kotvaDne } from '../../lib/tydny';
+import { nezlomitelne } from '../../lib/sazba.js';
+
+interface Props { tyden: CollectionEntry<'tydny'>; uroven?: 2 | 3 }
+const { tyden, uroven = 2 } = Astro.props;
+const t = tyden.data;
+const adresa = adresaTydne(tyden.id);
+const idNadpisu = `tyden-karta-${tyden.id}`;
+const Nadpis = `h${uroven}`;
+---
+<section class={`tyden-karta obdobi-${t.obdobi}`} aria-labelledby={idNadpisu}>
+  <p class="t-nadtitulek tyden-karta__nad">Zkus to žít · {t.dny.length} dní</p>
+  <Nadpis class="t-h2 tyden-karta__nazev" id={idNadpisu}>{t.nazev}</Nadpis>
+  <p class="tyden-karta__vstup">{nezlomitelne(`${t.vstup}. ${t.pravidla}`)}</p>
+  <ol class="tyden-karta__dny">
+    {t.dny.map((d) => (
+      <li>
+        <a href={`${adresa}#${kotvaDne(d.cislo)}`}>
+          <span class="t-popisek tyden-karta__cislo">Den {d.cislo}</span>
+          <span class="tyden-karta__den">{nezlomitelne(d.nazev)}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+  <p class="tyden-karta__akce"><a class="blok__tl blok__tl--hlavni" href={adresa}>Otevřít {t.nazev.charAt(0).toLocaleLowerCase('cs') + t.nazev.slice(1)}</a></p>
+</section>
+
+<style>
+  .tyden-karta {
+    max-width: 960px;
+    margin: var(--s-8) auto 0;
+    padding: var(--s-6) var(--s-5);
+    border-radius: var(--r-md);
+    background: var(--pc-tint);
+    scroll-margin-top: calc(var(--hlavicka) + var(--hodina) + var(--s-4));
+  }
+  .tyden-karta__nad { margin: 0 0 var(--s-2); color: var(--ink-2); }
+  .tyden-karta__nazev { margin: 0 0 var(--s-3); }
+  .tyden-karta__vstup { margin: 0 0 var(--s-5); max-width: var(--ctenarsky-sloupec); }
+  .tyden-karta__dny { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: var(--s-2); margin: 0 0 var(--s-5); padding: 0; list-style: none; }
+  .tyden-karta__dny a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 56px;
+    padding: var(--s-2) var(--s-4);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .tyden-karta__dny a:hover { border-color: var(--muted); }
+  .tyden-karta__dny a:hover .tyden-karta__den { text-decoration: underline; text-underline-offset: 3px; }
+  .tyden-karta__cislo { color: var(--pc); }
+  .tyden-karta__den { font-family: var(--font-serif); font-size: var(--fs-text); line-height: 1.3; }
+  .tyden-karta__akce { margin: 0; }
+  @media (min-width: 900px) { .tyden-karta { padding: var(--s-7) var(--s-8); } }
+</style>

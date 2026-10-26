@@ -1,0 +1,117 @@
+# Stoický týden: sedm krátkých cvičení, jedno na den (docs/architektura.md › Stoický týden,
+# plán větve docs/plany/stoicky-tyden.md, podklady docs/podklady/stoicky-tyden.md, list pro učitele ucitel/stoicky-tyden.md).
+nazev: Stoický týden
+obdobi: 2
+vstup: Na každý den jedno krátké stoické cvičení
+uvod: Ráno se ti nechce vstávat, o přestávce tě rozhodí jedna zpráva a večer ti hlavou běží, co se nepovedlo. Stoikové měli na takové chvíle krátká cvičení, která se dala dělat kdekoli. Sedm z nich tu máš, na každý den jedno, od bývalého otroka, od císaře a od Neronova učitele. Na konci týdne budeš vědět, které ti sedí, a budeš mít větu, kterou si z týdne necháš.
+namitka:
+  text: "Česky se „stoicky“ říká tomu, co člověk snese bez hnutí. Epiktétos chtěl po svých žácích klid, a přesto jim říkal:"
+  citat: rozpravy-iii-2-4
+pravidla: Kterýkoli den můžeš přeskočit a kdykoli přestat, nic se nepočítá.
+nabizet:
+  cesty: [co-mam-ve-svych-rukou, co-kdyz-prijde-to-nejhorsi, kam-mi-mizi-cas]
+  osobnosti: [seneca, epiktetos, marcus-aurelius]
+zdroje: [marcus-hovory, epiktetos-rukojet, epiktetos-rozpravy, seneca-epistulae-nejhorsi, seneca-epistulae, seneca-de-ira]
+dny:
+  - cislo: 1
+    nazev: Ranní příprava
+    osoba: marcus-aurelius
+    doba: minuta ráno
+    text: |
+      Rána, kdy se z postele nechce, znal i římský císař. Marcus Aurelius si na ně do zápisníku napsal:
+    citat: hovory-v-1
+    poCitatu: |
+      Než vstaneš ty, vyber si jednu věc dneška, do které se ti nechce. Písemka, trénink, úkol, který odkládáš.
+
+      Řekni si: tohle je dnes moje práce. Víc na to ráno nepotřebuješ.
+    mez: "Když je ta věc člověk, který ti ubližuje, nebo když se ti nechce vstávat už celé týdny, cvičení to nespraví: řekni to někomu, komu věříš."
+
+  - cislo: 2
+    nazev: Co je v mé moci
+    osoba: epiktetos
+    doba: minuta, až tě něco rozhodí
+    text: |
+      Až tě dnes něco rozzlobí nebo vyděsí, nech odpověď chvíli počkat. Epiktétos učil žáky, aby tomu prvnímu, co se v nich zvedne, řekli jedinou větu:
+    citat: rukojet-1-5
+    poCitatu: |
+      Pak se zeptej: Je tohle moje? Co s tím můžu udělat já?
+
+      Vztek ani strach tím hned nezmizí. Dostaneš jen chvíli, než podle nich něco uděláš.
+    mez: "Na to, co ti dělá člověk, který ti ubližuje, tohle cvičení není: to není dojem, o tom řekni někomu, komu věříš."
+    odkaz:
+      href: /cesta/co-mam-ve-svych-rukou/7/
+      text: "Kamenná tvář: smí stoik cítit?"
+
+  - cislo: 3
+    nazev: Představa nejhoršího
+    osoba: seneca
+    doba: pět minut
+    text: |
+      Které malé věci se v nejbližších dnech trochu bojíš? Třeba testu nebo rozhovoru. Vezmi jednu a na pět minut si ji promysli.
+
+      Co nejhoršího se může rozumně stát? Co bys pak udělal jako první? Co z toho máš v rukou už dnes?
+
+      Myslet na to, čeho se bojíš, zní jako zbytečné trápení. Seneca ale příteli napsal, jak to se strachem bývá:
+    citat: seneca-ep-13-4
+    poCitatu: |
+      Jestli to platí i o tvé věci, poznáš až po těch pěti minutách. Pak to odlož a jdi dělat něco, co máš rád.
+    mez: "Když se ti ta věc točí v hlavě už teď, dnešek přeskoč. Nemoc, strach o někoho ani člověk, který ti ubližuje, sem nepatří: o tom řekni někomu, komu věříš."
+    odkaz:
+      href: /cesta/co-kdyz-prijde-to-nejhorsi/8/#zkus-to-zit
+      text: "Pět minut, jedna věc: celé cvičení v cestě o nejhorším"
+
+  - cislo: 4
+    nazev: Pohled shora
+    osoba: marcus-aurelius
+    doba: dvě až tři minuty
+    text: |
+      Vyber jednu starost, která se týká jen tebe: co si o tobě pomyslí druzí, nebo jak ti něco dopadne. Marcus Aurelius si předepisoval, odkud se na takové věci dívat:
+    citat: hovory-ix-30
+    poCitatu: |
+      Tvoje mapa bude jiná. Klidně zavři oči a vzlétni: tvoje ulice, město, země a všude lidé, z nichž každý má svůj den. Kde v tom je tvoje starost?
+
+      Pak se vrať a pojmenuj tři věci kolem sebe. Nakonec si řekni jednu věc, kterou s tou starostí dnes uděláš.
+    mez: Na ztrátu, nemoc, strach o někoho ani na to, co ti někdo dělá, cvičení není. Když se po něm cítíš od všeho daleko, přestaň a řekni to někomu, komu věříš.
+
+  - cislo: 5
+    nazev: Den bez jednoho pohodlí
+    osoba: seneca
+    doba: celý den
+    text: |
+      Ráno si vyber jedno pohodlí, bez kterého se dnes obejdeš a nikdo si nevšimne, že chybí. Cesta autobusem bez sluchátek, přestávka bez telefonu, večer bez seriálu. Jídlo, pití, spánek, léky a teplo do cvičení nepatří.
+
+      Proč si dělat den schválně nepohodlný, když se nic neděje? Seneca na to v dopise odpověděl obrazem z vojska:
+    citat: seneca-ep-18-6-val
+    poCitatu: |
+      Večer se zeptej Senekovou otázkou: Tohle bylo to, čeho jsem se bál?
+    mez: "Když tě při výběru napadne jídlo nebo něco s vlastním tělem, den přeskoč: o tom tohle cvičení není."
+
+  - cislo: 6
+    nazev: Večerní ohlédnutí
+    osoba: seneca
+    doba: pár minut večer
+    text: |
+      Seneca měl zvyk, který převzal od filozofa Sextia. Když večer odnesli světlo a jeho žena zmlkla, prošel si celý den a ptal se jako Sextius:
+    citat: seneca-ira-iii-36-otazky
+    poCitatu: |
+      Dnes večer, než usneš, si na ně odpověz sám. V duchu, nic nepiš. Ptáš se jen na to, co jsi dnes udělal ty, ne co udělali druzí tobě.
+    mez: Když ti to večer vypíše jen chyby, zastav se u poslední otázky a odpusť si, jako si odpouštěl Seneca.
+    odkaz:
+      href: /osobnost/seneca/#zkus-to-zit
+      text: "Tři otázky večer: celé cvičení v Senekově portrétu"
+
+  - cislo: 7
+    nazev: Jedna věta sobě
+    osoba: marcus-aurelius
+    doba: pár minut, s psaním
+    text: |
+      Marcus Aurelius psal pokyny sám sobě a oslovoval se v nich „ty“. Napiš si dnes jednu takovou větu: co si z týdne chceš nechat. Nikomu ji ukazovat nemusíš.
+
+      Pod ni si můžeš zapsat, který den ti pomohl a který ne, třeba i jednu věc, kterou jsi tenhle týden udělal jinak. Když nepomohl žádný, napiš to tak. I to je odpověď.
+    mez: Když se ti při psaní vrátí něco těžkého, přestaň a řekni o tom někomu, komu věříš.
+    odkaz:
+      href: /osobnost/marcus-aurelius/#zkus-to-zit
+      text: "Věta pro sebe: jedna věta každý den, sedm dní po sobě"
+    psani:
+      veta: Věta, kterou si necháš
+      poznamka: Který den ti pomohl a který ne
