@@ -4,6 +4,18 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 29. 10. 2026: Interaktivita v1, krok K2 (Dva životy, Kdo žil dřív? na medailoncích)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pravidla výběru jsou čisté funkce v `src/lib/dvojice.ts`: výchozí dvojice Dvou životů je první učitel, jinak první žák, jinak nejbližší současník s vlastní stránkou podle poloviny života; druhý člověk Kdo žil dřív? na medailonku je nejbližší osoba s profilem nebo portrétem bez vztahu. Při shodě rozhoduje pořadí v `lide.yaml` | Zadání K2 a odpovědi k otázkám 6 a 7: pevně, ne náhodně, aby stránka, testy i zastavení v hodině byly pokaždé stejné |
+| Dva životy stojí v Době a lidech pod mini osou, tedy na všech stránkách osob; společný profil srovnává hlavní osobu | Otázka 6; Doba a lidé je jedna komponenta, prvek vznikne jednou |
+| Popisek osoby stránky stojí nad pruhy, popisek druhého pod nimi; společná léta a mezera leží jen mezi pruhy | První verze měla zvýraznění přes oba řádky a čárkovaný okraj přetínal jméno a roky |
+| Nabídka je nativní `<select>` se skupinami „Z Doby a lidí“ a „Období N: název“, ukáže se až po hydrataci (`client:idle`) | Funguje klávesnicí, napsáním začátku jména i na telefonu bez vlastní logiky; bez JavaScriptu by nefunkční nabídka mátla |
+| Současníci mini osy se počítají jednou funkcí (`soucasniciNaOse`), ze které bere i nabídka | Skupina „Z Doby a lidí“ musí ukázat právě ty lidi, které student na stránce viděl |
+| `vzdalenost()` u dvou žen píše „Žily současně“ | Dva životy dovolí srovnat kohokoli s kýmkoli (pouceni › Co se skládá z dat: rod obou lidí) |
+| Katalog hodin nese medailonky: celá stránka (`o:<id>`, příznak `medailonek`, štítek „Celý medailonek“) a blok Kdo žil dřív? pod ní | Zadání chtělo zastavení z medailonků s pevným id a podobami; dosud v katalogu medailonky nebyly vůbec |
+
 ## 29. 10. 2026: Interaktivita v1, krok K1 (Kdo je na tvé straně)
 
 | Rozhodnutí | Důvod |

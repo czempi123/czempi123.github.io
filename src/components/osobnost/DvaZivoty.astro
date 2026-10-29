@@ -1,0 +1,29 @@
+---
+// Dva životy v Době a lidech: dva pruhy na jedné ose, osoba stránky a druhý člověk, kterého student vybere.
+// Výchozí dvojice a nabídka se skládají z dat (src/lib/dvojice.ts), takže je dostane každá stránka osoby najednou.
+// Použití: <DvaZivoty osoba={osoba} dalsi={dalsi} /> (jen v DobaALide.astro)
+import Ostrov from '../ostrovy/DvaZivoty.svelte';
+import type { TOsoba } from '../../lib/schema';
+import { data, vztahyOsoby } from '../../lib/data';
+import { zivot } from '../../lib/casy';
+import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { soucasniciNaOse, vychoziDvojice, vyberDruhehoZivota } from '../../lib/dvojice';
+
+interface Props { osoba: TOsoba; dalsi?: TOsoba[] }
+const { osoba, dalsi = [] } = Astro.props;
+const osoby = [osoba, ...dalsi];
+const naStrance = new Set(osoby.map((o) => o.id));
+const adresa = await adresaStranekOsob();
+const vychozi = vychoziDvojice(osoba, data.lide, data.vztahy, (id) => !!adresa(id), naStrance);
+// „Z Doby a lidí“: lidé ze vztahů a z mini osy, tedy ti, které student na stránce právě viděl.
+const zDoby = new Set([
+  ...osoby.flatMap((o) => vztahyOsoby(o.id).map((v) => v.druhy.id)),
+  ...soucasniciNaOse(osoby, data.lide, data.vztahy).map((o) => o.id),
+]);
+const vytah = (o: TOsoba) => ({
+  id: o.id, jmeno: o.jmeno, jmeno2: o.jmeno2, zena: o.zena, obdobi: o.obdobi,
+  narozen: o.narozen, zemrel: o.zemrel, aktivni: o.aktivni, mista: [], zivotText: zivot(o),
+});
+const skupiny = vyberDruhehoZivota(naStrance, zDoby, data.lide, data.obdobi).map((s) => ({ nazev: s.nazev, lide: s.lide.map(vytah) }));
+---
+{vychozi && <Ostrov client:idle id="dva-zivoty" a={vytah(osoba)} vychozi={vychozi.id} skupiny={skupiny} />}

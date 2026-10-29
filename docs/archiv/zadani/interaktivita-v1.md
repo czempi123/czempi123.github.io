@@ -1,6 +1,6 @@
 # Provedená zadání větve interaktivita-v1
 
-Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1 a T1 přesunuta 29. 10. 2026.
+Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026.
 
 ## Zadání K0
 
@@ -74,4 +74,30 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek T1 na „hotovo“, oddíl „Po T1“ (co jsi změnil v kterém kroku, nad čím jsi váhal, co jsi zvolil, výsledek npm test) a pod něj zadání K2 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high, skilly atlas-komponenta a atlas-data; Dva životy v Době a lidech a Kdo žil dřív? v šabloně medailonku podle oddílů 3 a 4 Obsahu větve a odpovědí autora k otázkám 6 a 7); zadání T1 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
 
 8. Pak se zastav a napiš mi krátce, co jsi změnil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```
+
+## Zadání K2
+
+Model: Opus 5.5 · high. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K2 větve interaktivita-v1 (Dva životy v Době a lidech na všech stránkách osob a Kdo žil dřív? v šabloně medailonku, obojí z dat). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, v Obsahu větve oddíly 3 (Dva životy) a 4 (Kdo žil dřív? u medailonků), v Co rozhodnout otázky 6 a 7 (prázdná odpověď je souhlas s doporučením) a oddíl Po T1, v docs/design.md oddíly Bloky › Kdo žil dřív? a Komponenty (Doba a lidé, mini osa) a toto zadání. Načti skilly atlas-komponenta, atlas-data a atlas-psani a řiď se jimi. Hotové kusy, na kterých stavíš: vzdalenost() v src/lib/cas-mapy.ts, src/components/osobnost/DobaALide.astro a MiniOsa.astro, ostrov src/components/ostrovy/KdoZilDriv.svelte s vložením src/components/bloky/KdoZilDriv.astro a šablona src/components/osobnost/StrankaMedailonku.astro.
+
+1. Pravidla výběru v src/lib jako čisté funkce s testy v tests/data/: (a) výchozí dvojice Dvou životů je osoba stránky a její první učitel nebo žák z src/data/vztahy.yaml, u osoby bez takového vztahu nejbližší současník s vlastní stránkou; (b) druhý člověk pro Kdo žil dřív? na medailonku je osoba s portrétem nebo profilem, nejbližší podle poloviny života a bez vztahu s osobou stránky, aby otázka nebyla zjevná. Obojí pevně, ne náhodně: stránka je pokaždé stejná a testy i zastavení v přípravě hodiny drží. Rok nula neexistuje; přibližná data ber jako cas-mapy.ts. Pusť obě pravidla přes všechny osoby se stránkou a vypiš dvojice; kde výsledek nic neříká nebo by mátl, zapiš to do plánu a výjimky do dat nepřidávej.
+
+2. Dva životy v Době a lidech, tedy na všech stránkách osob najednou (medailonky, profily, portréty): dva vodorovné pruhy na jedné ose, překryv zvýrazněný, pod nimi věta z vzdalenost() („Žili současně 37 let“, „Dělí je 519 let, asi sedm lidských životů“). Student vybere jiného člověka ze seznamu, nejdřív lidi z Doby a lidí, pak ostatní podle období; druhý pruh se posune a věta se přepíše (aria-live), při omezeném pohybu pruh skočí. Nic se neukládá. Bez JavaScriptu stojí výchozí dvojice s větou. Ostrov podle atlas-komponenta: design tokeny, světlý i tmavý režim, klávesnice, cíle 44 px, axe. Věty a popisky se skillem atlas-psani; popisky musí znát rod obou lidí (pouceni.md › Co se skládá z dat). Prohlédni si Dobu a lidi i v čtenářském sloupci profilu na 1440 px (pouceni.md › Technika: blok v profilu má 680 px).
+
+3. Kdo žil dřív? v šabloně medailonku nad Dobou a lidmi (Doba a lidé by odpověď prozradila), druh pořadí, druhý člověk podle pravidla (b). Blok je hotový, jen ho vlož. V přípravě hodiny má tři podoby: ověř, že zastavení z medailonků mají pevné id a podoby a že node scripts/hodiny-katalog.mjs hlásí 0 chyb.
+
+4. Testy: logika v tests/data/; e2e pro medailonek, profil a portrét po vzoru tests/e2e/medailonky.spec.ts a doba-odkazy.spec.ts: výchozí dvojice a věta, výběr jiného člověka jen klávesnicí, omezený pohyb, bez JavaScriptu, axe na 390 a 1440 px ve světlém i tmavém režimu. Testy, které drží přesný obsah Doby a lidí, seznamy odkazů nebo počty zastavení v hodině, uprav v témže commitu (pouceni.md › Technika).
+
+5. Snímky: node scripts/snimky-listy.mjs pro jeden medailonek, jeden profil a jeden portrét (390 světlý, 1440 tmavý); prohlédni hlavně hlavičku a Dobu a lidi na telefonu. Do „Claude outputs/“ dej list.
+
+6. Do docs/design.md zapiš oba prvky (Komponenty › Dva životy, Bloky › Kdo žil dřív? s pravidlem výběru na medailonku). Skill atlas-data teď neměň (to je krok O); co do něj patří, zapiš do plánu. Do docs/pouceni.md jen to, co se opravdu nepovedlo. Po změně komponent restartuj běžící npm run dev.
+
+7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek K2 na „hotovo“, oddíl „Po K2“ (co vzniklo, nad čím jsi váhal, co jsi zvolil, vypsané dvojice, které nic neříkají, výsledek npm test) a pod něj zadání K3 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high, xhigh při zaseknutí, skill atlas-komponenta; Slož argument podle oddílu 2 Obsahu větve a odpovědi autora k otázce 8: komponenta, ukázka v dílně, zastavení a podoby v přípravě hodiny; obsah pro cestu 8 až v kroku T2); zadání K2 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+
+8. Pak se zastav a napiš mi krátce, co jsi postavil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
 ```

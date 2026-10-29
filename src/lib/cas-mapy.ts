@@ -185,7 +185,9 @@ export function vzdalenost(a: OsobaMapy, b: OsobaMapy): Vzdalenost | null {
   const do_ = Math.min(za.do, zb.do);
   if (od <= do_) {
     const n = rozdilLet(od, do_);
-    const text = n === 0 ? 'Žili současně necelý rok.' : `Žili současně ${A}${let_(n)}.`;
+    // Dvě ženy žily, jinak žili (Dva životy dovolí srovnat kohokoli s kýmkoli).
+    const zili = a.zena && b.zena ? 'Žily' : 'Žili';
+    const text = n === 0 ? `${zili} současně necelý rok.` : `${zili} současně ${A}${let_(n)}.`;
     return { druh: 'soucasne', let: n, asi, zivotu: 0, text };
   }
   const [driv, pozdeji] = za.do < zb.od ? [za, zb] : [zb, za];

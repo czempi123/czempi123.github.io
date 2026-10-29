@@ -40,7 +40,8 @@ async function axe(page: Page) {
   expect(v.violations.map((x) => `${x.id}: ${x.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
 }
 
-async function tabNa(page: Page, cil: Locator, nejvic = 80) {
+// Výběr skladatele stojí v DOM před hodinou: od K2 větve interaktivita-v1 má navíc 34 medailonků (jeden souhrn každý).
+async function tabNa(page: Page, cil: Locator, nejvic = 160) {
   for (let i = 0; i < nejvic; i++) {
     if (await cil.evaluate((el) => el === document.activeElement).catch(() => false)) return;
     await page.keyboard.press('Tab');
