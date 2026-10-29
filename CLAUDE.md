@@ -24,7 +24,7 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 - **Dlouhé soubory po oddílech.** Nejdřív si vypiš nadpisy (`grep -n '^## '`), pak čti jen oddíly, které zadání jmenuje: podkladový list, `docs/podklady/k-overeni.md`, `docs/design.md`, `docs/rozhodnuti.md` (jen záznamy běžícího celku).
 - **Archiv nečti.** `docs/archiv/` drží hotové plány větví, záznamy revizí, provedená zadání, starší rozhodnutí a prototyp v9. Otevři ho, jen když tě tam pošle zadání nebo autor. Co se z revizí má dodržovat, je v `docs/pouceni.md`.
 - **Vzory střídmě.** Z hotových stránek stačí jedna jako vzor a z ní části, které potřebuješ.
-- **Testy:** při práci jen dotčené (`npx vitest run`; po `npm run build` pak `PW_BEZ_BUILDU=1 npx playwright test <soubor>`). Celé `npm test` jednou před posledním commitem.
+- **Testy:** při práci jen dotčené (`npx vitest run`; po `npm run build` pak `PW_BEZ_BUILDU=1 npx playwright test <soubor>`). Celé `npm test` jednou před posledním commitem; pouští i kontrolu typů (`astro check`), stejně jako kontroly na GitHubu.
 - **Snímky:** `node scripts/snimky-listy.mjs` složí celou stránku do pár obrázků, `node scripts/snimky-cesta.mjs` vyfotí kroky cesty s odpověďmi i bez nich, `node scripts/snimky-prvek.mjs` jeden blok nebo kresbu a `node scripts/snimky-montaz.mjs` složí několik snímků vedle sebe. Prohlížej tyhle listy, ne jednotlivé obrazovky.
 - **Projekt v Claude** drží jen `docs/plan.md`, `docs/architektura.md` a plán běžící větve. Když se některý z nich v repozitáři změní, aktualizuj ho i tam; nic dalšího do projektu nepřidávej.
 
@@ -46,7 +46,7 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 ## Technika (od fáze F1)
 
 - Astro se statickým výstupem, TypeScript, interaktivní ostrovy ve Svelte, obsah v MDX, data v YAML se schématy.
-- `npm run dev` spustí atlas lokálně, `npm run build` sestaví, `npm test` spustí kontroly dat a testy v Playwrightu.
+- `npm run dev` spustí atlas lokálně, `npm run build` sestaví, `npm test` spustí kontrolu typů, kontroly dat a testy v Playwrightu.
 - Písma a ikony lokálně, žádné externí závislosti za běhu. Postup studenta a deník v localStorage s exportem.
 - Každou změnu UI ověř v prohlížeči na šířce 390 a 1440 px, ve světlém i tmavém režimu, a ovládáním klávesnicí.
 - Web je zveřejněný na GitHub Pages (`https://czempi123.github.io/`): po každém pushi do `main` ho sestaví a nasadí `.github/workflows/pages.yml`. Do konce zkoušky se studenty má každá stránka `noindex` (`src/layouts/Zakladni.astro`), aby atlas nebyl ve vyhledávačích.

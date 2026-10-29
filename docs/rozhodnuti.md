@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 29. 10. 2026: Interaktivita v1, krok K0 (kontrola typů)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Typ pluginu sazby se bere z balíčku satteri (`@type {MdastPluginDefinition}` v `src/lib/sazba.js`), ruční typ parametru je pryč; chování pluginu se nemění | Ručně psaný typ `ctx` se rozešel s `MdastVisitorContext` v knihovně (`parent` bere uzel mdast, ne `unknown`) a `astro check` hlásil ts(2322) v `astro.config.mjs` |
+| `satteri` je přímo v devDependencies jako `^0.10.5` (verze z `package-lock.json`) | Kód na jeho typy odkazuje, tak ať se import typu nerozbije, až `@astrojs/markdown-satteri` změní závislost; zůstává jedna kopie, `@astrojs/markdown-satteri` chce `^0.10.3` |
+| `"test": "astro check && vitest run && playwright test"` | Lokální `npm test` kontrolu typů nepouštěl, takže chyba prošla každou kontrolou na Macu; GitHub ji pouští vždy |
+| Oprava dat: kontrola `kontroly.yml` na GitHubu je červená od prvního běhu 2. 10. 2026, ne od 17. 10.; záznam z 26. 10. zůstává, tohle je oprava | Všech 21 běhů je červených od č. 1 (commit 0f145eb); chybu zavedl commit da40801 (2. 10.) a lokálně se hlásí i na b883943 a a11d695 se stejnými verzemi závislostí |
+| Zelené kontroly na GitHubu se ověří po pushi při uzavření větve; sestavení a Playwright tam poběží poprvé | `gh` na Macu není, a všechny dosavadní běhy skončily dřív než sestavení |
+
 ## 26. 10. 2026: Interaktivita v1, založení větve
 
 | Rozhodnutí | Důvod |

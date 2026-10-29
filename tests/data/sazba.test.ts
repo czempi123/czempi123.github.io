@@ -37,13 +37,16 @@ describe('nezlomitelne', () => {
 });
 
 describe('sazbaMdast (plugin pro Markdown a MDX)', () => {
+  // Plugin používá z uzlu jen value a z kontextu parent, indexOf a setProperty; test jim podává jen tyhle části,
+  // proto se návštěvník volá jako funkce s volnými parametry (typy pluginu jsou z balíčku satteri).
+  const text = sazbaMdast.text as unknown as (uzel: unknown, ctx: unknown) => void;
   const projdi = (value: string, sourozencu = 1, index = 0) => {
     const uzel = { type: 'text', value };
     let vysledek = value;
-    sazbaMdast.text(uzel, {
+    text(uzel, {
       parent: () => ({ children: Array.from({ length: sourozencu }) }),
       indexOf: () => index,
-      setProperty: (_n, _klic, hodnota) => { vysledek = hodnota; },
+      setProperty: (_n: unknown, _klic: string, hodnota: string) => { vysledek = hodnota; },
     });
     return vysledek;
   };
@@ -56,7 +59,7 @@ describe('sazbaMdast (plugin pro Markdown a MDX)', () => {
   });
   it('text beze změny nepřepisuje', () => {
     let zapsano = false;
-    sazbaMdast.text({ value: 'Slast má strop.' }, { parent: () => undefined, indexOf: () => undefined, setProperty: () => { zapsano = true; } });
+    text({ value: 'Slast má strop.' }, { parent: () => undefined, indexOf: () => undefined, setProperty: () => { zapsano = true; } });
     expect(zapsano).toBe(false);
   });
 });
