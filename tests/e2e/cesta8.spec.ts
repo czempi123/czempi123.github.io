@@ -5,6 +5,7 @@
 // student, který nesouhlasí, má spojence; nikde není způsob smrti, obhajoba dobrovolné smrti ani klid a spánek
 // jako to, co čeká.
 import { test, expect, type Page } from '@playwright/test';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
 
 const CESTA8 = '/cesta/proc-se-bat-smrti/';
 const KROKY8 = ['Dopis', 'Čeho se vlastně bojíme', '„Netýká se nás“', 'Zrcadlo', 'Host u stolu', 'Týká se nás?', 'Ti druzí', 'Blízko', 'Tvoje pravidlo'];
@@ -282,6 +283,12 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text9).toContainText('Jestli se nebojíš, stojí za tebou Epikúros s Lucretiem.');
   await expect(text9).toContainText('Jestli nevíš, co po smrti je, jsi na tom jako Sókratés v Platónově Obraně.');
   await expect(text9).toContainText('Jestli věříš, že smrtí nic nekončí, mluví za tebe Platón.');
+  // Kdo je na tvé straně: student zvolil „Záleží na tom, co je po ní“; přeskládá se jen oddíl Co je potom.
+  await poradiOddilu(page, [
+    ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+    ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+    ['cesta8-je-rozumne', 2, ['stitek', 'tvoje:D']],
+  ]);
   await expect(text9.locator('.citat')).toHaveCount(2);
   await expect(text9.locator('.citat').first()).toContainText('Být mrtvý je jedno z dvojího');
   await expect(text9.locator('.citat').nth(1)).toContainText('Je to krásné riziko.');
@@ -334,6 +341,8 @@ test('cesta 8 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     for (const veta of NAVAZUJE[n - 1]) await expect(page.locator('.krok__obsah')).toContainText(veta);
     // Nic odkrytého: žádná zpětná vazba, argumenty ani srovnání. Panel „Na začátku“ bez počáteční odpovědi chybí.
     await expect(page.locator('.krok__obsah [role="region"]')).toHaveCount(0);
+    // Bez odpovědí je oddíl Kdo je na tvé straně celý: nic sbaleného, nic přeskládaného.
+    await expect(page.locator(PRESKLADANO)).toHaveCount(0);
     if (n < KROKY8.length) {
       await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
       await expect(page).toHaveURL(`${CESTA8}${n + 1}/`);
@@ -370,3 +379,82 @@ test('cesta 8 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
   for (const c of [...cesta, ...portret, ...otazka]) pocty.set(c, (pocty.get(c) ?? 0) + 1);
   expect([...pocty].filter(([, n]) => n > 2)).toEqual([]);
 });
+
+// Kdo je na tvé straně (větev interaktivita-v1, T1): krok 9 má k Volbě z kroku 1 tři oddíly podle témat
+// (bojíš se, nebo ne; umírání a ti druzí; co je potom). Přeskládá se jen ten, ve kterém je studentova odpověď;
+// ostatní zůstanou celé. Spor, Změň jednu věc ani Volby z kroku 8 vlastní oddíl nemají.
+const KROK9 = `${CESTA8}9/`;
+const CELY9: Oddily = [
+  ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+  ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+  ['cesta8-je-rozumne', 2, ['strana:D']],
+];
+const KOTVY9 = ['kdo-je-na-tvé-straně', 'bojíš-se-nebo-ne', 'umírání-ati-druzí', 'co-je-potom', 'zkus-to-zit', 'cesta8-moje-pravidlo'];
+
+test('krok 9 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: oddíly celé jako dřív', async ({ page, browser }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(KROK9);
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+  await expect(page.locator(PRESKLADANO)).toHaveCount(0);
+  await kotvy(page, KOTVY9);
+  await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 0, proc: '', potvrzeno: false } });
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+  await sDenikem(page, {});
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+
+  const bezJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const p2 = await bezJs.newPage();
+  await p2.goto(KROK9);
+  await expect(p2.locator(PRESKLADANO)).toHaveCount(0);
+  await expect(p2.locator('.krok__obsah .citat')).toHaveCount(2);
+  await kotvy(p2, KOTVY9);
+  await bezJs.close();
+});
+
+for (const [sirka, rezim] of [[390, 'light'], [1440, 'dark']] as const) {
+  test(`krok 9 se zápisem v deníku: odpověď studenta první ve svém oddílu (${sirka} px, ${rezim})`, async ({ page }) => {
+    await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: sirka === 390 ? 'reduce' : 'no-preference' });
+    await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 0, proc: 'o všechno', potvrzeno: true } });
+    await page.goto(KROK9);
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta8-je-rozumne', 0, ['stitek', 'tvoje:A', 'jine:C']],
+      ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+      ['cesta8-je-rozumne', 2, ['strana:D']],
+    ]);
+    const oddil = page.locator('[data-strany="cesta8-je-rozumne"]').first();
+    await expect(oddil.locator('.strany__stitek')).toHaveText('Na tvé straně');
+    await expect(oddil.locator('.strana--tvoje')).toContainText('máš na své straně Aristotela a Plútarcha');
+    const jine = oddil.locator('details.strany__jine');
+    await expect(jine).not.toHaveAttribute('open', /.*/);
+    await expect(jine.locator('[data-odpoved="C"]')).toBeHidden();
+    // Ostatní oddíly jsou celé a vidět; citáty zůstaly kde byly.
+    await expect(page.getByText('Jestli se bojíš o ty druhé, argument proti tomu nenapsal nikdo z nich.')).toBeVisible();
+    await expect(page.locator('.krok__obsah .citat')).toHaveCount(2);
+    await kotvy(page, KOTVY9);
+    await bezNalezuAxe(page);
+    await jine.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(jine.locator('[data-odpoved="C"]')).toContainText('Jestli se nebojíš, stojí za tebou Epikúros s Lucretiem.');
+    await bezNalezuAxe(page);
+
+    // Kdo se bojí umírání, má štítek ve druhém oddílu a nic sbaleného; „ti druzí“ patří všem a stojí pod jeho odpovědí.
+    await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 1, proc: '', potvrzeno: true } });
+    await page.reload();
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+      ['cesta8-je-rozumne', 1, ['stitek', 'tvoje:B', 'p']],
+      ['cesta8-je-rozumne', 2, ['strana:D']],
+    ]);
+    await expect(page.locator('details.strany__jine')).toHaveCount(0);
+    await bezNalezuAxe(page);
+    await nicNeulozeno(page, ['cesta8-je-rozumne']);
+  });
+}

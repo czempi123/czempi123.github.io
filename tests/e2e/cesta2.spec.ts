@@ -7,6 +7,7 @@
 // Plútarchovi nepřipisuje výměnu všech prken ani druhou loď a studie „měřily“, ne „dokázaly“.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { poradiStran, sDenikem } from './strany';
 
 const CESTA2 = '/cesta/jsem-porad-tentyz-kdyz-se-menim/';
 const KROKY2 = ['Loď', 'Řeka', 'Proč je změna záhada', 'Loď po prknech', 'A co člověk?', 'Dva čtenáři jedné řeky', 'Jak staré je tvoje tělo', 'Kdo je na tvé straně'];
@@ -31,18 +32,6 @@ async function dal(page: Page, blok: ReturnType<Page['locator']>, nazev: string,
   await expect(page).toHaveURL(`${CESTA2}${n}/`);
   await pripravit(page);
 }
-
-/** Pořadí v oddílu Kdo je na tvé straně: „p“ společný odstavec, „stitek“, „tvoje:X“, „jine:A,B“, „strana:X“ bez přeskládání. */
-const poradiStran = (page: Page, blok: string) => page.locator(`[data-strany="${blok}"]`).evaluate((o) => {
-  const koren = o.querySelector(':scope > astro-slot') ?? o;
-  return [...koren.children].map((e) => {
-    const el = e as HTMLElement;
-    if (el.classList.contains('strany__stitek')) return 'stitek';
-    if (el.tagName === 'DETAILS') return `jine:${[...el.querySelectorAll<HTMLElement>(':scope > .strana')].map((x) => x.dataset.odpoved).join(',')}`;
-    if (el.classList.contains('strana')) return `${el.classList.contains('strana--tvoje') ? 'tvoje' : 'strana'}:${el.dataset.odpoved}`;
-    return 'p';
-  });
-});
 
 async function axe(page: Page) {
   const v = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
@@ -329,11 +318,6 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
 // Kdo je na tvé straně (větev interaktivita-v1, K1): krok 8 přečte z deníku odpovědi bloků cesty a v každém oddílu
 // ukáže nejdřív zastánce studentovy odpovědi; ostatní jsou pod sbaleným „Kdo hájil jiné odpovědi“.
 const KROK8 = `${CESTA2}8/`;
-async function sDenikem(page: Page, bloky: Record<string, unknown>) {
-  await page.addInitScript((b) => {
-    localStorage.setItem('atlas-denik', JSON.stringify({ verze: 1, zapisy: [], vyzvy: [], navstivene: [], bloky: b, aktivita: [], cesty: {} }));
-  }, bloky);
-}
 const CELY = {
   'cesta2-je-to-ona': ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D', 'p'],
   'cesta2-ktera-je-theseova': ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D'],

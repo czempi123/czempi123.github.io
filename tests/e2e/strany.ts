@@ -1,0 +1,69 @@
+// Společné pomůcky testů posledního kroku cest s blokem Kdo je na tvé straně (větev interaktivita-v1, K1 a T1):
+// deník se zápisy bloků před načtením stránky a pořadí potomků oddílu po přeskládání. Používají cesta2, 7, 8, 33 a 34.
+import { expect, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+/** Co se objeví jen po přeskládání: štítek, studentova odpověď a sbalené ostatní odpovědi. */
+export const PRESKLADANO = '.strany__jine, .strana--tvoje, .strany__stitek';
+
+/** Deník se stavy bloků (`stavBloku`) ještě před načtením stránky; `{}` je smazaný deník. */
+export async function sDenikem(page: Page, bloky: Record<string, unknown>) {
+  await page.addInitScript((b) => {
+    localStorage.setItem('atlas-denik', JSON.stringify({ verze: 1, zapisy: [], vyzvy: [], navstivene: [], bloky: b, aktivita: [], cesty: {} }));
+  }, bloky);
+}
+
+/**
+ * Pořadí v oddílu Kdo je na tvé straně: „p“ společný odstavec, „stitek“, „tvoje:X“, „jine:A,B“, „strana:X“ bez přeskládání.
+ * `n` je kolikátý oddíl téhož bloku v kroku (cesta 8 má k jedné Volbě tři oddíly).
+ */
+export const poradiStran = (page: Page, blok: string, n = 0) => page.locator(`[data-strany="${blok}"]`).nth(n).evaluate((o) => {
+  const koren = o.querySelector(':scope > astro-slot') ?? o;
+  return [...koren.children].map((e) => {
+    const el = e as HTMLElement;
+    if (el.classList.contains('strany__stitek')) return 'stitek';
+    if (el.tagName === 'DETAILS') return `jine:${[...el.querySelectorAll<HTMLElement>(':scope > .strana')].map((x) => x.dataset.odpoved).join(',')}`;
+    if (el.classList.contains('strana')) return `${el.classList.contains('strana--tvoje') ? 'tvoje' : 'strana'}:${el.dataset.odpoved}`;
+    return 'p';
+  });
+});
+
+/** Oddíly v pořadí, jak je autor napsal: [blok, kolikátý oddíl bloku, očekávané pořadí]. */
+export type Oddily = [string, number, string[]][];
+
+export async function poradiOddilu(page: Page, oddily: Oddily) {
+  for (const [blok, n, ocekavane] of oddily) expect(await poradiStran(page, blok, n), `${blok} #${n}`).toEqual(ocekavane);
+}
+
+/** Kotvy kroku (nadpisy oddílů, Zkus to žít, závěr) jsou na stránce právě jednou. */
+export async function kotvy(page: Page, ids: string[]) {
+  for (const k of ids) await expect(page.locator(`[id="${k}"]`), k).toHaveCount(1);
+}
+
+/** Písma načtená, stránka jednou projetá (ostrovy client:visible) a všechny ostrovy hydratované. */
+export async function pripravitKrok(page: Page) {
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.body.scrollHeight; y += 500) {
+      window.scrollTo({ top: y, behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 40));
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  });
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+}
+
+export async function bezNalezuAxe(page: Page) {
+  const v = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  const popis = v.violations.map((x) => `${x.id}: ${x.help}\n  ${x.nodes.slice(0, 5).map((n) => n.target.join(' ')).join('\n  ')}`);
+  expect(popis, popis.join('\n')).toEqual([]);
+}
+
+const denikBloku = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
+
+/** Nic se neukládá: v deníku jsou po přeskládání a rozbalení jen bloky, které tam test dal, a žádný zápis. */
+export async function nicNeulozeno(page: Page, bloky: string[]) {
+  const d = await denikBloku(page);
+  expect(Object.keys(d.bloky).sort()).toEqual([...bloky].sort());
+  expect(d.zapisy).toEqual([]);
+}

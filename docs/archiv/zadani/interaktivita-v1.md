@@ -1,6 +1,6 @@
 # Provedená zadání větve interaktivita-v1
 
-Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0 a K1 přesunuta 29. 10. 2026.
+Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1 a T1 přesunuta 29. 10. 2026.
 
 ## Zadání K0
 
@@ -48,4 +48,30 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek K1 na „hotovo“, oddíl „Po K1“ (co jsi postavil, nad čím jsi váhal, co jsi zvolil, výsledek npm test) a pod něj zadání T1 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high, skilly atlas-psani a atlas-cesta; cesty 7, 8, 33 a 34 podle vzoru z cesty 2; text rozdělený podle odpovědí, spojovací věty, testy přesného znění); zadání K1 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
 
 8. Pak se zastav a napiš mi krátce, co jsi postavil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```
+
+## Zadání T1
+
+Model: Opus 5.5 · high. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok T1 větve interaktivita-v1 (Kdo je na tvé straně v cestách 7, 8, 33 a 34 podle vzoru z cesty 2). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků a oddíl Po K1, v docs/design.md oddíl Bloky › Kdo je na tvé straně a toto zadání. Načti skilly atlas-psani a atlas-cesta a řiď se jimi. Vzor je hotový krok 8 cesty 2 (src/content/cesty/jsem-porad-tentyz-kdyz-se-menim/8-kdo-je-na-tve-strane.mdx) a jeho testy v tests/e2e/cesta2.spec.ts (poradiStran, sDenikem, jakoDnes, kotvy); komponentu neměň, jen ji používej.
+
+1. Kroky: cesta 7, krok 7 (src/content/cesty/ci-zivot-vlastne-ziju/7-kdo-je-na-tve-strane.mdx); cesta 8, krok 9, oddíl Kdo je na tvé straně (src/content/cesty/proc-se-bat-smrti/9-tvoje-pravidlo.mdx); cesta 33, krok 8 (src/content/cesty/co-kdyz-prijde-to-nejhorsi/8-kdo-je-na-tve-strane.mdx); cesta 34, krok 8 (src/content/cesty/kam-mi-mizi-cas/8-kdo-je-na-tve-strane.mdx). Cesty 1, 3, 4, 5 a 6 takový krok nemají a nepřidávej ho. U každého mezititulku zjisti, ke kterému bloku patří (grep id Voleb, Sporů a Změň jednu věc v krocích té cesty a jejich YAML v src/content/bloky), a skutečné kódy odpovědí vezmi z YAML (písmena podle pořadí možností, id osob stran, id možností); nehádej je. Oddíl, který k žádnému bloku s odpovědí nepatří (Roztřiď, Odkryj, text bez bloku), nech bez obalu.
+
+2. Obaly: <Strany blok="…"> pod nadpisem oddílu (nadpis i s kotvou zůstává mimo), <Strana odpoved="…"> kolem odstavců jedné odpovědi, odstavec pro víc odpovědí odpoved="C D"; co patří všem odpovědím, stojí mimo obaly. Citáty (<Citat id>) beze změny, jen jdou se svou odpovědí. Každá možnost bloku musí mít v oddílu svůj odstavec (pouceni.md › Celek: zastánci všech odpovědí); když některá chybí, napiš ho z toho, co krok už o zastáncích říká, a nic nového z hlavy netvrď. Spor uprostřed dostane odstavec jen tam, kde krok pro střed opravdu někoho má; jinak zůstane oddíl pro studenta uprostřed nepřeskládaný.
+
+3. Text se skillem atlas-psani: úvodní věta oddílu mimo obaly se musí číst nad rozbalenou i sbalenou částí; každý odstavec Strana stojí sám, protože může být první (žádné „taky“, „i on“, „třetí odpověď“, „A jestli…“ navazující na jinou odpověď); společný text za odpověďmi stojí za sbalenou částí, tak ať má svůj podmět. Měň jen to, co tohle vyžaduje: obsah, zastánci a citáty zůstávají. Shrnutí pramene drží rozdíly z podkladů (pouceni.md › Prameny a formulace). Studentské věty hlídají testy přesným zněním: než větu opravíš, najdi ji v tests/ (grep -rn) a test uprav v témže commitu.
+
+4. Testy: v testu každé cesty (tests/e2e/cesta7.spec.ts, cesta8.spec.ts, cesta33.spec.ts, cesta34.spec.ts) případ bez zápisu (oddíly celé jako dnes) a se zápisem (odpověď studenta první, ostatní sbalené) po vzoru cesta2.spec.ts; u cesty s Sporem i Spor uprostřed, u cesty se Změň jednu věc její základní rozhodnutí; axe a kotvy. Průchody, které bloky odpovídají, musí po přeskládání pořád projít; uprav jejich očekávané pořadí, ne komponentu. Pomocné funkce z cesta2.spec.ts klidně přesuň do sdíleného souboru v tests/e2e/ a použij v obou.
+
+5. Snímky: node scripts/snimky-cesta.mjs <slug> 390 light odkryt a zavreno pro poslední krok každé cesty, prohlédni je; do „Claude outputs/“ dej list posledních kroků všech čtyř cest se zápisem a bez něj.
+
+6. Čas cesty na štítku přepočítej (node scripts/slova-cesta.mjs <slug>) jen tam, kde se text kroku změnil o víc než pár slov. Skill atlas-komponenta ani komponentu Strany neměň; když narazíš na její chybu, zapiš ji do plánu pro krok R. Do docs/pouceni.md jen to, co se opravdu nepovedlo.
+
+7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek T1 na „hotovo“, oddíl „Po T1“ (co jsi změnil v kterém kroku, nad čím jsi váhal, co jsi zvolil, výsledek npm test) a pod něj zadání K2 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high, skilly atlas-komponenta a atlas-data; Dva životy v Době a lidech a Kdo žil dřív? v šabloně medailonku podle oddílů 3 a 4 Obsahu větve a odpovědí autora k otázkám 6 a 7); zadání T1 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+
+8. Pak se zastav a napiš mi krátce, co jsi změnil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
 ```

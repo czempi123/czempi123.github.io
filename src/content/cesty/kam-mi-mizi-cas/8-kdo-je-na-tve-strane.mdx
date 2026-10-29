@@ -4,7 +4,7 @@ krok: 8
 nazev: Kdo je na tvé straně
 kdeJsme: Zpátky u tvého tahu z prvního kroku
 ---
-import { ZaverCesty } from '../../../components/bloky';
+import { ZaverCesty, Strany, Strana } from '../../../components/bloky';
 import Citat from '../../../components/ui/Citat.astro';
 import ZkusToZitKarta from '../../../components/osobnost/ZkusToZitKarta.astro';
 
@@ -12,15 +12,35 @@ import ZkusToZitKarta from '../../../components/osobnost/ZkusToZitKarta.astro';
 
 ## Máš dost času?
 
+<Strany blok="cesta34-dost-casu">
+
 V prvním kroku byly čtyři odpovědi na to, jestli máš dost času na to, na čem ti záleží. Každá má zastánce.
+
+<Strana odpoved="A">
 
 Jestli nemáš, protože máš moc povinností, máš na své straně Marca Aurelia. I on si zapsal, že číst nemůže. Po ústraní u moře a v horách toužil, ale volno si bral uvnitř povinností.
 
+</Strana>
+
+<Strana odpoved="B">
+
 Jestli čas máš, ale mizí ti, stojí za tebou sám Seneca. Ani o sobě netvrdil, že nic neztrácí. Příteli napsal, že aspoň ví, co ztrácí, proč a jak.
 
-Jestli máš dost, máš Seneku podruhé. Život je podle něj dlouhý, když ho umíš použít.
+</Strana>
+
+<Strana odpoved="C">
+
+Jestli máš dost, máš na své straně Seneku. Život je podle něj dlouhý, když ho umíš použít.
+
+</Strana>
+
+<Strana odpoved="D">
 
 Jestli nevíš, protože jsi to nikdy nepočítal, nejsi sám. Proto Seneca vyzval starého muže, ať si ta léta spočítá.
+
+</Strana>
+
+</Strany>
 
 ## Dvě hodiny s telefonem
 
@@ -28,7 +48,29 @@ V pátém kroku jsi soudil dvě hodiny s telefonem. Ať jsi odpověděl jakkoli,
 
 ## Odejít, nebo zůstat
 
-V šestém kroku jsi stál mezi Senekou a Marcem. Jestli podle tebe odejít, máš Seneku a jeho radu Paulinovi. A máš Epikúra, který podle Seneky učil, že moudrý se do veřejných věcí nepouští, ledaže se něco stane. Jestli zůstat a hledat volno uvnitř, máš Marca. A jestli jsi stál uprostřed, máš zase Seneku: jinde radil neutíkat hned a mísit volno s prací.
+<Strany blok="cesta34-odejit-spor">
+
+V šestém kroku jsi stál mezi Senekou a Marcem.
+
+<Strana odpoved="seneca">
+
+Jestli podle tebe odejít, máš Seneku a jeho radu Paulinovi. A máš Epikúra, který podle Seneky učil, že moudrý se do veřejných věcí nepouští, ledaže se něco stane.
+
+</Strana>
+
+<Strana odpoved="marcus-aurelius">
+
+Jestli podle tebe zůstat a hledat volno uvnitř, máš Marca.
+
+</Strana>
+
+<Strana odpoved="uprostred">
+
+Jestli jsi stál uprostřed, máš Seneku. Paulinovi radil odejít, jinde ale radil neutíkat hned a mísit volno s prací.
+
+</Strana>
+
+</Strany>
 
 ## Je volno výsada?
 
