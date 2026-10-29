@@ -9,6 +9,8 @@ export { default as ZmenJednuVec } from './ZmenJednuVec.astro';
 export { default as Spor } from './Spor.astro';
 export { default as KdoZilDriv } from './KdoZilDriv.astro';
 export { default as ZaverCesty } from './ZaverCesty.astro';
+export { default as Strany } from './Strany.astro';
+export { default as Strana } from './Strana.astro';
 export { default as Navrat } from './Navrat.astro';
 export { default as Jeskyne } from './Jeskyne.astro';
 export { default as JeskyneVen } from './JeskyneVen.astro';

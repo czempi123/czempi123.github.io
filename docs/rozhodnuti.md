@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 29. 10. 2026: Interaktivita v1, krok K1 (Kdo je na tvé straně)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Poslední krok se zastánci má obaly `<Strany blok="…">` a `<Strana odpoved="…">` v MDX; text v YAML není. Výjimka z pravidla o blocích je zapsaná v `docs/design.md` › Kdo je na tvé straně | Odpovědi autora k otázkám 3 až 5 (prázdné = souhlas); próza s citáty zůstává tam, kde ji autor čte |
+| Kódy odpovědí: Volba písmena karet, Spor id osoby strany a `uprostred`, Změň jednu věc id možnosti; jeden odstavec smí patřit k víc odpovědím (`odpoved="C D"`). Špatný kód zastaví sestavení | Písmena vidí autor i student na kartách; id osoby se ve Sporu čte líp než „strana 1“ |
+| Student ve Sporu uprostřed má v cestě 2 vlastní odstavec: Diotima („tentýž, a přitom ne stejný“) je nově odpověď `uprostred` | Krok ji už měl jako třetí odpověď; bez ní by student uprostřed dostal oddíl nepřeskládaný |
+| Ostrov přeskládá oddíl až po hydrataci (`client:load`), nic nekreslí před ní; nadpisy oddílů stojí mimo ostrov | Zadání: sestavená stránka je celá a kotvy pro přípravu hodiny platí v obou stavech. Cena: kdo má zápis, uvidí první oddíl kroku krátce celý, než se sbalí (viz Po K1) |
+| Nad studentovou odpovědí štítek „Na tvé straně“ v barvě období a linka 3 px; ostatní pod nativním `<details>` „Kdo hájil jiné odpovědi“ | Bez štítku by student nepoznal, proč oddíl začíná zrovna touhle odpovědí; `details` je přístupný bez vlastního kódu |
+| V cestě 2, kroku 8 přepsané spojovací věty tak, aby každá odpověď stála sama: „máš taky Hobbese“ → „máš na své straně Hobbese“, oddíl Dvě lodě rozdělený na čtyři odpovědi, Senekova odpověď bez „v jiném spise“, Hobbesovo shrnutí s podmětem | Odstavec, který může stát první, nesmí navazovat na předchozí odpověď |
+
 ## 29. 10. 2026: Interaktivita v1, krok K0 (kontrola typů)
 
 | Rozhodnutí | Důvod |

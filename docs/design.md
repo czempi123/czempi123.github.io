@@ -461,6 +461,41 @@ Když počáteční odpověď v deníku není (student krok přeskočil nebo ji 
 
 Který blok je začátkem cesty, říká pole `zacatek` v přehledu cesty (viz Cesta). Počáteční odpověď se jen čte, nic se neukládá podruhé.
 
+### Kdo je na tvé straně
+
+Poslední krok cesty se zastánci odpovědí (od 29. 10. 2026, větev `interaktivita-v1`, krok K1; vzor cesta 2, krok 8). Každý oddíl, jehož text patří k odpovědím jednoho bloku cesty, ukáže nejdřív zastánce odpovědi, kterou student zvolil; ostatní odpovědi jsou pod sbaleným „Kdo hájil jiné odpovědi“. Nic se neškrtá a nic se neukládá.
+
+```mdx
+import { Strany, Strana } from '../../../components/bloky';
+
+## Loď z prvního kroku
+
+<Strany blok="cesta2-je-to-ona">
+
+V prvním kroku byly čtyři odpovědi. …        ← patří všem, je vidět vždy
+
+<Strana odpoved="A">
+
+Jestli jsi řekl, že je to pořád táž loď, …
+
+</Strana>
+
+<Strana odpoved="C D">                        ← odstavec pro dvě odpovědi
+
+</Strana>
+
+Hobbes otázku dělí podle jména, …            ← patří všem, stojí za sbalenou částí
+
+</Strany>
+```
+
+- **Výjimka z pravidla „obsah bloku v YAML, v MDX jeden řádek“.** Tohle není blok s úkolem, jen jiné pořadí prózy, kterou student čte i bez něj. Přestěhovat stovky slov s citáty (`<Citat id>` uvnitř `Strana` zůstává, jak je) do YAML by znamenalo, že autor čte konec cesty jinde než zbytek kroku a skill `atlas-psani` ho nevidí v souvislosti. Proto text zůstává v MDX a obaly jen říkají, k čemu patří.
+- **Obaly.** `Strany` (`src/components/bloky/Strany.astro`, ostrov `src/components/ostrovy/Strany.svelte`) nese id bloku; `Strana` (`Strana.astro`) obalí odstavce jedné nebo několika odpovědí (`odpoved="C D"`). Kódy: Volba písmena karet A–D, Spor id osoby strany (bez osoby `strana-1` / `strana-2`) a `uprostred`, Změň jednu věc id možnosti. Neznámý kód, blok bez YAML (Odkryj), Roztřiď nebo `Strany` bez jediné `Strana` zastaví sestavení. Nadpis oddílu stojí nad obalem, takže kotva oddílu je mimo ostrov.
+- **Jak se čte deník** (`odpovedStudenta` v `src/lib/strany.ts`, ze `stavBloku`): Volba zvolená karta, jen když ji student potvrdil; Spor konečná poloha (0–1 první strana, 2 uprostřed, 3–4 druhá), první poloha nestačí; Změň jednu věc základní rozhodnutí. Roztřiď a Odkryj odpověď nedávají.
+- **Přeskládání** (`rozvrhOddilu`): co patří všem a stojí před první odpovědí, zůstane nahoře; na místě první odpovědi štítek „Na tvé straně“ (`t-nadtitulek` v barvě období) a studentova odpověď s levou linkou 3 px v barvě období; pod ní nativní `<details>` „Kdo hájil jiné odpovědi“ (vzhled jako „Co kdybys zvolil jinak?“ ve Volbě, cíl 44 px) s ostatními odpověďmi v původním pořadí a linkou `--pc-soft`; pak zbytek společného textu. Sestavená stránka je vždy celá a ostrov (`client:load`) ji po hydrataci jen přeskládá: bez JavaScriptu, bez zápisu, se smazaným deníkem, s nepotvrzenou Volbou, se Sporem bez konečné polohy a u odpovědi, ke které oddíl nemá odstavec, je oddíl celý jako dřív. Kdo prošel jen některé bloky, má přeskládané jen jejich oddíly. Uzly se přesouvají, nekopírují, takže id a odkazy uvnitř platí dál.
+- **Psaní.** Úvodní věta oddílu (mimo `Strana`) se musí číst nad rozbalenou i sbalenou částí. Každý odstavec `Strana` stojí sám, protože může být první: žádné „taky“, „třetí odpověď“ ani „A jestli…“ navazující na předchozí odpověď. Do příprav hodiny nepřibývá nic: blok je přeskládání textu, ne zastavení.
+- Hlídají `tests/data/strany.test.ts` a `tests/e2e/cesta2.spec.ts` (bez zápisu, se zápisem na 390 a 1440 px ve světlém i tmavém režimu, nepotvrzená Volba, Spor uprostřed, smazaný deník, bez JavaScriptu, klávesnice, axe, kotvy).
+
 ### Návrat
 
 Krátký nový případ, na kterém student po několika dnech zkouší své závěrečné pravidlo. Není to opakování cvičení. Nabízí ho **jen deník** (`/denik/`), nejdřív tři dny po dokončení cesty a jen tomu, kdo má uložené pravidlo. Na Domů, v navigaci ani jinde na něj nic neupozorňuje: žádné odznaky, počítadla ani série dní.
