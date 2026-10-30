@@ -4,6 +4,18 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 30. 10. 2026: Interaktivita v1, krok T2 (Slož argument v cestě 8)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Blok `cesta8-argument` má dvě premisy a závěr přesně z Dopisu Menoikeovi 124 (dobré i zlé je ve vnímání; smrt je ztráta vnímání; smrt se nás netýká), věta z 125 v kartách není | 124 je celý argument s ἐπεὶ; třetí premisa „když je tu smrt, nejsme tu už my“ by skrytý předpoklad vyslovila za studenta |
+| Skrytý předpoklad: „Po smrti z nás nezbude nic, co by mohlo vnímat.“ Zpětná vazba ho ukazuje na tom, kdo věří, že duše žije dál: že mrtvé tělo nevnímá, uzná i on | Bez toho by mezera mezi „smrt je ztráta vnímání“ a závěrem vypadala jako slovíčkaření; Epikúros sám ho říká jinde (Hérodotovi 65–66) |
+| Kde se dá napadnout: první premisa (zlé je jen to, co někdo zakouší), ne skrytý předpoklad | Tam míří námitka ztráty v krocích 4 až 6 (Nagel, Aristotelés, Plútarchos); blok ukáže místo, jak to udělali, nechává cestě |
+| Blok stojí hned za citátem 124; pod ním nadpis „Věta, která v dopise chybí“ s kotvou, na kterou vede Kam dál bloku; text pod ním řekne, kde Epikúros předpoklad napsal, a citát 125 uvede „Dopis s tím počítá i v další větě“ | Student argument poprvé vidí celý v citátu 124; text pod blokem drží souvislost i bez složení a neříká, že dopis tu větu „říká ještě jednou“ |
+| Věta „Celý argument stojí na jednom předpokladu: že smrtí všechno končí“ je pryč, zbyla „Kdo věří, že po smrti něco je, toho argument nepřesvědčí.“ | Předpoklad teď řekne blok a nadpis pod ním; potřetí by ho krok opakoval |
+| Čas na štítku cesty 8: 35 minut (dřív 32) | `node scripts/slova-cesta.mjs proc-se-bat-smrti`: 34,7 min (blok přidal čtení i ovládání) |
+| `scripts/slova-cesta.mjs` a `scripts/snimky-cesta.mjs` umí Slož argument (karty po řadě do řádků, kontrola, první možnost) | Bez toho skripty na kroku 3 spadly |
+
 ## 30. 10. 2026: Interaktivita v1, krok K3 (Slož argument)
 
 | Rozhodnutí | Důvod |

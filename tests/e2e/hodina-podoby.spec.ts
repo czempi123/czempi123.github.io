@@ -323,6 +323,44 @@ for (const [w, h] of [[1280, 720], [1920, 1080]] as const) {
   });
 }
 
+// Slož argument jako skutečné zastavení (interaktivita-v1, T2): cesta 8, krok 3, na plátně 1280 × 720.
+for (const rezim of rezimy) {
+  test(`Slož argument z cesty 8 na plátně 1280 × 720, ${rezim === 'light' ? 'světlý' : 'tmavý'} režim: jen otázka a možnosti, otevřená otázka; snímky`, async ({ page }) => {
+    const ARG = 'cesta8-argument';
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: 'reduce' });
+
+    await promitat(page, odkaz('Argument', [`b:${ARG}~m`]));
+    await expect(page.locator(`#${ARG}`)).toBeVisible();
+    await expect(cast(page, ARG, 'otazka')).toBeVisible();
+    await expect(cast(page, ARG, 'scena')).toBeHidden();
+    await expect(cast(page, ARG, 'moznosti').first()).toBeVisible();
+    expect(await cast(page, ARG, 'otazka').evaluate((el) => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(40);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    await axe(page);
+    await page.screenshot({ path: `${SNIMKY}/podoba-1280x720-argument-moznosti-${nazevRezimu(rezim)}.png` });
+    // Třída skládá společně: po kontrole zpětná vazba a volba, bez pole Proč.
+    for (const [r, k] of [['1', 'vnimani'], ['2', 'ztrata'], ['zaver', 'netyka']]) {
+      await page.locator(`#${ARG} [data-karta="${k}"]`).click();
+      await page.locator(`#${ARG} [data-radek="${r}"] .radek__sem`).click();
+    }
+    await page.locator(`#${ARG}`).getByRole('button', { name: 'Zkontrolovat' }).click();
+    await expect(cast(page, ARG, 'zpetna').first()).toBeVisible();
+    await expect(page.locator(`#${ARG} .radek--skryty`)).toContainText('Po smrti z nás nezbude nic, co by mohlo vnímat.');
+    for (const el of await cast(page, ARG, 'duvod').all()) await expect(el).toBeHidden();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    await axe(page);
+    await page.screenshot({ path: `${SNIMKY}/podoba-1280x720-argument-po-kontrole-${nazevRezimu(rezim)}.png` });
+
+    await promitat(page, odkaz('Argument', [`b:${ARG}~o`]));
+    await expect(cast(page, ARG, 'otazka')).toBeVisible();
+    for (const c of ['scena', 'moznosti', 'akce', 'zpetna']) for (const el of await cast(page, ARG, c).all()) await expect(el).toBeHidden();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    await axe(page);
+    await page.screenshot({ path: `${SNIMKY}/podoba-1280x720-argument-otevrena-${nazevRezimu(rezim)}.png` });
+  });
+}
+
 test('student s lištou (bez promítání) vidí blok celý; podoba se na stránce hodiny neukazuje', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(PODOBY);
