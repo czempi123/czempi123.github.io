@@ -16,8 +16,8 @@ const blok = (typ: string) => ({ druh: 'blok' as const, typ });
 const KRESBA = Object.keys(NAZVY_KRESEB)[0];
 
 describe('podoby podle druhu bloku', () => {
-  it('Volba, Odkryj, Nejdřív sám, Spor, Změň jednu věc a Kdo žil dřív mají celý blok, možnosti a otevřenou otázku', () => {
-    for (const t of ['Volba', 'Odkryj', 'NejdrivSam', 'Spor', 'ZmenJednuVec', 'KdoZilDriv']) {
+  it('Volba, Odkryj, Nejdřív sám, Spor, Změň jednu věc, Kdo žil dřív a Slož argument mají celý blok, možnosti a otevřenou otázku', () => {
+    for (const t of ['Volba', 'Odkryj', 'NejdrivSam', 'Spor', 'ZmenJednuVec', 'KdoZilDriv', 'SlozArgument']) {
       expect(podobyZastaveni(blok(t))).toEqual(['cely', 'moznosti', 'otevrena']);
     }
   });

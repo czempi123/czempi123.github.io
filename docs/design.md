@@ -187,6 +187,7 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
   | Spor | celý blok, jen otázka a možnosti, otevřená otázka | postoje obou stran, škála, Tady stojím, argumenty, druhá škála a posun; důvod a reflexe skryté |
   | Změň jednu věc | celý blok, jen otázka a možnosti, otevřená otázka | možnosti, Rozhodnuto, přepínač podmínek a nové rozhodnutí, posun a Co udělal filozof |
   | Kdo žil dřív? | celý blok, jen otázka a možnosti, otevřená otázka | volby pořadí nebo tažení života na ose, Odhalit, odhalení s osou |
+  | Slož argument | celý blok, jen otázka a možnosti, otevřená otázka | karty a řádky, Zkontrolovat, zpětná vazba se skrytým předpokladem a místem k napadení, volba „Kterou premisu bys napadl ty?“ a Tohle bych napadl; důvod skrytý |
   | Roztřiď | celý blok, jen otázka a možnosti | karta na stole, koše, Mám roztříděno, výsledky a srovnání; vlastní karta skrytá. Otevřená otázka chybí: bez karet nemá co ukázat |
   | Závěr cesty | celý blok | jen otázka a pole na vlastní pravidlo, nic dalšího k zúžení |
   | kresby (všech třináct) | celý blok, jen kresba | (nemají možnosti) |
@@ -195,15 +196,15 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
 
 ## Bloky
 
-Interaktivní bloky, ze kterých se skládají cesty, profily a otázky (`docs/plan.md` › Mechanismy učení). Každý se do MDX vkládá jedním řádkem. Ve skutečném atlasu jsou v cestě 1 „Kdy mám dobrý důvod věřit?“ (`/cesta/kdy-mam-dobry-duvod-verit/`), v cestě 6 „Kolik je dost?“ (`/cesta/kolik-je-dost/`) a v profilech; sedm bloků a Návrat jsou pohromadě a bez kódu pro autora na `/dilna/bloky/` (mimo navigaci a hledání, `noindex`). Závěr cesty patří jen do posledního kroku cesty a Návrat ve skutečném atlasu nabízí jen deník. Tento oddíl používá skill `atlas-cesta`.
+Interaktivní bloky, ze kterých se skládají cesty, profily a otázky (`docs/plan.md` › Mechanismy učení). Každý se do MDX vkládá jedním řádkem. Ve skutečném atlasu jsou v cestě 1 „Kdy mám dobrý důvod věřit?“ (`/cesta/kdy-mam-dobry-duvod-verit/`), v cestě 6 „Kolik je dost?“ (`/cesta/kolik-je-dost/`) a v profilech; osm bloků a Návrat jsou pohromadě a bez kódu pro autora na `/dilna/bloky/` (mimo navigaci a hledání, `noindex`). Závěr cesty patří jen do posledního kroku cesty a Návrat ve skutečném atlasu nabízí jen deník. Tento oddíl používá skill `atlas-cesta`.
 
 ### Jak blok vložit do MDX
 
 1. Na začátek MDX jeden import (cestu uprav podle hloubky souboru):
    ```mdx
-   import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv } from '../../components/bloky';
+   import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument } from '../../components/bloky';
    ```
-2. Volba s důvodem, Roztřiď, Změň jednu věc a Spor mají obsah v YAML v `src/content/bloky/<id>.yaml` (schéma `src/lib/bloky-schema.ts`). Do MDX pak stačí `<Volba id="<id>" />`. Příběh, Odkryj a Kdo žil dřív? se píšou přímo v MDX. Poslední krok cesty končí `<ZaverCesty id="…" otazka="…" />` (ze stejného importu); případ pro Návrat je taky v YAML (`druh: navrat`), ale do MDX cesty se nevkládá.
+2. Volba s důvodem, Roztřiď, Změň jednu věc, Spor a Slož argument mají obsah v YAML v `src/content/bloky/<id>.yaml` (schéma `src/lib/bloky-schema.ts`). Do MDX pak stačí `<Volba id="<id>" />`. Příběh, Odkryj a Kdo žil dřív? se píšou přímo v MDX. Poslední krok cesty končí `<ZaverCesty id="…" otazka="…" />` (ze stejného importu); případ pro Návrat je taky v YAML (`druh: navrat`), ale do MDX cesty se nevkládá.
 3. `client:visible` ani odkaz zpět z deníku nepiš. Doplní je obal v `src/components/bloky/`; odkaz je stránka a kotva `#<id>`.
 4. `id` je malými písmeny bez diakritiky, s pomlčkami a na celém webu jedinečné (`sokrates-utek`, `cesta1-jak-zjistit`). Podle něj se ukládá odpověď. Když ho později změníš, studentům zmizí rozpracovaný stav.
 5. V textech YAML funguje `*kurzíva*` a prázdný řádek dělí odstavce. Jména lidí se berou z `lide.yaml` podle id; v textu je piš v podobě z dat.
@@ -228,6 +229,7 @@ Vše jen v prohlížeči, v záznamu `atlas-denik` (`src/lib/denik.ts`). Bez loc
 | Změň jednu věc | „Na začátku: … Podmínka: … (posun)“ | základní rozhodnutí, odpověď v každé podmínce, zapnutá podmínka |
 | Spor | „Na začátku: spíš Platón. Po argumentech: uprostřed. Co mě posunulo: … Nejsilnější argument druhé strany (Diogenés): … Moje odpověď: …“ (reflexe jen, když ji student vyplnil) | první a konečná poloha, důvod, reflexe (text vybraného argumentu nebo vlastní, odpověď) |
 | Kdo žil dřív? | nic (fakt, ne názor) | odhad, odkryto |
+| Slož argument | jen volba po složení: „Napadl bych premisu: „…“. Proč: …“ s otázkou „<otázka bloku> Kterou premisu bys napadl ty?“ (složení samo je úloha, ne názor) | karty v řádcích, zkontrolováno, zvolená možnost, důvod, zapsáno |
 | Závěr cesty | pravidlo (Moje stanovisko, `<id>`) a nepovinně `<id>-zmena`: „Co se změnilo, nebo proč si myslíš totéž?“ | nic; „Na začátku“ se jen čte ze zápisu bloku, který je začátkem cesty |
 | Návrat | „Upravím ho. Proč: …“ s otázkou „Návrat · Nový telefon: platí moje pravidlo i tady?“ (druh `navrat`) | odpověď, důvod, zapsáno, odloženo (čas), skryto |
 
@@ -447,6 +449,44 @@ Odhad pořadí (karty A / B / Žili ve stejné době), nebo vzdálenosti: na ose
 | `id` | ne | výchozí `kdo-<a>-<b>-<druh>` |
 
 **Na medailonku** (od 29. 10. 2026, větev `interaktivita-v1`, krok K2) stojí blok v šabloně `StrankaMedailonku.astro` ve čtenářském sloupci mezi hlavičkou a Dobou a lidmi (mini osa by odpověď prozradila), druh pořadí. Osoba stránky je `a`, druhého člověka vybere pevné pravidlo `druhyKdoZilDriv` (`src/lib/dvojice.ts`, s daty `kdoZilNaMedailonku` v `src/lib/stranky-osob.ts`): osoba s profilem nebo portrétem, nejbližší podle poloviny života a bez jakéhokoli vztahu s osobou stránky; při shodě rozhoduje pořadí v `lide.yaml`. Náhoda by rozbila zastavení v hodině i testy. Id je výchozí `kdo-<osoba>-<druhý>-poradi`. Katalog hodin od K2 nese i medailonky: celá stránka (`o:<id>`, druh `profil` s příznakem `medailonek`, štítek „Celý medailonek“, ve výběru „Medailonek“) a pod ní tento blok se třemi podobami jako jinde.
+
+### Slož argument
+
+Student seřadí premisy a závěr: vlevo karty, vpravo řádky „1“, „2“ (případně „3“), řádek s otazníkem („Jedna věta tu chybí.“) a pod čarou „Závěr“. Kartu přesune klepnutím (vybere kartu, pak řádek; cílem je celý řádek, tlačítko Sem), tažením myší i prstem, nebo klávesnicí: Enter na kartě ji vybere a fokus skočí na první prázdný řádek, Tab jde po řádcích, Enter kartu položí a fokus přejde na další volnou kartu (po poslední na Zkontrolovat), Escape výběr zruší. Karta na obsazený řádek se s tou, která tam ležela, prohodí (z hromádky ji pošle zpátky mezi karty); vybranou kartu z řádku vrátí „Vrátit mezi karty“ nebo tažení na hromádku. Pohne se jen přesouvaná karta (crossfade 220 ms), při omezeném pohybu skočí. Co se stalo, slyší čtečka z oblasti `aria-live` („„…“ je v řádku 2.“).
+
+Zkontrolovat jde, až jsou všechny řádky obsazené. Zpětná vazba má titulek „Tvůj závěr: „…“.“ podle toho, co student dal do závěru: se závěrem na místě je to `zpetna` z YAML (a věta, že na pořadí premis nezáleží, když je má jinak), s premisou v závěru `vZaveru` té karty, nebo obecná věta, která řekne, ve kterém řádku skutečný závěr nechal, a zeptá se dál. Pak se v řádku s otazníkem odkryje skrytý předpoklad, oddíl Skrytý předpoklad řekne, proč ho argument potřebuje, a oddíl Kde se dá argument napadnout dá `napadnout.proc`; řádek místa k napadení má silnější okraj v barvě období. Po kontrole se karty nepřesouvají; Zkusit znovu smaže stav i zápis.
+
+Nakonec volba „Kterou premisu bys napadl ty?“: premisy v pořadí argumentu, skrytý předpoklad a „Žádnou. Argument mi drží.“, nepovinné „Proč právě tahle?“ a Tohle bych napadl. Je to názor, proto jde do deníku; ke každé možnosti patří vlastní zpětná vazba (`kdyzNapadnes`, u „žádnou“ `zadnou`). Po volbě zůstane vidět jen zvolená možnost. Rozvržení se řídí šířkou bloku: od 600 px uvnitř stojí karty vlevo a řádky vpravo (krok cesty i čtenářský sloupec profilu), užší blok (telefon) má karty nad řádky. Logika je v `src/lib/argument.ts`, ukázka v dílně `dilna-sokrates-zemre`.
+
+```mdx
+<SlozArgument id="dilna-sokrates-zemre" />
+```
+
+```yaml
+# src/content/bloky/<id>.yaml
+druh: argument
+obdobi: 2
+nadtitulek: Slož argument       # nepovinné (výchozí „Slož argument“)
+scena: …                        # nepovinné
+otazka: Jak z nich složíš argument?
+karty:                          # 3–4, v pořadí, ve kterém je student dostane (ne v pořadí argumentu); text nejvýš 140 znaků
+  - id: nikdo
+    text: Ještě žádný člověk nežil věčně.
+    misto: 2                    # 1, 2, 3 bez mezery, nebo zaver (právě jeden)
+    kdyzNapadnes: …             # u premis povinné: zpětná vazba, když ji student napadne
+    vZaveru: …                  # nepovinné: zpětná vazba, když ji dá do závěru
+  - { id: zemre, text: Sókratés jednou zemře., misto: zaver }
+skryty:
+  text: Co se dosud nepodařilo žádnému člověku, nepodaří se ani nikomu dalšímu.
+  zpetna: …                     # proč ho argument potřebuje
+  kdyzNapadnes: …
+napadnout: { karta: skryty, proc: … }   # id premisy nebo skryty; proc začne tím, co je to za větu
+zpetna: …                       # po kontrole se závěrem na místě: vysvětluje a ptá se dál
+zadnou: …                       # zpětná vazba k „Žádnou. Argument mi drží.“
+zdroje: []                      # prameny historických tvrzení (id ze zdroje.yaml)
+```
+
+Id `skryty` a `zadnou` jsou vyhrazená. Schéma (`BlokArgument` v `src/lib/bloky-schema.ts`) hlídá jeden závěr, místa premis bez mezery, `kdyzNapadnes` u každé premisy a `napadnout.karta` jen na premisu nebo skrytý předpoklad.
 
 ### Závěr cesty
 

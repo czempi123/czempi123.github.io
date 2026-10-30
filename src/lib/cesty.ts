@@ -25,7 +25,7 @@ export function krokZAdresy(cesta: string): { slug: string; n: number } | null {
 }
 
 /** Bloky, které po odpovědi zapisují do deníku; jen takový může být začátkem cesty. */
-const BLOKY_SE_ZAPISEM = 'Volba|Odkryj|Roztrid|ZmenJednuVec|Spor';
+const BLOKY_SE_ZAPISEM = 'Volba|Odkryj|Roztrid|ZmenJednuVec|Spor|SlozArgument';
 
 export interface ZacatekCesty {
   /** krok, ve kterém blok stojí */

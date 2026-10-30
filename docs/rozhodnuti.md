@@ -4,6 +4,22 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 30. 10. 2026: Interaktivita v1, krok K3 (Slož argument)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nový druh bloku `argument` v YAML (`BlokArgument`), v MDX `<SlozArgument id="…" />`; logika v `src/lib/argument.ts` | Pravidlo bloků z 1. 10. 2026 a zadání K3 |
+| Řádek s otazníkem není cíl: skrytý předpoklad student nehledá mezi kartami, odkryje se po kontrole | Oddíl 2 plánu větve; karta navíc by z bloku udělala hádanku s jednou správnou kartou |
+| Na pořadí premis nezáleží; zpětná vazba rozlišuje jen, jestli závěr stojí v řádku Závěr, a řekne, kde ho student nechal | Logicky premisy pořadí nemají; zpětná vazba má vidět, co student složil, a nedávat známku |
+| Karta na obsazený řádek se prohodí s tou, která tam ležela; výběr karty a pak řádku, tažení i klávesnice dělají totéž | Jeden model přesunu pro klepnutí, myš, prst i Tab; nic se neztratí |
+| Kontrola je jedna: po ní se odkryje skrytý předpoklad i místo k napadení, i když student závěr nedal na místo; znovu jde přes Zkusit znovu | Zadání: zpětná vazba, pak odkrytí. Druhý pokus před odkrytím by z bloku dělal zkoušení |
+| Do deníku jde jen volba „Kterou premisu bys napadl ty?“ s nepovinným důvodem; složení je jen stav bloku | Odpověď k otázce 8: volba je názor, pořadí karet úloha |
+| Otázka zápisu je otázka bloku a za ní „Kterou premisu bys napadl ty?“ | V deníku musí být poznat, ke kterému argumentu zápis patří, i když jich bude víc |
+| „Zkusit znovu“ místo „Začít znovu“ | Znění zadání K3; ostatní bloky mají „Začít znovu“, sjednotit se dá v kroku O |
+| Podoby na plátně: celý blok, jen otázka a možnosti, otevřená otázka; v „možnostech“ karty, řádky, zpětná vazba a volba bez důvodu | Jako Volba a Spor; podobu ověřuje test v dílně, protože blok zatím na žádné stránce atlasu nestojí |
+| Ukázka v dílně `dilna-sokrates-zemre` bez historických tvrzení a bez pramenů; skrytý předpoklad je skok od minulosti k budoucnosti | Zadání: obsah, který nečeká na ověření; klasický sylogismus „všichni lidé jsou smrtelní“ žádný skrytý předpoklad nemá |
+| `scripts/snimky-prvek.mjs` umí proměnnou `DENIK` (soubor JSON s deníkem) | Snímky stavů po kontrole a po volbě bez klepání podle textu, který je v bloku víckrát |
+
 ## 29. 10. 2026: Interaktivita v1, krok K2 (Dva životy, Kdo žil dřív? na medailoncích)
 
 | Rozhodnutí | Důvod |

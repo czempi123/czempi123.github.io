@@ -133,6 +133,15 @@ describe('katalog zastavení z obsahu a dat', () => {
     for (const id of medailonky) expect(ids).not.toContain(id);
   });
 
+  it('Slož argument v kroku: zastavení z YAML s otázkou, výchozím nadtitulkem a podobami bloku s otázkou', () => {
+    const k = vstup.kroky.find((x) => x.data.cesta === 'proc-se-bat-smrti' && x.data.krok === 3)!;
+    const s = { ...k, body: `${k.body}\n<SlozArgument id="dilna-sokrates-zemre" />\n` };
+    const kat = katalogZastaveni({ ...vstup, kroky: vstup.kroky.map((x) => (x === k ? s : x)) });
+    const b = kat.find((x) => x.id === 'b:dilna-sokrates-zemre')!;
+    expect(b).toMatchObject({ druh: 'blok', typ: 'SlozArgument', nazev: 'Jak z nich složíš argument?', nadtitulek: 'Slož argument', rodic: 'k:proc-se-bat-smrti/3' });
+    expect(b.adresa).toBe('/cesta/proc-se-bat-smrti/3/#dilna-sokrates-zemre');
+  });
+
   it('kapitola, která nesedí na frontmatter, a dvojí id sestavení zastaví', () => {
     const s = vstup.osobnosti.find((p) => p.id === 'sokrates')!;
     const bezSoudu = { ...s, body: s.body!.replace('kotva="soud"', 'kotva="soudni-sin"') };

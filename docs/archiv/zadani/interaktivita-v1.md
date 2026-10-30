@@ -1,6 +1,6 @@
 # Provedená zadání větve interaktivita-v1
 
-Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026.
+Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026, zadání K3 30. 10. 2026.
 
 ## Zadání K0
 
@@ -98,6 +98,32 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 6. Do docs/design.md zapiš oba prvky (Komponenty › Dva životy, Bloky › Kdo žil dřív? s pravidlem výběru na medailonku). Skill atlas-data teď neměň (to je krok O); co do něj patří, zapiš do plánu. Do docs/pouceni.md jen to, co se opravdu nepovedlo. Po změně komponent restartuj běžící npm run dev.
 
 7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek K2 na „hotovo“, oddíl „Po K2“ (co vzniklo, nad čím jsi váhal, co jsi zvolil, vypsané dvojice, které nic neříkají, výsledek npm test) a pod něj zadání K3 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high, xhigh při zaseknutí, skill atlas-komponenta; Slož argument podle oddílu 2 Obsahu větve a odpovědi autora k otázce 8: komponenta, ukázka v dílně, zastavení a podoby v přípravě hodiny; obsah pro cestu 8 až v kroku T2); zadání K2 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+
+8. Pak se zastav a napiš mi krátce, co jsi postavil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```
+
+## Zadání K3
+
+Model: Opus 5.5 · high (xhigh při zaseknutí). Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K3 větve interaktivita-v1 (blok Slož argument: komponenta, ukázka v dílně, zastavení a podoby v přípravě hodiny; obsah pro cestu 8 až v kroku T2). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, v Obsahu větve oddíl 2 (Slož argument), v Co rozhodnout otázku 8 (prázdná odpověď je souhlas s doporučením) a oddíl Po K2, v docs/plan.md jen řádek Slož argument v tabulce oddílu Mechanismy učení, v docs/design.md oddíly Bloky (Jak blok vložit do MDX, Co se ukládá, Volba s důvodem, Roztřiď, Společné pro všechny bloky) a Komponenty › Podoba na plátně, a toto zadání. Načti skilly atlas-komponenta a atlas-psani a řiď se jimi. Vzory, na kterých stavíš: Roztřiď (src/components/ostrovy/Roztrid.svelte: přesun karty klepnutím, tažením i klávesnicí) a Volba (src/components/ostrovy/Volba.svelte: nepovinný důvod a zápis do deníku), schéma bloků src/lib/bloky-schema.ts, deník src/lib/denik.ts, katalog hodin src/lib/hodiny.ts (BLOKY_Z_YAML, podobyZastaveni) a styly podob src/styles/promitani.css.
+
+1. Rozhraní dřív než kód: obsah v YAML (src/content/bloky/<id>.yaml, nový druh ve schématu), v MDX jeden řádek <SlozArgument id="…" />. Schéma: otázka, karty (premisy a závěr, každá s textem a místem v argumentu), skrytý předpoklad (text a zpětná vazba k němu), místo, kde se dá argument napadnout (ke které premise a proč), zpětná vazba po složení, volba „Kterou premisu bys napadl ty?“ s nepovinným důvodem, zdroje, kOvereni, dal. Logika (vyhodnocení pořadí, platný stav z deníku, popis pro čtečky, text zpětné vazby podle toho, co student složil) v src/lib jako čisté funkce s testy v tests/data/.
+
+2. Komponenta podle oddílu 2 Obsahu větve: vlevo karty, vpravo řádky „1“, „2“, „Závěr“ a řádek s otazníkem pro skrytý předpoklad. Kartu student přesune klepnutím (vybere kartu, pak řádek), tažením i klávesnicí; pohne se jen karta na své místo, při omezeném pohybu skočí. Po „Zkontrolovat“ zpětná vazba vidí, co student složil, a vysvětluje důvod, ne známku; pak se odkryje skrytý předpoklad a místo, kde se dá argument napadnout. Nakonec volba „Kterou premisu bys napadl ty?“ s nepovinným důvodem, která jde do deníku (je to názor). Stav vydrží obnovení stránky, Zkusit znovu ho smaže. Design tokeny, světlý i tmavý režim, cíle 44 px, fokus jen z klávesnice, axe; na 390 px karty nad řádky. Prohlédni blok i v čtenářském sloupci profilu (680 px) a v kroku cesty (960 px).
+
+3. Ukázka v dílně (/dilna/bloky/) s obsahem, který není z cesty 8 a nečeká na ověření (třeba klasický sylogismus o smrtelnosti Sókrata); blok s neprázdným kOvereni smí stát jen v dílně. Do cesty 8 nic nepiš: obsah, premisy z Dopisu Menoikeovi a navázání textu kroku jsou krok T2.
+
+4. Příprava hodiny: blok přibude do BLOKY_Z_YAML, a tím do katalogu, jakmile má id. Zapiš jeho podoby (celý blok, jen otázka a možnosti, otevřená otázka; co patří do „možností“) do podobyZastaveni, značky data-cast do komponenty a řádek do tabulky podob v docs/design.md. Ověř node scripts/hodiny-katalog.mjs (0 chyb) a promítání v podobách testem jako u ostatních bloků (tests/e2e/hodina-podoby.spec.ts).
+
+5. Testy: logika v tests/data/; e2e podle skillu atlas-komponenta: klepnutí, tažení (i skutečným dotykem přes CDP), jen klávesnice, obnovení stránky, omezený pohyb, axe na 390 a 1440 px ve světlém i tmavém režimu, zápis volby do deníku a jeho smazání, Zkusit znovu. Testy, které drží počty bloků v dílně nebo v katalogu, uprav v témže commitu.
+
+6. Snímky: node scripts/snimky-prvek.mjs ve stavech před složením, po kontrole a po volbě, 390 světlý a 1440 tmavý; node scripts/snimky-montaz.mjs je slož do jednoho listu v „Claude outputs/“. Do docs/design.md zapiš blok (Bloky › Slož argument s API a tím, co se ukládá; řádek v tabulce Co se ukládá), rozhodnutí do docs/rozhodnuti.md, do docs/pouceni.md jen to, co se opravdu nepovedlo. Po změně komponent restartuj běžící npm run dev.
+
+7. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek K3 na „hotovo“, oddíl „Po K3“ (co vzniklo, nad čím jsi váhal, co jsi zvolil, výsledek npm test) a pod něj zadání T2 v plném znění ve stejném tvaru jako toto (Opus 5.5 · high se skilly atlas-overeni, atlas-psani a atlas-cesta; Slož argument v cestě 8, krok 3 podle oddílu 2 Obsahu větve a odpovědi k otázce 8: premisy a skrytý předpoklad „smrtí všechno končí“ z Dopisu Menoikeovi 124–125 ověřené proti podkladům celku 6 a v prameni, zpětná vazba, navázání textu kroku tak, aby blok nepředbíhal námitku, kterou cesta proti argumentu staví); zadání K3 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
 
 8. Pak se zastav a napiš mi krátce, co jsi postavil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
 ```

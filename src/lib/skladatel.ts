@@ -119,6 +119,7 @@ const TYPY_BLOKU: Record<string, string> = {
   ZmenJednuVec: 'Změň jednu věc',
   Spor: 'Spor',
   KdoZilDriv: 'Kdo žil dřív?',
+  SlozArgument: 'Slož argument',
   ZaverCesty: 'Závěr cesty',
 };
 

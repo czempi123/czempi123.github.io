@@ -78,7 +78,7 @@ export interface VstupKatalogu {
     body?: string;
   }[];
   otazky: { id: string; data: { cislo: number; otazka: string; hlasy?: { osoba: string }[] } }[];
-  /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor */
+  /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor, Slož argument */
   bloky: { id: string; data: { otazka?: string; nadtitulek?: string } }[];
   /** týdny cvičení (src/content/tydny); starší vstup je nemá */
   tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
@@ -90,7 +90,7 @@ export interface VstupKatalogu {
 // ─── Značky v MDX ─────────────────────────────────────────────────────────────
 
 /** Bloky, jejichž otázka je v YAML (src/content/bloky/<id>.yaml). */
-const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor']);
+const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument']);
 /** Bloky, jejichž otázka je atributem v MDX. */
 const BLOKY_S_OTAZKOU = new Set(['Odkryj', 'NejdrivSam', 'ZaverCesty']);
 
@@ -317,6 +317,7 @@ const PODOBY_BLOKU: Record<string, Podoba[]> = {
   Spor: S_OTAZKOU,
   ZmenJednuVec: S_OTAZKOU,
   KdoZilDriv: S_OTAZKOU,
+  SlozArgument: S_OTAZKOU,
   // Roztřiď bez karet nemá co ukázat; Závěr cesty je jen otázka a pole na vlastní pravidlo.
   Roztrid: ['cely', 'moznosti'],
   ZaverCesty: ['cely'],

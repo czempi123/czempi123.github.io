@@ -9,7 +9,7 @@ export interface Zapis {
   odkaz: string;
   kdy: string;
   /** z jakého bloku zápis pochází (pro řazení v deníku); starší zápisy ho nemají */
-  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'navrat';
+  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'navrat';
 }
 export interface Vyzva {
   id: string;
@@ -73,7 +73,7 @@ export interface HodinaVDeniku {
   kdy: string;
 }
 
-export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'kdo-zil-driv';
+export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'kdo-zil-driv';
 export interface Aktivita {
   id: string;
   odkaz: string;

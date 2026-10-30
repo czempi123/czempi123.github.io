@@ -1,0 +1,27 @@
+# Ukázka bloku Slož argument v dílně (/dilna/bloky/). Bez historických tvrzení, proto bez pramenů.
+# Karty stojí v pořadí, jak jsou tady; nepiš je v pořadí argumentu.
+druh: argument
+obdobi: 1
+scena: Tři věty o Sókratovi, zamíchané. Dvě z nich jsou důvody a třetí z nich plyne.
+otazka: Jak z nich složíš argument?
+karty:
+  - id: nikdo
+    text: Ještě žádný člověk nežil věčně.
+    misto: 2
+    kdyzNapadnes: Tahle věta stojí na všech lidech, o kterých víme. K jejímu vyvrácení by stačil jediný protipříklad. Znáš nějaký, nebo jen tušíš, že by mohl být?
+  - id: zemre
+    text: Sókratés jednou zemře.
+    misto: zaver
+  - id: clovek
+    text: Sókratés je člověk.
+    misto: 1
+    kdyzNapadnes: Kdyby Sókratés byl něco víc než člověk, závěr padá. Co by ti stačilo, abys tuhle větu přijal?
+skryty:
+  text: Co se dosud nepodařilo žádnému člověku, nepodaří se ani nikomu dalšímu.
+  zpetna: Tuhle větu argument potřebuje a neříká ji. Bez ní z minulosti nic neplyne pro zítřek. Kdo argument vysloví, ji nahlas neřekne, protože mu připadá samozřejmá.
+  kdyzNapadnes: Míříš tam, kde je argument nejslabší, na skok od minulosti k budoucnosti. Přesto ho skoro každý přijme. Proč asi?
+napadnout:
+  karta: skryty
+  proc: Skrytý předpoklad tvrdí něco o budoucnosti a opírá se jen o minulost. Že slunce vyšlo každý den, je dobrý důvod čekat ho i zítra, ne důkaz. Kdo chce argument napadnout, zeptá se, odkud ví, že zítřek bude jako včerejšek.
+zpetna: Z obou důvodů závěr plyne skoro sám. Skoro, protože mezi druhou premisou a závěrem je mezera. Že dosud nikdo nežil věčně, mluví o minulosti. Že Sókratés zemře, mluví o budoucnosti. Co ten skok drží?
+zadnou: Argument ti drží. Co by se muselo stát, abys změnil názor?
