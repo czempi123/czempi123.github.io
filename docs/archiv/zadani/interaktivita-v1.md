@@ -1,6 +1,6 @@
 # Provedená zadání větve interaktivita-v1
 
-Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026, zadání K3 30. 10. 2026.
+Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026, zadání K3 a T2 30. 10. 2026, zadání R 31. 10. 2026.
 
 ## Zadání K0
 
@@ -150,4 +150,30 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 6. Celé npm test (včetně astro check) pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek T2 na „hotovo“, oddíl „Po T2“ (co vzniklo, nad čím jsi váhal, co jsi zvolil, výsledek npm test) a pod něj zadání R v plném znění ve stejném tvaru jako toto (Opus 5.5 · high se skillem atlas-revize: revize celé větve, K0 až T2, podle skillu, záznam do docs/revize/interaktivita-v1-<datum>.md, drobnosti opravit rovnou, zásadní nálezy seřadit podle dopadu s návrhem opravy; zvlášť: Kdo je na tvé straně v cestách 2, 7, 8, 33 a 34, Dva životy a Kdo žil dřív? na medailoncích, Slož argument v cestě 8 a v dílně, čas na štítcích cest se sbalenými odstavci, „Zkusit znovu“ × „Začít znovu“); zadání T2 přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
 
 7. Pak se zastav a napiš mi krátce, co jsi napsal, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```
+
+## Zadání R
+
+Model: Opus 5.5 · high se skillem atlas-revize. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok R větve interaktivita-v1 (revize celé větve, K0 až T2, podle skillu atlas-revize). Drobnosti oprav rovnou, zásadní nálezy seřaď podle dopadu s návrhem opravy. Čti jen to, co revize potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, Obsah větve, Co rozhodnout (prázdné odpovědi jsou souhlas s doporučením) a oddíly Po K0 až Po T2, v docs/design.md oddíly Bloky › Kdo je na tvé straně, Bloky › Slož argument, Bloky › Kdo žil dřív? a Komponenty › Dva životy, v docs/rozhodnuti.md záznamy větve (26.–30. 10. 2026) a toto zadání. Načti skilly atlas-revize a atlas-psani a řiď se jimi; atlas-komponenta, atlas-cesta a atlas-data otevři u perspektiv, kterých se týkají. Rozdíl větve proti hlavní větvi: git diff main...interaktivita-v1 --stat, pak jen soubory, které revize potřebuje.
+
+1. Revize podle skillu atlas-revize (všechny perspektivy, u textů skill atlas-psani), zvlášť:
+   - Kdo je na tvé straně v posledních krocích cest 2, 7, 8, 33 a 34: projdi každý oddíl se zápisem každé odpovědi i bez něj. Stojí odstavec každé odpovědi sám jako první? Čte se úvodní věta oddílu nad rozbalenou i sbalenou částí? Je štítek „Na tvé straně“ srozumitelný? Probliknutí na první obrazovce kroku 8 cesty 2 (Po K1) a cesta 8 jako tři oddíly k jedné Volbě (Po T1): rozhodni, jestli to tak nechat.
+   - Dva životy na stránkách osob a Kdo žil dřív? na medailoncích: dvojice, které nic neříkají nebo matou, a opakování téže otázky (seznam v Po K2), věta o lidských životech zaokrouhlená na 75 let („Dělí je asi 100 let. To je asi jeden lidský život.“), nabídka Druhý život klávesnicí a čtečkou.
+   - Slož argument v cestě 8, krok 3, a v dílně: obsah bloku proti podkladům celku 6 (oddíl Jádro: Epikúros › Slož argument v kroku 3) a proti prameni, jestli žádná zpětná vazba nepředbíhá námitku z kroků 4 až 6, čtení očima studenta, kterému někdo zemřel nebo umírá, a studenta s myšlenkami na smrt (pouceni › Student, kterého se téma bolestně týká: celek 6), opakování předpokladu v bloku a v textu pod ním, blok na telefonu i na 1440 px, jen klávesnicí, dotykem a v podobách na plátně.
+   - Čas na štítcích cest se sbalenými odstavci: `slova-cesta.mjs` počítá jen viditelný text (Po T1). Rozhodni, který čas na štítek patří, když student s odpověďmi čte míň, a podle toho zkontroluj štítky cest 2, 7, 8, 33 a 34.
+   - „Zkusit znovu“ ve Slož argument × „Začít znovu“ v ostatních blocích: navrhni, jestli sjednotit.
+   - Kontrola typů: npm test pouští astro check; ověř, že ho pouští i `.github/workflows/kontroly.yml` stejně.
+
+2. Záznam revize do docs/revize/interaktivita-v1-<datum>.md ve tvaru ze skillu: verdikt, nálezy seřazené podle dopadu s návrhem opravy (hotovým zněním u textů), co jsi rovnou opravil. Opravy drobností s testy přesného znění v témže commitu (grep -rn v tests/ nejdřív). Po změně obsahu restartuj běžící npm run dev.
+
+3. Snímky jen tam, kde nález stojí na tom, jak věc vypadá: node scripts/snimky-cesta.mjs, node scripts/snimky-prvek.mjs (DENIK=<soubor.json> pro stavy bloku po odpovědi), node scripts/snimky-montaz.mjs do jednoho listu v „Claude outputs/“.
+
+4. Celé npm test pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek R na „hotovo“, oddíl „Po R“ (verdikt, nálezy jednou větou, co jsi opravil, nad čím jsi váhal, výsledek npm test), pod něj „Co rozhodnout po R“ s otázkami k zásadním nálezům a doporučením (prázdná odpověď je souhlas) a zadání O v plném znění ve stejném tvaru jako toto (Opus 5.5 · high: opravy nálezů podle odpovědí a úprava skillů: atlas-cesta krok se zastánci jako blok Strany a Slož argument, atlas-data prvky medailonku Dva životy a Kdo žil dřív? podle Po K2, atlas-komponenta, co se z revize opakuje; kopie skillů ve skills/). Zadání R přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+
+5. Pak se zastav a napiš mi krátce verdikt, zásadní nálezy s doporučením a co jsi rovnou opravil, a ukaž list snímků, jestli vznikl. Spustit nemusím nic.
 ```

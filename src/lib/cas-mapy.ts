@@ -193,7 +193,9 @@ export function vzdalenost(a: OsobaMapy, b: OsobaMapy): Vzdalenost | null {
   const [driv, pozdeji] = za.do < zb.od ? [za, zb] : [zb, za];
   const n = rozdilLet(driv.do, pozdeji.od);
   const zivotuN = Math.max(1, Math.round(n / LIDSKY_ZIVOT));
-  const prirovnani = n >= 50 ? ` To je asi ${zivotu(zivotuN)}.` : '';
+  // „To jsou asi tři lidské životy“, ale „To je asi jeden lidský život“ a „To je asi pět lidských životů“.
+  const je = zivotuN >= 2 && zivotuN <= 4 ? 'jsou' : 'je';
+  const prirovnani = n >= 50 ? ` To ${je} asi ${zivotu(zivotuN)}.` : '';
   return { druh: 'deli', let: n, asi, zivotu: zivotuN, text: `Dělí je ${A}${let_(n)}.${prirovnani}` };
 }
 

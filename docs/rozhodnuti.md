@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 31. 10. 2026: Interaktivita v1, krok R (revize větve)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Čas na štítku cesty se zastánci je čas studenta, který bloky prochází: viditelný text po odpovědích ze `slova-cesta.mjs`, zaokrouhlený na minuty. Cesta 2 34 min, cesta 7 28, cesta 33 28; cesty 8 (35) a 34 (28) beze změny | Štítek čte student před cestou, kterou projde s odpověďmi; kdo bloky přeskočí, čte víc, ale nic neovládá. Zadání R chtělo rozhodnout (Po T1) |
+| Cesta 8, krok 9 zůstává ve třech oddílech k jedné Volbě | Oddíly jsou podle témat a jejich společný text (ti druzí, víra v posmrtný život) patří všem; jeden oddíl by vzal kroku mezititulky a kotvy |
+| Štítek „Na tvé straně“ zůstává | Ladí s názvem kroku a říká, proč oddíl začíná právě touhle odpovědí |
+| `vzdalenost()`: „To jsou asi tři lidské životy“ pro dva až čtyři životy | Gramatika; ostatní tvary beze změny |
+| Nálezy k Slož argument, Kdo žil dřív? na medailoncích, probliknutí a Dvou životům jdou autorovi jako otázky (plán větve › Co rozhodnout po R) | Mění chování komponent a id bloků; záznam `docs/revize/interaktivita-v1-2026-10-31.md` |
+
 ## 30. 10. 2026: Interaktivita v1, krok T2 (Slož argument v cestě 8)
 
 | Rozhodnutí | Důvod |

@@ -210,7 +210,7 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   // Každá odpověď z prvního kroku má zastánce, a žádný z nich není filozof cesty.
   for (const veta of [
     'Jestli jsi řekl, že je to pořád táž loď, máš na své straně jednu stranu sporu, o kterém vypráví Plútarchos, a Plútarcha samého',
-    'Jestli jsi řekl, že z Théseovy lodi nezbylo nic, stojí za tebou druhá strana toho sporu a úvaha o oblázcích',
+    'Jestli jsi řekl, že z Théseovy lodi nezbylo nic, stojí za tebou druhá strana sporu, o kterém vypráví Plútarchos, a úvaha o oblázcích',
     'Jestli jsi řekl, že jí přestala být někde cestou, máš na své straně Hobbese.',
     'Jestli jsi řekl, že záleží na tom, na co se ptáš, řekl jsi větu, na které Hobbes postavil celou odpověď.',
   ]) await expect(obsah8).toContainText(veta);

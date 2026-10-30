@@ -5,7 +5,7 @@
 # Karty stojí v pořadí, jak jsou tady; nepiš je v pořadí argumentu.
 druh: argument
 obdobi: 2
-scena: V Epikúrově radě jsou tři věty, dva důvody a to, co z nich plyne. Tady leží rozházené.
+scena: "Epikúrova rada má tři věty: dva důvody a to, co z nich plyne. Tady leží rozházené."
 otazka: Jak z nich Epikúros složil argument?
 karty:
   - id: ztrata

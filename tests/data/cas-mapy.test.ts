@@ -91,6 +91,11 @@ describe('vzdálenost mezi dvěma lidmi', () => {
     // pořadí nehraje roli
     expect(vzdalenost(os('epiktetos'), os('sokrates'))!.let).toBe(453);
   });
+  it('dva až čtyři lidské životy: „To jsou“', () => {
+    const a = { id: 'a', jmeno: 'A', narozen: { rok: -400 }, zemrel: { rok: -330 }, mista: [] };
+    const b = { id: 'b', jmeno: 'B', narozen: { rok: -140 }, zemrel: { rok: -80 }, mista: [] };
+    expect(bez(vzdalenost(a, b)!.text)).toBe('Dělí je 190 let. To jsou asi tři lidské životy.');
+  });
   it('těsně přes přelom letopočtu', () => {
     const a = { id: 'a', jmeno: 'A', narozen: { rok: -60 }, zemrel: { rok: -2 }, mista: [] };
     const b = { id: 'b', jmeno: 'B', narozen: { rok: 2 }, zemrel: { rok: 70 }, mista: [] };
