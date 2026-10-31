@@ -60,7 +60,10 @@
   const popisZnacky = (r: number) => (krajniEra ? String(Math.abs(zAstro(r))) : rokText(zAstro(r)));
 </script>
 
-<figure class="dva" id={id}>
+<!-- Obraz s větou je figure (věta je její poslední potomek, figcaption); nabídka stojí za ním ve společném obalu
+     s id, aby ji čtečka nečetla jako pokračování popisku obrázku (revize R, nález 9). -->
+<div class="dva" id={id}>
+<figure class="dva__obraz">
   <!-- Popisek prvního života nad pruhy, druhého pod nimi: společná léta (nebo mezera) leží jen mezi pruhy a žádný text nepřetne. -->
   <p class="dva__popis dva__popis--a t-popisek obdobi-{a.obdobi}" data-kdo="a" style={zarovnani(pa)}>
     <strong>{a.jmeno}</strong> <span class="t-letopocet">{a.zivotText}</span>
@@ -85,6 +88,7 @@
   </div>
   {#if krajniEra}<p class="dva__era t-popisek" aria-hidden="true">{krajniEra}</p>{/if}
   <figcaption class="dva__veta" aria-live="polite">{veta}</figcaption>
+</figure>
 
   {#if pripraveno}
     <div class="dva__volba">
@@ -98,10 +102,10 @@
       </select>
     </div>
   {/if}
-</figure>
+</div>
 
 <style>
-  .dva { margin: 0; }
+  .dva__obraz { margin: 0; }
   .dva__pasy { position: relative; display: grid; gap: 14px; padding: 10px 0; }
   .dva__mrizka { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
   /* Společná léta: tint období mezi pruhy s čárkovanými okraji; mezera mezi životy: čárkovaná čára mezi pruhy. */

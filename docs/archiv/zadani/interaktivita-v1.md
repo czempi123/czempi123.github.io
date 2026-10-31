@@ -177,3 +177,37 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 5. Pak se zastav a napiš mi krátce verdikt, zásadní nálezy s doporučením a co jsi rovnou opravil, a ukaž list snímků, jestli vznikl. Spustit nemusím nic.
 ```
+
+## Zadání O
+
+Model: Opus 5.5 · high (xhigh při zaseknutí) se skilly atlas-komponenta, atlas-psani, atlas-cesta a atlas-data. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve interaktivita-v1 (opravy nálezů z revize R podle mých odpovědí a úprava skillů). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, oddíly Po R a Co rozhodnout po R (prázdné odpovědi jsou souhlas s doporučením) a toto zadání, záznam revize docs/revize/interaktivita-v1-2026-10-31.md celý, v docs/design.md oddíly Bloky › Slož argument, Bloky › Kdo žil dřív?, Bloky › Kdo je na tvé straně a Komponenty › Dva životy. Načti skilly atlas-komponenta a atlas-psani; atlas-cesta a atlas-data u kroků, kterých se týkají.
+
+1. Opravy podle odpovědí (u každého nálezu hotové znění nebo přesný zásah v záznamu revize):
+   - Nález 1, Slož argument ve dvou zastaveních: po Zkontrolovat titulek a zpětná vazba s tlačítkem „Ukázat chybějící větu“; pak řádek s otazníkem, oddíl Skrytý předpoklad a volba; oddíl Kde se dá argument napadnout a silnější okraj řádku až po Tohle bych napadl. Stav vydrží obnovení v každém zastavení. Uprav logiku v src/lib/argument.ts s testy, ostrov, podoby na plátně (jen otázka a možnosti bez Kde se dá napadnout), design.md, scripts/slova-cesta.mjs, scripts/snimky-cesta.mjs, pruchod.spec.ts, sloz-argument.spec.ts, cesta8.spec.ts a hodina-podoby.spec.ts.
+   - Nález 2, Kdo žil dřív? na medailoncích: druhyKdoZilDriv bere známou osobu (profil nebo portrét) bez vztahu, jejíž život se s osobou stránky nepřekrývá, nejbližší podle poloviny života, každou nejvýš na třech medailoncích (přidělení v pořadí lide.yaml); kdo takovou nemá, dostane dnešní. Vypiš dvojice (VYPIS=1 npx vitest run tests/data/dvojice.test.ts), uprav testy a ověř katalog hodin (node scripts/hodiny-katalog.mjs).
+   - Nález 3, probliknutí: skript před vykreslením hned za obalem Strany skryje cizí odpovědi podle deníku; pravidlo odpovědi zůstane jedna funkce ze src/lib/strany.ts, ne opis. Test, že se zápisem cizí odpověď nebliká (snímek hned po načtení), a že bez JavaScriptu a bez zápisu je oddíl celý.
+   - Nález 4, Dva životy: vychoziDvojice za učitelem a žákem bere vliv-textem (koho osoba četla, pak kdo četl ji; z lidí s vlastní stránkou nejbližší v čase), pak dnešní pravidlo. Dvojice, které i pak nic neříkají, vypiš v Po O.
+   - Nález 5, věta o lidských životech ve vzdalenost() podle pravidla v záznamu revize, s testem na každou větev (Mapa a čas: „asi šest lidských životů“ se nemění).
+   - Nález 6, bezDuvodu ve schématu Slož argument a v cesta8-argument; v dílně pole zůstane.
+   - Nález 7, nové znění ztrata.kdyzNapadnes a věty za citátem 125 v kroku 3 cesty 8.
+   - Nález 8, „Začít znovu“ ve Slož argument (komponenta, design.md, testy).
+   - Nález 9, nabídka Druhý život za </figure> ve společném obalu s id dva-zivoty.
+   Větu, kterou měníš, najdi nejdřív v tests/ (grep -rn) a test uprav v tomtéž commitu. Po změně obsahu restartuj běžící npm run dev.
+
+2. Úprava skillů (kopie ve skills/ a návrh do účtu nástrojem propose_skills, jeden návrh na skill, celý SKILL.md):
+   - atlas-cesta: krok se zastánci jako blok Strany (obaly Strany a Strana, kódy odpovědí, úvodní věta oddílu se čte nad sbalenou i rozbalenou částí, každý odstavec odpovědi stojí sám jako první, odpověď bez zastánce se nevymýšlí, oddíl k víc tématům jedné Volby smí být víckrát); Slož argument (kdy ho dát do cesty, karty a skrytý předpoklad z pramene ověřené v podkladech, napadnout.proc začíná tím, o jakou větu jde, a nepředbíhá námitku dalších kroků, bezDuvodu, když v kroku následuje pole s námitkou, Kam dál na kotvu pod blokem, čas na štítku z viditelného textu po odpovědích).
+   - atlas-data: oddíl Prvky z dat podle Po K2 a O: Dva životy s výchozí dvojicí (vychoziDvojice: učitel, žák, vliv textem, současník), Kdo žil dřív? s pevným pravidlem druhyKdoZilDriv místo náhodného současníka; nový vztah nebo profil může změnit druhého člověka, a tím id bloku a zastavení v uložených hodinách; po změně vztahů nebo stránek VYPIS výpis a dva-zivoty.spec.ts.
+   - atlas-komponenta: co se z revize opakuje: přeskládání po hydrataci na první obrazovce problikne (skript před vykreslením), blok neodkrývá odpověď ani zvýraznění dřív, než se student rozhodne, figcaption je první nebo poslední potomek figure, „Začít znovu“ ve všech blocích, nový druh bloku musí znát pruchod.spec.ts, slova-cesta.mjs a snimky-cesta.mjs.
+   Do docs/pouceni.md jednou větou, co se z revize má dodržovat (nejvýš tři věty), a rozhodnutí do docs/rozhodnuti.md.
+
+3. Snímky jen tam, kde oprava mění vzhled (Slož argument po kontrole, po odkrytí a po volbě na 390 a 1440 px; Dva životy s nabídkou): node scripts/snimky-prvek.mjs (DENIK=<soubor.json>), node scripts/snimky-montaz.mjs do jednoho listu v „Claude outputs/“.
+
+4. Celé npm test pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek O na „hotovo“, oddíl „Po O“ (co jsi opravil po nálezech, nad čím jsi váhal, dvojice Dvou životů a Kdo žil dřív?, které nic neříkají, výsledek npm test), pod něj „Co rozhodnout před uzavřením“ jen tehdy, když něco zbylo, a zadání Uzavření v plném znění ve stejném tvaru jako toto (Opus 5.5 · medium: schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu včetně prvního sestavení a Playwrightu podle Po K0). Zadání O přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+
+5. Pak se zastav a napiš mi krátce, co jsi opravil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```

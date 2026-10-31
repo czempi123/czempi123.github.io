@@ -359,6 +359,55 @@ test('krok 8 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: odd
   await bezJs.close();
 });
 
+// Bez probliknutí (interaktivita-v1, O; revize R, nález 3): cizí odpovědi skryje skript hned za obalem oddílu
+// ještě před vykreslením, ostrov je po hydrataci jen sbalí. Pravidlo odpovědi je tatáž funkce (skriptStranPredem).
+const ZAPIS8 = {
+  'cesta2-je-to-ona': { vyber: 1, proc: 'z prken', potvrzeno: true },
+  'cesta2-ktera-je-theseova': { vyber: 3, proc: '', potvrzeno: true },
+  'cesta2-seneca-plutarchos': { prvni: 3, konecna: 0, duvod: '', reflexe: null },
+};
+test('krok 8 se zápisem nebliká: v prvním snímku po načtení není cizí odpověď vidět', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await sDenikem(page, ZAPIS8);
+  // Co je vidět, když prohlížeč stránku poprvé složí (DOMContentLoaded), dřív než se ostrovy hydratují.
+  await page.addInitScript(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      (window as unknown as { vidim: string[] }).vidim = [...document.querySelectorAll<HTMLElement>('[data-strany] [data-odpoved]')]
+        .filter((e) => e.checkVisibility())
+        .map((e) => `${e.closest<HTMLElement>('[data-strany]')!.dataset.strany}:${e.dataset.odpoved}`);
+    });
+  });
+  await page.goto(KROK8, { waitUntil: 'commit' });
+  await page.waitForLoadState('domcontentloaded');
+  await page.screenshot({ path: 'test-results/snimky/cesta2-krok8-hned-po-nacteni.png' });
+  expect(await page.evaluate(() => (window as unknown as { vidim: string[] }).vidim)).toEqual([
+    'cesta2-je-to-ona:B', 'cesta2-ktera-je-theseova:D', 'cesta2-seneca-plutarchos:seneca',
+  ]);
+  await pripravit(page);
+  expect(await poradiStran(page, 'cesta2-je-to-ona')).toEqual(['p', 'stitek', 'tvoje:B', 'jine:A,C,D', 'p']);
+  // Po hydrataci nic skrytého nezůstane: ostatní odpovědi jsou jen sbalené.
+  await expect(page.locator('[data-strany] [data-odpoved][hidden]')).toHaveCount(0);
+  await expect(page.locator('[data-strany][data-predem]')).toHaveCount(0);
+});
+
+test('krok 8 se zápisem a bez ostrova: skript před vykreslením cizí odpovědi skryje, pojistka je po načtení ukáže', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await sDenikem(page, ZAPIS8);
+  // Žádný modul stránky se nenačte (ostrov Strany by jinak přišel i přes přednačtení), skripty v HTML běží.
+  await page.route(/\/_astro\/[^/]*\.js$/, (r) => r.abort());
+  await page.goto(KROK8);
+  await expect(page.locator('astro-island[component-url*="Strany"]:not([ssr])')).toHaveCount(0);
+  await expect(page.locator('astro-island[component-url*="Strany"][ssr]')).toHaveCount(3);
+  const lod = page.locator('[data-strany="cesta2-je-to-ona"]');
+  await expect(lod.locator('[data-odpoved="B"]')).toBeVisible();
+  for (const k of ['A', 'C', 'D']) await expect(lod.locator(`[data-odpoved="${k}"]`)).toBeHidden();
+  await expect(lod.getByText('Hobbes otázku dělí podle jména, pod kterým se ptáš.')).toBeVisible();
+  await kotvy(page);
+  // Kdyby se ostrov nikdy nehydratoval, odpovědi se po načtení ukážou celé.
+  await expect(lod.locator('[data-odpoved="A"]')).toBeVisible({ timeout: 10_000 });
+  await expect(lod).not.toHaveAttribute('data-predem', /.*/);
+});
+
 for (const sirka of [390, 1440]) for (const rezim of ['light', 'dark'] as const) {
   test(`krok 8 se zápisem v deníku: odpověď studenta první, ostatní sbalené (${sirka} px, ${rezim})`, async ({ page }) => {
     await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });

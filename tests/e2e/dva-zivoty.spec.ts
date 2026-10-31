@@ -13,8 +13,8 @@ const bezNbsp = (s: string) => s.replace(/\u00a0/g, ' ');
 
 // Stránka, výchozí druhý život, věta pod pruhy, a koho student vybere klávesnicí (začátek jména) a co pak věta řekne.
 const STRANKY = [
-  { druh: 'medailonek', adresa: '/osobnost/anaximandros/', a: 'Anaximandros', b: 'Thalés', veta: 'Žili současně asi 64 let.', psat: 'Hypa', vybrany: 'Hypatia', nova: /^Dělí je asi \d+ let\. To je asi .+ lidských životů\.$/ },
-  { druh: 'profil', adresa: '/osobnost/diogenes/', a: 'Diogenés', b: 'Antisthenés', veta: 'Žili současně asi 46 let.', psat: 'Epikt', vybrany: 'Epiktétos', nova: /^Dělí je asi \d+ let\. To je asi .+ lidsk/ },
+  { druh: 'medailonek', adresa: '/osobnost/anaximandros/', a: 'Anaximandros', b: 'Thalés', veta: 'Žili současně asi 64 let.', psat: 'Hypa', vybrany: 'Hypatia', nova: /^Dělí je asi \d+ let\. To (je|jsou) (asi|víc než|skoro) .+ lidsk(ých životů|é životy|ý život)\.$/ },
+  { druh: 'profil', adresa: '/osobnost/diogenes/', a: 'Diogenés', b: 'Antisthenés', veta: 'Žili současně asi 46 let.', psat: 'Epikt', vybrany: 'Epiktétos', nova: /^Dělí je asi \d+ let\. To (je|jsou) (asi|víc než|skoro) .+ lidsk/ },
   { druh: 'portrét', adresa: '/osobnost/sokrates/', a: 'Sókratés', b: 'Platón', veta: 'Žili současně asi 28 let.', psat: 'Aristot', vybrany: 'Aristotelés', nova: /^Dělí je (asi )?15 let\.$/ },
 ] as const;
 
@@ -47,6 +47,10 @@ for (const s of STRANKY) {
     await expect.poll(async () => bezNbsp(await veta(page).innerText())).toMatch(s.nova);
     const denik = await page.evaluate(() => localStorage.getItem('atlas-denik'));
     expect(denik === null || !denik.includes('dva-zivoty')).toBe(true);
+    // Věta je poslední potomek figure; nabídka stojí až za ní, mimo obrázek.
+    expect(await dva.locator('figure').evaluate((f) => f.lastElementChild?.tagName)).toBe('FIGCAPTION');
+    await expect(dva.locator('figure select')).toHaveCount(0);
+    expect(await vyber.evaluate((e) => !!e.closest('#dva-zivoty') && !e.closest('figure'))).toBe(true);
   });
 }
 
@@ -142,12 +146,13 @@ test('Kdo žil dřív? je na každém medailonku nad Dobou a lidmi, profil ho ne
 
 test('Kdo žil dřív? na medailonku: odhad, odhalení a odkaz do mapy', async ({ page }) => {
   await page.goto('/osobnost/anaximandros/');
-  const blok = page.locator('#kdo-anaximandros-herakleitos-poradi');
-  await expect(blok.getByRole('heading')).toHaveText('Kdo žil dřív: Anaximandros, nebo Hérakleitos?');
+  // Druhý člověk s Anaximandrem nežil (interaktivita-v1, O): odpověď je jeden z nich, ne „Žili ve stejné době“.
+  const blok = page.locator('#kdo-anaximandros-parmenides-poradi');
+  await expect(blok.getByRole('heading')).toHaveText('Kdo žil dřív: Anaximandros, nebo Parmenidés?');
   await blok.scrollIntoViewIfNeeded();
   await expect(page.locator('astro-island[component-url*="KdoZilDriv"]:not([ssr])')).toHaveCount(1);
   await blok.getByText('Anaximandros', { exact: true }).click();
   await blok.getByRole('button', { name: 'Odhalit' }).click();
-  expect(bezNbsp(await blok.locator('.blok__zpetna-titulek').innerText())).toBe('Dělí je asi 6 let.');
-  await expect(blok.getByRole('link', { name: /Ukázat na mapě v roce/ })).toHaveAttribute('href', /osoba=anaximandros&srovnat=herakleitos/);
+  expect(bezNbsp(await blok.locator('.blok__zpetna-titulek').innerText())).toBe('Dělí je asi 31 let.');
+  await expect(blok.getByRole('link', { name: /Ukázat na mapě v roce/ })).toHaveAttribute('href', /osoba=anaximandros&srovnat=parmenides/);
 });

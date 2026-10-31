@@ -247,6 +247,11 @@ export const BlokArgument = z
     zpetna: Text,
     /** zpětná vazba k volbě „Žádnou, argument mi drží“ */
     zadnou: Text,
+    /**
+     * Volba bez pole „Proč právě tahle?“: do deníku jde jen zvolená věta. Pro krok, ve kterém hned potom
+     * následuje pole s námitkou (cesta 8, krok 3: Odkryj „Co bys Epikúrovi namítl?“).
+     */
+    bezDuvodu: z.boolean().default(false),
   })
   .strict()
   .refine((b) => new Set(b.karty.map((k) => k.id)).size === b.karty.length, { message: 'Id karet se opakuje.' })

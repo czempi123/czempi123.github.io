@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 31. 10. 2026: Interaktivita v1, krok O (opravy po revizi)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Slož argument má po kontrole tři zastavení: zpětná vazba a „Ukázat chybějící větu“; skrytý předpoklad a volba; po volbě zpětná vazba k ní, „Kde se dá argument napadnout“ a silnější okraj řádku. Stav `odkryto` vydrží obnovení | Nález 1 revize R: student volil podle zvýraznění a otázka zpětné vazby měla odpověď o řádek výš |
+| Na plátně v podobě „jen otázka a možnosti“ oddíl Kde se dá argument napadnout chybí (`data-cast="napadnout"`) | Je to výklad pro toho, kdo blok prochází sám; třída má diskutovat bez něj |
+| `bezDuvodu` ve schématu Slož argument; v cestě 8 `true`, v dílně pole zůstává | Nález 6: námitku student píše o pár odstavců níž v Odkryj |
+| „Začít znovu“ i ve Slož argument; Kdo žil dřív? má dál „Zkusit znovu“ | Nález 8. Kdo žil dřív? je odhad a tlačítko dává nový odhad, nemaže zápis: tam „zkusit“ sedí |
+| Kdo žil dřív? na medailoncích: známá osoba bez vztahu, kterou s osobou stránky dělí aspoň 20 let, nejbližší podle poloviny života, každá nejvýš na třech medailoncích (v pořadí `lide.yaml`) | Nález 2. Mez 20 let je navíc proti doporučení revize: bez ní vyšlo „Dělí je asi 1 rok“ (Anaxagorás a Platón, Antisthenés a Kratés), a to je s přibližnými roky past, ne odpověď |
+| Dva životy: za učitelem a žákem `vliv-textem` (koho osoba četla, pak kdo četl ji, nejbližší s vlastní stránkou), teprve pak současník | Nález 4: Seneca → Kleanthés, Cicero → Platón, Hypatia → Plótínos místo náhodného současníka |
+| Věta o lidských životech: do 50 let žádná, 50–74 „skoro jeden“, pak „asi k“, „víc než k“, „skoro k + 1“ podle zbytku | Nález 5: 56 let nebylo „asi jeden lidský život“ |
+| Probliknutí: skript hned za obalem Strany skryje cizí odpovědi (`hidden`) před vykreslením; odpověď počítá `odpovedStudenta` vložená jako text (pomůcky z `bloky.ts` dostane parametrem), pojistka je 4 s po načtení ukáže, kdyby se ostrov nehydratoval | Nález 3; pravidlo odpovědi zůstává jedno, jako u hlavního tlačítka na Domů |
+| Nabídka Druhý život za `</figure>` ve společném obalu `#dva-zivoty` | Nález 9: `figcaption` je poslední potomek `figure` |
+
 ## 31. 10. 2026: Interaktivita v1, krok R (revize větve)
 
 | Rozhodnutí | Důvod |

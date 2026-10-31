@@ -5,6 +5,7 @@
   // co patří všem, zůstane, kde je; odpověď studenta stojí na místě první odpovědi pod štítkem „Na tvé straně“
   // a ostatní odpovědi jsou pod sbaleným „Kdo hájil jiné odpovědi“. Nic se neškrtá a nic se neukládá.
   // Sestavená stránka je celá: bez JavaScriptu, bez zápisu nebo bez odstavce k odpovědi se nic nemění.
+  // Se zápisem skryje cizí odpovědi už skript před vykreslením (skriptStranPredem), ostrov je pak ukáže sbalené.
   // Nadpis oddílu (a s ním kotva) stojí mimo ostrov, takže odkazy z přípravy hodiny platí v obou stavech.
   import { onMount, type Snippet } from 'svelte';
   import { stavBloku } from '../../lib/denik';
@@ -49,7 +50,15 @@
     return true;
   }
 
-  onMount(() => { preskladej(); });
+  onMount(() => {
+    preskladej();
+    // Skript před vykreslením (Strany.astro) skryl cizí odpovědi atributem hidden; teď už stojí pod „Kdo hájil
+    // jiné odpovědi“ (nebo se nic nepřeskládalo), takže se ukážou.
+    if (obal?.hasAttribute('data-predem')) {
+      for (const e of obal.querySelectorAll<HTMLElement>('[data-odpoved][hidden]')) e.hidden = false;
+      delete obal.dataset.predem;
+    }
+  });
 </script>
 
 <div class="strany" data-strany={blok} bind:this={obal}>{@render children?.()}</div>

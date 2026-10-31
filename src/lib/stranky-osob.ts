@@ -4,7 +4,7 @@
 import { getCollection } from 'astro:content';
 import { adresaOsoby } from './adresa-osoby';
 import { data } from './data';
-import { druhyKdoZilDriv } from './dvojice';
+import { druziKdoZilDriv } from './dvojice';
 
 /** id osob, které mají stránku medailonku (pořadí jako v lide.yaml). */
 export const medailonky: string[] = data.lide.filter((o) => o.medailonek).map((o) => o.id);
@@ -15,13 +15,13 @@ export async function adresaStranekOsob(): Promise<(osoba: string) => string | u
 }
 
 /**
- * Druhý člověk bloku Kdo žil dřív? na medailonku: osoba s profilem nebo portrétem, nejbližší podle poloviny života
- * a bez vztahu s osobou stránky (druhyKdoZilDriv). Stránka medailonku i katalog hodin berou dvojici odsud.
+ * Druhý člověk bloku Kdo žil dřív? na medailonku: osoba s profilem nebo portrétem bez vztahu s osobou stránky,
+ * jejíž život se s ní nepřekrývá, nejbližší podle poloviny života, každá nejvýš na třech medailoncích
+ * (druziKdoZilDriv, přidělení v pořadí lide.yaml). Stránka medailonku i katalog hodin berou dvojici odsud.
  */
 export async function kdoZilNaMedailonku(): Promise<(id: string) => string | null> {
   const zname = new Set((await getCollection('osobnosti')).flatMap((p) => [p.data.osoba, ...(p.data.dalsi ?? [])]));
-  return (id) => {
-    const o = data.lide.find((x) => x.id === id);
-    return o ? druhyKdoZilDriv(o, data.lide, data.vztahy, (x) => zname.has(x)) : null;
-  };
+  const osoby = data.lide.filter((o) => o.medailonek);
+  const druzi = druziKdoZilDriv(osoby, data.lide, data.vztahy, (x) => zname.has(x));
+  return (id) => druzi.get(id) ?? null;
 }

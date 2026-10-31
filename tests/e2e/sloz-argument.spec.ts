@@ -1,6 +1,7 @@
 // Blok Slož argument v dílně (/dilna/bloky/): jen klávesnicí na 390 a 1440 px ve světlém i tmavém režimu (axe, snímek,
 // obnovení), klepnutí a výměna karet, tažení myší, prstem (události ukazatele i skutečný dotyk přes CDP), omezený pohyb,
-// zápis volby do deníku a jeho smazání přes Zkusit znovu, šířka sloupce profilu a kroku cesty a podoby na plátně.
+// zápis volby do deníku a jeho smazání přes Začít znovu, tři zastavení po kontrole (zpětná vazba, chybějící věta, volba)
+// a jejich obnovení, šířka sloupce profilu a kroku cesty a podoby na plátně.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -89,12 +90,28 @@ for (const sirka of [390, 1440] as const) {
       await expect(zpetna).toBeFocused();
       await expect(zpetna).toContainText('Tvůj závěr: „Sókratés jednou zemře“.');
       await expect(zpetna).toContainText('Co ten skok drží?');
-      await expect(zpetna.getByRole('heading', { name: 'Skrytý předpoklad' })).toBeVisible();
-      await expect(zpetna.getByRole('heading', { name: 'Kde se dá argument napadnout' })).toBeVisible();
-      await expect(blok.locator('.radek--skryty')).toContainText(SKRYTY);
-      await expect(blok.locator('.radek--skryty')).toHaveClass(/radek--slabe/);
+      // První zastavení: jen zpětná vazba. Chybějící věta, volba ani místo k napadení ještě nejsou vidět.
+      await expect(blok.locator('.radek__chybi')).toHaveText('Jedna věta tu chybí.');
+      await expect(blok).not.toContainText(SKRYTY);
+      await expect(blok.getByRole('heading', { name: 'Skrytý předpoklad' })).toHaveCount(0);
+      await expect(blok.getByRole('heading', { name: 'Kde se dá argument napadnout' })).toHaveCount(0);
+      await expect(blok.getByRole('radio')).toHaveCount(0);
+      await expect(blok.locator('.radek--slabe')).toHaveCount(0);
       // Po kontrole se karty nepřesouvají.
       await expect(blok.locator('button[data-karta]')).toHaveCount(0);
+      await axe(page);
+
+      // Druhé zastavení: chybějící věta a volba; místo k napadení pořád ne.
+      await tabNa(page, blok.getByRole('button', { name: 'Ukázat chybějící větu' }));
+      await page.keyboard.press('Enter');
+      const skryty = blok.getByRole('region', { name: 'Skrytý předpoklad' });
+      await expect(skryty).toBeFocused();
+      await expect(skryty.getByRole('heading', { name: 'Skrytý předpoklad' })).toBeVisible();
+      await expect(blok.locator('.radek--skryty')).toContainText(SKRYTY);
+      await expect(blok.getByRole('button', { name: 'Ukázat chybějící větu' })).toHaveCount(0);
+      await expect(blok.getByRole('heading', { name: 'Kde se dá argument napadnout' })).toHaveCount(0);
+      await expect(blok.locator('.radek--slabe')).toHaveCount(0);
+      await expect(blok.getByRole('heading', { name: 'Kterou premisu bys napadl ty?' })).toBeVisible();
 
       // Volba: Tab na skupinu, šipky, důvod, potvrzení.
       await tabNa(page, blok.getByRole('radio').first());
@@ -110,6 +127,9 @@ for (const sirka of [390, 1440] as const) {
       const kVolbe = blok.getByRole('region', { name: 'K tvé volbě' });
       await expect(kVolbe).toBeFocused();
       await expect(kVolbe).toContainText('Míříš tam, kde je argument nejslabší');
+      // Třetí zastavení: teprve po volbě místo k napadení a zvýrazněný řádek.
+      await expect(kVolbe.getByRole('heading', { name: 'Kde se dá argument napadnout' })).toBeVisible();
+      await expect(blok.locator('.radek--skryty')).toHaveClass(/radek--slabe/);
       // Po potvrzení zůstane vidět jen zvolená možnost.
       await expect(blok.locator('label.moznost:visible')).toHaveCount(1);
       await expect(blok.getByRole('radio', { name: /Skrytý předpoklad/ })).toBeDisabled();
@@ -128,11 +148,43 @@ for (const sirka of [390, 1440] as const) {
       await expect(blok.getByRole('radio', { name: /Skrytý předpoklad/ })).toBeChecked();
       await expect(blok.locator('.tvuj-duvod')).toContainText('Minulost nezaručí budoucnost.');
       await expect(radek(blok, '1')).toContainText('Sókratés je člověk.');
+      await expect(blok.locator('.radek--skryty')).toHaveClass(/radek--slabe/);
     });
   }
 }
 
-test('klepnutí: výběr karty a řádku, výměna, vrácení mezi karty; premisa v závěru dostane vysvětlení; Zkusit znovu', async ({ page }) => {
+test('každé zastavení po kontrole vydrží obnovení: zpětná vazba, chybějící věta s volbou, volba s místem k napadení', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(STRANKA);
+  let blok = await priprav(page);
+  await sloz(blok, { '1': 'clovek', '2': 'nikdo', zaver: 'zemre' });
+  await blok.getByRole('button', { name: 'Zkontrolovat' }).click();
+  await page.reload();
+  blok = await priprav(page);
+  await expect(blok.getByRole('region', { name: 'Zpětná vazba' })).toContainText('Co ten skok drží?');
+  await expect(blok.getByRole('button', { name: 'Ukázat chybějící větu' })).toBeVisible();
+  await expect(blok.locator('.radek__chybi')).toHaveText('Jedna věta tu chybí.');
+  await expect(blok.getByRole('radio')).toHaveCount(0);
+
+  await blok.getByRole('button', { name: 'Ukázat chybějící větu' }).click();
+  await blok.getByText('Ještě žádný člověk nežil věčně.', { exact: true }).last().click();
+  await page.reload();
+  blok = await priprav(page);
+  await expect(blok.locator('.radek--skryty')).toContainText(SKRYTY);
+  await expect(blok.getByRole('radio', { name: /Ještě žádný člověk/ })).toBeChecked();
+  await expect(blok.getByRole('heading', { name: 'Kde se dá argument napadnout' })).toHaveCount(0);
+  await expect(blok.locator('.radek--slabe')).toHaveCount(0);
+
+  await blok.getByRole('button', { name: 'Tohle bych napadl' }).click();
+  await page.reload();
+  blok = await priprav(page);
+  await expect(blok.getByRole('region', { name: 'K tvé volbě' }).getByRole('heading', { name: 'Kde se dá argument napadnout' })).toBeVisible();
+  await expect(blok.locator('.radek--skryty')).toHaveClass(/radek--slabe/);
+  await expect(blok.locator('label.moznost:visible')).toHaveCount(1);
+});
+
+test('klepnutí: výběr karty a řádku, výměna, vrácení mezi karty; premisa v závěru dostane vysvětlení; Začít znovu', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(STRANKA);
@@ -160,8 +212,8 @@ test('klepnutí: výběr karty a řádku, výměna, vrácení mezi karty; premis
   await expect(zpetna).toContainText('Tvůj závěr: „Ještě žádný člověk nežil věčně“.');
   await expect(zpetna).toContainText('Argument tuhle větu nedokazuje, vychází z ní. Větu, kterou ostatní karty podpírají, máš v řádku 1: „Sókratés jednou zemře“.');
   await expect(zpetna).not.toContainText(/správně|špatně/i);
-  // Zkusit znovu vrátí karty mezi karty a smaže stav.
-  await blok.getByRole('button', { name: 'Zkusit znovu' }).click();
+  // Začít znovu vrátí karty mezi karty a smaže stav.
+  await blok.getByRole('button', { name: 'Začít znovu' }).click();
   await expect(blok.locator('.hromadka [data-karta]')).toHaveCount(3);
   await expect(blok.getByRole('region', { name: 'Zpětná vazba' })).toHaveCount(0);
   await page.reload();
@@ -286,14 +338,15 @@ test('omezený pohyb: karta skočí bez animace; bez omezení se posune', async 
   await expect(radek(blok, 'zaver')).toContainText('Sókratés jednou zemře.');
 });
 
-test('deník: volba jde do Mého deníku jako názor; Zkusit znovu zápis smaže', async ({ page }) => {
+test('deník: volba jde do Mého deníku jako názor; Začít znovu zápis smaže', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(STRANKA);
   let blok = await priprav(page);
   await sloz(blok, { '1': 'clovek', '2': 'nikdo', zaver: 'zemre' });
   await blok.getByRole('button', { name: 'Zkontrolovat' }).click();
-  // Kontrola sama do deníku nic nezapíše: složení není názor.
+  await blok.getByRole('button', { name: 'Ukázat chybějící větu' }).click();
+  // Kontrola ani odkrytí do deníku nic nezapíšou: složení není názor.
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}').zapisy ?? [])).toEqual([]);
   await blok.getByText('Ještě žádný člověk nežil věčně.', { exact: true }).last().click();
   await blok.getByLabel(/Proč právě tahle/).fill('Stačí jeden protipříklad.');
@@ -304,7 +357,7 @@ test('deník: volba jde do Mého deníku jako názor; Zkusit znovu zápis smaže
   await expect(page.getByText('Napadl bych premisu: „Ještě žádný člověk nežil věčně“. Proč: Stačí jeden protipříklad.')).toBeVisible();
   await page.goto(STRANKA);
   blok = await priprav(page);
-  await blok.getByRole('button', { name: 'Zkusit znovu' }).click();
+  await blok.getByRole('button', { name: 'Začít znovu' }).click();
   await page.goto('/denik/');
   await expect(page.locator('.seznam--zapisy li')).toHaveCount(0);
 });
@@ -327,7 +380,7 @@ for (const [nazev, sirka] of [['sloupec profilu', 680], ['krok cesty', 960]] as 
   });
 }
 
-test('podoby na plátně: jen otázka a možnosti (bez scény, důvodu a Kam dál), otevřená otázka jen s otázkou', async ({ page }) => {
+test('podoby na plátně: jen otázka a možnosti (bez scény, důvodu, Kam dál a místa k napadení), otevřená otázka jen s otázkou', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(STRANKA);
@@ -349,12 +402,16 @@ test('podoby na plátně: jen otázka a možnosti (bez scény, důvodu a Kam dá
   await sloz(blok, { '1': 'clovek', '2': 'nikdo', zaver: 'zemre' });
   await blok.getByRole('button', { name: 'Zkontrolovat' }).click();
   await expect(cast('zpetna').first()).toBeVisible();
+  await blok.getByRole('button', { name: 'Ukázat chybějící větu' }).click();
   await expect(blok.getByRole('radio').first()).toBeAttached();
   await expect(blok.locator('.moznost').first()).toBeVisible();
   for (const el of await cast('duvod').all()) await expect(el).toBeHidden();
   await blok.locator('.moznost').nth(2).click();
   await blok.getByRole('button', { name: 'Tohle bych napadl' }).click();
   for (const c of ['dal', 'ulozeno', 'duvod']) for (const el of await cast(c).all()) await expect(el).toBeHidden();
+  // Kde se dá argument napadnout třída na plátně nevidí: to je výklad pro toho, kdo blok prochází sám.
+  await expect(blok.getByRole('region', { name: 'K tvé volbě' })).toBeVisible();
+  await expect(cast('napadnout')).toBeHidden();
 
   await promitej('otevrena');
   await expect(cast('hlava')).toBeVisible();
@@ -362,6 +419,7 @@ test('podoby na plátně: jen otázka a možnosti (bez scény, důvodu a Kam dá
   for (const c of ['scena', 'moznosti', 'akce', 'zpetna']) for (const el of await cast(c).all()) await expect(el).toBeHidden();
 
   await promitej(null);
+  await expect(cast('napadnout')).toBeVisible();
   await expect(cast('moznosti').first()).toBeVisible();
   await expect(cast('scena')).toBeVisible();
 });

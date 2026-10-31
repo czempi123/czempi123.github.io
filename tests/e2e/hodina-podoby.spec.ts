@@ -339,15 +339,20 @@ for (const rezim of rezimy) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
     await axe(page);
     await page.screenshot({ path: `${SNIMKY}/podoba-1280x720-argument-moznosti-${nazevRezimu(rezim)}.png` });
-    // Třída skládá společně: po kontrole zpětná vazba a volba, bez pole Proč.
+    // Třída skládá společně: po kontrole zpětná vazba, pak chybějící věta a volba; místo k napadení na plátně ne.
     for (const [r, k] of [['1', 'vnimani'], ['2', 'ztrata'], ['zaver', 'netyka']]) {
       await page.locator(`#${ARG} [data-karta="${k}"]`).click();
       await page.locator(`#${ARG} [data-radek="${r}"] .radek__sem`).click();
     }
     await page.locator(`#${ARG}`).getByRole('button', { name: 'Zkontrolovat' }).click();
     await expect(cast(page, ARG, 'zpetna').first()).toBeVisible();
+    await page.locator(`#${ARG}`).getByRole('button', { name: 'Ukázat chybějící větu' }).click();
     await expect(page.locator(`#${ARG} .radek--skryty`)).toContainText('Po smrti z nás nezbude nic, co by mohlo vnímat.');
     for (const el of await cast(page, ARG, 'duvod').all()) await expect(el).toBeHidden();
+    await page.locator(`#${ARG} .moznost`).first().click();
+    await page.locator(`#${ARG}`).getByRole('button', { name: 'Tohle bych napadl' }).click();
+    await expect(page.locator(`#${ARG}`).getByRole('region', { name: 'K tvé volbě' })).toBeVisible();
+    await expect(cast(page, ARG, 'napadnout')).toBeHidden();
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
     await axe(page);
     await page.screenshot({ path: `${SNIMKY}/podoba-1280x720-argument-po-kontrole-${nazevRezimu(rezim)}.png` });

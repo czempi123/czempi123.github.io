@@ -1,9 +1,10 @@
 <script lang="ts">
   // Slož argument: student seřadí premisy a závěr do řádků „1“, „2“ a „Závěr“. Kartu přesune klepnutím
   // (vybere kartu, pak řádek), tažením (myší i prstem) nebo klávesnicí (Enter na kartě, Enter na řádku, Escape
-  // výběr zruší). Po Zkontrolovat zpětná vazba popíše, co složil, a odkryje se skrytý předpoklad (řádek
-  // s otazníkem) a místo, kde se dá argument napadnout. Nakonec volba „Kterou premisu bys napadl ty?“
-  // s nepovinným důvodem: to je názor, jde do deníku. Nic se neboduje.
+  // výběr zruší). Po Zkontrolovat zpětná vazba popíše, co složil, a ptá se, co argumentu chybí; tlačítko
+  // „Ukázat chybějící větu“ pak odkryje skrytý předpoklad (řádek s otazníkem) a volbu „Kterou premisu bys
+  // napadl ty?“ s nepovinným důvodem (bez něj s bezDuvodu): to je názor, jde do deníku. Kde se dá argument
+  // napadnout a zvýrazněný řádek přijdou až po volbě, aby student nevolil podle zvýraznění. Nic se neboduje.
   // Použití v MDX (obsah v src/content/bloky/dilna-sokrates-zemre.yaml):
   // <SlozArgument id="dilna-sokrates-zemre" />
   import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
@@ -34,12 +35,14 @@
   let roz = $state<Rozlozeni>({});
   let vybrana = $state<string | null>(null);
   let zkontrolovano = $state(false);
+  let odkryto = $state(false);
   let napadnout = $state<string | null>(null);
   let proc = $state('');
   let zapsano = $state(false);
   let hlaseni = $state('');
   let oblast = $state<HTMLElement>();
   let oblastVolby = $state<HTMLElement>();
+  let oblastSkryty = $state<HTMLElement>();
 
   let radky = $derived(radkyArgumentu(blok));
   let premisy = $derived(radky.filter((r) => r !== ZAVER));
@@ -57,13 +60,13 @@
 
   onMount(() => {
     const s = platnyStavArgumentu(stavBloku(id), blok);
-    if (s) ({ rozlozeni: roz, zkontrolovano, napadnout, proc, zapsano } = s);
+    if (s) ({ rozlozeni: roz, zkontrolovano, odkryto, napadnout, proc, zapsano } = s);
   });
 
   const meta = () => ({ odkaz, otazka: blok.otazka, druh: 'argument' as const, hotovo: zapsano });
   function ulozStav() {
     if (!Object.keys(roz).length && !zkontrolovano) return smazStavBloku(id);
-    ulozStavBloku(id, { rozlozeni: roz, zkontrolovano, napadnout, proc, zapsano }, meta());
+    ulozStavBloku(id, { rozlozeni: roz, zkontrolovano, odkryto, napadnout, proc, zapsano }, meta());
   }
   const prvek = (vyber: string) => document.getElementById(id)?.querySelector<HTMLElement>(vyber);
 
@@ -119,13 +122,20 @@
     oblast?.focus();
   }
 
+  async function odkryj() {
+    odkryto = true;
+    ulozStav();
+    await tick();
+    oblastSkryty?.focus();
+  }
+
   function zmenVolbu() {
     if (napadnout) ulozStav();
   }
 
   async function zapis() {
     if (!napadnout) return;
-    proc = proc.trim();
+    proc = blok.bezDuvodu ? '' : proc.trim();
     zapsano = true;
     ulozStav();
     ulozZapis({ id, otazka: otazkaZapisu(blok), odpoved: zapisArgumentu(blok, napadnout, proc), odkaz, druh: 'argument' });
@@ -137,6 +147,7 @@
     roz = {};
     vybrana = null;
     zkontrolovano = false;
+    odkryto = false;
     napadnout = null;
     proc = '';
     zapsano = false;
@@ -226,7 +237,7 @@
 {#snippet radekArg(r: string)}
   {@const k = karta(roz[r])}
   <li
-    class={['radek', r === ZAVER && 'radek--zaver', nad === r && 'radek--nad', zkontrolovano && slabe.id === k?.id && 'radek--slabe']}
+    class={['radek', r === ZAVER && 'radek--zaver', nad === r && 'radek--nad', zapsano && slabe.id === k?.id && 'radek--slabe']}
     data-radek={r}
   >
     <span class="radek__cislo" aria-hidden="true">{nazevRadku(r)}</span>
@@ -279,10 +290,10 @@
 
     <ol class="radky" aria-label="Argument">
       {#each premisy as r (r)}{@render radekArg(r)}{/each}
-      <li class={['radek', 'radek--skryty', zkontrolovano && 'radek--odkryty', zkontrolovano && slabe.id === ID_SKRYTY && 'radek--slabe']}>
+      <li class={['radek', 'radek--skryty', odkryto && 'radek--odkryty', zapsano && slabe.id === ID_SKRYTY && 'radek--slabe']}>
         <span class="radek__cislo" aria-hidden="true">?</span>
         <div class="radek__misto">
-          {#if zkontrolovano}
+          {#if odkryto}
             <p class="radek__skryty" in:odkryti><span class="vizualne-skryte">Skrytý předpoklad: </span>{@html radek(blok.skryty.text)}</p>
           {:else}
             <p class="radek__chybi">Jedna věta tu chybí.</p>
@@ -300,45 +311,53 @@
     <div class="blok__zpetna" data-cast="zpetna" role="region" aria-label="Zpětná vazba" aria-live="polite" tabindex="-1" bind:this={oblast} in:odkryti>
       <p class="blok__zpetna-titulek">{zpetna.titulek}</p>
       {#each odstavce(zpetna.text) as o, i (i)}<p>{@html o}</p>{/each}
-      <div class="blok__oddil">
-        <h4 class="blok__zpetna-titulek">Skrytý předpoklad</h4>
-        {#each odstavce(blok.skryty.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
-      </div>
-      <div class="blok__oddil">
-        <h4 class="blok__zpetna-titulek">Kde se dá argument napadnout</h4>
-        {#each odstavce(slabe.proc) as o, i (i)}<p>{@html o}</p>{/each}
-      </div>
-    </div>
-
-    <div class="napadeni" data-cast="moznosti">
-      <h4 class="t-h3 napadeni__otazka" id={`${id}-napadeni`}>{OTAZKA_NAPADENI}</h4>
-      <div class="napadeni__moznosti" role="radiogroup" aria-labelledby={`${id}-napadeni`}>
-        {#each moznosti as m (m.id)}
-          <label class={['moznost', napadnout === m.id && 'moznost--vybrana', zapsano && 'moznost--zamcena', zapsano && napadnout !== m.id && 'moznost--skryta']}>
-            <input class="vizualne-skryte" type="radio" name={`${id}-napadeni`} value={m.id} bind:group={napadnout} onchange={zmenVolbu} disabled={zapsano} />
-            {#if m.stitek}<span class="moznost__stitek">{m.stitek}</span>{/if}
-            <span class="moznost__text">{@html radek(m.text)}</span>
-          </label>
-        {/each}
-      </div>
-      {#if !zapsano}
-        <label class="blok__popis" for={`${id}-proc`} data-cast="duvod">Proč právě tahle? <span class="nepovinne">Nepovinné</span></label>
-        <textarea class="blok__pole blok__pole--kratke" data-cast="duvod" id={`${id}-proc`} rows="2" bind:value={proc} onchange={zmenVolbu} placeholder="Stačí pár slov…"></textarea>
-        <button class="blok__tl blok__tl--hlavni" data-cast="akce" type="button" onclick={zapis} disabled={!napadnout}>Tohle bych napadl</button>
-      {:else}
-        {#if proc}<p class="tvuj-duvod" data-cast="duvod"><span class="t-popisek">Tvůj důvod:</span> {proc}</p>{/if}
-        {#if zvolena}
-          <div class="blok__zpetna" data-cast="zpetna" role="region" aria-label="K tvé volbě" aria-live="polite" tabindex="-1" bind:this={oblastVolby} in:odkryti>
-            {#each odstavce(zvolena.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
-          </div>
-        {/if}
+      {#if odkryto}
+        <div class="blok__oddil" role="region" aria-label="Skrytý předpoklad" tabindex="-1" bind:this={oblastSkryty} in:odkryti>
+          <h4 class="blok__zpetna-titulek">Skrytý předpoklad</h4>
+          {#each odstavce(blok.skryty.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
+        </div>
       {/if}
     </div>
+
+    {#if !odkryto}
+      <button class="blok__tl blok__tl--hlavni argument__odkryt" data-cast="akce" type="button" onclick={odkryj}>Ukázat chybějící větu</button>
+    {:else}
+      <div class="napadeni" data-cast="moznosti">
+        <h4 class="t-h3 napadeni__otazka" id={`${id}-napadeni`}>{OTAZKA_NAPADENI}</h4>
+        <div class="napadeni__moznosti" role="radiogroup" aria-labelledby={`${id}-napadeni`}>
+          {#each moznosti as m (m.id)}
+            <label class={['moznost', napadnout === m.id && 'moznost--vybrana', zapsano && 'moznost--zamcena', zapsano && napadnout !== m.id && 'moznost--skryta']}>
+              <input class="vizualne-skryte" type="radio" name={`${id}-napadeni`} value={m.id} bind:group={napadnout} onchange={zmenVolbu} disabled={zapsano} />
+              {#if m.stitek}<span class="moznost__stitek">{m.stitek}</span>{/if}
+              <span class="moznost__text">{@html radek(m.text)}</span>
+            </label>
+          {/each}
+        </div>
+        {#if !zapsano}
+          {#if !blok.bezDuvodu}
+            <label class="blok__popis" for={`${id}-proc`} data-cast="duvod">Proč právě tahle? <span class="nepovinne">Nepovinné</span></label>
+            <textarea class="blok__pole blok__pole--kratke" data-cast="duvod" id={`${id}-proc`} rows="2" bind:value={proc} onchange={zmenVolbu} placeholder="Stačí pár slov…"></textarea>
+          {/if}
+          <button class="blok__tl blok__tl--hlavni" data-cast="akce" type="button" onclick={zapis} disabled={!napadnout}>Tohle bych napadl</button>
+        {:else}
+          {#if proc}<p class="tvuj-duvod" data-cast="duvod"><span class="t-popisek">Tvůj důvod:</span> {proc}</p>{/if}
+          {#if zvolena}
+            <div class="blok__zpetna" data-cast="zpetna" role="region" aria-label="K tvé volbě" aria-live="polite" tabindex="-1" bind:this={oblastVolby} in:odkryti>
+              {#each odstavce(zvolena.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
+              <div class="blok__oddil" data-cast="napadnout">
+                <h4 class="blok__zpetna-titulek">Kde se dá argument napadnout</h4>
+                {#each odstavce(slabe.proc) as o, i (i)}<p>{@html o}</p>{/each}
+              </div>
+            </div>
+          {/if}
+        {/if}
+      </div>
+    {/if}
 
     {#if zapsano}<BlokDal {dal} />{/if}
     <div class="blok__akce" data-cast="akce">
       {#if zapsano}<p class="blok__ulozeno" data-cast="ulozeno">Tvoje volba je uložená v deníku.</p>{/if}
-      <button class="blok__tl blok__tl--tiche" type="button" onclick={znovu}>Zkusit znovu</button>
+      <button class="blok__tl blok__tl--tiche" type="button" onclick={znovu}>Začít znovu</button>
     </div>
   {/if}
 </section>
@@ -441,6 +460,7 @@
 
   .moznost__stitek { font-family: var(--font-sans); font-size: var(--fs-popisek); font-style: normal; font-weight: 600; letter-spacing: 0.02em; color: var(--pc); }
 
+  .argument__odkryt { margin-top: var(--s-2); }
   .napadeni { margin-top: var(--s-6); }
   .napadeni__otazka { margin: 0 0 var(--s-4); }
   .napadeni__moznosti { display: grid; gap: var(--s-3); margin-bottom: var(--s-5); }

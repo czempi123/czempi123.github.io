@@ -2,6 +2,7 @@
 // Kdo je na tvé straně: oddíl posledního kroku cesty, jehož text patří k odpovědím jednoho bloku cesty
 // (Volba, Spor, Změň jednu věc). Text zůstává v MDX, ne v YAML (docs/design.md › Kdo je na tvé straně).
 // Ostrov po načtení přečte z deníku odpověď studenta a ukáže nejdřív její zastánce; ostatní sbalí.
+// Skript hned za ostrovem skryje ostatní odpovědi už před vykreslením, takže oddíl na první obrazovce neproblikne.
 // Bez JavaScriptu, bez zápisu v deníku nebo bez odstavce k odpovědi je oddíl celý, jak ho autor napsal.
 // Použití v MDX (nadpis oddílu stojí nad obalem, ať kotva zůstane na místě):
 // <Strany blok="cesta2-je-to-ona">
@@ -13,7 +14,8 @@
 // Změň jednu věc id možnosti. Neznámý kód nebo blok jiného druhu zastaví sestavení.
 import { getEntry } from 'astro:content';
 import Ostrov from '../ostrovy/Strany.svelte';
-import { popisStran, platneKody, kodyStrany, type BlokProStrany } from '../../lib/strany';
+import { popisStran, platneKody, kodyStrany, skriptStranPredem, type BlokProStrany } from '../../lib/strany';
+import { TEXT_DENIKU_SKRIPT } from '../../lib/denik';
 
 interface Props { blok: string }
 const { blok: id } = Astro.props;
@@ -29,3 +31,5 @@ const spatne = pouzite.filter((k) => !platneKody(popis).includes(k));
 if (spatne.length) throw new Error(`Kdo je na tvé straně na ${stranka}: blok „${id}“ nemá odpověď ${spatne.join(', ')} (platné: ${platneKody(popis).join(', ')}).`);
 ---
 <Ostrov client:load blok={id} popis={popis}><Fragment set:html={html} /></Ostrov>
+{/* Hned za ostrovem, ještě před vykreslením: cizí odpovědi skryje, aby oddíl neproblikl celý (skriptStranPredem). */}
+<script is:inline set:html={skriptStranPredem(id, popis, TEXT_DENIKU_SKRIPT)}></script>

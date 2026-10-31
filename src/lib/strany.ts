@@ -2,7 +2,7 @@
 // v bloku cesty zvolil, a ostatní odpovědi sbalí (src/components/ostrovy/Strany.svelte).
 // Čisté funkce bez DOM: z uloženého stavu bloku (denik.ts › stavBloku) přečtou odpověď studenta a spočítají,
 // v jakém pořadí se potomci oddílu ukážou. Nic se neukládá; když odpověď chybí, oddíl zůstane jako v sestavené stránce.
-import { STRED, platnaPoloha, platnyStavVolby, pismeno } from './bloky';
+import { POLOHY, STRED, platnaPoloha, platnyStavVolby, pismeno } from './bloky';
 
 /** Bloky, jejichž odpověď oddíl umí přečíst. Roztřiď (karty v koších) a Odkryj (vlastní text) ne. */
 export type DruhStran = 'volba' | 'spor' | 'zmena';
@@ -49,21 +49,33 @@ export function platneKody(p: PopisStran): string[] {
 export const kodyStrany = (odpoved: string): string[] => odpoved.split(/[\s,]+/).filter(Boolean);
 
 /**
+ * Co odpovedStudenta potřebuje z bloky.ts. Funkce bere pomůcky jako parametr, aby šla vložit jako text
+ * do skriptu před vykreslením (skriptStranPredem): pravidlo odpovědi je jedno, ne opis.
+ */
+export interface PomuckyStran {
+  platnyStavVolby: typeof platnyStavVolby;
+  platnaPoloha: typeof platnaPoloha;
+  STRED: number;
+}
+const POMUCKY_STRAN: PomuckyStran = { platnyStavVolby, platnaPoloha, STRED };
+
+/**
  * Odpověď studenta z uloženého stavu bloku, nebo null. Volba: zvolená karta, jen když ji student potvrdil.
  * Spor: konečná poloha (blíž první straně, UPROSTRED, nebo blíž druhé); první poloha nestačí.
  * Změň jednu věc: základní rozhodnutí. Chybějící nebo neplatný stav dá null.
+ * Tělo smí sahat jen na parametry (a na řetězec „uprostred“): vkládá se jako text do skriptu před vykreslením.
  */
-export function odpovedStudenta(p: PopisStran | null, stav: unknown): string | null {
+export function odpovedStudenta(p: PopisStran | null, stav: unknown, h: PomuckyStran = POMUCKY_STRAN): string | null {
   if (!p || !stav || typeof stav !== 'object') return null;
   if (p.druh === 'volba') {
-    const s = platnyStavVolby(stav, p.kody.length);
+    const s = h.platnyStavVolby(stav, p.kody.length);
     return s?.potvrzeno ? p.kody[s.vyber] : null;
   }
   if (p.druh === 'spor') {
-    const konecna = platnaPoloha((stav as { prvni?: unknown; konecna?: unknown }).konecna);
-    if (konecna === null || platnaPoloha((stav as { prvni?: unknown }).prvni) === null) return null;
-    if (konecna === STRED) return UPROSTRED;
-    return p.kody[konecna < STRED ? 0 : 1] ?? null;
+    const konecna = h.platnaPoloha((stav as { prvni?: unknown; konecna?: unknown }).konecna);
+    if (konecna === null || h.platnaPoloha((stav as { prvni?: unknown }).prvni) === null) return null;
+    if (konecna === h.STRED) return 'uprostred';
+    return p.kody[konecna < h.STRED ? 0 : 1] ?? null;
   }
   if (p.druh === 'zmena') {
     const zaklad = (stav as { zaklad?: unknown }).zaklad;
@@ -97,4 +109,45 @@ export function rozvrhOddilu(potomci: (string[] | null)[], odpoved: string | nul
     else (k.includes(odpoved) ? r.tvoje : r.jine).push(i);
   });
   return r;
+}
+
+/** Za kolik milisekund po načtení stránky se skryté odpovědi ukážou samy, když se ostrov nehydratoval. */
+export const POJISTKA_STRAN = 4000;
+
+/**
+ * Skript před vykreslením, který stojí hned za ostrovem oddílu (Strany.astro): přečte deník a odpovědi, které
+ * nejsou studentovy, skryje (`hidden`) dřív, než se stránka poprvé vykreslí. Ostrov je po hydrataci přesune pod
+ * „Kdo hájil jiné odpovědi“, ukáže je a atribut `data-predem` sundá (revize R, nález 3: oddíl jinak problikl celý
+ * a text pak uskočil o stovky pixelů). Odpověď i rozvrh počítají tytéž funkce jako ostrov; vkládají se jako text.
+ * Bez zápisu, bez JavaScriptu nebo s neplatným stavem skript nic nezmění. `textDeniku` je výraz TEXT_DENIKU_SKRIPT.
+ */
+export function skriptStranPredem(blok: string, popis: PopisStran, textDeniku: string): string {
+  const json = (x: unknown) => JSON.stringify(x).replace(/</g, '\\u003c');
+  return `(function () {
+  var s = document.currentScript;
+  try {
+    var o = s && s.previousElementSibling;
+    var obal = o && (o.matches('[data-strany]') ? o : o.querySelector('[data-strany]'));
+    if (!obal) return;
+    var d = JSON.parse(${textDeniku} || 'null');
+    if (!d || d.verze !== 1 || !d.bloky) return;
+    var POLOHY = ${POLOHY};
+    var h = { platnyStavVolby: ${platnyStavVolby.toString()}, platnaPoloha: ${platnaPoloha.toString()}, STRED: ${STRED} };
+    var odpoved = (${odpovedStudenta.toString()})(${json(popis)}, d.bloky[${json(blok)}], h);
+    var kody = ${kodyStrany.toString()};
+    var koren = obal.querySelector(':scope > astro-slot') || obal;
+    var potomci = Array.prototype.slice.call(koren.children);
+    var r = (${rozvrhOddilu.toString()})(potomci.map(function (e) { return e.hasAttribute('data-odpoved') ? kody(e.getAttribute('data-odpoved')) : null; }), odpoved);
+    if (!r) return;
+    r.jine.forEach(function (i) { potomci[i].hidden = true; });
+    obal.setAttribute('data-predem', '');
+    addEventListener('load', function () {
+      setTimeout(function () {
+        if (!obal.hasAttribute('data-predem')) return;
+        r.jine.forEach(function (i) { potomci[i].hidden = false; });
+        obal.removeAttribute('data-predem');
+      }, ${POJISTKA_STRAN});
+    });
+  } catch (e) { /* úložiště nedostupné: oddíl zůstane celý */ }
+})();`;
 }

@@ -127,12 +127,25 @@ describe('Slož argument: kterou premisu bys napadl', () => {
 
 describe('Slož argument: stav po obnovení', () => {
   it('platný stav projde celý', () => {
-    const s = { rozlozeni: { '1': 'a', '2': 'b', [ZAVER]: 'z' }, zkontrolovano: true, napadnout: 'skryty', proc: 'Proto.', zapsano: true };
+    const s = { rozlozeni: { '1': 'a', '2': 'b', [ZAVER]: 'z' }, zkontrolovano: true, odkryto: true, napadnout: 'skryty', proc: 'Proto.', zapsano: true };
     expect(platnyStavArgumentu(s, blok)).toEqual(s);
+  });
+  it('každé zastavení vydrží obnovení: zkontrolováno a skryté, odkryté bez volby, se zapsanou volbou', () => {
+    const roz = { '1': 'a', '2': 'b', [ZAVER]: 'z' };
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true, odkryto: false }, blok)).toMatchObject({ zkontrolovano: true, odkryto: false, napadnout: null });
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true, odkryto: true }, blok)).toMatchObject({ odkryto: true, napadnout: null, zapsano: false });
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true, odkryto: true, napadnout: 'a', zapsano: true }, blok)).toMatchObject({ odkryto: true, napadnout: 'a', zapsano: true });
+  });
+  it('volba před odkrytím neplatí; odkrytí jen po kontrole; starý stav s volbou (bez odkryto) je odkrytý', () => {
+    const roz = { '1': 'a', '2': 'b', [ZAVER]: 'z' };
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true, odkryto: false, napadnout: 'a', zapsano: true }, blok)).toMatchObject({ napadnout: null, zapsano: false });
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: false, odkryto: true }, blok)?.odkryto).toBe(false);
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true, napadnout: 'a', zapsano: true }, blok)).toMatchObject({ odkryto: true, napadnout: 'a', zapsano: true });
+    expect(platnyStavArgumentu({ rozlozeni: roz, zkontrolovano: true }, blok)?.odkryto).toBe(false);
   });
   it('neznámé řádky, karty a zdvojené karty se zahodí; kontrola jen se složeným argumentem', () => {
     const s = platnyStavArgumentu({ rozlozeni: { '1': 'a', '2': 'a', '7': 'b', [ZAVER]: 'nic' }, zkontrolovano: true, napadnout: 'a', zapsano: true }, blok);
-    expect(s).toEqual({ rozlozeni: { '1': 'a' }, zkontrolovano: false, napadnout: null, proc: '', zapsano: false });
+    expect(s).toEqual({ rozlozeni: { '1': 'a' }, zkontrolovano: false, odkryto: false, napadnout: null, proc: '', zapsano: false });
   });
   it('volba bez kontroly ani neznámá volba neplatí; zapsáno jen s volbou', () => {
     const roz = { '1': 'a', '2': 'b', [ZAVER]: 'z' };
@@ -171,5 +184,10 @@ describe('Slož argument: schéma', () => {
   });
   it('tři až čtyři karty', () => {
     expect(chyba({ karty: zaklad.karty.slice(0, 2) })).toBe(false);
+  });
+  it('bezDuvodu je nepovinné, výchozí false; pole Proč má jen blok bez něj', () => {
+    expect(BlokArgument.parse({ ...zaklad }).bezDuvodu).toBe(false);
+    expect(BlokArgument.parse({ ...zaklad, bezDuvodu: true }).bezDuvodu).toBe(true);
+    expect(chyba({ bezDuvodu: 'ano' })).toBe(false);
   });
 });

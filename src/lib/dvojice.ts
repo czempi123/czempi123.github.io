@@ -41,13 +41,18 @@ function nejblizsi<T extends Osoba>(osoba: Osoba, kandidati: T[]): T[] {
 
 export interface VychoziDvojice {
   id: string;
-  /** proč právě on: první učitel, první žák, nebo nejbližší současník se stránkou */
-  duvod: 'ucitel' | 'zak' | 'soucasnik';
+  /**
+   * proč právě on: první učitel, první žák, koho osoba četla (`cetl`), kdo četl ji (`ctenar`),
+   * nebo nejbližší současník se stránkou
+   */
+  duvod: 'ucitel' | 'zak' | 'cetl' | 'ctenar' | 'soucasnik';
 }
 
 /**
- * Výchozí druhý život v Dvou životech: první učitel osoby z vztahy.yaml, pak první žák, jinak nejbližší
- * současník s vlastní stránkou (podle poloviny života; kdo s osobou nežil zároveň, přijde až za současníky).
+ * Výchozí druhý život v Dvou životech: první učitel osoby z vztahy.yaml, pak první žák; pak vztah vliv-textem,
+ * nejdřív koho osoba četla, potom kdo četl ji, z lidí s vlastní stránkou ten nejbližší podle poloviny života
+ * (interaktivita-v1, O: dvojice bez důvodu působila jako náhoda); jinak nejbližší současník s vlastní stránkou
+ * (kdo s osobou nežil zároveň, přijde až za současníky).
  * Lidé stránky (`naStrance`, u společného profilu obě osoby) a lidé bez roků se nevybírají.
  */
 export function vychoziDvojice(
@@ -64,6 +69,11 @@ export function vychoziDvojice(
   if (ucitel) return { id: ucitel.od, duvod: 'ucitel' };
   const zak = vztahy.find((v) => v.typ === 'ucitel' && v.od === osoba.id && smiVedle(v.k));
   if (zak) return { id: zak.k, duvod: 'zak' };
+  const zTextu = (ids: string[]) => nejblizsi(osoba, ids.filter((id) => maStranku(id) && smiVedle(id)).map((id) => podleId.get(id)!))[0];
+  const cetl = zTextu(vztahy.filter((v) => v.typ === 'vliv-textem' && v.k === osoba.id).map((v) => v.od));
+  if (cetl) return { id: cetl.id, duvod: 'cetl' };
+  const ctenar = zTextu(vztahy.filter((v) => v.typ === 'vliv-textem' && v.od === osoba.id).map((v) => v.k));
+  if (ctenar) return { id: ctenar.id, duvod: 'ctenar' };
   const seStrankou = lide.filter((o) => smiVedle(o.id) && maStranku(o.id));
   const poradi = nejblizsi(osoba, seStrankou);
   const soucasnik = poradi.find((o) => zijiZaroven(o, osoba)) ?? poradi[0];
@@ -71,12 +81,63 @@ export function vychoziDvojice(
 }
 
 /**
- * Druhý člověk bloku Kdo žil dřív? na medailonku: osoba, kterou student zná (`znama`: má profil nebo portrét),
- * nejbližší podle poloviny života a bez vztahu s osobou stránky, aby otázka nebyla zjevná z Doby a lidí.
+ * Kolik let dělí dva životy (od úmrtí staršího po narození mladšího), nebo 0, když spolu žili; null bez roků.
  */
-export function druhyKdoZilDriv(osoba: Osoba, lide: Osoba[], vztahy: Vztah[], znama: (id: string) => boolean): string | null {
+export function mezeraZivotu(a: Osoba, b: Osoba): number | null {
+  const za = zivotOsoby(a);
+  const zb = zivotOsoby(b);
+  if (!za || !zb) return null;
+  return Math.max(0, Math.max(naAstro(za.od), naAstro(zb.od)) - Math.min(naAstro(za.do), naAstro(zb.do)));
+}
+
+/**
+ * Nejmenší mezera mezi životy na medailonku (let): s přibližnými roky by „Dělí je asi 1 rok“ byla past, ne odpověď,
+ * a karta „Žili ve stejné době“ by byla skoro pravda. Dvacet let je generace a přežije i nejistotu „asi“.
+ */
+export const NEJMENSI_MEZERA = 20;
+
+/**
+ * Druhý člověk bloku Kdo žil dřív? na medailonku: osoba, kterou student zná (`znama`: má profil nebo portrét),
+ * bez vztahu s osobou stránky (aby otázka nebyla zjevná z Doby a lidí), jejíž život se s osobou stránky
+ * nepřekrývá (dělí je aspoň NEJMENSI_MEZERA let) a která ještě není plná (`plna`), nejbližší podle poloviny života. Odpověď je pak A, nebo B,
+ * a odkrytí řekne „Dělí je…“ (interaktivita-v1, O: dřív skoro všude „Žili ve stejné době“).
+ * Kdo takovou osobu nemá, dostane nejbližší známou osobu bez vztahu, i současníka.
+ */
+export function druhyKdoZilDriv(
+  osoba: Osoba,
+  lide: Osoba[],
+  vztahy: Vztah[],
+  znama: (id: string) => boolean,
+  plna: (id: string) => boolean = () => false,
+): string | null {
   const kandidati = lide.filter((o) => o.id !== osoba.id && znama(o.id) && !majiVztah(osoba.id, o.id, vztahy));
-  return nejblizsi(osoba, kandidati)[0]?.id ?? null;
+  const poradi = nejblizsi(osoba, kandidati);
+  return (poradi.find((o) => (mezeraZivotu(o, osoba) ?? 0) >= NEJMENSI_MEZERA && !plna(o.id)) ?? poradi[0])?.id ?? null;
+}
+
+/** Nejvýš na kolika medailoncích je tatáž známá osoba druhým člověkem bloku Kdo žil dřív? */
+export const NEJVIC_MEDAILONKU = 3;
+
+/**
+ * Druzí lidé Kdo žil dřív? pro všechny medailonky najednou: přiděluje se v pořadí `osoby` (pořadí v lide.yaml)
+ * a známá osoba, která už je na NEJVIC_MEDAILONKU medailoncích, se přeskočí, aby se otázka neopakovala
+ * se stejným člověkem na každé stránce. Vrací id medailonku → id druhého člověka (nebo null).
+ */
+export function druziKdoZilDriv(
+  osoby: Osoba[],
+  lide: Osoba[],
+  vztahy: Vztah[],
+  znama: (id: string) => boolean,
+  nejvic = NEJVIC_MEDAILONKU,
+): Map<string, string | null> {
+  const pocet = new Map<string, number>();
+  const vysledek = new Map<string, string | null>();
+  for (const o of osoby) {
+    const b = druhyKdoZilDriv(o, lide, vztahy, znama, (id) => (pocet.get(id) ?? 0) >= nejvic);
+    vysledek.set(o.id, b);
+    if (b) pocet.set(b, (pocet.get(b) ?? 0) + 1);
+  }
+  return vysledek;
 }
 
 /**

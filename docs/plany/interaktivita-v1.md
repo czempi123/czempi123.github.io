@@ -13,8 +13,8 @@ Proč teď: zkouška se studenty počká, až je autor bude mít (rozhodnutí 26
 | K3 | Slož argument: komponenta podle knihovny bloků, ukázka v dílně, zastavení a podoby v přípravě hodiny | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 30. 10. 2026 (Po K3) |
 | T2 | Slož argument v cestě 8, krok 3: premisy a skrytý předpoklad z Dopisu Menoikeovi 124–125 ověřené proti podkladům celku 6, zpětná vazba, navázání textu kroku | Opus 5.5 · high se skilly `atlas-overeni`, `atlas-psani` a `atlas-cesta` | hotovo 30. 10. 2026 (Po T2) |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 31. 10. 2026 (Po R) |
-| O | Opravy po revizi a úprava skillů (`atlas-cesta`: krok se zastánci jako blok, Slož argument; `atlas-data`: prvky medailonku; `atlas-komponenta`) | Opus 5.5 · high | zadání níž |
-| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
+| O | Opravy po revizi a úprava skillů (`atlas-cesta`: krok se zastánci jako blok, Slož argument; `atlas-data`: prvky medailonku; `atlas-komponenta`) | Opus 5.5 · high | hotovo 31. 10. 2026 (Po O) |
+| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | zadání níž |
 
 **Proč v tomhle pořadí.** K0 je první, protože dokud kontroly na GitHubu padají na staré chybě, nová chyba z dalších kroků v nich zapadne. Kdo je na tvé straně jde hned potom: revize ho dala nejvýš (nález 4, „před zkouškou, jestli budou domácí průchody“), mění pět hotových cest a jeho text píše autor nejvíc; K1 ho postaví na jedné cestě, T1 přenese zbylé čtyři. Prvky medailonků (K2) jsou nejlevnější a mění šablonu najednou; přijdou před Slož argument, protože ten jako jediný potřebuje nový obsah ověřený v pramenech (T2) a do středověku stačí, když je hotový na konci větve. Komponenty vznikají před texty (K před T), stejně jako ve větvi `stoicky-tyden`.
 
@@ -72,6 +72,7 @@ Hotový blok v šabloně medailonku nad Dobou a lidmi (Doba a lidé by odpověď
 - **Kresba „odkud se vzalo zpuchřelé prkno“** v profilu Parmenida: revize ji dala na později.
 - **Dialog a Úryvek s otázkou** z knihovny bloků: přijdou s první cestou středověku, která je potřebuje.
 - **Zkouška se studenty**, až je autor bude mít; do té doby `noindex`.
+- **Chybějící vztahy, kvůli kterým Dva životy ukazují současníka bez důvodu** (Po O): Theofrastos jako Aristotelův žák, Chairefón a Kritón se Sókratem (`znali-se`), Karneadés a Chrýsippos (`vliv-textem`). Doplnit se zdrojem skillem `atlas-data`; změní výchozí dvojice a možná i Kdo žil dřív? na medailoncích.
 - `antika-doplnky`, skill `atlas-obdobi` a plán středověku (P12) v pořadí z 26. 10. 2026.
 
 ## Co rozhodnout před prvním krokem
@@ -262,36 +263,47 @@ Prázdná odpověď znamená souhlas s doporučením. Podrobnosti a hotová zně
 9. **Nabídka Druhý život za `figure`** (nález 9). Doporučuji.
    Odpověď:
 
-## Zadání O
+## Po O
 
-Model: Opus 5.5 · high (xhigh při zaseknutí) se skilly atlas-komponenta, atlas-psani, atlas-cesta a atlas-data. Nový chat v Projektu Atlas.
+Hotovo 31. 10. 2026, commit ve větvi `interaktivita-v1`; na GitHub se nic neposlalo. Všech devět odpovědí na Co rozhodnout po R zůstalo prázdných, tedy souhlas s doporučením.
+
+- **Co jsem opravil po nálezech:**
+  1. *Slož argument ve třech zastaveních* (nález 1): po Zkontrolovat jen titulek, zpětná vazba a tlačítko **Ukázat chybějící větu**; po něm řádek s otazníkem, oddíl Skrytý předpoklad a volba; teprve po Tohle bych napadl zpětná vazba k volbě, pod ní **Kde se dá argument napadnout** a silnější okraj řádku. Stav `odkryto` v `src/lib/argument.ts` vydrží obnovení v každém zastavení (starší stav s vybranou možností se čte jako odkrytý), s testy. Na plátně v podobě „jen otázka a možnosti“ oddíl Kde se dá napadnout chybí (`data-cast="napadnout"` v `promitani.css`). Upravené `design.md`, `slova-cesta.mjs`, `snimky-cesta.mjs`, `pruchod.spec.ts`, `sloz-argument.spec.ts` (nový test obnovení ve všech třech zastaveních), `cesta8.spec.ts`, `hodina-podoby.spec.ts`. Texty YAML se kromě nálezu 7 neměnily.
+  2. *Kdo žil dřív? na medailoncích* (nález 2): známá osoba bez vztahu, kterou s osobou stránky dělí aspoň 20 let, nejbližší podle poloviny života, každá nejvýš na třech medailoncích (`druziKdoZilDriv`, přidělení v pořadí `lide.yaml`). Všech 34 medailonků má teď odpověď A, nebo B; jedenáct známých osob je druhým člověkem třikrát (strop), Platón jednou, nikdo víc. Katalog hodin: `node scripts/hodiny-katalog.mjs` Chyb: 0, id bloků se změnila (třeba `kdo-anaximandros-parmenides-poradi`).
+  3. *Bez probliknutí* (nález 3): skript hned za obalem Strany (`skriptStranPredem` v `src/lib/strany.ts`) skryje cizí odpovědi atributem `hidden` ještě před vykreslením. Odpověď počítá `odpovedStudenta` vložená do skriptu jako text; aby to šlo, bere pomůcky z `bloky.ts` parametrem, takže pravidlo je dál jedno. Ostrov po hydrataci skryté ukáže pod „Kdo hájil jiné odpovědi“; pojistka je ukáže 4 s po načtení, kdyby se ostrov nehydratoval. Testy: skript nad napodobeninou stránky ve Vitestu, v `cesta2.spec.ts` co je vidět při DOMContentLoaded a stránka se zablokovanými moduly (skript skryje, pojistka ukáže); bez JavaScriptu a bez zápisu drží oddíl celý dosavadní testy všech pěti cest.
+  4. *Dva životy* (nález 4): za učitelem a žákem `vliv-textem` (koho osoba četla, pak kdo četl ji, nejbližší s vlastní stránkou), pak současník. Současníka bez vztahu teď dostane 9 osob se stránkou místo 21.
+  5. *Věta o lidských životech* (nález 5): `prirovnaniKZivotum` v `src/lib/cas-mapy.ts` podle pravidla z revize, test na každou větev; Mapa a čas dál „asi šest lidských životů“.
+  6. *`bezDuvodu`* ve schématu Slož argument (výchozí `false`) a v `cesta8-argument`; v dílně pole zůstalo (nález 6).
+  7. *Krok 3 cesty 8* (nález 7): nové `ztrata.kdyzNapadnes` a za citátem 125 jen „Říká, že se netýká nás.“
+  8. *„Začít znovu“* ve Slož argument (nález 8).
+  9. *Nabídka Druhý život* za `</figure>` ve společném obalu `#dva-zivoty`; `figcaption` je poslední potomek `figure`, s testem (nález 9).
+- **Skilly** (kopie ve `skills/`, návrhy do účtu): `atlas-cesta` (krok se zastánci jako blok Strany, Slož argument), `atlas-data` (Prvky z dat: Dva životy a Kdo žil dřív? s pevnými pravidly, co změní nový vztah nebo stránka), `atlas-komponenta` (nic neodkrývat před rozhodnutím, „Začít znovu“, probliknutí po hydrataci, `figcaption`, nový druh bloku a skripty průchodu). `docs/pouceni.md` dvě věty, rozhodnutí v `docs/rozhodnuti.md`.
+- **Nad čím jsem váhal:**
+  - *Mez 20 let u Kdo žil dřív?* je navíc proti doporučení revize. S pravidlem jen „nepřekrývají se“ vyšlo 21 z 34 dvojic s mezerou 1 až 15 let (Anaxagorás a Platón „Dělí je asi 1 rok“, Antisthenés a Kratés, Plútarchos a Marcus Aurelius). S přibližnými roky je to past: karta „Žili ve stejné době“ je skoro pravda a odkrytí ji označí za omyl. Se 20 lety je nejmenší mezera 20 let; daň je, že čtyři medailonky (Aristippos, Speusippos, Plútarchos, Filón Alexandrijský) dostanou kvůli mezi a stropu tří člověka vzdáleného přes 300 let. Šlo by mez nedávat, nebo ji zvednout na 30 (pak by vzdálených dvojic bylo víc).
+  - *Kdo žil dřív? má dál „Zkusit znovu“.* Je to odhad a tlačítko dává nový odhad bez zápisu v deníku; „zkusit“ tam sedí. Ve skillu je to jediná výjimka.
+  - *Pojistka probliknutí* (4 s po načtení ukáže skryté, když se ostrov nehydratoval). Bez ní by student při selhání skriptů neviděl ostatní odpovědi vůbec; se 4 s je to dost dlouho na pomalý telefon.
+  - *Na plátně Kde se dá napadnout chybí i po volbě třídy.* Učitel ho ukáže přepnutím na celý blok; v diskusi by předjímal, co má třída říct sama.
+- **Dva životy, které ani teď nic neříkají** (současník bez vztahu, `VYPIS=1 npx vitest run tests/data/dvojice.test.ts`): Prótagorás → Zénón z Eleje, Aspasie → Chairefón, Alkibiadés → Gorgiás, Aristofanés → Démokritos, Hipparchia → Pyrrhón, Theofrastos → Kratés. Další tři mají v datech jen chybějící vztah, i když dvojice sama dává smysl: Chairefón → Sókratés a Kritón → Sókratés (přátelé, v datech bez `znali-se`), Karneadés → Chrýsippos (četl ho). Nejvíc zarazí Theofrastos, Aristotelův žák, který v datech vztah k Aristotelovi nemá; doplnit vztahy se zdrojem je práce pro `atlas-data` (viz Co zůstává na později).
+- **Kdo žil dřív?, které nic neříká:** po mezi 20 let žádná dvojice „Žili ve stejné době“ ani mezera pod 20 let. Vzdálené dvojice kvůli stropu: Aristippos → Seneca (354 let), Speusippos → Seneca (338), Plútarchos → Diogenés (367), Filón Alexandrijský → Diogenés (308); otázka je snadná, ale odkrytí aspoň ukáže staletí.
+- **Snímky:** `Claude outputs/o-sloz-argument-dva-zivoty.jpg` (Slož argument v cestě 8 po kontrole, po odkrytí a po volbě na 390 px světle a 1440 px tmavě; Dva životy Seneky s nabídkou).
+- **npm test:** astro check 0 chyb (283 souborů), vitest 901 testů ve 40 souborech, Playwright 618 testů, vše prošlo napoprvé (31. 10. 2026).
+
+## Zadání Uzavření
+
+Model: Opus 5.5 · medium. Nový chat v Projektu Atlas.
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve interaktivita-v1 (opravy nálezů z revize R podle mých odpovědí a úprava skillů). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: uzavření větve interaktivita-v1 (schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
 
-0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, oddíly Po R a Co rozhodnout po R (prázdné odpovědi jsou souhlas s doporučením) a toto zadání, záznam revize docs/revize/interaktivita-v1-2026-10-31.md celý, v docs/design.md oddíly Bloky › Slož argument, Bloky › Kdo žil dřív?, Bloky › Kdo je na tvé straně a Komponenty › Dva životy. Načti skilly atlas-komponenta a atlas-psani; atlas-cesta a atlas-data u kroků, kterých se týkají.
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, oddíly Po K0 (kontroly na GitHubu) a Po O a toto zadání.
 
-1. Opravy podle odpovědí (u každého nálezu hotové znění nebo přesný zásah v záznamu revize):
-   - Nález 1, Slož argument ve dvou zastaveních: po Zkontrolovat titulek a zpětná vazba s tlačítkem „Ukázat chybějící větu“; pak řádek s otazníkem, oddíl Skrytý předpoklad a volba; oddíl Kde se dá argument napadnout a silnější okraj řádku až po Tohle bych napadl. Stav vydrží obnovení v každém zastavení. Uprav logiku v src/lib/argument.ts s testy, ostrov, podoby na plátně (jen otázka a možnosti bez Kde se dá napadnout), design.md, scripts/slova-cesta.mjs, scripts/snimky-cesta.mjs, pruchod.spec.ts, sloz-argument.spec.ts, cesta8.spec.ts a hodina-podoby.spec.ts.
-   - Nález 2, Kdo žil dřív? na medailoncích: druhyKdoZilDriv bere známou osobu (profil nebo portrét) bez vztahu, jejíž život se s osobou stránky nepřekrývá, nejbližší podle poloviny života, každou nejvýš na třech medailoncích (přidělení v pořadí lide.yaml); kdo takovou nemá, dostane dnešní. Vypiš dvojice (VYPIS=1 npx vitest run tests/data/dvojice.test.ts), uprav testy a ověř katalog hodin (node scripts/hodiny-katalog.mjs).
-   - Nález 3, probliknutí: skript před vykreslením hned za obalem Strany skryje cizí odpovědi podle deníku; pravidlo odpovědi zůstane jedna funkce ze src/lib/strany.ts, ne opis. Test, že se zápisem cizí odpověď nebliká (snímek hned po načtení), a že bez JavaScriptu a bez zápisu je oddíl celý.
-   - Nález 4, Dva životy: vychoziDvojice za učitelem a žákem bere vliv-textem (koho osoba četla, pak kdo četl ji; z lidí s vlastní stránkou nejbližší v čase), pak dnešní pravidlo. Dvojice, které i pak nic neříkají, vypiš v Po O.
-   - Nález 5, věta o lidských životech ve vzdalenost() podle pravidla v záznamu revize, s testem na každou větev (Mapa a čas: „asi šest lidských životů“ se nemění).
-   - Nález 6, bezDuvodu ve schématu Slož argument a v cesta8-argument; v dílně pole zůstane.
-   - Nález 7, nové znění ztrata.kdyzNapadnes a věty za citátem 125 v kroku 3 cesty 8.
-   - Nález 8, „Začít znovu“ ve Slož argument (komponenta, design.md, testy).
-   - Nález 9, nabídka Druhý život za </figure> ve společném obalu s id dva-zivoty.
-   Větu, kterou měníš, najdi nejdřív v tests/ (grep -rn) a test uprav v tomtéž commitu. Po změně obsahu restartuj běžící npm run dev.
+1. Schválení: zeptej se mě jednou větou, jestli větev schvaluji (stačí „schvaluji“), a připomeň dvě věci z Po O, nad kterými jsi váhal (mez 20 let u Kdo žil dřív? na medailoncích, Kdo žil dřív? s „Zkusit znovu“). Dokud neschválím, nic neslučuj ani neposílej. Když budu chtít změnu, udělej ji, pusť dotčené testy a pak celé npm test jednou na pozadí s výstupem do souboru.
 
-2. Úprava skillů (kopie ve skills/ a návrh do účtu nástrojem propose_skills, jeden návrh na skill, celý SKILL.md):
-   - atlas-cesta: krok se zastánci jako blok Strany (obaly Strany a Strana, kódy odpovědí, úvodní věta oddílu se čte nad sbalenou i rozbalenou částí, každý odstavec odpovědi stojí sám jako první, odpověď bez zastánce se nevymýšlí, oddíl k víc tématům jedné Volby smí být víckrát); Slož argument (kdy ho dát do cesty, karty a skrytý předpoklad z pramene ověřené v podkladech, napadnout.proc začíná tím, o jakou větu jde, a nepředbíhá námitku dalších kroků, bezDuvodu, když v kroku následuje pole s námitkou, Kam dál na kotvu pod blokem, čas na štítku z viditelného textu po odpovědích).
-   - atlas-data: oddíl Prvky z dat podle Po K2 a O: Dva životy s výchozí dvojicí (vychoziDvojice: učitel, žák, vliv textem, současník), Kdo žil dřív? s pevným pravidlem druhyKdoZilDriv místo náhodného současníka; nový vztah nebo profil může změnit druhého člověka, a tím id bloku a zastavení v uložených hodinách; po změně vztahů nebo stránek VYPIS výpis a dva-zivoty.spec.ts.
-   - atlas-komponenta: co se z revize opakuje: přeskládání po hydrataci na první obrazovce problikne (skript před vykreslením), blok neodkrývá odpověď ani zvýraznění dřív, než se student rozhodne, figcaption je první nebo poslední potomek figure, „Začít znovu“ ve všech blocích, nový druh bloku musí znát pruchod.spec.ts, slova-cesta.mjs a snimky-cesta.mjs.
-   Do docs/pouceni.md jednou větou, co se z revize má dodržovat (nejvýš tři věty), a rozhodnutí do docs/rozhodnuti.md.
+2. Po schválení: celé npm test jednou na pozadí s výstupem do souboru, výsledek čti zvlášť (jen když se od Po O něco změnilo). git switch main, git merge --no-ff interaktivita-v1 s českou zprávou (co větev přinesla jednou větou), git push origin main. Větev interaktivita-v1 nemaž.
 
-3. Snímky jen tam, kde oprava mění vzhled (Slož argument po kontrole, po odkrytí a po volbě na 390 a 1440 px; Dva životy s nabídkou): node scripts/snimky-prvek.mjs (DENIK=<soubor.json>), node scripts/snimky-montaz.mjs do jednoho listu v „Claude outputs/“.
+3. Kontroly na GitHubu (Po K0: sestavení a Playwright tam poběží poprvé): přes gh run list a gh run watch počkej na běh kontroly.yml a pages.yml pro nový commit. Kontrola typů, vitest, sestavení i Playwright mají být zelené a pages.yml má web nasadit. Když něco spadne, přečti log (gh run view --log-failed), oprav to ve větvi interaktivita-v1, slouč znovu a pošli; co na Linuxu s CI: true padá a na Macu ne, zapiš do docs/pouceni.md jednou větou. Nakonec otevři https://czempi123.github.io/cesta/proc-se-bat-smrti/3/ a ověř, že web má noindex a že Slož argument má po kontrole tlačítko „Ukázat chybějící větu“.
 
-4. Celé npm test pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek O na „hotovo“, oddíl „Po O“ (co jsi opravil po nálezech, nad čím jsi váhal, dvojice Dvou životů a Kdo žil dřív?, které nic neříkají, výsledek npm test), pod něj „Co rozhodnout před uzavřením“ jen tehdy, když něco zbylo, a zadání Uzavření v plném znění ve stejném tvaru jako toto (Opus 5.5 · medium: schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu včetně prvního sestavení a Playwrightu podle Po K0). Zadání O přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
+4. V plánu větve: řádek Uzavření na „hotovo“ s datem, krátký oddíl „Po uzavření“ (commit sloučení, výsledek běhů na GitHubu, co jsi případně opravil). V docs/plan.md v rozcestníku větví interaktivita-v1 jako uzavřenou a další krok podle plánu (antika-doplnky). Plán větve přesuň do docs/archiv/plany/, zadání Uzavření do docs/archiv/zadani/interaktivita-v1.md. V Projektu Claude odstraň docs/plany/interaktivita-v1.md a aktualizuj docs/plan.md; nic dalšího do projektu nepřidávej. Commit česky a stručně, push hlavní větve.
 
-5. Pak se zastav a napiš mi krátce, co jsi opravil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+5. Pak se zastav a napiš mi krátce, co se sloučilo, jak dopadly kontroly na GitHubu a co jsi případně opravil. Spustit nemusím nic.
 ```

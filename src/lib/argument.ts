@@ -173,10 +173,17 @@ export function zapisArgumentu(blok: ObsahArgumentu, volba: string, proc = ''): 
 
 // ─── Stav po obnovení ─────────────────────────────────────────────────────────
 
+/**
+ * Zastavení bloku po složení (interaktivita-v1, O): po Zkontrolovat jen zpětná vazba a tlačítko „Ukázat chybějící větu“;
+ * po odkrytí skrytý předpoklad a volba; po volbě zpětná vazba k ní, oddíl Kde se dá argument napadnout a zvýrazněný řádek.
+ * Blok tak neukáže, kam míří ti, kdo argument napadli, dřív, než si student vybere sám.
+ */
 export interface StavArgumentu {
   rozlozeni: Rozlozeni;
-  /** po Zkontrolovat: zpětná vazba, skrytý předpoklad a místo k napadení jsou vidět */
+  /** po Zkontrolovat: zpětná vazba je vidět, karty se už nepřesouvají */
   zkontrolovano: boolean;
+  /** po „Ukázat chybějící větu“: řádek s otazníkem, oddíl Skrytý předpoklad a volba jsou vidět */
+  odkryto: boolean;
   /** zvolená možnost v „Kterou premisu bys napadl ty?“ (id premisy, „skryty“, „zadnou“) */
   napadnout: string | null;
   proc: string;
@@ -202,9 +209,12 @@ export function platnyStavArgumentu(s: unknown, blok: ObsahArgumentu): StavArgum
   }
   const zkontrolovano = x.zkontrolovano === true && jeSlozeno(blok, rozlozeni);
   const moznosti = new Set(moznostiNapadeni(blok).map((m) => m.id));
-  const napadnout = zkontrolovano && typeof x.napadnout === 'string' && moznosti.has(x.napadnout) ? x.napadnout : null;
+  const platnaVolba = typeof x.napadnout === 'string' && moznosti.has(x.napadnout) ? x.napadnout : null;
+  // Stav z doby před dvěma zastaveními (bez „odkryto“) s vybranou možností byl odkrytý.
+  const odkryto = zkontrolovano && (x.odkryto === true || (x.odkryto === undefined && platnaVolba !== null));
+  const napadnout = odkryto ? platnaVolba : null;
   const proc = typeof x.proc === 'string' ? x.proc : '';
   const zapsano = x.zapsano === true && napadnout !== null;
   if (!Object.keys(rozlozeni).length) return null;
-  return { rozlozeni, zkontrolovano, napadnout, proc, zapsano };
+  return { rozlozeni, zkontrolovano, odkryto, napadnout, proc, zapsano };
 }

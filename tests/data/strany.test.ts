@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { popisStran, platneKody, kodyStrany, odpovedStudenta, rozvrhOddilu, UPROSTRED } from '../../src/lib/strany';
+import { popisStran, platneKody, kodyStrany, odpovedStudenta, rozvrhOddilu, skriptStranPredem, UPROSTRED } from '../../src/lib/strany';
+import { TEXT_DENIKU_SKRIPT } from '../../src/lib/denik';
 import { stavBloku, ulozStavBloku, nacti, uloz, _zapomenPamet } from '../../src/lib/denik';
 
 const VOLBA = popisStran({ druh: 'volba', moznosti: [{}, {}, {}, {}] })!;
@@ -82,5 +83,52 @@ describe('rozvrh oddílu', () => {
     expect(rozvrhOddilu(ODDIL, null)).toBeNull();
     expect(rozvrhOddilu([null, ['seneca'], ['plutarchos'], null], UPROSTRED)).toBeNull();
     expect(rozvrhOddilu([null, null], 'A')).toBeNull();
+  });
+});
+
+describe('skript před vykreslením (bez probliknutí)', () => {
+  // Malá napodobenina stránky: obal oddílu se společným odstavcem a třemi odpověďmi, deník v localStorage.
+  function spust(popis: typeof VOLBA, stav: unknown) {
+    const prvek = (odpoved?: string) => ({
+      hidden: false,
+      hasAttribute: (a: string) => a === 'data-odpoved' && odpoved !== undefined,
+      getAttribute: () => odpoved ?? null,
+    });
+    const potomci = [prvek(), prvek('A'), prvek('B C'), prvek('D'), prvek()];
+    const atributy = new Set<string>();
+    const obal = {
+      matches: () => true,
+      querySelector: () => ({ children: potomci }),
+      setAttribute: (a: string) => atributy.add(a),
+      hasAttribute: (a: string) => atributy.has(a),
+      removeAttribute: (a: string) => atributy.delete(a),
+    };
+    const denik = stav === undefined ? null : JSON.stringify({ verze: 1, bloky: { 'cesta-x': stav } });
+    const nacteni: (() => void)[] = [];
+    new Function('document', 'localStorage', 'sessionStorage', 'addEventListener', skriptStranPredem('cesta-x', popis, TEXT_DENIKU_SKRIPT))(
+      { currentScript: { previousElementSibling: obal } },
+      { getItem: () => denik },
+      { getItem: () => null },
+      (_: string, f: () => void) => nacteni.push(f),
+    );
+    return { skryte: potomci.map((p) => p.hidden), predem: atributy.has('data-predem'), nacteni };
+  }
+
+  it('se zápisem skryje cizí odpovědi a nechá společný text i studentovu odpověď', () => {
+    const r = spust(VOLBA, { vyber: 2, proc: '', potvrzeno: true });
+    expect(r.skryte).toEqual([false, true, false, true, false]);
+    expect(r.predem).toBe(true);
+  });
+  it('bez zápisu, s nepotvrzenou Volbou nebo bez deníku nic nemění', () => {
+    for (const stav of [undefined, { vyber: 2, potvrzeno: false }, { vyber: 9, potvrzeno: true }]) {
+      const r = spust(VOLBA, stav);
+      expect(r.skryte).toEqual([false, false, false, false, false]);
+      expect(r.predem).toBe(false);
+    }
+  });
+  it('Spor: konečná poloha rozhoduje stejně jako ostrov', () => {
+    const spor = { druh: 'spor' as const, kody: ['A', 'D'] };
+    expect(spust(spor, { prvni: 1, konecna: 4, duvod: '' }).skryte).toEqual([false, true, true, false, false]);
+    expect(odpovedStudenta(spor, { prvni: 1, konecna: 4, duvod: '' })).toBe('D');
   });
 });

@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { nactiData, type SurovaData } from '../../src/lib/kontroly';
-import { druhyKdoZilDriv, majiVztah, soucasniciNaOse, stredZivota, vychoziDvojice, vyberDruhehoZivota, zijiZaroven } from '../../src/lib/dvojice';
+import { druhyKdoZilDriv, druziKdoZilDriv, mezeraZivotu, NEJMENSI_MEZERA, NEJVIC_MEDAILONKU, majiVztah, soucasniciNaOse, stredZivota, vychoziDvojice, vyberDruhehoZivota, zijiZaroven } from '../../src/lib/dvojice';
 import { vzdalenost } from '../../src/lib/cas-mapy';
 import type { TOsoba } from '../../src/lib/schema';
 
@@ -65,6 +65,26 @@ describe('výchozí dvojice Dvou životů', () => {
     const sDruhou = [...lide, o('druha', -500, -440)];
     expect(vychoziDvojice(lide[0], sDruhou, v, vsichni, new Set(['a', 'druha']))?.id).toBe('ucitel');
   });
+  it('bez učitele a žáka koho osoba četla, a z nich nejbližšího v čase se stránkou', () => {
+    const v = [
+      { od: 'daleko', k: 'a', typ: 'vliv-textem' as const },
+      { od: 'soused', k: 'a', typ: 'vliv-textem' as const },
+      { od: 'ucitel', k: 'a', typ: 'vliv-textem' as const },
+      { od: 'a', k: 'zak', typ: 'vliv-textem' as const },
+    ];
+    // soused (−450) je blíž než ucitel (−505) i daleko; bez stránky se přeskočí
+    expect(vychoziDvojice(lide[0], lide, v, vsichni)).toEqual({ id: 'soused', duvod: 'cetl' });
+    expect(vychoziDvojice(lide[0], lide, v, (id) => id !== 'soused')).toEqual({ id: 'ucitel', duvod: 'cetl' });
+  });
+  it('kdo četl ji, až když osoba nikoho se stránkou nečetla; vliv textem nepřebije učitele', () => {
+    const v = [{ od: 'daleko', k: 'a', typ: 'vliv-textem' as const }, { od: 'a', k: 'zak', typ: 'vliv-textem' as const }];
+    expect(vychoziDvojice(lide[0], lide, v, (id) => id !== 'daleko')).toEqual({ id: 'zak', duvod: 'ctenar' });
+    expect(vychoziDvojice(lide[0], lide, [...v, { od: 'ucitel', k: 'a', typ: 'ucitel' }], vsichni)).toEqual({ id: 'ucitel', duvod: 'ucitel' });
+  });
+  it('polemika ani vliv textem bez stránky nestačí: současník', () => {
+    const v = [{ od: 'daleko', k: 'a', typ: 'polemika' as const }, { od: 'ucitel', k: 'a', typ: 'vliv-textem' as const }];
+    expect(vychoziDvojice(lide[0], lide, v, (id) => id !== 'ucitel')).toEqual({ id: 'soused', duvod: 'soucasnik' });
+  });
   it('bez současníka nejbližší podle poloviny života', () => {
     expect(vychoziDvojice(lide[0], lide, [], (id) => id === 'daleko')).toEqual({ id: 'daleko', duvod: 'soucasnik' });
   });
@@ -74,15 +94,37 @@ describe('výchozí dvojice Dvou životů', () => {
 });
 
 describe('druhý člověk Kdo žil dřív? na medailonku', () => {
-  it('nejbližší známá osoba bez vztahu', () => {
+  it('nejbližší známá osoba bez vztahu, jejíž život se nepřekrývá', () => {
     const v = [{ od: 'soused', k: 'a', typ: 'polemika' as const }];
-    expect(druhyKdoZilDriv(lide[0], lide, v, (id) => ['soused', 'zak', 'daleko'].includes(id))).toBe('zak');
+    // zak (−460 až −380) s osobou (−500 až −430) žil; daleko ne
+    expect(druhyKdoZilDriv(lide[0], lide, v, (id) => ['soused', 'zak', 'daleko'].includes(id))).toBe('daleko');
+  });
+  it('kdo nikoho, s kým se nepřekrývá, nemá, dostane nejbližšího i současníka', () => {
+    expect(druhyKdoZilDriv(lide[0], lide, [], (id) => ['soused', 'zak'].includes(id))).toBe('soused');
   });
   it('při stejné vzdálenosti rozhoduje pořadí v datech', () => {
-    const dva = [o('a', -500, -400), o('pred', -550, -450), o('po', -450, -350)];
+    const dva = [o('a', -500, -400), o('pred', -650, -530), o('po', -370, -250)];
     expect(druhyKdoZilDriv(dva[0], dva, [], () => true)).toBe('pred');
   });
+  it('mezera pod dvacet let se nepočítá: „Dělí je asi 1 rok“ by byla past', () => {
+    const tri = [o('a', -500, -400), o('tesne', -560, -501), o('dal', -360, -300)];
+    expect(mezeraZivotu(tri[0], tri[1])).toBe(1);
+    expect(mezeraZivotu(tri[0], o('spolu', -450, -350))).toBe(0);
+    expect(druhyKdoZilDriv(tri[0], tri, [], () => true)).toBe('dal');
+    expect(NEJMENSI_MEZERA).toBe(20);
+  });
+  it('plná osoba se přeskočí', () => {
+    const dva = [o('a', -500, -400), o('pred', -650, -530), o('po', -370, -250)];
+    expect(druhyKdoZilDriv(dva[0], dva, [], () => true, (id) => id === 'pred')).toBe('po');
+  });
   it('bez známé osoby nic', () => expect(druhyKdoZilDriv(lide[0], lide, [], () => false)).toBeNull());
+  it('přidělení pro všechny medailonky: každá známá osoba nejvýš třikrát, v pořadí dat', () => {
+    const m = [o('m1', -300, -250), o('m2', -300, -250), o('m3', -300, -250), o('m4', -300, -250), o('m5', -300, -250)];
+    const zname = [o('blizko', -400, -350), o('dal', -500, -420)];
+    const d = druziKdoZilDriv(m, [...m, ...zname], [], (id) => id === 'blizko' || id === 'dal');
+    expect([...d.values()]).toEqual(['blizko', 'blizko', 'blizko', 'dal', 'dal']);
+    expect(NEJVIC_MEDAILONKU).toBe(3);
+  });
 });
 
 describe('nabídka lidí', () => {
@@ -117,11 +159,20 @@ describe('dvojice ve skutečných datech', () => {
     expect(vzdalenost(x, osoba(d!.id))).not.toBeNull();
   });
 
+  const druzi = druziKdoZilDriv(medailonky.map(osoba), data.lide, data.vztahy, zname);
   it.each(medailonky.map((id) => [id] as const))('medailonek %s má druhého člověka pro Kdo žil dřív?', (id) => {
-    const b = druhyKdoZilDriv(osoba(id), data.lide, data.vztahy, zname);
-    expect(b).not.toBeNull();
+    const b = druzi.get(id);
+    expect(b).toBeTruthy();
     expect(sProfilem.has(b!)).toBe(true);
     expect(majiVztah(id, b!, data.vztahy)).toBe(false);
+  });
+
+  it('na medailoncích je známá osoba nejvýš třikrát a většinu dvojic dělí aspoň dvacet let', () => {
+    const pocty = new Map<string, number>();
+    for (const b of druzi.values()) pocty.set(b!, (pocty.get(b!) ?? 0) + 1);
+    expect(Math.max(...pocty.values())).toBeLessThanOrEqual(NEJVIC_MEDAILONKU);
+    const blizko = medailonky.filter((id) => (mezeraZivotu(osoba(id), osoba(druzi.get(id)!)) ?? 0) < NEJMENSI_MEZERA);
+    expect(blizko.length).toBeLessThan(medailonky.length / 4);
   });
 
   it('současníci na mini ose jsou lidé s celým životem', () => {
@@ -141,7 +192,7 @@ describe('dvojice ve skutečných datech', () => {
     }
     radky.push('Kdo žil dřív? na medailoncích:');
     for (const id of medailonky) {
-      const b = druhyKdoZilDriv(osoba(id), data.lide, data.vztahy, zname)!;
+      const b = druzi.get(id)!;
       radky.push(`  ${osoba(id).jmeno} → ${osoba(b).jmeno}: ${vzdalenost(osoba(id), osoba(b))!.text}`);
     }
     console.log(radky.join('\n'));

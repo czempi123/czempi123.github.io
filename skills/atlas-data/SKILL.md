@@ -44,7 +44,16 @@ Hlídá to `tests/data/medailonky.test.ts` (funkce `chybiMedailonku` v `src/lib/
 
 ## Prvky z dat
 
-Medailonek nemá text, ale data ano. Prvky, které se skládají jen z dat (Kdo žil dřív? s náhodným současníkem nebo předchůdcem, Dva životy s posuvníkem dvou pruhů na ose, trasa míst podle let), poslouží všem osobám najednou a bez psaní: 34 medailonkům antiky i stovce dalších. Proto drž roky, místa s rolí a `od`/`do` a vztahy úplné i tam, kde je dnešní stránka neukazuje. Narazíš-li při vyplňování na dvojici, u které by takový prvek něco naučil (žili současně a nepotkali se, dělí je staletí a přesto na sebe navazují), zapiš ji do podkladů vlny jako námět. Měřítko: student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba ani hra na body ne. Prvky staví `atlas-komponenta` (větev `interaktivita-v1`).
+Medailonek nemá text, ale data ano. Z dat se skládají prvky, které dostanou všechny stránky osob najednou a bez psaní: 34 medailonků antiky i stovka dalších (`docs/design.md` › Komponenty › Dva životy a Bloky › Kdo žil dřív?; pravidla jsou pevná, ne náhodná, v `src/lib/dvojice.ts`):
+
+- **Dva životy** v Době a lidech na každé stránce osoby: dva pruhy na jedné ose a věta „Žili současně…“ nebo „Dělí je…“. Výchozí dvojici vybere `vychoziDvojice`: první učitel osoby, pak první žák, pak `vliv-textem` (nejdřív koho osoba četla, potom kdo četl ji; z lidí s vlastní stránkou ten nejbližší v čase), teprve potom nejbližší současník s vlastní stránkou. Student si pak vybere kohokoli jiného.
+- **Kdo žil dřív?** na medailonku: druhého člověka vybere pevné pravidlo `druhyKdoZilDriv` (pro všechny medailonky najednou `druziKdoZilDriv`), ne náhodný současník. Je to osoba s profilem nebo portrétem bez vztahu s osobou stránky, kterou s ní dělí aspoň 20 let, nejbližší podle poloviny života, a každá nejvýš na třech medailoncích (přiděluje se v pořadí `lide.yaml`). Kdo takovou osobu nemá, dostane nejbližší známou osobu bez vztahu. Odpověď je tak A, nebo B, a odkrytí řekne „Dělí je…“.
+
+Proto drž roky (s `priblizne`, kde jsou přibližné), místa s rolí a `od`/`do` a vztahy s typem úplné i tam, kde je dnešní stránka neukazuje. Chybějící vztah je vidět: kdo v datech nemá učitele, žáka ani autora, kterého četl, dostane v Dvou životech současníka, se kterým ho nic nespojuje.
+
+**Nový vztah nebo nová stránka změní dvojice.** Nový `ucitel` nebo `vliv-textem` přepíše výchozí dvojici Dvou životů. Nový profil nebo vztah může změnit druhého člověka Kdo žil dřív? na jednom i na několika medailoncích (kvůli stropu tří se přidělení posune), a s ním id bloku (`kdo-<osoba>-<druhý>-poradi`) a zastavení v hodinách, které si učitelé uložili se starým id. Po každé změně vztahů nebo stránek si proto dvojice vypiš (`VYPIS=1 npx vitest run tests/data/dvojice.test.ts`) a porovnej je s posledním výpisem v plánu větve, pusť `tests/e2e/dva-zivoty.spec.ts` (drží konkrétní dvojice) a po `npm run build` `node scripts/hodiny-katalog.mjs`. Změněná id zapiš do plánu větve.
+
+Narazíš-li při vyplňování na dvojici, u které by takový prvek něco naučil (žili současně a nepotkali se, dělí je staletí a přesto na sebe navazují), zapiš ji do podkladů vlny jako námět. Měřítko: student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba ani hra na body ne. Nové prvky staví `atlas-komponenta`.
 
 ## Kdy přepnout na atlas-overeni
 

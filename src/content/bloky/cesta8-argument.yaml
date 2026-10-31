@@ -12,7 +12,7 @@ karty:
     text: Smrt je ztráta vnímání.
     misto: 2
     vZaveru: "V dopise stojí tahle věta poslední, a proto vypadá jako závěr. Patří ale k větě se slovem „totiž“ a spolu s ní říká, proč se nás smrt netýká. Co tedy z obou plyne?"
-    kdyzNapadnes: "Míříš na druhý důvod. Že mrtvé tělo nevnímá, uzná skoro každý, i ten, kdo věří, že duše žije dál. Napadáš opravdu tuhle větu, nebo tu, která v argumentu chybí?"
+    kdyzNapadnes: "Míříš na druhý důvod, a ten skoro nikdo nepopírá. Spor je spíš o tom, kolik smrt bere: jestli jen to, co cítí tělo, nebo všechno. Napadáš opravdu tuhle větu, nebo tu, která v argumentu chybí?"
   - id: netyka
     text: Smrt se nás netýká.
     misto: zaver
@@ -28,5 +28,7 @@ napadnout:
   karta: vnimani
   proc: "Věta o vnímání je první důvod a říká, že zlé může být jen to, co někdo zakouší. Kdo s ní nesouhlasí, nepotřebuje k tomu víru v nic po smrti. Stačí mu jediný případ, kdy je pro člověka něco zlé, i když to nikdy nepocítí."
 zpetna: "Závěr z obou důvodů plyne, ale ne sám od sebe. Druhý důvod říká, že smrt bere vnímání. Kolik toho bere, už neříká. Přidal bys k argumentu větu, kterou k tomu potřebuje?"
+# Bez pole „Proč právě tahle?“: námitku student napíše hned pod blokem v Odkryj (revize R, nález 6).
+bezDuvodu: true
 zadnou: "Argument ti drží, i s větou, kterou Epikúros v dopise nenapsal. Stačí to, aby zmizel strach, nebo něco zůstane? A na který koš z druhého kroku by mířilo to, co zůstane?"
 zdroje: [dl-x-122, dl-x-63]

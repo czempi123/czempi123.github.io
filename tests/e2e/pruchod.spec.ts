@@ -57,13 +57,14 @@ async function odpovez(blok: Locator): Promise<string> {
     return 'zmena';
   }
   if (await tlacitko('Zkontrolovat').count()) {
-    // Slož argument: karty z hromádky po řadě do řádků, kontrola, volba bez nepovinného „Proč“.
+    // Slož argument: karty z hromádky po řadě do řádků, kontrola, chybějící věta, volba bez nepovinného „Proč“.
     const radky = blok.locator('[data-radek]');
     for (let i = 0; i < (await radky.count()); i++) {
       await blok.locator('[data-hromadka] button[data-karta]').first().click();
       await radky.nth(i).locator('.radek__sem').click();
     }
     await tlacitko('Zkontrolovat').click();
+    await tlacitko('Ukázat chybějící větu').click();
     await blok.locator('label.moznost').first().click();
     await tlacitko('Tohle bych napadl').click();
     return 'argument';

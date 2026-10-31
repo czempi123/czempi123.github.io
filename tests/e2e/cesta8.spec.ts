@@ -150,7 +150,8 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(citaty3.first()).toContainText('Zvykej si na myšlenku, že smrt se nás netýká.');
   await expect(citaty3.nth(1)).toContainText('dokud jsme tu my, smrt tu není');
   await expect(citaty3.nth(2)).toContainText('ve městě bez hradeb');
-  // Slož argument (interaktivita-v1, T2): klávesnicí, závěr na místě, skrytý předpoklad, napadnout první premisu.
+  // Slož argument (interaktivita-v1, T2 a O): klávesnicí, závěr na místě, pak chybějící věta, napadnout první premisu
+  // bez pole Proč (námitku student píše hned pod blokem v Odkryj); místo k napadení až po volbě.
   const arg = page.locator('#cesta8-argument');
   const kartaArg = (id: string) => arg.locator(`[data-karta="${id}"]`);
   const radekArg = (r: string) => arg.locator(`[data-radek="${r}"] .radek__sem`);
@@ -175,20 +176,29 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(zpetnaArg).toBeFocused();
   await expect(zpetnaArg).toContainText('Tvůj závěr: „Smrt se nás netýká“.');
   await expect(zpetnaArg).toContainText('Kolik toho bere, už neříká.');
+  await expect(zpetnaArg).toContainText('Přidal bys k argumentu větu, kterou k tomu potřebuje?');
+  await expect(arg.locator('.radek--skryty')).toContainText('Jedna věta tu chybí.');
+  await expect(arg).not.toContainText('v dopise ji Epikúros neříká');
+  await expect(arg).not.toContainText('Věta o vnímání je první důvod');
+  await tabNa(page, arg.getByRole('button', { name: 'Ukázat chybějící větu' }));
+  await page.keyboard.press('Enter');
+  await expect(arg.getByRole('region', { name: 'Skrytý předpoklad' })).toBeFocused();
   await expect(arg.locator('.radek--skryty')).toContainText('Po smrti z nás nezbude nic, co by mohlo vnímat.');
-  await expect(zpetnaArg).toContainText('v dopise ji Epikúros neříká');
-  await expect(zpetnaArg).toContainText('Věta o vnímání je první důvod');
+  await expect(arg.getByRole('region', { name: 'Skrytý předpoklad' })).toContainText('v dopise ji Epikúros neříká');
+  await expect(arg).not.toContainText('Věta o vnímání je první důvod');
+  await expect(arg.locator('.radek--slabe')).toHaveCount(0);
   await tabNa(page, arg.getByRole('radio').first());
   await page.keyboard.press('Space');
   await expect(arg.getByRole('radio', { name: /Všechno dobré i zlé/ })).toBeChecked();
-  await page.keyboard.press('Tab');
-  await page.keyboard.type('Zlé může být i to, o čem nevím.');
+  await expect(arg.getByLabel(/Proč právě tahle/)).toHaveCount(0);
   await page.keyboard.press('Tab');
   await expect(arg.getByRole('button', { name: 'Tohle bych napadl' })).toBeFocused();
   await page.keyboard.press('Enter');
   const kVolbeArg = arg.getByRole('region', { name: 'K tvé volbě' });
   await expect(kVolbeArg).toBeFocused();
   await expect(kVolbeArg).toContainText('i když s Epikúrem souhlasíš, že po smrti nic není');
+  await expect(kVolbeArg).toContainText('Věta o vnímání je první důvod');
+  await expect(arg.locator('[data-radek="1"]')).toHaveClass(/radek--slabe/);
   // První blok kroku vede na text pod sebou, ne na další krok.
   const niz3 = arg.getByRole('navigation', { name: 'Kam dál' }).getByRole('link');
   await expect(niz3).toHaveText('Věta, která v dopise chybí');
@@ -374,7 +384,8 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(zapisy).toContainText('Bát se smím. Rozhoduje, co s tím strachem udělám dnes.');
   await expect(zapisy).toContainText('Na začátku: spíš Epikúros. Po argumentech: spíš Plútarchos. Co mě posunulo: ztráta je moje už dnes.');
   await expect(zapisy).toContainText('Ale mně to vadí už teď.');
-  await expect(zapisy).toContainText('Napadl bych premisu: „Všechno dobré i zlé je ve vnímání“. Proč: Zlé může být i to, o čem nevím.');
+  await expect(zapisy).toContainText('Napadl bych premisu: „Všechno dobré i zlé je ve vnímání“.');
+  await expect(zapisy).not.toContainText('Napadl bych premisu: „Všechno dobré i zlé je ve vnímání“. Proč:');
   await expect(zapisy).toContainText('Jak z nich Epikúros složil argument? Kterou premisu bys napadl ty?');
   await expect(zapisy).toContainText('Záleží na tom, co je po ní.');
 });

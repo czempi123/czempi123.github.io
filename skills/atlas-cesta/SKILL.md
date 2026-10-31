@@ -1,6 +1,6 @@
 ---
 name: "atlas-cesta"
-description: "Psaní cesty, kroku cesty, myšlenkového pokusu, případu pro Návrat nebo stránky velké otázky v Atlasu myšlení z bloků knihovny (Příběh, Volba, Odkryj, Roztřiď, Změň jednu věc, Spor, Kdo žil dřív?)."
+description: "Psaní cesty, kroku cesty, myšlenkového pokusu, případu pro Návrat nebo stránky velké otázky v Atlasu myšlení z bloků knihovny (Příběh, Volba, Odkryj, Roztřiď, Změň jednu věc, Spor, Slož argument, Kdo žil dřív?, Kdo je na tvé straně)."
 ---
 
 # Cesta Atlasu myšlení
@@ -33,12 +33,18 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
 4. **Napiš soubory** (návod v `docs/design.md` › Cesta a › Bloky):
    - přehled `src/content/cesty/<slug>.mdx` (frontmatter `cislo`, `nazev`, `obdobi`, `otazka`, `vstup`, `filozofove`, `minut`, `zacatek`; text = krátký úvod, dvě až tři věty: o čem cesta je, proč se studenta týká a co si z ní odnese, bez osnovy kroků (`atlas-psani` › Úvody); napiš ho naposledy, spolu se závěrečným odstavcem, a porovnej s úvody ostatních cest téhož období (příkaz v `atlas-psani` › Postup při revizi); `minut` spočítej ze slov, která student opravdu přečte, při 150 za minutu a přidej ovládání, neopisuj ho z minulé cesty),
    - kroky `src/content/cesty/<slug>/<n>-<nazev>.mdx` (frontmatter `cesta`, `krok`, `nazev`, `kdeJsme`), číslované 1…n bez mezer,
-   - obsah Volby, Roztřiď, Změň jednu věc a Sporu do `src/content/bloky/<id>.yaml`; v MDX jen `<Volba id="…" />`.
+   - obsah Volby, Roztřiď, Změň jednu věc, Sporu a Slož argument do `src/content/bloky/<id>.yaml`; v MDX jen `<Volba id="…" />`.
    Text kroku patří před blok: po dokončení nabídne blok další krok a text pod ním student přeskočí.
    Bloky v kroku nabídnou „Kam dál“ na další krok samy; `client:visible` ani odkaz do deníku nepiš.
    - **Závěr:** poslední krok končí mimo čtenářský sloupec řádkem `<ZaverCesty id="<cesta>-moje-pravidlo" otazka="… Napiš svoje pravidlo." />`. Do přehledu cesty zapiš `zacatek: <id bloku>`: blok, ve kterém student poprvé sám odpověděl (obvykle krok 2). Poslední krok pak ukáže jeho odpověď vedle pravidla („Na začátku“ × „Teď“). Kdo začátek přeskočil, panel neuvidí; věta, která na začátek odkazuje, proto musí sedět s panelem i bez něj: „Vrať se ke svému tahu z kroku&nbsp;2“, ne „Níž vidíš svůj tah“.
    - **Závěrečný odstavec** před `ZaverCesty` píšeš naposledy a porovnáš ho se závěry ostatních cest období. Nevyjmenovává, co student v cestě dělal („Ty jsi dnes třídil…, stál mezi…“), a ptá se konkrétně na první tah téhle cesty: „Podívej se na své koše z kroku&nbsp;2. Kterou kartu bys teď dal jinam?“ Obecné „Odpověděl bys teď stejně?“ jen tam, kde by konkrétní otázka mířila na bolest (cesta 8).
-   - **Kdo je na tvé straně** (zastánci odpovědí, vlastní krok za novým případem): mezititulky podle bloků a odpovědí, ke kterým zastánci patří („Loď z prvního kroku“, „Senátor“), ať student skočí ke své odpovědi a cizí číst nemusí. Krok s víc než asi 450 slovy dostane mezititulky vždy; slova kroků vypíše `node scripts/slova-cesta.mjs <slug>`.
+   - **Kdo je na tvé straně** (zastánci odpovědí, vlastní krok za novým případem): mezititulky podle bloků a odpovědí, ke kterým zastánci patří („Loď z prvního kroku“, „Senátor“), ať student skočí ke své odpovědi a cizí číst nemusí. Krok s víc než asi 450 slovy dostane mezititulky vždy; slova kroků vypíše `node scripts/slova-cesta.mjs <slug>`. Každý oddíl, jehož text patří k odpovědím jednoho bloku cesty, obal blokem Strany (`docs/design.md` › Bloky › Kdo je na tvé straně; vzor cesta 2, krok 8): nadpis oddílu nad obal (kotva zůstane mimo ostrov), `<Strany blok="<id bloku>">` kolem textu oddílu a `<Strana odpoved="A">` kolem odstavců jedné odpovědi (pro víc odpovědí `odpoved="C D"`). Student pak uvidí nejdřív zastánce své odpovědi a ostatní pod sbaleným „Kdo hájil jiné odpovědi“; text i citáty zůstávají v MDX.
+     - *Kódy odpovědí:* Volba písmena karet A–D, Spor id osoby strany (bez osoby `strana-1` / `strana-2`) a `uprostred`, Změň jednu věc id možnosti. Roztřiď a Odkryj odpověď nedávají; neznámý kód zastaví sestavení.
+     - *Úvodní věta oddílu* (mimo `Strana`) se čte nad sbalenou i rozbalenou částí. „I tady se zastánci dělí podobně.“ navazuje na předchozí oddíl, který je vidět vždy, ne na odpověď, která může být sbalená.
+     - *Každý odstavec odpovědi stojí sám, protože může být první:* žádné „taky“, „třetí odpověď“, „druhá strana toho sporu“ ani „A jestli…“ navazující na sousední odpověď. Přečti každý `Strana` samostatně, jako by stál pod štítkem „Na tvé straně“ jen on.
+     - *Odpověď bez zastánce se nevymýšlí.* Když za odpověď v podkladech nikdo nemluví (senátor D v cestě 33), řekni, co ta odpověď umí, bez jména; spojence bez podkladu nepiš.
+     - *Oddíl k víc tématům jedné Volby smí být víckrát:* cesta 8 má k Volbě z prvního kroku tři oddíly podle témat a přeskládá se každý sám. Oddíl, jehož text patří všem odpovědím, obal nemá.
+     - Do přípravy hodiny nepřibývá nic a čas na štítku se nemění: blok text jen přeskládá.
    - **Návrat:** ke každé cestě napiš jeden případ do `src/content/bloky/<cesta>-navrat.yaml` (`docs/design.md` › Bloky › Návrat; jak ho psát, je níž v Jak psát bloky). Do MDX cesty se nevkládá, nabízí ho deník.
    - **Krok se dvěma bloky** (odhad a čtení pokusu): první blok dostane vlastní Kam dál na kotvu pod sebou, `<Volba id="…" dal={{ href: '#co-vyslo', text: 'Co z pokusu vyšlo' }} />`. Jinak nabídne další krok a student přeskočí text mezi bloky. Další krok nabízí až poslední blok.
 5. **Vstupy do cesty:** karta `<CestaKarta slug="…" />` u filozofa cesty a odkaz v jeho Kam dál; u velké otázky odkaz na cestu. Kartu nedávej hned za kapitolu, kterou první kroky cesty převyprávějí; student by tytéž odstavce četl dvakrát za sebou. Na Domů jen jedna doporučená cesta. Číslo cesty (`cislo`) je jen v datech a v přípravě hodiny: student ho nevidí, v textu i v Kam dál je cesta názvem s nadtitulkem „Cesta“. Kam dál přehledu nabídne Další cestu sám podle deníku; cestu, kterou by student po téhle četl jinak, než je myšlená (po cestě o smrti „Co když přijde to nejhorší?“), vyluč polem `nenabizet` v přehledu.
@@ -89,7 +95,16 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
   - *Pramen.* Popisy pohledů a stupňů jsou studentský text: věty do 25 slov, jen to, co je v podkladech, a „kdyby“ zůstává „kdyby“. Co je v kresbě naše volba (které věci nosiči nesou, kolik je vězňů), zapiš do `k-overeni.md`.
   - *Ovládání:* přepínač, kde jsou dva pohledy na totéž; posuvník, kde jde o pořadí nebo míru. Samo se nic nestřídá: pohyb je děj uvnitř jednoho pohledu a jde zastavit. Zastavená kresba ukáže totéž co při omezeném pohybu, ne začátek smyčky (`atlas-komponenta`).
 - **Zkus to žít v posledním kroku** (`ZkusToZitKarta`) jen tam, kde výzva stojí na radě filozofa cesty (Aristotelovo křivé dřevo v cestě 4). Karta stojí hned za citátem s radou, dovoluje nezkoušet nic, nenapovídá, jak má pokus dopadnout, a nemíří na druhého člověka. Cesta bez takové rady končí jen vlastním pravidlem.
-- **Kdo žil dřív?** jen pro dvojice, kde výsledek překvapí nebo souvisí s příběhem (Sókratés a Diogenés žili současně, Platón byl při Sókratově smrti mladý muž).
+- **Kdo žil dřív?** jen pro dvojice, kde výsledek překvapí nebo souvisí s příběhem (Sókratés a Diogenés žili současně, Platón byl při Sókratově smrti mladý muž). Na medailonky ho dává šablona sama (`atlas-data` › Prvky z dat).
+- **Slož argument** (`docs/design.md` › Bloky › Slož argument; vzor cesta 8, krok 3, `cesta8-argument`): student seřadí premisy a závěr, po kontrole si odkryje větu, která v argumentu chybí, a vybere, kterou by napadl. Teprve potom blok řekne, kde se dá argument napadnout.
+  - *Kdy ho dát do cesty:* když krok stojí na argumentu filozofa se dvěma až třemi premisami a předpokladem, který autor v tom místě nevyslovil (Epikúros v Dopise Menoikeovi 124, Anselmův důkaz). Ne na výčet důvodů ani na jednu větu; tam stačí Volba nebo Odkryj. Blok stojí hned za citátem s argumentem, před výkladem, který by chybějící větu prozradil.
+  - *Karty a skrytý předpoklad z pramene, ověřené v podkladech celku.* Premisy co nejblíž znění pramene (nejvýš 140 znaků), skrytý předpoklad jen takový, jaký autor řekne jinde nebo jaký mu doložená literatura připisuje (Dopis Hérodotovi 65–66), s místem v komentáři YAML. Karty piš v jiném pořadí, než je argument.
+  - *`zpetna`* řekne, co ze složených vět plyne, a skončí otázkou na chybějící větu; odpověď na ni dá až tlačítko „Ukázat chybějící větu“, takže nic ve zpětné vazbě ji nesmí prozradit.
+  - *`napadnout.proc` začíná tím, o jakou větu jde* („Věta o vnímání je první důvod a říká…“), a nepředbíhá námitku dalších kroků cesty: nabídne jiný případ, než jaký přinesou kroky za blokem. Student ho čte až po své volbě.
+  - *`kdyzNapadnes`* ke každé premise a ke skrytému předpokladu: co ten tah umí a otázka dál. Neopakuje, co student právě přečetl v oddílu Skrytý předpoklad.
+  - *`bezDuvodu: true`,* když v kroku pod blokem následuje pole s námitkou (Odkryj „Co bys Epikúrovi namítl?“): jinak student píše totéž dvakrát a jedno z polí přeskočí.
+  - *Kam dál na kotvu pod blokem,* když pod ním v kroku stojí text nebo další blok: `<SlozArgument id="…" dal={{ href: '#veta-ktera-chybi', text: 'Věta, která v dopise chybí' }} />`.
+  - *Čas na štítku* (`minut`) po přidání bloku přepočítej (`node scripts/slova-cesta.mjs <slug>`): počítá viditelný text po odpovědích, tedy i zpětné vazby bloku, a k tomu ovládání.
 - **Návrat:** krátký nový případ, který deník nabídne pár dní po dokončení cesty. Student na něm zkouší své závěrečné pravidlo; není to opakování cvičení.
   - *Případ* (`scena`): „Představ si…“, dva krátké odstavce, bez historických osob a bez tvrzení, která by potřebovala pramen. Situace ze života studenta, ve které se musí rozhodnout. Poslední věta ho v ní nechá stát („Máš před sebou sešit a rozhoduješ se, jestli ho zavřít.“).
   - *Musí jít posoudit jakýmkoli pravidlem,* které si student z cesty mohl odnést, i tím, které s filozofem cesty nesouhlasí. Případ nesmí napovídat, co je správně.
@@ -149,6 +164,8 @@ V cestě hlídej hlavně dvě věci, které se v ní opakují deset kroků za se
 - Krok má dva bloky a první nabízí další krok: student přeskočí text mezi nimi.
 - Závěrečný odstavec vyjmenovává, co student dělal, a končí stejnou otázkou jako ostatní cesty období.
 - Poslední krok vyjmenuje zastánce všech odpovědí za sebou bez mezititulků; student svou hledá v řadě cizích.
+- Odstavec v `Strana` navazuje na sousední odpověď („taky“, „druhá strana toho sporu“) a pod štítkem „Na tvé straně“ stojí bez opory; nebo úvodní věta oddílu odkazuje na odpověď, která může být sbalená.
+- Slož argument prozradí chybějící větu ve zpětné vazbě, `napadnout.proc` předběhne námitku dalšího kroku, nebo krok chce námitku napsat dvakrát (pole Proč v bloku a hned potom Odkryj).
 - Cesta má stejnou stavbu a stejný krok 2 jako jiná cesta období.
 
 ## Kdy je hotovo
