@@ -1,6 +1,6 @@
 # Provedená zadání větve interaktivita-v1
 
-Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026, zadání K3 a T2 30. 10. 2026, zadání R 31. 10. 2026.
+Zadání kroků v plném znění, jak byla v plánu větve (`docs/plany/interaktivita-v1.md`). Zadání K0, K1, T1 a K2 přesunuta 29. 10. 2026, zadání K3 a T2 30. 10. 2026, zadání R, O a Uzavření 31. 10. 2026.
 
 ## Zadání K0
 
@@ -210,4 +210,24 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 4. Celé npm test pusť jednou na pozadí s výstupem do souboru a výsledek čti zvlášť. Commit česky a stručně ve větvi interaktivita-v1; nic neposílej na GitHub. V plánu větve: řádek O na „hotovo“, oddíl „Po O“ (co jsi opravil po nálezech, nad čím jsi váhal, dvojice Dvou životů a Kdo žil dřív?, které nic neříkají, výsledek npm test), pod něj „Co rozhodnout před uzavřením“ jen tehdy, když něco zbylo, a zadání Uzavření v plném znění ve stejném tvaru jako toto (Opus 5.5 · medium: schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu včetně prvního sestavení a Playwrightu podle Po K0). Zadání O přesuň do docs/archiv/zadani/interaktivita-v1.md. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v1.md); nic dalšího do projektu nepřidávej.
 
 5. Pak se zastav a napiš mi krátce, co jsi opravil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
+```
+
+## Zadání Uzavření
+
+Model: Opus 5.5 · medium. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: uzavření větve interaktivita-v1 (schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
+
+0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, oddíly Po K0 (kontroly na GitHubu) a Po O a toto zadání.
+
+1. Schválení: zeptej se mě jednou větou, jestli větev schvaluji (stačí „schvaluji“), a připomeň dvě věci z Po O, nad kterými jsi váhal (mez 20 let u Kdo žil dřív? na medailoncích, Kdo žil dřív? s „Zkusit znovu“). Dokud neschválím, nic neslučuj ani neposílej. Když budu chtít změnu, udělej ji, pusť dotčené testy a pak celé npm test jednou na pozadí s výstupem do souboru.
+
+2. Po schválení: celé npm test jednou na pozadí s výstupem do souboru, výsledek čti zvlášť (jen když se od Po O něco změnilo). git switch main, git merge --no-ff interaktivita-v1 s českou zprávou (co větev přinesla jednou větou), git push origin main. Větev interaktivita-v1 nemaž.
+
+3. Kontroly na GitHubu (Po K0: sestavení a Playwright tam poběží poprvé): přes gh run list a gh run watch počkej na běh kontroly.yml a pages.yml pro nový commit. Kontrola typů, vitest, sestavení i Playwright mají být zelené a pages.yml má web nasadit. Když něco spadne, přečti log (gh run view --log-failed), oprav to ve větvi interaktivita-v1, slouč znovu a pošli; co na Linuxu s CI: true padá a na Macu ne, zapiš do docs/pouceni.md jednou větou. Nakonec otevři https://czempi123.github.io/cesta/proc-se-bat-smrti/3/ a ověř, že web má noindex a že Slož argument má po kontrole tlačítko „Ukázat chybějící větu“.
+
+4. V plánu větve: řádek Uzavření na „hotovo“ s datem, krátký oddíl „Po uzavření“ (commit sloučení, výsledek běhů na GitHubu, co jsi případně opravil). V docs/plan.md v rozcestníku větví interaktivita-v1 jako uzavřenou a další krok podle plánu (antika-doplnky). Plán větve přesuň do docs/archiv/plany/, zadání Uzavření do docs/archiv/zadani/interaktivita-v1.md. V Projektu Claude odstraň docs/plany/interaktivita-v1.md a aktualizuj docs/plan.md; nic dalšího do projektu nepřidávej. Commit česky a stručně, push hlavní větve.
+
+5. Pak se zastav a napiš mi krátce, co se sloučilo, jak dopadly kontroly na GitHubu a co jsi případně opravil. Spustit nemusím nic.
 ```

@@ -14,7 +14,7 @@ Proč teď: zkouška se studenty počká, až je autor bude mít (rozhodnutí 26
 | T2 | Slož argument v cestě 8, krok 3: premisy a skrytý předpoklad z Dopisu Menoikeovi 124–125 ověřené proti podkladům celku 6, zpětná vazba, navázání textu kroku | Opus 5.5 · high se skilly `atlas-overeni`, `atlas-psani` a `atlas-cesta` | hotovo 30. 10. 2026 (Po T2) |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 31. 10. 2026 (Po R) |
 | O | Opravy po revizi a úprava skillů (`atlas-cesta`: krok se zastánci jako blok, Slož argument; `atlas-data`: prvky medailonku; `atlas-komponenta`) | Opus 5.5 · high | hotovo 31. 10. 2026 (Po O) |
-| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | zadání níž |
+| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | hotovo 31. 10. 2026 (Po uzavření) |
 
 **Proč v tomhle pořadí.** K0 je první, protože dokud kontroly na GitHubu padají na staré chybě, nová chyba z dalších kroků v nich zapadne. Kdo je na tvé straně jde hned potom: revize ho dala nejvýš (nález 4, „před zkouškou, jestli budou domácí průchody“), mění pět hotových cest a jeho text píše autor nejvíc; K1 ho postaví na jedné cestě, T1 přenese zbylé čtyři. Prvky medailonků (K2) jsou nejlevnější a mění šablonu najednou; přijdou před Slož argument, protože ten jako jediný potřebuje nový obsah ověřený v pramenech (T2) a do středověku stačí, když je hotový na konci větve. Komponenty vznikají před texty (K před T), stejně jako ve větvi `stoicky-tyden`.
 
@@ -288,22 +288,17 @@ Hotovo 31. 10. 2026, commit ve větvi `interaktivita-v1`; na GitHub se nic nepos
 - **Snímky:** `Claude outputs/o-sloz-argument-dva-zivoty.jpg` (Slož argument v cestě 8 po kontrole, po odkrytí a po volbě na 390 px světle a 1440 px tmavě; Dva životy Seneky s nabídkou).
 - **npm test:** astro check 0 chyb (283 souborů), vitest 901 testů ve 40 souborech, Playwright 618 testů, vše prošlo napoprvé (31. 10. 2026).
 
-## Zadání Uzavření
+## Po uzavření
 
-Model: Opus 5.5 · medium. Nový chat v Projektu Atlas.
+Hotovo 31. 10. 2026. Autor větev schválil („Schvaluju“); od Po O se nic nezměnilo, takže se celé `npm test` před sloučením znovu nepouštělo.
 
-```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: uzavření větve interaktivita-v1 (schválení autorem, sloučení do hlavní větve, push, kontroly na GitHubu). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
-
-0. git switch interaktivita-v1, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/interaktivita-v1.md tabulku kroků, oddíly Po K0 (kontroly na GitHubu) a Po O a toto zadání.
-
-1. Schválení: zeptej se mě jednou větou, jestli větev schvaluji (stačí „schvaluji“), a připomeň dvě věci z Po O, nad kterými jsi váhal (mez 20 let u Kdo žil dřív? na medailoncích, Kdo žil dřív? s „Zkusit znovu“). Dokud neschválím, nic neslučuj ani neposílej. Když budu chtít změnu, udělej ji, pusť dotčené testy a pak celé npm test jednou na pozadí s výstupem do souboru.
-
-2. Po schválení: celé npm test jednou na pozadí s výstupem do souboru, výsledek čti zvlášť (jen když se od Po O něco změnilo). git switch main, git merge --no-ff interaktivita-v1 s českou zprávou (co větev přinesla jednou větou), git push origin main. Větev interaktivita-v1 nemaž.
-
-3. Kontroly na GitHubu (Po K0: sestavení a Playwright tam poběží poprvé): přes gh run list a gh run watch počkej na běh kontroly.yml a pages.yml pro nový commit. Kontrola typů, vitest, sestavení i Playwright mají být zelené a pages.yml má web nasadit. Když něco spadne, přečti log (gh run view --log-failed), oprav to ve větvi interaktivita-v1, slouč znovu a pošli; co na Linuxu s CI: true padá a na Macu ne, zapiš do docs/pouceni.md jednou větou. Nakonec otevři https://czempi123.github.io/cesta/proc-se-bat-smrti/3/ a ověř, že web má noindex a že Slož argument má po kontrole tlačítko „Ukázat chybějící větu“.
-
-4. V plánu větve: řádek Uzavření na „hotovo“ s datem, krátký oddíl „Po uzavření“ (commit sloučení, výsledek běhů na GitHubu, co jsi případně opravil). V docs/plan.md v rozcestníku větví interaktivita-v1 jako uzavřenou a další krok podle plánu (antika-doplnky). Plán větve přesuň do docs/archiv/plany/, zadání Uzavření do docs/archiv/zadani/interaktivita-v1.md. V Projektu Claude odstraň docs/plany/interaktivita-v1.md a aktualizuj docs/plan.md; nic dalšího do projektu nepřidávej. Commit česky a stručně, push hlavní větve.
-
-5. Pak se zastav a napiš mi krátce, co se sloučilo, jak dopadly kontroly na GitHubu a co jsi případně opravil. Spustit nemusím nic.
-```
+- **Sloučení:** 0c773e2 (`git merge --no-ff interaktivita-v1`), push do `main`. Větev `interaktivita-v1` zůstává.
+- **Kontroly na GitHubu poprvé celé:** u 0c773e2 kontrola typů, vitest i sestavení zelené (sestavení na GitHubu proběhlo poprvé), `pages.yml` web nasadil. Playwright spadl v jediném testu z 618: „prstem“ v `sloz-argument.spec.ts`, klepnutí na kartu hned po dotykovém tažení přes CDP.
+- **Co jsem opravil:**
+  - První pokus (146b8bc) čekal na výběr karty, protože jsem si spad vyložil jako závod klepnutí. Na GitHubu pak spadl na tom čekání.
+  - Příčinu ukázal až běh na Linuxu v cloudovém prostředí (klon veřejného repozitáře, `CI=true`): Chromium tam z `tap()` do zhruba 300 ms po tažení přes `Input.dispatchTouchEvent` nevyrobí `click`. Na Macu ano. Komponenta je v pořádku, student tak rychle po puštění karty neklepne.
+  - Test po tažení počká 500 ms a ověří výběr karty i tlačítko Sem (b0e6c6d, sloučeno ve větvi a znovu v `main`). Na Linuxu prošel 10× z 10.
+  - Celé `npm test` po první opravě: astro check 0 chyb, vitest 901, Playwright 618, vše prošlo. Poučení je v `docs/pouceni.md`.
+- **Běhy u b0e6c6d:** Sestavení a kontroly zelené (Playwright 618 testů za 11,5 min), Zveřejnění na GitHub Pages zelené.
+- **Živý web** (`/cesta/proc-se-bat-smrti/3/`, ověřeno Playwrightem z Macu): `<meta name="robots" content="noindex">`; Slož argument po Zkontrolovat ukáže tlačítko „Ukázat chybějící větu“ a volbu zatím ne. Snímek: `Claude outputs/uzavreni-web-krok3.png`.
+- **Na co dát pozor:** na Macu chybí `gh`; běhy jsem sledoval přes veřejné API GitHubu, které bez přihlášení povolí 60 dotazů za hodinu a log neukáže, jen anotace (název testu a chybu). GitHub hlásí, že akce `checkout`, `setup-node` a `upload-artifact` ve verzi v4 běží na Node 20, který končí; zatím je jen varování.
