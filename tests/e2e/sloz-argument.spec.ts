@@ -298,7 +298,9 @@ test('prstem: události ukazatele i skutečný dotyk (CDP); stránka se při ta�
   await expect(blok.locator('[aria-pressed="true"]')).toHaveCount(0);
 
   // Klepnutí: karta, pak řádek (cílem je celý řádek).
-  // Click po dotyku přijde až po tap(); na pomalejším stroji (Linux na GitHubu) by klepnutí na řádek předběhlo výběr karty.
+  // Chromium na Linuxu (GitHub) z klepnutí do zhruba 300 ms po dotykovém tažení přes CDP click nevyrobí; na Macu ano.
+  // Student tak rychle po puštění karty neklepne, proto test chvíli počká a pak ověří výběr i tlačítko Sem.
+  await page.waitForTimeout(500);
   await karta(blok, 'zemre').tap();
   await expect(karta(blok, 'zemre')).toHaveAttribute('aria-pressed', 'true');
   const zaver = radek(blok, 'zaver');
