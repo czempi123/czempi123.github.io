@@ -298,8 +298,11 @@ test('prstem: události ukazatele i skutečný dotyk (CDP); stránka se při ta�
   await expect(blok.locator('[aria-pressed="true"]')).toHaveCount(0);
 
   // Klepnutí: karta, pak řádek (cílem je celý řádek).
+  // Click po dotyku přijde až po tap(); na pomalejším stroji (Linux na GitHubu) by klepnutí na řádek předběhlo výběr karty.
   await karta(blok, 'zemre').tap();
+  await expect(karta(blok, 'zemre')).toHaveAttribute('aria-pressed', 'true');
   const zaver = radek(blok, 'zaver');
+  await expect(zaver.locator('.radek__sem')).toBeVisible();
   await zaver.evaluate((e) => e.scrollIntoView({ block: 'center' }));
   await zaver.locator('.radek__cislo').tap({ force: true });
   await expect(zaver).toContainText('Sókratés jednou zemře.');
