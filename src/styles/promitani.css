@@ -7,7 +7,7 @@
  *    a atribut data-promitane-predek na předcích úseku); obsah je skrytý, dokud skript úsek neoznačí a nenastaví polohu.
  *  · data-podoba na úseku bloku nebo kresby (krok H4, src/lib/hodiny.ts › Podoba na plátně): které části bloku
  *    se ukážou, podle značek data-cast v komponentách (hlava, scena, otazka, moznosti, akce, duvod, zpetna, dal,
- *    ulozeno, platno, popis). Tabulka podob je v docs/design.md › Podoba na plátně.
+ *    ulozeno, platno, popis, u Slož argument napadnout). Tabulka podob je v docs/design.md › Podoba na plátně.
  */
 html.s-hodinou { --hodina: 48px; }
 
@@ -50,7 +50,7 @@ html.promitani .hlas__roky { position: static; width: auto; margin: 0 0 var(--s-
 /* Věta „uloženo v deníku“ na plátně neplatí: promítání píše jen do deníku promítání (src/lib/denik.ts). */
 html.promitani [data-cast="ulozeno"] { display: none !important; }
 /* Jen otázka a možnosti: bez scény, vlastního psaní studenta a Kam dál; zpětná vazba až po kliknutí učitele. */
-html.promitani [data-podoba="moznosti"] :is([data-cast="scena"], [data-cast="duvod"], [data-cast="dal"]) { display: none !important; }
+html.promitani [data-podoba="moznosti"] :is([data-cast="scena"], [data-cast="duvod"], [data-cast="dal"], [data-cast="napadnout"]) { display: none !important; }
 /* Otevřená otázka: jen hlava a otázka, velkým písmem uprostřed plátna. Cokoli dalšího v bloku zůstane skryté. */
 html.promitani [data-podoba="otevrena"] > :not([data-cast="hlava"], [data-cast="otazka"]) { display: none !important; }
 html.promitani [data-podoba="otevrena"] {

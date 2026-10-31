@@ -3,6 +3,8 @@
 // při vykreslení (texty bloků a hlasů přes radek() v bloky.ts, data v komponentách) a plugin sazbaMdast v MDX.
 // Čistý JavaScript bez DOM, aby šel načíst i z astro.config.mjs; testy v tests/data/sazba.test.ts.
 
+/** @import { MdastPluginDefinition } from 'satteri' */
+
 const NBSP = ' ';
 const PISMENA = 'ksvzouaiKSVZOUAI';
 // Před písmenem začátek textu, mezera nebo otevírací závorka či uvozovka; za ním mezera a další slovo.
@@ -24,13 +26,11 @@ export function nezlomitelne(text) {
  * Kód a vložený kód jsou jiné druhy uzlů, takže zůstávají beze změny. Text v atributech komponent
  * (otazka="…") se sem nedostane; ten ošetří komponenta sama.
  * Zapojení: astro.config.mjs › markdown.processor: satteri({ mdastPlugins: [sazbaMdast] }).
+ * Typ uzlu a kontextu vychází z MdastPluginDefinition v balíčku satteri, takže se s ním nerozejde.
+ * @type {MdastPluginDefinition}
  */
 export const sazbaMdast = {
   name: 'atlas-sazba',
-  /**
-   * @param {{ value: string }} uzel
-   * @param {{ parent: (n: unknown) => { children?: readonly unknown[] } | undefined, indexOf: (n: unknown) => number | undefined, setProperty: (n: unknown, klic: 'value', hodnota: string) => void }} ctx
-   */
   text(uzel, ctx) {
     let hodnota = nezlomitelne(uzel.value);
     // Předložka na konci textu před vloženou značkou („v *zahradě*“).

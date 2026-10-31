@@ -5,6 +5,7 @@
 // student, který nesouhlasí, má spojence; nikde není způsob smrti, obhajoba dobrovolné smrti ani klid a spánek
 // jako to, co čeká.
 import { test, expect, type Page } from '@playwright/test';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
 
 const CESTA8 = '/cesta/proc-se-bat-smrti/';
 const KROKY8 = ['Dopis', 'Čeho se vlastně bojíme', '„Netýká se nás“', 'Zrcadlo', 'Host u stolu', 'Týká se nás?', 'Ti druzí', 'Blízko', 'Tvoje pravidlo'];
@@ -29,6 +30,14 @@ async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, naze
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
   await pripravit(page);
+}
+
+async function tabNa(page: Page, cil: ReturnType<Page['locator']>, nejvic = 12) {
+  for (let i = 0; i < nejvic; i++) {
+    if (await cil.evaluate((e) => e === document.activeElement)) return;
+    await page.keyboard.press('Tab');
+  }
+  throw new Error(`Tabulátor se na prvek nedostal: ${cil}`);
 }
 
 async function listouKlavesnici(page: Page, adresa: string) {
@@ -131,18 +140,79 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(trideni).toContainText('A o lidech, na kterých nám záleží, ta věta nemluví vůbec.');
   await dalKlavesnici(page, kose, '„Netýká se nás“', `${CESTA8}3/`);
 
-  // Krok 3: „netýká se nás“, ne „nic není“; „zvykej si“; město bez hradeb; argument stojí na předpokladu.
+  // Krok 3: „netýká se nás“, ne „nic není“; Slož argument s větou, která v dopise chybí; „zvykej si“; město bez hradeb.
   const text3 = page.locator('.krok__obsah > .ctenarsky');
-  await expect(text3.locator(':scope > p').first()).toContainText('Na ten míří Epikúrova věta, a jen na ten.');
-  await expect(text3.locator('.citat')).toHaveCount(3);
-  await expect(text3.locator('.citat').first()).toContainText('Zvykej si na myšlenku, že smrt se nás netýká.');
-  await expect(text3.locator('.citat').nth(1)).toContainText('dokud jsme tu my, smrt tu není');
-  await expect(text3.locator('.citat').nth(2)).toContainText('ve městě bez hradeb');
-  await expect(text3).toContainText('Epikúros neříká, že smrt nic není.');
-  await expect(text3).toContainText('Neříká ani, že to stačí jednou pochopit.');
-  await expect(text3).toContainText('Podle Epikúra se duše skládá z atomů');
-  await expect(text3).toContainText('Celý argument stojí na jednom předpokladu: že smrtí všechno končí.');
-  await expect(text3.locator(':scope > p').last()).toHaveText('Než půjdeš dál, zkus Epikúrovi odpovědět.');
+  await expect(text3).toHaveCount(2);
+  await expect(text3.first().locator(':scope > p').first()).toContainText('Na ten míří Epikúrova věta, a jen na ten.');
+  const citaty3 = page.locator('.krok__obsah > .ctenarsky .citat');
+  await expect(citaty3).toHaveCount(3);
+  await expect(text3.first().locator('.citat')).toHaveCount(1);
+  await expect(citaty3.first()).toContainText('Zvykej si na myšlenku, že smrt se nás netýká.');
+  await expect(citaty3.nth(1)).toContainText('dokud jsme tu my, smrt tu není');
+  await expect(citaty3.nth(2)).toContainText('ve městě bez hradeb');
+  // Slož argument (interaktivita-v1, T2 a O): klávesnicí, závěr na místě, pak chybějící věta, napadnout první premisu
+  // bez pole Proč (námitku student píše hned pod blokem v Odkryj); místo k napadení až po volbě.
+  const arg = page.locator('#cesta8-argument');
+  const kartaArg = (id: string) => arg.locator(`[data-karta="${id}"]`);
+  const radekArg = (r: string) => arg.locator(`[data-radek="${r}"] .radek__sem`);
+  await expect(arg.getByRole('button', { name: 'Zkontrolovat' })).toBeDisabled();
+  await kartaArg('ztrata').focus();
+  await page.keyboard.press('Enter');
+  await expect(radekArg('1')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(radekArg('2')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(kartaArg('netyka')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await tabNa(page, radekArg('zaver'));
+  await page.keyboard.press('Enter');
+  await expect(kartaArg('vnimani')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(radekArg('1')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(arg.getByRole('button', { name: 'Zkontrolovat' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  const zpetnaArg = arg.getByRole('region', { name: 'Zpětná vazba' });
+  await expect(zpetnaArg).toBeFocused();
+  await expect(zpetnaArg).toContainText('Tvůj závěr: „Smrt se nás netýká“.');
+  await expect(zpetnaArg).toContainText('Kolik toho bere, už neříká.');
+  await expect(zpetnaArg).toContainText('Přidal bys k argumentu větu, kterou k tomu potřebuje?');
+  await expect(arg.locator('.radek--skryty')).toContainText('Jedna věta tu chybí.');
+  await expect(arg).not.toContainText('v dopise ji Epikúros neříká');
+  await expect(arg).not.toContainText('Věta o vnímání je první důvod');
+  await tabNa(page, arg.getByRole('button', { name: 'Ukázat chybějící větu' }));
+  await page.keyboard.press('Enter');
+  await expect(arg.getByRole('region', { name: 'Skrytý předpoklad' })).toBeFocused();
+  await expect(arg.locator('.radek--skryty')).toContainText('Po smrti z nás nezbude nic, co by mohlo vnímat.');
+  await expect(arg.getByRole('region', { name: 'Skrytý předpoklad' })).toContainText('v dopise ji Epikúros neříká');
+  await expect(arg).not.toContainText('Věta o vnímání je první důvod');
+  await expect(arg.locator('.radek--slabe')).toHaveCount(0);
+  await tabNa(page, arg.getByRole('radio').first());
+  await page.keyboard.press('Space');
+  await expect(arg.getByRole('radio', { name: /Všechno dobré i zlé/ })).toBeChecked();
+  await expect(arg.getByLabel(/Proč právě tahle/)).toHaveCount(0);
+  await page.keyboard.press('Tab');
+  await expect(arg.getByRole('button', { name: 'Tohle bych napadl' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  const kVolbeArg = arg.getByRole('region', { name: 'K tvé volbě' });
+  await expect(kVolbeArg).toBeFocused();
+  await expect(kVolbeArg).toContainText('i když s Epikúrem souhlasíš, že po smrti nic není');
+  await expect(kVolbeArg).toContainText('Věta o vnímání je první důvod');
+  await expect(arg.locator('[data-radek="1"]')).toHaveClass(/radek--slabe/);
+  // První blok kroku vede na text pod sebou, ne na další krok.
+  const niz3 = arg.getByRole('navigation', { name: 'Kam dál' }).getByRole('link');
+  await expect(niz3).toHaveText('Věta, která v dopise chybí');
+  await niz3.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(`${CESTA8}3/#veta-ktera-chybi`);
+  await expect(page.locator('#veta-ktera-chybi')).toBeInViewport();
+  const text3b = text3.nth(1);
+  await expect(text3b).toContainText('Že smrtí všechno končí, napsal Epikúros jinde.');
+  await expect(text3b).toContainText('Duše se podle něj skládá z atomů');
+  await expect(text3b).toContainText('Epikúros neříká, že smrt nic není.');
+  await expect(text3b).toContainText('Neříká ani, že to stačí jednou pochopit.');
+  await expect(text3b).toContainText('Kdo věří, že po smrti něco je, toho argument nepřesvědčí.');
+  await expect(text3b.locator(':scope > p').last()).toHaveText('Než půjdeš dál, zkus Epikúrovi odpovědět.');
   const namitka = page.locator('#cesta8-namitka');
   await namitka.getByRole('textbox').focus();
   await page.keyboard.type('Ale mně to vadí už teď.');
@@ -282,6 +352,12 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text9).toContainText('Jestli se nebojíš, stojí za tebou Epikúros s Lucretiem.');
   await expect(text9).toContainText('Jestli nevíš, co po smrti je, jsi na tom jako Sókratés v Platónově Obraně.');
   await expect(text9).toContainText('Jestli věříš, že smrtí nic nekončí, mluví za tebe Platón.');
+  // Kdo je na tvé straně: student zvolil „Záleží na tom, co je po ní“; přeskládá se jen oddíl Co je potom.
+  await poradiOddilu(page, [
+    ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+    ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+    ['cesta8-je-rozumne', 2, ['stitek', 'tvoje:D']],
+  ]);
   await expect(text9.locator('.citat')).toHaveCount(2);
   await expect(text9.locator('.citat').first()).toContainText('Být mrtvý je jedno z dvojího');
   await expect(text9.locator('.citat').nth(1)).toContainText('Je to krásné riziko.');
@@ -308,6 +384,9 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(zapisy).toContainText('Bát se smím. Rozhoduje, co s tím strachem udělám dnes.');
   await expect(zapisy).toContainText('Na začátku: spíš Epikúros. Po argumentech: spíš Plútarchos. Co mě posunulo: ztráta je moje už dnes.');
   await expect(zapisy).toContainText('Ale mně to vadí už teď.');
+  await expect(zapisy).toContainText('Napadl bych premisu: „Všechno dobré i zlé je ve vnímání“.');
+  await expect(zapisy).not.toContainText('Napadl bych premisu: „Všechno dobré i zlé je ve vnímání“. Proč:');
+  await expect(zapisy).toContainText('Jak z nich Epikúros složil argument? Kterou premisu bys napadl ty?');
   await expect(zapisy).toContainText('Záleží na tom, co je po ní.');
 });
 
@@ -319,7 +398,7 @@ test('cesta 8 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
   const NAVAZUJE: (string | RegExp)[][] = [
     ['Tím dopis končí.', 'Přes třicet let přitom učil, že smrt se nás netýká.'],
     ['Strach ze smrti totiž není jeden.', 'Roztřiď je podle toho, na co ten, kdo to říká, myslí.'],
-    ['Na ten míří Epikúrova věta, a jen na ten.', 'Epikúros neříká, že smrt nic není.', 'že smrtí všechno končí'],
+    ['Na ten míří Epikúrova věta, a jen na ten.', 'Epikúros neříká, že smrt nic není.', 'Že smrtí všechno končí, napsal Epikúros jinde.', 'Kdo věří, že po smrti něco je, toho argument nepřesvědčí.'],
     ['Z věty, že se nás smrt netýká, udělal obraz.', 'Obě strany podle ní stejné nejsou.', 'Člověku podle něj proto může vadit, o co přijde potom'],
     ['Třetí koš: to, o co člověk přijde.', 'Šestnáctiletý není nasycený host', 'Aristotelés to za zbabělost nemá.'],
     ['Podle druhé má ten, kdo žije dobře, oč přijít.', 'Kdo z nich má pravdu, rozhodni sám.'],
@@ -334,6 +413,8 @@ test('cesta 8 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     for (const veta of NAVAZUJE[n - 1]) await expect(page.locator('.krok__obsah')).toContainText(veta);
     // Nic odkrytého: žádná zpětná vazba, argumenty ani srovnání. Panel „Na začátku“ bez počáteční odpovědi chybí.
     await expect(page.locator('.krok__obsah [role="region"]')).toHaveCount(0);
+    // Bez odpovědí je oddíl Kdo je na tvé straně celý: nic sbaleného, nic přeskládaného.
+    await expect(page.locator(PRESKLADANO)).toHaveCount(0);
     if (n < KROKY8.length) {
       await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
       await expect(page).toHaveURL(`${CESTA8}${n + 1}/`);
@@ -370,3 +451,82 @@ test('cesta 8 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
   for (const c of [...cesta, ...portret, ...otazka]) pocty.set(c, (pocty.get(c) ?? 0) + 1);
   expect([...pocty].filter(([, n]) => n > 2)).toEqual([]);
 });
+
+// Kdo je na tvé straně (větev interaktivita-v1, T1): krok 9 má k Volbě z kroku 1 tři oddíly podle témat
+// (bojíš se, nebo ne; umírání a ti druzí; co je potom). Přeskládá se jen ten, ve kterém je studentova odpověď;
+// ostatní zůstanou celé. Spor, Změň jednu věc ani Volby z kroku 8 vlastní oddíl nemají.
+const KROK9 = `${CESTA8}9/`;
+const CELY9: Oddily = [
+  ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+  ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+  ['cesta8-je-rozumne', 2, ['strana:D']],
+];
+const KOTVY9 = ['kdo-je-na-tvé-straně', 'bojíš-se-nebo-ne', 'umírání-ati-druzí', 'co-je-potom', 'zkus-to-zit', 'cesta8-moje-pravidlo'];
+
+test('krok 9 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: oddíly celé jako dřív', async ({ page, browser }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(KROK9);
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+  await expect(page.locator(PRESKLADANO)).toHaveCount(0);
+  await kotvy(page, KOTVY9);
+  await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 0, proc: '', potvrzeno: false } });
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+  await sDenikem(page, {});
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY9);
+
+  const bezJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const p2 = await bezJs.newPage();
+  await p2.goto(KROK9);
+  await expect(p2.locator(PRESKLADANO)).toHaveCount(0);
+  await expect(p2.locator('.krok__obsah .citat')).toHaveCount(2);
+  await kotvy(p2, KOTVY9);
+  await bezJs.close();
+});
+
+for (const [sirka, rezim] of [[390, 'light'], [1440, 'dark']] as const) {
+  test(`krok 9 se zápisem v deníku: odpověď studenta první ve svém oddílu (${sirka} px, ${rezim})`, async ({ page }) => {
+    await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: sirka === 390 ? 'reduce' : 'no-preference' });
+    await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 0, proc: 'o všechno', potvrzeno: true } });
+    await page.goto(KROK9);
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta8-je-rozumne', 0, ['stitek', 'tvoje:A', 'jine:C']],
+      ['cesta8-je-rozumne', 1, ['strana:B', 'p']],
+      ['cesta8-je-rozumne', 2, ['strana:D']],
+    ]);
+    const oddil = page.locator('[data-strany="cesta8-je-rozumne"]').first();
+    await expect(oddil.locator('.strany__stitek')).toHaveText('Na tvé straně');
+    await expect(oddil.locator('.strana--tvoje')).toContainText('máš na své straně Aristotela a Plútarcha');
+    const jine = oddil.locator('details.strany__jine');
+    await expect(jine).not.toHaveAttribute('open', /.*/);
+    await expect(jine.locator('[data-odpoved="C"]')).toBeHidden();
+    // Ostatní oddíly jsou celé a vidět; citáty zůstaly kde byly.
+    await expect(page.getByText('Jestli se bojíš o ty druhé, argument proti tomu nenapsal nikdo z nich.')).toBeVisible();
+    await expect(page.locator('.krok__obsah .citat')).toHaveCount(2);
+    await kotvy(page, KOTVY9);
+    await bezNalezuAxe(page);
+    await jine.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(jine.locator('[data-odpoved="C"]')).toContainText('Jestli se nebojíš, stojí za tebou Epikúros s Lucretiem.');
+    await bezNalezuAxe(page);
+
+    // Kdo se bojí umírání, má štítek ve druhém oddílu a nic sbaleného; „ti druzí“ patří všem a stojí pod jeho odpovědí.
+    await sDenikem(page, { 'cesta8-je-rozumne': { vyber: 1, proc: '', potvrzeno: true } });
+    await page.reload();
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta8-je-rozumne', 0, ['strana:A', 'strana:C']],
+      ['cesta8-je-rozumne', 1, ['stitek', 'tvoje:B', 'p']],
+      ['cesta8-je-rozumne', 2, ['strana:D']],
+    ]);
+    await expect(page.locator('details.strany__jine')).toHaveCount(0);
+    await bezNalezuAxe(page);
+    await nicNeulozeno(page, ['cesta8-je-rozumne']);
+  });
+}

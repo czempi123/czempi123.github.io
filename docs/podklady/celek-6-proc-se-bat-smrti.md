@@ -403,6 +403,20 @@ Co z tabulky plyne pro cestu: na **A** má antika silné odpovědi a silné nám
 
 Shrnutí pro P8, které drží rozdíly pramene: Epikúros neříká „smrt nic není“, „smrti se nemusíš bát, protože je to jako spánek“ ani „po smrti je klid“. Říká: nebude tu nikdo, kdo by ji zakoušel. A neříká, že to stačí pochopit: říká „zvykej si“.
 
+#### Slož argument v kroku 3 (doplněk, interaktivita-v1, T2, 30. 10. 2026)
+
+Řecký text Dopisu Menoikeovi 124–125 a Dopisu Hérodotovi 65–66 jsem četl v XML PerseusDL (Hicks, `tlg0004.tlg001.perseus-grc2`, kniha 10), Lucretia III, 830–831 v `phi0550.phi001.perseus-lat1`. Citáty `menoikeus-124` a `menoikeus-125` sedí na řecký text slovo od slova.
+
+| Část bloku `cesta8-argument` | Co pramen říká | Místo | Typ |
+| --- | --- | --- | --- |
+| Premisa 1: „Všechno dobré i zlé je ve vnímání.“ | πᾶν ἀγαθὸν καὶ κακὸν ἐν αἰσθήσει; uvozeno ἐπεὶ („totiž“), tedy důvod | Menoikeovi 124 | doložený text |
+| Premisa 2: „Smrt je ztráta vnímání.“ | στέρησις δέ ἐστιν αἰσθήσεως ὁ θάνατος; připojeno k téže větě s ἐπεὶ | 124 | doložený text |
+| Závěr: „Smrt se nás netýká.“ | μηδὲν πρὸς ἡμᾶς εἶναι τὸν θάνατον; v dopise stojí první („zvykej si na myšlenku, že…“), důvody za ním | 124; znovu 125 | doložený text |
+| Skrytý předpoklad: „Po smrti z nás nezbude nic, co by mohlo vnímat.“ | V Dopise Menoikeovi to Epikúros jako větu neříká; 125 („když je tu smrt, nejsme tu už my“) to předpokládá. Výslovně v Dopise Hérodotovi: když se celé složení rozpadne, duše se rozptýlí, nemá už tytéž schopnosti, nehýbe se a nemá už ani vnímání (λυομένου τοῦ ὅλου ἀθροίσματος ἡ ψυχὴ διασπείρεται … ὥσπερ οὐδʼ αἴσθησιν κέκτηται); vnímající duši si nelze myslet mimo toto složení (66). Hlavní myšlenky 2 mají zkratku: co se rozpadlo, nevnímá. Lucretius ho dává jako důvod hned k závěru: „Smrt tedy nic není vůči nám a netýká se nás ani trochu, protože přirozenost ducha se ukazuje smrtelná“ (nil igitur mors est ad nos neque pertinet hilum, / quandoquidem natura animi mortalis habetur), po výkladu o smrtelnosti duše | Hérodotovi 65–66 (D. L. X, 65–66, pramen `dl-x-63`); KD 2 (`dl-x-139`); Lucretius III, 830–831 (`lucretius-iii-830`) | doložený text (u Menoikea výklad: argument ho potřebuje) |
+| Kde se dá napadnout: premisa 1 | Námitka ztráty (Aristotelés, truchlící u Lucretia, Plútarchos 1106e, Nagel) míří na to, že zlé je jen zakoušené; cesta ji staví v krocích 4–6 | viz Námitka ztráty | výklad |
+
+Doporučená formulace v kroku 3 (za blokem, pod nadpisem Věta, která v dopise chybí): „Že smrtí všechno končí, napsal Epikúros jinde. Duše se podle něj skládá z atomů jako všechno ostatní, a když se tělo rozpadne, rozptýlí se a přestane vnímat.“ Drží Dopis Hérodotovi 65 (rozpad celku, rozptýlení duše, konec vnímání). Do `zdroje` bloku: `dl-x-122` a `dl-x-63` (prameny, ne citáty). Lucretiovu větu 830–831 atlas necituje; kdyby ji cesta chtěla, potřebuje citát s vlastním id.
+
 ### Jádro: Lucretius
 
 Římský básník, který asi dvě stě let po Epikúrovi převedl jeho nauku do latinských veršů (SEP: žil od poloviny 90. do poloviny 50. let př. n. l.; o životě se neví skoro nic; jediná dobová zmínka je v Ciceronově dopise z roku 54). Hieronymova historka o nápoji lásky, šílenství a smrti vlastní rukou je podle SEP nevěrohodná: **nepoužívat, ani jako zajímavost.**

@@ -115,6 +115,7 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
 - **Deska:** duotónová plocha pro fotografii (busta, freska, rukopis) v barvách `--period-N-plate` / `--period-N-on-plate`, vždy s popiskem pod obrazem a licencí v Pramenech (oddíl Obrázky: popisek, autor, instituce, licence s odkazem). Výřez drží tvář v horní třetině (`object-position: 50% 25%`). Na stránce osobnosti s fotografií se mince s atributem přesune k popisku „Proč …?“; pod ním stojí i popisek obrázku (`.obraz-popisek`), protože u rytiny nebo kresby říká, čí je to představa a z kdy. Vlastnost `obrazOsoby={false}` vypne portrét osoby (používá Příběh). Obrázek, u kterého by výchozí výřez usekl to podstatné (rytina, kresba), má v `zdroje.yaml` vlastní střed výřezu `vyrez` („50% 37%“). Deska v hlavičce osobnosti je na telefonu na šířku (16 : 10); obrázek na výšku, kterému tam jeden střed nestačí, má pro ni druhý střed `vyrezNaSirku` (Epiktétos, Marcus Aurelius). Oba výřezy hlídá test v prohlížeči.
 - **Mini mapa osoby** (Doba a lidé): výchozí egejský výřez, dokud jsou v něm vidět všechna místa osoby; jinak se střed a měřítko spočítají z míst i s popisky (`vyrezMiniMapy` v `src/lib/mapa.ts`), takže je vidět i Sinópé nebo Thurioi. Popisek stojí vpravo od bodu; vlevo u pravého okraje a u bodu, který má těsně vpravo souseda (Korinth vedle Athén). Když by se řádky dvou popisků potkaly (Athény se třemi řádky vedle Kolofónu), vysune se popisek s méně řádky nad svůj bod: název stojí nahoře a poslední řádek rolí vedle bodu (`umisteniPopisku`). Že se popisky nepřekrývají, hlídá test v prohlížeči na obou šířkách u všech profilů. Rok v popisku, který je v datech přibližný (`priblizne`), nese „asi“ („působení asi 93 n. l.“). Když jsou všechna místa ve výchozím výřezu vidět, ale popisek u kraje by vyjel ven (Pella u Aristotela má popisek vlevo kvůli Stageiře), výřez se o málo oddálí a posune: hledá se nejmenší oddálení a k němu nejmenší posun, při kterém se vejdou body i popisky a žádný řádek neleží těsně u cizího bodu ani u cizího řádku (`vyrezProPopisky`).
 - **Mini osa současníků** (Doba a lidé, `MiniOsa.astro`): pruhy životů lidí, kteří žili zároveň s osobou, na ose po 50 letech. Když osa přechází přelom letopočtu (Seneca u Epiktéta), nesou značky vlevo od přelomu „př. n. l.“; osa jen z roků před naším letopočtem to říká popiskem pod sebou. Hlídá test v prohlížeči.
+- **Dva životy** (Doba a lidé pod mini osou, na všech stránkách osob najednou; `src/components/osobnost/DvaZivoty.astro`, ostrov `src/components/ostrovy/DvaZivoty.svelte`, pravidla `src/lib/dvojice.ts`; od 29. 10. 2026, větev `interaktivita-v1`, krok K2): nadpis „Dva životy“, nad pruhy popisek osoby stránky (jméno tučně a roky), pod nimi popisek druhého člověka, takže společná léta ani mezera žádný text nepřetnou. Popisek stojí od začátku pruhu, v pravé polovině osy je zarovnaný na jeho konec. Dva pruhy (12 px, barva období každého člověka) na jedné ose s okrajem (`osaDvou`), slabé svislé čáry na kulatých letopočtech (`znackyOsy`) a popisky osy pod nimi; osa jen př. n. l. nebo jen n. l. má éru jednou vpravo, osa přes přelom ji má u každého letopočtu, na telefonu se při víc než čtyřech značkách každá druhá skryje. **Společná léta** jsou tint období mezi pruhy s čárkovanými okraji, **mezera** čárkovaná čára mezi koncem jednoho a začátkem druhého života. Pod osou věta z `vzdalenost()` v čtecím písmu („Žili současně asi 64 let.“, „Dělí je asi 100 let. To je víc než jeden lidský život.“; dvě ženy „žily“; přirovnání k životům po 75 letech: do 50 let žádné, 50–74 „skoro jeden“, pak „asi k“, „víc než k“, nebo „skoro k + 1“ podle zbytku, `prirovnaniKZivotum`), `aria-live="polite"`; je to `figcaption`, poslední potomek `figure` s osou. Pod obrázkem, mimo `figure` ve společném obalu s `id="dva-zivoty"` (aby ji čtečka nečetla jako pokračování popisku), nabídka „Druhý život“ (nativní `<select>`, 44 px, nejvýš 420 px): skupina „Z Doby a lidí“ (lidé ze vztahů a mini osy), pak „Období N: název“, v každé podle začátku života; možnost „Jméno · roky“. Po výběru se osa přepočítá, pruhy a popisky jedou 600 ms (`--pohyb-kamera`), při omezeném pohybu skočí. **Výchozí dvojice** (`vychoziDvojice`): první učitel osoby z `vztahy.yaml`, jinak první žák; jinak vztah `vliv-textem`, nejdřív koho osoba četla, pak kdo četl ji, z lidí s vlastní stránkou ten nejbližší podle poloviny života (od 31. 10. 2026, krok O: Seneca → Kleanthés, Cicero → Platón, Hypatia → Plótínos); jinak nejbližší současník s vlastní stránkou (kdo s osobou nežil, přijde až za současníky). Společný profil srovnává hlavní osobu a lidé stránky v nabídce nejsou. Nic se neukládá; bez JavaScriptu stojí výchozí dvojice s větou a nabídka chybí (ukáže se po hydrataci, `client:idle`). Není to blok: nemá nadtitulek, Kam dál ani zastavení v přípravě hodiny. Hlídají `tests/data/dvojice.test.ts` a `tests/e2e/dva-zivoty.spec.ts`.
 - **Vztahy v Době a lidech** (`skupinyVztahu` a `roleVztahu` v `src/lib/vztahy.ts`): skupiny Učitelé, Žáci, Znali se a přeli se (`znali-se`, `polemika`) a dvě skupiny pro `vliv-textem` podle směru: Četli ho a navázali („navázal na jeho texty“) a Koho četl („znal ho z textů“). Pod „Znali se a přeli se“ nesmí stát nikdo, kdo druhého jen četl (Epiktétos a Marcus Aurelius, Epikúros a Lucretius); hlídá jednotkový test i test v prohlížeči. Prázdná skupina se nevypisuje. **Spor na dálku** (`sporNaDalku`): polemika lidí, kteří se osobně přít nemohli, má vlastní skupiny podle směru: S kým se přel na dálku (osoba stránky je kritik: Aristotelés a Sókratés) a Kdo se s ním přel později (osoba stránky je ten, s kým se kritik pře); popisek je „přel se s jeho učením“, stejně v kartě člověka na mapě. Osobně se mohli přít ti, kdo aspoň rok žili zároveň a oběma bylo aspoň patnáct (`mohliSePrit`; Karneadovi bylo sedm, když Chrýsippos zemřel). Poznámka u takového vztahu je otázka, o kterou šlo („stačí vědět, co je dobré?“), aby seděla na obou stránkách.
 - **Pás období:** osm segmentů bez mezer; pozadí každého segmentu je gradient, který na hranách přechází do poloviční směsi se sousedem; ornament období je maskovaný do ztracena k okrajům. Varianty: velký (Domů, 250 px), malý přepínač (mapa, 26–28 px, aktivní období širší).
 - **Volba s důvodem:** karty možností A–D (min. 60 px), vybraná má okraj 2 px a tint období; pole „Proč právě tohle?“ nepovinné (blok s `bezDuvodu: true` ho nemá); zpětná vazba v tintu období s titulkem „Tvůj tah: …“ a oddílem „Co udělal …“.
@@ -173,9 +174,9 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
   - **Mimo hodinu** (od 23. 10. 2026, krok O; `zastaveniMimoHodinu`): na stránce, kde žádné zastavení hodiny nestojí, má lištu, když student už na některém zastavení byl. Vlevo „Hodina: **Delfy** · mimo hodinu“, Předchozí s textem „Zpět na 2 z 8“ (ikona zpět, na telefonu jen ikona a text pro čtečky) vede na poslední navštívené zastavení, Další na zastavení za ním, Přehled hodiny a Zavřít jako jinde; atribut `data-mimo`. Poslední navštívené zastavení (`posledni`) je to, na jehož stránce student naposled stál, ať tam přišel z lišty, ze stránky hodiny, z Kam dál nebo z odkazu. Bez lišty zůstávají stránky `/hodina/…`, stránky před prvním zastavením a promítání.
   - **Příchod na zastavení** z lišty nebo ze stránky hodiny je okamžitý skok na kotvu: aktivní hodina dostane jednorázový příznak `skok`, skript v hlavičce dá `<html>` třídu `skok-na-zastaveni` (vypne `scroll-behavior: smooth`) a skript lišty ji po načtení stránky sundá. Skok na zastavení na téže stránce jde přes `scrollIntoView` s `behavior: 'instant'`. Kam dál, obsah profilu a ostatní odkazy na kotvu posouvají plynule jako dosud.
 - **Promítání** (třída `promitani` na `<html>`, styly `src/styles/promitani.css`): lišta hodiny nahoře sama (60 px) s „Delfy · 3 ze 4“, Předchozí, Další, Přehled hodiny, Celá obrazovka (`aria-pressed`) a Ukončit promítání. Bez hlavičky, hlavičky kroku, drobečků, patičky, spodní lišty, lišty kroku a lišty Obsah. `--meritko: 1.5` zvětší všechna písma z tokenů, `--ctenarsky-sloupec: 1320px`, `--max-sirka: 1920px`, okraj `clamp(24px, 5vw, 96px)`; široké pásy (krok, blok, odpovědi otázky) drží šířku sloupce. U zastavení s kotvou je vidět jen jeho úsek (blok, příběh, kapitola, oddíl, hlas s roky nad jménem), u kroku a celé stránky celý obsah. Ovládání: šipka vpravo, PageDown, mezerník (o plochu bez 12 %, na konci úseku další zastavení; od kroku O je zbytek úseku pod 32 px konec úseku, takže žádný stisk nepohne stránkou o pár pixelů, `ZBYTEK_USEKU`), šipka vlevo, PageUp, Shift+mezerník (na předchozí zastavení na jeho konec), F celá obrazovka, Esc konec (v celé obrazovce první Esc zavře jen ji, prohlížeč klávesu stránce nepošle). Klávesy nesahají do polí, posuvníků a přepínačů bloků. Bloky a kresby fungují dál; Roztřiď má na plátně Dát sem pod popisem koše přes jeho šířku a v koších vedle sebe ve stejné výšce (krok O). Od H4: na plátně užším než 1600 px mají Přehled hodiny a Celá obrazovka jen ikonu (text pro čtečky) a pořadí „3 ze 4“ se nezkracuje nikdy, zkracuje se jen název hodiny. Esc i Ukončit promítání stránku načtou znovu: bloky pak ukážou deník studenta, stránka se otevře na zastavení a fokus dostane Přehled hodiny. Bloky na plátně pracují s deníkem promítání (oddíl Co se ukládá) a věta „… je uložený v deníku“ (`data-cast="ulozeno"`) se na plátně neukazuje.
-- **Podoba na plátně** (od 18. 10. 2026, H4; `Podoba` v `src/lib/hodiny.ts`, styly `src/styles/promitani.css`): blok a kresba se na plátně ukážou v podobě, kterou učitel vybral ve skladateli. Platí jen v promítání; doma a s lištou je stránka celá. Skript lišty dá úseku zastavení `data-podoba` a styly skryjí části bloku podle pevných značek `data-cast` v komponentách: `hlava` (nadtitulek a mince, `BlokHlava`), `scena`, `otazka`, `moznosti` (karty, strany sporu, škála, koše, odhad, přepínač podmínek), `akce` (potvrzení, odkrytí), `duvod` (vlastní psaní studenta: důvod, odpověď v Odkryj, vlastní karta, reflexe), `zpetna` (zpětná vazba, argumenty, odkrytá část), `dal` (Kam dál, `BlokDal`), `ulozeno`, u kresby `platno` a `popis`.
+- **Podoba na plátně** (od 18. 10. 2026, H4; `Podoba` v `src/lib/hodiny.ts`, styly `src/styles/promitani.css`): blok a kresba se na plátně ukážou v podobě, kterou učitel vybral ve skladateli. Platí jen v promítání; doma a s lištou je stránka celá. Skript lišty dá úseku zastavení `data-podoba` a styly skryjí části bloku podle pevných značek `data-cast` v komponentách: `hlava` (nadtitulek a mince, `BlokHlava`), `scena`, `otazka`, `moznosti` (karty, strany sporu, škála, koše, odhad, přepínač podmínek), `akce` (potvrzení, odkrytí), `duvod` (vlastní psaní studenta: důvod, odpověď v Odkryj, vlastní karta, reflexe), `zpetna` (zpětná vazba, argumenty, odkrytá část), `dal` (Kam dál, `BlokDal`), `ulozeno`, u kresby `platno` a `popis`, u Slož argument `napadnout` (oddíl Kde se dá argument napadnout).
   - **Celý blok** (výchozí, bez `data-podoba`): blok jako dosud, jen bez věty o uložení.
-  - **Jen otázka a možnosti** (`~m`): bez `scena`, `duvod`, `dal`; zpětná vazba až po kliknutí učitele. U Odkryj se jmenuje „Jen otázka a odkrytí“.
+  - **Jen otázka a možnosti** (`~m`): bez `scena`, `duvod`, `dal` a `napadnout`; zpětná vazba až po kliknutí učitele. U Odkryj se jmenuje „Jen otázka a odkrytí“.
   - **Otevřená otázka** (`~o`): z bloku zůstanou jen přímí potomci `hlava` a `otazka` (cokoli dalšího, i budoucí části bloku, je skryté), otázka písmem `--fs-h2` (na plátně asi 69 px na 1280 px) uprostřed plochy pod lištou. Lišta má tlačítko **Ukázat možnosti** (ikona čtyř polí, obrys `--ink`, stisknuté plné `--ink`, `aria-pressed`, `aria-keyshortcuts="M"`) a klávesu M mimo pole: úsek se přepne na „jen otázka a možnosti“, dokud učitel nepřejde jinam. Po návratu na zastavení jsou možnosti zase skryté.
   - **Jen kresba** (`~k`): hlava, přepínač pohledů, plátno a ovládání; text pod kresbou (`popis`) zůstane čtečkám, vidět není. Kresba vyplní plochu pod lištou bez okrajů. Na plátně 4 : 3 a širším stojí plátno vlevo přes celou výšku a přepínač s ovládáním vpravo (sloupec `minmax(18rem, 32 %)`); široká kresba (`data-siroka` na `<figure>`, `viewBox` víc než 1,8 : 1, třeba Loď po prknech) má ovládání pod sebou, vedle by se zmenšila.
 
@@ -186,6 +187,7 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
   | Spor | celý blok, jen otázka a možnosti, otevřená otázka | postoje obou stran, škála, Tady stojím, argumenty, druhá škála a posun; důvod a reflexe skryté |
   | Změň jednu věc | celý blok, jen otázka a možnosti, otevřená otázka | možnosti, Rozhodnuto, přepínač podmínek a nové rozhodnutí, posun a Co udělal filozof |
   | Kdo žil dřív? | celý blok, jen otázka a možnosti, otevřená otázka | volby pořadí nebo tažení života na ose, Odhalit, odhalení s osou |
+  | Slož argument | celý blok, jen otázka a možnosti, otevřená otázka | karty a řádky, Zkontrolovat, zpětná vazba se skrytým předpokladem a místem k napadení, volba „Kterou premisu bys napadl ty?“ a Tohle bych napadl; důvod skrytý |
   | Roztřiď | celý blok, jen otázka a možnosti | karta na stole, koše, Mám roztříděno, výsledky a srovnání; vlastní karta skrytá. Otevřená otázka chybí: bez karet nemá co ukázat |
   | Závěr cesty | celý blok | jen otázka a pole na vlastní pravidlo, nic dalšího k zúžení |
   | kresby (všech třináct) | celý blok, jen kresba | (nemají možnosti) |
@@ -194,15 +196,15 @@ Mapa světlý: `#DAE2E9` `#B8C6D1` `#FAFAF8` `#949EA7`; tmavý: `#0A1015` `#1B29
 
 ## Bloky
 
-Interaktivní bloky, ze kterých se skládají cesty, profily a otázky (`docs/plan.md` › Mechanismy učení). Každý se do MDX vkládá jedním řádkem. Ve skutečném atlasu jsou v cestě 1 „Kdy mám dobrý důvod věřit?“ (`/cesta/kdy-mam-dobry-duvod-verit/`), v cestě 6 „Kolik je dost?“ (`/cesta/kolik-je-dost/`) a v profilech; sedm bloků a Návrat jsou pohromadě a bez kódu pro autora na `/dilna/bloky/` (mimo navigaci a hledání, `noindex`). Závěr cesty patří jen do posledního kroku cesty a Návrat ve skutečném atlasu nabízí jen deník. Tento oddíl používá skill `atlas-cesta`.
+Interaktivní bloky, ze kterých se skládají cesty, profily a otázky (`docs/plan.md` › Mechanismy učení). Každý se do MDX vkládá jedním řádkem. Ve skutečném atlasu jsou v cestě 1 „Kdy mám dobrý důvod věřit?“ (`/cesta/kdy-mam-dobry-duvod-verit/`), v cestě 6 „Kolik je dost?“ (`/cesta/kolik-je-dost/`) a v profilech; osm bloků a Návrat jsou pohromadě a bez kódu pro autora na `/dilna/bloky/` (mimo navigaci a hledání, `noindex`). Závěr cesty patří jen do posledního kroku cesty a Návrat ve skutečném atlasu nabízí jen deník. Tento oddíl používá skill `atlas-cesta`.
 
 ### Jak blok vložit do MDX
 
 1. Na začátek MDX jeden import (cestu uprav podle hloubky souboru):
    ```mdx
-   import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv } from '../../components/bloky';
+   import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument } from '../../components/bloky';
    ```
-2. Volba s důvodem, Roztřiď, Změň jednu věc a Spor mají obsah v YAML v `src/content/bloky/<id>.yaml` (schéma `src/lib/bloky-schema.ts`). Do MDX pak stačí `<Volba id="<id>" />`. Příběh, Odkryj a Kdo žil dřív? se píšou přímo v MDX. Poslední krok cesty končí `<ZaverCesty id="…" otazka="…" />` (ze stejného importu); případ pro Návrat je taky v YAML (`druh: navrat`), ale do MDX cesty se nevkládá.
+2. Volba s důvodem, Roztřiď, Změň jednu věc, Spor a Slož argument mají obsah v YAML v `src/content/bloky/<id>.yaml` (schéma `src/lib/bloky-schema.ts`). Do MDX pak stačí `<Volba id="<id>" />`. Příběh, Odkryj a Kdo žil dřív? se píšou přímo v MDX. Poslední krok cesty končí `<ZaverCesty id="…" otazka="…" />` (ze stejného importu); případ pro Návrat je taky v YAML (`druh: navrat`), ale do MDX cesty se nevkládá.
 3. `client:visible` ani odkaz zpět z deníku nepiš. Doplní je obal v `src/components/bloky/`; odkaz je stránka a kotva `#<id>`.
 4. `id` je malými písmeny bez diakritiky, s pomlčkami a na celém webu jedinečné (`sokrates-utek`, `cesta1-jak-zjistit`). Podle něj se ukládá odpověď. Když ho později změníš, studentům zmizí rozpracovaný stav.
 5. V textech YAML funguje `*kurzíva*` a prázdný řádek dělí odstavce. Jména lidí se berou z `lide.yaml` podle id; v textu je piš v podobě z dat.
@@ -227,6 +229,7 @@ Vše jen v prohlížeči, v záznamu `atlas-denik` (`src/lib/denik.ts`). Bez loc
 | Změň jednu věc | „Na začátku: … Podmínka: … (posun)“ | základní rozhodnutí, odpověď v každé podmínce, zapnutá podmínka |
 | Spor | „Na začátku: spíš Platón. Po argumentech: uprostřed. Co mě posunulo: … Nejsilnější argument druhé strany (Diogenés): … Moje odpověď: …“ (reflexe jen, když ji student vyplnil) | první a konečná poloha, důvod, reflexe (text vybraného argumentu nebo vlastní, odpověď) |
 | Kdo žil dřív? | nic (fakt, ne názor) | odhad, odkryto |
+| Slož argument | jen volba po složení: „Napadl bych premisu: „…“. Proč: …“ s otázkou „<otázka bloku> Kterou premisu bys napadl ty?“ (složení samo je úloha, ne názor) | karty v řádcích, zkontrolováno, zvolená možnost, důvod, zapsáno |
 | Závěr cesty | pravidlo (Moje stanovisko, `<id>`) a nepovinně `<id>-zmena`: „Co se změnilo, nebo proč si myslíš totéž?“ | nic; „Na začátku“ se jen čte ze zápisu bloku, který je začátkem cesty |
 | Návrat | „Upravím ho. Proč: …“ s otázkou „Návrat · Nový telefon: platí moje pravidlo i tady?“ (druh `navrat`) | odpověď, důvod, zapsáno, odloženo (čas), skryto |
 
@@ -445,6 +448,53 @@ Odhad pořadí (karty A / B / Žili ve stejné době), nebo vzdálenosti: na ose
 | `dal` | ne | další krok vedle odkazu do mapy (v cestě sám) |
 | `id` | ne | výchozí `kdo-<a>-<b>-<druh>` |
 
+**Na medailonku** (od 29. 10. 2026, větev `interaktivita-v1`, krok K2) stojí blok v šabloně `StrankaMedailonku.astro` ve čtenářském sloupci mezi hlavičkou a Dobou a lidmi (mini osa by odpověď prozradila), druh pořadí. Osoba stránky je `a`, druhého člověka vybere pevné pravidlo `druhyKdoZilDriv` (`src/lib/dvojice.ts`, pro všechny medailonky najednou `druziKdoZilDriv`, s daty `kdoZilNaMedailonku` v `src/lib/stranky-osob.ts`): osoba s profilem nebo portrétem bez jakéhokoli vztahu s osobou stránky, jejíž život se s osobou stránky **nepřekrývá** a dělí je aspoň 20 let (`NEJMENSI_MEZERA`: s přibližnými roky by „Dělí je asi 1 rok“ byla past), nejbližší podle poloviny života; každá známá osoba nejvýš na třech medailoncích (`NEJVIC_MEDAILONKU`, přiděluje se v pořadí `lide.yaml`, plná se přeskočí). Kdo takovou osobu nemá, dostane nejbližší známou osobu bez vztahu. Odpověď je tak A, nebo B, a odkrytí řekne „Dělí je…“ (od 31. 10. 2026, krok O; dřív bylo u 28 z 34 medailonků správně „Žili ve stejné době“). Při shodě rozhoduje pořadí v `lide.yaml`. Náhoda by rozbila zastavení v hodině i testy; nový vztah nebo profil ale může druhého člověka změnit, a s ním id bloku. Id je výchozí `kdo-<osoba>-<druhý>-poradi`. Katalog hodin od K2 nese i medailonky: celá stránka (`o:<id>`, druh `profil` s příznakem `medailonek`, štítek „Celý medailonek“, ve výběru „Medailonek“) a pod ní tento blok se třemi podobami jako jinde.
+
+### Slož argument
+
+Student seřadí premisy a závěr: vlevo karty, vpravo řádky „1“, „2“ (případně „3“), řádek s otazníkem („Jedna věta tu chybí.“) a pod čarou „Závěr“. Kartu přesune klepnutím (vybere kartu, pak řádek; cílem je celý řádek, tlačítko Sem), tažením myší i prstem, nebo klávesnicí: Enter na kartě ji vybere a fokus skočí na první prázdný řádek, Tab jde po řádcích, Enter kartu položí a fokus přejde na další volnou kartu (po poslední na Zkontrolovat), Escape výběr zruší. Karta na obsazený řádek se s tou, která tam ležela, prohodí (z hromádky ji pošle zpátky mezi karty); vybranou kartu z řádku vrátí „Vrátit mezi karty“ nebo tažení na hromádku. Pohne se jen přesouvaná karta (crossfade 220 ms), při omezeném pohybu skočí. Co se stalo, slyší čtečka z oblasti `aria-live` („„…“ je v řádku 2.“).
+
+Zkontrolovat jde, až jsou všechny řádky obsazené. Zpětná vazba má titulek „Tvůj závěr: „…“.“ podle toho, co student dal do závěru: se závěrem na místě je to `zpetna` z YAML (a věta, že na pořadí premis nezáleží, když je má jinak), s premisou v závěru `vZaveru` té karty, nebo obecná věta, která řekne, ve kterém řádku skutečný závěr nechal, a zeptá se dál. Po kontrole se karty nepřesouvají; Začít znovu smaže stav i zápis.
+
+**Tři zastavení po kontrole** (od 31. 10. 2026, krok O; nález 1 revize R). Blok neukáže, kam míří ti, kdo argument napadli, dřív, než si student vybere sám:
+
+1. **Po Zkontrolovat** jen titulek a zpětná vazba; otázka na jejím konci („Přidal bys k argumentu větu, kterou k tomu potřebuje?“) opravdu čeká na studenta. Řádek s otazníkem zůstane „Jedna věta tu chybí.“ a pod zpětnou vazbou je tlačítko **Ukázat chybějící větu** (hlavní).
+2. **Po odkrytí** se v řádku s otazníkem ukáže skrytý předpoklad a ve zpětné vazbě oddíl Skrytý předpoklad (proč ho argument potřebuje, oblast s fokusem). Pod ní volba „Kterou premisu bys napadl ty?“: premisy v pořadí argumentu, skrytý předpoklad a „Žádnou. Argument mi drží.“, nepovinné „Proč právě tahle?“ (bez něj s `bezDuvodu: true`) a Tohle bych napadl. Žádný řádek ještě nemá silnější okraj.
+3. **Po Tohle bych napadl** vlastní zpětná vazba k volbě (`kdyzNapadnes`, u „žádnou“ `zadnou`) a pod ní oddíl **Kde se dá argument napadnout** (`napadnout.proc`, `data-cast="napadnout"`); řádek místa k napadení teprve teď dostane silnější okraj v barvě období. Z možností zůstane vidět jen zvolená.
+
+Každé zastavení vydrží obnovení stránky (stav `odkryto` v `StavArgumentu`; starší stav s vybranou možností se čte jako odkrytý). Volba je názor, proto jde do deníku (zvolená věta a nepovinně proč); kontrola ani odkrytí nic nezapisují. Na plátně v podobě „jen otázka a možnosti“ třída vidí karty, řádky, zpětnou vazbu, chybějící větu a volbu, oddíl Kde se dá argument napadnout ne. Rozvržení se řídí šířkou bloku: od 600 px uvnitř stojí karty vlevo a řádky vpravo (krok cesty i čtenářský sloupec profilu), užší blok (telefon) má karty nad řádky. Logika je v `src/lib/argument.ts`, ukázka v dílně `dilna-sokrates-zemre`. Poprvé v atlasu: cesta 8, krok 3 (`cesta8-argument`, Epikúrův argument z Dopisu Menoikeovi 124), hned za citátem s argumentem a s vlastním Kam dál na nadpis pod sebou, protože v kroku za ním stojí ještě Odkryj; s `bezDuvodu: true`, protože námitku student píše o pár odstavců níž v tom Odkryj.
+
+```mdx
+<SlozArgument id="dilna-sokrates-zemre" />
+```
+
+```yaml
+# src/content/bloky/<id>.yaml
+druh: argument
+obdobi: 2
+nadtitulek: Slož argument       # nepovinné (výchozí „Slož argument“)
+scena: …                        # nepovinné
+otazka: Jak z nich složíš argument?
+karty:                          # 3–4, v pořadí, ve kterém je student dostane (ne v pořadí argumentu); text nejvýš 140 znaků
+  - id: nikdo
+    text: Ještě žádný člověk nežil věčně.
+    misto: 2                    # 1, 2, 3 bez mezery, nebo zaver (právě jeden)
+    kdyzNapadnes: …             # u premis povinné: zpětná vazba, když ji student napadne
+    vZaveru: …                  # nepovinné: zpětná vazba, když ji dá do závěru
+  - { id: zemre, text: Sókratés jednou zemře., misto: zaver }
+skryty:
+  text: Co se dosud nepodařilo žádnému člověku, nepodaří se ani nikomu dalšímu.
+  zpetna: …                     # proč ho argument potřebuje
+  kdyzNapadnes: …
+napadnout: { karta: skryty, proc: … }   # id premisy nebo skryty; proc začne tím, co je to za větu
+zpetna: …                       # po kontrole se závěrem na místě: vysvětluje a ptá se na chybějící větu
+zadnou: …                       # zpětná vazba k „Žádnou. Argument mi drží.“
+bezDuvodu: true                 # nepovinné: volba bez „Proč právě tahle?“ (když v kroku hned následuje pole s námitkou)
+zdroje: []                      # prameny historických tvrzení (id ze zdroje.yaml)
+```
+
+Id `skryty` a `zadnou` jsou vyhrazená. Schéma (`BlokArgument` v `src/lib/bloky-schema.ts`) hlídá jeden závěr, místa premis bez mezery, `kdyzNapadnes` u každé premisy a `napadnout.karta` jen na premisu nebo skrytý předpoklad.
+
 ### Závěr cesty
 
 Poslední krok cesty: závěrečné pravidlo a vedle něj to, co student opravdu uložil na začátku. Jeden řádek v MDX, mimo čtenářský sloupec:
@@ -460,6 +510,42 @@ Pod srovnáním je nepovinné „Co se změnilo, nebo proč si myslíš totéž?
 Když počáteční odpověď v deníku není (student krok přeskočil nebo ji smazal), panel se neukáže vůbec a pole s pravidlem stojí ve čtenářském sloupci jako dřív. Text kroku proto musí sedět s panelem i bez něj: „Vrať se ke svému tahu z kroku 2“, ne „Níž vidíš svůj tah“.
 
 Který blok je začátkem cesty, říká pole `zacatek` v přehledu cesty (viz Cesta). Počáteční odpověď se jen čte, nic se neukládá podruhé.
+
+### Kdo je na tvé straně
+
+Poslední krok cesty se zastánci odpovědí (od 29. 10. 2026, větev `interaktivita-v1`, krok K1; vzor cesta 2, krok 8). Každý oddíl, jehož text patří k odpovědím jednoho bloku cesty, ukáže nejdřív zastánce odpovědi, kterou student zvolil; ostatní odpovědi jsou pod sbaleným „Kdo hájil jiné odpovědi“. Nic se neškrtá a nic se neukládá.
+
+```mdx
+import { Strany, Strana } from '../../../components/bloky';
+
+## Loď z prvního kroku
+
+<Strany blok="cesta2-je-to-ona">
+
+V prvním kroku byly čtyři odpovědi. …        ← patří všem, je vidět vždy
+
+<Strana odpoved="A">
+
+Jestli jsi řekl, že je to pořád táž loď, …
+
+</Strana>
+
+<Strana odpoved="C D">                        ← odstavec pro dvě odpovědi
+
+</Strana>
+
+Hobbes otázku dělí podle jména, …            ← patří všem, stojí za sbalenou částí
+
+</Strany>
+```
+
+- **Výjimka z pravidla „obsah bloku v YAML, v MDX jeden řádek“.** Tohle není blok s úkolem, jen jiné pořadí prózy, kterou student čte i bez něj. Přestěhovat stovky slov s citáty (`<Citat id>` uvnitř `Strana` zůstává, jak je) do YAML by znamenalo, že autor čte konec cesty jinde než zbytek kroku a skill `atlas-psani` ho nevidí v souvislosti. Proto text zůstává v MDX a obaly jen říkají, k čemu patří.
+- **Obaly.** `Strany` (`src/components/bloky/Strany.astro`, ostrov `src/components/ostrovy/Strany.svelte`) nese id bloku; `Strana` (`Strana.astro`) obalí odstavce jedné nebo několika odpovědí (`odpoved="C D"`). Kódy: Volba písmena karet A–D, Spor id osoby strany (bez osoby `strana-1` / `strana-2`) a `uprostred`, Změň jednu věc id možnosti. Neznámý kód, blok bez YAML (Odkryj), Roztřiď nebo `Strany` bez jediné `Strana` zastaví sestavení. Nadpis oddílu stojí nad obalem, takže kotva oddílu je mimo ostrov.
+- **Jak se čte deník** (`odpovedStudenta` v `src/lib/strany.ts`, ze `stavBloku`): Volba zvolená karta, jen když ji student potvrdil; Spor konečná poloha (0–1 první strana, 2 uprostřed, 3–4 druhá), první poloha nestačí; Změň jednu věc základní rozhodnutí. Roztřiď a Odkryj odpověď nedávají.
+- **Přeskládání** (`rozvrhOddilu`): co patří všem a stojí před první odpovědí, zůstane nahoře; na místě první odpovědi štítek „Na tvé straně“ (`t-nadtitulek` v barvě období) a studentova odpověď s levou linkou 3 px v barvě období; pod ní nativní `<details>` „Kdo hájil jiné odpovědi“ (vzhled jako „Co kdybys zvolil jinak?“ ve Volbě, cíl 44 px) s ostatními odpověďmi v původním pořadí a linkou `--pc-soft`; pak zbytek společného textu. Sestavená stránka je vždy celá a ostrov (`client:load`) ji po hydrataci jen přeskládá. **Bez probliknutí** (od 31. 10. 2026, krok O; nález 3 revize R): hned za obalem oddílu stojí skript před vykreslením (`<script is:inline>` v `Strany.astro`, text ze `skriptStranPredem` v `src/lib/strany.ts`), který přečte deník a odpovědi, které nejsou studentovy, skryje atributem `hidden` a obalu dá `data-predem`. Odpověď i rozvrh počítají tytéž funkce jako ostrov (`odpovedStudenta` bere pomůcky z `bloky.ts` jako parametr, aby šla vložit jako text; `rozvrhOddilu`, `kodyStrany`). Ostrov po hydrataci doplní štítek a sbalenou část, skryté odpovědi ukáže a `data-predem` sundá; kdyby se nehydratoval, pojistka je 4 s po načtení ukáže celé. Na první obrazovce se tak neukáže nic, co by pak zmizelo. Bez JavaScriptu, bez zápisu, se smazaným deníkem, s nepotvrzenou Volbou, se Sporem bez konečné polohy a u odpovědi, ke které oddíl nemá odstavec, je oddíl celý jako dřív. Kdo prošel jen některé bloky, má přeskládané jen jejich oddíly. Uzly se přesouvají, nekopírují, takže id a odkazy uvnitř platí dál.
+- **Psaní.** Úvodní věta oddílu (mimo `Strana`) se musí číst nad rozbalenou i sbalenou částí. Každý odstavec `Strana` stojí sám, protože může být první: žádné „taky“, „třetí odpověď“ ani „A jestli…“ navazující na předchozí odpověď. Do příprav hodiny nepřibývá nic: blok je přeskládání textu, ne zastavení.
+- **Kde je** (od 29. 10. 2026, krok T1): poslední kroky cest 2, 7, 8, 33 a 34. Oddíl patří k jednomu bloku, blok ale smí mít oddílů víc: cesta 8 má k Volbě z prvního kroku tři oddíly podle témat a přeskládá se jen ten, ve kterém je studentova odpověď. Oddíl, jehož text patří všem odpovědím (cesta 34, Dvě hodiny s telefonem), obal nemá.
+- Hlídají `tests/data/strany.test.ts` (i skript před vykreslením nad napodobeninou stránky), `tests/e2e/cesta2.spec.ts` (co je vidět při DOMContentLoaded, skript se zablokovaným ostrovem a pojistka, bez zápisu, se zápisem na 390 a 1440 px ve světlém i tmavém režimu, nepotvrzená Volba, Spor uprostřed, smazaný deník, bez JavaScriptu, klávesnice, axe, kotvy) a stejné případy v `cesta7`, `cesta8`, `cesta33` a `cesta34.spec.ts`; společné pomůcky jsou v `tests/e2e/strany.ts`.
 
 ### Návrat
 

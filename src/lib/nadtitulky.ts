@@ -10,6 +10,7 @@ export const VYCHOZI_NADTITULKY = {
   Odkryj: 'Než budeš číst dál',
   NejdrivSam: 'Než budeš číst dál',
   KdoZilDriv: 'Kdo žil dřív?',
+  SlozArgument: 'Slož argument',
 } as const;
 
 export type BlokSNadtitulkem = keyof typeof VYCHOZI_NADTITULKY;

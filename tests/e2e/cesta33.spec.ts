@@ -6,6 +6,7 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { popisMasky } from '../../src/lib/maska';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
 
 const CESTA = '/cesta/co-kdyz-prijde-to-nejhorsi/';
 const KROK = `${CESTA}4/`;
@@ -111,3 +112,90 @@ test('strhni masku: pohyb běží a jde zastavit; zastavená ukáže masku vedle
   await kresba.getByRole('button', { name: 'Pustit pohyb' }).click();
   expect(await jmeno()).toContain('maska-strhni');
 });
+
+// Kdo je na tvé straně (větev interaktivita-v1, T1): krok 8 přečte z deníku Volby z kroků 1 a 3, konečnou polohu
+// ve Sporu z kroku 6 a základní rozhodnutí Změň jednu věc z kroku 7. Roztřiď z kroku 5 a Odkryj z kroku 2 oddíl nemají;
+// Jedna věta ke všem radám patří všem.
+const KROK8 = `${CESTA}8/`;
+const CELY8: Oddily = [
+  ['cesta33-pod-padakem', 0, ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D']],
+  ['cesta33-senator', 0, ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D']],
+  ['cesta33-predem-spor', 0, ['p', 'strana:epikuros', 'strana:seneca', 'strana:uprostred']],
+  ['cesta33-nominace', 0, ['p', 'strana:promyslim', 'strana:nepredstavuji', 'strana:kazdy-den']],
+];
+const KOTVY8 = ['pod-padákem', 'senátor', 'mezi-senekou-aepikúrem', 'tři-týdny-před-výběrem', 'jedna-věta-ke-všem-radám', 'zkus-to-zit', 'cesta33-moje-pravidlo'];
+
+test('krok 8 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: oddíly celé jako dřív', async ({ page, browser }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(KROK8);
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY8);
+  await expect(page.locator(PRESKLADANO)).toHaveCount(0);
+  await kotvy(page, KOTVY8);
+  // Spor jen s první polohou a nepotvrzená Volba nic nepřeskládají; smazaný deník taky ne.
+  await sDenikem(page, { 'cesta33-pod-padakem': { vyber: 2, proc: '', potvrzeno: false }, 'cesta33-predem-spor': { prvni: 1, konecna: null, duvod: '' } });
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY8);
+  await sDenikem(page, {});
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY8);
+
+  const bezJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const p2 = await bezJs.newPage();
+  await p2.goto(KROK8);
+  await expect(p2.locator(PRESKLADANO)).toHaveCount(0);
+  await expect(p2.locator('[data-odpoved="uprostred"]')).toBeVisible();
+  await kotvy(p2, KOTVY8);
+  await bezJs.close();
+});
+
+for (const [sirka, rezim] of [[390, 'light'], [1440, 'dark']] as const) {
+  test(`krok 8 se zápisem v deníku: odpověď studenta první, ostatní sbalené (${sirka} px, ${rezim})`, async ({ page }) => {
+    await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: sirka === 390 ? 'reduce' : 'no-preference' });
+    await sDenikem(page, {
+      'cesta33-pod-padakem': { vyber: 2, proc: 'přistát', potvrzeno: true },
+      'cesta33-senator': { vyber: 3, proc: '', potvrzeno: true },
+      'cesta33-predem-spor': { prvni: 1, konecna: 2, duvod: '', reflexe: null },
+      'cesta33-nominace': { zaklad: 'kazdy-den', podminky: { los: 'nepredstavuji' }, aktivni: 'los' },
+    });
+    await page.goto(KROK8);
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta33-pod-padakem', 0, ['p', 'stitek', 'tvoje:C', 'jine:A,B,D']],
+      ['cesta33-senator', 0, ['p', 'stitek', 'tvoje:D', 'jine:A,B,C']],
+      // Uprostřed ve Sporu má vlastní odstavec (Seneca radí obojí v jednom dopise).
+      ['cesta33-predem-spor', 0, ['p', 'stitek', 'tvoje:uprostred', 'jine:epikuros,seneca']],
+      // Rozhoduje základní rozhodnutí, ne odpověď ve změněné podmínce.
+      ['cesta33-nominace', 0, ['p', 'stitek', 'tvoje:kazdy-den', 'jine:promyslim,nepredstavuji']],
+    ]);
+    const padak = page.locator('[data-strany="cesta33-pod-padakem"]');
+    await expect(padak.locator('.strana--tvoje')).toContainText('Jestli sis řekl, že na to teď nemáš myslet, máš na své straně Epikúra');
+    const jine = padak.locator('details.strany__jine');
+    await expect(jine).not.toHaveAttribute('open', /.*/);
+    await expect(jine.locator('summary')).toHaveText('Kdo hájil jiné odpovědi');
+    await expect(jine.locator('[data-odpoved="B"]')).toBeHidden();
+    await expect(page.locator('[data-strany="cesta33-predem-spor"] .strana--tvoje')).toContainText('Jestli stojíš uprostřed, máš Seneku. Promyslet to předem a netrápit se předem radí v jednom dopise obojí.');
+    // Epikúrova věta na konci kroku patří všem a je vidět.
+    await expect(page.locator('.krok__obsah .citat')).toBeVisible();
+    await kotvy(page, KOTVY8);
+    await bezNalezuAxe(page);
+    await jine.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(jine).toHaveAttribute('open', '');
+    await expect(jine.locator('[data-odpoved="B"]')).toContainText('A Stockdale, který si to nejhorší řekl rovnou.');
+    await bezNalezuAxe(page);
+
+    // Kdo prošel jen Spor (blíž Senekovi): nahoře Senekův odstavec, ostatní oddíly celé.
+    await sDenikem(page, { 'cesta33-predem-spor': { prvni: 3, konecna: 0, duvod: '', reflexe: null } });
+    await page.reload();
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta33-pod-padakem', 0, CELY8[0][2]],
+      ['cesta33-predem-spor', 0, ['p', 'stitek', 'tvoje:seneca', 'jine:epikuros,uprostred']],
+    ]);
+    await nicNeulozeno(page, ['cesta33-predem-spor']);
+  });
+}

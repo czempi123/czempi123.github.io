@@ -49,6 +49,8 @@ export interface Zastaveni {
   nadtitulek?: string;
   /** číslo kapitoly („01“) */
   cislo?: string;
+  /** stránka osoby je medailonek z dat (druh `profil` bez kapitol); u zastavení uvnitř stránky chybí */
+  medailonek?: true;
   /** zastavení, do kterého tohle patří (krok, kapitola, stránka); stránka sama žádné */
   rodic: string | null;
   /** pořadí na stránce: stránka 0, pak části tak, jak za sebou stojí */
@@ -76,17 +78,19 @@ export interface VstupKatalogu {
     body?: string;
   }[];
   otazky: { id: string; data: { cislo: number; otazka: string; hlasy?: { osoba: string }[] } }[];
-  /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor */
+  /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor, Slož argument */
   bloky: { id: string; data: { otazka?: string; nadtitulek?: string } }[];
   /** týdny cvičení (src/content/tydny); starší vstup je nemá */
   tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
+  /** medailonky z dat: osoba a druhý člověk bloku Kdo žil dřív? (kdoZilNaMedailonku); starší vstup je nemá */
+  medailonky?: { osoba: string; kdoZil: string | null }[];
   osoby: Map<string, OsobaKatalogu>;
 }
 
 // ─── Značky v MDX ─────────────────────────────────────────────────────────────
 
 /** Bloky, jejichž otázka je v YAML (src/content/bloky/<id>.yaml). */
-const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor']);
+const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument']);
 /** Bloky, jejichž otázka je atributem v MDX. */
 const BLOKY_S_OTAZKOU = new Set(['Odkryj', 'NejdrivSam', 'ZaverCesty']);
 
@@ -125,7 +129,8 @@ const adresa = (stranka: string, kotva: string | null) => (kotva ? `${stranka}#$
 
 /**
  * Seznam všech zastavení: cesty (přehled, kroky, bloky a příběhy v krocích), profily (celá stránka, kapitoly,
- * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), stránky otázek s hlasy a týdny cvičení. Medailonky v katalogu nejsou.
+ * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), medailonky (celá stránka a blok Kdo žil dřív?, od K2
+ * větve interaktivita-v1), stránky otázek s hlasy a týdny cvičení.
  * Zastaví sestavení, když blok chybí v datech, kapitola v textu nesedí na kapitoly ve frontmatteru, nebo když
  * dvě zastavení dostanou stejné id.
  */
@@ -196,12 +201,28 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
     }
   }
 
-  // Profily: podle období, v něm podle narození hlavní osoby.
+  // Profily a medailonky: podle období, v něm podle narození hlavní osoby.
   const zacatek = (id: string) => interval(jmeno(id))?.[0] ?? Number.POSITIVE_INFINITY;
-  const profily = [...v.osobnosti].sort(
-    (a, b) => jmeno(a.data.osoba).obdobi - jmeno(b.data.osoba).obdobi || zacatek(a.data.osoba) - zacatek(b.data.osoba),
+  type Stranka = { p: VstupKatalogu['osobnosti'][number]; m?: undefined } | { m: NonNullable<VstupKatalogu['medailonky']>[number]; p?: undefined };
+  const osobaStranky = (s: Stranka) => (s.p ? s.p.data.osoba : s.m!.osoba);
+  const stranky: Stranka[] = [...v.osobnosti.map((p) => ({ p })), ...(v.medailonky ?? []).map((m) => ({ m }))].sort(
+    (a, b) => jmeno(osobaStranky(a)).obdobi - jmeno(osobaStranky(b)).obdobi || zacatek(osobaStranky(a)) - zacatek(osobaStranky(b)),
   );
-  for (const p of profily) {
+  for (const s of stranky) {
+    if (s.m) {
+      // Medailonek: celá stránka a blok Kdo žil dřív? nad Dobou a lidmi (StrankaMedailonku.astro skládá id stejně).
+      const osoba = jmeno(s.m.osoba);
+      const stranka = `/osobnost/${osoba.id}/`;
+      const idStranky = `o:${osoba.id}`;
+      const spolecne = { kde: osoba.jmeno, stranka, obdobi: osoba.obdobi, osoba: osoba.id };
+      vse.push({ id: idStranky, druh: 'profil', nazev: osoba.jmeno, kotva: null, adresa: stranka, rodic: null, poradi: 0, medailonek: true, ...spolecne });
+      if (s.m.kdoZil) {
+        const cast = castZeZnacky({ jmeno: 'KdoZilDriv', atributy: { a: osoba.id, b: s.m.kdoZil, druh: 'poradi' } }, stranka)!;
+        vse.push({ ...cast, adresa: adresa(stranka, cast.kotva), rodic: idStranky, poradi: 1, ...spolecne });
+      }
+      continue;
+    }
+    const p = s.p;
     const osoba = jmeno(p.data.osoba);
     const dvojice = (p.data.dalsi?.length ?? 0) > 0;
     const nazevStranky = dvojice ? p.data.titulek : osoba.jmeno;
@@ -296,6 +317,7 @@ const PODOBY_BLOKU: Record<string, Podoba[]> = {
   Spor: S_OTAZKOU,
   ZmenJednuVec: S_OTAZKOU,
   KdoZilDriv: S_OTAZKOU,
+  SlozArgument: S_OTAZKOU,
   // Roztřiď bez karet nemá co ukázat; Závěr cesty je jen otázka a pole na vlastní pravidlo.
   Roztrid: ['cely', 'moznosti'],
   ZaverCesty: ['cely'],

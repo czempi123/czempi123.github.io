@@ -185,14 +185,31 @@ export function vzdalenost(a: OsobaMapy, b: OsobaMapy): Vzdalenost | null {
   const do_ = Math.min(za.do, zb.do);
   if (od <= do_) {
     const n = rozdilLet(od, do_);
-    const text = n === 0 ? 'Žili současně necelý rok.' : `Žili současně ${A}${let_(n)}.`;
+    // Dvě ženy žily, jinak žili (Dva životy dovolí srovnat kohokoli s kýmkoli).
+    const zili = a.zena && b.zena ? 'Žily' : 'Žili';
+    const text = n === 0 ? `${zili} současně necelý rok.` : `${zili} současně ${A}${let_(n)}.`;
     return { druh: 'soucasne', let: n, asi, zivotu: 0, text };
   }
   const [driv, pozdeji] = za.do < zb.od ? [za, zb] : [zb, za];
   const n = rozdilLet(driv.do, pozdeji.od);
   const zivotuN = Math.max(1, Math.round(n / LIDSKY_ZIVOT));
-  const prirovnani = n >= 50 ? ` To je asi ${zivotu(zivotuN)}.` : '';
-  return { druh: 'deli', let: n, asi, zivotu: zivotuN, text: `Dělí je ${A}${let_(n)}.${prirovnani}` };
+  return { druh: 'deli', let: n, asi, zivotu: zivotuN, text: `Dělí je ${A}${let_(n)}.${prirovnaniKZivotum(n)}` };
+}
+
+/**
+ * Věta, která rozdíl let zhmotní lidskými životy po 75 letech (interaktivita-v1, O: 56 let nebylo „asi jeden
+ * lidský život“). Do 50 let nic; 50–74 „skoro jeden“; dál podle podílu n / 75 = k + zbytek: pod čtvrt „asi k“,
+ * čtvrt až tři čtvrtě „víc než k“, nad tři čtvrtě „skoro k + 1“. Dva až čtyři životy jsou „jsou“, kromě „víc než“.
+ */
+export function prirovnaniKZivotum(n: number): string {
+  if (n < 50) return '';
+  if (n < LIDSKY_ZIVOT) return ' To je skoro jeden lidský život.';
+  const k = Math.floor(n / LIDSKY_ZIVOT);
+  const zbytek = n / LIDSKY_ZIVOT - k;
+  const jsou = (m: number) => (m >= 2 && m <= 4 ? 'jsou' : 'je');
+  if (zbytek < 0.25) return ` To ${jsou(k)} asi ${zivotu(k)}.`;
+  if (zbytek <= 0.75) return ` To je víc než ${zivotu(k)}.`;
+  return ` To ${jsou(k + 1)} skoro ${zivotu(k + 1)}.`;
 }
 
 // ─── Kde je člověk v daném roce ───────────────────────────────────────────────

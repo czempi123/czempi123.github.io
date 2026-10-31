@@ -1,0 +1,13 @@
+---
+// Slož argument: premisy a závěr do řádků, skrytý předpoklad a místo k napadení. Obsah je v src/content/bloky/<id>.yaml (druh: argument).
+// Použití v MDX: <SlozArgument id="dilna-sokrates-zemre" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/SlozArgument.svelte';
+import { nactiBlok, odkazNaBlok, proOstrov, kamDal } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'argument', Astro.url.pathname);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+---
+<Ostrov client:visible id={id} blok={proOstrov(blok)} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

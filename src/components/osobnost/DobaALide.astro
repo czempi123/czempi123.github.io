@@ -14,6 +14,7 @@ import { zivot } from '../../lib/casy';
 import { roleVztahu, skupinyVztahu, LEGENDA_TRADOVANY } from '../../lib/vztahy';
 import Mince from '../ui/Mince.astro';
 import MiniOsa from './MiniOsa.astro';
+import DvaZivoty from './DvaZivoty.astro';
 import MiniMapa from './MiniMapa.astro';
 
 interface Props { osoba: TOsoba; dalsi?: TOsoba[] }
@@ -56,6 +57,10 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
     <div class="doba__osa">
       <h3 class="t-ovladani-l">Současníci</h3>
       <MiniOsa osoba={osoba} dalsi={dalsi} />
+      <div class="doba__dva">
+        <h3 class="t-ovladani-l">Dva životy</h3>
+        <DvaZivoty osoba={osoba} dalsi={dalsi} />
+      </div>
     </div>
     <div class="doba__mapa">
       <h3 class="t-ovladani-l">{dvojice ? 'Kde žili' : osoba.zena ? 'Kde žila' : 'Kde žil'}</h3>
@@ -108,6 +113,7 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
   .doba__uvod { margin: var(--s-4) 0 var(--s-6); }
   .doba__mrizka { display: grid; gap: var(--s-6); }
   h3 { margin: 0 0 var(--s-3); }
+  .doba__dva { margin-top: var(--s-7); }
   .doba__vztahy { display: grid; gap: var(--s-6); margin-top: var(--s-7); }
   .lide { margin: 0; padding: 0; list-style: none; }
   .lide li { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: 1px solid var(--rule); }

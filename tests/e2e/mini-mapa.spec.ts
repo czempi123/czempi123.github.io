@@ -70,7 +70,8 @@ test('mini osa: roky před přelomem letopočtu mají „př. n. l.“ a značky
   // Osa jen z roků před naším letopočtem zůstává bez přípony; říká to popisek pod ní.
   await page.goto('/osobnost/epikuros/');
   await expect(page.locator('.doba__osa .osa__znacka').first()).toHaveText('450');
-  await expect(page.locator('.doba__osa figcaption')).toContainText('Letopočty před naším letopočtem');
+  // Pod mini osou stojí ve stejném sloupci Dva životy s vlastním popiskem: tady jen popisek mini osy.
+  await expect(page.locator('.doba__osa figure.osa figcaption')).toContainText('Letopočty před naším letopočtem');
 });
 
 // Doba a lidé: vliv přes texty má vlastní skupiny. Pod „Znali se a přeli se“ smějí stát jen lidé,

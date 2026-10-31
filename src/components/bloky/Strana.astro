@@ -1,0 +1,7 @@
+---
+// Odstavce oddílu Kdo je na tvé straně, které patří k jedné odpovědi bloku (nebo k několika: odpoved="C D").
+// Stojí jen uvnitř <Strany blok="…">; návod tam.
+interface Props { odpoved: string }
+const { odpoved } = Astro.props;
+---
+<div class="strana" data-odpoved={odpoved}><slot /></div>

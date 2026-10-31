@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { nactiData } from '../../src/lib/kontroly';
 import {
+  prirovnaniKZivotum,
   posunRok, naAstro, zAstro, zijeVRoce, vekVRoce, vzdalenost, kdeVRoce, odkudPrisla, zpravaOSmrti,
   poznamkaVRoce, vetaOVeku, stinOdkazu, zivotOsoby, oknoReky, lideVOkne, obdobiProRok, zijiciVRoce, let_,
 } from '../../src/lib/cas-mapy';
@@ -90,6 +91,28 @@ describe('vzdálenost mezi dvěma lidmi', () => {
     expect(bez(v.text)).toBe('Dělí je asi 453 let. To je asi šest lidských životů.');
     // pořadí nehraje roli
     expect(vzdalenost(os('epiktetos'), os('sokrates'))!.let).toBe(453);
+  });
+  it('víc než dva lidské životy (190 let)', () => {
+    const a = { id: 'a', jmeno: 'A', narozen: { rok: -400 }, zemrel: { rok: -330 }, mista: [] };
+    const b = { id: 'b', jmeno: 'B', narozen: { rok: -140 }, zemrel: { rok: -80 }, mista: [] };
+    expect(bez(vzdalenost(a, b)!.text)).toBe('Dělí je 190 let. To je víc než dva lidské životy.');
+  });
+  it('lidské životy: každá větev věty', () => {
+    const p = (n: number) => bez(prirovnaniKZivotum(n));
+    expect(p(49)).toBe('');
+    expect(p(50)).toBe(' To je skoro jeden lidský život.');
+    expect(p(56)).toBe(' To je skoro jeden lidský život.');
+    expect(p(74)).toBe(' To je skoro jeden lidský život.');
+    expect(p(80)).toBe(' To je asi jeden lidský život.');
+    expect(p(100)).toBe(' To je víc než jeden lidský život.');
+    expect(p(140)).toBe(' To jsou skoro dva lidské životy.');
+    expect(p(160)).toBe(' To jsou asi dva lidské životy.');
+    expect(p(230)).toBe(' To jsou asi tři lidské životy.');
+    expect(p(260)).toBe(' To je víc než tři lidské životy.');
+    expect(p(290)).toBe(' To jsou skoro čtyři lidské životy.');
+    expect(p(370)).toBe(' To je skoro pět lidských životů.');
+    expect(p(453)).toBe(' To je asi šest lidských životů.');
+    expect(p(519)).toBe(' To je skoro sedm lidských životů.');
   });
   it('těsně přes přelom letopočtu', () => {
     const a = { id: 'a', jmeno: 'A', narozen: { rok: -60 }, zemrel: { rok: -2 }, mista: [] };

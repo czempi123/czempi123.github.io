@@ -1,0 +1,35 @@
+---
+// Kdo je na tvé straně: oddíl posledního kroku cesty, jehož text patří k odpovědím jednoho bloku cesty
+// (Volba, Spor, Změň jednu věc). Text zůstává v MDX, ne v YAML (docs/design.md › Kdo je na tvé straně).
+// Ostrov po načtení přečte z deníku odpověď studenta a ukáže nejdřív její zastánce; ostatní sbalí.
+// Skript hned za ostrovem skryje ostatní odpovědi už před vykreslením, takže oddíl na první obrazovce neproblikne.
+// Bez JavaScriptu, bez zápisu v deníku nebo bez odstavce k odpovědi je oddíl celý, jak ho autor napsal.
+// Použití v MDX (nadpis oddílu stojí nad obalem, ať kotva zůstane na místě):
+// <Strany blok="cesta2-je-to-ona">
+// Úvodní věta pro všechny odpovědi.
+// <Strana odpoved="A">Jestli jsi řekl, že…</Strana>
+// <Strana odpoved="C D">Odstavec pro dvě odpovědi…</Strana>
+// </Strany>
+// Kódy odpovědí: Volba písmena karet, Spor id osoby strany (bez osoby strana-1 / strana-2) a „uprostred“,
+// Změň jednu věc id možnosti. Neznámý kód nebo blok jiného druhu zastaví sestavení.
+import { getEntry } from 'astro:content';
+import Ostrov from '../ostrovy/Strany.svelte';
+import { popisStran, platneKody, kodyStrany, skriptStranPredem, type BlokProStrany } from '../../lib/strany';
+import { TEXT_DENIKU_SKRIPT } from '../../lib/denik';
+
+interface Props { blok: string }
+const { blok: id } = Astro.props;
+const blok = (await getEntry('bloky', id))?.data as BlokProStrany | undefined;
+const stranka = Astro.url.pathname;
+if (!blok) throw new Error(`Kdo je na tvé straně na ${stranka}: blok „${id}“ není v src/content/bloky/ (Odkryj zastánce nemá).`);
+const popis = popisStran(blok);
+if (!popis) throw new Error(`Kdo je na tvé straně na ${stranka}: blok „${id}“ je druhu „${blok.druh}“; zastánce umí jen Volba, Spor a Změň jednu věc.`);
+const html = await Astro.slots.render('default');
+const pouzite = [...html.matchAll(/data-odpoved="([^"]*)"/g)].flatMap((m) => kodyStrany(m[1]));
+if (!pouzite.length) throw new Error(`Kdo je na tvé straně na ${stranka}: oddíl bloku „${id}“ nemá žádnou <Strana odpoved="…">.`);
+const spatne = pouzite.filter((k) => !platneKody(popis).includes(k));
+if (spatne.length) throw new Error(`Kdo je na tvé straně na ${stranka}: blok „${id}“ nemá odpověď ${spatne.join(', ')} (platné: ${platneKody(popis).join(', ')}).`);
+---
+<Ostrov client:load blok={id} popis={popis}><Fragment set:html={html} /></Ostrov>
+{/* Hned za ostrovem, ještě před vykreslením: cizí odpovědi skryje, aby oddíl neproblikl celý (skriptStranPredem). */}
+<script is:inline set:html={skriptStranPredem(id, popis, TEXT_DENIKU_SKRIPT)}></script>

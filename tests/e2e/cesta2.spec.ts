@@ -7,6 +7,7 @@
 // Plútarchovi nepřipisuje výměnu všech prken ani druhou loď a studie „měřily“, ne „dokázaly“.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { poradiStran, sDenikem } from './strany';
 
 const CESTA2 = '/cesta/jsem-porad-tentyz-kdyz-se-menim/';
 const KROKY2 = ['Loď', 'Řeka', 'Proč je změna záhada', 'Loď po prknech', 'A co člověk?', 'Dva čtenáři jedné řeky', 'Jak staré je tvoje tělo', 'Kdo je na tvé straně'];
@@ -209,15 +210,19 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   // Každá odpověď z prvního kroku má zastánce, a žádný z nich není filozof cesty.
   for (const veta of [
     'Jestli jsi řekl, že je to pořád táž loď, máš na své straně jednu stranu sporu, o kterém vypráví Plútarchos, a Plútarcha samého',
-    'Jestli jsi řekl, že z Théseovy lodi nezbylo nic, stojí za tebou druhá strana toho sporu a úvaha o oblázcích',
-    'Jestli jsi řekl, že jí přestala být někde cestou, máš taky Hobbese.',
+    'Jestli jsi řekl, že z Théseovy lodi nezbylo nic, stojí za tebou druhá strana sporu, o kterém vypráví Plútarchos, a úvaha o oblázcích',
+    'Jestli jsi řekl, že jí přestala být někde cestou, máš na své straně Hobbese.',
     'Jestli jsi řekl, že záleží na tom, na co se ptáš, řekl jsi větu, na které Hobbes postavil celou odpověď.',
   ]) await expect(obsah8).toContainText(veta);
   // Kdo ve čtvrtém kroku zvolil „obě“ nebo „žádná“, najde svou odpověď taky (revize celku 7, nález 5).
   await expect(obsah8).toContainText('I tady se zastánci dělí podobně.');
   await expect(obsah8).toContainText('Jestli jsi řekl obě, každou v jiném smyslu, bereš si od Hobbese větu o jménu, pod kterým se ptáš.');
-  await expect(obsah8).toContainText('A jestli jsi řekl žádná, chceš po Théseově lodi obojí naráz');
+  await expect(obsah8).toContainText('Jestli jsi řekl žádná, chceš po Théseově lodi obojí naráz');
   await expect(obsah8).toContainText('Podle Seneky tentýž není ani po jediné noci.');
+  // Kdo je na tvé straně: nahoře odpověď studenta (C, obě, spíš Plútarchos), ostatní pod sbaleným odkazem.
+  expect(await poradiStran(page, 'cesta2-je-to-ona')).toEqual(['p', 'stitek', 'tvoje:C', 'jine:A,B,D', 'p']);
+  expect(await poradiStran(page, 'cesta2-ktera-je-theseova')).toEqual(['p', 'stitek', 'tvoje:C', 'jine:A,B,D']);
+  expect(await poradiStran(page, 'cesta2-seneca-plutarchos')).toEqual(['p', 'stitek', 'tvoje:plutarchos', 'jine:seneca,uprostred', 'p', 'p']);
   await expect(obsah8.locator('.citat')).toHaveCount(1);
   await expect(obsah8.locator('.citat')).toContainText('Nikdo nezůstává a nikdo není jeden; stáváme se mnohými.');
   await expect(obsah8).toContainText('Hérakleitovi odporoval Aristotelés a řeč bohyně vzal do zkoušky Platón');
@@ -257,7 +262,7 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     ['U člověka na téže otázce záleží víc.', 'Kde tedy dělá chybu? A dělá ji vůbec?'],
     ['Dva z nich z ní vyvodili opačné závěry a oba psali o člověku.', 'Postav se mezi ně dřív, než si přečteš jejich důvody.'],
     ['něco se v těle mění za dny, něco za roky a něco vůbec', 'Dá se na nich ale vyzkoušet, co by které pravidlo řeklo o těle.'],
-    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'I tady se zastánci dělí podobně.', 'Třetí odpověď má Diotima v Platónově Symposiu: tentýž, a přitom ne stejný.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
+    ['Žádnou z nich cesta nevyvrátila a každou někdo hájil.', 'I tady se zastánci dělí podobně.', 'máš na své straně Diotimu z Platónova Symposia: tentýž, a přitom ne stejný.', 'Hobbes otázku dělí podle jména, pod kterým se ptáš.', 'Tu otázku otevřeli až o dva tisíce let později Locke a Hume.', 'Podívej se na svou odpověď o lodi z kroku 1.'],
   ];
   await page.goto(`${CESTA2}1/`);
   for (let n = 1; n <= KROKY2.length; n++) {
@@ -265,6 +270,8 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     await expect(page.locator('h1')).toHaveText(KROKY2[n - 1]);
     for (const veta of NAVAZUJE[n - 1]) await expect(page.locator('.krok__obsah')).toContainText(veta);
     // Nic odkrytého: žádná zpětná vazba, argumenty ani srovnání. Panel „Na začátku“ bez počáteční odpovědi chybí.
+    // Bez odpovědí je oddíl Kdo je na tvé straně celý: nic sbaleného, nic přeskládaného.
+    await expect(page.locator('.strany__jine, .strana--tvoje')).toHaveCount(0);
     await expect(page.locator('.krok__obsah [role="region"]')).toHaveCount(0);
     if (n < KROKY2.length) {
       await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
@@ -306,6 +313,157 @@ test('cesta 2 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
   const pocty = new Map<string, number>();
   for (const c of [...citaty, ...jinde]) pocty.set(c, (pocty.get(c) ?? 0) + 1);
   expect([...pocty].filter(([, n]) => n > 2)).toEqual([]);
+});
+
+// Kdo je na tvé straně (větev interaktivita-v1, K1): krok 8 přečte z deníku odpovědi bloků cesty a v každém oddílu
+// ukáže nejdřív zastánce studentovy odpovědi; ostatní jsou pod sbaleným „Kdo hájil jiné odpovědi“.
+const KROK8 = `${CESTA2}8/`;
+const CELY = {
+  'cesta2-je-to-ona': ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D', 'p'],
+  'cesta2-ktera-je-theseova': ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D'],
+  'cesta2-seneca-plutarchos': ['p', 'strana:plutarchos', 'strana:seneca', 'strana:uprostred', 'p', 'p'],
+};
+async function jakoDnes(page: Page, bloky = Object.keys(CELY) as (keyof typeof CELY)[]) {
+  for (const b of bloky) expect(await poradiStran(page, b), b).toEqual(CELY[b]);
+}
+const KOTVY_KROKU8 = ['loď-zprvního-kroku', 'dvě-lodě-ze-čtvrtého-kroku', 'člověk', 'řeka-abohyně', 'zkus-to-zit', 'cesta2-moje-pravidlo'];
+async function kotvy(page: Page) {
+  for (const k of KOTVY_KROKU8) await expect(page.locator(`[id="${k}"]`), k).toHaveCount(1);
+}
+
+test('krok 8 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: oddíly celé jako dřív', async ({ page, browser }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(KROK8);
+  await pripravit(page);
+  await jakoDnes(page);
+  await expect(page.locator('.strany__jine, .strana--tvoje, .strany__stitek')).toHaveCount(0);
+  await kotvy(page);
+
+  // Smazaný deník (bloky prázdné) i blok, který student jen rozpracoval: nic se nepřeskládá.
+  await sDenikem(page, { 'cesta2-je-to-ona': { vyber: 1, proc: '', potvrzeno: false }, 'cesta2-seneca-plutarchos': { prvni: 3, konecna: null, duvod: '' } });
+  await page.reload();
+  await pripravit(page);
+  await jakoDnes(page);
+  await sDenikem(page, {});
+  await page.reload();
+  await pripravit(page);
+  await jakoDnes(page);
+
+  const bezJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const p2 = await bezJs.newPage();
+  await p2.goto(KROK8);
+  await expect(p2.locator('.strany__jine, .strana--tvoje')).toHaveCount(0);
+  await expect(p2.locator('.krok__obsah')).toContainText('Jestli jsi řekl, že je to pořád táž loď');
+  await expect(p2.locator('[data-odpoved="uprostred"]')).toBeVisible();
+  await kotvy(p2);
+  await bezJs.close();
+});
+
+// Bez probliknutí (interaktivita-v1, O; revize R, nález 3): cizí odpovědi skryje skript hned za obalem oddílu
+// ještě před vykreslením, ostrov je po hydrataci jen sbalí. Pravidlo odpovědi je tatáž funkce (skriptStranPredem).
+const ZAPIS8 = {
+  'cesta2-je-to-ona': { vyber: 1, proc: 'z prken', potvrzeno: true },
+  'cesta2-ktera-je-theseova': { vyber: 3, proc: '', potvrzeno: true },
+  'cesta2-seneca-plutarchos': { prvni: 3, konecna: 0, duvod: '', reflexe: null },
+};
+test('krok 8 se zápisem nebliká: v prvním snímku po načtení není cizí odpověď vidět', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await sDenikem(page, ZAPIS8);
+  // Co je vidět, když prohlížeč stránku poprvé složí (DOMContentLoaded), dřív než se ostrovy hydratují.
+  await page.addInitScript(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      (window as unknown as { vidim: string[] }).vidim = [...document.querySelectorAll<HTMLElement>('[data-strany] [data-odpoved]')]
+        .filter((e) => e.checkVisibility())
+        .map((e) => `${e.closest<HTMLElement>('[data-strany]')!.dataset.strany}:${e.dataset.odpoved}`);
+    });
+  });
+  await page.goto(KROK8, { waitUntil: 'commit' });
+  await page.waitForLoadState('domcontentloaded');
+  await page.screenshot({ path: 'test-results/snimky/cesta2-krok8-hned-po-nacteni.png' });
+  expect(await page.evaluate(() => (window as unknown as { vidim: string[] }).vidim)).toEqual([
+    'cesta2-je-to-ona:B', 'cesta2-ktera-je-theseova:D', 'cesta2-seneca-plutarchos:seneca',
+  ]);
+  await pripravit(page);
+  expect(await poradiStran(page, 'cesta2-je-to-ona')).toEqual(['p', 'stitek', 'tvoje:B', 'jine:A,C,D', 'p']);
+  // Po hydrataci nic skrytého nezůstane: ostatní odpovědi jsou jen sbalené.
+  await expect(page.locator('[data-strany] [data-odpoved][hidden]')).toHaveCount(0);
+  await expect(page.locator('[data-strany][data-predem]')).toHaveCount(0);
+});
+
+test('krok 8 se zápisem a bez ostrova: skript před vykreslením cizí odpovědi skryje, pojistka je po načtení ukáže', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await sDenikem(page, ZAPIS8);
+  // Žádný modul stránky se nenačte (ostrov Strany by jinak přišel i přes přednačtení), skripty v HTML běží.
+  await page.route(/\/_astro\/[^/]*\.js$/, (r) => r.abort());
+  await page.goto(KROK8);
+  await expect(page.locator('astro-island[component-url*="Strany"]:not([ssr])')).toHaveCount(0);
+  await expect(page.locator('astro-island[component-url*="Strany"][ssr]')).toHaveCount(3);
+  const lod = page.locator('[data-strany="cesta2-je-to-ona"]');
+  await expect(lod.locator('[data-odpoved="B"]')).toBeVisible();
+  for (const k of ['A', 'C', 'D']) await expect(lod.locator(`[data-odpoved="${k}"]`)).toBeHidden();
+  await expect(lod.getByText('Hobbes otázku dělí podle jména, pod kterým se ptáš.')).toBeVisible();
+  await kotvy(page);
+  // Kdyby se ostrov nikdy nehydratoval, odpovědi se po načtení ukážou celé.
+  await expect(lod.locator('[data-odpoved="A"]')).toBeVisible({ timeout: 10_000 });
+  await expect(lod).not.toHaveAttribute('data-predem', /.*/);
+});
+
+for (const sirka of [390, 1440]) for (const rezim of ['light', 'dark'] as const) {
+  test(`krok 8 se zápisem v deníku: odpověď studenta první, ostatní sbalené (${sirka} px, ${rezim})`, async ({ page }) => {
+    await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: sirka === 390 ? 'reduce' : 'no-preference' });
+    await sDenikem(page, {
+      'cesta2-je-to-ona': { vyber: 1, proc: 'z prken', potvrzeno: true },
+      'cesta2-ktera-je-theseova': { vyber: 3, proc: '', potvrzeno: true },
+      'cesta2-seneca-plutarchos': { prvni: 3, konecna: 0, duvod: '', reflexe: null },
+    });
+    await page.goto(KROK8);
+    await pripravit(page);
+    expect(await poradiStran(page, 'cesta2-je-to-ona')).toEqual(['p', 'stitek', 'tvoje:B', 'jine:A,C,D', 'p']);
+    expect(await poradiStran(page, 'cesta2-ktera-je-theseova')).toEqual(['p', 'stitek', 'tvoje:D', 'jine:A,B,C']);
+    expect(await poradiStran(page, 'cesta2-seneca-plutarchos')).toEqual(['p', 'stitek', 'tvoje:seneca', 'jine:plutarchos,uprostred', 'p', 'p']);
+    const lod = page.locator('[data-strany="cesta2-je-to-ona"]');
+    await expect(lod.locator('.strany__stitek')).toHaveText('Na tvé straně');
+    await expect(lod.locator('.strana--tvoje')).toBeVisible();
+    await expect(lod.locator('.strana--tvoje')).toContainText('Jestli jsi řekl, že z Théseovy lodi nezbylo nic');
+    // Ostatní odpovědi jsou sbalené, společný odstavec za nimi je vidět.
+    const jine = lod.locator('details.strany__jine');
+    await expect(jine).not.toHaveAttribute('open', /.*/);
+    await expect(jine.locator('summary')).toHaveText('Kdo hájil jiné odpovědi');
+    await expect(jine.locator('[data-odpoved="A"]')).toBeHidden();
+    await expect(lod.getByText('Hobbes otázku dělí podle jména, pod kterým se ptáš.')).toBeVisible();
+    // Citát patří k Senekovi a jde s ním nahoru; v kroku je pořád jeden.
+    await expect(page.locator('[data-strany="cesta2-seneca-plutarchos"] .strana--tvoje .citat')).toBeVisible();
+    await expect(page.locator('.krok__obsah .citat')).toHaveCount(1);
+    await kotvy(page);
+    await axe(page);
+
+    // Klávesnicí: „Kdo hájil jiné odpovědi“ je ve fokusu, Enter ho rozbalí a odpovědi jsou vidět.
+    await jine.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(jine).toHaveAttribute('open', '');
+    await expect(jine.locator('[data-odpoved="A"]')).toBeVisible();
+    await expect(jine.locator('[data-odpoved="D"]')).toContainText('řekl jsi větu, na které Hobbes postavil celou odpověď');
+    await axe(page);
+    // Nic se neukládá: deník je po přeskládání a rozbalení stejný.
+    expect(Object.keys((await denik(page)).bloky).sort()).toEqual(['cesta2-je-to-ona', 'cesta2-ktera-je-theseova', 'cesta2-seneca-plutarchos']);
+    expect((await denik(page)).zapisy).toEqual([]);
+  });
+}
+
+test('krok 8: Spor uprostřed má Diotimu, jen některé bloky prošlé přeskládají jen svůj oddíl', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await sDenikem(page, { 'cesta2-seneca-plutarchos': { prvni: 0, konecna: 2, duvod: '' } });
+  await page.goto(KROK8);
+  await pripravit(page);
+  expect(await poradiStran(page, 'cesta2-seneca-plutarchos')).toEqual(['p', 'stitek', 'tvoje:uprostred', 'jine:plutarchos,seneca', 'p', 'p']);
+  await expect(page.locator('.strana--tvoje')).toContainText('Jestli jsi ve sporu zůstal uprostřed, máš na své straně Diotimu');
+  await jakoDnes(page, ['cesta2-je-to-ona', 'cesta2-ktera-je-theseova']);
+  // Oddíl bez bloku (Řeka a bohyně) se nemění a odkazy v kroku vedou dál.
+  await expect(page.getByRole('link', { name: 'Kdo vlastně jsem?' })).toHaveAttribute('href', '/otazka/kdo-vlastne-jsem/');
+  await kotvy(page);
+  await axe(page);
 });
 
 test('Návrat cesty 2 v deníku: lístek na koncert, bez čísel a bez slibu, že se student změní', async ({ page }) => {

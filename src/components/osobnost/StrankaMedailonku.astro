@@ -16,7 +16,8 @@ import type { TOsoba } from '../../lib/schema';
 import { osoba as najdiOsobu, obdobiPodleId, mistaPodleId, data } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { nezlomitelne } from '../../lib/sazba.js';
-import { adresaStranekOsob, medailonky } from '../../lib/stranky-osob';
+import { adresaStranekOsob, medailonky, kdoZilNaMedailonku } from '../../lib/stranky-osob';
+import KdoZilDriv from '../bloky/KdoZilDriv.astro';
 import { kamDalMedailonku, type CilStranky } from '../../lib/medailonek';
 
 interface Props { osoba: TOsoba }
@@ -59,6 +60,7 @@ const prameny = [
 ];
 const adresaStranky = `/osobnost/${osoba.id}/`;
 const deska = !!(osoba.obrazek || osoba.atribut);
+const druhy = (await kdoZilNaMedailonku())(osoba.id);
 ---
 <Zakladni
   titulek={osoba.jmeno}
@@ -109,6 +111,9 @@ const deska = !!(osoba.obrazek || osoba.atribut);
       </div>}
     </header>
 
+    {/* Kdo žil dřív? stojí nad Dobou a lidmi: mini osa pod ním by odpověď prozradila. Druhý člověk podle pevného pravidla. */}
+    {druhy && <div class="ctenarsky kdo-zil-medailonek"><KdoZilDriv a={osoba.id} b={druhy} druh="poradi" /></div>}
+
     <DobaALide osoba={osoba} />
 
     <KamDal odkazy={kamDal} />
@@ -139,6 +144,7 @@ const deska = !!(osoba.obrazek || osoba.atribut);
   .jadro__proc { font-size: var(--fs-text); line-height: 1.55; }
   .medailonek__titulek :global(.vstupy-osoby--otazky) { margin-top: var(--s-3); }
   .medailonek__deska { max-width: 420px; }
+  .kdo-zil-medailonek { margin-top: var(--s-8); }
   .proc { display: flex; gap: var(--s-3); align-items: flex-start; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
   .proc strong { color: var(--ink); font-weight: 600; }
   .proc :global(.mince) { flex: none; }

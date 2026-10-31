@@ -4,27 +4,16 @@
 import type { TOsoba } from '../../lib/schema';
 import { data } from '../../lib/data';
 import { interval, zivot, rok as fmtRok } from '../../lib/casy';
+import { soucasniciNaOse } from '../../lib/dvojice';
 
 // Společný profil (`dalsi`): zvýrazněné jsou pásy všech osob stránky, současníci se hledají k jejich společnému rozpětí.
 interface Props { osoba: TOsoba; dalsi?: TOsoba[]; max?: number }
 const { osoba, dalsi = [], max = 12 } = Astro.props;
 const osoby = [osoba, ...dalsi];
-const naStrance = new Set(osoby.map((o) => o.id));
 const n = Math.min(...osoby.map((o) => interval(o)![0]));
 const z = Math.max(...osoby.map((o) => interval(o)![1]));
-const soucasnici = data.lide
-  .filter((o) => !naStrance.has(o.id) && o.narozen && o.zemrel)
-  .map((o) => ({ o, i: interval(o)! }))
-  .filter(({ i }) => i[0] <= z && i[1] >= n)
-  // nejdřív ti, kdo mají k osobě vztah, pak podle délky společného života
-  .map((x) => ({
-    ...x,
-    vztah: data.vztahy.some((v) => (naStrance.has(v.od) && v.k === x.o.id) || (naStrance.has(v.k) && v.od === x.o.id)),
-    spolecne: Math.min(z, x.i[1]) - Math.max(n, x.i[0]),
-  }))
-  .sort((a, b) => Number(b.vztah) - Number(a.vztah) || b.spolecne - a.spolecne)
-  .slice(0, max)
-  .sort((a, b) => a.i[0] - b.i[0]);
+// Nejdřív ti, kdo mají k osobě vztah, pak podle délky společného života; stejný seznam bere i nabídka Dvou životů.
+const soucasnici = soucasniciNaOse(osoby, data.lide, data.vztahy, max).map((o) => ({ o, i: interval(o)! }));
 const radky = [
   ...osoby.map((o) => ({ o, i: interval(o)!, ja: true })),
   ...soucasnici.map((s) => ({ ...s, ja: false })),

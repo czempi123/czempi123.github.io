@@ -119,6 +119,7 @@ const TYPY_BLOKU: Record<string, string> = {
   ZmenJednuVec: 'Změň jednu věc',
   Spor: 'Spor',
   KdoZilDriv: 'Kdo žil dřív?',
+  SlozArgument: 'Slož argument',
   ZaverCesty: 'Závěr cesty',
 };
 
@@ -127,7 +128,7 @@ export function stitekDruhu(z: Zastaveni): string {
   switch (z.druh) {
     case 'cesta': return 'Přehled cesty';
     case 'krok': return `Krok ${z.krok}`;
-    case 'profil': return 'Celý profil';
+    case 'profil': return z.medailonek ? 'Celý medailonek' : 'Celý profil';
     case 'kapitola': return z.cislo ? `Kapitola ${z.cislo}` : 'Kapitola';
     case 'oddil': return 'Oddíl profilu';
     case 'otazka': return 'Stránka otázky';
@@ -155,7 +156,7 @@ export function kdeStoji(z: Zastaveni): string {
 
 /** Nadpis skupiny ve výběru: „Cesta 1“ se nečísluje (číslo katalog nenese), proto druh stránky a název. */
 export function druhStranky(z: Zastaveni): string {
-  return z.druh === 'cesta' ? 'Cesta' : z.druh === 'profil' ? 'Profil' : z.druh === 'tyden' ? 'Zkus to žít' : 'Velká otázka';
+  return z.druh === 'cesta' ? 'Cesta' : z.druh === 'profil' ? (z.medailonek ? 'Medailonek' : 'Profil') : z.druh === 'tyden' ? 'Zkus to žít' : 'Velká otázka';
 }
 
 /** Přesune položku o jedno místo nahoru (−1) nebo dolů (+1); na kraji vrátí seznam beze změny. */

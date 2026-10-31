@@ -7,6 +7,7 @@
 // rebelie není ctnost; přizpůsobiví lidé nejsou ovce; smích skupiny jednomu (obrácený pokus) jen v listu pro učitele.
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
 
 const CESTA7 = '/cesta/ci-zivot-vlastne-ziju/';
 const KROKY7 = ['Ženich a jeho majetek', 'Podle přírody, ne podle zvyku', 'Tři oboly', 'Svazují mě zvyky?', 'Jinou nadutostí', 'Třetí čára', 'Kdo je na tvé straně', 'Nejdřív ty'];
@@ -159,16 +160,22 @@ test('cesta 7: průchod s odpověďmi na telefonu, zastánci všech Voleb, záv�
     'Jestli jsi řekl, že Kratétovi, máš Sókrata.',
     'Ne podle toho, co si myslí všichni ostatní.',
     'Kratés ale za Hipparchii nerozhodl.',
-    'Jestli jsi řekl, že nikomu z nich samotnému, máš Aristotela podruhé.',
+    'Jestli jsi řekl, že nikomu z nich samotnému, máš na své straně Aristotela.',
     'Jestli je to podle tebe kynický čin, máš Epiktéta',
-    'Jestli jiná nadutost, máš Platóna i Sókrata.',
-    'A jestli záleží na tom, proč to dělá, máš zase Epiktéta.',
+    'Jestli je to podle tebe jiná nadutost, máš Platóna i Sókrata.',
+    'Jestli podle tebe záleží na tom, proč to dělá, máš Epiktéta.',
     'Jestli řekneš, co vidíš, máš na své straně čtvrtinu Aschových studentů',
     'Jestli řekneš totéž co ostatní, nejsi sám, a hloupé to není.',
     'Jestli zaváháš, nevědět je začátek, ne chyba.',
-    'A jestli počkáš na spojence, máš za sebou Asche samotného.',
+    'Jestli počkáš na spojence, máš za sebou Asche samotného.',
   ]) await expect(obsah7).toContainText(veta);
   await expect(obsah7.locator('.citat')).toHaveCount(2);
+  // Kdo je na tvé straně: nahoře odpovědi studenta (rodičům, kynický čin, totéž co ostatní), ostatní sbalené.
+  await poradiOddilu(page, [
+    ['cesta7-komu-patri', 0, ['p', 'stitek', 'tvoje:B', 'jine:A,C,D']],
+    ['cesta7-nikdo-se-nediva', 0, ['p', 'stitek', 'tvoje:kynicky', 'jine:nadutost,zalezi']],
+    ['cesta7-tvoje-rada', 0, ['p', 'stitek', 'tvoje:B', 'jine:A,C,D']],
+  ]);
   await expect(obsah7.getByRole('link', { name: 'Jak mám žít?' })).toHaveAttribute('href', '/otazka/jak-zit/');
   await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
   await expect(page).toHaveURL(`${CESTA7}8/`);
@@ -215,6 +222,8 @@ test('cesta 7 bez odkrytí bloků: lišta vede až na konec, text drží souvisl
     await expect(page.locator('h1')).toHaveText(KROKY7[n - 1]);
     for (const veta of NAVAZUJE[n - 1]) await expect(page.locator('.krok__obsah')).toContainText(veta);
     await expect(page.locator('.krok__obsah [role="region"]')).toHaveCount(0);
+    // Bez odpovědí je oddíl Kdo je na tvé straně celý: nic sbaleného, nic přeskládaného.
+    await expect(page.locator(PRESKLADANO)).toHaveCount(0);
     if (n < KROKY7.length) {
       await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
       await expect(page).toHaveURL(`${CESTA7}${n + 1}/`);
@@ -318,3 +327,87 @@ test('cesta 7 je dosažitelná z profilů, z Lidí, z přehledu otázek a z Dom�
   await page.goto('/otazky/');
   await expect(page.locator('#jak-zit .cesta')).toHaveCount(4);
 });
+
+// Kdo je na tvé straně (větev interaktivita-v1, T1): krok 7 přečte z deníku odpovědi Voleb z kroků 1 a 6 a základní
+// rozhodnutí Změň jednu věc z kroku 5 a v každém oddílu ukáže nejdřív zastánce studentovy odpovědi. Spor z kroku 4
+// vlastní oddíl nemá; oddíl Proti kynikům patří všem.
+const KROK7 = `${CESTA7}7/`;
+const CELY7: Oddily = [
+  ['cesta7-komu-patri', 0, ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D']],
+  ['cesta7-nikdo-se-nediva', 0, ['p', 'strana:kynicky', 'strana:nadutost', 'strana:zalezi']],
+  ['cesta7-tvoje-rada', 0, ['p', 'strana:A', 'strana:B', 'strana:C', 'strana:D']],
+];
+const KOTVY7 = ['hipparchiino-rozhodnutí', 'diogenés-na-kobercích', 'předposlední-židle', 'proti-kynikům'];
+
+test('krok 7 bez zápisu v deníku, se smazaným deníkem a bez JavaScriptu: oddíly celé jako dřív', async ({ page, browser }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(KROK7);
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY7);
+  await expect(page.locator(PRESKLADANO)).toHaveCount(0);
+  await expect(page.locator('[data-strany]')).toHaveCount(3);
+  await kotvy(page, KOTVY7);
+
+  // Rozpracovaná Volba a Změň jednu věc bez základního rozhodnutí nic nepřeskládají; smazaný deník taky ne.
+  await sDenikem(page, { 'cesta7-komu-patri': { vyber: 0, proc: '', potvrzeno: false }, 'cesta7-nikdo-se-nediva': { zaklad: null, podminky: {}, aktivni: null } });
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY7);
+  await sDenikem(page, {});
+  await page.reload();
+  await pripravitKrok(page);
+  await poradiOddilu(page, CELY7);
+
+  const bezJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const p2 = await bezJs.newPage();
+  await p2.goto(KROK7);
+  await expect(p2.locator(PRESKLADANO)).toHaveCount(0);
+  await expect(p2.locator('[data-odpoved="zalezi"]')).toBeVisible();
+  await expect(p2.locator('.krok__obsah .citat')).toHaveCount(2);
+  await kotvy(p2, KOTVY7);
+  await bezJs.close();
+});
+
+for (const [sirka, rezim] of [[390, 'light'], [1440, 'dark']] as const) {
+  test(`krok 7 se zápisem v deníku: odpověď studenta první, ostatní sbalené (${sirka} px, ${rezim})`, async ({ page }) => {
+    await page.setViewportSize({ width: sirka, height: sirka === 390 ? 844 : 900 });
+    await page.emulateMedia({ colorScheme: rezim, reducedMotion: sirka === 390 ? 'reduce' : 'no-preference' });
+    await sDenikem(page, {
+      'cesta7-komu-patri': { vyber: 3, proc: 'spolu', potvrzeno: true },
+      'cesta7-nikdo-se-nediva': { zaklad: 'zalezi', podminky: { 'bez-divaku': 'nadutost' }, aktivni: 'bez-divaku' },
+      'cesta7-tvoje-rada': { vyber: 2, proc: '', potvrzeno: true },
+    });
+    await page.goto(KROK7);
+    await pripravitKrok(page);
+    await poradiOddilu(page, [
+      ['cesta7-komu-patri', 0, ['p', 'stitek', 'tvoje:D', 'jine:A,B,C']],
+      // Rozhoduje základní rozhodnutí, ne odpověď ve změněné podmínce.
+      ['cesta7-nikdo-se-nediva', 0, ['p', 'stitek', 'tvoje:zalezi', 'jine:kynicky,nadutost']],
+      ['cesta7-tvoje-rada', 0, ['p', 'stitek', 'tvoje:C', 'jine:A,B,D']],
+    ]);
+    await expect(page.locator('.strany__stitek')).toHaveText(['Na tvé straně', 'Na tvé straně', 'Na tvé straně']);
+    const rada = page.locator('[data-strany="cesta7-tvoje-rada"]');
+    await expect(rada.locator('.strana--tvoje')).toContainText('Jestli zaváháš, nevědět je začátek, ne chyba.');
+    // Citát jde se svou odpovědí: Epiktétův o učení nahoře, ten o vlastní vůli pod sbaleným oddílem; v kroku jsou pořád dva.
+    await expect(rada.locator('.strana--tvoje .citat')).toBeVisible();
+    const hipparchia = page.locator('[data-strany="cesta7-komu-patri"]');
+    const jine = hipparchia.locator('details.strany__jine');
+    await expect(jine).not.toHaveAttribute('open', /.*/);
+    await expect(jine.locator('summary')).toHaveText('Kdo hájil jiné odpovědi');
+    await expect(jine.locator('.citat')).toBeHidden();
+    await expect(hipparchia.locator('.strana--tvoje')).toContainText('máš na své straně Aristotela');
+    await expect(page.locator('.krok__obsah .citat')).toHaveCount(2);
+    await expect(page.getByText('Kdo s kyniky nesouhlasí vůbec, má Aristotela')).toBeVisible();
+    await kotvy(page, KOTVY7);
+    await bezNalezuAxe(page);
+
+    // Klávesnicí: „Kdo hájil jiné odpovědi“ je ve fokusu, Enter ho rozbalí a citát je vidět.
+    await jine.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(jine).toHaveAttribute('open', '');
+    await expect(jine.locator('.citat')).toBeVisible();
+    await expect(jine.locator('[data-odpoved="A"]')).toContainText('máš na své straně Hipparchii samotnou');
+    await bezNalezuAxe(page);
+    await nicNeulozeno(page, ['cesta7-komu-patri', 'cesta7-nikdo-se-nediva', 'cesta7-tvoje-rada']);
+  });
+}

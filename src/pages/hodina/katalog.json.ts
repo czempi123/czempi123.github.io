@@ -5,6 +5,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { osoby } from '../../lib/data';
 import { katalogZastaveni, VERZE_HODINY } from '../../lib/hodiny';
+import { kdoZilNaMedailonku, medailonky } from '../../lib/stranky-osob';
 
 export const GET: APIRoute = async () => {
   const [cesty, kroky, osobnosti, otazky, bloky, tydny] = await Promise.all([
@@ -20,6 +21,9 @@ export const GET: APIRoute = async () => {
     id: b.id,
     data: { otazka: 'otazka' in b.data ? b.data.otazka : undefined, nadtitulek: 'nadtitulek' in b.data ? b.data.nadtitulek : undefined },
   }));
-  const zastaveni = katalogZastaveni({ cesty, kroky, osobnosti, otazky, bloky: otazkyBloku, tydny, osoby });
+  // Medailonky: stránka z dat a blok Kdo žil dřív? s druhým člověkem podle stejného pravidla jako na stránce.
+  const kdoZil = await kdoZilNaMedailonku();
+  const medailonkyKatalogu = medailonky.map((osoba) => ({ osoba, kdoZil: kdoZil(osoba) }));
+  const zastaveni = katalogZastaveni({ cesty, kroky, osobnosti, otazky, bloky: otazkyBloku, tydny, medailonky: medailonkyKatalogu, osoby });
   return new Response(JSON.stringify({ verze: VERZE_HODINY, zastaveni }), { headers: { 'Content-Type': 'application/json' } });
 };

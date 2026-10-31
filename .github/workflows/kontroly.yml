@@ -1,4 +1,4 @@
-# Sestavení a kontroly Atlasu myšlení. Web se nenasazuje (zatím běží jen lokálně).
+# Sestavení a kontroly Atlasu myšlení. Web nasazuje pages.yml; tady se jen sestaví a zkontroluje.
 name: Sestavení a kontroly
 
 on:

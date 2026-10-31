@@ -46,6 +46,17 @@ async function odpovez(blok) {
     await blok.locator('.cip').first().click();
     await blok.locator('.zmenena').getByRole('radio').nth(1).check({ force: true });
     await blok.locator('.zmenena .blok__tl--hlavni').click();
+  } else if (await tl('Zkontrolovat').count()) {
+    // Slož argument: karty z hromádky po řadě do řádků 1, 2… a Závěr, pak ukázat chybějící větu a napadnout první možnost.
+    const radky = blok.locator('[data-radek]');
+    for (let i = 0; i < (await radky.count()); i++) {
+      await blok.locator('[data-hromadka] button[data-karta]').first().click();
+      await radky.nth(i).locator('.radek__sem').click();
+    }
+    await tl('Zkontrolovat').click();
+    await tl('Ukázat chybějící větu').click();
+    await blok.locator('label.moznost').first().click();
+    await tl('Tohle bych napadl').click();
   } else {
     await blok.getByRole('textbox').first().fill('Zkouším to po svém.');
     await blok.locator('.blok__tl--hlavni').first().click();

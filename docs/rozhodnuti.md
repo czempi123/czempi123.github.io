@@ -4,6 +4,101 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 31. 10. 2026: Interaktivita v1, krok O (opravy po revizi)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Slož argument má po kontrole tři zastavení: zpětná vazba a „Ukázat chybějící větu“; skrytý předpoklad a volba; po volbě zpětná vazba k ní, „Kde se dá argument napadnout“ a silnější okraj řádku. Stav `odkryto` vydrží obnovení | Nález 1 revize R: student volil podle zvýraznění a otázka zpětné vazby měla odpověď o řádek výš |
+| Na plátně v podobě „jen otázka a možnosti“ oddíl Kde se dá argument napadnout chybí (`data-cast="napadnout"`) | Je to výklad pro toho, kdo blok prochází sám; třída má diskutovat bez něj |
+| `bezDuvodu` ve schématu Slož argument; v cestě 8 `true`, v dílně pole zůstává | Nález 6: námitku student píše o pár odstavců níž v Odkryj |
+| „Začít znovu“ i ve Slož argument; Kdo žil dřív? má dál „Zkusit znovu“ | Nález 8. Kdo žil dřív? je odhad a tlačítko dává nový odhad, nemaže zápis: tam „zkusit“ sedí |
+| Kdo žil dřív? na medailoncích: známá osoba bez vztahu, kterou s osobou stránky dělí aspoň 20 let, nejbližší podle poloviny života, každá nejvýš na třech medailoncích (v pořadí `lide.yaml`) | Nález 2. Mez 20 let je navíc proti doporučení revize: bez ní vyšlo „Dělí je asi 1 rok“ (Anaxagorás a Platón, Antisthenés a Kratés), a to je s přibližnými roky past, ne odpověď |
+| Dva životy: za učitelem a žákem `vliv-textem` (koho osoba četla, pak kdo četl ji, nejbližší s vlastní stránkou), teprve pak současník | Nález 4: Seneca → Kleanthés, Cicero → Platón, Hypatia → Plótínos místo náhodného současníka |
+| Věta o lidských životech: do 50 let žádná, 50–74 „skoro jeden“, pak „asi k“, „víc než k“, „skoro k + 1“ podle zbytku | Nález 5: 56 let nebylo „asi jeden lidský život“ |
+| Probliknutí: skript hned za obalem Strany skryje cizí odpovědi (`hidden`) před vykreslením; odpověď počítá `odpovedStudenta` vložená jako text (pomůcky z `bloky.ts` dostane parametrem), pojistka je 4 s po načtení ukáže, kdyby se ostrov nehydratoval | Nález 3; pravidlo odpovědi zůstává jedno, jako u hlavního tlačítka na Domů |
+| Nabídka Druhý život za `</figure>` ve společném obalu `#dva-zivoty` | Nález 9: `figcaption` je poslední potomek `figure` |
+
+## 31. 10. 2026: Interaktivita v1, krok R (revize větve)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Čas na štítku cesty se zastánci je čas studenta, který bloky prochází: viditelný text po odpovědích ze `slova-cesta.mjs`, zaokrouhlený na minuty. Cesta 2 34 min, cesta 7 28, cesta 33 28; cesty 8 (35) a 34 (28) beze změny | Štítek čte student před cestou, kterou projde s odpověďmi; kdo bloky přeskočí, čte víc, ale nic neovládá. Zadání R chtělo rozhodnout (Po T1) |
+| Cesta 8, krok 9 zůstává ve třech oddílech k jedné Volbě | Oddíly jsou podle témat a jejich společný text (ti druzí, víra v posmrtný život) patří všem; jeden oddíl by vzal kroku mezititulky a kotvy |
+| Štítek „Na tvé straně“ zůstává | Ladí s názvem kroku a říká, proč oddíl začíná právě touhle odpovědí |
+| `vzdalenost()`: „To jsou asi tři lidské životy“ pro dva až čtyři životy | Gramatika; ostatní tvary beze změny |
+| Nálezy k Slož argument, Kdo žil dřív? na medailoncích, probliknutí a Dvou životům jdou autorovi jako otázky (plán větve › Co rozhodnout po R) | Mění chování komponent a id bloků; záznam `docs/revize/interaktivita-v1-2026-10-31.md` |
+
+## 30. 10. 2026: Interaktivita v1, krok T2 (Slož argument v cestě 8)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Blok `cesta8-argument` má dvě premisy a závěr přesně z Dopisu Menoikeovi 124 (dobré i zlé je ve vnímání; smrt je ztráta vnímání; smrt se nás netýká), věta z 125 v kartách není | 124 je celý argument s ἐπεὶ; třetí premisa „když je tu smrt, nejsme tu už my“ by skrytý předpoklad vyslovila za studenta |
+| Skrytý předpoklad: „Po smrti z nás nezbude nic, co by mohlo vnímat.“ Zpětná vazba ho ukazuje na tom, kdo věří, že duše žije dál: že mrtvé tělo nevnímá, uzná i on | Bez toho by mezera mezi „smrt je ztráta vnímání“ a závěrem vypadala jako slovíčkaření; Epikúros sám ho říká jinde (Hérodotovi 65–66) |
+| Kde se dá napadnout: první premisa (zlé je jen to, co někdo zakouší), ne skrytý předpoklad | Tam míří námitka ztráty v krocích 4 až 6 (Nagel, Aristotelés, Plútarchos); blok ukáže místo, jak to udělali, nechává cestě |
+| Blok stojí hned za citátem 124; pod ním nadpis „Věta, která v dopise chybí“ s kotvou, na kterou vede Kam dál bloku; text pod ním řekne, kde Epikúros předpoklad napsal, a citát 125 uvede „Dopis s tím počítá i v další větě“ | Student argument poprvé vidí celý v citátu 124; text pod blokem drží souvislost i bez složení a neříká, že dopis tu větu „říká ještě jednou“ |
+| Věta „Celý argument stojí na jednom předpokladu: že smrtí všechno končí“ je pryč, zbyla „Kdo věří, že po smrti něco je, toho argument nepřesvědčí.“ | Předpoklad teď řekne blok a nadpis pod ním; potřetí by ho krok opakoval |
+| Čas na štítku cesty 8: 35 minut (dřív 32) | `node scripts/slova-cesta.mjs proc-se-bat-smrti`: 34,7 min (blok přidal čtení i ovládání) |
+| `scripts/slova-cesta.mjs` a `scripts/snimky-cesta.mjs` umí Slož argument (karty po řadě do řádků, kontrola, první možnost) | Bez toho skripty na kroku 3 spadly |
+
+## 30. 10. 2026: Interaktivita v1, krok K3 (Slož argument)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nový druh bloku `argument` v YAML (`BlokArgument`), v MDX `<SlozArgument id="…" />`; logika v `src/lib/argument.ts` | Pravidlo bloků z 1. 10. 2026 a zadání K3 |
+| Řádek s otazníkem není cíl: skrytý předpoklad student nehledá mezi kartami, odkryje se po kontrole | Oddíl 2 plánu větve; karta navíc by z bloku udělala hádanku s jednou správnou kartou |
+| Na pořadí premis nezáleží; zpětná vazba rozlišuje jen, jestli závěr stojí v řádku Závěr, a řekne, kde ho student nechal | Logicky premisy pořadí nemají; zpětná vazba má vidět, co student složil, a nedávat známku |
+| Karta na obsazený řádek se prohodí s tou, která tam ležela; výběr karty a pak řádku, tažení i klávesnice dělají totéž | Jeden model přesunu pro klepnutí, myš, prst i Tab; nic se neztratí |
+| Kontrola je jedna: po ní se odkryje skrytý předpoklad i místo k napadení, i když student závěr nedal na místo; znovu jde přes Zkusit znovu | Zadání: zpětná vazba, pak odkrytí. Druhý pokus před odkrytím by z bloku dělal zkoušení |
+| Do deníku jde jen volba „Kterou premisu bys napadl ty?“ s nepovinným důvodem; složení je jen stav bloku | Odpověď k otázce 8: volba je názor, pořadí karet úloha |
+| Otázka zápisu je otázka bloku a za ní „Kterou premisu bys napadl ty?“ | V deníku musí být poznat, ke kterému argumentu zápis patří, i když jich bude víc |
+| „Zkusit znovu“ místo „Začít znovu“ | Znění zadání K3; ostatní bloky mají „Začít znovu“, sjednotit se dá v kroku O |
+| Podoby na plátně: celý blok, jen otázka a možnosti, otevřená otázka; v „možnostech“ karty, řádky, zpětná vazba a volba bez důvodu | Jako Volba a Spor; podobu ověřuje test v dílně, protože blok zatím na žádné stránce atlasu nestojí |
+| Ukázka v dílně `dilna-sokrates-zemre` bez historických tvrzení a bez pramenů; skrytý předpoklad je skok od minulosti k budoucnosti | Zadání: obsah, který nečeká na ověření; klasický sylogismus „všichni lidé jsou smrtelní“ žádný skrytý předpoklad nemá |
+| `scripts/snimky-prvek.mjs` umí proměnnou `DENIK` (soubor JSON s deníkem) | Snímky stavů po kontrole a po volbě bez klepání podle textu, který je v bloku víckrát |
+
+## 29. 10. 2026: Interaktivita v1, krok K2 (Dva životy, Kdo žil dřív? na medailoncích)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pravidla výběru jsou čisté funkce v `src/lib/dvojice.ts`: výchozí dvojice Dvou životů je první učitel, jinak první žák, jinak nejbližší současník s vlastní stránkou podle poloviny života; druhý člověk Kdo žil dřív? na medailonku je nejbližší osoba s profilem nebo portrétem bez vztahu. Při shodě rozhoduje pořadí v `lide.yaml` | Zadání K2 a odpovědi k otázkám 6 a 7: pevně, ne náhodně, aby stránka, testy i zastavení v hodině byly pokaždé stejné |
+| Dva životy stojí v Době a lidech pod mini osou, tedy na všech stránkách osob; společný profil srovnává hlavní osobu | Otázka 6; Doba a lidé je jedna komponenta, prvek vznikne jednou |
+| Popisek osoby stránky stojí nad pruhy, popisek druhého pod nimi; společná léta a mezera leží jen mezi pruhy | První verze měla zvýraznění přes oba řádky a čárkovaný okraj přetínal jméno a roky |
+| Nabídka je nativní `<select>` se skupinami „Z Doby a lidí“ a „Období N: název“, ukáže se až po hydrataci (`client:idle`) | Funguje klávesnicí, napsáním začátku jména i na telefonu bez vlastní logiky; bez JavaScriptu by nefunkční nabídka mátla |
+| Současníci mini osy se počítají jednou funkcí (`soucasniciNaOse`), ze které bere i nabídka | Skupina „Z Doby a lidí“ musí ukázat právě ty lidi, které student na stránce viděl |
+| `vzdalenost()` u dvou žen píše „Žily současně“ | Dva životy dovolí srovnat kohokoli s kýmkoli (pouceni › Co se skládá z dat: rod obou lidí) |
+| Katalog hodin nese medailonky: celá stránka (`o:<id>`, příznak `medailonek`, štítek „Celý medailonek“) a blok Kdo žil dřív? pod ní | Zadání chtělo zastavení z medailonků s pevným id a podobami; dosud v katalogu medailonky nebyly vůbec |
+
+## 29. 10. 2026: Interaktivita v1, krok K1 (Kdo je na tvé straně)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Poslední krok se zastánci má obaly `<Strany blok="…">` a `<Strana odpoved="…">` v MDX; text v YAML není. Výjimka z pravidla o blocích je zapsaná v `docs/design.md` › Kdo je na tvé straně | Odpovědi autora k otázkám 3 až 5 (prázdné = souhlas); próza s citáty zůstává tam, kde ji autor čte |
+| Kódy odpovědí: Volba písmena karet, Spor id osoby strany a `uprostred`, Změň jednu věc id možnosti; jeden odstavec smí patřit k víc odpovědím (`odpoved="C D"`). Špatný kód zastaví sestavení | Písmena vidí autor i student na kartách; id osoby se ve Sporu čte líp než „strana 1“ |
+| Student ve Sporu uprostřed má v cestě 2 vlastní odstavec: Diotima („tentýž, a přitom ne stejný“) je nově odpověď `uprostred` | Krok ji už měl jako třetí odpověď; bez ní by student uprostřed dostal oddíl nepřeskládaný |
+| Ostrov přeskládá oddíl až po hydrataci (`client:load`), nic nekreslí před ní; nadpisy oddílů stojí mimo ostrov | Zadání: sestavená stránka je celá a kotvy pro přípravu hodiny platí v obou stavech. Cena: kdo má zápis, uvidí první oddíl kroku krátce celý, než se sbalí (viz Po K1) |
+| Nad studentovou odpovědí štítek „Na tvé straně“ v barvě období a linka 3 px; ostatní pod nativním `<details>` „Kdo hájil jiné odpovědi“ | Bez štítku by student nepoznal, proč oddíl začíná zrovna touhle odpovědí; `details` je přístupný bez vlastního kódu |
+| V cestě 2, kroku 8 přepsané spojovací věty tak, aby každá odpověď stála sama: „máš taky Hobbese“ → „máš na své straně Hobbese“, oddíl Dvě lodě rozdělený na čtyři odpovědi, Senekova odpověď bez „v jiném spise“, Hobbesovo shrnutí s podmětem | Odstavec, který může stát první, nesmí navazovat na předchozí odpověď |
+
+## 29. 10. 2026: Interaktivita v1, krok K0 (kontrola typů)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Typ pluginu sazby se bere z balíčku satteri (`@type {MdastPluginDefinition}` v `src/lib/sazba.js`), ruční typ parametru je pryč; chování pluginu se nemění | Ručně psaný typ `ctx` se rozešel s `MdastVisitorContext` v knihovně (`parent` bere uzel mdast, ne `unknown`) a `astro check` hlásil ts(2322) v `astro.config.mjs` |
+| `satteri` je přímo v devDependencies jako `^0.10.5` (verze z `package-lock.json`) | Kód na jeho typy odkazuje, tak ať se import typu nerozbije, až `@astrojs/markdown-satteri` změní závislost; zůstává jedna kopie, `@astrojs/markdown-satteri` chce `^0.10.3` |
+| `"test": "astro check && vitest run && playwright test"` | Lokální `npm test` kontrolu typů nepouštěl, takže chyba prošla každou kontrolou na Macu; GitHub ji pouští vždy |
+| Oprava dat: kontrola `kontroly.yml` na GitHubu je červená od prvního běhu 2. 10. 2026, ne od 17. 10.; záznam z 26. 10. zůstává, tohle je oprava | Všech 21 běhů je červených od č. 1 (commit 0f145eb); chybu zavedl commit da40801 (2. 10.) a lokálně se hlásí i na b883943 a a11d695 se stejnými verzemi závislostí |
+| Zelené kontroly na GitHubu se ověří po pushi při uzavření větve; sestavení a Playwright tam poběží poprvé | `gh` na Macu není, a všechny dosavadní běhy skončily dřív než sestavení |
+
+## 26. 10. 2026: Interaktivita v1, založení větve
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Větev `interaktivita-v1` z hlavní větve s commitem 6bb5180 (typ nadpisu v kartě týdne), který na GitHub půjde s ní | Pořadí z 26. 10. 2026; commit je jen typová oprava |
+| Obsah: blok Kdo je na tvé straně (cesty 2, 7, 8, 33, 34), Slož argument (cesta 8, krok 3), Dva životy a Kdo žil dřív? z dat u medailonků; osa hlasů, Přehrát život a deník na konci období zůstávají na později | Revize antiky, oddíl 12 (tři nejlepší návrhy a Kdo žil dřív? u medailonků) a nález 4 |
+| Prvním krokem K0 je oprava kontroly typů (`astro check` padá na typu pluginu sazby v `astro.config.mjs`) a `astro check` v `npm test` | Kontrola na GitHubu padá od 17. 10. 2026 a lokální `npm test` ji nepouštěl; nová chyba by v červených kontrolách zapadla |
+| Pořadí K0, K1, T1, K2, K3, T2, R, O, Uzavření; komponenta vždy před texty | Kdo je na tvé straně má v revizi nejvyšší prioritu, prvky medailonků jsou nejlevnější, Slož argument jediný potřebuje nový obsah ověřený v pramenech |
+| Navrženo k odsouhlasení před K0 (`docs/plany/interaktivita-v1.md`, otázky 1 až 9): text Kdo je na tvé straně v MDX s obaly, ne v YAML; prvky medailonků z pevného pravidla, ne náhodné; Dva životy v Době a lidech na všech stránkách osob | Prázdná odpověď znamená souhlas |
+
 ## 26. 10. 2026: Stoický týden, uzavření
 
 | Rozhodnutí | Důvod |
