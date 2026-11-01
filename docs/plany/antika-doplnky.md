@@ -6,7 +6,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
-| P6 | Podklady k filozofii: Co je filozofie?, období 1 a 2, čtyři směry, hlasy otázek 2 a 8, oba pokusy, náhrada `seneca-ep-18-9`, pět vztahů | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | čeká |
+| P6 | Podklady k filozofii: Co je filozofie?, období 1 a 2, čtyři směry, hlasy otázek 2 a 8, oba pokusy, náhrada `seneca-ep-18-9`, pět vztahů | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 1. 11. 2026 (`docs/podklady/antika-doplnky.md`); čeká na odpovědi po P6 |
 | P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | čeká |
 | K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | čeká |
@@ -106,6 +106,59 @@ Prázdná odpověď znamená souhlas s doporučením.
 9. **Tvoje antika:** stránka v deníku (`/denik/antika/` nebo oddíl deníku, rozhodne K2), jen z toho, co student udělal, bez procent a typů; vstup z deníku a ze stránky období 2; kdo prošel jedinou cestu, uvidí jedinou řádku a žádné „chybí ti“. Doporučuji.
    Odpověď:
 10. **Obrázky:** P6 a P6N navrhnou obrázky k období, směrům, pokusům a judaismu s licencí; stáhnout je smí až krok T po tvé odpovědi po P6. Doporučuji.
+    Odpověď:
+
+## Po P6 (1. 11. 2026)
+
+Podkladový list `docs/podklady/antika-doplnky.md` (8 oddílů a–h, návrh dat, rozpory, otázky) a řádky v `docs/podklady/k-overeni.md` (oddíl „Větev antika-doplnky, filozofická část“). Texty jsem četl v Perseu (Platón, Aristotelés, Hérodotos, Hésiodos, Aristofanés, Diogenés Laertios, Marcus, Epikúrovy Vatikánské výroky v First1KGreek), SEP a IEP jsem četl na Macu přes `curl`. Nic jsem nestahoval kromě textů do `/tmp`, nic neposlal na GitHub.
+
+**Ověřeno (čteno v plném znění místa):**
+- **Thalés:** Aristotelés (voda, důvod „snad“, jeho váhání o stáří mínění), Hérodotos I, 74 (zatmění), Platón Theaitétos 174a (studna), Aristotelés Politika 1259a (lisy), Diogenés Laertios I, 23–24 a 34.
+- **Scény:** Oblaka 218–226 (Sókratés v koši) a Obrana 19b–c (o čtyřiadvacet let později); Gellius VI, 14 (poselstvo tří filozofů); Diogenés Laertios VII, 2–3 (Zénón), X, 10–11 (Zahrada), VI, 20–21 (Antisthenova hůl).
+- **Citáty pro otázky 2 a 8:** Ústava I 331c–d, VI 488–489c (489a řecky), Prótagorás 322c–323a, Kritón 49e, Politika III, 11 (1281b řecky), Hlavní myšlenky 14, 31–37, Hovory VI, 54 (řecky), Vatikánský výrok 58 (řecky).
+- **Vztahy:** Diogenés Laertios V, 35–36 (Theofrastos), IV, 62 a VII, 183 (Karneadés a Chrýsippos).
+- **Věda o hromu:** NOAA (weather.gov), blesk a hrom.
+- **Obrázky:** sedm nových návrhů z Met Open Access (CC0 podle API), nestaženo.
+
+**Neověřeno (v podkladech označeno, do studentského textu nepatří):** Žalm 29 česky, Beethoven (Pastorální), Aëtios, Plútarchos o Catonovi, původ slova *filosofia*, název Stoy, rok založení Akademie, ostatní kotvy do `udalosti.yaml` mimo Halys, čísla veršů u Hésioda, číslo oddílu DL VII, 121, řecké znění nových citátů (T1 vytáhne ze souborů). Úplný seznam je v `k-overeni.md`.
+
+**Co plán koriguje:**
+- **Pět „chybějících“ vztahů je jeden chybějící, jeden špatného typu a dva už v datech.** Kritón a Chairefón mají `znali-se` od 29. 9. 2026; Dva životy je ale nečtou, protože `vychoziDvojice` bere jen `ucitel`, `zak` a `vliv-textem`. Doplnit: `chrysippos → karneades` (`vliv-textem`, DL IV, 62) a změnit Theofrasta na `ucitel` (DL V, 36). Kdyby autor chtěl, aby Dva životy řekly u přátel „přátelé“, je to změna kódu, ne dat.
+- **Cesta 6, krok 4:** nestačí vyměnit citát `seneca-ep-18-9`. Věty „Cvičil se i Epikúros“ a „jedli chléb a pili vodu“ jsou o jídle taky a meze Stoického týdne je vylučují. Doporučuju přepsat tři věty a citát vyměnit za `menoikeus-130` (podklady f).
+- **Zrcadlo jako pokus je o smrti**, takže „vhodné na začátek hodiny“ z architektury pro něj neplatí. Stránka musí držet pravidla cesty 8 a nedostane v Přípravě hodiny štítek „na začátek hodiny“.
+- **Gygův prsten:** blok se použije se stejným `id`; kromě Platóna nový hlas Epikúra (`kd-35`: nelze si být jistý, že se to nedozví); Epikúrova odpověď má vlastní nejsilnější námitku, kterou stránka řekne.
+
+**Nad čím jsem váhal:**
+- **Případ otázky 2.** Platónův příklad se zbraní jsem převedl na mobil přes noc (kamarád v hněvu chce zpátky věc, kterou ti svěřil, když byl klidný). Alternativa byla „klíče od skútru“ a „zbraň“; zvolil jsem hněv a ne alkohol (studenti, kterým je blízký rodič s alkoholem).
+- **Otázka před případem.** Zvolil jsem otázku 8 („Kdo má rozhodovat, když se třída nemůže shodnout?“); otázka 2 začíná případem.
+- **Hrom jako pokus.** Plán říká „třeba proč hřmí“. Pět druhů odpovědi není pět stupňů, a věda tu zní nejpřesněji; proto navrhuju, ať pokus řekne, co kdo umí a co mu uniká. Alternativa „Odkud se vzal svět?“ je neověřená.
+- **Scéna období 1.** Sókratés v koši (Oblaka) a Obrana jsou ověřené a dávají oblouk 24 let; Halys by byla druhá možnost, ale Thalés by byl na dvou stránkách. Pro hrom v pokusu jsem proto scénu období vzal z jiné části komedie.
+- **Epikúrova „hostina z mála“ a hlad.** Ve směru Epikureismus jsem nepoužil nic o jídle (zahrada, přátelé, společný majetek) a Zkus to žít jsem postavil na večeru s přítelem, ne na jídle.
+- **Karneadés jako sedmý hlas** u otázky 2: vynechán, protože jeho dvě řeči jsou jen tradice.
+
+### Co rozhodnout po P6
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Pokus v Co je filozofie?:** „Proč hřmí?“ (hlasy: Hésiodos, Žalm 29, Anaximandros, NOAA, Beethoven) s větou, že jde o pět druhů odpovědi, ne pět stupňů. Žalm 29 a Beethoven T1 ověří, jinak vymění. Doporučuji.
+   Odpověď:
+2. **Scéna období 1:** Sókratés v koši (Oblaka 423) a o čtyřiadvacet let později Obrana 19b–c; zatmění u Halyu jen jako kotva na ose. Doporučuji.
+   Odpověď:
+3. **Scéna období 2:** poselstvo tří filozofů v Římě 155 př. n. l. (Gellius VI, 14, Karneadovy dvě řeči jen „vypráví se“). Doporučuji.
+   Odpověď:
+4. **Otázka 2:** případ „Mobil přes noc“, šest hlasů (Platón, Sókratés, Prótagorás, Aristotelés, Epikúros, Marcus), bez Karneada. Doporučuji.
+   Odpověď:
+5. **Otázka 8:** otevírá otázkou („Kdo má rozhodovat, když se třída nemůže shodnout?“) a případem „Výlet“, šest hlasů (Prótagorás, Platón s kormidelníkem, Aristotelés, Epikúros, Diogenés, Marcus). Doporučuji.
+   Odpověď:
+6. **Směry:** scény Zénón (knihkupectví), Zahrada (společný majetek, přátelé), Antisthenova hůl, Akademie jako škola, kde se spor nebere jako zrada; Epikureismus: Zkus to žít „Večer s přítelem“ bez jídla; Kynismus: „Den bez ‚protože se to čeká‘“; Stoicismus odkáže na Stoický týden. Doporučuji.
+   Odpověď:
+7. **Vztahy v datech:** změnit `aristoteles → theofrastos` na `ucitel` (DL V, 36), přidat `chrysippos → karneades` (`vliv-textem`, DL IV, 62); Chairefón a Kritón beze změny, kód Dvou životů se tím nemění. Doporučuji.
+   Odpověď:
+8. **Cesta 6, krok 4:** přepsat tři věty a citát vyměnit za `menoikeus-130`; alternativy `kd-15` nebo krok bez Epikúrovy citace. Doporučuji.
+   Odpověď:
+9. **Zrcadlo jako pokus:** stránka drží pravidla cesty 8 a nemá štítek „na začátek hodiny“. Doporučuji.
+   Odpověď:
+10. **Obrázky:** smí T stáhnout těchto sedm (Met CC0): neznámý filozof (255445), amfora (248902), tetradrachma Alexandra (326395), hlava Chrýsippa (251787), prsten s Hermem (256193), zrcadlo (253640), soška Dia nebo Poseidóna (251078); pro Epikúra, Diogena a Platóna se použijí obrázky, které už v atlasu jsou. Doporučuji, nebo škrtni, které ne.
     Odpověď:
 
 ## Zadání P6
