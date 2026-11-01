@@ -846,3 +846,25 @@ Podklady: `docs/podklady/antika-doplnky.md`. Číst a použít jen to, co je v t
 | Vatikánský výrok 58 (`ἐγκύκλια`: „běžné záležitosti“, nebo „běžné vzdělání“) | Řecky čteno, překlad nejistý | Nepoužít, dokud se neověří překlad |
 | RVP G (první očekávaný výstup) a Kompetenční rámec MŠMT z února 2026 | Převzato z `docs/architektura.md`, nově neotevřeno | Beze změny |
 | Buddha: roky 560–480, nebo 405 | SEP „Buddha“ uvádí oba; Lao-c’: SEP „Laozi“ říká „možná legenda“ | Ve studentském textu bez roků a s „vypráví se“ u Lao-c’ |
+
+## Větev antika-doplnky, náboženství (P6N, 1. 11. 2026)
+
+Podklady: `docs/podklady/nabozenstvi-uvod.md`. Do studentského textu jen to, co je tam ověřené; co je tady „nečteno“, ověří T2, nebo se vynechá.
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Eliade, Posvátné a profánní (hierofanie, posvátný prostor a čas) | Kniha nečtena (PDF na is.muni.cz nástroje nepustí); jen Britannica | Bez citátu; příklady hierofanií (hora, strom, svátek) jen jako ilustrace, ne jako Eliadovy |
+| Český překlad Durkheima (Oikoymenh 2002) a Otta (Vyšehrad 1998): překladatelé, znění definice | Vydání podle katalogu MU a výpisků kurzu UK; text nečten | Citáty jako vlastní převody; kdyby T2 chtěl publikovaný překlad, musí ho mít v ruce |
+| Durkheim, francouzský originál | Nečten; jen Swain (1915) | Vlastní převod „podle Swaina“ |
+| Durkheimův původ a víra (rabínská rodina, nevěřící) | Nečteno (SEP heslo nemá) | Nepoužít |
+| Otto a luterská zkušenost jako námitka | Jen výňatek z Eliadovy předmluvy ve výsledku hledání | Jen jako otázka, bez tvrzení o Lutherovi |
+| Tanach, Tóra jako Pět knih Mojžíšových | Běžný výklad, neověřen v otevřeném zdroji | T2 ověří (Britannica „Torah“, „Tanakh“) |
+| Šema ráno a večer (Mišna, Berachot 1) | Nečteno | T2 ověří, nebo vynechá |
+| Zboření Prvního chrámu 587/586 př. n. l. | Výtah Britanniky „Babylonian Exile“ zkrácený, věta o chrámu chyběla | T2 ověří, než napíše „a chrám zbořil“ |
+| Data dokončení jeruzalémského a babylonského talmudu | Britannica je v hesle nemá | Ve studentském textu „v dalších staletích“ |
+| Akademie v Suře a Pumbeditě (vznik babylonského talmudu) | Nečteno | Místa nepřidávat |
+| Sinaj (poloha hory, Džebel Músá) | Nečteno | Bod na mapu nepřidávat |
+| Sefaria: Šabat 31a, Gitin 56a–b, Avot 1 a 2 | Četl nástroj WebFetch přes API, stránku jsem sám neviděl; z Macu API vrací 403 | Znění v podkladech; hebrejsky jen 14, 15 a 6 |
+| Met 254966, 633650, 239512, 192064, 403379: co obrázek ukazuje | API: CC0 a obrázek existuje; obraz nezhlédnut | T2 se podívá na stránku předmětu; 403379 jen s viditelným reliéfem menory |
+| Fotografie reliéfu na Titově oblouku | Jen na Wikimedia Commons | Autor najde a licenci potvrdí sám |
+| Schéma `Citat.osoba` pro verše bez osoby v datech | Zjištěno v `src/lib/schema.ts` | K1 rozhodne (návrh v podkladech, Návrh dat) |

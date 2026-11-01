@@ -7,7 +7,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
 | P6 | Podklady k filozofii: Co je filozofie?, období 1 a 2, čtyři směry, hlasy otázek 2 a 8, oba pokusy, náhrada `seneca-ep-18-9`, pět vztahů | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 1. 11. 2026 (`docs/podklady/antika-doplnky.md`); čeká na odpovědi po P6 |
-| P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | čeká |
+| P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | hotovo 1. 11. 2026 (`docs/podklady/nabozenstvi-uvod.md`); čeká na odpovědi po P6N |
 | K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | čeká |
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | čeká |
@@ -79,6 +79,7 @@ Revize ho dala před středověk (oddíl 12, „Deník na konci období“): stu
 - **Zbylých devět směrů** (milétská škola, pythagorejci, eleaté, atomisté, sofisté, peripatetici, kyrenaici, skepticismus, novoplatonismus) jako stránky, nejspíš hlavně z dat.
 - **Pokusy Achilleus a želva a Karneadova deska**; **pojmy** a **Příběh týdne** (F5).
 - **Buddhismus a čínská tradice** s okny Mezitím jinde; **vrstva náboženství na mapě**.
+- **Odkaz na otázku 9** z věty o hranici religionistiky na stránce Co je náboženství?, až otázka 9 dostane stránku; stejně cesta 35.
 - **Nahrání deníku ze souboru zpět** jen před zkouškou s domácími průchody (revize antiky, nález 8).
 - **Zkouška se studenty**, až je autor bude mít; do té doby `noindex`.
 - Skill `atlas-obdobi` a plán středověku (P12) v pořadí z 26. 10. 2026.
@@ -161,6 +162,57 @@ Prázdná odpověď znamená souhlas s doporučením.
 10. **Obrázky:** smí T stáhnout těchto sedm (Met CC0): neznámý filozof (255445), amfora (248902), tetradrachma Alexandra (326395), hlava Chrýsippa (251787), prsten s Hermem (256193), zrcadlo (253640), soška Dia nebo Poseidóna (251078); pro Epikúra, Diogena a Platóna se použijí obrázky, které už v atlasu jsou. Doporučuji, nebo škrtni, které ne.
     Odpověď:
 
+## Po P6N (1. 11. 2026)
+
+Podkladový list `docs/podklady/nabozenstvi-uvod.md` (oddíly a–d, návrh dat, rozpory) a řádky v `docs/podklady/k-overeni.md` (oddíl „Větev antika-doplnky, náboženství“). Texty jsem četl na Macu přes `curl` (SEP, Gutenberg, archive.org, ČEP na obohu.cz, Pleiades, API Met), Sefarii a Britannicu nástrojem WebFetch. Nic jsem nestahoval kromě textů do `/tmp`, nic neposlal na GitHub.
+
+**Ověřeno (čteno v plném znění místa):**
+- **Pojem náboženství:** SEP „The Concept of Religion“ (Schilbrack 2022): *religio*, Tylor, substantivní a funkční definice, fandění a nacionalismus jako hraniční případy, rodová podobnost a pět znaků, Smart.
+- **Durkheim** (Swain 1915): definice, posvátné a profánní, buddhismus, magie bez církve, „bůh klanu je klan“, „nepravdivá náboženství nejsou“ a jeho vlastní odpověď na námitku o jednom případu.
+- **Otto** (Das Heilige, 1925, německy): numinózní, *mysterium tremendum*, *fascinans* a výzva čtenáři, ať nečte dál, když takový prožitek nezná.
+- **Judaismus:** ČEP (Ex 19,5–6; Lv 19,18; Dt 6,4–9; Dt 30,19; Ž 29; Ž 137,1–4; Jr 29,4–7; Mi 6,8); Mišna, Avot 1, 1, 1, 2, 1, 14 a 2, 16; Talmud, Šabat 31a a Gitin 56a–b; data exilu, roku 70 a Mišny z Britanniky; Filón, Maimonides, Spinoza a Buber ze SEP; Jeruzalém, Babylón a Javne z Pleiad; holokaust z USHMM.
+- **Obrázky:** pět návrhů z Met (CC0 podle API), nestaženo a nezhlédnuto.
+
+**Neověřeno:** Eliadova kniha (jen Britannica), české překlady Durkheima a Otta, Tanach a Šema ráno a večer, zboření Prvního chrámu v hesle Britanniky, data dokončení talmudů, poloha Sinaje. Seznam je v `k-overeni.md`.
+
+**Co plán koriguje:**
+- **Citát v datech potřebuje osobu** (`Citat.osoba` v `src/lib/schema.ts`). Verše Bible, Mišny a Talmudu, Durkheim ani Otto osobu v datech nemají a nové osoby nepřibývají. K1 musí schéma upravit; návrh je v podkladech (Návrh dat).
+- **Kolekce `nabozenstvi` nemá místa**; pro mapku judaismu je K1 doplní (pole `mista`) a do `mista.yaml` přibudou `jeruzalem`, `babylon` a `javne`.
+- **Žalm 29 v ČEP zní jinak, než uvedl P6:** „Hospodinův hlas burácí nad vodami, zahřímal Bůh slávy“ (Ž 29,3). Pokus „Proč hřmí?“ ho dostane v tomto znění.
+- **Rakev** ze známé verze příběhu o Jochananovi v Talmudu není; žáci ho nesou „k pohřbu“.
+
+**Nad čím jsem váhal:**
+- **Vstupní scéna judaismu.** Jochanan ben Zakkaj (Javne) nese exil i rabínskou tradici a otázku, co z víry zbude bez chrámu; Hillel na jedné noze je kratší a veselejší, ale nese jen jedno téma, proto je navržený dovnitř stránky. Třetí možnost, Žalm 137, je doložený text, ne scéna, a jeho konec (v. 7–9) do atlasu nepatří.
+- **Horoskop a fanklub v pokusu** mohou věřícímu i čtenáři horoskopů znít jako posměch. Nechal jsem je (zadání je chce a nesou Durkheimovo rozlišení magie a náboženství), ale zpětná vazba na téže obrazovce řekne, že podobnost v tom, *jak* lidé něco dělají, nic neříká o tom, *jestli* je pravda, čemu věří.
+- **Holokaust:** jedna věta v oddíle o exilu a rozptýlení, bez čísel na začátku a bez obrazu. Bez ní by stránka o judaismu, která mluví o exilu, mlčela o největší katastrofě jeho dějin (pravidlo z 9. 10. 2026: co je podstatné, nemá chybět jen z ohleduplnosti). Víc patří do 7. období.
+- **Spinoza** na stránce judaismu jako „vyloučený z obce“ by z tradice udělal příklad nesnášenlivosti; navrhuju ho vynechat a nechat renesanci.
+- **Jeruzalém v datech** bez státu v poli `dnes`.
+
+### Co rozhodnout po P6N
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Pokus v Co je náboženství?:** pět jevů (bohoslužba, fotbalový fanklub, svatba, horoskop, minuta ticha), student je nejdřív sám roztřídí (ano, ne, záleží na…), pak čtyři měřítka (Tylor, Durkheim, Otto, pět znaků podle SEP) ukážou čtyři různé hranice; zpětná vazba bez „správného koše“. Doporučuji.
+   Odpověď:
+2. **Tři religionisté:** Durkheim a Otto s citátem a nejsilnější námitkou, Eliade jen jednou dvěma větami bez citátu (knihu jsem nečetl); Eliadova fašistická minulost na stránku nepatří. Doporučuji.
+   Odpověď:
+3. **Slovo mýtus** na obou stránkách (Co je filozofie?, Co je náboženství?) jako „posvátné vyprávění“ s větou, že tu neznamená výmysl. Doporučuji.
+   Odpověď:
+4. **Vstupní scéna judaismu:** Jochanan ben Zakkaj vynesený z obleženého Jeruzaléma a Javne („vypráví se“, bez rakve), Hillel na jedné noze uvnitř stránky v oddíle o rabínské tradici. Doporučuji.
+   Odpověď:
+5. **Citáty judaismu:** jádro sedmi (Šabat 31a, Dt 6,4, Ž 137,1.4, Jr 29,7, Avot 1, 1, Avot 1, 14, Dt 30,19), ostatní v rezervě; Bible jen v ČEP, Mišna a Talmud ve vlastním převodu; „hebrejská Bible“, ne „Starý zákon“. Doporučuji.
+   Odpověď:
+6. **Holokaust** jednou větou v oddíle o exilu a rozptýlení podle USHMM (šest milionů, šoa), bez obrazu a bez otázky s polem na psaní; nic víc na této stránce. Doporučuji.
+   Odpověď:
+7. **Osoby bez stránky:** Filón s odkazem; Maimonides a Buber jednou větou bez odkazu; Spinoza na stránce judaismu vůbec ne. Doporučuji.
+   Odpověď:
+8. **Místa:** přidat `jeruzalem` (bez státu v `dnes`), `babylon` a `javne` s ID z Pleiad; Sinaj ne. Doporučuji.
+   Odpověď:
+9. **Schéma citátu (pro K1):** `osoba` volitelné, nové pole `tradice` u citátů z Bible, Mišny a Talmudu, test, že citát má osobu, nebo tradici, nebo `autor` bez stránky (Durkheim, Otto). Doporučuji; alternativa jsou citáty jen v MDX, což porušuje `CLAUDE.md`.
+   Odpověď:
+10. **Obrázky:** smí T2 stáhnout votivní reliéf (Met 254966) pro Co je náboženství? a pojítko na Tóru Miriam Foa (633650) pro judaismus, s korunou na Tóru (239512) a chanukovým svícnem (192064) v rezervě; rytinu Titova oblouku (403379) jen tehdy, když je na ní vidět reliéf s menorou. Doporučuji, nebo škrtni, které ne.
+    Odpověď:
+
 ## Zadání P6
 
 Model: Sonnet 5.5 · high s vyhledáváním; sporná místa (citáty, přisouzení, Thalés a mýtus) Opus 5.5 · high.
@@ -208,12 +260,12 @@ Model: Opus 5.5 · high; xhigh, když se zasekne (navigace, katalog zastavení).
 ```
 Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev antika-doplnky. Krok K1: šablony pěti nových typů stránek a cesty k nim, se skillem atlas-komponenta. Texty nepíšeš (to jsou T1 a T2); stránky naplň prozatímním textem z podkladů, označeným komentářem v souboru. Čti jen, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit); archiv nečti.
 
-0. git switch antika-doplnky, git status bez necommitnutých změn. Přečti CLAUDE.md, skills/atlas-komponenta/SKILL.md, docs/styl.md, docs/pouceni.md (hlavně Co se skládá z dat a Technika), tento plán (tabulku, Obsah větve, Co rozhodnout před prvním krokem, Po P6, Co rozhodnout po P6 s odpověďmi), docs/design.md (tokeny, barvy období, oddíly o stránce a kartě), v src/content.config.ts kolekce obdobi, smery, pokusy, nabozenstvi a otazky. Jako vzor stránky otevři jen src/pages/osobnost/[id].astro a src/pages/otazka/[otazka].astro, z dat src/data/obdobi.yaml a udalosti.yaml.
+0. git switch antika-doplnky, git status bez necommitnutých změn. Přečti CLAUDE.md, skills/atlas-komponenta/SKILL.md, docs/styl.md, docs/pouceni.md (hlavně Co se skládá z dat a Technika), tento plán (tabulku, Obsah větve, Co rozhodnout před prvním krokem, Po P6, Co rozhodnout po P6, Po P6N, Co rozhodnout po P6N s odpověďmi), docs/design.md (tokeny, barvy období, oddíly o stránce a kartě), v src/content.config.ts kolekce obdobi, smery, pokusy, nabozenstvi a otazky. Jako vzor stránky otevři jen src/pages/osobnost/[id].astro a src/pages/otazka/[otazka].astro, z dat src/data/obdobi.yaml a udalosti.yaml.
 
 1. Stránka období /obdobi/<slug>/: hlavička v barvě období, úvodní scéna, malá osa kotev z udalosti.yaml, otázky doby, lidé a směry z dat (vzor Lidé a směry), cesty období, výřez mapy s odkazem do Mapy a času; prázdná část se neukáže. Pás období (PasObdobi) na Domů a v Lidech vede na stránku, když existuje, jinak jako dnes.
 2. Stránka směru /smer/<id>/: založení, tři myšlenky, rodokmen z vztahy.yaml (učitel a žák), spor, Zkus to žít, kam dál; štítky směrů v Lidech a na stránkách osob odkazují na stránku, když existuje. Drobečky Stoického týdne přes stránku stoicismu.
 3. Stránka pokusu /pokus/<slug>/: scéna, Volba, Změň jednu věc nebo kresba (tentýž blok platon-gyguv-prsten, tatáž kresba Zrcadlo), co řekli filozofové, kam dál; odkaz z portrétu Platóna a z cesty 8.
-4. Co je filozofie? (/co-je-filozofie/) a Náboženství (/nabozenstvi/ a /nabozenstvi/<slug>/) podle odpovědí 3 a 8; vstup z Domů, z přehledu otázek a z Lidí a směrů. Rozhodni, jestli Co je filozofie? potřebuje vlastní kolekci, nebo stačí stránka s MDX; zapiš do docs/design.md.
+4. Co je filozofie? (/co-je-filozofie/) a Náboženství (/nabozenstvi/ a /nabozenstvi/<slug>/) podle odpovědí 3 a 8; u náboženství i schéma citátu bez osoby v datech (pole `tradice`) a pole `mista` v kolekci `nabozenstvi` podle odpovědí 8 a 9 po P6N (návrh v docs/podklady/nabozenstvi-uvod.md › Návrh dat); vstup z Domů, z přehledu otázek a z Lidí a směrů. Rozhodni, jestli Co je filozofie? potřebuje vlastní kolekci, nebo stačí stránka s MDX; zapiš do docs/design.md.
 5. Navigace a vyhledávání: hlavička a spodní lišta beze změny; nové typy v Pagefind, v drobečcích a v Kam dál. Příprava hodiny: zastavení z nových stránek (bloky, kresby, kapitoly s kotvami) a jejich podoby na plátně v docs/design.md.
 6. Testy a snímky. Vitest: schémata, odkazy z pásu období a štítků směrů jen na existující stránky, rodokmen z dat, katalog zastavení. Playwright: každá nová stránka na 390 a 1440 px, světlý i tmavý režim, klávesnice, blok Gygův prsten sdílí stav s portrétem Platóna. node scripts/snimky-listy.mjs na všechny nové stránky. Celé npm test jednou před posledním commitem; npm spouštěj na Macu přes Desktop Commander, ne v device_bash. Restartuj náhled (CLAUDE.md › Práce na autorově Macu).
 7. Do plánu větve oddíl „Po K1 (datum)“: co je hotové, co ne, nad čím jsi váhal; „Co rozhodnout po K1“, pokud je co. Rozhodnutí do docs/rozhodnuti.md. Plán aktualizuj i v Projektu Claude. Commity česky a stručně, ve větvi, nic neposílej na GitHub.
