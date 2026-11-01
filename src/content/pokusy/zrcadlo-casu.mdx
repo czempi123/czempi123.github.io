@@ -4,46 +4,61 @@ obdobi: 2
 otazka: 3
 osoby: [lucretius]
 pramen: Lucretius, O přírodě III, 972–977
-# PROZATÍMNÍ TEXT (K1): perex, úvod, hlasy a Kam dál napíše T1 se skillem atlas-psani a atlas-cesta.
 # Podklad: docs/podklady/antika-doplnky.md › e) Zrcadlo času a Po P6, odpověď 9: stránka drží pravidla cesty 8
-# (první obrazovka očima člověka po ztrátě, argument o konci vnímání souměrně, věta, že o bolesti blízkých není).
-# Kresba zrcadlo-casu je tatáž jako v cestě 8, krok 4. V přípravě hodiny nemá štítek „na začátek hodiny“.
-perex: Lucretius přiložil k životu zrcadlo. Co bylo před tvým narozením, a proč se toho nebojíš?
+# (první obrazovka očima člověka po ztrátě, argument o konci vnímání souměrně, věta, že o bolesti blízkých není,
+# řádek pomoci). Kresba zrcadlo-casu je tatáž jako v cestě 8, krok 4. Rok do minulosti je jiný než v cestě (1969,
+# přistání na Měsíci), aby stránka necitovala krok. V přípravě hodiny nemá štítek „na začátek hodiny“.
+# Zrcadlo: Met 253640 (CC0), stažené v T1.
+perex: Myšlenkový pokus o čase, kdy jsi ještě nebyl. Lucretius v něm viděl zrcadlo pro čas, který přijde po nás. Přesvědčí tě, nebo dáš za pravdu filozofovi, který mu o dva tisíce let později odporoval?
 hlasy:
   - osoba: epikuros
     myslenka: >-
-      Prozatímní text. Smrt se nás netýká: kde jsme my, není ona, a kde je ona, nejsme my.
+      Lucretius dal obraz tomu, co učil Epikúros. Všechno dobré i zlé je podle něj ve vnímání a smrt je konec vnímání.
+      Nezbude nikdo, kdo by cokoli zakoušel, dobré ani zlé. V jedné ze svých hlavních myšlenek to řekl takhle:
     citat: kd-2
+    zdroje: [dl-x-139]
   - osoba: seneca
     myslenka: >-
-      Prozatímní text. Seneca sáhl po stejné myšlence: nebýt už je pro nás známé, byli jsme tak před narozením.
+      Seneca byl stoik, ne epikurejec, a přesto došel ke stejné myšlence. Měl nemoc, při které se nemohl nadechnout.
+      Po jednom záchvatu napsal příteli, co si v té chvíli opakoval:
     citat: seneca-ep-54-4
+    zdroje: [sep-seneca]
 kamDal:
   - { href: /cesta/proc-se-bat-smrti/, nadtitulek: Cesta, text: Proč se bát smrti? }
   - { href: /osobnost/epikuros/, nadtitulek: Profil, text: Epikúros }
   - { href: /otazka/ma-zivot-smysl/, nadtitulek: Velká otázka 3, text: Má život smysl? }
 ---
+import { Pribeh, Zrcadlo } from '../../components/bloky';
 import Citat from '../../components/ui/Citat.astro';
 import RadekPomoci from '../../components/ui/RadekPomoci.astro';
-import { Zrcadlo } from '../../components/bloky';
 
-{/* PROZATÍMNÍ TEXT (K1): úvod a text kolem kresby napíše T1. */}
+<Pribeh id="rok-kdy-jsi-nebyl" osoba="lucretius" obrazek="zrcadlo-met" nadtitulek="Řím, asi dvě stě let po Epikúrovi" titulek="Rok, kdy jsi *nebyl*" popisek="Bronzové zrcadlo z Praeneste u Říma, asi 330–300 př. n. l.">
 
-<div class="uvod ctenarsky">
+Asi dvě stě let po Epikúrovi převedl jeho učení do latinských veršů římský básník Lucretius. Epikúros učil, že smrt se nás netýká. Lucretius z té věty udělal obraz, který si může vyzkoušet každý.
 
-Prozatímní text. Asi dvě stě let po Epikúrovi napsal římský básník Lucretius:
+Začíná otázkou do minulosti. Vyber si rok dávno před svým narozením, třeba rok 1969, kdy lidé poprvé přistáli na Měsíci. Kde jsi tehdy byl? Chybělo ti něco?
 
-</div>
+</Pribeh>
 
 <div class="ctenarsky">
+
+Lucretius se ptal na punské války, při kterých se třásl celý tehdejší svět. A pokračoval:
+
 <Citat id="lucretius-iii-972-zrcadlo" />
+
+Ten obraz mluví o tom, kdo umírá, a o strachu, že jednou nebude. O bolesti těch, kdo někoho ztratili, není. Zrcadlo si můžeš přiložit sám:
+
 </div>
 
 <Zrcadlo id="zrcadlo-casu" />
 
 <div class="ctenarsky">
 
-Prozatímní text. Tenhle argument mluví o tom, kdo umírá. O bolesti těch, kdo zůstanou, není.
+Když v kresbě přepneš na Námitku, uvidíš, proč obě strany zrcadla nemusí být stejné. Žít o deset let déle by mohl tentýž člověk. Narodit se o sto let dřív by musel někdo jiný, s jinými rodiči a jiným životem.
+
+Tak Lucretiovi ve 20. století odpověděl americký filozof Thomas Nagel. Podle něj může člověku vadit, o co přijde potom, a nevadit, co nezažil předtím.
+
+*Kdo tě přesvědčil víc, Lucretius, nebo Nagel? A je strach ze smrti vůbec jen strach, že nebudeš?*
 
 <RadekPomoci />
 

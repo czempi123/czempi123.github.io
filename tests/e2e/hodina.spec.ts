@@ -190,7 +190,8 @@ test('hodina, která v prohlížeči není, a filtry výběru', async ({ page })
   await page.locator('#vyber-druh').selectOption({ label: 'Hlasy u otázek' });
   const druhy = await page.locator('details.skupina[open] .polozka:not(.polozka--souvislost) > .polozka__radek .polozka__druh').allTextContents();
   expect(new Set(druhy)).toEqual(new Set(['Hlas']));
-  await expect(page.locator('details.skupina')).toHaveCount(6);
+  // Jedna skupina na každou otázku s hlasy: od T1 větve antika-doplnky jich je osm (přibyly otázky 2 a 8).
+  await expect(page.locator('details.skupina')).toHaveCount(8);
 
   // Druh hlasů, období 2 a hledání: jen hlasy Epikúra, u otázek, kde mluví.
   await page.locator('#vyber-obdobi').selectOption('2');

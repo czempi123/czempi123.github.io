@@ -397,6 +397,16 @@ prameny:
   - { id: durkheim-formy, druh: pramen, nazev: "The Elementary Forms of the Religious Life", autor: "Émile Durkheim (přel. J. W. Swain)", dilo: "Project Gutenberg č. 41360", url: "https://www.gutenberg.org/ebooks/41360", overeno: 2026-11-01, poznamka: "Les formes élémentaires de la vie religieuse (1912), anglicky 1915. Úvod § 1 (nepravdivá náboženství nejsou); I, 1, § 2–4 (buddhismus, posvátné a profánní, magie bez církve, definice); II, 7 (bůh klanu je klan); Závěr (námitka o jednom případu). Česky Oikoymenh 2002, nečteno." }
   - { id: britannica-johanan, druh: encyklopedie, nazev: "Johanan ben Zakkai", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/biography/Johanan-ben-Zakkai", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch. Zboření chrámu 70 n. l.; zakladatel akademie a rabínského sboru v Jamnii; rozhodující vliv na pokračování judaismu. Útěk z Jeruzaléma heslo nezmiňuje." }
   - { id: britannica-babylonian-exile, druh: encyklopedie, nazev: "Babylonian Exile", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/event/Babylonian-Exile", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch (zkrácený výtah). Deportace 598/7 a 587/6 př. n. l.; konec 538 př. n. l. za Kýra." }
+  # Větev antika-doplnky, krok T1 (1. 11. 2026). Řecké texty čteny v PerseusDL (staženy na Mac mimo repozitář),
+  # rozbor v docs/podklady/antika-doplnky.md.
+  - { id: aristoteles-metafyzika-i, druh: pramen, nazev: "Metafyzika I, 2–3", autor: Aristotelés, dilo: "Metaphysica, řecky W. D. Ross, angl. H. Tredennick (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg025/tlg0086.tlg025.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Kdo žasne a neví si rady, má za to, že neví, proto je i milovník mýtů svým způsobem filozof (982b12–19). Thalés, zakladatel tohoto druhu filozofie, říká, že počátkem je voda, a země prý plave na vodě; důvod snad (ísós) pozorování, že výživa všeho je vlhká a semena mají vlhkou přirozenost (983b6–27); básníci a Ókeanos, Aristotelés neví, jestli je to mínění staré (983b27–984a3)." }
+  - { id: aristoteles-politika-i-11, druh: pramen, nazev: "Politika I, 11 (1259a6–18)", autor: Aristotelés, dilo: "Politica, řecky W. D. Ross, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg035/tlg0086.tlg035.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Thalés a lisy na olivy: vyčítali mu chudobu, jako by filozofie byla k ničemu; prý (fasin) z hvězd poznal úrodu, v zimě s malými penězi zaplatil zálohy na všechny lisy v Milétu a na Chiu levně, protože nikdo nepřihazoval, v sezoně je pronajímal, jak chtěl; ukázal, že filozofové by snadno zbohatli, ale nestojí o to." }
+  - { id: aristoteles-politika-iii-11, druh: pramen, nazev: "Politika III, 11 (1281a40–b10)", autor: Aristotelés, dilo: "Politica, řecky W. D. Ross, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg035/tlg0086.tlg035.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Mnozí, z nichž žádný není znamenitý, mohou být dohromady lepší než ti nejlepší, jako hostina ze společných příspěvků je lepší než ta z jedné kapsy; každý má díl ctnosti a rozumnosti; proto mnozí lépe soudí hudbu a básně." }
+  - { id: platon-ustava-i-vi, druh: pramen, nazev: "Ústava I, 331c–d a VI, 488a–489c", autor: Platón, dilo: "Respublica, řecky J. Burnet, angl. P. Shorey (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg030/tlg0059.tlg030.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Mluví Sókratés. Kefalova a Simónidova definice (říkat pravdu a vracet, co jsi dostal) padá na příkladu zbraní, které chce zpátky přítel, jenž zešílel (331c–d). Loď obce: námořníci se přou o kormidlo, kormidlovat se nikdy neučili; pravý kormidelník musí dbát ročních dob, nebe, hvězd a větrů, a přesto by ho nazvali pozorovatelem nebes, žvanilem a budižkničemu (488a–489a); tak se obce chovají k filozofům (489a–c)." }
+  - { id: aristofanes-oblaka, druh: pramen, nazev: "Oblaka 218–226 a 373–381", autor: Aristofanés, dilo: "Nubes, řecky (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0019/tlg003/tlg0019.tlg003.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Strepsiadés najde Sókrata v koši; na otázku, co dělá: kráčím po vzduchu a obhlížím slunce (225). Hrom dělají mraky plné vody, které do sebe narážejí, Strepsiadés se diví, že to není Zeus (373–381). Hra je karikatura, ne podání Sókratových názorů." }
+  - { id: herodotos-i-74, druh: pramen, nazev: "Dějiny I, 74", autor: Hérodotos, dilo: "Historiae, angl. A. D. Godley (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0016/tlg001/tlg0016.tlg001.perseus-eng2.xml", overeno: 2026-11-01, poznamka: "Válka Lýdů s Médy: v šestém roce se uprostřed bitvy den změnil v noc; Thalés z Milétu to prý Iónům předpověděl a stanovil rok. Rok 585 př. n. l. je většinový výklad (zatmění 28. 5. 585), v atlasu jen u kotvy na ose." }
+  - { id: dl-iv-62, druh: pramen, nazev: "Životy filozofů IV, 62 (Karneadés)", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Karneadés pečlivě studoval knihy stoiků, hlavně Chrýsippovy, úspěšně je vyvracel a říkal: kdyby nebylo Chrýsippa, nebyl bych ani já. Totéž rčení uvádí SEP „Carneades“." }
+  - { id: dl-v-36, druh: pramen, nazev: "Životy filozofů V, 35–36 (Theofrastos)", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Z Aristotelových žáků byl nejpřednější Theofrastos (35); nejdřív poslouchal Alkippa doma v Eresu, pak Platóna, od něhož přešel k Aristotelovi, a když Aristotelés odešel do Chalkidy, převzal školu (36)." }
 citaty:
   - id: obrana-38a
     osoba: sokrates
@@ -4176,6 +4186,194 @@ citaty:
       druh: vlastni
       podle: "anglický překlad J. W. Swaina (1915); francouzský originál nečten"
     zdroj: durkheim-formy
+  # Větev antika-doplnky, krok T1 (1. 11. 2026): Co je filozofie?, období 1, směry, pokusy a otázky 2 a 8.
+  - id: metafyzika-983b
+    osoba: aristoteles
+    autor: Aristotelés
+    dilo: Metafyzika
+    misto: I, 3, 983b20–21
+    cesky: "Thalés, zakladatel tohoto druhu filozofie, říká, že je to voda."
+    original: "Θαλῆς μὲν ὁ τῆς τοιαύτης ἀρχηγὸς φιλοσοφίας ὕδωρ φησὶν εἶναι"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Ross) a anglický překlad H. Tredennicka; „je to“ = počátek, ze kterého všechno vzniká"
+    zdroj: aristoteles-metafyzika-i
+  - id: metafyzika-982b
+    osoba: aristoteles
+    autor: Aristotelés
+    dilo: Metafyzika
+    misto: I, 2, 982b17–19
+    cesky: "Kdo žasne a neví si rady, má za to, že neví. Proto je i milovník mýtů svým způsobem filozof: mýty jsou totiž složené z divů."
+    original: "ὁ δʼ ἀπορῶν καὶ θαυμάζων οἴεται ἀγνοεῖν (διὸ καὶ ὁ φιλόμυθος φιλόσοφός πώς ἐστιν· ὁ γὰρ μῦθος σύγκειται ἐκ θαυμασίων)"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Ross) a anglický překlad H. Tredennicka; závorku má Aristotelés sám"
+    zdroj: aristoteles-metafyzika-i
+  - id: theaitetos-155d
+    osoba: sokrates
+    autor: Platón
+    dilo: Theaitétos
+    misto: 155d
+    cesky: "Údiv je pro filozofa příznačný. Filozofie totiž nemá jiný počátek než tenhle."
+    original: "μάλα γὰρ φιλοσόφου τοῦτο τὸ πάθος, τὸ θαυμάζειν· οὐ γὰρ ἄλλη ἀρχὴ φιλοσοφίας ἢ αὕτη"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad H. N. Fowlera; mluví Sókratés"
+    zdroj: platon-theaitetos
+  - id: oblaka-225
+    osoba: aristofanes
+    autor: Aristofanés
+    dilo: Oblaka
+    misto: "225"
+    cesky: "Kráčím po vzduchu a obhlížím slunce."
+    original: "ἀεροβατῶ καὶ περιφρονῶ τὸν ἥλιον"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (PerseusDL); mluví postava Sókrata, sloveso περιφρονῶ znamená obhlížet i pohrdat"
+    zdroj: aristofanes-oblaka
+  - id: obrana-19c
+    osoba: sokrates
+    autor: Platón
+    dilo: Obrana Sókratova
+    misto: 19c
+    cesky: "Sami jste to viděli v Aristofanově komedii: nosili tam sem a tam nějakého Sókrata, který tvrdil, že kráčí po vzduchu, a mlel spoustu dalších nesmyslů, kterým já nerozumím ani trochu."
+    original: "ταῦτα γὰρ ἑωρᾶτε καὶ αὐτοὶ ἐν τῇ Ἀριστοφάνους κωμῳδίᾳ, Σωκράτη τινὰ ἐκεῖ περιφερόμενον, φάσκοντά τε ἀεροβατεῖν καὶ ἄλλην πολλὴν φλυαρίαν φλυαροῦντα, ὧν ἐγὼ οὐδὲν οὔτε μέγα οὔτε μικρὸν πέρι ἐπαΐω"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad H. N. Fowlera; mluví Sókratés k porotcům"
+    zdroj: platon-obrana
+  - id: ustava-331c
+    osoba: platon
+    autor: Platón
+    dilo: Ústava
+    misto: I, 331c
+    cesky: "Kdyby někdo dostal od přítele, který byl při smyslech, zbraně a ten přítel by pak zešílel a chtěl je zpátky, každý by řekl, že mu je nemá vracet a že ten, kdo by je vrátil, by nebyl spravedlivý."
+    original: "πᾶς ἄν που εἴποι, εἴ τις λάβοι παρὰ φίλου ἀνδρὸς σωφρονοῦντος ὅπλα, εἰ μανεὶς ἀπαιτοῖ, ὅτι οὔτε χρὴ τὰ τοιαῦτα ἀποδιδόναι, οὔτε δίκαιος ἂν εἴη ὁ ἀποδιδούς"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad P. Shoreyho; mluví Sókratés"
+    zdroj: platon-ustava-i-vi
+  - id: ustava-489a
+    osoba: platon
+    autor: Platón
+    dilo: Ústava
+    misto: VI, 488e–489a
+    cesky: "Skutečného kormidelníka by na takových lodích námořníci nazvali pozorovatelem nebes, žvanilem a budižkničemu."
+    original: "τὸν ὡς ἀληθῶς κυβερνητικὸν οὐχ ἡγῇ ἂν τῷ ὄντι μετεωροσκόπον τε καὶ ἀδολέσχην καὶ ἄχρηστόν σφισι καλεῖσθαι ὑπὸ τῶν ἐν ταῖς οὕτω κατεσκευασμέναις ναυσὶ πλωτήρων"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad P. Shoreyho; Sókratovu otázku jsme převedli na oznamovací větu"
+    zdroj: platon-ustava-i-vi
+  - id: ustava-612b
+    osoba: platon
+    autor: Platón
+    dilo: Ústava
+    misto: X, 612b
+    cesky: "Zjistili jsme, že spravedlnost sama je pro duši samu to nejlepší a že duše má jednat spravedlivě, ať má Gýgův prsten, nebo ne."
+    original: "αὐτὸ δικαιοσύνην αὐτῇ ψυχῇ ἄριστον ηὕρομεν, καὶ ποιητέον εἶναι αὐτῇ τὰ δίκαια, ἐάντʼ ἔχῃ τὸν Γύγου δακτύλιον, ἐάντε μή"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad P. Shoreyho; mluví Sókratés, vynecháno „a k němu ještě Hádovu přilbu“"
+    zdroj: platon-ustava-perseus
+  - id: kriton-49e
+    osoba: sokrates
+    autor: Platón
+    dilo: Kritón
+    misto: 49e
+    cesky: "Má člověk dodržet, na čem se s někým dohodl, je-li to spravedlivé, nebo ho smí podvést?"
+    original: "πότερον ἃ ἄν τις ὁμολογήσῃ τῳ δίκαια ὄντα ποιητέον ἢ ἐξαπατητέον;"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad H. N. Fowlera; Kritón odpovídá, že dodržet"
+    zdroj: platon-kriton
+  - id: protagoras-322c
+    osoba: protagoras
+    autor: Platón
+    dilo: Prótagorás
+    misto: 322c
+    cesky: "Zeus se bál, aby nezahynulo celé naše pokolení, a poslal k lidem Herma se studem a právem, aby v obcích byl řád a pouta, která spojují přátele."
+    original: "Ζεὺς οὖν δείσας περὶ τῷ γένει ἡμῶν μὴ ἀπόλοιτο πᾶν, Ἑρμῆν πέμπει ἄγοντα εἰς ἀνθρώπους αἰδῶ τε καὶ δίκην, ἵνʼ εἶεν πόλεων κόσμοι τε καὶ δεσμοὶ φιλίας συναγωγοί"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad W. R. M. Lamba; mýtus vypráví Prótagorás podle Platóna"
+    zdroj: platon-protagoras
+  - id: protagoras-322d
+    osoba: protagoras
+    autor: Platón
+    dilo: Prótagorás
+    misto: 322d
+    cesky: "Všem. Ať mají podíl všichni. Obce by nevznikly, kdyby je měli jen někteří, jako je tomu u jiných umění."
+    original: "ἐπὶ πάντας, ἔφη ὁ Ζεύς, καὶ πάντες μετεχόντων· οὐ γὰρ ἂν γένοιντο πόλεις, εἰ ὀλίγοι αὐτῶν μετέχοιεν ὥσπερ ἄλλων τεχνῶν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Burnet) a anglický překlad W. R. M. Lamba; Zeus odpovídá Hermovi v mýtu, který vypráví Prótagorás podle Platóna"
+    zdroj: platon-protagoras
+  - id: kd-14
+    osoba: epikuros
+    autor: Epikúros
+    dilo: Hlavní myšlenky
+    misto: 14 (Diogenés Laertios X, 143)
+    cesky: "Když je do jisté míry zajištěno bezpečí před lidmi, přichází díky síle a dostatku to nejčistší bezpečí: bezpečí z klidu a z odstupu od davu."
+    original: "Τῆς ἀσφαλείας τῆς ἐξ ἀνθρώπων γενομένης μέχρι τινὸς δυνάμει τε ἐξερειστικῇ καὶ εὐπορίᾳ εἰλικρινεστάτη γίνεται ἡ ἐκ τῆς ἡσυχίας καὶ ἐκχωρήσεως τῶν πολλῶν ἀσφάλεια"
+    preklad:
+      druh: vlastni
+      podle: "řecký text a anglický překlad R. D. Hickse"
+    zdroj: dl-x-139
+  - id: kd-35
+    osoba: epikuros
+    autor: Epikúros
+    dilo: Hlavní myšlenky
+    misto: 35 (Diogenés Laertios X, 151)
+    cesky: "Kdo tajně poruší něco z toho, na čem se lidé dohodli, aby si neubližovali, nemůže věřit, že to zůstane skryto, i kdyby mu to zatím prošlo desettisíckrát. Až do konce totiž neví, jestli se na to nepřijde."
+    original: "Οὐκ ἔστι τὸν λάθρᾳ τι κινοῦντα ὧν συνέθεντο πρὸς ἀλλήλους εἰς τὸ μὴ βλάπτειν μηδὲ βλάπτεσθαι, πιστεύειν ὅτι λήσει, κἂν μυριάκις ἐπὶ τοῦ παρόντος λανθάνῃ. μέχρι γὰρ καταστροφῆς ἄδηλον εἰ καὶ λήσει"
+    preklad:
+      druh: vlastni
+      podle: "řecký text a anglický překlad R. D. Hickse; „aby si neubližovali“ zkracuje „aby neškodili ani nebyli poškozováni“"
+    zdroj: dl-x-139
+  - id: kd-37
+    osoba: epikuros
+    autor: Epikúros
+    dilo: Hlavní myšlenky
+    misto: 37 (Diogenés Laertios X, 152)
+    cesky: "Co se z toho, co zákony uznávají za spravedlivé, osvědčí jako užitečné pro soužití lidí, má povahu spravedlnosti. Když ale někdo dá zákon, který soužití neprospívá, ten už povahu spravedlnosti nemá."
+    original: "Τὸ μὲν ἐπιμαρτυρούμενον ὅτι συμφέρει ἐν ταῖς χρείαις τῆς πρὸς ἀλλήλους κοινωνίας τῶν νομισθέντων εἶναι δικαίων, ἔχει τὸν τοῦ δικαίου χαρακτῆρα … ἐάν δὲ νόμον θῆταί τις, μὴ ἀποβαίνῃ δὲ κατὰ τὸ συμφέρον τῆς πρὸς ἀλλήλους κοινωνίας, οὐκέτι τοῦτο τὴν τοῦ δικαίου φύσιν ἔχει"
+    preklad:
+      druh: vlastni
+      podle: "řecký text a anglický překlad R. D. Hickse; vynecháno „ať je to pro všechny totéž, nebo ne“"
+    zdroj: dl-x-139
+  - id: hovory-vi-54
+    osoba: marcus-aurelius
+    autor: Marcus Aurelius
+    dilo: Hovory k sobě
+    misto: VI, 54
+    cesky: "Co neprospívá úlu, neprospívá ani včele."
+    original: "Τὸ τῷ σμήνει μὴ συμφέρον οὐδὲ τῇ μελίσσῃ συμφέρει"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. H. Leopold)"
+    zdroj: marcus-hovory
+  - id: politika-1281b
+    osoba: aristoteles
+    autor: Aristotelés
+    dilo: Politika
+    misto: III, 11, 1281a42–b3
+    cesky: "Je možné, že mnozí, i když nikdo z nich není znamenitý, budou dohromady lepší než ti nejlepší. Ne každý zvlášť, ale všichni spolu, tak jako hostina, na kterou každý něco přinese, je lepší než ta, kterou platí jeden."
+    original: "τοὺς γὰρ πολλούς, ὧν ἕκαστός ἐστιν οὐ σπουδαῖος ἀνήρ, ὅμως ἐνδέχεται συνελθόντας εἶναι βελτίους ἐκείνων, οὐχ ὡς ἕκαστον ἀλλʼ ὡς σύμπαντας, οἷον τὰ συμφορητὰ δεῖπνα τῶν ἐκ μιᾶς δαπάνης χορηγηθέντων"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Ross) a anglický překlad H. Rackhama"
+    zdroj: aristoteles-politika-iii-11
+  - id: dl-vi-21
+    osoba: diogenes
+    autor: Diogenés Laertios
+    dilo: Životy filozofů
+    misto: VI, 21
+    cesky: "Tluč. Nenajdeš tak tvrdé dřevo, abys mě odehnal, dokud mi bude připadat, že máš co říct."
+    original: "παῖε· οὐ γὰρ εὑρήσεις οὕτω σκληρὸν ξύλον ᾧ με ἀπείρξεις ἕως ἄν τι φαίνῃ λέγων"
+    preklad:
+      druh: vlastni
+      podle: "řecký text a anglický překlad R. D. Hickse; Diogenés nastavuje hlavu Antisthenově holi"
+    zdroj: dl-vi-20
 obrazky:
   - id: sokrates-louvre
     soubor: obrazky/sokrates-louvre.jpg
@@ -4355,3 +4553,37 @@ obrazky:
     instituce: "U.S. Navy, Naval History and Heritage Command"
     licence: "Public Domain (dílo federální vlády USA, PD-USGov-Military-Navy)"
     url: "https://commons.wikimedia.org/wiki/File:James_Stockdale_Formal_Portrait.jpg"
+  # Větev antika-doplnky, krok T1 (1. 11. 2026): čtyři předměty z The Metropolitan Museum of Art, Open Access (CC0,
+  # isPublicDomain: true v API muzea 1. 11. 2026). Autor souhlasil se stažením v odpovědi 10 po P6 (prázdný řádek).
+  # Originály jsou mimo repozitář v ~/Pictures/Atlas-originaly/; v repozitáři zmenšené na delší stranu 1280 px.
+  # Tetradrachmu (326395), hlavu neznámého filozofa (255445) a sošku Dia (251078) jsem nestáhl: žádná stránka pro ně
+  # nemá místo, kde by popisek seděl ke scéně (Po T1 v plánu větve).
+  - id: amfora-bezci-met
+    soubor: obrazky/amfora-bezci-met.jpg
+    popisek: "Athénská amfora pro vítěze her z doby kolem roku 530 př. n. l. Na této běží závodníci."
+    autor: "připisováno Euphiletovu malíři, asi 530 př. n. l. (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 14.130.12"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/248902"
+    vyrez: "50% 45%"
+  - id: chrysippos-met
+    soubor: obrazky/chrysippos-met.jpg
+    popisek: "Chrýsippos. Mramorová hlava, kterou vytesal římský sochař v 1. století n. l."
+    autor: "neznámý římský sochař, 1. století n. l. (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 24.243"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/251787"
+  - id: prsten-hermes-met
+    soubor: obrazky/prsten-hermes-met.jpg
+    popisek: "Řecký zlatý prsten z jižní Itálie s vyrytým bohem Hermem, konec 4. století př. n. l."
+    autor: "neznámý zlatník z Tarentu, konec 4. století př. n. l. (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 1994.230.3"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/256193"
+  - id: zrcadlo-met
+    soubor: obrazky/zrcadlo-met.jpg
+    popisek: "Bronzové zrcadlo z Praeneste u Říma, asi 330–300 př. n. l."
+    autor: "neznámý umělec z Praeneste, asi 330–300 př. n. l. (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 41.160.406"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/253640"

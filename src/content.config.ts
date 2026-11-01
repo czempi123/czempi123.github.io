@@ -6,7 +6,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { Blok } from './lib/bloky-schema';
 import { Tyden } from './lib/tydny-schema';
-import { ObdobiStranka, Smer, Pokus, Uvod, Nabozenstvi } from './lib/stranky-schema';
+import { ObdobiStranka, Smer, Pokus, Uvod, Nabozenstvi, OdkazKamDal } from './lib/stranky-schema';
 
 const id = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const obdobi = z.number().int().min(1).max(8);
@@ -76,6 +76,11 @@ const otazky = defineCollection({
           .strict(),
       )
       .default([]),
+    /**
+     * Kam dál pod stránkou otázky: kroky, kapitoly a stránky, kde se o otázce v atlasu mluví. Hlavně pro otázky,
+     * ke kterým zatím nevede žádná cesta (otázky 2 a 8); cesty k otázce se ukazují samy.
+     */
+    kamDal: z.array(OdkazKamDal).max(4).default([]),
   }),
 });
 

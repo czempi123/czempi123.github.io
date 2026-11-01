@@ -1,7 +1,7 @@
 # Volba předem · stránka pokusu Gýgův prsten (/pokus/gyguv-prsten/), před příběhem o prstenu.
-# PROZATÍMNÍ TEXT (K1): otázku, možnosti a zpětné vazby napíše T1 se skillem atlas-psani.
 # Podklad: docs/podklady/antika-doplnky.md › e) Gygův prsten (volba předem: „Myslíš, že by většina lidí dělala totéž,
-# kdyby ji nikdo neviděl?“). Možnosti jsou autorské; žádná nedostane pokárání.
+# kdyby ji nikdo neviděl?“). Možnosti a zpětné vazby jsou autorské; žádná nedostane pokárání. Druhá možnost stojí
+# u názoru, který Glaukón předvádí (358e–359b), a zpětná vazba to studentovi řekne bez toho, aby ho zařadila.
 druh: volba
 obdobi: 1
 nadtitulek: Nejdřív ty
@@ -9,11 +9,11 @@ otazka: Myslíš, že by se většina lidí chovala stejně, kdyby ji nikdo nevi
 moznosti:
   - text: Ano, většina by se chovala stejně.
     tah: věřit, že lidé jsou slušní i bez svědků
-    zpetna: "Prozatímní text. Co tě vede k tomu, že slušnost nestojí na tom, kdo se dívá?"
+    zpetna: "Věříš, že slušnost u většiny lidí nestojí na tom, kdo se dívá. Glaukón by namítl, že to tvrdí každý, dokud prsten nemá. Podle čeho to u lidí kolem sebe poznáš?"
   - text: Ne, většina by si dovolila víc.
     tah: počítat s tím, že lidi drží hlavně strach
-    zpetna: "Prozatímní text. Kdyby to platilo, k čemu by lidé potřebovali spravedlnost, kterou nikdo nevidí?"
+    zpetna: "Stojíš blízko názoru, který Glaukón předvádí: slušnost drží strach z trestu. Jestli to platí, k čemu je spravedlnost, kterou nikdo nevidí? A platí to i pro tebe?"
   - text: Záleží na tom, o co by šlo.
     tah: hledat, kde je hranice
-    zpetna: "Prozatímní text. Kde by ta hranice u tebe ležela?"
+    zpetna: "Hledáš hranici: u drobnosti možná, u velké křivdy ne. Podle čeho ji člověk pozná, když se nikdo nedívá? A kde by ležela u tebe?"
 zdroje: [platon-ustava-perseus]

@@ -7,13 +7,13 @@ import AxeBuilder from '@axe-core/playwright';
 const STRANKY = [
   { adresa: '/obdobi/pocatky-a-klasicke-recko/', h1: 'Počátky a klasické Řecko', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
   { adresa: '/obdobi/helenismus-a-rim/', h1: 'Helenismus a Řím', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
-  { adresa: '/smer/stoicismus/', h1: 'Stoicismus', oddily: ['Založení', 'Tři myšlenky', 'Kdo u koho se učil', 'Spor'] },
-  { adresa: '/smer/epikureismus/', h1: 'Epikureismus', oddily: ['Založení', 'Tři myšlenky', 'Kdo u koho se učil', 'Spor'] },
-  { adresa: '/smer/kynismus/', h1: 'Kynismus', oddily: ['Založení', 'Tři myšlenky', 'Kdo u koho se učil', 'Spor'] },
-  { adresa: '/smer/akademie/', h1: 'Platónova Akademie', oddily: ['Založení', 'Tři myšlenky', 'Kdo u koho se učil', 'Spor'] },
+  { adresa: '/smer/stoicismus/', h1: 'Stoicismus', oddily: ['Ztroskotání a knihkupectví', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/epikureismus/', h1: 'Epikureismus', oddily: ['Škola za plotem', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/kynismus/', h1: 'Kynismus', oddily: ['Hůl a hlava', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/akademie/', h1: 'Platónova Akademie', oddily: ['Žák, který nesouhlasil', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
   { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten', oddily: ['Co řekli filozofové'] },
   { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času', oddily: ['Co řekli filozofové'] },
-  { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Pět cest k velkým otázkám', 'Deset velkých otázek'] },
+  { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
   { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Kde a kdy'] },
 ];
@@ -81,7 +81,8 @@ test('klávesnice: na každé nové stránce jde první odkaz v obsahu tabuláto
 
 test('stránka období: osa kotev z dat, otázky doby s cestami, mapa s odkazem do Mapy a času', async ({ page }) => {
   await page.goto('/obdobi/pocatky-a-klasicke-recko/');
-  await expect(page.locator('.osa-udalosti li')).toHaveCount(11);
+  await expect(page.locator('.osa-udalosti li')).toHaveCount(12);
+  await expect(page.locator('.osa-udalosti li').first()).toContainText('Zatmění Slunce nad bitvou u řeky Halys');
   await expect(page.locator('.osa-udalosti')).toContainText('Sókratův proces');
   await expect(page.locator('.jinde')).toContainText('Mezitím jinde');
   await expect(page.locator('#otazky-doby').getByRole('link', { name: /Cesta\s*Kdy mám dobrý důvod věřit\?/ })).toHaveAttribute('href', '/cesta/kdy-mam-dobry-duvod-verit/');

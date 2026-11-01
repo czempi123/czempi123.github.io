@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 1. 11. 2026: Antika-doplnky, krok T1 (texty filozofické části)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi po K1 nechal autor prázdné: pět odpovědí v Co je filozofie? jako seznam s Odkryj, vstup z Domů tichým řádkem, směr v hlavičce profilu zatím ne. Na stránky směrů proto vedou Kam dál profilů (Epikúros, Diogenés, Kratés a Hipparchia, Platón, Epiktétos, Marcus Aurelius, Seneca) | Prázdná odpověď znamená souhlas s doporučením |
+| Stránka otázky má nové pole `kamDal` (Kam dál pod Změnil se?); otázky 2 a 8 v něm vedou na pokus, kapitoly a směry, kde se o nich mluví | K otázkám 2 a 8 nevede žádná cesta a plán chtěl, aby stránky odkázaly na místa, kde téma v atlasu je; myšlenka hlasu odkazy neumí |
+| Cesta 6, krok 4: citát `seneca-ep-18-9` a věty o chlebu a vodě nahradil návrat k `menoikeus-130` z minulého kroku (bez druhého výskytu citátu) | Odpověď 8 po P6 chtěla `menoikeus-130`; stejný citát ve dvou sousedních krocích by student četl dvakrát za sebou (P6 to označil za slabinu) |
+| Thalés v datech: `kdo` a `proc` už neříkají „první filozof“ ani „místo mýtu“ | Aristotelés ho nazývá zakladatelem „tohoto druhu filozofie“ a sám váhá, jestli je voda jako počátek nová (podklady a, řádek 4) |
+| Theofrastos je Aristotelův žák (`ucitel`, Diogenés Laertios V, 36), přibyl vztah Chrýsippos → Karneadés (`vliv-textem`, IV, 62) | Odpověď 7 po P6; Dva životy u Theofrasta a Karneada teď ukážou učitele a čteného autora místo náhodného současníka |
+| Staženy čtyři obrázky z Metu (amfora, Chrýsippos, prsten s Hermem, zrcadlo); tetradrachma, hlava neznámého filozofa a soška Dia staženy nejsou | Autor povolil sedm (odpověď 10 po P6), ale jen čtyři mají na stránce scénu, ke které popisek sedí; zbylé tři by byly ozdoba |
+
 ## 1. 11. 2026: Antika-doplnky, krok K1 (šablony nových stránek)
 
 | Rozhodnutí | Důvod |

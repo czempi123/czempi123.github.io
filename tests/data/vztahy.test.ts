@@ -66,7 +66,9 @@ describe('spor na dálku', () => {
   it('Aristotelés se se Sókratem a Prótagorem přel na dálku, s Platónem tváří v tvář', () => {
     const jmena = (id: string, nazev: string) => skupinyVztahu(vztahyOsoby(id)).find((x) => x.nazev === nazev)?.lide.map((l) => l.druhy.id) ?? [];
     expect(jmena('aristoteles', 'S kým se přel na dálku')).toEqual(['sokrates', 'protagoras', 'herakleitos']);
-    expect(jmena('aristoteles', 'Znali se a přeli se')).toEqual(expect.arrayContaining(['platon', 'theofrastos', 'xenokrates']));
+    expect(jmena('aristoteles', 'Znali se a přeli se')).toEqual(expect.arrayContaining(['platon', 'xenokrates']));
+    // Theofrastos je od T1 větve antika-doplnky Aristotelův žák (Diogenés Laertios V, 36), ne jen známý.
+    expect(jmena('aristoteles', 'Žáci')).toContain('theofrastos');
     expect(jmena('aristoteles', 'Znali se a přeli se')).not.toContain('sokrates');
     expect(jmena('sokrates', 'Kdo se s ním přel později')).toEqual(['aristoteles']);
     expect(jmena('sokrates', 'Znali se a přeli se')).toContain('aristofanes');

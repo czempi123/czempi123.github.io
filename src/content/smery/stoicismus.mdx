@@ -2,11 +2,13 @@
 nazev: Stoicismus
 obdobi: [2]
 poradi: 10
-# PROZATÍMNÍ TEXT (K1): perex, založení, myšlenky a spor napíše T1 se skillem atlas-psani a atlas-osobnost.
-# Podklad: docs/podklady/antika-doplnky.md › c) Stoicismus (Diogenés Laertios VII, 2–3; spor o politiku VII, 121 a X, 119).
-perex: Škola, která učila rozlišit, co je v naší moci a co ne. Začala ztroskotáním a knihkupectvím a dostala se až na císařský trůn.
+# Podklad: docs/podklady/antika-doplnky.md › c) Stoicismus (Diogenés Laertios VII, 2–3 a 183; SEP „Stoicism“ 4.1;
+# spor o politiku DL VII, 121 a X, 119; spor o osud se vztahem karneades → chrysippos z dat). Hlava Chrýsippa:
+# Met 251787 (CC0), stažená v T1.
+perex: Jak žít s věcmi, které neovládáš? Stoikové učili rozlišit, co je v tvé moci a co ne, a v Římě tu radu bral vážně otrok stejně jako císař. Celé to začalo ztroskotanou lodí.
 zakladatel: zenon-z-kitia
 ---
+import { Pribeh } from '../../components/bloky';
 import Oddil from '../../components/stranka/Oddil.astro';
 import Rodokmen from '../../components/stranka/Rodokmen.astro';
 import Myslenky from '../../components/osobnost/Myslenky.astro';
@@ -14,11 +16,14 @@ import Myslenka from '../../components/osobnost/Myslenka.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
 import TydenOdkaz from '../../components/tyden/TydenOdkaz.astro';
 
-{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
-
 <Oddil kotva="zalozeni" nazev="Založení">
+  <Fragment slot="titulek">Ztroskotání a <em>knihkupectví</em></Fragment>
 
-Vypráví se, že Zénón z Kitia ztroskotal s nákladem purpuru a v Athénách si sedl do knihkupectví. Četl o Sókratovi a zeptal se, kde se takoví lidé najdou. Zrovna šel kolem Kratés. Knihkupec ukázal a řekl: „Jdi za tím mužem.“
+Vypráví se, že kupec Zénón z Kitia na Kypru plul do Athén s nákladem purpuru a ztroskotal. Bylo mu tehdy asi třicet. V Athénách si sedl ke knihkupci a četl si knihu o Sókratovi. Tak se mu líbila, že se zeptal, kde by dnes našel takové lidi.
+
+Kolem zrovna šel kynik Kratés. Knihkupec na něj ukázal, ať jde za ním. Zénón šel a učil se u kyniků žít s málem a nestydět se. Jak ho Kratés stydlivosti odnaučoval, vypráví [profil Kratéta a Hipparchie](/osobnost/krates-a-hipparchia/#hrnec-polevky).
+
+Ke kynikům se ale nehodil, na jejich život byl moc stydlivý. Později začal učit sám a z jeho školy vyrostl stoicismus.
 
 </Oddil>
 
@@ -26,28 +31,41 @@ Vypráví se, že Zénón z Kitia ztroskotal s nákladem purpuru a v Athénách 
   <Myslenka cislo={1} disciplina="Etika">
     <Fragment slot="titulek">Rozliš, co je v tvé <em>moci.</em></Fragment>
 
-Prozatímní text. Něco je v naší moci a něco ne; klid začíná tím, že to rozlišíme.
+Nemoc, počasí, pověst, co si o tobě myslí ostatní: nic z toho neovládáš. Ovládáš to, jak o tom soudíš a co se rozhodneš udělat. Kdo se trápí tím prvním, je podle stoiků otrokem všeho, co se může pokazit. Nejpřesněji to řekl bývalý otrok Epiktétos a vyzkoušet si to můžeš v cestě [Co mám ve svých rukou?](/cesta/co-mam-ve-svych-rukou/)
 
   </Myslenka>
   <Myslenka cislo={2} disciplina="Etika">
-    <Fragment slot="titulek">Jediné dobro je <em>ctnost.</em></Fragment>
+    <Fragment slot="titulek">Dobré je jen to, jak <em>naložíš.</em></Fragment>
 
-Prozatímní text. Zdraví a bohatství nejsou dobro ani zlo; dá se jim jen dát přednost.
+Zdraví, peníze a úspěch nejsou podle stoiků dobro ani zlo. Dá se jim dát přednost před nemocí a chudobou, ale nikoho z nich neudělají dobrým člověkem. Dobré je jen to, jak s nimi naložíš: statečně, spravedlivě a s rozumem. Stoikové tomu říkali ctnost. Zdravý být chtěli, jen na tom nestavěli své štěstí.
 
   </Myslenka>
-  <Myslenka cislo={3} disciplina="Metafyzika">
-    <Fragment slot="titulek">Žij v souladu s <em>rozumem.</em></Fragment>
+  <Myslenka cislo={3} disciplina="Etika">
+    <Fragment slot="titulek">Žij v <em>souladu.</em></Fragment>
 
-Prozatímní text. I v tom, co je těžké, má svět řád, kterému se dá rozumět.
+Zénón řekl, že cílem života je žít v souladu: podle jednoho rozumu, který se sám se sebou nepře. Kdo žije v rozporu, je nešťastný. Jeho žák Kleanthés dodal, že v souladu s přírodou. Svět má podle stoiků řád a i to, co bolí, k němu patří.
+
+*Jde něco takového přijmout, aniž by člověk rezignoval?*
 
   </Myslenka>
 </Myslenky>
 
+<Pribeh id="druhy-zakladatel" osoba="chrysippos" obrazek="chrysippos-met" pomer="4 / 5" nadtitulek="Athény" titulek="Bez Chrýsippa by nebyla *Stoa*" popisek="Chrýsippos, jak ho viděl římský sochař v 1. století n. l.">
+
+Kleanthův žák Chrýsippos byl pro stoiky tak důležitý, že se o něm říkalo, že kdyby nebylo Chrýsippa, nebylo by ani Stoy, jak se škole říkalo.
+
+Jeho knihy ale četl i protivník. Karneadés z Platónovy Akademie je studoval tak důkladně, že se proslavil jejich vyvracením. A sám prý o sobě říkal, že kdyby nebylo Chrýsippa, nebyl by ani on.
+
+</Pribeh>
+
 <Rodokmen smer={props.smer} />
 
 <Oddil kotva="spor" nazev="Spor">
+  <Fragment slot="titulek">S kým se <em>přeli</em></Fragment>
 
-Prozatímní text. Stoikové tvrdili, že moudrý se bude podílet na veřejných věcech, pokud mu nic nebrání. Epikúros říkal opak.
+Má se moudrý člověk starat o obec? Stoikové říkali, že ano, pokud mu v tom nic nebrání: kdo se podílí na správě obce, brzdí špatné a pomáhá dobrému. Epikúros radil opak. Moudrý podle něj do politiky nepůjde a bude žít stranou, mezi přáteli. Na čí straně jsi ty, můžeš zkusit na stránce otázky [Jak spolu máme žít?](/otazka/jak-spolu-mame-zit/)
+
+S Akademií se stoikové přeli o osud. Chrýsippos učil, že všechno má svou příčinu. Karneadés se ptal, co potom ještě zbývá v naší moci, když je všechno dané tím, co bylo předtím. Stejná otázka stojí na začátku velké otázky [Jsem svobodný?](/otazka/jsem-svobodny/)
 
 </Oddil>
 
@@ -56,5 +74,6 @@ Prozatímní text. Stoikové tvrdili, že moudrý se bude podílet na veřejnýc
 <KamDal odkazy={[
   { href: '/osobnost/epiktetos/', nadtitulek: 'Portrét', text: 'Epiktétos' },
   { href: '/osobnost/marcus-aurelius/', nadtitulek: 'Portrét', text: 'Marcus Aurelius' },
+  { href: '/osobnost/seneca/', nadtitulek: 'Portrét', text: 'Seneca' },
   { href: '/cesta/co-mam-ve-svych-rukou/', nadtitulek: 'Cesta', text: 'Co mám ve svých rukou?' },
 ]} />

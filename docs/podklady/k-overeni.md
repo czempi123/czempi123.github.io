@@ -827,9 +827,9 @@ Podklady: `docs/podklady/antika-doplnky.md`. Číst a použít jen to, co je v t
 
 | Co | Stav | Co dál |
 | --- | --- | --- |
-| Hésiodos, Theogonie: čísla veršů o kyklopech a o Diovi s bleskem (139–141, 71–72) | Text čten anglicky (Evelyn-White), čísla veršů z paměti | T1 ověří v řeckém souboru `tlg0020.tlg001.perseus-grc2.xml` |
+| Hésiodos, Theogonie: čísla veršů o kyklopech a o Diovi s bleskem (139–141, 71–72) | Text čten anglicky (Evelyn-White), čísla veršů z paměti | **Ověřeno v T1** (1. 11. 2026) v souboru `tlg0020.tlg001.perseus-eng2.xml`: kyklopové „dali Diovi hrom a vyrobili blesk“, v. 139–141 |
 | Žalm 29 (náboženství v pokusu „Proč hřmí?“) | Český text nečten | P6N dodá v podkladech k judaismu; jeden překlad pro obě stránky |
-| Beethoven, 6. symfonie, 4. věta „Bouře“ (umění v pokusu) | Nečteno | T1 ověří (Beethoven-Haus Bonn nebo Britannica), nebo vymění |
+| Beethoven, 6. symfonie, 4. věta „Bouře“ (umění v pokusu) | Nečteno | **Ověřeno v T1**: Britannica „Symphony No. 6 in F Major“ (premiéra ve Vídni 22. 12. 1808) a programová poznámka Berlínské filharmonie (4. věta Gewitter, Sturm; 5. věta Hirtengesang, díky po bouři) |
 | Aëtios III, 3, 1–2 (Anaximandros: hrom z větru uvězněného v mraku) | Nečteno; IEP říká jen o blesku jako záblesku na tmavém mraku | Použít jen IEP, nebo přečíst Aëtia/Diels A 23 |
 | Plútarchos, Cato Starší 22 (Cato žádá odeslání filozofů) | Nečteno | Nepoužít; kdyby ano, přečíst |
 | Cicero, O státě III (Karneadovy řeči o spravedlnosti) | Nečteno; SEP říká, že všechny prameny o řečích jsou pozdní a pochybné | Jen „Vypráví se, že…“ |
@@ -838,7 +838,7 @@ Podklady: `docs/podklady/antika-doplnky.md`. Číst a použít jen to, co je v t
 | Rok založení Akademie (asi 387 př. n. l.) | SEP „Plato“ otevřen, rok nenalezen; Britannica nečtena | Nepoužít, dokud se neověří |
 | Rok zatmění u Halyu (28. 5. 585 př. n. l.), NASA (F. Espenak) | Většinový výklad podle Wikipedie, Summerse a Leloux (Polemos 19/2); NASA neotevřena | V datech `priblizne`, ve studentském textu „asi 585“ |
 | Kleisthenovy reformy, Alexandrijská knihovna, dobytí Řecka Římem (146), zavření athénských škol (529) jako kotvy | Nečteno | Nepřidávat bez ověření (Britannica, Pleiades, Malalas, Agathias) |
-| Řecké znění nových citátů: Metafyzika I, 3 (983b20), Metafyzika I, 2 (982b17–19), Theaitetos 155d, Kritón 49e, Hlavní myšlenky 31–37 | Anglicky čteno; řecky nevytaženo | T1 vytáhne ze souborů `tlg0086.tlg025`, `tlg0059.tlg006`, `tlg0059.tlg003`, `tlg0004.tlg001` (Perseus) |
+| Řecké znění nových citátů: Metafyzika I, 3 (983b20), Metafyzika I, 2 (982b17–19), Theaitetos 155d, Kritón 49e, Hlavní myšlenky 31–37 | Anglicky čteno; řecky nevytaženo | **Hotovo v T1**: řecké znění vytaženo z PerseusDL a zapsáno v `zdroje.yaml` (i u Obrany 19c, Oblak 225, Ústavy 612b, Diogena Laertia VI, 21). Původně: T1 vytáhne ze souborů `tlg0086.tlg025`, `tlg0059.tlg006`, `tlg0059.tlg003`, `tlg0004.tlg001` (Perseus) |
 | Diogenés Laertios VII, 121 (stoik a politika): číslo oddílu | Text čten, číslo z paměti | T1 ověří číslování u Hicksova textu |
 | Obrana 20e–21a (Chairefón, přítel od mládí; Kritón) | Zdroj `platon-obrana` už v datech, nově nečteno | Beze změny |
 | Epikúrův dopis Polyainovi (zdroj Senekovy věty o hladových dnech) | Nečteno | Věta se z cesty 6 vyřazuje (podklady f) |

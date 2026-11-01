@@ -2,6 +2,8 @@
 # osoby = lidé z lide.yaml, kterých se událost týká (karta člověka na mapě ji ukáže v jejich životě).
 
 # Období 1
+# Halys: rok 585 je většinový výklad zatmění (28. 5. 585 př. n. l.); Thalés ho podle Hérodota předpověděl (podklady antika-doplnky, b).
+- { id: halys-zatmeni, nazev: Zatmění Slunce nad bitvou u řeky Halys, od: -585, obdobi: [1], druh: kotva, zdroj: herodotos-i-74 }
 - { id: perske-valky, nazev: Řecko-perské války, od: -492, do: -449, obdobi: [1], druh: kotva, zdroj: britannica-greco-persian-wars }
 - { id: marathon, nazev: Bitva u Marathónu, od: -490, obdobi: [1], druh: kotva, zdroj: britannica-greco-persian-wars }
 - { id: salamina, nazev: Bitva u Salamíny, od: -480, obdobi: [1], druh: kotva, zdroj: britannica-greco-persian-wars }

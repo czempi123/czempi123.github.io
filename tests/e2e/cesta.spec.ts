@@ -338,7 +338,8 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await dalKlavesnici(page, bunda, 'Žít jako kynik?', `${CESTA6}4/`);
 
   // Krok 4: Spor Epikúros × kynici; strana se jmenuje kynici, ne Diogenés.
-  await expect(page.locator('.krok__obsah > .ctenarsky .citat')).toHaveCount(4);
+  // Od T1 větve antika-doplnky bez Senekovy věty o hladových dnech: tři citáty (Epikúros, dvakrát Diogenés).
+  await expect(page.locator('.krok__obsah > .ctenarsky .citat')).toHaveCount(3);
   const spor = page.locator('#cesta6-kynici-spor');
   await expect(spor).toContainText('S Diogenem samotným se Epikúros nejspíš nikdy nepotkal');
   await expect(spor.locator('.skala__konce').first()).toHaveText(/Kynici\s*Epikúros/);
@@ -451,7 +452,7 @@ test('cesta 6 bez odkrytí bloků: lišta vede až na konec a text mimo bloky dr
     ['Hrnek sýra. Tak vypadala hostina muže, který učil, že cílem je slast.'],
     ['Všechno, po čem člověk touží, třídil do tří košů.', 'těm říkal prázdné.'],
     ['bolí, když touhu nesplníš?', 'Slast podle něj nemůže růst donekonečna.', 'Hrnek sýra si tedy podle něj dopřát smíš.'],
-    ['Moudrý nebude žít jako kynik ani žebrat.', 'Kynik i Epikúros tedy jedli chléb a pili vodu.', 'S Diogenem samotným se Epikúros nejspíš nikdy nepotkal'],
+    ['Moudrý nebude žít jako kynik ani žebrat.', 'Na pohled tedy kynik i Epikúros žili podobně.', 'S Diogenem samotným se Epikúros nejspíš nikdy nepotkal'],
     ['měsíc na minimum', 'každý pátek scházíš s kamarády na pizzu'],
     ['Epikúros tvrdil, že strop má i bohatství', 'U většiny lidí nálada s příjmem roste dál.', 'Komu je málo to, co stačí, tomu nestačí nic.'],
     ['Oba chtěli totéž: aby je osud nezaskočil.', 'Souhlasit s nimi nemusíš.', 'Bez které věci z koše „Těší mě“ bys teď uměl být?'],
