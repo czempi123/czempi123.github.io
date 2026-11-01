@@ -8,8 +8,8 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | --- | --- | --- | --- |
 | P6 | Podklady k filozofii: Co je filozofie?, období 1 a 2, čtyři směry, hlasy otázek 2 a 8, oba pokusy, náhrada `seneca-ep-18-9`, pět vztahů | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 1. 11. 2026 (`docs/podklady/antika-doplnky.md`); čeká na odpovědi po P6 |
 | P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | hotovo 1. 11. 2026 (`docs/podklady/nabozenstvi-uvod.md`); čeká na odpovědi po P6N |
-| K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); čeká na odpovědi po K1 |
-| T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | čeká |
+| K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); odpovědi po K1 prázdné (souhlas) |
+| T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | hotovo 1. 11. 2026; čeká na odpovědi po T1 |
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | čeká |
 | K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
@@ -250,6 +250,41 @@ Prázdná odpověď znamená souhlas s doporučením.
 2. **Vstup na Co je filozofie? a Co je náboženství? z Domů** jako tichý řádek pod třemi vstupy, ne čtvrtá karta. Doporučuji.
    Odpověď:
 3. **Směr v hlavičce profilu:** zatím ne; na směr vedou Lidé a směry, medailonky, stránka období a Kam dál v textech T1. Doporučuji; alternativa je odkaz za „období N“ v řádku pod jménem (krátká úprava šablony v T1).
+   Odpověď:
+
+## Po T1 (1. 11. 2026)
+
+Všechny texty filozofické části větve jsou napsané a značky `PROZATÍMNÍ TEXT (K1)` z nich zmizely (zůstaly jen u náboženství pro T2). Každý text prošel skillem `atlas-psani`; úvody nových stránek jsem porovnal mezi sebou a s hotovými stránkami otázek a přepsal ty, které začínaly stejně („Škola, která…“, „Uvidíš…“). Snímky listů na 390 px jsou v `Claude outputs/snimky/t1/`. Nic jsem neposlal na GitHub.
+
+**Hotové:**
+- **Co je filozofie?** Thalés u studny a s lisy na olivy (Platón, Aristotelés), voda jako počátek (Metafyzika I, 3), údiv jako počátek filozofie (Theaitétos 155d), pět odpovědí na Proč hřmí? bez štítků (Hésiodos, Žalm 29, Anaximandros, NOAA, Beethoven) a Odkryj „Odkud jsou“ s rozlišením mýtu, náboženství, filozofie, vědy a umění, oddíl Čím je filozofie jiná (Metafyzika I, 2) a deset otázek.
+- **Období 1 a 2:** scéna Filozof v koši (Oblaka 225 a Obrana 19c, s amforou), scéna Tři filozofové v senátu (Gellius VI, 14), odstavce k otázkám doby včetně nových otázek 2 a 8, Mezitím jinde.
+- **Čtyři směry:** založení s vlastním titulkem (Zénón a knihkupec, Zahrada, Antisthenova hůl s citátem Diogenés Laertios VI, 21, Aristotelés v Akademii), tři myšlenky s odkazem na cestu nebo pokus, kde se dají vyzkoušet, u stoicismu příběh Chrýsippa s hlavou z Metu, spor, Zkus to žít (Večer s přítelem, Den bez „protože se to čeká“, Jeden sokratovský rozhovor; u stoicismu týden). Na směry vedou nově Kam dál sedmi profilů a portrétů.
+- **Pokusy:** Gýgův prsten (scéna s prstenem z Metu, Volba předem se zpětnými vazbami, hlasy Platóna s Ústavou X, 612b a Epikúra s Hlavní myšlenkou 35 i nejsilnější námitkou proti němu); Zrcadlo času (rok 1969 místo cestovního 1914, věta o bolesti blízkých na téže obrazovce jako argument, Nagelova námitka, řádek pomoci, hlasy Epikúra a Seneky).
+- **Otázky 2 a 8:** případ Mobil přes noc a otázka Kdo má rozhodovat, když se třída nemůže shodnout?, každá se šesti hlasy (Prótagorás, Sókratés nebo Diogenés, Platón, Aristotelés, Epikúros, Marcus Aurelius) a Kam dál. Stránka otázky má kvůli tomu nové pole `kamDal` (jediná změna šablony v T1, `src/pages/otazka/[otazka].astro`).
+- **Cesta 6, krok 4:** citát `seneca-ep-18-9` a věty o chlebu a vodě nahradil návrat k Dopisu Menoikeovi 130 z minulého kroku; citát se podruhé necituje.
+- **Data:** 17 nových citátů s řeckým zněním z PerseusDL, 8 nových pramenů, kotva Zatmění Slunce nad bitvou u řeky Halys (−585), Theofrastos jako Aristotelův žák (Diogenés Laertios V, 36), Chrýsippos → Karneadés `vliv-textem` (IV, 62), u Thaléta nové `kdo` a `proc` (bez „prvního filozofa“ a „místo mýtu“), u Theofrasta `kdo` bez „spolupracovníka“.
+- **Obrázky:** čtyři z Metu (CC0): amfora s běžci, hlava Chrýsippa, zlatý prsten s Hermem, bronzové zrcadlo. Originály v `~/Pictures/Atlas-originaly/`, v repozitáři zmenšené na 1280 px.
+- **Dvojice:** Dva životy u Theofrasta Aristotelés [učitel] místo Kratéta [současník], u Karneada Chrýsippos [četl] místo [současník]. Kdo žil dřív? beze změny, žádné id bloku ani zastavení v hodinách se nezměnilo.
+- **Testy:** upravené přesné seznamy (vstupy v hlavičkách Sókrata, Platóna, Epikúra a Diogena, přehled otázek, Kam dál Platóna a Seneky, Doba a lidé Aristotela, osa období 1, nadpisy oddílů nových stránek, věta kroku 4 cesty 6, osm skupin hlasů v Přípravě hodiny, Kam dál Epiktéta a Marca), nový test otázek 2 a 8, obě otázky v prohlídce. Celé `npm test` jsem pustil jednou; padly tři testy s přesnými seznamy (počet citátů v kroku 4 cesty 6, skupiny hlasů v Přípravě hodiny, odkazy Kam dál u Epiktéta a Marca), po úpravě prošly. `scripts/hodiny-katalog.mjs` proti `dist/`: 0 chyb.
+
+**Nad čím jsem váhal:**
+- **Menoikeus 130 podruhé.** Odpověď 8 chtěla citát vyměnit za `menoikeus-130`. Ten ale stojí o krok dřív, a tak krok 4 na něj jen odkáže („Viděl jsi to v minulém kroku“) a citát nezopakuje. Přehled cesty a krok 7 dál říkají, že kynik i Epikúros jedli chléb a pili vodu: mluví o tom, jak žili, ne o cvičení v hladu, proto jsem je nechal.
+- **Anaximandros odpovídá o blesku**, ne o hromu: IEP má jen záblesk na tmavém mraku a zprávu Aëtia o hromu z větru P6 nečetl. Mezi pěti odpověďmi je to vidět; nechal jsem to, protože odpověď je doložená a o bouři celé je.
+- **Hlas Platóna u Gýgova prstenu** částečně opakuje Co by na to řekli v bloku; odlišuje ho citát z Ústavy X, 612b, který blok jen převypráví.
+- **Směry bez Mého stanoviska.** Skill chce u myšlenky vlastní pokus; směr je ale rozcestník a každá jeho myšlenka vede na cestu, pokus nebo kapitolu, kde student odpovídá. Ke každému směru je Zkus to žít.
+- **Mobil přes noc** zní „pohádal s přítelkyní“; nechtěl jsem do případu přidávat lomítka ani obecné „s někým“, které by případ oslabilo.
+- **Období 2 bez obrázku.** Tetradrachma Alexandra ke scéně v římském senátu nesedí; Pribeh má ornament a minci Karneada.
+
+### Co rozhodnout po T1
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Kotva Halys bez „asi“:** osa období 1 ukáže „585 př. n. l.“, protože událost v datech přibližný rok neumí. Doporučuji nechat (rok je většinový výklad a jde o dějinnou kotvu, ne o tvrzení v textu); alternativa je pole `priblizne` u událostí a „asi“ na ose (malá změna schématu a komponenty).
+   Odpověď:
+2. **Tři povolené obrázky nestažené** (tetradrachma Alexandra, hlava neznámého filozofa, soška Dia nebo Poseidóna): žádná stránka pro ně nemá scénu, ke které by popisek seděl. Doporučuji nestahovat.
+   Odpověď:
+3. **Hlavička Aristotela má osm tlačítek otázek** (Epikúros sedm, Platón pět). Na telefonu stojí pod deskou, takže první obrazovka (jméno, cesta, deska) se nezměnila, jen první odstavec textu je níž. Doporučuji nechat a řešit souhrnně v plánované úpravě designu nebo v `interaktivita-v2`.
    Odpověď:
 
 ## Zadání P6
