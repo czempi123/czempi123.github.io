@@ -1,6 +1,7 @@
 ---
 // Seznam náboženských tradic na stránce Co je náboženství? (/nabozenstvi/): karta pro každou tradici z kolekce
-// nabozenstvi podle pole `poradi`. Nová tradice se tu objeví sama. Použití v MDX: <SeznamTradic />
+// nabozenstvi podle pole `poradi`. Nová tradice se tu objeví sama. Použití v MDX: <SeznamTradic />, nebo s krátkým
+// textem nad kartami: <SeznamTradic>Odstavec…</SeznamTradic>
 import { getCollection } from 'astro:content';
 import Ikona from '../ui/Ikona.astro';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -10,6 +11,7 @@ const tradice = (await getCollection('nabozenstvi')).sort((a, b) => a.data.porad
 {tradice.length > 0 && (
   <section class="tradice" id="tradice" aria-labelledby="tradice-nadpis" data-oddil="Tradice">
     <h2 class="t-h2 tradice__nadpis ctenarsky" id="tradice-nadpis" tabindex="-1">Tradice</h2>
+    {Astro.slots.has('default') && <div class="tradice__text ctenarsky"><slot /></div>}
     <ul>
       {tradice.map((t) => (
         <li class={`obdobi-${t.data.obdobi[0]}`}>
@@ -28,6 +30,8 @@ const tradice = (await getCollection('nabozenstvi')).sort((a, b) => a.data.porad
 <style>
   .tradice { margin: var(--s-9) 0 var(--s-7); }
   .tradice__nadpis { margin: 0 auto var(--s-5); }
+  .tradice__text { margin: 0 auto var(--s-5); }
+  .tradice__text :global(p) { margin: 0 0 var(--s-4); }
   .tradice__nadpis:focus { outline: none; }
   .tradice__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   ul { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }

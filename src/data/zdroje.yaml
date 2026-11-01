@@ -31,7 +31,7 @@ prameny:
   - { id: sep-lucretius, druh: encyklopedie, nazev: "Lucretius", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/lucretius/", overeno: 2026-09-29, poznamka: "8. 10. 2026 (celek 6), četl nástroj WebFetch (heslo S. Trépaniera, 2023): žil od poloviny 90. do poloviny 50. let př. n. l.; o životě se neví skoro nic; Hieronymova historka o nápoji lásky a šílenství je nevěrohodná." }
   - { id: sep-plotinus, druh: encyklopedie, nazev: "Plotinus", autor: "Paul Kalligas", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/plotinus/", overeno: 2026-09-29, poznamka: "17. 10. 2026 (medailonky M3), četl jsem text hesla: rodák z Egypta, narozen asi 204 (vyvozeno z Porfyria); ve dvaceti osmi letech přišel k Ammoniovi Sakkovi do Alexandrie, 243 šel s tažením Gordiána III., od konce 244 v Římě, učil přes pětadvacet let do smrti 270; Platónova postava ovládá jeho myšlení a je hlavním zdrojem inspirace." }
   - { id: sep-carneades, druh: encyklopedie, nazev: "Carneades", autor: "James Allen", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/carneades/", overeno: 2026-09-29, poznamka: "17. 10. 2026 (medailonky M3), četl jsem text hesla: 214–129/8 př. n. l., rodák z Kyrény, studoval v Athénách, scholarchou Akademie před rokem 155, tehdy vyslán do Říma; dvě římské přednášky o spravedlnosti jsou jen tradice (pozdní prameny, pochybnosti); Cicerův spis O státě III může zachovat stopy jeho řeči proti spravedlnosti." }
-  - { id: sep-philo, druh: encyklopedie, nazev: "Philo of Alexandria", autor: "Carlos Lévy", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/philo/", overeno: 2026-09-29, poznamka: "17. 10. 2026 (medailonky M3), četl jsem text hesla: žil v Alexandrii, účastnil se vyslanectví k Caligulovi po nepokojích roku 38; velmi obdivoval Platóna, Timaios je v jeho spisu O stvoření světa „masivně“ přítomen (Runia 2001). Heslo píše o první polovině 1. století př. n. l., nejspíš překlep; roky v atlasu jsou z Britannicy." }
+  - { id: sep-philo, druh: encyklopedie, nazev: "Philo of Alexandria", autor: "Carlos Lévy", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/philo/", overeno: 2026-09-29, poznamka: "17. 10. 2026 (medailonky M3), četl jsem text hesla: žil v Alexandrii, účastnil se vyslanectví k Caligulovi po nepokojích roku 38; velmi obdivoval Platóna, Timaios je v jeho spisu O stvoření světa „masivně“ přítomen (Runia 2001). Heslo píše o první polovině 1. století př. n. l., nejspíš překlep; roky v atlasu jsou z Britannicy. 1. 11. 2026 (P6N): oddíl 4.1 Alegorie: jeho jméno je skoro synonymum alegorie; v Alexandrii nejspíš Židé, kteří vykládali Bibli, jako stoikové vykládali Homéra; Septuaginta asi 270 př. n. l." }
   - { id: sep-protagoras, druh: encyklopedie, nazev: "Protagoras", autor: "Mauro Bonazzi", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/protagoras/", overeno: 2026-10-01, poznamka: "Abdéra, asi 490 – asi 420 (Menón 91e), nejméně dvě návštěvy Athén, Thurioi 444 z pověření Perikla; proces, pálení knih a utonutí „velmi pochybné“; B1, B4 (delší znění podle Eusebia), velká řeč 320c–322d." }
   - { id: sep-sophists, druh: encyklopedie, nazev: "The Sophists", autor: "Mi-Kyoung Lee, C. C. W. Taylor", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/sophists/", overeno: 2026-10-01, poznamka: "Úvod: profesionální učitelé, kteří cestovali po řeckém světě a učili hlavně umění veřejně mluvit a úspěšně vést život." }
 
@@ -397,6 +397,17 @@ prameny:
   - { id: durkheim-formy, druh: pramen, nazev: "The Elementary Forms of the Religious Life", autor: "Émile Durkheim (přel. J. W. Swain)", dilo: "Project Gutenberg č. 41360", url: "https://www.gutenberg.org/ebooks/41360", overeno: 2026-11-01, poznamka: "Les formes élémentaires de la vie religieuse (1912), anglicky 1915. Úvod § 1 (nepravdivá náboženství nejsou); I, 1, § 2–4 (buddhismus, posvátné a profánní, magie bez církve, definice); II, 7 (bůh klanu je klan); Závěr (námitka o jednom případu). Česky Oikoymenh 2002, nečteno." }
   - { id: britannica-johanan, druh: encyklopedie, nazev: "Johanan ben Zakkai", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/biography/Johanan-ben-Zakkai", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch. Zboření chrámu 70 n. l.; zakladatel akademie a rabínského sboru v Jamnii; rozhodující vliv na pokračování judaismu. Útěk z Jeruzaléma heslo nezmiňuje." }
   - { id: britannica-babylonian-exile, druh: encyklopedie, nazev: "Babylonian Exile", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/event/Babylonian-Exile", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch (zkrácený výtah). Deportace 598/7 a 587/6 př. n. l.; konec 538 př. n. l. za Kýra." }
+  # Větev antika-doplnky, krok T2 (1. 11. 2026): Co je náboženství? a judaismus.
+  - { id: otto-heilige, druh: pramen, nazev: "Das Heilige", autor: "Rudolf Otto", dilo: "13. vydání, Gotha 1925 (archive.org)", url: "https://archive.org/details/dasheiligeuberda00otto", overeno: 2026-11-01, poznamka: "1. vyd. 1917. Kap. 2 numinózní; kap. 3 výzva čtenáři (s. 8); kap. 4 mysterium tremendum; kap. 6 fascinans. Česky Posvátno, Vyšehrad 1998, nečteno." }
+  - { id: britannica-eliade, druh: encyklopedie, nazev: "Mircea Eliade", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/biography/Mircea-Eliade", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch. Hierofanie, homo religiosus; kritika: subjektivní a nevědecké, zkreslení dějinných náboženství. Fašistická minulost do atlasu nepatří (P6N, odpověď 2)." }
+  - { id: met-heroon, druh: data, nazev: "Marble votive relief dedicated to a hero (57.42)", dilo: "The Metropolitan Museum of Art, New York", url: "https://www.metmuseum.org/art/collection/search/254966", overeno: 2026-11-01, poznamka: "Popiska muzea (četl nástroj WebFetch): hérós je mrtvý, který může ze svého hrobu působit dobro i zlo a čeká náležitou úctu; hrob ohrazený jako posvátný okrsek (heróon); oběti zvířat, jídla a úlitby, hostina živých s mrtvým hrdinou; uctívači jsou na reliéfu menší." }
+  - { id: britannica-torah, druh: encyklopedie, nazev: "Torah", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/topic/Torah", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch. Boží zjevené učení a vedení pro lidi; v užším smyslu prvních pět knih hebrejské Bible, tradičně připisovaných Mojžíšovi; psaná Tóra na ručně psaných pergamenových svitcích ve všech synagogách; pro některé Židy patří ústní tradice ke zjevení Mojžíšovi." }
+  - { id: sefaria-talmud, druh: pramen, nazev: "Babylonský talmud (William Davidson Edition)", dilo: Sefaria, url: "https://www.sefaria.org/Shabbat.31a", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch přes API (P6N). Šabat 31a (Hillel a pohan na jedné noze); Gitin 56a–b (Jochanan ben Zakkaj vynesen z Jeruzaléma jako mrtvý, Javne a jeho mudrci; rakev text nezmiňuje)." }
+  - { id: sefaria-avot, druh: pramen, nazev: "Mišna, Avot", dilo: "Sefaria (angl. J. Kulp, Mishnah Yomit; hebr. Torat Emet)", url: "https://www.sefaria.org/Pirkei_Avot.1", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch přes API (P6N). 1, 1 (řetěz tradice); 1, 2 (Šimon Spravedlivý); 1, 14 (Hillel); 2, 16 (Tarfon)." }
+  - { id: britannica-mishna, druh: encyklopedie, nazev: "Mishna", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/topic/Mishna", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch (P6N). Nejstarší autoritativní sbírka ústního práva; uzavřel Jehuda ha-Nasi na počátku 3. století; Mišna a Gemara dávají Talmud." }
+  - { id: ushmm-holocaust, druh: encyklopedie, nazev: "Introduction to the Holocaust", dilo: "United States Holocaust Memorial Museum, Holocaust Encyclopedia", url: "https://encyclopedia.ushmm.org/content/en/article/introduction-to-the-holocaust", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch (P6N). Šest milionů evropských Židů, nacistický režim, jeho spojenci a kolaboranti, 1933–1945; šoa = hebrejsky katastrofa." }
+  - { id: sep-maimonides, druh: encyklopedie, nazev: "Maimonides", autor: "Kenneth Seeskin", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/maimonides/", overeno: 2026-11-01, poznamka: "Córdoba 1138, Egypt 1166; Průvodce zbloudilých 1190 jako dopis studentovi, který neví, jestli následovat filozofii, nebo učení svého náboženství; zemřel 1204." }
+  - { id: sep-buber, druh: encyklopedie, nazev: "Martin Buber", autor: "Michael Zank", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/buber/", overeno: 2026-11-01, poznamka: "Já a Ty (1923): Já–Ty a Já–Ono, setkání proti užívání, vztah i k Božímu Ty." }
   # Větev antika-doplnky, krok T1 (1. 11. 2026). Řecké texty čteny v PerseusDL (staženy na Mac mimo repozitář),
   # rozbor v docs/podklady/antika-doplnky.md.
   - { id: aristoteles-metafyzika-i, druh: pramen, nazev: "Metafyzika I, 2–3", autor: Aristotelés, dilo: "Metaphysica, řecky W. D. Ross, angl. H. Tredennick (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg025/tlg0086.tlg025.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Kdo žasne a neví si rady, má za to, že neví, proto je i milovník mýtů svým způsobem filozof (982b12–19). Thalés, zakladatel tohoto druhu filozofie, říká, že počátkem je voda, a země prý plave na vodě; důvod snad (ísós) pozorování, že výživa všeho je vlhká a semena mají vlhkou přirozenost (983b6–27); básníci a Ókeanos, Aristotelés neví, jestli je to mínění staré (983b27–984a3)." }
@@ -4186,6 +4197,94 @@ citaty:
       druh: vlastni
       podle: "anglický překlad J. W. Swaina (1915); francouzský originál nečten"
     zdroj: durkheim-formy
+  # Větev antika-doplnky, krok T2 (1. 11. 2026): Co je náboženství? a judaismus. Bible v ČEP (obohu.cz, čteno znovu
+  # v T2: Ex 19, Dt 6, Ž 137), Mišna a Talmud ve vlastním převodu podle Sefarie (docs/podklady/nabozenstvi-uvod.md).
+  - id: durkheim-definice
+    bezOsoby: true
+    autor: Émile Durkheim
+    dilo: Elementární formy náboženského života
+    misto: "I, 1, 4"
+    cesky: "Náboženství je jednotný systém věr a praktik, které se vztahují k věcem posvátným, totiž odděleným a zakázaným. Tyto víry a praktiky spojují všechny, kdo k nim lnou, v jedno morální společenství, kterému se říká církev."
+    preklad:
+      druh: vlastni
+      podle: "anglický překlad J. W. Swaina (1915), rozděleno do dvou vět; francouzský originál nečten"
+    zdroj: durkheim-formy
+  - id: otto-posvatno-3
+    bezOsoby: true
+    autor: Rudolf Otto
+    dilo: Posvátno
+    misto: "kap. 3"
+    cesky: "Vyzýváme čtenáře, aby si vzpomněl na chvíli silného a pokud možno čistě náboženského pohnutí. Kdo to nedokáže nebo takové chvíle vůbec nezná, toho prosíme, ať dál nečte."
+    original: "Wir fordern auf, sich auf einen Moment starker und möglichst einseitiger religiöser Erregtheit zu besinnen. Wer das nicht kann oder solche Momente überhaupt nicht hat, ist gebeten, nicht weiter zu lesen."
+    preklad:
+      druh: vlastni
+      podle: "německý originál, 13. vydání (1925), s. 8"
+    zdroj: otto-heilige
+  - id: dt-6-4
+    tradice: judaismus
+    autor: Hebrejská Bible
+    dilo: Pátá kniha Mojžíšova
+    misto: "6, 4"
+    cesky: "Slyš, Izraeli, Hospodin je náš Bůh, Hospodin jediný."
+    preklad:
+      druh: publikovany
+      prekladatel: "Český ekumenický překlad"
+      podle: "vydání 2001"
+    zdroj: cep
+  - id: dt-30-19
+    tradice: judaismus
+    autor: Hebrejská Bible
+    dilo: Pátá kniha Mojžíšova
+    misto: "30, 19"
+    cesky: "Předložil jsem ti život i smrt, požehnání i zlořečení; vyvol si tedy život."
+    preklad:
+      druh: publikovany
+      prekladatel: "Český ekumenický překlad"
+      podle: "vydání 2001; bez začátku verše („Dovolávám se dnes proti vám svědectví nebes i země:“) a jeho konce („abys byl živ ty i tvé potomstvo“)"
+    zdroj: cep
+  - id: z-137
+    tradice: judaismus
+    autor: Hebrejská Bible
+    dilo: Kniha žalmů
+    misto: "137, 1.4"
+    cesky: "U řek babylónských, tam jsme sedávali s pláčem ve vzpomínkách na Sijón. … Jak bychom však mohli zpívat píseň Hospodinovu v té cizí zemi?"
+    preklad:
+      druh: publikovany
+      prekladatel: "Český ekumenický překlad"
+      podle: "vydání 2001; verše 1 a 4"
+    zdroj: cep
+  - id: avot-1-1
+    tradice: judaismus
+    autor: Mišna
+    dilo: Avot
+    misto: "1, 1"
+    cesky: "Mojžíš přijal Tóru na Sinaji a předal ji Jozuovi, Jozue starším, starší prorokům a proroci ji předali mužům Velkého shromáždění."
+    preklad:
+      druh: vlastni
+      podle: "anglický překlad J. Kulpa (Mishnah Yomit, Sefaria)"
+    zdroj: sefaria-avot
+  - id: talmud-sabat-31a
+    tradice: judaismus
+    autor: Hillel
+    dilo: Babylonský talmud, Šabat
+    misto: "31a"
+    cesky: "Co je ti protivné, nečiň druhému. To je celá Tóra a ostatní je její výklad. Jdi a uč se."
+    original: "דַּעֲלָךְ סְנֵי לְחַבְרָךְ לָא תַּעֲבֵיד — זוֹ הִיא כׇּל הַתּוֹרָה כּוּלָּהּ, וְאִידַּךְ פֵּירוּשָׁהּ הוּא, זִיל גְּמוֹר"
+    preklad:
+      druh: vlastni
+      podle: "aramejský text a anglický překlad William Davidson Edition (Sefaria)"
+    zdroj: sefaria-talmud
+  - id: avot-1-14
+    tradice: judaismus
+    autor: Hillel
+    dilo: Mišna, Avot
+    misto: "1, 14"
+    cesky: "Nejsem-li já pro sebe, kdo je pro mě? A jsem-li jen sám pro sebe, co jsem? A ne-li teď, kdy?"
+    original: "אִם אֵין אֲנִי לִי, מִי לִי. וּכְשֶׁאֲנִי לְעַצְמִי, מָה אֲנִי. וְאִם לֹא עַכְשָׁיו, אֵימָתָי"
+    preklad:
+      druh: vlastni
+      podle: "hebrejský text (Torat Emet) a anglický překlad J. Kulpa (Sefaria)"
+    zdroj: sefaria-avot
   # Větev antika-doplnky, krok T1 (1. 11. 2026): Co je filozofie?, období 1, směry, pokusy a otázky 2 a 8.
   - id: metafyzika-983b
     osoba: aristoteles
@@ -4587,3 +4686,17 @@ obrazky:
     instituce: "The Metropolitan Museum of Art, inv. 41.160.406"
     licence: "Public Domain (Open Access, CC0)"
     url: "https://www.metmuseum.org/art/collection/search/253640"
+  - id: votivni-relief-met
+    soubor: obrazky/votivni-relief-met.jpg
+    popisek: "Mramorový reliéf věnovaný hrdinovi, Attika, konec 4. století př. n. l."
+    autor: "neznámý sochař z Attiky, konec 4. století př. n. l. (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 57.42"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/254966"
+  - id: koruna-tora-met
+    soubor: obrazky/koruna-tora-met.jpg
+    popisek: "Koruna na svitek Tóry, Benátky, asi 1740–1750."
+    autor: "Andrea Zambelli zvaný L’Honnesta, stříbrník v Benátkách (snímek: The Metropolitan Museum of Art)"
+    instituce: "The Metropolitan Museum of Art, inv. 2013.443"
+    licence: "Public Domain (Open Access, CC0)"
+    url: "https://www.metmuseum.org/art/collection/search/239512"

@@ -2,46 +2,118 @@
 nazev: Judaismus
 poradi: 1
 obdobi: [2]
-# PROZATÍMNÍ TEXT (K1): perex, scénu a oddíly napíše T2 se skillem atlas-psani a atlas-osobnost.
-# Podklad: docs/podklady/nabozenstvi-uvod.md › b) Judaismus (scéna Jochanan ben Zakkaj a Javne, Gitin 56a–b;
-# Tóra, smlouva, exil, rabínská tradice; citáty) a odpovědi 4–8 po P6N. Místa podle odpovědi 8 (bez Sinaje).
-perex: Víra, která přežila zboření chrámu i staletí v cizině. Drží ji kniha, smlouva a otázky, které se nepřestaly klást.
+# Podklad: docs/podklady/nabozenstvi-uvod.md › b) Judaismus (scéna Jochanan ben Zakkaj a Javne, Gitin 56a–b, bez
+# rakve; Hillel na jedné noze, Šabat 31a; Tóra, smlouva, exil, rabínská tradice; citáty) a c) Co do stránek nepatří;
+# odpovědi 4–8 po P6N (holokaust jednou větou bez otázky, Spinoza ne, Maimonides a Buber bez odkazu). Tóra a ústní
+# tradice podle Britanniky (britannica-torah); Ex 19, Dt 6 a Ž 137 čteny znovu v ČEP. Koruna na Tóru: Met 239512 (CC0).
+perex: Co zbude z víry, když zmizí místo, kde se slavila? Uvidíš, jak se pro Židy stala domovem kniha a učení, které se předává z učitele na žáka, a co v nich hledali filozofové.
 mista:
   - { misto: jeruzalem, role: centrum, do: 70, zdroj: britannica-johanan }
   - { misto: babylon, role: exil, od: -587, do: -538, zdroj: britannica-babylonian-exile }
   - { misto: alexandrie, role: diaspora, zdroj: sep-philo }
   - { misto: javne, role: centrum, od: 70, zdroj: britannica-johanan }
 ---
+import { Pribeh } from '../../components/bloky';
 import Oddil from '../../components/stranka/Oddil.astro';
 import MistaTradice from '../../components/stranka/MistaTradice.astro';
 import Citat from '../../components/ui/Citat.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
 
-{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T2. */}
+<Pribeh id="javne" obdobi={2} nadtitulek="Jeruzalém, obležený Římany" titulek="Učitel, který odešel *jako mrtvý*" popisek="Jeruzalém. Odtud vynesli žáci svého učitele jako mrtvého.">
+
+Vypráví se, že když Římané obléhali Jeruzalém, spálili vzbouřenci ve městě zásoby obilí, aby k boji donutili všechny. Ve městě začal hlad.
+
+Rabi Jochanan ben Zakkaj, učitel Tóry, se rozhodl jinak a nechal se z města vynést jako mrtvý. Dva jeho žáci ho nesli k pohřbu. U brány ho stráže chtěly probodnout, aby se ujistily, že je mrtvý. Jochananův synovec, vůdce vzbouřenců, jim to rozmluvil.
+
+V římském táboře se Jochanan dostal až k veliteli Vespasiánovi a pozdravil ho jako krále. V tu chvíli přišla zpráva, že se Vespasián stal císařem. Nový císař dovolil Jochananovi o něco požádat. Jochanan nežádal záchranu města, ale malé město Javne a jeho učence; prý se bál, že víc nedostane.
+
+</Pribeh>
 
 <div class="uvod ctenarsky">
 
-Prozatímní text. Vypráví se, že roku 70 n. l., když Římané obléhali Jeruzalém, vynesli žáci rabiho Jochanana ben Zakkaje z města jako mrtvého.
+Roku 70 Římané Jeruzalém dobyli a chrám zbořili. V Javne se pak sešli učenci a začali učit. Nebylo to poprvé, co Židé přišli o Jeruzalém. Co drží víru pohromadě, když zmizí místo, kde se slavila?
 
 </div>
 
 <Oddil kotva="tora" nazev="Tóra a smlouva">
 
-Prozatímní text. Tóra, smlouva mezi Bohem a lidem, přikázání.
+Tóra je pro Židy Boží učení a vedení pro lidi. V užším smyslu je to prvních pět knih hebrejské Bible, které tradice připisuje Mojžíšovi. Každá synagoga ji má ručně opsanou na pergamenovém svitku. Pro věřícího je Tóra slovo, které Bůh dal Mojžíšovi; historik se ptá, kdy a jak se její knihy psaly.
+
+Podle Tóry nabízí Bůh u hory Sinaj Izraeli, že bude jeho zvláštním vlastnictvím, když bude dodržovat jeho smlouvu. Lid odpovídá, že udělá všechno, co mu Bůh uložil. Smlouva má dvě strany a obě něco slibují. Na čem stojí, říká věta, které Židé podle prvního slova říkají Šema:
+
+<Citat id="dt-6-4" />
+
+Tóra hned dodává, kde mají ta slova být: v srdci, v tom, co se učí děti, a v rozhovoru doma i na cestě, když člověk uléhá i když vstává. A napsaná na veřejích domu. Takovou víru si člověk odnese, kamkoli jde.
+
+Smlouva se přitom nevnucuje. Ke konci Tóry staví Mojžíš lid před volbu:
+
+<Citat id="dt-30-19" />
+
+Všimni si, že Mojžíš mluví k celému lidu, a přesto říká ti, ne vám. Volit musí každý sám.
 
 </Oddil>
 
 <Oddil kotva="exil" nazev="Exil a rozptýlení">
 
-Prozatímní text. Babylónský exil a život v cizině. Prorok Jeremjáš psal vyhnancům:
+Roku 587 př. n. l. dobyl babylonský král Jeruzalém a část lidu odvlekl do Babylónu. Jak žít s vírou, když je domov daleko? V hebrejské Bibli zůstaly dvě odpovědi, které si nejsou podobné.
+
+První je píseň vyhnanců, kterým ti, kdo je odvlekli, říkali, ať jim zazpívají:
+
+<Citat id="z-137" />
+
+Druhou poslal vyhnancům prorok Jeremjáš. Ať si v Babylónu postaví domy, zasadí zahrady a ožení se. A dodal:
 
 <Citat id="jr-29-7" />
+
+Stýskat se po domově a pracovat pro dobro města, kde zrovna žiješ. Dá se obojí najednou?
+
+Roku 538 př. n. l. dobyl Babylónii perský král Kýros a dovolil Židům vrátit se. Od té doby žili Židé v Jeruzalémě i daleko od něj. V egyptské Alexandrii četli Tóru řecky a z jejich obce vzešel filozof Filón.
+
+Mnohem později, ve 20. století, zavraždil nacistický režim se svými spojenci a pomocníky šest milionů evropských Židů. Židé tomu říkají šoa, hebrejsky katastrofa. Tóra se přesto čte dál v synagogách po celém světě a učitelé ji dál vykládají žákům, jako v Javne.
 
 </Oddil>
 
 <Oddil kotva="rabinska-tradice" nazev="Rabínská tradice">
 
-Prozatímní text. Mišna, Talmud a učení, které se předává z učitele na žáka.
+Učenci v Javne nezačínali od nuly. Vedle psané Tóry měli i ústní: výklad, zvyky a pravidla, která se předávala z učitele na žáka. Pro část Židů patří i ona k tomu, co Bůh zjevil Mojžíšovi. Jeden z oddílů Mišny, Výroky otců, začíná řetězem lidí:
+
+<Citat id="avot-1-1" />
+
+Každý článek toho řetězu je učitel a jeho žák. Na začátku 3. století n. l. sepsali učenci ústní výklad do Mišny. Další generace k ní připsaly vlastní výklady a z obojího vznikl Talmud. Jsou v něm i příběhy o učitelích.
+
+</Oddil>
+
+<Pribeh id="na-jedne-noze" obdobi={2} obrazek="koruna-tora-met" nadtitulek="Babylonský talmud" titulek="Celá Tóra *na jedné noze*" popisek="Koruna na svitek Tóry, Benátky, asi 1740–1750. V synagoze zdobí svitek, ze kterého se čte.">
+
+Vypráví se, že za učencem Šamajem přišel pohan. Přijme prý židovskou víru, když ho Šamaj naučí celou Tóru, zatímco bude stát na jedné noze. Šamaj ho odehnal stavitelským loktem, který měl zrovna v ruce.
+
+Pohan šel s tou prosbou za Hillelem. Hillel ho neodehnal.
+
+</Pribeh>
+
+<div class="ctenarsky">
+
+Hillel mu odpověděl jednou větou a pak ještě dvěma:
+
+<Citat id="talmud-sabat-31a" />
+
+Nejvíc na té odpovědi překvapí konec. Hillel pohanovi celou Tóru shrnul, a přesto ho poslal učit se. Proč, když už ji zná celou?
+
+Mišna zachovala i Hillelovy vlastní věty. Některé z nich jsou otázky, na které si musí odpovědět každý sám:
+
+<Citat id="avot-1-14" />
+
+Na kterou z nich odpovídáš nejhůř?
+
+</div>
+
+<Oddil kotva="filozofie" nazev="Víra a filozofie">
+
+[Filón Alexandrijský](/osobnost/filon-alexandrijsky/) žil v době, kdy chrám ještě stál. Četl Tóru řecky a obdivoval Platóna. V biblických příbězích hledal skrytý smysl, podobně jako stoikové hledali skrytý smysl v Homérovi.
+
+O víc než tisíc let později napsal Maimonides, židovský učenec z Córdoby, knihu Průvodce zbloudilých. Psal ji pro studenta, který nevěděl, jestli má následovat filozofii, nebo učení své víry. Ve 20. století psal Martin Buber o tom, že druhého člověka můžeme potkat, nebo jen používat. Jako k Ty se podle něj člověk obrací i k Bohu.
+
+Musí si člověk vybrat mezi Tórou a filozofií, jak to vypadalo Maimonidovu studentovi?
 
 </Oddil>
 
@@ -50,5 +122,5 @@ Prozatímní text. Mišna, Talmud a učení, které se předává z učitele na 
 <KamDal odkazy={[
   { href: '/osobnost/filon-alexandrijsky/', nadtitulek: 'Medailonek', text: 'Filón Alexandrijský' },
   { href: '/nabozenstvi/', nadtitulek: 'Náboženství světa', text: 'Co je náboženství?' },
-  { href: '/otazky/#je-buh', nadtitulek: 'Velká otázka 9', text: 'Je Bůh?' },
+  { href: '/otazka/jak-spolu-mame-zit/', nadtitulek: 'Velká otázka 8', text: 'Jak spolu máme žít?' },
 ]} />

@@ -858,13 +858,13 @@ Podklady: `docs/podklady/nabozenstvi-uvod.md`. Do studentského textu jen to, co
 | Durkheim, francouzský originál | Nečten; jen Swain (1915) | Vlastní převod „podle Swaina“ |
 | Durkheimův původ a víra (rabínská rodina, nevěřící) | Nečteno (SEP heslo nemá) | Nepoužít |
 | Otto a luterská zkušenost jako námitka | Jen výňatek z Eliadovy předmluvy ve výsledku hledání | Jen jako otázka, bez tvrzení o Lutherovi |
-| Tanach, Tóra jako Pět knih Mojžíšových | Běžný výklad, neověřen v otevřeném zdroji | T2 ověří (Britannica „Torah“, „Tanakh“) |
-| Šema ráno a večer (Mišna, Berachot 1) | Nečteno | T2 ověří, nebo vynechá |
-| Zboření Prvního chrámu 587/586 př. n. l. | Výtah Britanniky „Babylonian Exile“ zkrácený, věta o chrámu chyběla | T2 ověří, než napíše „a chrám zbořil“ |
+| Tanach, Tóra jako Pět knih Mojžíšových | T2: Britannica „Torah“ (WebFetch) ověřuje Tóru jako prvních pět knih hebrejské Bible, tradičně připisovaných Mojžíšovi, svitky ve všech synagogách a ústní Tóru jako zjevení „pro některé Židy“; slovo Tanach heslo nemá | Hotovo; Tanach ve studentském textu není |
+| Šema ráno a večer (Mišna, Berachot 1) | Nečteno | T2 vynechal; stránka převypráví jen Dt 6,6–9 (ČEP, čteno v T2) |
+| Zboření Prvního chrámu 587/586 př. n. l. | T2 četl výtah Britanniky znovu: o chrámu nic, jen dobytí, deportace a konec 538 | Ve studentském textu jen dobytí a odvlečení do Babylónu; chrám jen u roku 70 |
 | Data dokončení jeruzalémského a babylonského talmudu | Britannica je v hesle nemá | Ve studentském textu „v dalších staletích“ |
 | Akademie v Suře a Pumbeditě (vznik babylonského talmudu) | Nečteno | Místa nepřidávat |
 | Sinaj (poloha hory, Džebel Músá) | Nečteno | Bod na mapu nepřidávat |
 | Sefaria: Šabat 31a, Gitin 56a–b, Avot 1 a 2 | Četl nástroj WebFetch přes API, stránku jsem sám neviděl; z Macu API vrací 403 | Znění v podkladech; hebrejsky jen 14, 15 a 6 |
-| Met 254966, 633650, 239512, 192064, 403379: co obrázek ukazuje | API: CC0 a obrázek existuje; obraz nezhlédnut | T2 se podívá na stránku předmětu; 403379 jen s viditelným reliéfem menory |
+| Met 254966, 633650, 239512, 192064, 403379: co obrázek ukazuje | T2 zhlédl 254966 (hostina héróa, uctívači menší; popiska muzea), 633650 (vyšívaný pás 368 × 19 cm, na desku 4 : 3 se nevejde) a 239512 (koruna na Tóru, Benátky, popiska muzea) | Staženy 254966 a 239512 (CC0); 633650 nepoužit; 192064 a 403379 nezhlédnuty, nepoužity |
 | Fotografie reliéfu na Titově oblouku | Jen na Wikimedia Commons | Autor najde a licenci potvrdí sám |
 | Schéma `Citat.osoba` pro verše bez osoby v datech | Zjištěno v `src/lib/schema.ts` | K1 rozhodne (návrh v podkladech, Návrh dat) |

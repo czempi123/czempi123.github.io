@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 1. 11. 2026: Antika-doplnky, krok T2 (texty náboženství)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi po P6N nechal autor prázdné: pokus s pěti jevy bez správného koše, Durkheim a Otto s citátem, Eliade bez citátu a bez fašistické minulosti, mýtus jako posvátné vyprávění, scéna Jochanana ben Zakkaje bez rakve a Hillel uvnitř stránky, sedm citátů judaismu, holokaust jednou větou bez otázky, Filón s odkazem, Maimonides a Buber bez odkazu, Spinoza ne | Prázdná odpověď znamená souhlas s doporučením |
+| Čtyři měřítka religionistů jsou srovnání v Roztřiď (`srovnani`), zpětná vazba každé karty je podle koše (`kdyz`) | Student uvidí hranice religionistů až po vlastním třídění a každá karta odpoví na to, kam ji dal, ne na „správný koš“ |
+| Co je náboženství? má scénu Hostina s mrtvým (votivní reliéf, Met 254966) jako příklad posvátného, rituálu a společenství | Stránka bez scény by čtyři pojmy jen vyjmenovala; reliéf je ze stejné doby jako období 1 a 2 a popiska muzea nese vše, co text tvrdí |
+| Judaismus dostal korunu na Tóru (Met 239512) u příběhu Hillela; pojítko Miriam Foa (633650) se nepoužilo | Pojítko je vyšívaný pás 368 × 19 cm a na desce 4 : 3 by z něj zbyl úzký proužek; koruna je v odpovědi 10 po P6N rezerva |
+| Judaismus má oddíl Víra a filozofie (Filón, Maimonides, Buber) a Kam dál na otázku 8 místo řádku otázky 9 | Jména bez stránky potřebovala vlastní místo, ne vsuvku do exilu; otázka 9 stránku nemá, otázka 8 ano a Jr 29,7 na ni navazuje |
+| `SeznamTradic` přijme krátký text nad kartami (slot) | Ostatní tradice jsou jmenované bez odkazu a bez slibu, jak chtělo zadání; jinde než nad kartami by nedávaly smysl |
+
 ## 1. 11. 2026: Antika-doplnky, krok T1 (texty filozofické části)
 
 | Rozhodnutí | Důvod |

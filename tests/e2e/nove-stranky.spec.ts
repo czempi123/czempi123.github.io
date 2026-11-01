@@ -15,7 +15,7 @@ const STRANKY = [
   { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času', oddily: ['Co řekli filozofové'] },
   { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
-  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Kde a kdy'] },
+  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
 ];
 
 async function axe(page: Page) {
