@@ -8,7 +8,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | --- | --- | --- | --- |
 | P6 | Podklady k filozofii: Co je filozofie?, období 1 a 2, čtyři směry, hlasy otázek 2 a 8, oba pokusy, náhrada `seneca-ep-18-9`, pět vztahů | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | hotovo 1. 11. 2026 (`docs/podklady/antika-doplnky.md`); čeká na odpovědi po P6 |
 | P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | hotovo 1. 11. 2026 (`docs/podklady/nabozenstvi-uvod.md`); čeká na odpovědi po P6N |
-| K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
+| K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); čeká na odpovědi po K1 |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | čeká |
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | čeká |
 | K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
@@ -212,6 +212,45 @@ Prázdná odpověď znamená souhlas s doporučením.
    Odpověď:
 10. **Obrázky:** smí T2 stáhnout votivní reliéf (Met 254966) pro Co je náboženství? a pojítko na Tóru Miriam Foa (633650) pro judaismus, s korunou na Tóru (239512) a chanukovým svícnem (192064) v rezervě; rytinu Titova oblouku (403379) jen tehdy, když je na ní vidět reliéf s menorou. Doporučuji, nebo škrtni, které ne.
     Odpověď:
+
+## Po K1 (1. 11. 2026)
+
+Šablony pěti nových typů stránek stojí a vedou na ně odkazy odevšad, kde je student čeká. Texty jsou prozatímní, vzaté z podkladů a v každém souboru označené komentářem `PROZATÍMNÍ TEXT (K1)`; přepíšou je T1 a T2. Popis šablon je v `docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice, rozhodnutí v `docs/rozhodnuti.md` (1. 11. 2026). Snímky listů všech nových stránek na 390 a 1440 px ve světlém i tmavém režimu jsou v `Claude outputs/snimky/k1/`. Nic jsem nestahoval, nic neposlal na GitHub.
+
+**Hotové:**
+- **Stránky:** `/obdobi/pocatky-a-klasicke-recko/` a `/obdobi/helenismus-a-rim/` (hlavička jako deska období, scéna, Co se dělo z `udalosti.yaml` a Mezitím jinde, Otázky doby s cestami, Lidé a směry, Cesty, Na mapě s odkazem do Mapy a času, Kam dál); `/smer/stoicismus/`, `/smer/epikureismus/`, `/smer/kynismus/`, `/smer/akademie/` (založení, tři myšlenky, rodokmen z `vztahy.yaml`, spor, Zkus to žít, u stoicismu karta Stoického týdne, Kam dál); `/pokus/gyguv-prsten/` (Volba předem nová, Změň jednu věc tentýž blok jako u Platóna) a `/pokus/zrcadlo-casu/` (tatáž kresba jako v cestě 8, řádek pomoci); `/co-je-filozofie/` (Thalés jako Příběh, pět odpovědí a Odkryj, deset otázek s disciplínami z dat); `/nabozenstvi/` (Roztřiď pěti jevů, citát Durkheima, seznam tradic z kolekce) a `/nabozenstvi/judaismus/` (oddíly, citát Jr 29,7, Kde a kdy z pole `mista`).
+- **Data a schémata:** kolekce `obdobi`, `smery`, `pokusy`, `uvody` a `nabozenstvi` se schématy v `src/lib/stranky-schema.ts`; citát má právě jedno z polí `osoba`, `tradice`, `bezOsoby` (zapsané `jr-29-7` a `durkheim-uvod` a jejich prameny `cep`, `durkheim-formy`, `sep-concept-religion`, `britannica-johanan`, `britannica-babylonian-exile`); místa `jeruzalem` (bez státu), `babylon`, `javne`; pole `smer` u týdne.
+- **Cesty k novým stránkám:** pás období na Domů, název období a štítky směrů v Lidech a směrech, drobečky a „období N“ v hlavičce profilu a medailonku, směr v nadtitulku medailonku, drobečky Stoického týdne přes stoicismus, řádek Na začátek na Domů, odkaz v přehledu otázek, řádek v Lidech, Kam dál bloku Gýgův prsten v portrétu Platóna, odkaz v cestě 8, krok 4. Odkaz vede na stránku, jen když existuje (`adresaObdobi`, `adresaSmeru`); hlavička webu a spodní lišta beze změny; hledání nové stránky indexuje samo.
+- **Příprava hodiny:** jedenáct nových celých stránek (druh `stranka`, skupina „Období, směry a další stránky“), jejich oddíly, bloky, kresby a příběhy; sdílený blok a kresba zůstávají zastavením tam, kde stály. Kotvy ověřil `scripts/hodiny-katalog.mjs` proti `dist/` (0 chyb).
+- **Opravy vzhledu po snímcích:** ornament na desce období je na telefonu pruh nad textem a na notebooku vpravo vedle textu, takže se s nadpisem nepotká; karta cesty má sloupec mincí pevné šířky, takže text ve všech kartách pod sebou začíná na stejném místě (dřív se sloupec smršťoval podle délky textu; týká se i stránek otázek).
+- **Testy:** `tests/data/stranky.test.ts` (schémata, citát bez osoby, odkazy jen na existující stránky, rodokmen, oddíly období, katalog) a `tests/e2e/nove-stranky.spec.ts` (všech jedenáct stránek na 390 a 1440 px ve světlém i tmavém režimu s axe, klávesnice, osa a mapa období, rodokmen, odkazy z Domů, Lidí, medailonku, drobečků a týdne, Gýgův prsten sdílí stav s portrétem). Celé `npm test` prošlo.
+
+**Co zůstává na T1 a T2:**
+- Všechny texty označené `PROZATÍMNÍ TEXT (K1)`: perexy, scény, odstavce otázek doby, Mezitím jinde, směry, oba pokusy (úvody, hlasy, Volba předem), Co je filozofie? a obě stránky náboženství. V prozatímních textech stojí dva citáty bez záznamu v datech (Theaitétos 174a u Thaléta, Žalm 29, 3 v pěti odpovědích); T1 je zapíše do `zdroje.yaml` a vloží komponentou Citát, nebo převypráví.
+- Hlas Epikúra u Gýgova prstenu je bez citátu: `kd-35` zapíše T1 (podklady e).
+- Stránky otázek 2 a 8 K1 nemění: šablona stránky otázky je hotová, chybí jen hlasy (T1). Kam dál pokusu Gýgův prsten zatím vede na řádek otázky 2 v přehledu.
+- Odkaz v cestě 8, krok 4 na Zrcadlo času je prozatímní věta pod otázkou kroku; T1 rozhodne o znění, nebo ho přesune do Kam dál přehledu cesty.
+- Obrázky (desky směrů, pokusů a tradice) přidá T po stažení; šablony je zatím nemají a hlavička je bez obrazu.
+
+**Nad čím jsem váhal:**
+- **Pokus Proč hřmí? je seznam pěti odpovědí a pod ním Odkryj**, ne Roztřiď: Roztřiď má nejvýš čtyři koše a pět druhů odpovědi se do něj nevejde. Alternativy: Roztřiď se čtyřmi koši bez umění, nebo rozšířit Roztřiď na pět košů (na 1440 px v pásu 960 se čtyři koše už jednou rozsypaly). Otázka 1.
+- **Mapa období ukazuje jen lidi s profilem nebo portrétem, u každého jedno místo.** Se všemi místy působení a s medailonky se popisky v egejském výřezu přetahovaly přes sebe; medailonky najde student v oddílu Lidé a směry.
+- **Rodokmen bere vliv přes texty jen uvnitř směru.** Jinak by stoický rodokmen začínal Hérakleitem a obsahoval Epikúra (Seneca ho četl). Učitele zvenku (Kratés u Zénóna, Sókratés u Platóna) bere, protože bez nich směr nemá začátek.
+- **Řádek „Na začátek“ na Domů místo čtvrté karty.** Domů má jeden začátek a tři vstupy (`docs/design.md`); čtvrtá karta by soupeřila s vstupy do hlavních sekcí. Otázka 2.
+- **Směr v hlavičce profilu jsem nepřidal.** Zadání chce odkaz u štítků směrů; profil štítek nemá (medailonek ho má v nadtitulku a tam odkaz je). Profil vede na směr přes rodokmen a Kam dál, které píše T1. Otázka 3.
+- **Úvody mají vlastní kolekci** (rozhodnutí v `docs/design.md`); adresa Co je náboženství? (`/nabozenstvi/`) je jediná, kterou katalog hodin skládá zvláštním pravidlem.
+- **Zrcadlo času nese řádek pomoci** jako přehled a krok 7 cesty 8; T1 ho může nechat, nebo přesunout.
+
+### Co rozhodnout po K1
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Pokus v Co je filozofie?:** pět odpovědí jako seznam a pod ním Odkryj „Čím se těch pět odpovědí liší?“, s rozlišením v odkryté části. Doporučuji; alternativa Roztřiď se čtyřmi koši (bez umění).
+   Odpověď:
+2. **Vstup na Co je filozofie? a Co je náboženství? z Domů** jako tichý řádek pod třemi vstupy, ne čtvrtá karta. Doporučuji.
+   Odpověď:
+3. **Směr v hlavičce profilu:** zatím ne; na směr vedou Lidé a směry, medailonky, stránka období a Kam dál v textech T1. Doporučuji; alternativa je odkaz za „období N“ v řádku pod jménem (krátká úprava šablony v T1).
+   Odpověď:
 
 ## Zadání P6
 

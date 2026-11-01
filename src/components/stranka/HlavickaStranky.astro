@@ -60,17 +60,28 @@ const orn = ornamenty.orn(obdobi - 1);
   .hlavicka-stranky--deska h1,
   .hlavicka-stranky--deska h1 :global(em),
   .hlavicka-stranky--deska .hlavicka-stranky__perex { color: var(--na-desce); }
+  /* Telefon: ornament je pruh nad textem (jako v segmentu pásu období), text pod ním nic nepřekrývá. */
   .hlavicka-stranky__ornament {
     position: absolute;
-    inset: 0 0 auto auto;
-    width: min(60%, 520px);
-    height: 100%;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
-    mask-image: linear-gradient(90deg, transparent, #000 40%);
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 88px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
   }
+  .hlavicka-stranky--deska { padding-top: calc(88px + var(--s-3)); }
   .hlavicka-stranky--deska .hlavicka-stranky__text { position: relative; margin-inline: 0; }
   @media (min-width: 900px) {
     .hlavicka-stranky { padding-top: var(--s-7); }
     .hlavicka-stranky--deska { padding: var(--s-8) var(--s-8) var(--s-7); }
+    /* Notebook: ornament vpravo přes celou výšku desky, text vlevo v nejvýš 56 % šířky, takže se nepotkají. */
+    .hlavicka-stranky__ornament {
+      inset: 0 0 auto auto;
+      width: min(44%, 520px);
+      height: 100%;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
+      mask-image: linear-gradient(90deg, transparent, #000 40%);
+    }
+    .hlavicka-stranky--deska .hlavicka-stranky__text { max-width: min(var(--ctenarsky-sloupec), 56%); }
   }
 </style>

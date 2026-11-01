@@ -4,6 +4,22 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 1. 11. 2026: Antika-doplnky, krok K1 (šablony nových stránek)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi před prvním krokem, po P6 a po P6N nechal autor prázdné: platí doporučení z plánu větve (jedna větev, Co je filozofie? na `/co-je-filozofie/`, stránky období podle slugu, plné stránky jen čtyř směrů, Gýgův prsten a Zrcadlo jako tytéž bloky, náboženství na `/nabozenstvi/` a `/nabozenstvi/judaismus/`, citát s polem `tradice`, místa `jeruzalem`, `babylon`, `javne` bez Sinaje) | Prázdná odpověď znamená souhlas (plán větve, Co rozhodnout) |
+| Co je filozofie? má s Co je náboženství? malou vlastní kolekci `uvody`, ne holou stránku v MDX | Jedna šablona dá hlavičku, Prameny a zápis návštěvy, katalog hodin z ní bere zastavení jako ze všech ostatních stránek; holá stránka by to potřebovala zvlášť a katalog by ji neviděl |
+| Stránka období se skládá z dat (osa kotev, otázky doby, lidé a směry, cesty, mapa); píše se jen perex, scéna, odstavec ke každé otázce doby a Mezitím jinde. Prázdný oddíl se neukáže | Plán větve › Obsah, oddíl 2; středověk pak dostane stránku bez nové šablony |
+| Na mapě stránky období je u každého člověka s profilem nebo portrétem jedno místo (poslední působení, jinak rodiště), nejvýš dvě jména u místa; medailonky ne | S medailonky a se všemi místy působení se popisky v egejském výřezu překrývaly přes sebe (snímek K1) |
+| Směr má stránku, právě když má ve frontmatteru `perex` a text; ostatních devět zůstává štítkem. Text směru skládá stránku z komponent jako profil (`Oddil`, `Myslenky`, `Rodokmen`, karta Zkus to žít, `KamDal`) | Odkaz se objeví sám, jakmile stránka vznikne; T1 píše stejným postupem jako profil |
+| Rodokmen směru: všichni členové a jejich učitelé a žáci zvenku; vliv přes texty jen uvnitř směru; polemiky ne | S četbou zvenku by do stoického rodokmenu patřil Epikúros a Hérakleitos a z rodokmenu by byl seznam četby |
+| Blok nebo kresba z jiné stránky stojí na stránce pokusu se stejným id. V přípravě hodiny zůstává zastavení tam, kde blok stojí poprvé (Gýgův prsten u Platóna, Zrcadlo v cestě 8); stránka pokusu je zastavení celá | Jeden stav a jeden zápis v deníku (odpověď 6 před prvním krokem); katalog nesmí mít dvě zastavení se stejným id |
+| Portrét Platóna vede na pokus vlastním Kam dál bloku Gýgův prsten (`dal` v MDX), ne pátou kartou v Kam dál | Kam dál profilu má nejvýš čtyři karty a Platón je má; odkaz u bloku je tam, kde o pokus jde |
+| Citát má právě jedno z polí `osoba`, `tradice` a `bezOsoby: true`; zapsané jsou zatím `jr-29-7` (tradice judaismus) a `durkheim-uvod` (bez osoby) | Odpověď 9 po P6N; dva citáty dokazují obě nové podoby schématu, ostatní dopíše T2 |
+| Nové stránky patří v hlavičce webu do sekce Lidé (období, směr, náboženství) nebo Otázky (pokus, Co je filozofie?); hlavička a spodní lišta se nemění. Na Domů je pod třemi vstupy tichý řádek Na začátek: Co je filozofie? · Co je náboženství? | Zadání K1, bod 5; Domů má dál jeden začátek a tři vstupy |
+| Drobečky Stoického týdne vedou přes stránku stoicismu podle nového pole `smer` v datech týdne | Rozhodnutí z 26. 10. 2026 („dokud nevznikne stránka směru“) |
+
 ## 31. 10. 2026: Interaktivita v1, krok O (opravy po revizi)
 
 | Rozhodnutí | Důvod |
