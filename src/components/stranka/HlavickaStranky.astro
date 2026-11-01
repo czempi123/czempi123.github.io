@@ -31,9 +31,9 @@ const orn = ornamenty.orn(obdobi - 1);
     <p class="t-nadtitulek hlavicka-stranky__nad">{nadtitulek}</p>
     <h1 class="t-h1" set:html={radek(titulek)} />
     {mince.length > 0 && (
-      <p class="hlavicka-stranky__mince" aria-label={mince.map((o) => o.jmeno).join(', ')}>
+      <div class="hlavicka-stranky__mince">
         {mince.map((o) => <Mince osoba={o} varianta={deska ? 'ring' : 'tint'} velikost={44} />)}
-      </p>
+      </div>
     )}
     <p class="t-perex hlavicka-stranky__perex">{nezlomitelne(perex)}</p>
   </div>
