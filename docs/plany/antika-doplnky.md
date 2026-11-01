@@ -10,7 +10,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | P6N | Podklady k náboženství: Co je náboženství?, judaismus | Opus 5.5 · high s vyhledáváním | hotovo 1. 11. 2026 (`docs/podklady/nabozenstvi-uvod.md`); čeká na odpovědi po P6N |
 | K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); odpovědi po K1 prázdné (souhlas) |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | hotovo 1. 11. 2026; čeká na odpovědi po T1 |
-| T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | čeká |
+| T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | hotovo 1. 11. 2026; čeká na odpovědi po T2 |
 | K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
 | O | Opravy po revizi a úprava skillů | Opus 5.5 · high | čeká |
@@ -285,6 +285,37 @@ Prázdná odpověď znamená souhlas s doporučením.
 2. **Tři povolené obrázky nestažené** (tetradrachma Alexandra, hlava neznámého filozofa, soška Dia nebo Poseidóna): žádná stránka pro ně nemá scénu, ke které by popisek seděl. Doporučuji nestahovat.
    Odpověď:
 3. **Hlavička Aristotela má osm tlačítek otázek** (Epikúros sedm, Platón pět). Na telefonu stojí pod deskou, takže první obrazovka (jméno, cesta, deska) se nezměnila, jen první odstavec textu je níž. Doporučuji nechat a řešit souhrnně v plánované úpravě designu nebo v `interaktivita-v2`.
+   Odpověď:
+
+## Po T2 (1. 11. 2026)
+
+Obě stránky náboženství mají texty a značka `PROZATÍMNÍ TEXT (K1)` zmizela z celé větve. Každý text prošel skillem `atlas-psani` a každou větu jsem četl očima věřícího i nevěřícího studenta. Snímky listů na 390 px jsou v `Claude outputs/snimky/t2/`. Nic jsem neposlal na GitHub.
+
+**Hotové:**
+- **Co je náboženství?** Úvod s kostelem a stadionem, Roztřiď pěti jevů se zpětnou vazbou podle koše (`kdyz`) a srovnáním čtyř měřítek (Tylor, Durkheim, Otto, pět znaků podle SEP), scéna Hostina s mrtvým (votivní reliéf z Metu a jeho popiska), oddíl Posvátné, mýtus, rituál, společenství s Durkheimovou definicí, oddíl Jak náboženství zkoumá věda (Durkheim se dvěma námitkami a větou o nepravdivých náboženstvích, Otto a jeho výzva čtenáři, Eliade dvěma větami, otázka pro věřícího i nevěřícího) a ostatní tradice jménem nad kartou judaismu, bez odkazu a bez slibu.
+- **Judaismus.** Scéna Jochanana ben Zakkaje (Gitin 56a–b, bez rakve), Tóra a smlouva (Ex 19, Šema, Dt 6,6–9 převyprávěné, Dt 30,19), Exil a rozptýlení (587 př. n. l., Ž 137 a Jr 29,7 jako dvě odpovědi, Kýros, Alexandrie, holokaust jednou větou a hned po ní Tóra, která se čte dál), Rabínská tradice (Avot 1, 1, Mišna, Talmud), příběh Hillela na jedné noze s korunou na Tóru a Avot 1, 14, nový oddíl Víra a filozofie (Filón s odkazem, Maimonides a Buber bez odkazu). Spinoza na stránce není.
+- **Data:** 8 citátů (`durkheim-definice`, `otto-posvatno-3`, `dt-6-4`, `dt-30-19`, `z-137`, `avot-1-1`, `talmud-sabat-31a`, `avot-1-14`), 10 pramenů, doplněná poznámka u `sep-philo`. Obrázky votivní reliéf (Met 254966) a koruna na Tóru (Met 239512), oba CC0; originály v `~/Pictures/Atlas-originaly/`, v repozitáři zmenšené na 1280 px.
+- **Ověřeno navíc v T2:** Ex 19,5–8, Dt 6,4–9 a Ž 137 znovu v ČEP (obohu.cz); Tóra a ústní Tóra v Britannice („Torah“); popisky Metu k reliéfu a ke koruně. Řádky v `docs/podklady/k-overeni.md` doplněné, rozhodnutí v `docs/rozhodnuti.md`.
+- **Šablona:** `SeznamTradic` přijme krátký text nad kartami (slot). Nic dalšího jsem neměnil.
+- **Testy:** oddíly judaismu v `tests/e2e/nove-stranky.spec.ts` (přibyl Víra a filozofie). Celé `npm test` prošlo napoprvé (kontrola typů, 922 testů dat, 676 testů v Playwrightu); `scripts/hodiny-katalog.mjs` proti `dist/`: 0 chyb, oba nové příběhy jsou zastavení v přípravě hodiny.
+
+**Nad čím jsem váhal:**
+- **Stadion v úvodu.** Úvod staví vedle sebe kostel a stadion, protože pokus se na tu podobnost ptá. Věřícímu to může znít jako srovnání víry s fanděním. Proto úvod nic netvrdí („Asi řekneš, že ne“) a srovnání po třídění řekne, že podobnost v tom, jak lidé něco dělají, nic neříká o pravdě. Ottova výzva čtenáři by jako začátek patřila k Ottovi, ne ke všem.
+- **Hostina s mrtvým** čte i student po ztrátě. Obraz je klidný (hostina, ne smrt), mrtvý je hrdina z doby před dvěma a čtvrt tisíci let a scéna o truchlení nemluví; nechal jsem ji.
+- **Holokaust** stojí jako poslední odstavec oddílu Exil, ne na jeho začátku, bez obrazu a bez otázky; hned po něm věta, že Tóra se čte dál, „jako v Javne“.
+- **„Pro část Židů“** u ústní Tóry drží Britannicu („for some Jews“); „pro Židy“ by tvrdilo víc.
+- **Šema ráno a večer** jsem vynechal (nečteno); stránka místo toho převypráví Dt 6,7 („když budeš uléhat nebo vstávat“).
+- **Kam dál judaismu** vede na otázku 8 (Jr 29,7) místo řádku otázky 9 v přehledu otázek; Co je náboženství? řádek otázky 9 nechává, protože o ní mluví.
+- **Pět znaků** připisuju „jednomu filozofovi náboženství“ bez jména (Schilbrack v SEP); jméno by nic neneslo.
+- **Pojítko Miriam Foa** jsem nepoužil: je to vyšívaný pás 368 × 19 cm a na desce by z něj zbyl proužek. Koruna na Tóru je z rezervy v odpovědi 10 po P6N.
+
+### Co rozhodnout po T2
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Mapka Kde a kdy u judaismu:** na 390 px se popisek Alexandrie kříží s popiskem Javne (Javne a Jeruzalém leží blízko u sebe). Šablona je z K1. Doporučuji opravit v revizi (R) tak, aby se popisky blízkých bodů rozestoupily; týká se i dalších tradic.
+   Odpověď:
+2. **Odkaz z medailonku Filóna na judaismus:** na stránku tradice zatím vedou jen Co je náboženství? a odkaz z judaismu na Filóna, ne naopak. Doporučuji v R nebo O doplnit medailonkům s `tradice: zidovska` Kam dál na stránku judaismu (pravidlo z dat, ne ruční odkaz).
    Odpověď:
 
 ## Zadání P6
