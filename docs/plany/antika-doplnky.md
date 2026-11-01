@@ -63,7 +63,7 @@ Revize ho dala před středověk (oddíl 12, „Deník na konci období“): stu
 ### 8. Drobnosti z dřívějších větví (P6, T1)
 
 - **Cesta 6, krok 4:** citát `seneca-ep-18-9` podává omezování jídla jako vzorné cvičení; P6 navrhne náhradu bez hladu, T1 ji zapíše (rozhodnutí 26. 10. 2026, Stoický týden).
-- **Pět vztahů:** Theofrastos jako Aristotelův žák, Chairefón a Kritón se Sókratem (`znali-se`), Karneadés a Chrýsippos (`vliv-textem`), se zdrojem skillem `atlas-data` (`docs/archiv/plany/interaktivita-v1.md` › Co zůstává na později). Změní výchozí dvojice Dvou životů a možná i Kdo žil dřív? na medailoncích; testy upravit v témže commitu.
+- **Pět vztahů:** Theofrastos jako Aristotelův žák, Chairefón a Kritón se Sókratem (`znali-se`), Karneadés a Chrýsippos (`vliv-textem`), se zdrojem skillem `atlas-data` (`docs/archiv/plany/interaktivita-v1.md` › Co zůstává na později). Změní výchozí dvojice Dvou životů a možná i Kdo žil dřív? na medailoncích; testy upravit v témže commitu. **Po P6 viz oprava: z pěti je jeden chybějící, jeden špatného typu a dva už v datech.**
 
 ## Nad čím jsem váhal
 
