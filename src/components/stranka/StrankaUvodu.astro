@@ -1,0 +1,50 @@
+---
+// Úvodní stránka oddílu (Co je filozofie?, Co je náboženství?): hlavička z frontmatteru src/content/uvody/<id>.mdx,
+// celý obsah v MDX (příběh, pokus, oddíly, seznam tradic, Kam dál) a Prameny. Stránky src/pages/co-je-filozofie.astro
+// a src/pages/nabozenstvi/index.astro jen řeknou, který úvod, kam patří a jaké mají drobečky.
+import { getEntry, render } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from './HlavickaStranky.astro';
+import Prameny from '../osobnost/Prameny.astro';
+import { pramenyZTextu } from '../../lib/prameny-stranky';
+import type { Sekce } from '../rozvrzeni/Hlavicka.astro';
+
+interface Props {
+  id: string;
+  adresa: string;
+  sekce: Sekce;
+  zpet: { href: string; text: string };
+  drobecky: { text: string; href?: string }[];
+}
+const { id, adresa, sekce, zpet, drobecky } = Astro.props;
+const zaznam = await getEntry('uvody', id);
+if (!zaznam) throw new Error(`Úvod „${id}“ není v src/content/uvody`);
+const fm = zaznam.data;
+const { Content } = await render(zaznam);
+const prameny = await pramenyZTextu(zaznam.body);
+---
+<Zakladni titulek={fm.nazev} popis={fm.perex} sekce={sekce} zpet={zpet} kratkyTitulek={fm.nazev} drobecky={drobecky}>
+  <article class={`uvod-stranka stranka obdobi-${fm.obdobi}`} data-navsteva={adresa} data-nazev={fm.nazev}>
+    <HlavickaStranky obdobi={fm.obdobi} nadtitulek={fm.nadtitulek} titulek={fm.nazev} perex={fm.perex} />
+    <div class="obsah">
+      <Content />
+    </div>
+    <div class="ctenarsky">
+      <Prameny prameny={prameny.prameny} citaty={prameny.citaty} obrazky={prameny.obrazky} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .uvod-stranka { padding-bottom: var(--s-8); }
+  /* Jako krok cesty: text ve čtenářském sloupci, bloky, karty a Kam dál v pásu 960 px se stejným středem. */
+  .uvod-stranka :global(.ctenarsky) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .obsah { max-width: 960px; margin-inline: auto; }
+  .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+</style>

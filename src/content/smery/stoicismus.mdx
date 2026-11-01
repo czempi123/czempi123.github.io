@@ -1,0 +1,60 @@
+---
+nazev: Stoicismus
+obdobi: [2]
+poradi: 10
+# PROZATÍMNÍ TEXT (K1): perex, založení, myšlenky a spor napíše T1 se skillem atlas-psani a atlas-osobnost.
+# Podklad: docs/podklady/antika-doplnky.md › c) Stoicismus (Diogenés Laertios VII, 2–3; spor o politiku VII, 121 a X, 119).
+perex: Škola, která učila rozlišit, co je v naší moci a co ne. Začala ztroskotáním a knihkupectvím a dostala se až na císařský trůn.
+zakladatel: zenon-z-kitia
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+import TydenOdkaz from '../../components/tyden/TydenOdkaz.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
+
+<Oddil kotva="zalozeni" nazev="Založení">
+
+Vypráví se, že Zénón z Kitia ztroskotal s nákladem purpuru a v Athénách si sedl do knihkupectví. Četl o Sókratovi a zeptal se, kde se takoví lidé najdou. Zrovna šel kolem Kratés. Knihkupec ukázal a řekl: „Jdi za tím mužem.“
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Etika">
+    <Fragment slot="titulek">Rozliš, co je v tvé <em>moci.</em></Fragment>
+
+Prozatímní text. Něco je v naší moci a něco ne; klid začíná tím, že to rozlišíme.
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Jediné dobro je <em>ctnost.</em></Fragment>
+
+Prozatímní text. Zdraví a bohatství nejsou dobro ani zlo; dá se jim jen dát přednost.
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Metafyzika">
+    <Fragment slot="titulek">Žij v souladu s <em>rozumem.</em></Fragment>
+
+Prozatímní text. I v tom, co je těžké, má svět řád, kterému se dá rozumět.
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+
+Prozatímní text. Stoikové tvrdili, že moudrý se bude podílet na veřejných věcech, pokud mu nic nebrání. Epikúros říkal opak.
+
+</Oddil>
+
+<TydenOdkaz id="stoicky" />
+
+<KamDal odkazy={[
+  { href: '/osobnost/epiktetos/', nadtitulek: 'Portrét', text: 'Epiktétos' },
+  { href: '/osobnost/marcus-aurelius/', nadtitulek: 'Portrét', text: 'Marcus Aurelius' },
+  { href: '/cesta/co-mam-ve-svych-rukou/', nadtitulek: 'Cesta', text: 'Co mám ve svých rukou?' },
+]} />

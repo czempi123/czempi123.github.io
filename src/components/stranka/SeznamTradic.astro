@@ -1,0 +1,44 @@
+---
+// Seznam náboženských tradic na stránce Co je náboženství? (/nabozenstvi/): karta pro každou tradici z kolekce
+// nabozenstvi podle pole `poradi`. Nová tradice se tu objeví sama. Použití v MDX: <SeznamTradic />
+import { getCollection } from 'astro:content';
+import Ikona from '../ui/Ikona.astro';
+import { nezlomitelne } from '../../lib/sazba.js';
+
+const tradice = (await getCollection('nabozenstvi')).sort((a, b) => a.data.poradi - b.data.poradi);
+---
+{tradice.length > 0 && (
+  <section class="tradice" id="tradice" aria-labelledby="tradice-nadpis" data-oddil="Tradice">
+    <h2 class="t-h2 tradice__nadpis ctenarsky" id="tradice-nadpis" tabindex="-1">Tradice</h2>
+    <ul>
+      {tradice.map((t) => (
+        <li class={`obdobi-${t.data.obdobi[0]}`}>
+          <a class="karta" href={`/nabozenstvi/${t.id}/`}>
+            <span class="t-nadtitulek karta__nad">Náboženství</span>
+            <span class="t-h3 karta__nazev">{t.data.nazev}</span>
+            <span class="karta__perex">{nezlomitelne(t.data.perex)}</span>
+            <Ikona id="dal" velikost={22} class="karta__sipka" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .tradice { margin: var(--s-9) 0 var(--s-7); }
+  .tradice__nadpis { margin: 0 auto var(--s-5); }
+  .tradice__nadpis:focus { outline: none; }
+  .tradice__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  ul { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .karta {
+    position: relative; display: flex; flex-direction: column; gap: var(--s-2); height: 100%;
+    padding: var(--s-5) var(--s-8) var(--s-5) var(--s-5);
+    border: 1px solid var(--pc); border-left-width: 6px; border-radius: var(--r-md); background: var(--surface); text-decoration: none;
+  }
+  .karta:hover { background: var(--pc-tint); }
+  .karta__nad { color: var(--pc); }
+  .karta__perex { color: var(--ink-2); font-size: 17px; line-height: 1.5; }
+  .karta :global(.karta__sipka) { position: absolute; right: var(--s-5); top: 50%; translate: 0 -50%; color: var(--pc); }
+  @media (min-width: 900px) { ul { grid-template-columns: repeat(2, 1fr); } }
+</style>

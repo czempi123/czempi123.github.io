@@ -1,0 +1,54 @@
+---
+nazev: Judaismus
+poradi: 1
+obdobi: [2]
+# PROZATÍMNÍ TEXT (K1): perex, scénu a oddíly napíše T2 se skillem atlas-psani a atlas-osobnost.
+# Podklad: docs/podklady/nabozenstvi-uvod.md › b) Judaismus (scéna Jochanan ben Zakkaj a Javne, Gitin 56a–b;
+# Tóra, smlouva, exil, rabínská tradice; citáty) a odpovědi 4–8 po P6N. Místa podle odpovědi 8 (bez Sinaje).
+perex: Víra, která přežila zboření chrámu i staletí v cizině. Drží ji kniha, smlouva a otázky, které se nepřestaly klást.
+mista:
+  - { misto: jeruzalem, role: centrum, do: 70, zdroj: britannica-johanan }
+  - { misto: babylon, role: exil, od: -587, do: -538, zdroj: britannica-babylonian-exile }
+  - { misto: alexandrie, role: diaspora, zdroj: sep-philo }
+  - { misto: javne, role: centrum, od: 70, zdroj: britannica-johanan }
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import MistaTradice from '../../components/stranka/MistaTradice.astro';
+import Citat from '../../components/ui/Citat.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T2. */}
+
+<div class="uvod ctenarsky">
+
+Prozatímní text. Vypráví se, že roku 70 n. l., když Římané obléhali Jeruzalém, vynesli žáci rabiho Jochanana ben Zakkaje z města jako mrtvého.
+
+</div>
+
+<Oddil kotva="tora" nazev="Tóra a smlouva">
+
+Prozatímní text. Tóra, smlouva mezi Bohem a lidem, přikázání.
+
+</Oddil>
+
+<Oddil kotva="exil" nazev="Exil a rozptýlení">
+
+Prozatímní text. Babylónský exil a život v cizině. Prorok Jeremjáš psal vyhnancům:
+
+<Citat id="jr-29-7" />
+
+</Oddil>
+
+<Oddil kotva="rabinska-tradice" nazev="Rabínská tradice">
+
+Prozatímní text. Mišna, Talmud a učení, které se předává z učitele na žáka.
+
+</Oddil>
+
+<MistaTradice tradice={props.tradice} />
+
+<KamDal odkazy={[
+  { href: '/osobnost/filon-alexandrijsky/', nadtitulek: 'Medailonek', text: 'Filón Alexandrijský' },
+  { href: '/nabozenstvi/', nadtitulek: 'Náboženství světa', text: 'Co je náboženství?' },
+  { href: '/otazky/#je-buh', nadtitulek: 'Velká otázka 9', text: 'Je Bůh?' },
+]} />

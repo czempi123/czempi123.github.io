@@ -1,0 +1,64 @@
+---
+nazev: Epikureismus
+obdobi: [2]
+poradi: 11
+# PROZATÍMNÍ TEXT (K1): perex, založení, myšlenky, spor a Zkus to žít napíše T1 se skillem atlas-psani a atlas-osobnost.
+# Podklad: docs/podklady/antika-doplnky.md › c) Epikureismus (Diogenés Laertios X, 10–11; Hlavní myšlenky 27, 31–37).
+perex: Škola v zahradě, kde přátelé bydleli spolu a učili se, že ke štěstí stačí málo, když víš, co opravdu potřebuješ.
+zakladatel: epikuros
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
+
+<Oddil kotva="zalozeni" nazev="Založení">
+
+Epikúros koupil v Athénách zahradu a bydleli s ním v ní přátelé, kteří přijeli odevšad. Společný majetek nechtěl: podle něj by to znamenalo nedůvěru.
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Etika">
+    <Fragment slot="titulek">Slast je <em>klid.</em></Fragment>
+
+Prozatímní text. Nebolet a nebát se; k tomu stačí málo.
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Smrt se nás <em>netýká.</em></Fragment>
+
+Prozatímní text. Kde jsme my, není smrt, a kde je smrt, nejsme my.
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Politika">
+    <Fragment slot="titulek">Spravedlnost je <em>dohoda.</em></Fragment>
+
+Prozatímní text. Přátelství je nejvíc, co moudrost dává; spravedlnost je dohoda, že si neublížíme.
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+
+Prozatímní text. S kyniky o to, kolik je dost, se stoiky o to, jestli se má moudrý plést do politiky.
+
+</Oddil>
+
+<ZkusToZitKarta id="epikureismus-vecer-s-pritelem" nazev="Večer s přítelem" delka="jeden večer" odkaz="/smer/epikureismus/#zkus-to-zit">
+
+Prozatímní text. Jeden večer s někým, na kom ti záleží, bez telefonu a bez plánu.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/epikuros/', nadtitulek: 'Profil', text: 'Epikúros' },
+  { href: '/cesta/kolik-je-dost/', nadtitulek: 'Cesta', text: 'Kolik je dost?' },
+  { href: '/cesta/proc-se-bat-smrti/', nadtitulek: 'Cesta', text: 'Proč se bát smrti?' },
+]} />

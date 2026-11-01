@@ -1,0 +1,32 @@
+# Roztřiď · Co je náboženství? (/nabozenstvi/): pět jevů do tří košů, dřív než student dostane měřítka religionistů.
+# PROZATÍMNÍ TEXT (K1): karty, koše a zpětné vazby napíše T2 se skillem atlas-psani.
+# Podklad: docs/podklady/nabozenstvi-uvod.md › a) Úvodní pokus: Co z toho je náboženství? a odpověď 1 po P6N
+# (zpětná vazba bez „správného koše“; podobnost v tom, jak lidé něco dělají, neříká nic o tom, jestli je to pravda).
+druh: roztrid
+obdobi: 1
+nadtitulek: Nejdřív ty
+otazka: Co z toho je podle tebe náboženství?
+kose:
+  - id: ano
+    nazev: Je
+  - id: ne
+    nazev: Není
+  - id: zalezi
+    nazev: Záleží na…
+karty:
+  - id: bohosluzba
+    text: Bohoslužba v kostele
+    zpetna: "Prozatímní text. Co na tom dělá náboženství: víra, obřad, nebo společenství?"
+  - id: fanklub
+    text: Fotbalový fanklub
+    zpetna: "Prozatímní text. Lidé spolu zpívají a mají své svaté chvíle. Stačí to?"
+  - id: svatba
+    text: Svatba
+    zpetna: "Prozatímní text. Svatba může být v kostele i na úřadě. Co se změní?"
+  - id: horoskop
+    text: Horoskop v novinách
+    zpetna: "Prozatímní text. Kde žádné společenství není, je to pořád náboženství?"
+  - id: minuta-ticha
+    text: Minuta ticha za oběti
+    zpetna: "Prozatímní text. Je ticho samo posvátné, nebo to, za koho se drží?"
+zdroje: [sep-concept-religion]

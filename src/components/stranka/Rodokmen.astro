@@ -1,0 +1,69 @@
+---
+// Rodokmen směru z vztahy.yaml (rodokmenSmeru v src/lib/stranky.ts): kdo u koho se učil a kdo navázal přes texty,
+// seřazeno podle začátku života na svislé ose jako hlasy na stránce otázky. Člověk mimo směr stojí slabším tónem
+// s názvem svého směru. Tradovaný vztah nese „vypráví se“. Nic se nepíše ručně; prázdný rodokmen se neukáže.
+// Použití v MDX: <Rodokmen smer="stoicismus" />
+import { getCollection } from 'astro:content';
+import Mince from '../ui/Mince.astro';
+import { data, osoba as najdiOsobu } from '../../lib/data';
+import { rodokmenSmeru, ODDIL_RODOKMEN } from '../../lib/stranky';
+import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { zivot } from '../../lib/casy';
+
+interface Props { smer: string }
+const { smer } = Astro.props;
+const clanky = rodokmenSmeru(smer, data.lide, data.vztahy);
+const adresa = await adresaStranekOsob();
+const nazvySmeru = new Map((await getCollection('smery')).map((s) => [s.id, s.data.nazev]));
+// „Učil se u Kratéta“, „Navázal na texty Epiktéta“: jméno ve 2. pádě (jmeno2), jinak 1. pád.
+const jmeno = (id: string) => { const o = najdiOsobu(id); return o.jmeno2 ?? o.jmeno; };
+const odkaz = (id: string) => adresa(id);
+---
+{clanky.length > 0 && (
+  <section class="rodokmen" id={ODDIL_RODOKMEN.kotva} aria-labelledby={`${ODDIL_RODOKMEN.kotva}-nadpis`} data-oddil={ODDIL_RODOKMEN.nazev}>
+    <h2 class="t-h2 rodokmen__nadpis" id={`${ODDIL_RODOKMEN.kotva}-nadpis`} tabindex="-1">{ODDIL_RODOKMEN.nazev}</h2>
+    <ol class="rodokmen__osa">
+      {clanky.map((c) => (
+        <li class:list={['clanek', `obdobi-${c.osoba.obdobi}`, { 'clanek--mimo': !c.clen }]}>
+          <span class="clanek__mince" aria-hidden="true"><Mince osoba={c.osoba} varianta="tint" velikost={40} /></span>
+          <div class="clanek__text">
+            <p class="clanek__roky t-popisek t-letopocet">{zivot(c.osoba)}{!c.clen && c.osoba.smery.length > 0 && <> · {c.osoba.smery.map((s) => nazvySmeru.get(s) ?? s).join(', ')}</>}</p>
+            <h3 class="clanek__jmeno">{odkaz(c.osoba.id) ? <a href={odkaz(c.osoba.id)}>{c.osoba.jmeno}</a> : c.osoba.jmeno}</h3>
+            {c.ucitele.length > 0 && (
+              <p class="clanek__vztah t-ovladani">
+                <span class="clanek__role">{c.osoba.zena ? 'Učila se u' : 'Učil se u'}</span>{' '}
+                {c.ucitele.map((u, i) => <>{i > 0 && ', '}{jmeno(u.id)}{u.tradovany && <span class="clanek__vypravi"> · vypráví se</span>}</>)}
+              </p>
+            )}
+            {c.cetl.length > 0 && (
+              <p class="clanek__vztah t-ovladani">
+                <span class="clanek__role">{c.osoba.zena ? 'Navázala na texty' : 'Navázal na texty'}</span>{' '}
+                {c.cetl.map((u, i) => <>{i > 0 && ', '}{jmeno(u.id)}{u.tradovany && <span class="clanek__vypravi"> · vypráví se</span>}</>)}
+              </p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+
+<style>
+  .rodokmen { max-width: var(--ctenarsky-sloupec); margin: var(--s-9) auto var(--s-7); }
+  .rodokmen__nadpis { margin: 0 0 var(--s-5); }
+  .rodokmen__nadpis:focus { outline: none; }
+  .rodokmen__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .rodokmen__osa { position: relative; margin: 0; padding: 0; list-style: none; }
+  /* Svislá linka středem mincí. */
+  .rodokmen__osa::before { content: ''; position: absolute; left: 19px; top: 20px; bottom: 20px; width: 2px; background: var(--rule); }
+  .clanek { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-5); }
+  .clanek__mince { position: relative; }
+  .clanek__text { min-width: 0; padding-top: 2px; }
+  .clanek__roky { margin: 0; color: var(--pc); font-weight: 600; }
+  .clanek__jmeno { margin: 2px 0 var(--s-1); font-size: 21px; line-height: 1.25; font-weight: 400; }
+  .clanek__vztah { margin: 0; color: var(--ink-2); }
+  .clanek__role { color: var(--muted); }
+  .clanek__vypravi { color: var(--muted); }
+  .clanek--mimo .clanek__jmeno { color: var(--ink-2); }
+  .clanek--mimo .clanek__roky { color: var(--muted); font-weight: 400; }
+</style>

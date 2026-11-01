@@ -1,0 +1,72 @@
+---
+// Stránka směru /smer/<id>/ (větev antika-doplnky, K1). Jen směr s perexem v src/content/smery/<id>.mdx; ostatní
+// zůstávají štítkem v Lidech a směrech. Hlavička z frontmatteru, pak text MDX: založení (<Oddil>), tři myšlenky
+// (<Myslenky>), rodokmen z vztahy.yaml (<Rodokmen>), spor (<Oddil>), Zkus to žít (karta výzvy nebo týdne) a Kam dál.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import Prameny from '../../components/osobnost/Prameny.astro';
+import { data, obdobiPodleId, osoba } from '../../lib/data';
+import { adresyStranek, strankyAtlasu } from '../../lib/stranky-typu';
+import { vztahyRodokmenu } from '../../lib/stranky';
+import { pramenyZTextu } from '../../lib/prameny-stranky';
+
+export async function getStaticPaths() {
+  await strankyAtlasu(); // zastaví sestavení, když má směr perex bez textu nebo naopak
+  const vse = await getCollection('smery');
+  return vse.filter((s) => s.data.perex).map((zaznam) => ({ params: { smer: zaznam.id }, props: { zaznam } }));
+}
+interface Props { zaznam: CollectionEntry<'smery'> }
+const { zaznam } = Astro.props;
+const fm = zaznam.data;
+const id = zaznam.id;
+const obdobi = obdobiPodleId.get(fm.obdobi[0])!;
+const { Content } = await render(zaznam);
+const odkazy = await adresyStranek();
+const zakladatel = fm.zakladatel ? osoba(fm.zakladatel) : undefined;
+const prameny = await pramenyZTextu(zaznam.body, { prameny: vztahyRodokmenu(id, data.lide, data.vztahy).map((v) => v.zdroj) });
+const stranka = `/smer/${id}/`;
+---
+<Zakladni
+  titulek={fm.nazev}
+  popis={`${fm.nazev}: ${fm.perex}`}
+  sekce="lide"
+  zpet={{ href: '/lide/', text: 'Lidé a směry' }}
+  kratkyTitulek={fm.nazev}
+  drobecky={[
+    { text: 'Lidé a směry', href: '/lide/' },
+    { text: obdobi.nazev, href: odkazy.obdobi(obdobi.id) },
+    { text: fm.nazev },
+  ]}
+>
+  <article class={`smer-stranka stranka obdobi-${obdobi.id}`} data-navsteva={stranka} data-nazev={fm.nazev}>
+    <HlavickaStranky
+      obdobi={obdobi.id}
+      nadtitulek={`Směr · období ${fm.obdobi.join(' a ')}`}
+      titulek={fm.nazev}
+      perex={fm.perex!}
+      mince={zakladatel ? [zakladatel] : []}
+    />
+    <div class="obsah">
+      <Content smer={id} />
+    </div>
+    <div class="ctenarsky">
+      <Prameny prameny={prameny.prameny} citaty={prameny.citaty} obrazky={prameny.obrazky} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .smer-stranka { padding-bottom: var(--s-8); }
+  /* Středová osa jako na profilu: text, oddíly a bloky v jednom sloupci, široké oddíly (Myšlenky, Zkus to žít, Kam dál) přes šířku. */
+  .smer-stranka :global(.ctenarsky),
+  .smer-stranka :global(.blok-sloupec) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .smer-stranka :global(.zkus .ctenarsky) { margin-inline: 0; }
+  .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+</style>

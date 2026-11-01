@@ -1,0 +1,63 @@
+---
+nazev: Co je filozofie?
+nadtitulek: Na začátek
+obdobi: 1
+# PROZATÍMNÍ TEXT (K1): perex, příběh, pět odpovědí, rozlišení a texty oddílů napíše T1 se skillem atlas-psani.
+# Podklad: docs/podklady/antika-doplnky.md › a) Co je filozofie? (Thalés, pokus Proč hřmí?, rozlišení, disciplíny)
+# a odpovědi 1 po P6N (Žalm 29 v ČEP) a 3 po P6N (mýtus jako posvátné vyprávění, ne výmysl).
+perex: Mýtus, náboženství, věda i umění odpovídají na velké otázky. Filozofie se od nich liší tím, že se ptá na důvody a každý je smí zkoumat.
+---
+import { Pribeh, Odkryj } from '../../components/bloky';
+import Oddil from '../../components/stranka/Oddil.astro';
+import DesetOtazek from '../../components/stranka/DesetOtazek.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
+
+<Pribeh id="thales-studna" osoba="thales" nadtitulek="Milétos" titulek="Muž, který spadl *do studny*" popisek="Milétos, iónské město na pobřeží Malé Asie.">
+
+Vypráví se, že Thalés se při pozorování hvězd díval tak vzhůru, že spadl do studny. Služebná se mu vysmála: tak moc chce znát, co je na nebi, že nevidí, co má před nohama.
+
+</Pribeh>
+
+<Oddil kotva="proc-hrmi" nazev="Proč hřmí?">
+
+Prozatímní text. Pět odpovědí na tutéž otázku. Než si přečteš, čím se liší, zkus to sám.
+
+1. Prozatímní text. Hrom a blesk má v rukou Zeus; dostal je od kyklopů.
+2. Prozatímní text. „Hospodinův hlas burácí nad vodami, zahřímal Bůh slávy“ (Žalm 29, 3).
+3. Prozatímní text. Blesk je záblesk světla na tmavém mraku (Anaximandros).
+4. Prozatímní text. Hrom je zvuk, který vzniká, když blesk prudce ohřeje vzduch.
+5. Prozatímní text. Bouře ve čtvrté větě Beethovenovy Pastorální symfonie.
+
+</Oddil>
+
+<Odkryj
+  id="co-je-filozofie-pet-odpovedi"
+  nadtitulek="Nejdřív ty"
+  otazka="Čím se těch pět odpovědí liší? Na čem každá z nich stojí?"
+  tlacitko="Porovnat"
+  obdobi={1}
+>
+Prozatímní text. Mýtus odpovídá příběhem, náboženství vztahem k posvátnému, filozofie důvodem, věda ověřením a umění zážitkem. Žádná z nich není stupeň k té další.
+</Odkryj>
+
+<Oddil kotva="pet-cest" nazev="Pět cest k velkým otázkám">
+
+Prozatímní text. Mýtus vypráví, náboženství žije ve vztahu k posvátnému, filozofie se ptá na důvody, věda ověřuje a umění nechává prožít. Mýtus tu znamená posvátné vyprávění, ne výmysl.
+
+</Oddil>
+
+<Oddil kotva="deset-otazek" nazev="Deset velkých otázek">
+
+Prozatímní text. Na tyhle otázky odpovídá každá doba po svém. Každá patří k jedné části filozofie.
+
+<DesetOtazek />
+
+</Oddil>
+
+<KamDal odkazy={[
+  { href: '/cesta/kdy-mam-dobry-duvod-verit/', nadtitulek: 'Cesta', text: 'Kdy mám dobrý důvod věřit?' },
+  { href: '/obdobi/pocatky-a-klasicke-recko/', nadtitulek: 'Období 1', text: 'Počátky a klasické Řecko' },
+  { href: '/nabozenstvi/', nadtitulek: 'Náboženství světa', text: 'Co je náboženství?' },
+]} />

@@ -1,0 +1,46 @@
+---
+nazev: Co je náboženství?
+nadtitulek: Náboženství světa
+obdobi: 1
+# PROZATÍMNÍ TEXT (K1): perex, pokus, oddíly a texty napíše T2 se skillem atlas-psani.
+# Podklad: docs/podklady/nabozenstvi-uvod.md › a) Co je náboženství? (pokus s pěti jevy, posvátné, mýtus, rituál,
+# společenství, Durkheim, Otto, Eliade) a odpovědi 1–3 po P6N. Atlas o pravdivosti tradic nerozhoduje (otázka 9).
+perex: Lidé po celém světě se modlí, slaví svátky a vyprávějí posvátné příběhy. Co to všechno spojuje, a jak o tom mluvit, když jeden věří a druhý ne?
+---
+import { Roztrid } from '../../components/bloky';
+import Oddil from '../../components/stranka/Oddil.astro';
+import SeznamTradic from '../../components/stranka/SeznamTradic.astro';
+import Citat from '../../components/ui/Citat.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T2. */}
+
+<div class="uvod ctenarsky">
+
+Prozatímní text. Než si přečteš, co o tom řekli religionisté, rozhodni sám.
+
+</div>
+
+<Roztrid id="nabozenstvi-co-z-toho" />
+
+<Oddil kotva="ctyri-veci" nazev="Posvátné, mýtus, rituál, společenství">
+
+Prozatímní text. Posvátné je to, co se od všedního odděluje. Mýtus je posvátné vyprávění, ne výmysl. Rituál je jednání, které se opakuje. Společenství drží víru pohromadě.
+
+</Oddil>
+
+<Oddil kotva="religioniste" nazev="Jak náboženství zkoumá věda">
+
+Prozatímní text. Religionistika se neptá, jestli je náboženství pravdivé, ale co lidé dělají a proč. Émile Durkheim to řekl takhle:
+
+<Citat id="durkheim-uvod" />
+
+</Oddil>
+
+<SeznamTradic />
+
+<KamDal odkazy={[
+  { href: '/co-je-filozofie/', nadtitulek: 'Na začátek', text: 'Co je filozofie?' },
+  { href: '/nabozenstvi/judaismus/', nadtitulek: 'Náboženství', text: 'Judaismus' },
+  { href: '/otazky/#je-buh', nadtitulek: 'Velká otázka 9', text: 'Je Bůh?' },
+]} />

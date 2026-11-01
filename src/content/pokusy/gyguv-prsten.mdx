@@ -1,0 +1,36 @@
+---
+nazev: Gýgův prsten
+obdobi: 1
+otazka: 2
+osoby: [platon]
+pramen: Platón, Ústava II, 359c–360d
+# PROZATÍMNÍ TEXT (K1): perex, úvod, hlasy a Kam dál napíše T1 se skillem atlas-psani a atlas-cesta.
+# Podklad: docs/podklady/antika-doplnky.md › e) Gygův prsten. Blok platon-gyguv-prsten je tentýž jako v portrétu
+# Platóna (stejné id: jeden stav a jeden zápis v deníku); nový je jen blok pokus-gyges-predem.
+perex: Co bys dělal, kdyby tě nikdo nikdy neviděl? Jeden z nejstarších myšlenkových pokusů se ptá, proč být spravedlivý.
+hlasy:
+  - osoba: platon
+    myslenka: >-
+      Prozatímní text. Kdo v sobě nechá vládnout žádostivost, rozvrátí si duši, i když ho nikdo nevidí.
+    citat: ustava-360b
+  - osoba: epikuros
+    myslenka: >-
+      Prozatímní text. Kdo tajně poruší dohodu o neškození, nemůže si být jistý, že na to nikdo nepřijde, a ten strach si nese do smrti.
+kamDal:
+  - { href: /osobnost/platon/, nadtitulek: Portrét, text: Platón }
+  - { href: /otazky/#co-je-spravne, nadtitulek: Velká otázka 2, text: "Co je správné a co dlužím druhým?" }
+  - { href: /smer/akademie/, nadtitulek: Směr, text: Platónova Akademie }
+---
+import { Volba, ZmenJednuVec } from '../../components/bloky';
+
+{/* PROZATÍMNÍ TEXT (K1): úvod napíše T1. */}
+
+<div class="uvod ctenarsky">
+
+Prozatímní text. Platónův bratr Glaukón vypráví příběh o pastýři, který našel prsten. Než si ho přečteš, odpověz sám.
+
+</div>
+
+<Volba id="pokus-gyges-predem" dal={{ href: '#platon-gyguv-prsten', text: 'Příběh o prstenu' }} />
+
+<ZmenJednuVec id="platon-gyguv-prsten" />

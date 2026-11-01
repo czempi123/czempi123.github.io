@@ -1,0 +1,64 @@
+---
+nazev: Kynismus
+obdobi: [1, 2]
+poradi: 9
+# PROZATÍMNÍ TEXT (K1): perex, založení, myšlenky, spor a Zkus to žít napíše T1 se skillem atlas-psani a atlas-osobnost.
+# Podklad: docs/podklady/antika-doplnky.md › c) Kynismus (Diogenés Laertios VI, 20–21, 63, 71, 104).
+perex: Filozofové, kteří žili na ulici a ptali se, kolik z toho, co děláme, děláme jen proto, že se to čeká.
+zakladatel: antisthenes
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
+
+<Oddil kotva="zalozeni" nazev="Založení">
+
+Vypráví se, že se Antisthenés po Diogenovi ohnal holí a Diogenés nastavil hlavu: „Tluč, nenajdeš dost tvrdé dřevo, abys mě od sebe odehnal, dokud mám pocit, že máš co říct.“
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Etika">
+    <Fragment slot="titulek">Podle přírody, ne podle <em>zvyku.</em></Fragment>
+
+Prozatímní text. Mnohé z toho, za čím se lidé honí, chtějí jen kvůli ostatním.
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Stačí <em>málo.</em></Fragment>
+
+Prozatímní text. Kdo potřebuje málo, je svobodnější.
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Politika">
+    <Fragment slot="titulek">Občan <em>světa.</em></Fragment>
+
+Prozatímní text. Na otázku, odkud je, odpověděl Diogenés, že je občan světa.
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+
+Prozatímní text. S Epikúrem o to, kolik je dost, s Platónem o oškubaného kohouta.
+
+</Oddil>
+
+<ZkusToZitKarta id="kynismus-den-bez-ceka-se" nazev="Den bez „protože se to čeká“" delka="jeden den" odkaz="/smer/kynismus/#zkus-to-zit">
+
+Prozatímní text. U každé věci, kterou dnes uděláš, se zeptej, jestli ji děláš, protože chceš, nebo protože se to čeká.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/diogenes/', nadtitulek: 'Profil', text: 'Diogenés' },
+  { href: '/osobnost/krates-a-hipparchia/', nadtitulek: 'Profil', text: 'Kratés a Hipparchia' },
+  { href: '/cesta/ci-zivot-vlastne-ziju/', nadtitulek: 'Cesta', text: 'Čí život vlastně žiju?' },
+]} />

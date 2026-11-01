@@ -1,0 +1,20 @@
+---
+// Karta týdne cvičení vložená do MDX podle id (stránka směru stoicismus: Zkus to žít je Stoický týden).
+// Kotvu a název oddílu Zkus to žít nese obal, aby oddíl stál v obsahu stránky i v přípravě hodiny jako jinde.
+// Použití v MDX: <TydenOdkaz id="stoicky" />
+import { getEntry } from 'astro:content';
+import TydenKarta from './TydenKarta.astro';
+import { ODDILY } from '../../lib/oddily';
+
+interface Props { id: string }
+const { id } = Astro.props;
+const tyden = await getEntry('tydny', id);
+if (!tyden) throw new Error(`Týden „${id}“ není v src/content/tydny`);
+---
+<section class="tyden-odkaz" id={ODDILY.zkus.kotva} aria-label={ODDILY.zkus.nazev} data-oddil={ODDILY.zkus.nazev}>
+  <TydenKarta tyden={tyden} uroven={2} />
+</section>
+
+<style>
+  .tyden-odkaz { max-width: 960px; margin: var(--s-9) auto var(--s-7); }
+</style>

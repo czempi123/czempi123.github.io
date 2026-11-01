@@ -1,0 +1,28 @@
+---
+// Deset velkých otázek s disciplínou (stránka Co je filozofie?): znění a disciplína z kolekce otázek, odkaz na stránku
+// otázky, nebo (dokud ji nemá) na řádek v přehledu. Nic se nepíše ručně. Použití v MDX: <DesetOtazek />
+import { getCollection } from 'astro:content';
+import { adresaOtazky } from '../../lib/otazky';
+
+const otazky = (await getCollection('otazky')).sort((a, b) => a.data.cislo - b.data.cislo);
+---
+<ol class="deset">
+  {otazky.map((o) => (
+    <li>
+      <span class="deset__cislo t-letopocet">{o.data.cislo}</span>
+      <span class="deset__text">
+        <a class="deset__otazka" href={adresaOtazky(o.id, o.data)}>{o.data.otazka}</a>
+        <span class="t-popisek deset__disciplina">{o.data.disciplina}</span>
+      </span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .deset { display: grid; margin: 0; padding: 0; list-style: none; }
+  .deset li { display: flex; gap: var(--s-4); align-items: baseline; padding: var(--s-3) 0; border-top: 1px solid var(--rule); }
+  .deset__cislo { flex: none; width: 2ch; font-size: 15px; font-weight: 600; color: var(--muted); }
+  .deset__text { display: flex; flex-direction: column; gap: 2px; }
+  .deset__otazka { font-size: 21px; line-height: 1.3; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .deset__disciplina { color: var(--ink-2); }
+</style>

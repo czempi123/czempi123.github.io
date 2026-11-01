@@ -1,0 +1,29 @@
+---
+// Oddíl stránky období, směru, pokusu, úvodu a tradice: nadpis a text ve čtenářském sloupci.
+// Kotva a název jsou zastavení v přípravě hodiny (katalogZastaveni bere `Oddil` z MDX stejně jako stránka).
+// Použití v MDX:
+// <Oddil kotva="zalozeni" nazev="Založení">Text…</Oddil>
+// <Oddil kotva="spor" nazev="Spor"><Fragment slot="titulek">S kým se *přeli*</Fragment>Text…</Oddil>
+// S titulkem stojí název nad ním jako nadtitulek v barvě období. `siroky` pustí obsah do pásu 960 px (bloky, karty).
+interface Props { kotva: string; nazev: string; siroky?: boolean }
+const { kotva, nazev, siroky = false } = Astro.props;
+const maTitulek = Astro.slots.has('titulek');
+---
+<section class:list={['oddil-stranky', { 'oddil-stranky--siroky': siroky }]} id={kotva} aria-labelledby={`${kotva}-nadpis`} data-oddil={nazev}>
+  <div class="ctenarsky oddil-stranky__hlava">
+    {maTitulek && <p class="t-nadtitulek oddil-stranky__nad">{nazev}</p>}
+    <h2 class="t-h2 oddil-stranky__nadpis" id={`${kotva}-nadpis`} tabindex="-1">{maTitulek ? <slot name="titulek" /> : nazev}</h2>
+  </div>
+  <div class:list={['oddil-stranky__obsah', { ctenarsky: !siroky }]}><slot /></div>
+</section>
+
+<style>
+  .oddil-stranky { margin: var(--s-9) 0 var(--s-7); }
+  .oddil-stranky :global(.ctenarsky) { margin-inline: auto; }
+  .oddil-stranky__nad { margin: 0 0 var(--s-2); color: var(--pc); }
+  .oddil-stranky__nadpis { margin: 0 0 var(--s-5); text-wrap: balance; }
+  .oddil-stranky__nadpis :global(em) { color: var(--ink-2); }
+  .oddil-stranky__nadpis:focus { outline: none; }
+  .oddil-stranky__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .oddil-stranky--siroky .oddil-stranky__obsah { max-width: 960px; margin-inline: auto; }
+</style>

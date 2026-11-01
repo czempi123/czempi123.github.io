@@ -19,13 +19,19 @@ import { nezlomitelne } from '../../lib/sazba.js';
 import { adresaStranekOsob, medailonky, kdoZilNaMedailonku } from '../../lib/stranky-osob';
 import KdoZilDriv from '../bloky/KdoZilDriv.astro';
 import { kamDalMedailonku, type CilStranky } from '../../lib/medailonek';
+import { adresyStranek } from '../../lib/stranky-typu';
 
 interface Props { osoba: TOsoba }
 const { osoba } = Astro.props;
 const obdobi = obdobiPodleId.get(osoba.obdobi)!;
 const smery = new Map((await getCollection('smery')).map((s) => [s.id, s.data.nazev]));
-// Nadtitulek: směr (nebo období, když člověk ke škole nepatřil) a druh stránky.
-const nadtitulek = [...(osoba.smery.length ? osoba.smery.map((s) => smery.get(s) ?? s) : [obdobi.nazev]), 'medailonek'].join(' · ');
+const odkazy = await adresyStranek();
+// Nadtitulek: směr (nebo období, když člověk ke škole nepatřil) a druh stránky. Směr se stránkou je odkaz na ni.
+const castiNadtitulku: { text: string; href?: string }[] = [
+  ...(osoba.smery.length ? osoba.smery.map((s) => ({ text: smery.get(s) ?? s, href: odkazy.smer(s) })) : [{ text: obdobi.nazev }]),
+  { text: 'medailonek' },
+];
+const adresaObdobi = odkazy.obdobi(obdobi.id);
 // Místo v hlavičce jako u profilu: rodiště, jinak poslední místo působení.
 const rodiste = osoba.mista.find((m) => m.role === 'narozeni') ?? osoba.mista.findLast((m) => m.role === 'pusobeni');
 const misto = rodiste ? mistaPodleId.get(rodiste.misto)?.nazev : undefined;
@@ -69,19 +75,19 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
   zpet={{ href: '/lide/', text: 'Lidé a směry' }}
   drobecky={[
     { text: 'Lidé a směry', href: '/lide/' },
-    { text: obdobi.nazev, href: `/lide/#obdobi-${obdobi.id}` },
+    { text: obdobi.nazev, href: adresaObdobi },
     { text: osoba.jmeno },
   ]}
 >
   <article class={`osobnost medailonek stranka obdobi-${osoba.obdobi}`} data-navsteva={adresaStranky} data-nazev={osoba.jmeno}>
     <header class:list={['medailonek__hlavicka', { 'medailonek__hlavicka--deska': deska }]}>
       <div class="medailonek__titulek">
-        <p class="t-nadtitulek nadtitulek">{nadtitulek}</p>
+        <p class="t-nadtitulek nadtitulek">{castiNadtitulku.map((c, i) => <>{i > 0 && ' · '}{c.href ? <a href={c.href}>{c.text}</a> : c.text}</>)}</p>
         <h1 class="t-display-2">{osoba.jmeno}</h1>
         <p class="data t-ovladani">
           <span class="t-letopocet">{zivot(osoba)}</span>
           {misto && <> · {misto}</>}
-          {' · '}<a href={`/lide/#obdobi-${obdobi.id}`}>období {obdobi.id}</a>
+          {' · '}<a href={adresaObdobi}>období {obdobi.id}</a>
         </p>
         {/* Kdo a proč: dvě věty z dat. Na telefonu stojí hned pod jménem, aby byly na první obrazovce. */}
         <dl class="jadro">
@@ -133,6 +139,8 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
 <style>
   .medailonek__hlavicka { display: grid; gap: var(--s-6); padding-top: var(--s-5); }
   .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  /* Směr se stránkou v nadtitulku: odkaz v barvě období; svislá výplň zvětší dotykový cíl a řádek neposune. */
+  .nadtitulek a { color: inherit; text-underline-offset: 0.2em; padding: 14px 0; }
   h1 { margin-bottom: var(--s-4); }
   .data { color: var(--ink-2); margin: 0; }
   .data a { color: inherit; }

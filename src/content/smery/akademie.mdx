@@ -1,0 +1,64 @@
+---
+nazev: Platónova Akademie
+obdobi: [1, 2]
+poradi: 6
+# PROZATÍMNÍ TEXT (K1): perex, založení, myšlenky, spor a Zkus to žít napíše T1 se skillem atlas-psani a atlas-osobnost.
+# Podklad: docs/podklady/antika-doplnky.md › c) Akademie (Diogenés Laertios I, 14; SEP „Carneades“, „Aristotle“).
+perex: Škola, ve které se spor nebral jako zrada. Platónův nejlepší žák s ním nesouhlasil a řekl to nahlas.
+zakladatel: platon
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+{/* PROZATÍMNÍ TEXT (K1): všechny odstavce na této stránce přepíše T1. */}
+
+<Oddil kotva="zalozeni" nazev="Založení">
+
+Prozatímní text. Aristotelés přišel do Akademie asi v sedmnácti letech a zůstal dvacet let, až do Platónovy smrti.
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Metafyzika">
+    <Fragment slot="titulek">Za tím, co vidíme, jsou <em>ideje.</em></Fragment>
+
+Prozatímní text. To, čím je stůl stolem, nevidíme očima.
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Spravedlnost je řád v <em>duši.</em></Fragment>
+
+Prozatímní text. Nejde o pověst před lidmi, ale o to, kdo v tobě vládne.
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Teorie poznání">
+    <Fragment slot="titulek">Za i <em>proti.</em></Fragment>
+
+Prozatímní text. Nic nepřijmout bez zkoušky a argumentovat na obě strany.
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+
+Prozatímní text. Aristotelés s Platónem o ideje, Karneadés s Chrýsippem o všechno.
+
+</Oddil>
+
+<ZkusToZitKarta id="akademie-sokratovsky-rozhovor" nazev="Jeden sokratovský rozhovor" delka="jeden rozhovor" odkaz="/smer/akademie/#zkus-to-zit">
+
+Prozatímní text. Zeptej se kamaráda na něco, v čem nesouhlasíte, a neptej se, abys vyhrál, ale abys zjistil, co si myslí.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/platon/', nadtitulek: 'Portrét', text: 'Platón' },
+  { href: '/osobnost/aristoteles/', nadtitulek: 'Portrét', text: 'Aristotelés' },
+  { href: '/cesta/je-to-co-vidim-cela-skutecnost/', nadtitulek: 'Cesta', text: 'Je to, co vidím, celá skutečnost?' },
+]} />

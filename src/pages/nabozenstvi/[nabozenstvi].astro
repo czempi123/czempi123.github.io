@@ -1,0 +1,53 @@
+---
+// Stránka náboženské tradice /nabozenstvi/<slug>/ (větev antika-doplnky, K1): hlavička → text MDX
+// (src/content/nabozenstvi/<slug>.mdx: scéna, oddíly, citáty z textů tradice, <MistaTradice>, Kam dál) → Prameny.
+// Atlas tradici popisuje zevnitř i zvenku a o její pravdivosti nerozhoduje (to je velká otázka 9).
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import Prameny from '../../components/osobnost/Prameny.astro';
+import { pramenyZTextu } from '../../lib/prameny-stranky';
+
+export async function getStaticPaths() {
+  const vse = await getCollection('nabozenstvi');
+  return vse.map((zaznam) => ({ params: { nabozenstvi: zaznam.id }, props: { zaznam } }));
+}
+interface Props { zaznam: CollectionEntry<'nabozenstvi'> }
+const { zaznam } = Astro.props;
+const fm = zaznam.data;
+const id = zaznam.id;
+const { Content } = await render(zaznam);
+const prameny = await pramenyZTextu(zaznam.body, { prameny: fm.mista.map((m) => m.zdroj) });
+const stranka = `/nabozenstvi/${id}/`;
+---
+<Zakladni
+  titulek={fm.nazev}
+  popis={`${fm.nazev}: ${fm.perex}`}
+  sekce="lide"
+  zpet={{ href: '/nabozenstvi/', text: 'Náboženství světa' }}
+  kratkyTitulek={fm.nazev}
+  drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: 'Náboženství světa', href: '/nabozenstvi/' }, { text: fm.nazev }]}
+>
+  <article class={`tradice-stranka stranka obdobi-${fm.obdobi[0]}`} data-navsteva={stranka} data-nazev={fm.nazev}>
+    <HlavickaStranky obdobi={fm.obdobi[0]} nadtitulek="Náboženství světa" titulek={fm.nazev} perex={fm.perex} />
+    <div class="obsah">
+      <Content tradice={id} />
+    </div>
+    <div class="ctenarsky">
+      <Prameny prameny={prameny.prameny} citaty={prameny.citaty} obrazky={prameny.obrazky} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .tradice-stranka { padding-bottom: var(--s-8); }
+  .tradice-stranka :global(.ctenarsky) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .obsah { max-width: 960px; margin-inline: auto; }
+  .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+</style>

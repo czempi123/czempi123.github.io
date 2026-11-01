@@ -391,6 +391,12 @@ prameny:
   - { id: epiktetos-rozpravy-nejhorsi, druh: pramen, nazev: "Rozpravy I, 1, 28–31 a III, 7, 36", autor: Epiktétos, dilo: "Dissertationes ab Arriano digestae, řecky H. Schenkl (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0557/tlg001/tlg0557.tlg001.perseus-grc2.xml", overeno: 2026-10-25, poznamka: "Senátor Agrippinus jde po rozsudku k vyhnanství cvičit a pak na oběd do Aricie; „to znamená mít nacvičeno, co je třeba nacvičit“ (I, 1, 28–31). Jaká škoda? Přijdeš o člověka spolehlivého, který se umí stydět (III, 7, 36)." }
   - { id: cicero-tusculanae-iii, druh: pramen, nazev: "Tuskulské hovory III, 28–35", autor: Cicero, dilo: "Tusculanae disputationes (The Latin Library)", url: "https://www.thelatinlibrary.com/cicero/tusc3.shtml", overeno: 2026-10-25, poznamka: "Kyrénaikové: zármutek působí hlavně nečekané (28); praemeditatio futurorum malorum zmírňuje příchod zla (29); Epikúros podle Cicerona: předem promyšlená zla nejsou lehčí, kdo na zlo pořád myslí, tomu se stává věčným, a když nepřijde, trápil se nadarmo (32); lék je odvrátit mysl od trápení a obrátit ji k radostem (33); Cicero proti: zapomenout neumíme (34–35). Výroky otců o smrtelných synech (28 a 30) do studentského textu ne." }
 
+  # Náboženství (větev antika-doplnky, P6N; docs/podklady/nabozenstvi-uvod.md › Návrh dat). Zapsáno v K1 kvůli schématu citátu bez osoby.
+  - { id: cep, druh: pramen, nazev: "Bible. Český ekumenický překlad", dilo: "Česká biblická společnost, vydání 2001 (obohu.cz)", url: "https://www.obohu.cz/bible/index.php?styl=CEP", overeno: 2026-11-01, poznamka: "Čteno: Ex 19,4–6; Lv 19,18; Dt 6,4–9; Dt 30,15–19; Ž 29; Ž 137,1–6; Jr 29,4–9; Mi 6,8." }
+  - { id: sep-concept-religion, druh: encyklopedie, nazev: "The Concept of Religion", autor: "Kevin Schilbrack", dilo: Stanford Encyclopedia of Philosophy, url: "https://plato.stanford.edu/entries/concept-religion/", overeno: 2026-11-01, poznamka: "1. vyd. 28. 3. 2022. Religio jako svědomitost; Tylor 1871 (víra v duchovní bytosti); substantivní a funkční definice (Durkheim, Tillich); funkční pojetí zahrnuje nacionalismus i fandění, univerzalita je produkt definice; rodová podobnost (Wittgenstein § 68), pět znaků, Smart (sedm rozměrů), Alston; námitka, že náboženství není věc." }
+  - { id: durkheim-formy, druh: pramen, nazev: "The Elementary Forms of the Religious Life", autor: "Émile Durkheim (přel. J. W. Swain)", dilo: "Project Gutenberg č. 41360", url: "https://www.gutenberg.org/ebooks/41360", overeno: 2026-11-01, poznamka: "Les formes élémentaires de la vie religieuse (1912), anglicky 1915. Úvod § 1 (nepravdivá náboženství nejsou); I, 1, § 2–4 (buddhismus, posvátné a profánní, magie bez církve, definice); II, 7 (bůh klanu je klan); Závěr (námitka o jednom případu). Česky Oikoymenh 2002, nečteno." }
+  - { id: britannica-johanan, druh: encyklopedie, nazev: "Johanan ben Zakkai", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/biography/Johanan-ben-Zakkai", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch. Zboření chrámu 70 n. l.; zakladatel akademie a rabínského sboru v Jamnii; rozhodující vliv na pokračování judaismu. Útěk z Jeruzaléma heslo nezmiňuje." }
+  - { id: britannica-babylonian-exile, druh: encyklopedie, nazev: "Babylonian Exile", dilo: Encyclopaedia Britannica, url: "https://www.britannica.com/event/Babylonian-Exile", overeno: 2026-11-01, poznamka: "Četl nástroj WebFetch (zkrácený výtah). Deportace 598/7 a 587/6 př. n. l.; konec 538 př. n. l. za Kýra." }
 citaty:
   - id: obrana-38a
     osoba: sokrates
@@ -4148,6 +4154,28 @@ citaty:
       podle: "řecký text (Hicks)"
     zdroj: dl-x-122
 
+  # Citáty bez osoby v datech (schéma od K1 větve antika-doplnky): z textu tradice (`tradice`) a od autora mimo data (`bezOsoby`).
+  - id: jr-29-7
+    tradice: judaismus
+    autor: Jeremjáš
+    dilo: Kniha Jeremjášova
+    misto: "29, 7"
+    cesky: "Usilujte o pokoj toho města, do něhož jsem vás přestěhoval, modlete se za ně k Hospodinu, neboť v jeho pokoji i vy budete mít pokoj."
+    preklad:
+      druh: publikovany
+      prekladatel: "Český ekumenický překlad"
+      podle: "vydání 2001"
+    zdroj: cep
+  - id: durkheim-uvod
+    bezOsoby: true
+    autor: Émile Durkheim
+    dilo: Elementární formy náboženského života
+    misto: "Úvod, 1"
+    cesky: "Nepravdivá náboženství tedy ve skutečnosti nejsou. Všechna jsou svým způsobem pravdivá: všechna odpovídají, každé jinak, na dané podmínky lidské existence."
+    preklad:
+      druh: vlastni
+      podle: "anglický překlad J. W. Swaina (1915); francouzský originál nečten"
+    zdroj: durkheim-formy
 obrazky:
   - id: sokrates-louvre
     soubor: obrazky/sokrates-louvre.jpg

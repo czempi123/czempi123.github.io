@@ -16,7 +16,11 @@ const smery = Object.keys(import.meta.glob('../content/smery/*.{md,mdx}')).map((
   p.split('/').pop()!.replace(/\.mdx?$/, ''),
 );
 
-const vysledek = vsechnyKontroly({ lide, mista, vztahy, udalosti, obdobi, zdroje, krajiny }, { smery }, cekajiciAtributy);
+const tradice = Object.keys(import.meta.glob('../content/nabozenstvi/[^_]*.{md,mdx}')).map((p) =>
+  p.split('/').pop()!.replace(/\.mdx?$/, ''),
+);
+
+const vysledek = vsechnyKontroly({ lide, mista, vztahy, udalosti, obdobi, zdroje, krajiny }, { smery, tradice }, cekajiciAtributy);
 if (vysledek.chyby.length) {
   throw new Error(`Data atlasu neprošla kontrolou:\n- ${vysledek.chyby.join('\n- ')}`);
 }

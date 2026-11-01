@@ -8,9 +8,11 @@ import { zivot, interval, rozpeti } from '../../lib/casy';
 import { cestyOsoby } from '../../lib/vstupy';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { nezlomitelne } from '../../lib/sazba.js';
+import { adresyStranek } from '../../lib/stranky-typu';
 
 const smery = (await getCollection('smery')).sort((a, b) => a.data.poradi - b.data.poradi);
 const adresa = await adresaStranekOsob();
+const odkazy = await adresyStranek();
 const nazevSmeru = new Map(smery.map((s) => [s.id, s.data.nazev]));
 const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data }));
 const obdobi = data.obdobi.filter((o) => data.lide.some((l) => l.obdobi === o.id));
@@ -27,6 +29,10 @@ const HLOUBKY = [
     <header class="hlavicka-stranky">
       <h1 class="t-h1">Lidé a směry</h1>
       <p class="t-perex">Filozofové nežili v knihách. Učili se jeden od druhého, přeli se, psali si a někdy se za své myšlenky nechali poslat do vyhnanství. Tady je najdeš podle doby, ve které žili.</p>
+      <p class="vstupy t-ovladani">
+        <a href="/co-je-filozofie/">Co je filozofie?</a>
+        <a href="/nabozenstvi/">Náboženství světa</a>
+      </p>
     </header>
 
     {obdobi.map((o) => {
@@ -36,13 +42,20 @@ const HLOUBKY = [
         <section class={`obdobi obdobi-${o.id}`} id={`obdobi-${o.id}`} aria-labelledby={`obdobi-${o.id}-nazev`}>
           <div class="obdobi__hlavicka">
             <p class="t-nadtitulek cislo">Období {o.id}</p>
-            <h2 class="t-h2" id={`obdobi-${o.id}-nazev`}>{o.nazev}</h2>
+            <h2 class="t-h2" id={`obdobi-${o.id}-nazev`}>
+              {odkazy.obdobi(o.id).startsWith('/obdobi/') ? <a class="obdobi__odkaz" href={odkazy.obdobi(o.id)}>{o.nazev}</a> : o.nazev}
+            </h2>
             <p class="t-ovladani okno">{rozpeti(o.okno.od, o.okno.do, o.id === 8)} · {o.mapa.popis}</p>
           </div>
           <ul class="smery" aria-label="Směry">
             {smeryObdobi.map((s) => {
               const pocet = lide.filter((l) => l.smery.includes(s.id)).length;
-              return <li class="t-ovladani">{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</li>;
+              const href = odkazy.smer(s.id);
+              return (
+                <li class:list={['t-ovladani', { 'smer--odkaz': href }]}>
+                  {href ? <a href={href}>{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</a> : <>{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</>}
+                </li>
+              );
             })}
           </ul>
           {HLOUBKY.map((h) => {
@@ -98,6 +111,13 @@ const HLOUBKY = [
     color: var(--ink);
   }
   .pocet { margin-left: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  /* Směr se stránkou: celý štítek je odkaz (44 px), okraj v barvě období; bez stránky zůstává tichým štítkem. */
+  .smery li.smer--odkaz { padding: 0; border-color: var(--pc); }
+  .smer--odkaz a { display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-3); color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .smer--odkaz a:hover { background: var(--pc-tint); border-radius: var(--r-full); }
+  .obdobi__odkaz { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .vstupy { display: flex; flex-wrap: wrap; gap: 0 var(--s-5); margin: var(--s-3) 0 0; }
+  .vstupy a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); text-underline-offset: 0.2em; }
   .skupina { margin-top: var(--s-6); }
   .skupina h3 { margin-bottom: var(--s-3); }
   .karty { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }

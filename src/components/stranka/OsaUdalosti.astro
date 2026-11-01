@@ -1,0 +1,52 @@
+---
+// Malá osa kotev na stránce období: dějinné kotvy a události ze životů lidí z udalosti.yaml, podle roku.
+// Kotva má značku v barvě období, událost ze života minci osoby (odkaz na její stránku, když ji má).
+// Rozestupy jsou stejné, ne podle let; na obou šířkách svisle. Nic se nepíše ručně.
+import type { TUdalost } from '../../lib/schema';
+import Mince from '../ui/Mince.astro';
+import { osoby, mistaPodleId } from '../../lib/data';
+import { rok, rozpeti } from '../../lib/casy';
+import { nezlomitelne } from '../../lib/sazba.js';
+
+interface Props { udalosti: TUdalost[]; adresa: (osoba: string) => string | undefined }
+const { udalosti, adresa } = Astro.props;
+const serazene = [...udalosti].sort((a, b) => a.od - b.od);
+---
+<ol class="osa-udalosti">
+  {serazene.map((u) => {
+    const kdo = u.osoby.map((id) => osoby.get(id)).filter((o) => !!o);
+    const hlavni = u.druh === 'zivot' ? kdo[0] : undefined;
+    const misto = u.misto ? mistaPodleId.get(u.misto)?.nazev : undefined;
+    return (
+      <li class:list={['udalost', `udalost--${u.druh}`, hlavni && `obdobi-${hlavni.obdobi}`]}>
+        <span class="udalost__znacka" aria-hidden="true">
+          {hlavni ? <Mince osoba={hlavni} varianta="tint" velikost={32} /> : <span class="udalost__tecka" />}
+        </span>
+        <span class="udalost__text">
+          <span class="udalost__rok t-letopocet">{u.do !== undefined ? rozpeti(u.od, u.do) : rok(u.od)}</span>
+          <span class="udalost__nazev">{nezlomitelne(u.nazev)}</span>
+          {(misto || kdo.length > 0) && (
+            <span class="udalost__kde t-popisek">
+              {misto}
+              {misto && kdo.length > 0 && ' · '}
+              {kdo.map((o, i) => <>{i > 0 && ', '}{adresa(o!.id) ? <a href={adresa(o!.id)}>{o!.jmeno}</a> : o!.jmeno}</>)}
+            </span>
+          )}
+        </span>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .osa-udalosti { position: relative; margin: 0; padding: 0; list-style: none; }
+  .osa-udalosti::before { content: ''; position: absolute; left: 15px; top: 16px; bottom: 16px; width: 2px; background: var(--rule); }
+  .udalost { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-4); }
+  .udalost__znacka { display: grid; place-items: center; width: 32px; height: 32px; }
+  .udalost__tecka { width: 14px; height: 14px; border-radius: 3px; background: var(--pc); box-shadow: 0 0 0 3px var(--paper); }
+  .udalost__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 4px; }
+  .udalost__rok { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--pc); }
+  .udalost__nazev { font-size: 19px; line-height: 1.35; }
+  .udalost__kde { color: var(--ink-2); }
+  .udalost__kde a { color: inherit; }
+</style>

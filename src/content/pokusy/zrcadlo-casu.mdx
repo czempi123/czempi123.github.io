@@ -1,0 +1,50 @@
+---
+nazev: Zrcadlo času
+obdobi: 2
+otazka: 3
+osoby: [lucretius]
+pramen: Lucretius, O přírodě III, 972–977
+# PROZATÍMNÍ TEXT (K1): perex, úvod, hlasy a Kam dál napíše T1 se skillem atlas-psani a atlas-cesta.
+# Podklad: docs/podklady/antika-doplnky.md › e) Zrcadlo času a Po P6, odpověď 9: stránka drží pravidla cesty 8
+# (první obrazovka očima člověka po ztrátě, argument o konci vnímání souměrně, věta, že o bolesti blízkých není).
+# Kresba zrcadlo-casu je tatáž jako v cestě 8, krok 4. V přípravě hodiny nemá štítek „na začátek hodiny“.
+perex: Lucretius přiložil k životu zrcadlo. Co bylo před tvým narozením, a proč se toho nebojíš?
+hlasy:
+  - osoba: epikuros
+    myslenka: >-
+      Prozatímní text. Smrt se nás netýká: kde jsme my, není ona, a kde je ona, nejsme my.
+    citat: kd-2
+  - osoba: seneca
+    myslenka: >-
+      Prozatímní text. Seneca sáhl po stejné myšlence: nebýt už je pro nás známé, byli jsme tak před narozením.
+    citat: seneca-ep-54-4
+kamDal:
+  - { href: /cesta/proc-se-bat-smrti/, nadtitulek: Cesta, text: Proč se bát smrti? }
+  - { href: /osobnost/epikuros/, nadtitulek: Profil, text: Epikúros }
+  - { href: /otazka/ma-zivot-smysl/, nadtitulek: Velká otázka 3, text: Má život smysl? }
+---
+import Citat from '../../components/ui/Citat.astro';
+import RadekPomoci from '../../components/ui/RadekPomoci.astro';
+import { Zrcadlo } from '../../components/bloky';
+
+{/* PROZATÍMNÍ TEXT (K1): úvod a text kolem kresby napíše T1. */}
+
+<div class="uvod ctenarsky">
+
+Prozatímní text. Asi dvě stě let po Epikúrovi napsal římský básník Lucretius:
+
+</div>
+
+<div class="ctenarsky">
+<Citat id="lucretius-iii-972-zrcadlo" />
+</div>
+
+<Zrcadlo id="zrcadlo-casu" />
+
+<div class="ctenarsky">
+
+Prozatímní text. Tenhle argument mluví o tom, kdo umírá. O bolesti těch, kdo zůstanou, není.
+
+<RadekPomoci />
+
+</div>

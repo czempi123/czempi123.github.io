@@ -1,0 +1,222 @@
+---
+// Stránka období /obdobi/<slug>/ (větev antika-doplnky, K1): hlavička v barvě období → úvodní scéna (text MDX
+// v src/content/obdobi/<slug>.mdx) → Co se dělo (kotvy z udalosti.yaml) a Mezitím jinde → Otázky doby →
+// Lidé a směry → Cesty → Na mapě (výřez s odkazem do Mapy a času) → Kam dál → Prameny.
+// Kromě scény, perexu, odstavců k otázkám a Mezitím jinde se všechno skládá z dat; prázdný oddíl se neukáže.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import OsaUdalosti from '../../components/stranka/OsaUdalosti.astro';
+import Mince from '../../components/ui/Mince.astro';
+import Ikona from '../../components/ui/Ikona.astro';
+import CestaKarta from '../../components/cesta/CestaKarta.astro';
+import MiniMapa from '../../components/osobnost/MiniMapa.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+import Prameny from '../../components/osobnost/Prameny.astro';
+import { obdobiPodleId } from '../../lib/data';
+import { zivot, rok as fmtRok, rozpeti } from '../../lib/casy';
+import { adresyStranek, strankyAtlasu } from '../../lib/stranky-typu';
+import { ODDILY_OBDOBI, ODDIL_UVOD, type KlicOddiluObdobi } from '../../lib/stranky';
+import { castiStrankyObdobi } from '../../lib/obdobi-stranka';
+import { pramenyZTextu } from '../../lib/prameny-stranky';
+import { nezlomitelne } from '../../lib/sazba.js';
+import { odstavce } from '../../lib/bloky';
+
+export async function getStaticPaths() {
+  await strankyAtlasu(); // zastaví sestavení, když soubor nesedí na obdobi.yaml
+  const vse = await getCollection('obdobi');
+  return vse.map((zaznam) => ({ params: { obdobi: zaznam.id }, props: { zaznam } }));
+}
+interface Props { zaznam: CollectionEntry<'obdobi'> }
+const { zaznam } = Astro.props;
+const { Content } = await render(zaznam);
+const { o, fm, adresa, udalosti, otazkyDoby, cesty, smery, lideObdobi, sProfilem, mistaMapy, oddily } = await castiStrankyObdobi(zaznam);
+const odkazy = await adresyStranek();
+const dalsichLidi = lideObdobi.length - sProfilem.length;
+const odkazMapy = `/mapa/?rok=${fm.mapa.rok}${fm.mapa.osoba ? `&osoba=${fm.mapa.osoba}` : ''}`;
+const ma = (klic: KlicOddiluObdobi) => oddily.some((x) => x.klic === klic);
+const od = (klic: KlicOddiluObdobi) => ODDILY_OBDOBI.find((x) => x.klic === klic)!;
+
+// Kam dál: další období (připravujeme, dokud nemá stránku), Lidé a směry, Mapa a čas.
+const dalsi = obdobiPodleId.get(o.id + 1);
+const adresaDalsiho = dalsi ? odkazy.obdobi(dalsi.id) : undefined;
+const kamDal = [
+  ...(dalsi ? [{ href: adresaDalsiho?.startsWith('/obdobi/') ? adresaDalsiho : undefined, nadtitulek: `Období ${dalsi.id}`, text: dalsi.nazev }] : []),
+  { href: `/lide/#obdobi-${o.id}`, nadtitulek: 'Lidé a směry', text: `Všichni lidé období ${o.id}` },
+  { href: odkazMapy, nadtitulek: 'Mapa a čas', text: `Svět roku ${fmtRok(fm.mapa.rok)}` },
+];
+const prameny = await pramenyZTextu(zaznam.body, { prameny: udalosti.map((u) => u.zdroj) });
+const stranka = `/obdobi/${zaznam.id}/`;
+const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
+---
+<Zakladni
+  titulek={o.nazev}
+  popis={`Období ${o.id}: ${o.nazev} (${okno}). ${fm.perex}`}
+  sekce="lide"
+  zpet={{ href: '/lide/', text: 'Lidé a směry' }}
+  kratkyTitulek={`Období ${o.id}`}
+  drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: `Období ${o.id}: ${o.nazev}` }]}
+>
+  <article class={`obdobi-stranka stranka obdobi-${o.id}`} data-navsteva={stranka} data-nazev={o.nazev}>
+    <HlavickaStranky obdobi={o.id} deska nadtitulek={`Období ${o.id} · ${okno}`} titulek={o.nazev} perex={fm.perex} />
+
+    <section class="ctenarsky uvod" id={ODDIL_UVOD.kotva} aria-label={ODDIL_UVOD.nazev} data-oddil={ODDIL_UVOD.nazev}>
+      <Content />
+    </section>
+
+    {ma('osa') && (
+      <section class="ctenarsky oddil" id={od('osa').kotva} aria-labelledby={`${od('osa').kotva}-nadpis`} data-oddil={od('osa').nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${od('osa').kotva}-nadpis`} tabindex="-1">{od('osa').nazev}</h2>
+        <OsaUdalosti udalosti={udalosti} adresa={adresa} />
+        {fm.jinde && (
+          <aside class="jinde" aria-labelledby="jinde-nadpis">
+            <p class="t-nadtitulek jinde__nad" id="jinde-nadpis">Mezitím jinde</p>
+            {odstavce(fm.jinde).map((p) => <p set:html={p} />)}
+          </aside>
+        )}
+      </section>
+    )}
+
+    {ma('otazky') && (
+      <section class="ctenarsky oddil" id={od('otazky').kotva} aria-labelledby={`${od('otazky').kotva}-nadpis`} data-oddil={od('otazky').nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${od('otazky').kotva}-nadpis`} tabindex="-1">{od('otazky').nazev}</h2>
+        <ol class="otazky-doby">
+          {otazkyDoby.map((q) => (
+            <li class="otazka-doby">
+              <p class="t-nadtitulek otazka-doby__cislo">Velká otázka {q.cislo}</p>
+              <h3 class="t-h3 otazka-doby__otazka"><a href={q.href}>{q.zneni}</a></h3>
+              {odstavce(q.text).map((p) => <p set:html={p} />)}
+              {q.cesty.length > 0 && (
+                <ul class="cesty-chips" aria-label={`Cesty k otázce ${q.cislo}`}>
+                  {q.cesty.map((c) => (
+                    <li><a class="chip-cesta" href={`/cesta/${c.id}/`}><span class="chip-cesta__nad">Cesta</span> <span>{c.data.nazev}</span><Ikona id="dal" velikost={18} /></a></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {ma('lide') && (
+      <section class="oddil oddil--siroky" id={od('lide').kotva} aria-labelledby={`${od('lide').kotva}-nadpis`} data-oddil={od('lide').nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${od('lide').kotva}-nadpis`} tabindex="-1">{od('lide').nazev}</h2>
+        {smery.length > 0 && (
+          <ul class="smery" aria-label="Směry">
+            {smery.map((s) => {
+              const href = odkazy.smer(s.id);
+              const pocet = lideObdobi.filter((l) => l.smery.includes(s.id)).length;
+              return (
+                <li>
+                  {href
+                    ? <a class="smer smer--odkaz t-ovladani" href={href}>{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</a>
+                    : <span class="smer t-ovladani">{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</span>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        <ul class="lide">
+          {sProfilem.map((l) => (
+            <li>
+              <a class="clovek" href={adresa(l.id)}>
+                <Mince osoba={l} varianta="tint" velikost={44} />
+                <span class="clovek__text">
+                  <span class="clovek__jmeno">{l.jmeno}</span>
+                  <span class="t-popisek clovek__roky">{zivot(l)}</span>
+                  <span class="clovek__kdo">{nezlomitelne(l.kdo)}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        {dalsichLidi > 0 && (
+          <p class="t-ovladani dalsi-lide"><a href={`/lide/#obdobi-${o.id}`}>Další lidé období v Lidech a směrech ({dalsichLidi})</a></p>
+        )}
+      </section>
+    )}
+
+    {ma('cesty') && (
+      <section class="ctenarsky oddil" id={od('cesty').kotva} aria-labelledby={`${od('cesty').kotva}-nadpis`} data-oddil={od('cesty').nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${od('cesty').kotva}-nadpis`} tabindex="-1">{od('cesty').nazev}</h2>
+        {cesty.map((c) => <CestaKarta slug={c.id} />)}
+      </section>
+    )}
+
+    {ma('mapa') && (
+      <section class="oddil oddil--mapa" id={od('mapa').kotva} aria-labelledby={`${od('mapa').kotva}-nadpis`} data-oddil={od('mapa').nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${od('mapa').kotva}-nadpis`} tabindex="-1">{od('mapa').nazev}</h2>
+        <div class="mapa-obal" id="mapa-obdobi">
+          <MiniMapa mista={mistaMapy} obdobi={o.id} />
+          <p class="t-ovladani mapa-odkaz"><a href={odkazMapy}>Otevřít Mapu a čas v roce {fmtRok(fm.mapa.rok)}</a></p>
+        </div>
+      </section>
+    )}
+
+    <div class="siroky-pas"><KamDal odkazy={kamDal} /></div>
+
+    <div class="ctenarsky">
+      <Prameny prameny={prameny.prameny} citaty={prameny.citaty} obrazky={prameny.obrazky} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .obdobi-stranka { padding-bottom: var(--s-8); }
+  .obdobi-stranka :global(.ctenarsky) { margin-inline: auto; }
+  .uvod { margin-top: var(--s-7); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+  .uvod :global(p:last-child) { margin-bottom: 0; }
+  .oddil { margin-top: var(--s-9); }
+  .oddil__nadpis { margin: 0 0 var(--s-5); }
+  .oddil__nadpis:focus { outline: none; }
+  .oddil__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .oddil--siroky, .oddil--mapa { max-width: 960px; margin-inline: auto; }
+  .oddil :global(.cesta-karta) { margin: var(--s-4) 0 0; }
+  .jinde { margin-top: var(--s-6); padding: var(--s-4) var(--s-5); border-left: 3px solid var(--pc); background: var(--surface); }
+  .jinde__nad { margin: 0 0 var(--s-2); color: var(--pc); }
+  .jinde p:last-child { margin-bottom: 0; }
+  .otazky-doby { display: grid; gap: var(--s-6); margin: 0; padding: 0; list-style: none; }
+  .otazka-doby__cislo { margin: 0 0 var(--s-1); color: var(--pc); }
+  .otazka-doby__otazka { margin: 0 0 var(--s-3); }
+  .otazka-doby__otazka a { text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .cesty-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-3) 0 0; padding: 0; list-style: none; }
+  .chip-cesta {
+    display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--dotyk); padding: var(--s-1) var(--s-3);
+    border: 1px solid var(--pc); border-radius: var(--r-sm); background: var(--surface);
+    font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: 1.3; text-decoration: none;
+  }
+  .chip-cesta:hover { background: var(--pc-tint); }
+  .chip-cesta__nad { color: var(--pc); font-weight: 600; }
+  .chip-cesta :global(svg) { flex: none; color: var(--pc); }
+  .smery { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0 0 var(--s-5); padding: 0; list-style: none; }
+  .smer {
+    display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-3);
+    border: 1px solid var(--pc-soft); border-radius: var(--r-full); background: var(--surface); color: var(--ink);
+  }
+  .smer--odkaz { border-color: var(--pc); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .smer--odkaz:hover { background: var(--pc-tint); }
+  .pocet { margin-left: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .lide { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .clovek {
+    display: flex; align-items: flex-start; gap: var(--s-4); height: 100%; padding: var(--s-4);
+    border: 1px solid var(--pc); border-radius: var(--r-md); background: var(--surface); text-decoration: none;
+  }
+  .clovek:hover { background: var(--pc-tint); }
+  .clovek :global(.mince) { flex: none; }
+  .clovek__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .clovek__jmeno { font-size: 21px; line-height: 1.25; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .clovek__kdo { font-size: 16px; line-height: 1.45; color: var(--ink-2); margin-top: var(--s-1); }
+  .dalsi-lide { margin: var(--s-4) 0 0; }
+  .dalsi-lide a, .mapa-odkaz a { display: inline-flex; align-items: center; min-height: var(--dotyk); }
+  .mapa-odkaz { margin: var(--s-3) 0 0; }
+  .siroky-pas { max-width: 960px; margin-inline: auto; }
+  @media (min-width: 700px) { .lide { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .lide { grid-template-columns: repeat(3, 1fr); } }
+</style>
