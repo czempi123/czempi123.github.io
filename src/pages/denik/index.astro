@@ -5,6 +5,8 @@ import Denik from '../../components/ostrovy/Denik.svelte';
 import { nactiNavraty } from '../../components/bloky/_navraty';
 import { getCollection } from 'astro:content';
 import { adresaTydne } from '../../lib/tydny';
+import { TVOJE_ANTIKA } from '../../lib/tvoje-obdobi';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 // Návraty cest: deník z nich nabídne nejvýš jeden, a to až pár dní po dokončení cesty.
 const navraty = await nactiNavraty();
@@ -17,7 +19,7 @@ const tydny = (await getCollection('tydny')).map((t) => ({ id: t.id, nazev: t.da
       <h1 class="t-h1">Můj deník</h1>
       <p class="t-perex">Tvoje odpovědi, stanoviska a výzvy. Zůstávají jen v tomto prohlížeči; nikdo jiný je nevidí a nic se nehodnotí.</p>
     </header>
-    <Denik client:load navraty={navraty} tydny={tydny} />
+    <Denik client:load navraty={navraty} tydny={tydny} konecObdobi={{ adresa: TVOJE_ANTIKA.adresa, nazev: TVOJE_ANTIKA.nazev, odkaz: nezlomitelne(TVOJE_ANTIKA.odkaz) }} />
   </div>
 </Zakladni>
 

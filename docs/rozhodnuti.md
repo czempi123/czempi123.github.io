@@ -4,6 +4,19 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 1. 11. 2026: Antika-doplnky, krok K2 (Tvoje antika)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Tvoje antika je vlastní stránka `/denik/antika/`, ne oddíl deníku; vstup z Můj deník (tichý odkaz nahoře, jen když v deníku něco je) a z Kam dál stránky období 2 | Na stránku jde odkázat z období 2 i z budoucích stránek; deník zůstává seznamem a přehled po otázkách je jiný druh čtení. Odpověď 9 před prvním krokem nechávala volbu na K2 |
+| Přehled je po velkých otázkách: nahoře studentova odpověď (Na začátku × Teď), pod ní pravidla z cest, pod nimi myslitelé. Otázka bez ničeho se neukáže, prázdný deník dostane jednu větu a odkaz do první cesty | Zadání K2 a odpověď 9: jen z toho, co student udělal, žádné „chybí ti“ |
+| Teď je tentýž zápis jako Změnil se? na stránce otázky (`otazka-<slug>-ted`, `druh: stanovisko`); Moje stanovisko kvůli tomu umí nepovinný `druh` | Jedna odpověď na jednu otázku, ať ji student přepíše kdekoli; formát deníku a export (verze 1) se nemění |
+| Myslitele k odpovědím ve Volbě a Změň jednu věc říká nový atribut `osoby` u `<Strana>` (id z `lide.yaml`, kontrola při sestavení); u Sporu strany bloku | Z textu oddílů jména spolehlivě vyčíst nejdou: jsou ve skloňování a mezi nimi jsou lidé, kteří v datech nejsou (Hobbes, Asch, Stockdale, Diotima). Atribut je u odstavce, který o myslitelích mluví, takže se nerozejde s textem |
+| Důvod u myslitele je text cesty k odpovědi, kterou student zvolil (odstavec Kdo je na tvé straně, u Sporu postoj a první argument strany). Hlas na stránce otázky jen doplní, kde důvod chybí | První odstavce hlasů jsou často úvodem k citátu („Seneca to napsal příteli…“, „Tvůj případ je starší…“) a samy nestojí; text cesty mluví přímo o studentově odpovědi. Hlas, jehož první věta ukazuje na něco nad sebou, se nepoužije |
+| Odstavec Kdo je na tvé straně stojí jako důvod jen u prvního myslitele z atributu; stejný důvod se u otázky neopakuje | Odstavec začíná prvním jmenovaným („máš na své straně Epikúra… A Seneca…“); pod druhým by student četl větu o někom jiném |
+| Myslitelé jdou v pořadí podle počtu setkání a při shodě podle toho, kde se student s kým potkal dřív; tři jsou vidět hned, ostatní pod „A další filozofové“. Čísla se nikde neukazují | „Nejblíž“ potřebuje pořadí, ale procenta ani skóre do atlasu nepatří |
+| Bloky mimo cesty (Spor v portrétu Platóna, Gýgův prsten, pokusy) a Moje stanovisko u myšlenek profilů do Tvoje antika nevstupují | Nemají jednoznačnou velkou otázku; dají se přidat, až budou mít pole s otázkou (viz Co rozhodnout po K2) |
+
 ## 1. 11. 2026: Antika-doplnky, krok T2 (texty náboženství)
 
 | Rozhodnutí | Důvod |

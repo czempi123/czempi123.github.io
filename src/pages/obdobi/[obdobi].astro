@@ -21,6 +21,7 @@ import { castiStrankyObdobi } from '../../lib/obdobi-stranka';
 import { pramenyZTextu } from '../../lib/prameny-stranky';
 import { nezlomitelne } from '../../lib/sazba.js';
 import { odstavce } from '../../lib/bloky';
+import { TVOJE_ANTIKA } from '../../lib/tvoje-obdobi';
 
 export async function getStaticPaths() {
   await strankyAtlasu(); // zastaví sestavení, když soubor nesedí na obdobi.yaml
@@ -40,7 +41,9 @@ const od = (klic: KlicOddiluObdobi) => ODDILY_OBDOBI.find((x) => x.klic === klic
 // Kam dál: další období (připravujeme, dokud nemá stránku), Lidé a směry, Mapa a čas.
 const dalsi = obdobiPodleId.get(o.id + 1);
 const adresaDalsiho = dalsi ? odkazy.obdobi(dalsi.id) : undefined;
+// Za posledním obdobím antiky vede Kam dál i do deníku na konci období (Tvoje antika).
 const kamDal = [
+  ...(o.id === 2 ? [{ href: TVOJE_ANTIKA.adresa, nadtitulek: 'Můj deník', text: TVOJE_ANTIKA.nazev }] : []),
   ...(dalsi ? [{ href: adresaDalsiho?.startsWith('/obdobi/') ? adresaDalsiho : undefined, nadtitulek: `Období ${dalsi.id}`, text: dalsi.nazev }] : []),
   { href: `/lide/#obdobi-${o.id}`, nadtitulek: 'Lidé a směry', text: `Všichni lidé období ${o.id}` },
   { href: odkazMapy, nadtitulek: 'Mapa a čas', text: `Svět roku ${fmtRok(fm.mapa.rok)}` },

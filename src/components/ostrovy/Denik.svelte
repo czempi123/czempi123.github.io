@@ -14,8 +14,10 @@
     navraty?: NavratDeniku[];
     /** týdny cvičení (Stoický týden): přijatý se ukáže mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz */
     tydny?: { id: string; nazev: string; odkaz: string; vstup: string; pocet: number }[];
+    /** deník na konci období (Tvoje antika): tichý odkaz nahoře, jakmile v deníku něco je */
+    konecObdobi?: { adresa: string; nazev: string; odkaz: string };
   }
-  let { navraty = [], tydny = [] }: Props = $props();
+  let { navraty = [], tydny = [], konecObdobi }: Props = $props();
 
   let denik = $state<Denik | null>(null);
   // Nabídka se určí jednou při otevření deníku: po odložení nebo skrytí se hned nenabídne další.
@@ -96,6 +98,13 @@
       </section>
     {:else if zprava}
       <p class="navrat-zprava t-ovladani" role="status" tabindex="-1" bind:this={zpravaPrvek}>{zprava}</p>
+    {/if}
+    {#if konecObdobi}
+      <a class="konec obdobi-2" href={konecObdobi.adresa}>
+        <span class="t-nadtitulek konec__nadtitulek">Na konci období</span>
+        <span class="konec__nazev">{konecObdobi.nazev}</span>
+        <span class="t-popisek konec__popis">{konecObdobi.odkaz}</span>
+      </a>
     {/if}
     {#if cesty.length || rozpracovane.length}
       <h2 class="t-h3 nadpis">Rozpracované</h2>
@@ -193,6 +202,12 @@
   .navrat__blok :global(.blok) { margin: 0; }
   .navrat-zprava { margin: var(--s-5) 0 0; color: var(--ink-2); outline: none; }
   .navrat-zprava:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .konec { display: grid; gap: var(--s-1); margin-top: var(--s-6); padding: var(--s-4) var(--s-5); border: 1px solid var(--rule); border-left: 3px solid var(--pc); border-radius: var(--r-md); background: var(--surface); color: var(--ink); text-decoration: none; }
+  .konec:hover { background: var(--sunk); }
+  .konec:hover .konec__nazev { text-decoration: underline; }
+  .konec__nadtitulek { color: var(--pc); }
+  .konec__nazev { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani-l); }
+  .konec__popis { color: var(--ink-2); }
   .seznam { margin: 0; padding: 0; list-style: none; }
   .seznam li { padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
   .seznam p { margin: 0 0 var(--s-1); }

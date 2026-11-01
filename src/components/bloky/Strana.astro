@@ -1,7 +1,10 @@
 ---
 // Odstavce oddílu Kdo je na tvé straně, které patří k jedné odpovědi bloku (nebo k několika: odpoved="C D").
 // Stojí jen uvnitř <Strany blok="…">; návod tam.
-interface Props { odpoved: string }
-const { odpoved } = Astro.props;
+// `osoby`: id myslitelů z lide.yaml, kteří odpověď v odstavci hájí (osoby="epikuros seneca"). Čte je Tvoje antika
+// (src/components/denik/_katalog-obdobi.ts); kdo v datech není (Hobbes, Asch), do atributu nepatří. U Sporu bez
+// atributu hájí odpověď osoba, jejíž id je kód odpovědi.
+interface Props { odpoved: string; osoby?: string }
+const { odpoved, osoby } = Astro.props;
 ---
-<div class="strana" data-odpoved={odpoved}><slot /></div>
+<div class="strana" data-odpoved={odpoved} data-osoby={osoby}><slot /></div>
