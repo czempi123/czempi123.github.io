@@ -11,8 +11,8 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); odpovědi po K1 prázdné (souhlas) |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | hotovo 1. 11. 2026; čeká na odpovědi po T1 |
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | hotovo 1. 11. 2026; čeká na odpovědi po T2 |
-| K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (`/denik/antika/`); čeká na odpovědi po K2 |
-| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
+| K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (`/denik/antika/`); odpovědi po K2 prázdné (souhlas; odpověď 3 provedena v R) |
+| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 3. 11. 2026 (`docs/revize/antika-doplnky-2026-11-03.md`); čeká na odpovědi po R |
 | O | Opravy po revizi a úprava skillů | Opus 5.5 · high | čeká |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
 
@@ -351,6 +351,48 @@ Prázdná odpověď znamená souhlas s doporučením.
 3. **Cesta 33, odpověď A:** doporučuji v R přepsat „najdeš na konci tohohle kroku“ na znění, které platí i mimo krok („jeho větu o budoucnosti najdeš na konci cesty“).
    Odpověď:
 4. **Kam dál období 2:** Tvoje antika je první ze čtyř karet (před připravovaným obdobím 3). Doporučuji nechat; antika tam končí.
+   Odpověď:
+
+## Po R (3. 11. 2026)
+
+Záznam revize je v `docs/revize/antika-doplnky-2026-11-03.md`. Verdikt: **připraveno ke schválení po opravách**, nic blokujícího. Snímky všech nových stránek na 390 px světle a 1440 px tmavě a Tvoje antika s prázdným a plným deníkem jsou v `Claude outputs/snimky/r/`. Nic jsem neposlal na GitHub.
+
+**Ověřeno:** sestavení; odkazy nad `dist/` (165 stránek, žádný rozbitý odkaz ani kotva, včetně pásu období, štítků směrů a všech Kam dál); `scripts/hodiny-katalog.mjs` (0 chyb, 11 nových stránek a 12 nových hlasů jsou zastavení, Zrcadlo času bez štítku „na začátek hodiny“); `scripts/kontrola-fokus.mjs` na 14 stránkách a obou šířkách (nic pod lištou, nic nepřetéká; pět „překryvů“ na 390 px je planý poplach skriptu, nález 10); citáty nových stránek nejvýš dvakrát v atlasu; Co je filozofie? a Co je náboženství? rozlišují mýtus, náboženství a filozofii stejně. Celé `npm test` po opravách prošlo (kontrola typů bez chyb, 936 testů dat, 686 testů v Playwrightu).
+
+**Opraveno rovnou** (žádnou větu nehlídal test): cesta 33, krok 8 „na konci tohohle kroku“ → „na konci cesty“ (odpověď 3 po K2); období 1 bez třetího opakování věty o Sókratovi, který „se ptal lidí na věci, kterým podle sebe rozuměli“; Akademie bez dvou vět o Karneadovi a Chrýsippovi, které stály slovo od slova na stránce stoicismu; kynismus („vysedával u něj, dokud ho nepřijal“ odporovalo holi o dvě věty dál; zdvojený odkaz na cestu Kolik je dost?); stoicismus (odkaz na otázku Jsem svobodný? slibuje Chrýsippa, ne „stejnou otázku na začátku“); období 2 (interpunkce); Gýgův prsten („Epikúros by se o duši nepřel“ se četlo jako souhlas); otázka 2 (uvozovací věta Sókratova hlasu).
+
+**Nálezy podle dopadu** (podrobně v záznamu):
+1. Pokus Proč hřmí?: za filozofii stojí věta o blesku bez důvodu. Seneca zapsal Anaximandrův výklad hromu i s odpověďmi na námitky (Naturales quaestiones II, 18, ověřeno v latinském textu); hotové znění v záznamu.
+2. Otázka 2: kdo by mobil vrátil, nemá mezi šesti hlasy zastánce. Marcus podle Hovorů VIII, 59 („pouč, nebo snášej“) jím být může.
+3. Období 1 končí větou, že se lidé „začali ptát po důvodech tam, kde dřív stačil příběh“: opak Co je filozofie? a výslovná mez podkladů.
+4. Mapka judaismu: popisky Alexandrie, Javne a Jeruzaléma přes sebe (odpověď 1 po T2). Patří do O, protože jde o sdílenou mini mapu s testy a snímky.
+5. Náboženství očima věřícího: závěrečná otázka Co je náboženství? počítá se čtenářem, který do kostela nechodí; judaismus podává „Volit musí každý sám“ jako výklad jednotného čísla v Dt 30,19.
+6. „Občan světa“ třikrát ve větvi (období 2, kynismus, otázka 8).
+7. Tvoje antika: důvod u myslitele někdy začíná větou z kroku cesty („Jestli nemáš…“); řádek „cesta · tvoje odpověď“ patří nad něj.
+8. Uvozovací věty hlasů otázek 2 a 8 bez situace („O zákonech to napsal takhle:“).
+9. Kam dál „Je Bůh?“ na Co je náboženství? vede na řádek přehledu bez stránky.
+10. `scripts/kontrola-fokus.mjs` hlásí odkazy ze zavřených Pramenů.
+
+**Nad čím jsem váhal:**
+- **Mapka v R, nebo v O.** Odpověď 1 po T2 ji dávala do R. Oprava ale mění `MiniMapa.astro`, kterou používají všechny profily a medailonky, a chce testy a snímky podle `atlas-komponenta`; revize má opravovat jen drobnosti. Návrh je v nálezu 4.
+- **Anaximandros přes Seneku.** Pramen je o šest set let mladší, stejně jako u Thaléta Aristotelés o dvě stě. Výhoda: odpověď má důvody i odpovědi na námitky a navazuje na Oblaka na stránce období 1. Nechat větu o blesku a jen zmírnit Odkryj by pokus nezachránilo.
+- **Opakování z profilů.** Kritónova scéna je teď v portrétu Sókrata, v bloku cesty 7, u otázky 2 a jednou větou na stránce období 1; ve větvi samé dvakrát, proto bez nálezu. „Občan světa“ je ve větvi třikrát, proto nález 6.
+- **Epikureismus odkazuje scénou založení na profil** (jak to Zahrada dělala s penězi). Založení je tak krátké, ale neopakuje profil. Nechal jsem to.
+- **„A další filozofové“ v Tvoje antika** nemá značku rozbalení, stejně jako Prameny všude v atlasu. Není to nález větve; patří do plánované úpravy designu.
+
+### Co rozhodnout po R
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Proč hřmí?:** odpověď 3 a Odkryj podle Seneky, Naturales quaestiones II, 18 (hrom je zvuk mraku, do kterého narazí vítr; odpovědi na námitky), nový pramen `seneca-nq-ii`. Doporučuji; alternativa je ponechat Anaximandrův blesk a v Odkryj napsat, že důvod se nedochoval (slabší).
+   Odpověď:
+2. **Otázka 2:** Marcus jako zastánce vrácení („Vrať mu ho: je jeho a slíbil jsi to. Řekni mu napřed, čeho se bojíš, a když tě neposlechne, nezlob se a snášej ho dál.“). Doporučuji; alternativa je sedmý hlas Epiktéta.
+   Odpověď:
+3. **Náboženství:** nová znění obou vět z nálezu 5 (závěrečná otázka Co je náboženství? a otázka místo výkladu u Dt 30,19). Doporučuji.
+   Odpověď:
+4. **Kam dál na Co je náboženství?:** do vzniku stránky otázky 9 místo „Je Bůh?“ karta „Velká otázka 6 · Co je skutečné?“. Doporučuji; alternativa je nechat řádek přehledu, jak ho chtěl T2.
+   Odpověď:
+5. **Mapka tradice (pro O):** v mapce tradice jen jména, role a roky v seznamu pod ní; u blízkých bodů popisek západnějšího bodu doleva. Doporučuji.
    Odpověď:
 
 ## Zadání P6

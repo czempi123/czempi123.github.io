@@ -14,7 +14,7 @@ hlasy:
       Sókratés odmítl. Křivda se podle něj nemá oplácet křivdou ani tomu, kdo nám ublížil.
 
 
-      Kritón musel nejdřív odpovědět na jinou otázku. Platón ji zapsal takhle:
+      Kritón musel nejdřív odpovědět na otázku, kterou mu Sókratés položil:
     citat: kriton-49e
     zdroje: [platon-kriton]
   - osoba: platon
