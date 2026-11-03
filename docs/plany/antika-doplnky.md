@@ -13,8 +13,8 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | hotovo 1. 11. 2026; čeká na odpovědi po T2 |
 | K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (`/denik/antika/`); odpovědi po K2 prázdné (souhlas; odpověď 3 provedena v R) |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 3. 11. 2026 (`docs/revize/antika-doplnky-2026-11-03.md`); čeká na odpovědi po R |
-| O | Opravy po revizi a úprava skillů | Opus 5.5 · high | hotovo 3. 11. 2026; odpovědi po R prázdné (souhlas); čeká na schválení |
-| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
+| O | Opravy po revizi a úprava skillů | Opus 5.5 · high | hotovo 3. 11. 2026; odpovědi po R prázdné (souhlas) |
+| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | schváleno 3. 11. 2026; sloučeno |
 
 **Proč v tomhle pořadí.** Podklady jsou první, protože všech jedenáct nových stránek stojí na tvrzeních a citátech, které atlas zatím nemá. Náboženství má vlastní krok podkladů: má jiné prameny, jinou míru opatrnosti (student může být věřící, atlas o pravdivosti tradice nerozhoduje) a jeho úvod se dá psát nezávisle na filozofii. Šablony (K1) vzniknou dřív než texty, stejně jako ve větvích `stoicky-tyden` a `interaktivita-v1`; P6N může běžet souběžně s K1. Deník na konci období (K2) je nejtěžší komponenta větve a čte všechno, co student v antice udělal, včetně nových stránek otázek 2 a 8; proto jde po textech.
 
@@ -558,7 +558,7 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev antika-dopl
 Odpověď na otázku níž rozhodne, jestli se větev uzavře. Prázdná odpověď tu souhlas neznamená: sloučení a GitHub smí rozhodnout jen ty.
 
 **Schvaluješ větev antika-doplnky po opravách (O)?** Když ano, sloučí se do hlavní větve a hlavní větev se pošle na GitHub (nasadí web, pořád s `noindex`). Když ne, napiš, co změnit.
-Odpověď:
+Odpověď: Schvaluji (3. 11. 2026).
 
 Model: Opus 5.5 · medium. Až po schválení autorem: sloučení `antika-doplnky` do `main` (`--no-ff`), push hlavní větve (nasadí web, pořád s `noindex`), pohled, že kontroly na GitHubu jsou zelené, plán a zadání do archivu, řádek v `docs/plan.md` a Další větve v pořadí, plán větve z Projektu Claude odstranit a aktualizovat tam `docs/plan.md`.
 
