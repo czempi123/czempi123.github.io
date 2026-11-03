@@ -101,6 +101,7 @@ export function roleNaKarte(v: Pick<TVztah, 'typ'>, smer: Smer, naDalku: boolean
 /**
  * Kam dál z medailonku, nejvýš tři položky: až dva lidé se stránkou (učitelé a žáci první, pak známí, spory, četba;
  * profily a portréty před medailonky), Mapa a čas a do tří Lidé a směry. Každá adresa jen jednou.
+ * Osoba z tradice, která má stránku náboženství (Filón a judaismus), dostane kartu tradice místo druhého člověka.
  */
 export function kamDalMedailonku(args: {
   osoba: TOsoba;
@@ -109,8 +110,10 @@ export function kamDalMedailonku(args: {
   cil: (id: string) => CilStranky | undefined;
   nazevMista: (id: string) => string | undefined;
   obdobi: { id: number; nazev: string };
+  /** stránka náboženské tradice osoby, když ji atlas má */
+  tradice?: { href: string; nazev: string };
 }): PolozkaKamDal[] {
-  const { osoba: ja, vztahy, osobaPodleId, cil, nazevMista, obdobi } = args;
+  const { osoba: ja, vztahy, osobaPodleId, cil, nazevMista, obdobi, tradice } = args;
   const lide = vztahy
     .filter((v) => v.od === ja.id || v.k === ja.id)
     .map((v) => {
@@ -125,11 +128,12 @@ export function kamDalMedailonku(args: {
   const polozky: PolozkaKamDal[] = [];
   const videno = new Set<string>();
   for (const x of lide) {
-    if (polozky.length >= 2 || videno.has(x.stranka!.href)) continue;
+    if (polozky.length >= (tradice ? 1 : 2) || videno.has(x.stranka!.href)) continue;
     videno.add(x.stranka!.href);
     const role = roleNaKarte(x.v, x.smer, sporNaDalku(x.v, ja, x.druhy), ja, x.druhy);
     polozky.push({ href: x.stranka!.href, nadtitulek: `${x.stranka!.druh} · ${role}`, text: x.stranka!.text });
   }
+  if (tradice) polozky.push({ href: tradice.href, nadtitulek: 'Náboženství', text: tradice.nazev });
   const m = rokNaMape(ja);
   if (m) {
     const kolem = m.priblizne ? 'kolem roku' : 'roku';

@@ -202,8 +202,15 @@ export const Pramen = z
 export const Citat = z
   .object({
     id: Id,
-    /** kdo citát vyslovil nebo napsal (id osoby) */
-    osoba: Id,
+    /**
+     * kdo citát vyslovil nebo napsal (id osoby). Chybí jen u citátu z textu tradice (`tradice`: verš Bible, Mišna,
+     * Talmud) nebo od autora, který v datech není a nepřibude (`bezOsoby: true`: religionista Durkheim, Otto).
+     */
+    osoba: Id.optional(),
+    /** citát z textu náboženské tradice: id tradice v src/content/nabozenstvi (judaismus) */
+    tradice: Id.optional(),
+    /** autor citátu není v lide.yaml; jméno nese jen `autor` a citát nikam neodkazuje */
+    bezOsoby: z.literal(true).optional(),
     /** údaj pod citátem: autor díla, dílo, místo */
     autor: z.string(),
     dilo: z.string(),
@@ -219,7 +226,10 @@ export const Citat = z
       .strict(),
     zdroj: Id,
   })
-  .strict();
+  .strict()
+  .refine((c) => [c.osoba, c.tradice, c.bezOsoby].filter(Boolean).length === 1, {
+    message: 'Citát má právě jedno z polí osoba, tradice a bezOsoby.',
+  });
 
 export const Obrazek = z
   .object({

@@ -117,13 +117,26 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
 
 Stránka `/otazka/<slug>/` (`docs/design.md` › Velká otázka) je rozhovor napříč staletími: úvod scénou, Tvůj první názor, odpovědi myslitelů na tentýž případ, proč to tak viděli (časová osa), cesty k otázce a na konci Změnil se?. Obsah je v `src/content/otazky/<slug>.mdx`.
 
-- **Úvod** je „Představ si…“ ze života studenta, dva až tři krátké odstavce, které končí otázkami. Nepoužívej scénu, kterou už nese cesta k téže otázce nebo profil, ani stejný druh případu jako nový případ cesty (dvě zprávy z chatu v jednom celku): cesta posílá studenta na stránku otázky hned po svém posledním kroku. Otázku případu zapiš do `pripad` („Komu věřit?“).
+- **Úvod** je „Představ si…“ ze života studenta, nebo otázka a za ní situace (otázka 8: „Kdo má rozhodovat, když se třída nemůže shodnout?“), dva až tři krátké odstavce, které končí otázkami. „Představ si…“ má pět z osmi stránek: další stránka ať začne jinak. Nepoužívej scénu, kterou už nese cesta k téže otázce nebo profil, ani stejný druh případu jako nový případ cesty (dvě zprávy z chatu v jednom celku): cesta posílá studenta na stránku otázky hned po svém posledním kroku. Otázku případu zapiš do `pripad` („Komu věřit?“).
 - **Hlasy** ve frontmatteru: `hlasy: [{ osoba, odpoved, myslenka, citat, zdroje }]`. Pořadí podle narození dopočítá stránka; zkontroluj, kdo stránku otevírá (Diogenés je starší než Aristotelés). Jen myslitelé, kteří spolu opravdu vedou spor a mají ověřenou myšlenku v podkladech; další přibudou s vlastním profilem.
 - **Nejdřív odpověď, pak myšlenka.** `odpoved` je jedna až dvě věty, jak by myslitel naložil s úvodním případem, v tykání, ve třetí osobě a bez uvozovek (převod jeho myšlenky, ne citát). Odpovědi mají stejný tvar, aby bylo na první pohled vidět, kde se rozcházejí. Dvě věty jsou strop a hlídá ho test: dvě otázky myslitele spoj do jedné věty.
 - **Poznal by se v tom?** Každá odpověď musí říct, co by na případ řekl jen tenhle myslitel. Radikální postoj nesmí znít jako obecná rada („rozhodni rozumem“); Parmenidés řekne „ani babičce, ani učitelce, obojí je jen mínění“. Když má myslitel klíčový obraz (Prótagorův lékař), patří i do odpovědi. Nezmenšuj to, čím se myslitel liší od ostatních: Aristotelés peníze ke štěstí počítá, „jen jako nástroj“ z něj dělá dalšího, kdo je odsouvá.
 - **Myšlenka** (`myslenka`) jsou 2–4 věty z podkladů: proč to tak viděl. Nesmí opakovat odpověď ani citát pod ní a musí dát důvod, ne jen tezi podruhé. Může na citát navázat („Sám řekl, co je pravda, jednou větou:“).
 - **Citát** jen ze `zdroje.yaml` a jen ten, který patří téže osobě (kontroluje sestavení). `zdroje` = prameny věty.
+- **Každá odpověď případu má zastánce.** Projdi možnosti, které úvod nabízí („splněný slib, nebo to, co chtěl večer“), a ke každé najdi hlas. Na otázce 2 radilo všech šest hlasů mobil nevracet a student, který slib dodrží, četl stránku proti sobě; zastáncem se stal Marcus podle Hovorů VIII, 59 („pouč, nebo snášej“). Kdo je zastánce které odpovědi, zapiš do komentáře ve frontmatteru.
+- **Uvozovací věta dá citátu situaci**: komu, kdy, na co odpovídal, z podkladů nebo z hotového portrétu, nic vymyšleného. „O zákonech to napsal takhle:“ a „Stačila mu na to jedna věta:“ jen ohlašují citát; kde situace není, stačí krátká vazba k myšlence („Ukázal to na zákonech:“). Neopakuj obrat, kterým týž autor uvádí citát jinde („v jedné ze svých hlavních myšlenek“ stojí u Zrcadla času).
+- **Otázka bez vlastní cesty** (v antice 2 a 8): hlasy jen od lidí se stránkou, a Kam dál vede na kroky a kapitoly, kde téma je (Gýgův prsten, Kritón v cestě 7). Soubor `.md` stačí, když text nepotřebuje komponenty.
 - Cesty k otázce se na stránce ukážou samy z `otazka:` v přehledu cesty. Na otázku odkazuj adresou `/otazka/<slug>/`.
+
+## Stránka myšlenkového pokusu
+
+Stránka `/pokus/<slug>/` (`docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice; vzory `src/content/pokusy/gyguv-prsten.mdx` a `zrcadlo-casu.mdx`) má sloužit i jako začátek hodiny: scéna, vlastní volba předem, změna podmínky nebo kresba, Co řekli filozofové a Kam dál.
+
+- **Scéna** vypráví pokus jinými slovy než stránka, odkud pokus je; pramen pokusu jde do `pramen` („Platón, Ústava II“) a filozofové pokusu do `osoby`.
+- **Blok nebo kresba z jiné stránky se vkládá se stejným id** (`platon-gyguv-prsten`, `zrcadlo-casu`): jeden stav, jeden zápis v deníku. Volba předem dostane vlastní Kam dál na blok pod sebou a původní stránka odkaz na pokus.
+- **Hlasy** (`hlasy`) jako u velké otázky, jen bez odpovědi na případ: `myslenka` 2–4 věty a citát toho, kdo mluví. Každá možnost Volby předem má mezi hlasy zastánce. Spojovací věta nesmí znít jako souhlas, když jde o jinou odpověď („Epikúros by se o duši nepřel“ → „Epikúros by odpověděl jinak, bez řádu v duši“).
+- **Pokus z citlivé cesty** (Zrcadlo času z cesty o smrti) si nese její pravidla pro studenta, kterého se téma bolestně týká (`docs/pouceni.md`), i `RadekPomoci`.
+- Pokus, který rozlišuje druhy odpovědí (Proč hřmí? na stránce Co je filozofie?), dá odpovědi za filozofii důvod, se kterým se dá přít; popis bez důvodu vypadá jako slabší věda.
 
 ## Čtivost a lidský hlas
 

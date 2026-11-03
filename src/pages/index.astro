@@ -12,6 +12,7 @@ import { osoba } from '../lib/data';
 import { zacatekDomu, type CestaDomu } from '../lib/pokracuj';
 import { nezlomitelne } from '../lib/sazba.js';
 import { TEXT_DENIKU_SKRIPT } from '../lib/denik';
+import { strankyAtlasu } from '../lib/stranky-typu';
 
 // První cesta atlasu: tlačítko vede rovnou na její krok 1, údaj pod ním se skládá z dat cesty.
 const PRVNI = 'kdy-mam-dobry-duvod-verit';
@@ -45,7 +46,13 @@ const skript = `(function () {
   } catch (e) { /* úložiště nedostupné: zůstane výchozí začátek */ }
 })();`;
 
+// Pás období vede na stránku období, když ji období má; jinak na lidi období v Lidech a směrech, a období bez lidí nikam.
+const stranky = await strankyAtlasu();
 const sLidmi = new Set(['1', '2']);
+const odkazObdobi = (id: number) => {
+  const slug = stranky.obdobi.get(id);
+  return slug ? `/obdobi/${slug}/` : sLidmi.has(String(id)) ? `/lide/#obdobi-${id}` : undefined;
+};
 const vstupy = [
   { href: '/mapa/', ikona: 'mapa', nazev: 'Mapa a čas', text: 'Kdo žil kdy, kde a s kým. Na mapě jsou jen ti, kdo ve zvoleném roce žijí.' },
   { href: '/otazky/', ikona: 'otazky', nazev: 'Otázky', text: 'Deset otázek, na které každá doba odpovídá po svém, a cesty, které k nim vedou. Začni tou, která tě pálí.' },
@@ -84,7 +91,7 @@ const vstupy = [
       <h2 class="t-h2" id="osm-obdobi">Osm období</h2>
       <p class="t-popisek">Každá doba má svou barvu. Najdeš ji na mapě, na ose i u lidí.</p>
     </div>
-    <PasObdobi varianta="velky" odkaz={(id) => (sLidmi.has(String(id)) ? `/lide/#obdobi-${id}` : undefined)} />
+    <PasObdobi varianta="velky" odkaz={odkazObdobi} />
   </section>
 
   <section class="rozcestnik stranka" aria-labelledby="tri-vstupy">
@@ -100,6 +107,11 @@ const vstupy = [
         </li>
       ))}
     </ul>
+    <p class="na-zacatek t-ovladani">
+      <span class="t-nadtitulek na-zacatek__nad">Na začátek</span>
+      <a href="/co-je-filozofie/">Co je filozofie?</a>
+      <a href="/nabozenstvi/">Co je náboženství?</a>
+    </p>
   </section>
 </Zakladni>
 
@@ -146,6 +158,10 @@ const vstupy = [
   }
   .rozcestnik a:hover { border-color: var(--muted); }
   .rozcestnik .text { color: var(--ink-2); font-size: 15px; }
+  /* Dvě vstupní stránky nad otázkami a náboženstvím: tichý řádek odkazů pod třemi vstupy, ať nesoupeří se začátkem. */
+  .na-zacatek { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-5); margin: var(--s-4) 0 0; }
+  .na-zacatek__nad { color: var(--muted); }
+  .na-zacatek a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); text-underline-offset: 0.2em; }
   @media (min-width: 900px) {
     .uvod { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--s-8); align-items: center; padding-top: var(--s-7); }
     .prvni-cesta { padding: var(--s-6); }

@@ -1,0 +1,11 @@
+---
+// /co-je-filozofie/: vstupní stránka nad deseti otázkami (větev antika-doplnky, K1). Obsah v src/content/uvody/co-je-filozofie.mdx.
+import StrankaUvodu from '../components/stranka/StrankaUvodu.astro';
+---
+<StrankaUvodu
+  id="co-je-filozofie"
+  adresa="/co-je-filozofie/"
+  sekce="otazky"
+  zpet={{ href: '/otazky/', text: 'Otázky' }}
+  drobecky={[{ text: 'Otázky', href: '/otazky/' }, { text: 'Co je filozofie?' }]}
+/>

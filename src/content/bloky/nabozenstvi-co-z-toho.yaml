@@ -1,0 +1,64 @@
+# Roztřiď · Co je náboženství? (/nabozenstvi/): pět jevů do tří košů, dřív než student dostane měřítka religionistů.
+# Podklad: docs/podklady/nabozenstvi-uvod.md › a) Úvodní pokus: Co z toho je náboženství? (tabulka čtyř měřítek, meze
+# pokusu) a odpověď 1 po P6N: zpětná vazba bez „správného koše“; podobnost v tom, jak lidé něco dělají, neříká nic
+# o tom, jestli je pravda, čemu věří. Minuta ticha bez konkrétní tragédie, horoskop bez posměchu, civilní svatba není „méně“.
+druh: roztrid
+obdobi: 1
+nadtitulek: Kde je hranice
+otazka: Co z toho je podle tebe náboženství?
+kose:
+  - id: ano
+    nazev: Je
+    popis: Tohle náboženství je.
+  - id: ne
+    nazev: Není
+    popis: Tohle náboženství není.
+  - id: zalezi
+    nazev: Záleží na…
+    popis: Podle toho, kdo, kde a jak.
+karty:
+  - id: bohosluzba
+    text: Nedělní bohoslužba
+    kdyz:
+      ano: Tady se shodne skoro každé měřítko. Je tu víra, obřad i společenství lidí, kteří se scházejí. Která z těch tří věcí by musela chybět, abys zaváhal?
+      ne: Možná pro tebe náboženství není obřad, ale to, čemu člověk věří, i když je sám. Pak je bohoslužba jen jeho vnější podoba. Co by se muselo dít v lidech na lavicích, aby to náboženství bylo?
+      zalezi: Na čem? Na bohoslužbu přijde věřící, turista i vnuk, který doprovází babičku. Je náboženstvím obřad sám, nebo to, co v něm kdo prožívá?
+  - id: fanklub
+    text: Fotbalový fanklub
+    kdyz:
+      ano: Fanoušci mají svůj chorál, své barvy, místo, kam se jezdí každý týden, a pocit, že patří k sobě. Některá měřítka ti dají za pravdu. Chybí tu ale něco, co má skoro každé náboženství, totiž víra v něco, co není vidět. Stačí ti to, co tu je?
+      ne: Co přesně mu chybí? Fanklub má obřady i společenství, a přece se v něm málokdo ptá, proč žije a co bude po smrti. Je tohle ta hranice?
+      zalezi: Pro většinu fanoušků je klub radost o víkendu. Pro někoho je to, kolem čeho se točí celý jeho život. Mění to něco? Proč?
+  - id: svatba
+    text: Svatba
+    kdyz:
+      ano: Svatba je obřad, po kterém jsou dva lidé pro sebe i pro ostatní někým jiným než předtím. V kostele, v synagoze nebo v mešitě je to obřad náboženský. A na radnici?
+      ne: Na radnici možná ne. Svatba se ale slaví i v kostele, v synagoze a v mešitě a tam patří k víře. Myslel jsi na jednu z nich, nebo platí tvůj koš pro všechny?
+      zalezi: Na radnici i v kostele si dva lidé něco slibují a po obřadu jsou manželé. Liší se tím, ke komu se při tom obracejí. Je náboženské to, že je to obřad, nebo to, že při něm lidé mluví k Bohu?
+  - id: horoskop
+    text: Horoskop v časopise
+    kdyz:
+      ano: Horoskop počítá se silami, které nejde vidět ani ověřit, a mnoha lidem ráno něco řekne. Chybí mu ale společenství. Kdo ho čte, nepatří tím k nikomu dalšímu, kdo ho čte. Je náboženství možné bez druhých?
+      ne: Někteří religionisté by ti dali za pravdu. Horoskop má čtenáře, ale ne společenství, a tomu se v jejich řeči říká magie. To slovo tu není nadávka, jen jméno pro něco jiného než náboženství. Co by se muselo změnit, aby to náboženství bylo?
+      zalezi: Pro někoho je to zábava na poslední straně časopisu, pro jiného rada, podle které se rozhoduje. Je náboženstvím to, čemu člověk věří, nebo to, jak vážně to bere?
+  - id: minuta-ticha
+    text: Minuta ticha
+    kdyz:
+      ano: Celá škola nebo celý stadion najednou ztichne a nikdo nemusí nic vysvětlovat. Je to obřad, který lidi spojuje, a chvíle oddělená od všedního dne. Patří k náboženství, i když se při ní nikdo nemodlí?
+      ne: Nikdo se při ní nemusí modlit a věřící i nevěřící při ní stojí vedle sebe. Přesto je to chvíle, kdy se všichni chovají jinak než jindy. Jak bys tu jinakost nazval?
+      zalezi: Pro někoho je to tichá modlitba, pro souseda vedle chvíle úcty. Oba stojí stejně a mlčí. Může být jedna a táž chvíle pro jednoho náboženská a pro druhého ne?
+srovnani:
+  nadpis: Jak by to roztřídili religionisté
+  text: |-
+    Podle toho, které měřítko vezmeš, vyjde hranice pokaždé jinde.
+
+    *Víra v duchovní bytosti.* Tak náboženství vymezil Edward Tylor. Bohoslužba sem patří, fanklub ani minuta ticha ne. Svatba podle toho, jestli se v ní lidé obracejí k Bohu.
+
+    *Posvátné a společenství.* Podle Émila Durkheima je náboženství to, co lidi spojuje kolem věcí oddělených od všedního. Pak se k němu blíží i fanklub se svým dresem a chorálem a minuta ticha. Horoskop ne, protože kdo ho čte, nepatří do žádného společenství.
+
+    *Prožitek.* Rudolf Otto hledal náboženství v tom, co člověk prožívá před něčím zcela jiným, než je všechno ostatní. Zvenku to na žádné kartě nepoznáš. Záleží na tom, co se děje v člověku.
+
+    *Pět znaků.* Jeden filozof náboženství navrhl znaky počítat: víra v síly, které nejde vidět, pravidla dobrého jednání, obřady, užitek pro toho, kdo se účastní, a pocit, že účastníci patří k sobě. Bohoslužba má všech pět, fanklub tři, horoskop dva.
+
+    Žádné měřítko ti nedá správný koš. Každé něco ukáže a něco přehlédne. A že je fanklub v něčem podobný bohoslužbě, nic neříká o tom, jestli je pravda, čemu věřící věří.
+zdroje: [sep-concept-religion, durkheim-formy, otto-heilige]

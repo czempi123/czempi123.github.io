@@ -27,6 +27,8 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Spojovací věta k námitce nesmí filozofovi upřít to, co opravdu chtěl: Epiktétos klid chtěl a odmítal jen necitelnost sochy, „chtěl něco jiného“ z námitky dělá slovní hříčku (stoicky-tyden, R).
 - Hotové znění z revize ověř v prameni celé, ne jen v citovaném řádku: Politika VII, 9 nevylučuje z občanství jen řemeslníky a obchodníky, ale i rolníky, a důvod volna stojí právě u nich (celek 9, O).
 - Medailonek dostane jen to, co nese pramen z `zdroje`: když pramen osobě žádné místo nedává (Lucretius v SEP), medailonek nevznikne a místo se neodhaduje.
+- V pokusu, který rozlišuje druhy odpovědí, nese odpověď za filozofii sama důvod: věta o blesku bez důvodu vypadala jako slabší věda. Anaximandrův hrom zapsal Seneca i s odpověďmi na otázky (Naturales quaestiones II, 18; antika-doplnky, R).
+- Stránka období neříká o mýtu a filozofii nic jiného než Co je filozofie?: „začali se ptát po důvodech tam, kde dřív stačil příběh“ dělá z příběhu stupeň před rozumem (antika-doplnky, R).
 
 ## Bloky
 
@@ -52,6 +54,8 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - U každé myšlenky profilu a u medailonků hledej místo pro prvek, kterým student pohne a uvidí myšlenku líp než z textu (`atlas-osobnost`, `atlas-data`).
 - Opakování počítej podle klíčových slov každého místa z pramenů (předem, nutné, důkaz, předčasně) napříč kroky i bloky včetně „Co by na to řekli“ a srovnání: shrnutí, které parafrázuje už použitou větu, je další výskyt (celek 10, O: revize přehlédla dvě trojice z Dopisu 98).
 - Úvodní případ stránky otázky je jiného druhu než nový případ cesty.
+- Na stránce otázky má každá možnost úvodního případu zastánce: na otázce 2 radilo všech šest hlasů mobil nevracet a student, který slib dodrží, četl stránku proti sobě (antika-doplnky, R; `atlas-cesta`).
+- Doložená anekdota se ve větvi se stránkami z dat snadno objeví na stránce období, směru i otázky („občan světa“ třikrát): před psaním ji vyhledej napříč `src/content`. Spor dvou škol se vypráví na jedné stránce směru, sousední odkáže větou (antika-doplnky, R; `atlas-osobnost`).
 - Každý hlas na stránce otázky se pozná a nezmenšuje se to, čím se liší. Odpověď hlasu má nejvýš dvě věty. Výklad u hlasu ověř v tomtéž díle a místě, ze kterého je citát; myšlenka odjinud (Seneca, Dopisy 93, 2 u citátu z Dopisu 61) dostane svůj pramen a jméno autora, ne školy.
 - Když poslední krok slíbí, že každá odpověď má zastánce, projdi možnosti prvního bloku jednu po druhé; shrnutí možností z minulého kroku jmenuje všechny, i tu, kterou volí věřící student.
 - Zastánci v posledním kroku patří i odpovědím z ostatních Voleb cesty, ne jen z první: kdo ve čtvrtém kroku zvolil „obě“ nebo „žádná“, jinak odejde s pocitem, že odpověděl špatně.
@@ -83,6 +87,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Celek 9: popis prázdného volna („leží v posteli, je na obtíž sám sobě“) čte student, kterému je zle, jako popis sebe; obraz z pramene, který o nemoci není (sbírka bronzů, zápasy, holič), řekne totéž.
 - Celek 10: rada filozofa příteli v rozkazovacím způsobu („Představ si, že to, čeho se bojíš, se určitě stane“) čte student jako výzvu sobě; kde má výzva přijít až po námitce, piš radu ve třetí osobě, a stud z donucení nikdy ve druhé osobě s polem na psaní.
 - Mez cvičení o představě nejhoršího (a o pohledu shora) vylučuje i nemoc a strach o někoho, nejen přemítání a člověka, který ubližuje, a řekne, komu to říct: jinak si student, jehož blízký čeká na výsledky vyšetření, vybere právě tohle (stoicky-tyden, R).
+- Stránku o náboženství čti očima věřícího každé tradice: otázka „kdybys chtěl rozumět kamarádovi, který chodí do kostela? A kdybys tam chodil sám?“ počítá se čtenářem zvenku. Ptej se na spolužáka, který chodí „do kostela, do synagogy nebo do mešity“, a na čtenáře, „kdyby ses ptal sám na sebe“. Výklad posvátného textu, o který se tradice přou (jednotné „ty“ v Dt 30,19), dej jako otázku, ne jako fakt (antika-doplnky, R).
 
 ## Co se skládá z dat
 
@@ -103,6 +108,11 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Slovo, které k vztahu přidává komponenta („ · vypráví se“ u tradovaného vztahu), nepiš i do poznámky v datech: na stránce se zdvojí („vypráví se · vypráví se, že…“). Poznámka tradovaného vztahu začíná rovnou dějem (medailonky, O).
 - Rozdíl dvou přibližných letopočtů z pramene není údaj z pramene: „o deset let mladší“ z hlaviček „c. 620“ a „c. 610“ pramen netvrdí.
 - Test, který tvrdí, že konkrétní člověk odkaz nebo stránku nemá („Zénón z Kitia odkaz nemá“), spadne, jakmile mu data stránku dají. Kde jde o pravidlo, vybírej člověka bez stránky z dat (`medailonek` a kolekce `osobnosti`); kde jde o konkrétní stránku, uprav test v témže commitu jako data (medailonky, M0).
+- Mapka s body blízko u sebe a seznamem míst pod ní nese jen jména; role a roky v ní přes sebe padnou (judaismus: Alexandrie, Javne a Jeruzalém na 390 px; antika-doplnky, O).
+- Karta Kam dál nevede na řádek přehledu bez stránky („Je Bůh?“). Do vzniku stránky vede na existující stránku, která na téma navazuje, a návrat odkazu se zapíše do plánu (antika-doplnky, R).
+- Vazba stránky na lidi patří do dat: tradice zná své osoby polem `tradice` a medailonek Filóna z něj sám skládá kartu judaismu (antika-doplnky, O).
+- Přehled období v deníku (Tvoje antika) čte student o týdny později a bez kroku cesty: věta převzatá z kroku („Jestli nemáš…“) potřebuje odkud nad sebou (antika-doplnky, R).
+- Prameny stránky z textu (`pramenyZTextu`) vidí jen citáty a bloky. Pramen výkladu v próze nebo v Odkryj patří do `zdroje` ve frontmatteru, jinak v Pramenech chybí (antika-doplnky, O).
 
 ## Technika
 
@@ -145,3 +155,4 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Blok neukáže odpověď, místo k napadení ani zvýraznění dřív, než se student sám rozhodne: co odkrytí řekne, dej až za volbu. A přeskládání po hydrataci na první obrazovce problikne; co má být skryté, skryje skript před vykreslením hned za obalem, se stejnou funkcí jako ostrov (interaktivita-v1, O).
 - Pravidlo „nejbližší, kdo s ním nežil“ v datech s přibližnými roky dává i „Dělí je asi 1 rok“: mez pro takovou otázku drž větší než nejistota roků (20 let), a výsledek pravidla si vypiš na všech osobách dřív, než ho přijmeš (interaktivita-v1, O).
 - Chromium na Linuxu (GitHub) nevyrobí z `tap()` do zhruba 300 ms po dotykovém tažení přes CDP (`Input.dispatchTouchEvent`) žádný `click`, na Macu ano: test prstem ve Slož argument proto po tažení počká 500 ms a ověří výběr karty dřív, než klepne dál. Co na Macu projde a na GitHubu ne, zkoušej na Linuxu s `CI=true` (cloudové prostředí Claude, klon veřejného repozitáře) (interaktivita-v1, Uzavření).
+- `scripts/kontrola-fokus.mjs` hlásil odkazy v zavřeném `<details>` (Prameny) jako překryv: Chromium jim dává rozměry. Viditelnost se ověřuje `checkVisibility()` (antika-doplnky, R).

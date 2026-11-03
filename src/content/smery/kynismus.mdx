@@ -1,0 +1,75 @@
+---
+nazev: Kynismus
+obdobi: [1, 2]
+poradi: 9
+# Podklad: docs/podklady/antika-doplnky.md › c) Kynismus (Diogenés Laertios VI, 20–21, 63, 71, 104; spor s Epikúrem
+# DL X, 119; oškubaný kohout odkaz na profil Diogena). Zkus to žít: mez z celku 8 (klidně i kvůli někomu jinému).
+perex: Filozofové, kteří žili na ulici a zkoušeli, kolik z toho, co děláme, děláme jen proto, že se to čeká. Na konci si to můžeš vyzkoušet na jednom svém dni.
+zakladatel: antisthenes
+---
+import Citat from '../../components/ui/Citat.astro';
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+<Oddil kotva="zalozeni" nazev="Založení">
+  <Fragment slot="titulek">Hůl a <em>hlava</em></Fragment>
+
+Diogenés musel z rodné Sinópy na Černém moři odejít kvůli falešným mincím. Do Athén přišel jako vyhnanec. Chtěl se učit u Antisthena, který kdysi chodil za Sókratem, jenže Antisthenés žáky nebral. Diogenés se nedal odbýt a chodil za ním dál.
+
+Vypráví se, že se po něm Antisthenés jednou ohnal holí. Diogenés mu nastavil hlavu a řekl:
+
+<Citat id="dl-vi-21" />
+
+Od té doby byl jeho žákem. A jako vyhnanec se pustil do života skoro bez ničeho.
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Etika">
+    <Fragment slot="titulek">Podle přírody, ne podle <em>zvyku.</em></Fragment>
+
+Kynik se u každého zvyku ptal, proč ho dodržuje. Když odpověď zněla jen „protože se to dělá“, zvyk pro něj přestal platit. Za mnohým, po čem lidé touží, viděl Diogenés jen to, že to chtějí ostatní. Co z toho vyplývá pro tvůj vlastní čas, zkoumá cesta [Čí život vlastně žiju?](/cesta/ci-zivot-vlastne-ziju/)
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Kdo nic nepotřebuje, je <em>volný.</em></Fragment>
+
+Bohové podle Diogena nepotřebují nic a člověk, který se jim chce podobat, má potřebovat co nejméně. Koho nic nedrží, toho nemá nikdo čím vydírat.
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Politika">
+    <Fragment slot="titulek">Občan <em>světa.</em></Fragment>
+
+Diogenés o svoje město přišel. Na otázku, odkud je, odpověděl jediným slovem: kosmopolités, občan světa.
+
+*Ke komu patříš ty: k místu, kde jsi vyrostl, k lidem, které máš rád, nebo k lidem vůbec?*
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+  <Fragment slot="titulek">S kým se <em>přeli</em></Fragment>
+
+Epikúros žil taky z mála, a přesto napsal, že moudrý nebude žít jako kynik ani žebrat. O co se ti dva v podstatě přeli, ukazuje čtvrtý krok cesty [Kolik je dost?](/cesta/kolik-je-dost/4/)
+
+S Platónem se Diogenés přel o ideje a o to, co je člověk. Jak Platónovu definici vyvrátil jediným kohoutem, vypráví [Diogenův profil](/osobnost/diogenes/#lucerna).
+
+</Oddil>
+
+<ZkusToZitKarta id="kynismus-den-bez-ceka-se" nazev="Den bez „protože se to čeká“" delka="jeden den" odkaz="/smer/kynismus/#zkus-to-zit">
+
+Vyber si jeden obyčejný den. U všeho, co ten den uděláš, se na chvilku zastav a zeptej se: dělám to, protože chci, nebo protože se to čeká? Klidně to dělej i kvůli někomu jinému, jen ať o tom rozhodneš ty. Večer si zapiš jednu věc, kterou jsi dělal jen ze zvyku, a jestli ji chceš dělat dál.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/diogenes/', nadtitulek: 'Profil', text: 'Diogenés' },
+  { href: '/osobnost/krates-a-hipparchia/', nadtitulek: 'Profil', text: 'Kratés a Hipparchia' },
+  { href: '/cesta/ci-zivot-vlastne-ziju/', nadtitulek: 'Cesta', text: 'Čí život vlastně žiju?' },
+]} />

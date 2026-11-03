@@ -20,7 +20,7 @@
 - { od: platon, k: archytas, typ: znali-se, poznamka: "Archytás ho roku 361 př. n. l. vysvobodil ze Syrákús", zdroj: sep-archytas }
 - { od: platon, k: eudoxos, typ: znali-se, poznamka: "Eudoxos poslouchal Platónovy přednášky", zdroj: mactutor-eudoxus }
 - { od: archytas, k: eudoxos, typ: ucitel, zdroj: mactutor-eudoxus }
-- { od: aristoteles, k: theofrastos, typ: znali-se, poznamka: "Theofrastos s ním pracoval a po něm vedl Lykeion", zdroj: sep-theophrastus }
+- { od: aristoteles, k: theofrastos, typ: ucitel, poznamka: "Theofrastos k němu přešel od Platóna a po něm vedl Lykeion", zdroj: dl-v-36 }
 - { od: aristoteles, k: platon, typ: polemika, poznamka: "spor o ideje", zdroj: aristoteles-metafyzika-ideje }
 - { od: aristoteles, k: xenokrates, typ: znali-se, poznamka: "spolužáci z Akademie; vládce Hermeiás je oba pozval do Assu", zdroj: strabon-xiii }
 # Spor na dálku: Sókratés zemřel patnáct let před Aristotelovým narozením, Prótagorás ještě dřív. Doba a lidé
@@ -60,6 +60,7 @@
 - { od: zenon-z-kitia, k: kleanthes, typ: ucitel, zdroj: britannica-cleanthes }
 - { od: kleanthes, k: chrysippos, typ: ucitel, zdroj: iep-chrysippus }
 - { od: karneades, k: chrysippos, typ: polemika, poznamka: "je-li všechno dáno předchozími příčinami, není nic v naší moci", zdroj: cicero-de-fato-perseus }
+- { od: chrysippos, k: karneades, typ: vliv-textem, poznamka: "Karneadés prostudoval jeho spisy a proslavil se jejich vyvracením", zdroj: dl-iv-62 }
 
 # Římští stoikové a epikurejci
 - { od: musonius-rufus, k: epiktetos, typ: ucitel, zdroj: sep-epictetus }

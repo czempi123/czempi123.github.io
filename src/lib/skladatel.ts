@@ -51,12 +51,12 @@ export const proHledani = (s: string): string =>
 
 /** Druhy ve filtru výběru; „stranky“ jsou celé stránky (přehled cesty, profil, stránka otázky, týden). */
 export const DRUHY_VYBERU = [
-  { id: 'stranky', nazev: 'Celé stránky', druhy: ['cesta', 'profil', 'otazka', 'tyden'] },
+  { id: 'stranky', nazev: 'Celé stránky', druhy: ['cesta', 'profil', 'otazka', 'tyden', 'stranka'] },
   { id: 'krok', nazev: 'Kroky cest', druhy: ['krok'] },
   { id: 'blok', nazev: 'Bloky a kresby', druhy: ['blok'] },
   { id: 'pribeh', nazev: 'Příběhy', druhy: ['pribeh'] },
   { id: 'kapitola', nazev: 'Kapitoly profilů', druhy: ['kapitola'] },
-  { id: 'oddil', nazev: 'Oddíly profilů', druhy: ['oddil'] },
+  { id: 'oddil', nazev: 'Oddíly stránek', druhy: ['oddil'] },
   { id: 'hlas', nazev: 'Hlasy u otázek', druhy: ['hlas'] },
 ] as const satisfies readonly { id: string; nazev: string; druhy: readonly DruhZastaveni[] }[];
 
@@ -130,11 +130,12 @@ export function stitekDruhu(z: Zastaveni): string {
     case 'krok': return `Krok ${z.krok}`;
     case 'profil': return z.medailonek ? 'Celý medailonek' : 'Celý profil';
     case 'kapitola': return z.cislo ? `Kapitola ${z.cislo}` : 'Kapitola';
-    case 'oddil': return 'Oddíl profilu';
+    case 'oddil': return z.stranka.startsWith('/osobnost/') ? 'Oddíl profilu' : 'Oddíl';
     case 'otazka': return 'Stránka otázky';
     case 'hlas': return 'Hlas';
     case 'pribeh': return 'Příběh';
     case 'tyden': return 'Celý týden';
+    case 'stranka': return 'Celá stránka';
     case 'blok': return z.typ && z.typ in NAZVY_KRESEB ? 'Kresba' : (TYPY_BLOKU[z.typ ?? ''] ?? 'Blok');
   }
 }
@@ -149,15 +150,25 @@ export function stitekStudenta(z: Zastaveni): string {
 
 /** Kde zastavení stojí, jak se ukáže v hodině: „Kdy mám dobrý důvod věřit? · krok 3“, „Sókratés“, otázka u hlasu. */
 export function kdeStoji(z: Zastaveni): string {
-  if (z.druh === 'cesta' || z.druh === 'profil' || z.druh === 'otazka' || z.druh === 'tyden') return z.kde;
+  if (z.druh === 'cesta' || z.druh === 'profil' || z.druh === 'otazka' || z.druh === 'tyden' || z.druh === 'stranka') return z.kde;
   if (z.krok !== undefined && z.druh !== 'krok') return `${z.kde} · krok ${z.krok}`;
   return z.kde;
 }
 
 /** Nadpis skupiny ve výběru: „Cesta 1“ se nečísluje (číslo katalog nenese), proto druh stránky a název. */
 export function druhStranky(z: Zastaveni): string {
+  if (z.druh === 'stranka') return z.typStranky ? TYPY_STRANEK[z.typStranky] : 'Stránka';
   return z.druh === 'cesta' ? 'Cesta' : z.druh === 'profil' ? (z.medailonek ? 'Medailonek' : 'Profil') : z.druh === 'tyden' ? 'Zkus to žít' : 'Velká otázka';
 }
+
+/** Nadtitulek skupiny stránky druhu `stranka` ve výběru skladatele. */
+export const TYPY_STRANEK: Record<NonNullable<Zastaveni['typStranky']>, string> = {
+  uvod: 'Na začátek',
+  obdobi: 'Období',
+  smer: 'Směr',
+  pokus: 'Myšlenkový pokus',
+  nabozenstvi: 'Náboženství',
+};
 
 /** Přesune položku o jedno místo nahoru (−1) nebo dolů (+1); na kraji vrátí seznam beze změny. */
 export function posun<T>(seznam: T[], i: number, smer: -1 | 1): T[] {

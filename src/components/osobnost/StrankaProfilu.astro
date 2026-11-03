@@ -13,6 +13,7 @@ import ObsahProfilu from '../../components/osobnost/ObsahProfilu.astro';
 import { osoba as najdiOsobu, obdobiPodleId, mistaPodleId, data } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { nezlomitelne } from '../../lib/sazba.js';
+import { adresyStranek } from '../../lib/stranky-typu';
 
 interface Props { zaznam: CollectionEntry<'osobnosti'> }
 const { zaznam } = Astro.props;
@@ -25,6 +26,8 @@ const osoby = [osoba, ...dalsi];
 const dvojice = dalsi.length > 0;
 const nazevStranky = dvojice ? fm.titulek : osoba.jmeno;
 const obdobi = obdobiPodleId.get(osoba.obdobi)!;
+// Období vede na stránku období, když ji má, jinak na lidi období v Lidech a směrech.
+const adresaObdobi = (await adresyStranek()).obdobi(obdobi.id);
 // Místo v hlavičce: rodiště; když ho neznáme, místo, kde člověk působil naposledy (Epikúros: Athény, ne Mytiléna).
 const mistoOsoby = (o: typeof osoba) => {
   const rodiste = o.mista.find((m) => m.role === 'narozeni') ?? o.mista.findLast((m) => m.role === 'pusobeni');
@@ -62,7 +65,7 @@ const dev = import.meta.env.DEV;
   zpet={{ href: '/lide/', text: 'Lidé a směry' }}
   drobecky={[
     { text: 'Lidé a směry', href: '/lide/' },
-    { text: obdobi.nazev, href: `/lide/#obdobi-${obdobi.id}` },
+    { text: obdobi.nazev, href: adresaObdobi },
     { text: nazevStranky },
   ]}
 >
@@ -79,7 +82,7 @@ const dev = import.meta.env.DEV;
                 <span class="data__jmeno">{o.jmeno}</span>
                 {' · '}<span class="t-letopocet">{zivot(o)}</span>
                 {mistoOsoby(o) && <> · {mistoOsoby(o)}</>}
-                {i === 0 && <>{' · '}<a href={`/lide/#obdobi-${obdobi.id}`}>období {obdobi.id}</a></>}
+                {i === 0 && <>{' · '}<a href={adresaObdobi}>období {obdobi.id}</a></>}
               </li>
             ))}
           </ul>
@@ -87,7 +90,7 @@ const dev = import.meta.env.DEV;
           <p class="data t-ovladani">
             <span class="t-letopocet">{zivot(osoba)}</span>
             {mistoOsoby(osoba) && <> · {mistoOsoby(osoba)}</>}
-            {' · '}<a href={`/lide/#obdobi-${obdobi.id}`}>období {obdobi.id}</a>
+            {' · '}<a href={adresaObdobi}>období {obdobi.id}</a>
           </p>
         )}
         {/* Vyplní a ukáže skript v ObsahProfilu, když se student vrací a naposledy četl jiný než první oddíl. */}

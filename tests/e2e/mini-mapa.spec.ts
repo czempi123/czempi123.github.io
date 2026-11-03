@@ -103,7 +103,8 @@ test('Doba a lidé: spor na dálku nestojí pod „Znali se a přeli se“', asy
   const skupina = (nazev: string) => page.locator('.doba__vztahy > div').filter({ has: page.getByRole('heading', { name: nazev, exact: true }) });
   await page.goto('/osobnost/aristoteles/');
   await expect(skupina('Učitelé')).toContainText('Platón');
-  for (const jmeno of ['Platón', 'Theofrastos', 'Xenokratés']) await expect(skupina('Znali se a přeli se')).toContainText(jmeno);
+  for (const jmeno of ['Platón', 'Xenokratés']) await expect(skupina('Znali se a přeli se')).toContainText(jmeno);
+  await expect(skupina('Žáci')).toContainText('Theofrastos');
   await expect(skupina('Znali se a přeli se')).not.toContainText(/Sókratés|Prótagorás/);
   for (const jmeno of ['Sókratés', 'Prótagorás']) await expect(skupina('S kým se přel na dálku')).toContainText(jmeno);
   await expect(skupina('S kým se přel na dálku')).toContainText('přel se s jeho učením');

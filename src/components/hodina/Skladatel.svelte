@@ -40,6 +40,7 @@
     { druh: 'profil', nadpis: 'Profily' },
     { druh: 'otazka', nadpis: 'Velké otázky' },
     { druh: 'tyden', nadpis: 'Týdny Zkus to žít' },
+    { druh: 'stranka', nadpis: 'Období, směry a další stránky' },
   ] as const;
 
   // ─── Hodina ───

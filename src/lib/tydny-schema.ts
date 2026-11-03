@@ -40,6 +40,8 @@ export const Tyden = z
     nazev: Text,
     /** barva období (1–8) */
     obdobi: z.number().int().min(1).max(8),
+    /** směr týdne (id v src/content/smery): drobečky vedou přes stránku směru, když ji směr má */
+    smer: Id.optional(),
     /** krátký popis bez tečky pro Kam dál a deník („Sedm krátkých cvičení, jedno na den“) */
     vstup: Text,
     /** úvodní věta stránky */

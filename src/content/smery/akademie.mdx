@@ -1,0 +1,76 @@
+---
+nazev: Platónova Akademie
+obdobi: [1, 2]
+poradi: 6
+# Podklad: docs/podklady/antika-doplnky.md › c) Akademie (SEP „Aristotle“: v Akademii asi od sedmnácti do Platónovy
+# smrti; Etika Nikomachova I, 6 = etika-1096a; SEP „Carneades“: argumentovat na obě strany; Diogenés Laertios IV, 62).
+# Rok založení Akademie neověřen, proto ve scéně není.
+perex: Škola, ve které se spor nebral jako zrada. Založil ji Platón, a přesto z ní vzešel jeho nejostřejší kritik i učitelé, kteří o každé věci mluvili pro i proti.
+zakladatel: platon
+---
+import Citat from '../../components/ui/Citat.astro';
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+<Oddil kotva="zalozeni" nazev="Založení">
+  <Fragment slot="titulek">Žák, který <em>nesouhlasil</em></Fragment>
+
+Do Platónovy školy v Athénách přišel jako sedmnáctiletý mladík ze Stageiry Aristotelés. Zůstal dvacet let, až do Platónovy smrti. Patřil k nejlepším, a přesto s učitelem v tom nejdůležitějším nesouhlasil. Platón učil, že za věcmi, které vidíme, jsou ideje. Aristotelés v nich viděl prázdná slova a básnické obrazy.
+
+Když pak sám psal o tom, co je dobro, musel se s idejemi vypořádat. Přišly přece od přátel. Napsal k tomu:
+
+<Citat id="etika-1096a" />
+
+Škola, ve které mohl takový žák vyrůst, přežila svého zakladatele o celá staletí. Pozdější učitelé Akademie z poctivé pochybnosti udělali metodu.
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Metafyzika">
+    <Fragment slot="titulek">Za tím, co vidíme, jsou <em>ideje.</em></Fragment>
+
+Nakreslený čtverec má křivé strany a dá se smazat. Čtverec, o kterém mluví geometrie, je dokonalý a trvá. Podle Platóna je takových věcí víc: spravedlnost, krása, dobro. Vidíme je jen rozumem, a přece jsou skutečnější než všechno, co vidíme očima. Jak na to přišel, sleduje cesta [Je to, co vidím, celá skutečnost?](/cesta/je-to-co-vidim-cela-skutecnost/)
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Etika">
+    <Fragment slot="titulek">Spravedlivý má v sobě <em>pořádek.</em></Fragment>
+
+V každém z nás se podle Platóna přou tři síly: rozum, hněv a žádostivost. Spravedlivý není ten, kdo má dobrou pověst. Je to ten, v kom vládne rozum a ostatní mu pomáhají. Takový člověk by zůstal spravedlivý, i kdyby ho nikdo neviděl. Zkus si to na myšlenkovém pokusu [Gýgův prsten](/pokus/gyguv-prsten/).
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Teorie poznání">
+    <Fragment slot="titulek">Pro i <em>proti.</em></Fragment>
+
+Pozdější učitelé Akademie zkoumali každou věc z obou stran a nic nepřijali bez zkoušky. Nejslavnější z nich, Karneadés, uměl stejně dobře obhájit názor i jeho opak. Neznamenalo to, že je všechno jedno. Znamenalo to, že žádný názor nemá výjimku z přezkoušení, ani ten tvůj.
+
+*Který svůj názor jsi naposledy zkoušel z druhé strany?*
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+  <Fragment slot="titulek">S kým se <em>přeli</em></Fragment>
+
+Aristotelés po Platónově smrti z Akademie odešel a později v Athénách založil vlastní školu v Lykeiu. Spor o ideje tím neskončil: Aristotelés se k němu vracel i v pozdějších knihách.
+
+Karneadés si za protivníka vybral stoiky, hlavně Chrýsippa. Proč by bez Chrýsippa nebylo ani Karneada, vypráví stránka [stoicismu](/smer/stoicismus/#druhy-zakladatel).
+
+</Oddil>
+
+<ZkusToZitKarta id="akademie-sokratovsky-rozhovor" nazev="Jeden sokratovský rozhovor" delka="jeden rozhovor" odkaz="/smer/akademie/#zkus-to-zit">
+
+Najdi někoho, s kým v něčem nesouhlasíš, a domluvte se na jednom rozhovoru. Ty se jen ptáš: co tím myslíš, proč si to myslíš, platí to vždycky? Nesnaž se vyhrát. Snaž se zjistit, co si ten druhý myslí, a to tak přesně, aby s tvým shrnutím souhlasil. Potom si zapiš, jestli se změnil tvůj názor, nebo jen tvoje jistota.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/platon/', nadtitulek: 'Portrét', text: 'Platón' },
+  { href: '/osobnost/aristoteles/', nadtitulek: 'Portrét', text: 'Aristotelés' },
+  { href: '/cesta/je-to-co-vidim-cela-skutecnost/', nadtitulek: 'Cesta', text: 'Je to, co vidím, celá skutečnost?' },
+]} />

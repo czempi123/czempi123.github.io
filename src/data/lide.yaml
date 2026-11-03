@@ -98,14 +98,14 @@
   linie: [veda]
   mista:
     - { misto: miletos, role: narozeni, zdroj: iep-thales }
-  kdo: Myslitel z Milétu, kterého už Aristotelés pokládal za prvního filozofa.
-  proc: Hledal přírodní vysvětlení světa místo mýtu; počátkem všeho mu byla voda.
+  kdo: Myslitel z Milétu, kterého Aristotelés nazval zakladatelem filozofie, která hledá, z čeho je všechno.
+  proc: Za počátek všeho prohlásil vodu a podle Hérodota předpověděl zatmění Slunce.
   atribut:
     ikona: well
     nazev: studna
     proc: Vypráví se, že se tak zahleděl do hvězd, že spadl do studny.
     zdroj: iep-thales
-  zdroje: [iep-thales]
+  zdroje: [iep-thales, aristoteles-metafyzika-i, herodotos-i-74]
 
 - id: pythagoras
   jmeno: Pýthagorás
@@ -973,14 +973,14 @@
     - { misto: eresos, role: narozeni, rok: -371, priblizne: true, zdroj: sep-theophrastus }
     - { misto: assos, role: pobyt, zdroj: sep-theophrastus }
     - { misto: athenes, role: pusobeni, od: -323, do: -287, priblizne: true, zdroj: sep-theophrastus }
-  kdo: Filozof z Eresu na Lesbu, Aristotelův spolupracovník a nástupce v čele Lykeia.
+  kdo: Filozof z Eresu na Lesbu, Aristotelův žák a jeho nástupce v čele Lykeia.
   proc: Napsal Povahy, třicet krátkých a často vtipných obrazů záporných typů z všedního života Athén.
   atribut:
     ikona: sprig
     nazev: rostlina
     proc: Napsal první velké dílo o rostlinách; říká se mu otec botaniky.
     zdroj: sep-theophrastus
-  zdroje: [sep-theophrastus]
+  zdroje: [sep-theophrastus, dl-v-36]
 
 - id: karneades
   jmeno: Karneadés
@@ -997,7 +997,7 @@
     - { misto: rim, role: pobyt, rok: -155, zdroj: sep-carneades }
   kdo: Skeptický filozof z Kyrény, který vedl Platónovu Akademii.
   proc: Vypráví se, že v Římě jeden den hájil spravedlnost a druhý den mluvil proti ní.
-  zdroje: [sep-carneades]
+  zdroje: [sep-carneades, dl-iv-62]
 
 - id: filon-alexandrijsky
   jmeno: Filón Alexandrijský

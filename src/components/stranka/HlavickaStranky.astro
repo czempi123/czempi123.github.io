@@ -1,0 +1,87 @@
+---
+// Hlavička stránky období, směru, pokusu, úvodu a tradice: nadtitulek, název (h1, *kurzíva* nese pointu), perex.
+// Varianta `deska` (stránka období): plocha v barvě desky období s ornamentem, jako segment pásu období na Domů.
+// Bez desky stojí hlavička ve čtenářském sloupci a barvu období nese nadtitulek a mince.
+// <HlavickaStranky obdobi={1} nadtitulek="Směr · období 2" titulek="Stoicismus" perex="…" mince={[osoba]} />
+import type { TOsoba } from '../../lib/schema';
+import Mince from '../ui/Mince.astro';
+import { ornamenty } from '../../lib/ornamenty.js';
+import { nezlomitelne } from '../../lib/sazba.js';
+import { radek } from '../../lib/bloky';
+
+interface Props {
+  obdobi: number;
+  nadtitulek: string;
+  titulek: string;
+  perex: string;
+  deska?: boolean;
+  mince?: TOsoba[];
+}
+const { obdobi, nadtitulek, titulek, perex, deska = false, mince = [] } = Astro.props;
+const orn = ornamenty.orn(obdobi - 1);
+---
+<header class:list={['hlavicka-stranky', { 'hlavicka-stranky--deska': deska }]} style={deska ? `--na-desce: var(--period-${obdobi}-on-plate); --deska: var(--period-${obdobi}-plate)` : undefined}>
+  {deska && (
+    <svg class="hlavicka-stranky__ornament" viewBox="0 0 160 128" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d={orn.solid} fill="currentColor" opacity="0.26" />
+      <path d={orn.line} fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.62" />
+    </svg>
+  )}
+  <div class="hlavicka-stranky__text">
+    <p class="t-nadtitulek hlavicka-stranky__nad">{nadtitulek}</p>
+    <h1 class="t-h1" set:html={radek(titulek)} />
+    {mince.length > 0 && (
+      <div class="hlavicka-stranky__mince">
+        {mince.map((o) => <Mince osoba={o} varianta={deska ? 'ring' : 'tint'} velikost={44} />)}
+      </div>
+    )}
+    <p class="t-perex hlavicka-stranky__perex">{nezlomitelne(perex)}</p>
+  </div>
+</header>
+
+<style>
+  .hlavicka-stranky { position: relative; padding: var(--s-6) 0 var(--s-5); }
+  .hlavicka-stranky__text { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .hlavicka-stranky__nad { margin: 0 0 var(--s-3); color: var(--pc); }
+  h1 { margin: 0 0 var(--s-4); text-wrap: balance; }
+  h1 :global(em) { color: var(--ink-2); }
+  .hlavicka-stranky__mince { display: flex; gap: var(--s-2); margin: 0 0 var(--s-4); }
+  .hlavicka-stranky__perex { margin: 0; }
+  /* Deska: plocha přes šířku obsahu, ornament vpravo za textem maskovaný do ztracena; text v barvě „na desce“. */
+  .hlavicka-stranky--deska {
+    margin-top: var(--s-4);
+    padding: var(--s-7) var(--s-5) var(--s-6);
+    border-radius: var(--r-md);
+    background: var(--deska);
+    color: var(--na-desce);
+    overflow: hidden;
+  }
+  .hlavicka-stranky--deska .hlavicka-stranky__nad,
+  .hlavicka-stranky--deska h1,
+  .hlavicka-stranky--deska h1 :global(em),
+  .hlavicka-stranky--deska .hlavicka-stranky__perex { color: var(--na-desce); }
+  /* Telefon: ornament je pruh nad textem (jako v segmentu pásu období), text pod ním nic nepřekrývá. */
+  .hlavicka-stranky__ornament {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 88px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+  }
+  .hlavicka-stranky--deska { padding-top: calc(88px + var(--s-3)); }
+  .hlavicka-stranky--deska .hlavicka-stranky__text { position: relative; margin-inline: 0; }
+  @media (min-width: 900px) {
+    .hlavicka-stranky { padding-top: var(--s-7); }
+    .hlavicka-stranky--deska { padding: var(--s-8) var(--s-8) var(--s-7); }
+    /* Notebook: ornament vpravo přes celou výšku desky, text vlevo v nejvýš 56 % šířky, takže se nepotkají. */
+    .hlavicka-stranky__ornament {
+      inset: 0 0 auto auto;
+      width: min(44%, 520px);
+      height: 100%;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
+      mask-image: linear-gradient(90deg, transparent, #000 40%);
+    }
+    .hlavicka-stranky--deska .hlavicka-stranky__text { max-width: min(var(--ctenarsky-sloupec), 56%); }
+  }
+</style>

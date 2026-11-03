@@ -1,0 +1,95 @@
+---
+// Stránka myšlenkového pokusu /pokus/<slug>/ (větev antika-doplnky, K1): hlavička → text MDX
+// (src/content/pokusy/<slug>.mdx: úvod, Volba předem, Změň jednu věc nebo kresba) → Co řekli filozofové
+// (hlasy z frontmatteru na časové ose jako u velké otázky) → Kam dál → Prameny.
+// Blok nebo kresba z jiné stránky se vkládá se stejným id: stav bloku a zápis v deníku jsou pak jeden.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import HlasyOsa from '../../components/otazka/HlasyOsa.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+import Prameny from '../../components/osobnost/Prameny.astro';
+import { osoba as najdiOsobu, osoby, citatyPodleId, pramenyPodleId } from '../../lib/data';
+import { adresaOtazky, chybyHlasu, seradHlasy } from '../../lib/otazky';
+import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { ODDIL_HLASY_POKUSU } from '../../lib/stranky';
+import { pramenyZTextu } from '../../lib/prameny-stranky';
+
+export async function getStaticPaths() {
+  const vse = await getCollection('pokusy');
+  return vse.map((zaznam) => ({ params: { pokus: zaznam.id }, props: { zaznam } }));
+}
+interface Props { zaznam: CollectionEntry<'pokusy'> }
+const { zaznam } = Astro.props;
+const fm = zaznam.data;
+const slug = zaznam.id;
+const chyby = chybyHlasu(`pokus ${slug}`, fm.hlasy, osoby, citatyPodleId, pramenyPodleId);
+if (chyby.length) throw new Error(chyby.join('\n'));
+const { Content } = await render(zaznam);
+const adresa = await adresaStranekOsob();
+const hlasy = seradHlasy(fm.hlasy, osoby).map((h) => ({ ...h, osoba: najdiOsobu(h.osoba) }));
+const otazka = fm.otazka ? (await getCollection('otazky')).find((o) => o.data.cislo === fm.otazka) : undefined;
+if (fm.otazka && !otazka) throw new Error(`Pokus „${slug}“: otázka ${fm.otazka} není v src/content/otazky.`);
+const prameny = await pramenyZTextu(zaznam.body, {
+  prameny: hlasy.flatMap((h) => h.zdroje),
+  citaty: hlasy.flatMap((h) => (h.citat ? [h.citat] : [])),
+});
+const stranka = `/pokus/${slug}/`;
+---
+<Zakladni
+  titulek={fm.nazev}
+  popis={`Myšlenkový pokus ${fm.nazev} (${fm.pramen}). ${fm.perex}`}
+  sekce="otazky"
+  zpet={{ href: '/otazky/', text: 'Otázky' }}
+  kratkyTitulek="Myšlenkový pokus"
+  drobecky={[
+    { text: 'Otázky', href: '/otazky/' },
+    ...(otazka ? [{ text: `Otázka ${otazka.data.cislo}`, href: adresaOtazky(otazka.id, otazka.data) }] : []),
+    { text: fm.nazev },
+  ]}
+>
+  <article class={`pokus stranka obdobi-${fm.obdobi}`} data-navsteva={stranka} data-nazev={fm.nazev}>
+    <HlavickaStranky
+      obdobi={fm.obdobi}
+      nadtitulek={`Myšlenkový pokus · ${fm.pramen}`}
+      titulek={fm.nazev}
+      perex={fm.perex}
+      mince={fm.osoby.map(najdiOsobu)}
+    />
+    <div class="obsah">
+      <Content />
+    </div>
+
+    {hlasy.length > 0 && (
+      <section class="ctenarsky oddil" id={ODDIL_HLASY_POKUSU.kotva} aria-labelledby={`${ODDIL_HLASY_POKUSU.kotva}-nadpis`} data-oddil={ODDIL_HLASY_POKUSU.nazev}>
+        <h2 class="t-h2 oddil__nadpis" id={`${ODDIL_HLASY_POKUSU.kotva}-nadpis`} tabindex="-1">{ODDIL_HLASY_POKUSU.nazev}</h2>
+        <HlasyOsa hlasy={hlasy} adresa={adresa} />
+      </section>
+    )}
+
+    {fm.kamDal.length > 0 && <div class="siroky-pas"><KamDal odkazy={fm.kamDal} /></div>}
+
+    <div class="ctenarsky">
+      <Prameny prameny={prameny.prameny} citaty={prameny.citaty} obrazky={prameny.obrazky} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .pokus { padding-bottom: var(--s-8); }
+  /* Jako krok cesty: text ve čtenářském sloupci, bloky a kresby v pásu 960 px se stejným středem. */
+  .pokus :global(.ctenarsky) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .obsah { max-width: 960px; margin-inline: auto; }
+  .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+  .oddil { margin-top: var(--s-9); }
+  .oddil__nadpis { margin: 0 0 var(--s-6); }
+  .oddil__nadpis:focus { outline: none; }
+  .oddil__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .siroky-pas { max-width: 960px; margin-inline: auto; }
+</style>

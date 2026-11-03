@@ -1,0 +1,36 @@
+---
+// Tvoje antika: deník na konci období 1 a 2. Studentovy odpovědi po velkých otázkách a myslitelé, kteří to viděli
+// podobně. Skládá se v prohlížeči z deníku (src/components/ostrovy/TvojeObdobi.svelte); katalog cest a zastánců
+// vzniká při sestavení. Vstup z Můj deník a z Kam dál stránky období 2.
+import Zakladni from '../../layouts/Zakladni.astro';
+import TvojeObdobi from '../../components/ostrovy/TvojeObdobi.svelte';
+import { katalogObdobi } from '../../components/denik/_katalog-obdobi';
+import { TVOJE_ANTIKA } from '../../lib/tvoje-obdobi';
+import { nezlomitelne } from '../../lib/sazba.js';
+
+const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
+---
+<Zakladni
+  titulek={TVOJE_ANTIKA.nazev}
+  sekce="denik"
+  drobecky={[{ text: 'Můj deník', href: '/denik/' }, { text: TVOJE_ANTIKA.nazev }]}
+  zpet={{ href: '/denik/', text: 'Můj deník' }}
+  kratkyTitulek={TVOJE_ANTIKA.nazev}
+  hledat={false}
+>
+  <div class="stranka ctenarsky obdobi-2">
+    <header class="hlava">
+      <p class="t-nadtitulek nadtitulek">Můj deník · období 1 a 2</p>
+      <h1 class="t-h1">{TVOJE_ANTIKA.nazev}</h1>
+      <p class="t-perex">{nezlomitelne(TVOJE_ANTIKA.uvod)}</p>
+    </header>
+    <TvojeObdobi client:load katalog={katalog} obdobi={2} prvniCesta={prvniCesta} />
+  </div>
+</Zakladni>
+
+<style>
+  .stranka { padding-bottom: var(--s-8); }
+  .hlava { padding: var(--s-6) 0 var(--s-2); }
+  .nadtitulek { margin: 0 0 var(--s-2); color: var(--pc); }
+  h1 { margin-bottom: var(--s-4); }
+</style>

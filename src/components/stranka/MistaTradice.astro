@@ -1,0 +1,47 @@
+---
+// Kde a kdy: mapka míst náboženské tradice z pole `mista` v src/content/nabozenstvi/<id>.mdx (místa z mista.yaml)
+// a pod ní tatáž místa jako seznam s rolí a roky (čtečka i telefon). Výřez se spočítá z míst (vyrezMiniMapy).
+// Mapka nese jen jména: role a roky by se u blízkých míst (Javne a Jeruzalém) křížily s popiskem souseda,
+// a seznam pod mapkou je říká celé (revize větve antika-doplnky, nález 4).
+// Použití v MDX: <MistaTradice tradice={props.tradice} />
+import { getEntry } from 'astro:content';
+import MiniMapa from '../osobnost/MiniMapa.astro';
+import { mistaPodleId } from '../../lib/data';
+import { rok as fmtRok, rozpeti } from '../../lib/casy';
+import { ODDIL_MISTA, ROLE_MIST_TRADICE } from '../../lib/stranky';
+import type { MistoMiniMapy } from '../../lib/mapa';
+
+interface Props { tradice: string }
+const { tradice } = Astro.props;
+const zaznam = await getEntry('nabozenstvi', tradice);
+if (!zaznam) throw new Error(`Tradice „${tradice}“ není v src/content/nabozenstvi`);
+const kdy = (m: { od?: number; do?: number }) =>
+  m.od !== undefined && m.do !== undefined ? rozpeti(m.od, m.do) : m.od !== undefined ? `od ${fmtRok(m.od)}` : m.do !== undefined ? `do ${fmtRok(m.do)}` : '';
+const radky = zaznam.data.mista.map((m) => {
+  const misto = mistaPodleId.get(m.misto);
+  if (!misto) throw new Error(`Tradice „${tradice}“: místo „${m.misto}“ není v mista.yaml`);
+  return { misto, popis: [ROLE_MIST_TRADICE[m.role], kdy(m)].filter(Boolean).join(' ') };
+});
+const body = new Map<string, MistoMiniMapy>();
+for (const r of radky) {
+  if (!body.has(r.misto.id)) body.set(r.misto.id, { nazev: r.misto.nazev, souradnice: r.misto.souradnice as [number, number], radky: [] });
+}
+---
+{radky.length > 0 && (
+  <section class="mista-tradice" id={ODDIL_MISTA.kotva} aria-labelledby={`${ODDIL_MISTA.kotva}-nadpis`} data-oddil={ODDIL_MISTA.nazev}>
+    <h2 class="t-h2 mista-tradice__nadpis ctenarsky" id={`${ODDIL_MISTA.kotva}-nadpis`} tabindex="-1">{ODDIL_MISTA.nazev}</h2>
+    <MiniMapa mista={[...body.values()]} obdobi={zaznam.data.obdobi[0]} />
+    <ul class="mista-tradice__seznam ctenarsky t-ovladani">
+      {radky.map((r) => <li><strong>{r.misto.nazev}</strong> · {r.popis}</li>)}
+    </ul>
+  </section>
+)}
+
+<style>
+  .mista-tradice { max-width: 680px; margin: var(--s-9) auto var(--s-7); }
+  .mista-tradice__nadpis { margin: 0 0 var(--s-5); }
+  .mista-tradice__nadpis:focus { outline: none; }
+  .mista-tradice__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mista-tradice__seznam { margin: var(--s-4) 0 0; padding-left: var(--s-5); color: var(--ink-2); }
+  .mista-tradice__seznam strong { color: var(--ink); font-weight: 600; }
+</style>

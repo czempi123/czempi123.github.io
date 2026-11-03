@@ -104,6 +104,22 @@ describe('Kam dál z medailonku', () => {
     });
     expect(jen.map((p) => p.nadtitulek)).toEqual(['Mapa a čas', 'Lidé a směry']);
   });
+  it('osoba z tradice se stránkou: karta tradice místo druhého člověka (Filón a judaismus)', () => {
+    const s = kamDalMedailonku({
+      osoba: lide.x,
+      vztahy: [
+        { od: 'sokrates', k: 'x', typ: 'ucitel', zdroj: 'p' },
+        { od: 'platon', k: 'x', typ: 'znali-se', zdroj: 'p' },
+      ],
+      osobaPodleId: (id) => lide[id],
+      cil: (id) => ({ href: `/osobnost/${id}/`, druh: 'Portrét', text: lide[id].jmeno }),
+      nazevMista: () => 'Athény',
+      obdobi: { id: 1, nazev: 'Počátky a klasické Řecko' },
+      tradice: { href: '/nabozenstvi/judaismus/', nazev: 'Judaismus' },
+    });
+    expect(s.map((p) => p.href)).toEqual(['/osobnost/sokrates/', '/nabozenstvi/judaismus/', '/mapa/?rok=-360&osoba=x']);
+    expect(s[1].nadtitulek).toBe('Náboženství');
+  });
 });
 
 describe('Kam dál z medailonku: nadtitulek říká, kdo je ve vztahu činný', () => {

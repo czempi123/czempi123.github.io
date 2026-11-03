@@ -6,6 +6,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { Blok } from './lib/bloky-schema';
 import { Tyden } from './lib/tydny-schema';
+import { ObdobiStranka, Smer, Pokus, Uvod, Nabozenstvi, OdkazKamDal } from './lib/stranky-schema';
 
 const id = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const obdobi = z.number().int().min(1).max(8);
@@ -42,20 +43,11 @@ const osobnosti = defineCollection({
   }),
 });
 
-const smery = defineCollection({
-  loader: vsechny('smery'),
-  schema: z.object({
-    nazev: z.string(),
-    obdobi: z.array(obdobi).min(1),
-    /** pořadí na stránce Lidé a směry */
-    poradi: z.number().int(),
-  }),
-});
+/** Směry: štítek v Lidech a směrech; směr s perexem má stránku /smer/<id>/ (src/lib/stranky-schema.ts). */
+const smery = defineCollection({ loader: vsechny('smery'), schema: Smer });
 
-const obdobiTexty = defineCollection({
-  loader: vsechny('obdobi'),
-  schema: z.object({ obdobi, perex: z.string() }),
-});
+/** Stránky období /obdobi/<slug>/: soubor se jmenuje jako slug v src/data/obdobi.yaml. */
+const obdobiTexty = defineCollection({ loader: vsechny('obdobi'), schema: ObdobiStranka });
 
 const otazky = defineCollection({
   loader: vsechny('otazky'),
@@ -84,6 +76,11 @@ const otazky = defineCollection({
           .strict(),
       )
       .default([]),
+    /**
+     * Kam dál pod stránkou otázky: kroky, kapitoly a stránky, kde se o otázce v atlasu mluví. Hlavně pro otázky,
+     * ke kterým zatím nevede žádná cesta (otázky 2 a 8); cesty k otázce se ukazují samy.
+     */
+    kamDal: z.array(OdkazKamDal).max(4).default([]),
   }),
 });
 
@@ -130,10 +127,11 @@ const kroky = defineCollection({
   }),
 });
 
-const pokusy = defineCollection({
-  loader: vsechny('pokusy'),
-  schema: z.object({ nazev: z.string(), obdobi, otazka: otazka.optional(), osoby: z.array(id).default([]) }),
-});
+/** Myšlenkové pokusy /pokus/<slug>/. */
+const pokusy = defineCollection({ loader: vsechny('pokusy'), schema: Pokus });
+
+/** Úvodní stránky oddílů: Co je filozofie? (/co-je-filozofie/) a Co je náboženství? (/nabozenstvi/). */
+const uvody = defineCollection({ loader: vsechny('uvody'), schema: Uvod });
 
 const pojmy = defineCollection({
   loader: vsechny('pojmy'),
@@ -145,10 +143,8 @@ const pribehy = defineCollection({
   schema: z.object({ nazev: z.string(), obdobi, osoby: z.array(id).default([]), zdroj: id }),
 });
 
-const nabozenstvi = defineCollection({
-  loader: vsechny('nabozenstvi'),
-  schema: z.object({ nazev: z.string(), poradi: z.number().int(), obdobi: z.array(obdobi).default([]) }),
-});
+/** Náboženské tradice /nabozenstvi/<slug>/ (judaismus). */
+const nabozenstvi = defineCollection({ loader: vsechny('nabozenstvi'), schema: Nabozenstvi });
 
 /** Obsah interaktivních bloků (Volba, Změň jednu věc, Spor); do MDX se vkládají jedním řádkem podle id. */
 const bloky = defineCollection({
@@ -162,4 +158,4 @@ const tydny = defineCollection({
   schema: Tyden,
 });
 
-export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, pojmy, pribehy, nabozenstvi, bloky, kroky, tydny };
+export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, uvody, pojmy, pribehy, nabozenstvi, bloky, kroky, tydny };

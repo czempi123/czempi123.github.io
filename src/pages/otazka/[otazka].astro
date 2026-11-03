@@ -1,6 +1,6 @@
 ---
 // Stránka velké otázky: otázka a úvod scénou → Tvůj první názor → odpovědi myslitelů na úvodní případ →
-// proč to tak viděli (časová osa) → cesty k otázce → Změnil se? → Prameny. Obsah v src/content/otazky/<slug>.mdx (frontmatter hlasy, text = úvod).
+// proč to tak viděli (časová osa) → cesty k otázce → Změnil se? → Kam dál (pole kamDal) → Prameny. Obsah v src/content/otazky/<slug>.mdx (frontmatter hlasy, text = úvod).
 // Hlasy, cesty a návrat se ukážou až po prvním názoru nebo po „Přeskočit“; bez JavaScriptu jsou vidět hned.
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
@@ -10,6 +10,7 @@ import HlasyOsa from '../../components/otazka/HlasyOsa.astro';
 import HlasyOdpovedi from '../../components/otazka/HlasyOdpovedi.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
 import { osoba as najdiOsobu, osoby, citatyPodleId, pramenyPodleId } from '../../lib/data';
 import { maStranku, seradHlasy, chybyHlasu, klicOtazky } from '../../lib/otazky';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
@@ -99,6 +100,7 @@ const klic = klicOtazky(slug);
         <ZmenilSe client:visible slug={slug} otazka={o.otazka} odkaz={`${adresa}#zmenil-se`} />
       </section>
 
+      {o.kamDal.length > 0 && <div class="kam-dal"><KamDal odkazy={o.kamDal} /></div>}
       <div class="ctenarsky">
         <Prameny prameny={prameny} citaty={citatyNaStrance} />
       </div>
@@ -125,6 +127,7 @@ const klic = klicOtazky(slug);
   .oddil__nadpis { margin: 0 0 var(--s-6); }
   .oddil__nad { margin: 0 0 var(--s-2); color: var(--ink-2); }
   .oddil--siroky { max-width: 960px; margin-inline: auto; }
+  .kam-dal { max-width: 960px; margin-inline: auto; }
   .oddil__nadpis:focus { outline: none; }
   .oddil__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .oddil :global(.cesta-karta) { margin: var(--s-4) 0 0; }

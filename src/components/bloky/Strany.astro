@@ -16,6 +16,7 @@ import { getEntry } from 'astro:content';
 import Ostrov from '../ostrovy/Strany.svelte';
 import { popisStran, platneKody, kodyStrany, skriptStranPredem, type BlokProStrany } from '../../lib/strany';
 import { TEXT_DENIKU_SKRIPT } from '../../lib/denik';
+import { osoby } from '../../lib/data';
 
 interface Props { blok: string }
 const { blok: id } = Astro.props;
@@ -29,6 +30,8 @@ const pouzite = [...html.matchAll(/data-odpoved="([^"]*)"/g)].flatMap((m) => kod
 if (!pouzite.length) throw new Error(`Kdo je na tvé straně na ${stranka}: oddíl bloku „${id}“ nemá žádnou <Strana odpoved="…">.`);
 const spatne = pouzite.filter((k) => !platneKody(popis).includes(k));
 if (spatne.length) throw new Error(`Kdo je na tvé straně na ${stranka}: blok „${id}“ nemá odpověď ${spatne.join(', ')} (platné: ${platneKody(popis).join(', ')}).`);
+const neznami = [...html.matchAll(/data-osoby="([^"]*)"/g)].flatMap((m) => kodyStrany(m[1])).filter((o) => !osoby.has(o));
+if (neznami.length) throw new Error(`Kdo je na tvé straně na ${stranka}: v atributu osoby u bloku „${id}“ není osoba z lide.yaml: ${neznami.join(', ')}.`);
 ---
 <Ostrov client:load blok={id} popis={popis}><Fragment set:html={html} /></Ostrov>
 {/* Hned za ostrovem, ještě před vykreslením: cizí odpovědi skryje, aby oddíl neproblikl celý (skriptStranPredem). */}

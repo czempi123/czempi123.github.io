@@ -820,3 +820,52 @@ Podklady: `docs/podklady/celek-10.md` (25. 10. 2026).
 | Formální portrét Stockdala (U.S. Navy) | Licence z NHHC („U.S. Navy photo (RELEASED)“), stránka na Commons viděna jen v zrcadle. | Před stažením otevřít originál na Commons. |
 | Linka bezpečí | V celku 10 se nenavrhuje. | Rozhodne autor (podklady, oddíl j, otázka 4). |
 
+
+## Větev antika-doplnky, filozofická část (P6, 1. 11. 2026)
+
+Podklady: `docs/podklady/antika-doplnky.md`. Číst a použít jen to, co je v tabulce označeno jako ověřené; co zde stojí jako „nečteno“, se do studentského textu nedostane, dokud ho krok T1 nepřečte.
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Hésiodos, Theogonie: čísla veršů o kyklopech a o Diovi s bleskem (139–141, 71–72) | Text čten anglicky (Evelyn-White), čísla veršů z paměti | **Ověřeno v T1** (1. 11. 2026) v souboru `tlg0020.tlg001.perseus-eng2.xml`: kyklopové „dali Diovi hrom a vyrobili blesk“, v. 139–141 |
+| Žalm 29 (náboženství v pokusu „Proč hřmí?“) | Český text nečten | P6N dodá v podkladech k judaismu; jeden překlad pro obě stránky |
+| Beethoven, 6. symfonie, 4. věta „Bouře“ (umění v pokusu) | Nečteno | **Ověřeno v T1**: Britannica „Symphony No. 6 in F Major“ (premiéra ve Vídni 22. 12. 1808) a programová poznámka Berlínské filharmonie (4. věta Gewitter, Sturm; 5. věta Hirtengesang, díky po bouři) |
+| Aëtios III, 3, 1–2 (Anaximandros: hrom z větru uvězněného v mraku) | Nečteno; IEP říká jen o blesku jako záblesku na tmavém mraku | Použít jen IEP, nebo přečíst Aëtia/Diels A 23 |
+| Seneca, Naturales quaestiones II, 18, 1 (Anaximandros: hrom je zvuk mraku, do kterého narazí vítr) | **Ověřeno v R a O** (3. 11. 2026), latinský text The Latin Library | Použito v pokusu Proč hřmí?, zdroj `seneca-nq-ii`; Aëtios netřeba |
+| Plútarchos, Cato Starší 22 (Cato žádá odeslání filozofů) | Nečteno | Nepoužít; kdyby ano, přečíst |
+| Cicero, O státě III (Karneadovy řeči o spravedlnosti) | Nečteno; SEP říká, že všechny prameny o řečích jsou pozdní a pochybné | Jen „Vypráví se, že…“ |
+| Původ slova *filosofia* (Pýthagorás; Diogenés Laertios I, 12; Cicero, Tuskulské hovory V, 8–9) | Nečteno | Nepoužít, dokud se nepřečte |
+| Název Stoy (Diogenés Laertios VII, 5; SEP „Stoicism“) | Nečteno | Ve stránce o stoicismu bez názvu sloupoví, dokud se neověří |
+| Rok založení Akademie (asi 387 př. n. l.) | SEP „Plato“ otevřen, rok nenalezen; Britannica nečtena | Nepoužít, dokud se neověří |
+| Rok zatmění u Halyu (28. 5. 585 př. n. l.), NASA (F. Espenak) | Většinový výklad podle Wikipedie, Summerse a Leloux (Polemos 19/2); NASA neotevřena | V datech `priblizne`, ve studentském textu „asi 585“ |
+| Kleisthenovy reformy, Alexandrijská knihovna, dobytí Řecka Římem (146), zavření athénských škol (529) jako kotvy | Nečteno | Nepřidávat bez ověření (Britannica, Pleiades, Malalas, Agathias) |
+| Řecké znění nových citátů: Metafyzika I, 3 (983b20), Metafyzika I, 2 (982b17–19), Theaitetos 155d, Kritón 49e, Hlavní myšlenky 31–37 | Anglicky čteno; řecky nevytaženo | **Hotovo v T1**: řecké znění vytaženo z PerseusDL a zapsáno v `zdroje.yaml` (i u Obrany 19c, Oblak 225, Ústavy 612b, Diogena Laertia VI, 21). Původně: T1 vytáhne ze souborů `tlg0086.tlg025`, `tlg0059.tlg006`, `tlg0059.tlg003`, `tlg0004.tlg001` (Perseus) |
+| Diogenés Laertios VII, 121 (stoik a politika): číslo oddílu | Text čten, číslo z paměti | T1 ověří číslování u Hicksova textu |
+| Obrana 20e–21a (Chairefón, přítel od mládí; Kritón) | Zdroj `platon-obrana` už v datech, nově nečteno | Beze změny |
+| Epikúrův dopis Polyainovi (zdroj Senekovy věty o hladových dnech) | Nečteno | Věta se z cesty 6 vyřazuje (podklady f) |
+| Vatikánský výrok 63 (`ἐν λεπτότητι καθαριότης`): překlad kolísá | Řecky čteno, výklad nejistý | Nepoužít jako citát |
+| Vatikánský výrok 58 (`ἐγκύκλια`: „běžné záležitosti“, nebo „běžné vzdělání“) | Řecky čteno, překlad nejistý | Nepoužít, dokud se neověří překlad |
+| RVP G (první očekávaný výstup) a Kompetenční rámec MŠMT z února 2026 | Převzato z `docs/architektura.md`, nově neotevřeno | Beze změny |
+| Buddha: roky 560–480, nebo 405 | SEP „Buddha“ uvádí oba; Lao-c’: SEP „Laozi“ říká „možná legenda“ | Ve studentském textu bez roků a s „vypráví se“ u Lao-c’ |
+
+## Větev antika-doplnky, náboženství (P6N, 1. 11. 2026)
+
+Podklady: `docs/podklady/nabozenstvi-uvod.md`. Do studentského textu jen to, co je tam ověřené; co je tady „nečteno“, ověří T2, nebo se vynechá.
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Eliade, Posvátné a profánní (hierofanie, posvátný prostor a čas) | Kniha nečtena (PDF na is.muni.cz nástroje nepustí); jen Britannica | Bez citátu; příklady hierofanií (hora, strom, svátek) jen jako ilustrace, ne jako Eliadovy |
+| Český překlad Durkheima (Oikoymenh 2002) a Otta (Vyšehrad 1998): překladatelé, znění definice | Vydání podle katalogu MU a výpisků kurzu UK; text nečten | Citáty jako vlastní převody; kdyby T2 chtěl publikovaný překlad, musí ho mít v ruce |
+| Durkheim, francouzský originál | Nečten; jen Swain (1915) | Vlastní převod „podle Swaina“ |
+| Durkheimův původ a víra (rabínská rodina, nevěřící) | Nečteno (SEP heslo nemá) | Nepoužít |
+| Otto a luterská zkušenost jako námitka | Jen výňatek z Eliadovy předmluvy ve výsledku hledání | Jen jako otázka, bez tvrzení o Lutherovi |
+| Tanach, Tóra jako Pět knih Mojžíšových | T2: Britannica „Torah“ (WebFetch) ověřuje Tóru jako prvních pět knih hebrejské Bible, tradičně připisovaných Mojžíšovi, svitky ve všech synagogách a ústní Tóru jako zjevení „pro některé Židy“; slovo Tanach heslo nemá | Hotovo; Tanach ve studentském textu není |
+| Šema ráno a večer (Mišna, Berachot 1) | Nečteno | T2 vynechal; stránka převypráví jen Dt 6,6–9 (ČEP, čteno v T2) |
+| Zboření Prvního chrámu 587/586 př. n. l. | T2 četl výtah Britanniky znovu: o chrámu nic, jen dobytí, deportace a konec 538 | Ve studentském textu jen dobytí a odvlečení do Babylónu; chrám jen u roku 70 |
+| Data dokončení jeruzalémského a babylonského talmudu | Britannica je v hesle nemá | Ve studentském textu „v dalších staletích“ |
+| Akademie v Suře a Pumbeditě (vznik babylonského talmudu) | Nečteno | Místa nepřidávat |
+| Sinaj (poloha hory, Džebel Músá) | Nečteno | Bod na mapu nepřidávat |
+| Sefaria: Šabat 31a, Gitin 56a–b, Avot 1 a 2 | Četl nástroj WebFetch přes API, stránku jsem sám neviděl; z Macu API vrací 403 | Znění v podkladech; hebrejsky jen 14, 15 a 6 |
+| Met 254966, 633650, 239512, 192064, 403379: co obrázek ukazuje | T2 zhlédl 254966 (hostina héróa, uctívači menší; popiska muzea), 633650 (vyšívaný pás 368 × 19 cm, na desku 4 : 3 se nevejde) a 239512 (koruna na Tóru, Benátky, popiska muzea) | Staženy 254966 a 239512 (CC0); 633650 nepoužit; 192064 a 403379 nezhlédnuty, nepoužity |
+| Fotografie reliéfu na Titově oblouku | Jen na Wikimedia Commons | Autor najde a licenci potvrdí sám |
+| Schéma `Citat.osoba` pro verše bez osoby v datech | Zjištěno v `src/lib/schema.ts` | K1 rozhodne (návrh v podkladech, Návrh dat) |

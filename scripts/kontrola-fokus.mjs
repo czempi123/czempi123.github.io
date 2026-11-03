@@ -34,7 +34,9 @@ for (const sirka of SIRKY) {
       const viditelny = (e) => {
         const r = e.getBoundingClientRect();
         const s = getComputedStyle(e);
-        return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && !e.disabled && !e.closest('[hidden], [inert]');
+        // Obsah zavřeného <details> (Prameny) má v Chromiu rozměry, i když není vidět: checkVisibility() ho vyřadí
+        // (revize větve antika-doplnky, nález 10).
+        return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && !e.disabled && !e.closest('[hidden], [inert]') && e.checkVisibility();
       };
       const popis = (e) => `${e.tagName.toLowerCase()}${e.id ? '#' + e.id : ''} „${(e.getAttribute('aria-label') || e.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 50)}“`;
       const pevne = [...document.querySelectorAll('body *')].filter((e) => {

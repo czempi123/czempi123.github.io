@@ -31,6 +31,8 @@ export interface Data {
 export interface Kontext {
   /** id směrů z kolekce src/content/smery */
   smery?: string[];
+  /** id náboženských tradic z kolekce src/content/nabozenstvi (pole `tradice` u citátu) */
+  tradice?: string[];
   /** existující soubory obrázků (cesty relativně k public/) */
   souboryObrazku?: string[];
 }
@@ -133,7 +135,8 @@ export function kontrolaOdkazu(d: Data, k: Kontext = {}): string[] {
   }
   for (const c of d.zdroje.citaty) {
     const kde = `zdroje.yaml citát ${c.id}`;
-    if (!lide.has(c.osoba)) chyby.push(`${kde}: osoba „${c.osoba}“ není v lide.yaml`);
+    if (c.osoba && !lide.has(c.osoba)) chyby.push(`${kde}: osoba „${c.osoba}“ není v lide.yaml`);
+    if (c.tradice && k.tradice && !k.tradice.includes(c.tradice)) chyby.push(`${kde}: tradice „${c.tradice}“ nemá soubor v src/content/nabozenstvi`);
     pramen(kde, c.zdroj);
   }
   if (k.souboryObrazku) {

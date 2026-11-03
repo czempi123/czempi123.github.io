@@ -1,0 +1,12 @@
+---
+// /nabozenstvi/: Co je náboženství? a seznam tradic (větev antika-doplnky, K1). Obsah v src/content/uvody/co-je-nabozenstvi.mdx;
+// seznam tradic vkládá MDX komponentou <SeznamTradic /> (src/components/stranka/SeznamTradic.astro).
+import StrankaUvodu from '../../components/stranka/StrankaUvodu.astro';
+---
+<StrankaUvodu
+  id="co-je-nabozenstvi"
+  adresa="/nabozenstvi/"
+  sekce="lide"
+  zpet={{ href: '/lide/', text: 'Lidé a směry' }}
+  drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: 'Náboženství světa' }]}
+/>

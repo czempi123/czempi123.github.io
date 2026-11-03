@@ -9,6 +9,7 @@ import { otazkaKdoZil } from './bloky';
 import { NAZVY_KRESEB, NADTITULKY_KRESEB } from './kresby';
 import { VYCHOZI_NADTITULKY } from './nadtitulky';
 import { ODDILY } from './oddily';
+import { ODDIL_MISTA, ODDIL_RODOKMEN } from './stranky';
 
 // ─── Zastavení ────────────────────────────────────────────────────────────────
 
@@ -16,9 +17,13 @@ import { ODDILY } from './oddily';
  * Druh zastavení. Id má tvar `<předpona>:<stránka>[/<část>]`:
  * k:<cesta> přehled cesty, k:<cesta>/<n> krok · o:<profil> celý profil, o:<profil>/<kotva> kapitola nebo oddíl ·
  * h:<otázka> celá stránka otázky, h:<otázka>/<osoba> hlas · b:<id bloku> blok · p:<id příběhu> příběh ·
- * t:<týden> celý týden cvičení (Stoický týden; třída ho projde doma, dny zastavením nejsou).
+ * t:<týden> celý týden cvičení (Stoický týden; třída ho projde doma, dny zastavením nejsou) ·
+ * s:<typ>-<slug> stránka období, směru, pokusu, úvodu nebo tradice, s:<…>/<kotva> její oddíl (od K1 větve antika-doplnky).
  */
-export type DruhZastaveni = 'cesta' | 'krok' | 'profil' | 'kapitola' | 'oddil' | 'otazka' | 'hlas' | 'blok' | 'pribeh' | 'tyden';
+export type DruhZastaveni = 'cesta' | 'krok' | 'profil' | 'kapitola' | 'oddil' | 'otazka' | 'hlas' | 'blok' | 'pribeh' | 'tyden' | 'stranka';
+
+/** Typ stránky druhu `stranka`: období, směr, myšlenkový pokus, úvod oddílu (Co je filozofie?, Co je náboženství?), tradice. */
+export type TypStranky = 'obdobi' | 'smer' | 'pokus' | 'uvod' | 'nabozenstvi';
 
 export interface Zastaveni {
   id: string;
@@ -51,6 +56,8 @@ export interface Zastaveni {
   cislo?: string;
   /** stránka osoby je medailonek z dat (druh `profil` bez kapitol); u zastavení uvnitř stránky chybí */
   medailonek?: true;
+  /** typ stránky druhu `stranka` (u zastavení uvnitř stránky chybí) */
+  typStranky?: TypStranky;
   /** zastavení, do kterého tohle patří (krok, kapitola, stránka); stránka sama žádné */
   rodic: string | null;
   /** pořadí na stránce: stránka 0, pak části tak, jak za sebou stojí */
@@ -58,7 +65,7 @@ export interface Zastaveni {
 }
 
 /** Tvar id zastavení; jiný řetězec v odkazu se zahodí. */
-export const ID_ZASTAVENI = /^[kohbpt]:[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/;
+export const ID_ZASTAVENI = /^[kohbpts]:[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/;
 
 // ─── Vstup katalogu: tvar kolekcí Astra, jen pole, která katalog potřebuje ───
 
@@ -84,7 +91,24 @@ export interface VstupKatalogu {
   tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
   /** medailonky z dat: osoba a druhý člověk bloku Kdo žil dřív? (kdoZilNaMedailonku); starší vstup je nemá */
   medailonky?: { osoba: string; kdoZil: string | null }[];
+  /**
+   * stránky období, směrů, pokusů, úvodů a tradic (od K1 větve antika-doplnky); starší vstup je nemá.
+   * `id` bez předpony (`obdobi-helenismus-a-rim`), `predTextem` a `zaTextem` jsou oddíly, které skládá šablona.
+   */
+  stranky?: StrankaKatalogu[];
   osoby: Map<string, OsobaKatalogu>;
+}
+
+export interface StrankaKatalogu {
+  id: string;
+  typ: TypStranky;
+  nazev: string;
+  /** adresa stránky */
+  stranka: string;
+  obdobi: number | null;
+  body?: string;
+  predTextem?: { kotva: string; nazev: string }[];
+  zaTextem?: { kotva: string; nazev: string }[];
 }
 
 // ─── Značky v MDX ─────────────────────────────────────────────────────────────
@@ -281,6 +305,43 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   for (const t of [...(v.tydny ?? [])].sort((a, b) => a.data.obdobi - b.data.obdobi || a.id.localeCompare(b.id))) {
     const stranka = `/tyden/${t.id}/`;
     vse.push({ id: `t:${t.id}`, druh: 'tyden', nazev: t.data.nazev, kde: t.data.nazev, stranka, kotva: null, adresa: stranka, obdobi: t.data.obdobi, rodic: null, poradi: 0 });
+  }
+
+  // Stránky období, směrů, pokusů, úvodů a tradic: celá stránka, oddíly šablony a z MDX, bloky, kresby a příběhy.
+  // Blok nebo kresba, které už stojí jinde (Gýgův prsten u Platóna, Zrcadlo v cestě 8), zastavením znovu nejsou:
+  // mají jedno id a jeden stav v deníku, v hodině je zastavení tam, kde stojí poprvé.
+  const POR_TYPU: TypStranky[] = ['uvod', 'obdobi', 'smer', 'pokus', 'nabozenstvi'];
+  const uzMa = new Set(vse.map((z) => z.id));
+  for (const st of [...(v.stranky ?? [])].sort((a, b) => POR_TYPU.indexOf(a.typ) - POR_TYPU.indexOf(b.typ) || (a.obdobi ?? 0) - (b.obdobi ?? 0) || a.id.localeCompare(b.id))) {
+    const idStranky = `s:${st.id}`;
+    const spolecne = { kde: st.nazev, stranka: st.stranka, obdobi: st.obdobi };
+    vse.push({ id: idStranky, druh: 'stranka', nazev: st.nazev, kotva: null, adresa: st.stranka, rodic: null, poradi: 0, typStranky: st.typ, ...spolecne });
+    let rodic = idStranky;
+    let poradi = 0;
+    const oddil = (kotva: string, nazev: string) => {
+      const id = `s:${st.id}/${kotva}`;
+      vse.push({ id, druh: 'oddil', nazev, kotva, adresa: adresa(st.stranka, kotva), rodic: idStranky, poradi: ++poradi, ...spolecne });
+      rodic = id;
+    };
+    for (const o of st.predTextem ?? []) oddil(o.kotva, o.nazev);
+    for (const z of znackyMdx(st.body ?? '')) {
+      const a = z.atributy;
+      if (z.jmeno === 'Oddil') {
+        if (!a.kotva || !a.nazev) throw new Error(`Katalog hodin: oddíl na ${st.stranka} potřebuje kotvu a název.`);
+        oddil(a.kotva, a.nazev);
+      } else if (z.jmeno === 'Myslenky') oddil(ODDILY.myslenky.kotva, a.titulek ?? ODDILY.myslenky.nazev);
+      else if (z.jmeno === 'ZkusToZitKarta') oddil(ODDILY.zkus.kotva, a.nazev ? `${ODDILY.zkus.nazev}: ${a.nazev}` : ODDILY.zkus.nazev);
+      else if (z.jmeno === 'TydenOdkaz') oddil(ODDILY.zkus.kotva, ODDILY.zkus.nazev);
+      else if (z.jmeno === 'Rodokmen') oddil(ODDIL_RODOKMEN.kotva, ODDIL_RODOKMEN.nazev);
+      else if (z.jmeno === 'MistaTradice') oddil(ODDIL_MISTA.kotva, ODDIL_MISTA.nazev);
+      else if (z.jmeno === 'SeznamTradic') oddil('tradice', 'Tradice');
+      else if (z.jmeno === 'KamDal') rodic = idStranky;
+      else {
+        const cast = castZeZnacky(z, st.stranka);
+        if (cast && !uzMa.has(cast.id)) vse.push({ ...cast, adresa: adresa(st.stranka, cast.kotva), rodic, poradi: ++poradi, ...spolecne });
+      }
+    }
+    for (const o of st.zaTextem ?? []) oddil(o.kotva, o.nazev);
   }
 
   const videne = new Map<string, Zastaveni>();

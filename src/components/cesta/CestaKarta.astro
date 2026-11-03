@@ -40,6 +40,8 @@ const lide = c.data.filozofove.map(osoba);
   }
   .cesta-karta:hover { background: var(--pc-tint); }
   .cesta-karta:hover .cesta-karta__nazev { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  /* Mince: na telefonu řada nad textem, na širší obrazovce sloupec pevné šířky, ať text ve všech kartách začíná na stejném místě. */
+  .cesta-karta__mince { display: flex; flex-wrap: wrap; gap: var(--s-2); }
   .cesta-karta__text { display: flex; flex-direction: column; gap: var(--s-2); }
   .cesta-karta__nad { color: var(--pc); }
   .cesta-karta__vstup { color: var(--ink-2); font-size: var(--fs-text); line-height: 1.5; }
@@ -64,5 +66,6 @@ const lide = c.data.filozofove.map(osoba);
   .cesta-karta:hover .cesta-karta__akce { background: var(--ink-2); }
   @media (min-width: 700px) {
     .cesta-karta { flex-direction: row; align-items: flex-start; gap: var(--s-5); padding: var(--s-6); }
+    .cesta-karta__mince { flex: 0 0 56px; flex-direction: column; }
   }
 </style>

@@ -4,6 +4,68 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 3. 11. 2026: Antika-doplnky, krok O (opravy po revizi)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pokus Proč hřmí?: za filozofii stojí Anaximandrův výklad hromu podle Seneky (Naturales quaestiones II, 18, 1), ne záblesk na mraku z IEP | Odpověď za filozofii musí nést důvod, se kterým se dá přít; autor nechal odpověď po R prázdnou (souhlas) |
+| Marcus Aurelius je na stránce otázky 2 zastánce vrácení mobilu (Hovory VIII, 59) | Student, který slib dodrží, neměl mezi šesti hlasy zastánce |
+| Úvody oddílů mají pole `zdroje` pro prameny výkladu mimo citáty a bloky | Seneca by jinak v Pramenech stránky Co je filozofie? chyběl |
+| Náboženská tradice má pole `tradice` (judaismus: `zidovska`); medailonek osoby téže tradice dostane v Kam dál kartu tradice místo druhého člověka | Odpověď 2 po T2: odkaz z dat, ne ruční; Kam dál má tři místa a Lidé a směry zůstávají v drobečcích |
+| Mapka Kde a kdy u tradice nese jen jména míst; role a roky jsou v seznamu pod ní. Sdílená mini mapa profilů se nemění | Odpověď 5 po R; popisky blízkých míst (Javne, Jeruzalém) se křížily; popisek západnějšího bodu jde doleva podle pravidla, které už v mapce bylo |
+| Kam dál na Co je náboženství? vede do vzniku stránky otázky 9 na otázku 6 Co je skutečné? | Odpověď 4 po R; karta „Je Bůh?“ vedla na řádek přehledu bez stránky |
+
+## 1. 11. 2026: Antika-doplnky, krok K2 (Tvoje antika)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Tvoje antika je vlastní stránka `/denik/antika/`, ne oddíl deníku; vstup z Můj deník (tichý odkaz nahoře, jen když v deníku něco je) a z Kam dál stránky období 2 | Na stránku jde odkázat z období 2 i z budoucích stránek; deník zůstává seznamem a přehled po otázkách je jiný druh čtení. Odpověď 9 před prvním krokem nechávala volbu na K2 |
+| Přehled je po velkých otázkách: nahoře studentova odpověď (Na začátku × Teď), pod ní pravidla z cest, pod nimi myslitelé. Otázka bez ničeho se neukáže, prázdný deník dostane jednu větu a odkaz do první cesty | Zadání K2 a odpověď 9: jen z toho, co student udělal, žádné „chybí ti“ |
+| Teď je tentýž zápis jako Změnil se? na stránce otázky (`otazka-<slug>-ted`, `druh: stanovisko`); Moje stanovisko kvůli tomu umí nepovinný `druh` | Jedna odpověď na jednu otázku, ať ji student přepíše kdekoli; formát deníku a export (verze 1) se nemění |
+| Myslitele k odpovědím ve Volbě a Změň jednu věc říká nový atribut `osoby` u `<Strana>` (id z `lide.yaml`, kontrola při sestavení); u Sporu strany bloku | Z textu oddílů jména spolehlivě vyčíst nejdou: jsou ve skloňování a mezi nimi jsou lidé, kteří v datech nejsou (Hobbes, Asch, Stockdale, Diotima). Atribut je u odstavce, který o myslitelích mluví, takže se nerozejde s textem |
+| Důvod u myslitele je text cesty k odpovědi, kterou student zvolil (odstavec Kdo je na tvé straně, u Sporu postoj a první argument strany). Hlas na stránce otázky jen doplní, kde důvod chybí | První odstavce hlasů jsou často úvodem k citátu („Seneca to napsal příteli…“, „Tvůj případ je starší…“) a samy nestojí; text cesty mluví přímo o studentově odpovědi. Hlas, jehož první věta ukazuje na něco nad sebou, se nepoužije |
+| Odstavec Kdo je na tvé straně stojí jako důvod jen u prvního myslitele z atributu; stejný důvod se u otázky neopakuje | Odstavec začíná prvním jmenovaným („máš na své straně Epikúra… A Seneca…“); pod druhým by student četl větu o někom jiném |
+| Myslitelé jdou v pořadí podle počtu setkání a při shodě podle toho, kde se student s kým potkal dřív; tři jsou vidět hned, ostatní pod „A další filozofové“. Čísla se nikde neukazují | „Nejblíž“ potřebuje pořadí, ale procenta ani skóre do atlasu nepatří |
+| Bloky mimo cesty (Spor v portrétu Platóna, Gýgův prsten, pokusy) a Moje stanovisko u myšlenek profilů do Tvoje antika nevstupují | Nemají jednoznačnou velkou otázku; dají se přidat, až budou mít pole s otázkou (viz Co rozhodnout po K2) |
+
+## 1. 11. 2026: Antika-doplnky, krok T2 (texty náboženství)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi po P6N nechal autor prázdné: pokus s pěti jevy bez správného koše, Durkheim a Otto s citátem, Eliade bez citátu a bez fašistické minulosti, mýtus jako posvátné vyprávění, scéna Jochanana ben Zakkaje bez rakve a Hillel uvnitř stránky, sedm citátů judaismu, holokaust jednou větou bez otázky, Filón s odkazem, Maimonides a Buber bez odkazu, Spinoza ne | Prázdná odpověď znamená souhlas s doporučením |
+| Čtyři měřítka religionistů jsou srovnání v Roztřiď (`srovnani`), zpětná vazba každé karty je podle koše (`kdyz`) | Student uvidí hranice religionistů až po vlastním třídění a každá karta odpoví na to, kam ji dal, ne na „správný koš“ |
+| Co je náboženství? má scénu Hostina s mrtvým (votivní reliéf, Met 254966) jako příklad posvátného, rituálu a společenství | Stránka bez scény by čtyři pojmy jen vyjmenovala; reliéf je ze stejné doby jako období 1 a 2 a popiska muzea nese vše, co text tvrdí |
+| Judaismus dostal korunu na Tóru (Met 239512) u příběhu Hillela; pojítko Miriam Foa (633650) se nepoužilo | Pojítko je vyšívaný pás 368 × 19 cm a na desce 4 : 3 by z něj zbyl úzký proužek; koruna je v odpovědi 10 po P6N rezerva |
+| Judaismus má oddíl Víra a filozofie (Filón, Maimonides, Buber) a Kam dál na otázku 8 místo řádku otázky 9 | Jména bez stránky potřebovala vlastní místo, ne vsuvku do exilu; otázka 9 stránku nemá, otázka 8 ano a Jr 29,7 na ni navazuje |
+| `SeznamTradic` přijme krátký text nad kartami (slot) | Ostatní tradice jsou jmenované bez odkazu a bez slibu, jak chtělo zadání; jinde než nad kartami by nedávaly smysl |
+
+## 1. 11. 2026: Antika-doplnky, krok T1 (texty filozofické části)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi po K1 nechal autor prázdné: pět odpovědí v Co je filozofie? jako seznam s Odkryj, vstup z Domů tichým řádkem, směr v hlavičce profilu zatím ne. Na stránky směrů proto vedou Kam dál profilů (Epikúros, Diogenés, Kratés a Hipparchia, Platón, Epiktétos, Marcus Aurelius, Seneca) | Prázdná odpověď znamená souhlas s doporučením |
+| Stránka otázky má nové pole `kamDal` (Kam dál pod Změnil se?); otázky 2 a 8 v něm vedou na pokus, kapitoly a směry, kde se o nich mluví | K otázkám 2 a 8 nevede žádná cesta a plán chtěl, aby stránky odkázaly na místa, kde téma v atlasu je; myšlenka hlasu odkazy neumí |
+| Cesta 6, krok 4: citát `seneca-ep-18-9` a věty o chlebu a vodě nahradil návrat k `menoikeus-130` z minulého kroku (bez druhého výskytu citátu) | Odpověď 8 po P6 chtěla `menoikeus-130`; stejný citát ve dvou sousedních krocích by student četl dvakrát za sebou (P6 to označil za slabinu) |
+| Thalés v datech: `kdo` a `proc` už neříkají „první filozof“ ani „místo mýtu“ | Aristotelés ho nazývá zakladatelem „tohoto druhu filozofie“ a sám váhá, jestli je voda jako počátek nová (podklady a, řádek 4) |
+| Theofrastos je Aristotelův žák (`ucitel`, Diogenés Laertios V, 36), přibyl vztah Chrýsippos → Karneadés (`vliv-textem`, IV, 62) | Odpověď 7 po P6; Dva životy u Theofrasta a Karneada teď ukážou učitele a čteného autora místo náhodného současníka |
+| Staženy čtyři obrázky z Metu (amfora, Chrýsippos, prsten s Hermem, zrcadlo); tetradrachma, hlava neznámého filozofa a soška Dia staženy nejsou | Autor povolil sedm (odpověď 10 po P6), ale jen čtyři mají na stránce scénu, ke které popisek sedí; zbylé tři by byly ozdoba |
+
+## 1. 11. 2026: Antika-doplnky, krok K1 (šablony nových stránek)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odpovědi před prvním krokem, po P6 a po P6N nechal autor prázdné: platí doporučení z plánu větve (jedna větev, Co je filozofie? na `/co-je-filozofie/`, stránky období podle slugu, plné stránky jen čtyř směrů, Gýgův prsten a Zrcadlo jako tytéž bloky, náboženství na `/nabozenstvi/` a `/nabozenstvi/judaismus/`, citát s polem `tradice`, místa `jeruzalem`, `babylon`, `javne` bez Sinaje) | Prázdná odpověď znamená souhlas (plán větve, Co rozhodnout) |
+| Co je filozofie? má s Co je náboženství? malou vlastní kolekci `uvody`, ne holou stránku v MDX | Jedna šablona dá hlavičku, Prameny a zápis návštěvy, katalog hodin z ní bere zastavení jako ze všech ostatních stránek; holá stránka by to potřebovala zvlášť a katalog by ji neviděl |
+| Stránka období se skládá z dat (osa kotev, otázky doby, lidé a směry, cesty, mapa); píše se jen perex, scéna, odstavec ke každé otázce doby a Mezitím jinde. Prázdný oddíl se neukáže | Plán větve › Obsah, oddíl 2; středověk pak dostane stránku bez nové šablony |
+| Na mapě stránky období je u každého člověka s profilem nebo portrétem jedno místo (poslední působení, jinak rodiště), nejvýš dvě jména u místa; medailonky ne | S medailonky a se všemi místy působení se popisky v egejském výřezu překrývaly přes sebe (snímek K1) |
+| Směr má stránku, právě když má ve frontmatteru `perex` a text; ostatních devět zůstává štítkem. Text směru skládá stránku z komponent jako profil (`Oddil`, `Myslenky`, `Rodokmen`, karta Zkus to žít, `KamDal`) | Odkaz se objeví sám, jakmile stránka vznikne; T1 píše stejným postupem jako profil |
+| Rodokmen směru: všichni členové a jejich učitelé a žáci zvenku; vliv přes texty jen uvnitř směru; polemiky ne | S četbou zvenku by do stoického rodokmenu patřil Epikúros a Hérakleitos a z rodokmenu by byl seznam četby |
+| Blok nebo kresba z jiné stránky stojí na stránce pokusu se stejným id. V přípravě hodiny zůstává zastavení tam, kde blok stojí poprvé (Gýgův prsten u Platóna, Zrcadlo v cestě 8); stránka pokusu je zastavení celá | Jeden stav a jeden zápis v deníku (odpověď 6 před prvním krokem); katalog nesmí mít dvě zastavení se stejným id |
+| Portrét Platóna vede na pokus vlastním Kam dál bloku Gýgův prsten (`dal` v MDX), ne pátou kartou v Kam dál | Kam dál profilu má nejvýš čtyři karty a Platón je má; odkaz u bloku je tam, kde o pokus jde |
+| Citát má právě jedno z polí `osoba`, `tradice` a `bezOsoby: true`; zapsané jsou zatím `jr-29-7` (tradice judaismus) a `durkheim-uvod` (bez osoby) | Odpověď 9 po P6N; dva citáty dokazují obě nové podoby schématu, ostatní dopíše T2 |
+| Nové stránky patří v hlavičce webu do sekce Lidé (období, směr, náboženství) nebo Otázky (pokus, Co je filozofie?); hlavička a spodní lišta se nemění. Na Domů je pod třemi vstupy tichý řádek Na začátek: Co je filozofie? · Co je náboženství? | Zadání K1, bod 5; Domů má dál jeden začátek a tři vstupy |
+| Drobečky Stoického týdne vedou přes stránku stoicismu podle nového pole `smer` v datech týdne | Rozhodnutí z 26. 10. 2026 („dokud nevznikne stránka směru“) |
+
 ## 31. 10. 2026: Interaktivita v1, krok O (opravy po revizi)
 
 | Rozhodnutí | Důvod |

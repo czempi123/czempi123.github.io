@@ -62,6 +62,12 @@
 - { id: alexandrie, nazev: Alexandrie, dnes: "Alexandrie, Egypt", souradnice: [29.92, 31.20] }
 - { id: corduba, nazev: Corduba, dnes: "Córdoba, Španělsko", souradnice: [-4.78, 37.88] }
 
+# Blízký východ (judaismus, docs/podklady/nabozenstvi-uvod.md › Kde a kdy; souřadnice reprPoint z Pleiad).
+# U Jeruzaléma pole dnes bez státu: atlas nerozhoduje, komu město patří.
+- { id: jeruzalem, nazev: Jeruzalém, dobovy: Hierosolyma, dnes: "Jeruzalém", souradnice: [35.235, 31.777], pleiades: "687928" }
+- { id: babylon, nazev: Babylón, dnes: "u Hilly, Irák", souradnice: [44.425, 32.537], pleiades: "893951" }
+- { id: javne, nazev: Javne, dobovy: Iamneia, dnes: "Javne, Izrael", souradnice: [34.738, 31.876], pleiades: "687925" }
+
 # Čína (okno „Mezitím jinde“)
 - { id: zou, nazev: Zou, dnes: "Cou-čcheng, Šan-tung, Čína", souradnice: [116.97, 35.40] }
 - { id: lu, nazev: Lu, dnes: "Čchü-fu, Šan-tung, Čína", souradnice: [116.99, 35.60], oblast: true }

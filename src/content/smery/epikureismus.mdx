@@ -1,0 +1,71 @@
+---
+nazev: Epikureismus
+obdobi: [2]
+poradi: 11
+# Podklad: docs/podklady/antika-doplnky.md › c) Epikureismus (Diogenés Laertios X, 10–11; Dopis Menoikeovi 124–125;
+# Hlavní myšlenky 27, 31–37; spor s kyniky DL X, 119, se stoiky DL VII, 121). Mez ze Stoického týdne: nic o jídle,
+# hladu ani vydržení; Zkus to žít bez jídla a bez věty, že někomu chybí přítel.
+perex: Ke štěstí stačí málo, když máš přátele a ničeho se zbytečně nebojíš. Tak to učil Epikúros v zahradě, kde s ním přátelé i bydleli. Jestli měl pravdu, poznáš po jednom večeru s přítelem.
+zakladatel: epikuros
+---
+import Oddil from '../../components/stranka/Oddil.astro';
+import Rodokmen from '../../components/stranka/Rodokmen.astro';
+import Myslenky from '../../components/osobnost/Myslenky.astro';
+import Myslenka from '../../components/osobnost/Myslenka.astro';
+import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
+import KamDal from '../../components/osobnost/KamDal.astro';
+
+<Oddil kotva="zalozeni" nazev="Založení">
+  <Fragment slot="titulek">Škola za <em>plotem</em></Fragment>
+
+Roku 306 př. n. l. koupil Epikúros v Athénách zahradu, podle jednoho svědectví za osmdesát min. Škole se podle ní říkalo Zahrada. Přátelé za Epikúrem přijížděli z celého řeckého světa a bydleli v ní s ním.
+
+A jak to dělali s penězi? Dali si majetek dohromady, jak radil Pýthagorás? Tipnout si můžeš v [Epikúrově profilu](/osobnost/epikuros/#zahrada).
+
+</Oddil>
+
+<Myslenky titulek="Tři myšlenky">
+  <Myslenka cislo={1} disciplina="Etika">
+    <Fragment slot="titulek">Nebolet a nebát se je <em>dost.</em></Fragment>
+
+Epikúros měřil život slastí. Nejvyšší slast pro něj ale nebyl žádný požitek navíc. Byl to stav, kdy tě nic nebolí a ničeho se nebojíš. Kdo to ví, pozná, kolik opravdu potřebuje, a zbytek ho přestane honit. Spočítat si to můžeš v cestě [Kolik je dost?](/cesta/kolik-je-dost/)
+
+  </Myslenka>
+  <Myslenka cislo={2} disciplina="Metafyzika">
+    <Fragment slot="titulek">Smrt se nás <em>netýká.</em></Fragment>
+
+Všechno dobré i zlé je podle Epikúra ve vnímání. Smrt je konec vnímání, a tak nepřinese nic, co bychom zakusili, dobré ani zlé. Kdo se jí bojí dopředu, trápí se podle něj naprázdno. O smutku těch, kdo zůstanou, tenhle argument není. Jestli stačí na strach z vlastní smrti, zkoumá cesta [Proč se bát smrti?](/cesta/proc-se-bat-smrti/)
+
+  </Myslenka>
+  <Myslenka cislo={3} disciplina="Politika">
+    <Fragment slot="titulek">Spravedlnost je <em>dohoda.</em></Fragment>
+
+Ze všeho, co moudrost chystá pro šťastný život, je podle Epikúra nejdůležitější získat přátele. A spravedlnost? Ta podle něj nespadla z nebe. Lidé se dohodli, že si navzájem neublíží, protože jim to prospívá. Zákon, který soužití přestane prospívat, přestává být spravedlivý.
+
+*Dodržel bys dohodu, která ti už nic nepřináší?*
+
+  </Myslenka>
+</Myslenky>
+
+<Rodokmen smer={props.smer} />
+
+<Oddil kotva="spor" nazev="Spor">
+  <Fragment slot="titulek">S kým se <em>přeli</em></Fragment>
+
+Kynici žili z mála jako Epikúros, a přece o nich napsal, že moudrý nebude žít jako kynik ani žebrat. Proč, ukazuje čtvrtý krok cesty [Kolik je dost?](/cesta/kolik-je-dost/4/)
+
+Stoikové učili, že moudrý se má starat o obec. Epikúros radil žít stranou, v bezpečí mezi přáteli, a do politiky se nehrnout. Kdo z nich má pravdu, se ptá stránka otázky [Jak spolu máme žít?](/otazka/jak-spolu-mame-zit/)
+
+</Oddil>
+
+<ZkusToZitKarta id="epikureismus-vecer-s-pritelem" nazev="Večer s přítelem" delka="jeden večer" odkaz="/smer/epikureismus/#zkus-to-zit">
+
+Domluv si jeden večer s někým, na kom ti záleží: s kamarádem, se sourozencem, klidně s babičkou. Nic neplánujte a telefony nechte stranou. Jen buďte spolu a povídejte si. Druhý den si zapiš, co ti ten večer dal, a jestli by ti to dala nějaká věc, kterou si můžeš koupit.
+
+</ZkusToZitKarta>
+
+<KamDal odkazy={[
+  { href: '/osobnost/epikuros/', nadtitulek: 'Profil', text: 'Epikúros' },
+  { href: '/cesta/kolik-je-dost/', nadtitulek: 'Cesta', text: 'Kolik je dost?' },
+  { href: '/cesta/proc-se-bat-smrti/', nadtitulek: 'Cesta', text: 'Proč se bát smrti?' },
+]} />

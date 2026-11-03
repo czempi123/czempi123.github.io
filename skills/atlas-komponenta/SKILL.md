@@ -61,6 +61,18 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 - **`figcaption` je první, nebo poslední potomek `figure`.** Ovládání k obrázku (nabídka, posuvník) dej za `</figure>` do společného obalu s `id`, na který míří kotva a testy; jinak čtečka čte popisek jako součást obrázku a ovládání za ním jako jeho pokračování.
 - **Nový druh bloku, nebo nové tlačítko v kroku bloku, musí znát i to, co cestu prochází samo:** `tests/e2e/pruchod.spec.ts` (`odpovez`), `scripts/slova-cesta.mjs` a `scripts/snimky-cesta.mjs`. Slož argument na nich spadl při prvním použití v cestě a znovu, když přibylo „Ukázat chybějící větu“.
 
+## Stránky skládané z dat
+
+Pět typů stránek nad hotovou látkou (období, směr, myšlenkový pokus, úvod oddílu, náboženská tradice) a přehled období v deníku (Tvoje antika) vznikly ve větvi `antika-doplnky`. Šablony a API popisuje `docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice; schémata jsou v `src/lib/stranky-schema.ts`, adresy a oddíly v `src/lib/stranky.ts`, seznam existujících stránek v `src/lib/stranky-typu.ts`.
+
+- **Odkaz na novou stránku se objeví sám**, jakmile stránka existuje (`adresaObdobi`, `adresaSmeru`, `adresaOtazky`): do té doby vede tam, kam dosud. Ručně psaný odkaz na stránku, která ještě není, je slepá ulička (karta „Je Bůh?“ vedla na řádek přehledu bez odkazu).
+- **Vazba stránky na lidi patří do dat**, ne do konstanty v komponentě: tradice zná své osoby polem `tradice` (judaismus má `tradice: zidovska`) a medailonek z něj skládá kartu Kam dál (`kamDalMedailonku`).
+- **Prameny se skládají z textu** (`pramenyZTextu`): citáty a bloky. Pramen výkladu v próze nebo v Odkryj zapiš do `zdroje` ve frontmatteru (úvody), jinak v Pramenech chybí.
+- **Mapka s blízkými body** (Javne a Jeruzalém leží padesát kilometrů od sebe): kde pod mapkou stojí seznam míst s rolí a roky, nese mapka jen jména (`MistaTradice.astro`). Popisek západnějšího z blízkých bodů jde doleva sám (`stranyPopisku`); ověř snímkem na 390 px a testem, že se obdélníky názvů nepotkají.
+- **Nová stránka** patří do `STRANKY` v `tests/e2e/nove-stranky.spec.ts` (390 a 1440 px, světlý a tmavý režim, axe, oddíly) a do katalogu hodin; ten ověř skriptem `scripts/hodiny-katalog.mjs` proti `dist/`.
+- **Přehled období v deníku** (`TvojeObdobi.svelte`, logika `src/lib/tvoje-obdobi.ts`, stránka `src/pages/denik/antika.astro`) ukazuje jen to, co student udělal: žádná procenta, typy ani „chybí ti“, s prázdným, částečným i plným deníkem. Student ho čte o týdny později, bez kroku cesty: u myslitele stojí nejdřív odkud (cesta · tvoje odpověď), pak věta, proč je blízko, protože ta často začíná větou kroku („Jestli nemáš…“). Testy hledají podle tříd, ne podle pořadí. Další období dostane vlastní stránku deníku nad stejnou logikou.
+- **`scripts/kontrola-fokus.mjs`** vynechává prvky, pro které `checkVisibility()` vrací false: odkazy v zavřeném `<details>` mají v Chromiu rozměry a hlásily se jako překryv.
+
 ## Když nemáš terminál na autorově počítači
 
 Pracuj v kopii repozitáře a hotovou větev předej jako git bundle do složky Atlas (do `.git` zapisovat nelze): `git bundle create mapa.bundle <zakladni-vetev>..<nova-vetev>` a autorovi napiš jeden příkaz, jak ji načíst (`git fetch ./soubor.bundle vetev:vetev`, nebo `git pull ./soubor.bundle vetev`, pokud je větev zrovna vybraná). Postup si nejdřív ověř na kopii.

@@ -7,11 +7,12 @@ import { podklad, umisteniPopisku, vyrezMiniMapy, type MistoMiniMapy, type Vyrez
 import { rok as fmtRok } from '../../lib/casy';
 
 // Společný profil (`dalsi`): místa všech osob stránky; u role stojí, čí je („narození Hipparchie“).
-interface Props { osoba: TOsoba; dalsi?: TOsoba[]; vyrez?: Vyrez }
+// Stránka období a tradice (od K1 větve antika-doplnky) předá místo osoby hotová místa (`mista`) a období.
+interface Props { osoba?: TOsoba; dalsi?: TOsoba[]; vyrez?: Vyrez; mista?: MistoMiniMapy[]; obdobi?: number }
 const ROLE: Record<string, string> = {
   narozeni: 'narození', studium: 'studia', pusobeni: 'působení', pobyt: 'pobyt', exil: 'vyhnanství', tazeni: 'válečné tažení', smrt: 'smrt',
 };
-const osobyMapy = [Astro.props.osoba, ...(Astro.props.dalsi ?? [])];
+const osobyMapy = Astro.props.osoba ? [Astro.props.osoba, ...(Astro.props.dalsi ?? [])] : [];
 // Místa sloučená podle id, s rolemi a roky.
 const mista = new Map<string, MistoMiniMapy>();
 for (const [o, m] of osobyMapy.flatMap((o) => o.mista.map((m) => [o, m] as const))) {
@@ -29,15 +30,17 @@ for (const [o, m] of osobyMapy.flatMap((o) => o.mista.map((m) => [o, m] as const
 for (const b of mista.values()) {
   b.radky = b.radky.filter((r) => !b.radky.some((jiny) => jiny !== r && jiny.startsWith(`${r} `)));
 }
-const { osoba, vyrez = vyrezMiniMapy([...mista.values()]) } = Astro.props;
+for (const [i, m] of (Astro.props.mista ?? []).entries()) mista.set(`hotove-${i}`, m);
+const { vyrez = vyrezMiniMapy([...mista.values()]) } = Astro.props;
+const obdobi = Astro.props.osoba?.obdobi ?? Astro.props.obdobi ?? 1;
 const p = podklad(vyrez);
 const body = [...mista.values()].map((m) => ({ nazev: m.nazev, xy: p.bod(m.souradnice), popis: m.radky }));
 const vidimne = body.filter((b) => b.xy[0] > 0 && b.xy[0] < vyrez.sirka && b.xy[1] > 0 && b.xy[1] < vyrez.vyska);
 // Strana popisku a jeho vysunutí nad bod, když by se řádky dvou míst potkaly (src/lib/mapa.ts).
 const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis })), vyrez.sirka);
 ---
-<figure class={`minimapa obdobi-${osoba.obdobi}`}>
-  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => `${b.nazev} (${b.popis.join(', ')})`).join('; ')}`}>
+<figure class={`minimapa obdobi-${obdobi}`}>
+  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}`}>
     <rect width={vyrez.sirka} height={vyrez.vyska} class="more" />
     <path d={p.sit} class="sit" />
     <path d={p.pevnina} class="svit svit--1" />

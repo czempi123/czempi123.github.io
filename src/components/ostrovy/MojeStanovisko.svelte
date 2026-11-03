@@ -6,11 +6,12 @@
   // S `rozbalene` je pole vidět hned a zápis se do deníku ukládá sám během psaní (závěr cesty).
   // `popisek` je text nad polem, když se liší od otázky zápisu v deníku; `nepovinne` k němu přidá „Nepovinné“.
   import { onMount } from 'svelte';
-  import { nacti, ulozZapis, smazZapis } from '../../lib/denik';
+  import { nacti, ulozZapis, smazZapis, type Zapis } from '../../lib/denik';
   import { nezlomitelne } from '../../lib/sazba.js';
 
-  interface Props { id: string; otazka: string; odkaz: string; rozbalene?: boolean; popisek?: string; nepovinne?: boolean }
-  let { id, otazka, odkaz, rozbalene = false, popisek, nepovinne = false }: Props = $props();
+  // `druh` se zapíše k zápisu (Tvoje antika: odpověď u otázky jako stanovisko, stejně jako Změnil se?).
+  interface Props { id: string; otazka: string; odkaz: string; rozbalene?: boolean; popisek?: string; nepovinne?: boolean; druh?: Zapis['druh'] }
+  let { id, otazka, odkaz, rozbalene = false, popisek, nepovinne = false, druh }: Props = $props();
   let otevreno = $state(false);
   let text = $state('');
   let ulozeno = $state(false);
@@ -28,7 +29,7 @@
 
   function uloz() {
     if (!text.trim()) return;
-    ulozZapis({ id, otazka, odpoved: text.trim(), odkaz });
+    ulozZapis({ id, otazka, odpoved: text.trim(), odkaz, ...(druh ? { druh } : {}) });
     ulozeno = true;
     otevreno = false;
   }
@@ -36,7 +37,7 @@
   function ulozSamo() {
     clearTimeout(casovac);
     if (text.trim()) {
-      ulozZapis({ id, otazka, odpoved: text.trim(), odkaz });
+      ulozZapis({ id, otazka, odpoved: text.trim(), odkaz, ...(druh ? { druh } : {}) });
       ulozeno = true;
     } else if (ulozeno) {
       smazZapis(id);

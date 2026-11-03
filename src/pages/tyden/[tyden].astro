@@ -9,6 +9,7 @@ import { citatyPodleId, osoba, osoby, pramenyPodleId } from '../../lib/data';
 import { adresaTydne, kontrolaTydne } from '../../lib/tydny';
 import { odstavce, radek } from '../../lib/bloky';
 import { nezlomitelne } from '../../lib/sazba.js';
+import { adresyStranek } from '../../lib/stranky-typu';
 
 export async function getStaticPaths() {
   const tydny = await getCollection('tydny');
@@ -21,6 +22,15 @@ interface Props { tyden: CollectionEntry<'tydny'> }
 const { tyden } = Astro.props;
 const t = tyden.data;
 const odkaz = adresaTydne(tyden.id);
+// Drobečky přes stránku směru (Stoický týden → Stoicismus), dokud ji směr má; jinak rovnou z Lidí a směrů.
+const smer = t.smer ? (await getCollection('smery')).find((s) => s.id === t.smer) : undefined;
+if (t.smer && !smer) throw new Error(`Týden „${tyden.id}“: směr „${t.smer}“ není v src/content/smery.`);
+const adresaSmeru = t.smer ? (await adresyStranek()).smer(t.smer) : undefined;
+const drobecky = [
+  { text: 'Lidé a směry', href: '/lide/' },
+  ...(smer && adresaSmeru ? [{ text: smer.data.nazev, href: adresaSmeru }] : []),
+  { text: t.nazev },
+];
 const dny = t.dny.map((d) => {
   const c = d.citat ? citatyPodleId.get(d.citat)! : undefined;
   return {
@@ -41,7 +51,7 @@ const dny = t.dny.map((d) => {
   titulek={t.nazev}
   popis={`${t.vstup}.`}
   sekce="lide"
-  drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: t.nazev }]}
+  drobecky={drobecky}
   kratkyTitulek={t.nazev}
 >
   <article class={`tyden stranka obdobi-${t.obdobi}`}>
