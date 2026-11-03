@@ -11,7 +11,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | K1 | Šablony nových stránek (období, směr, pokus, náboženství, Co je filozofie?) a navigace k nim | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (prozatímní texty); odpovědi po K1 prázdné (souhlas) |
 | T1 | Texty filozofie: Co je filozofie?, období 1 a 2, čtyři směry, dva pokusy, otázky 2 a 8, cesta 6, vztahy v datech | Opus 5.5 · high se skilly `atlas-psani`, `atlas-osobnost`, `atlas-cesta` a `atlas-data` | hotovo 1. 11. 2026; čeká na odpovědi po T1 |
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | hotovo 1. 11. 2026; čeká na odpovědi po T2 |
-| K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
+| K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (`/denik/antika/`); čeká na odpovědi po K2 |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
 | O | Opravy po revizi a úprava skillů | Opus 5.5 · high | čeká |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
@@ -316,6 +316,41 @@ Prázdná odpověď znamená souhlas s doporučením.
 1. **Mapka Kde a kdy u judaismu:** na 390 px se popisek Alexandrie kříží s popiskem Javne (Javne a Jeruzalém leží blízko u sebe). Šablona je z K1. Doporučuji opravit v revizi (R) tak, aby se popisky blízkých bodů rozestoupily; týká se i dalších tradic.
    Odpověď:
 2. **Odkaz z medailonku Filóna na judaismus:** na stránku tradice zatím vedou jen Co je náboženství? a odkaz z judaismu na Filóna, ne naopak. Doporučuji v R nebo O doplnit medailonkům s `tradice: zidovska` Kam dál na stránku judaismu (pravidlo z dat, ne ruční odkaz).
+   Odpověď:
+
+## Po K2 (1. 11. 2026)
+
+Tvoje antika je hotová jako vlastní stránka `/denik/antika/`. Vede na ni tichý odkaz nahoře v Můj deník (jen když v deníku něco je) a první karta Kam dál na stránce období 2. Snímky (390 px světlý, 1440 px tmavý, prázdný a částečný deník, odkaz v deníku) jsou v `Claude outputs/snimky/k2/`. Nic jsem neposlal na GitHub.
+
+**Hotové:**
+- **Přehled po velkých otázkách.** Otázka se ukáže, jen když u ní student něco má. Nahoře jeho odpověď: Na začátku (první názor ze stránky otázky) × Teď (pole, které se ukládá samo; tentýž zápis jako Změnil se?, takže se odpověď přepíše na obou místech). Pod ní pravidla z cest a pod nimi „Kdo to viděl podobně jako ty“: mince, jméno s odkazem na stránku, důvod a řádek „cesta · tvoje odpověď“ s odkazem na blok. Tři myslitelé hned, další pod „A další filozofové“.
+- **Texty** (podle `atlas-psani`): nadpis Tvoje antika; úvod „Tvoje odpovědi na velké otázky a vedle nich filozofové, kteří to viděli podobně jako ty. Je tu jen to, co jsi v atlasu sám napsal a zvolil, a svou odpověď můžeš kdykoli přepsat.“; prázdný stav „Zatím tu nic není. Až v některé cestě antiky zvolíš odpověď nebo napíšeš svoje pravidlo, objeví se tady i s filozofy, kteří to viděli podobně.“ s odkazem do první cesty. Texty jsou v jednom místě (`TVOJE_ANTIKA` v `src/lib/tvoje-obdobi.ts`).
+- **Odkud myslitelé:** Volba, Spor a Změň jednu věc v krocích cest období 1 a 2, přes `odpovedStudenta` z Kdo je na tvé straně. U oddílů Kdo je na tvé straně rozhoduje nový atribut `osoby` u `<Strana>` (doplněný ve 34 odstavcích cest 2, 7, 8, 33 a 34; sestavení zastaví neznámé id), u Sporu bez oddílu strana, ke které se student přiklonil, uprostřed obě.
+- **Důvod** je text cesty k odpovědi, kterou student zvolil (odstavec Kdo je na tvé straně jako prostý text s citátem v uvozovkách, u Sporu postoj a první argument strany). Hlas ze stránky otázky ho doplní, kde cesta důvod nemá.
+- **Deník a export beze změny:** žádné nové pole, verze 1; Moje stanovisko umí nepovinný `druh`, aby zápis Teď nesl `stanovisko` jako ze Změnil se?.
+- **Testy:** `tests/data/tvoje-obdobi.test.ts` (14 testů: prázdný, částečný, plný deník, starý deník bez polí `bloky` a `aktivita` a s poškozenými zápisy, čtení MDX a zastánců), `tests/e2e/tvoje-antika.spec.ts` (10 testů: prázdný a jediná cesta, plný deník se skutečnými bloky, Teď po obnovení stránky a na stránce otázky, formát deníku, klávesnice, axe na 390 a 1440 px ve světlém i tmavém režimu, vstupy z deníku a z období 2). Popis v `docs/design.md` › Tvoje antika, rozhodnutí v `docs/rozhodnuti.md`.
+
+**Nad čím jsem váhal:**
+- **Stránka, nebo oddíl deníku.** Vlastní stránka: jde na ni odkázat z období 2 a později z dalších období, a deník zůstává seznamem. Oddíl by deník prodloužil o celý přehled.
+- **Důvod z hlasu u otázky, nebo z cesty.** Zkusil jsem nejdřív hlas (první odstavec „Proč to tak viděl“). Asi šest ze čtyřiceti pěti je ale úvodem k citátu, který bez stránky otázky visí („Seneca to napsal příteli…“, „Tvůj případ je starší…“). Text cesty navíc mluví přímo o studentově odpovědi. Hlas proto jen doplňuje a hlas, jehož první věta ukazuje na něco nad sebou, se nepoužije.
+- **Odstavec o dvou myslitelích** stojí jako důvod jen u prvního jmenovaného. U Hipparchie tak důvod končí Epiktétovým citátem („A stoika Epiktéta, který svým žákům říkal…“), protože odstavec cesty 7 je o obou; nechal jsem to, oddíl je tak napsaný.
+- **Cesta 33, odpověď A** má v odstavci „jeho větu o budoucnosti najdeš na konci tohohle kroku“. Pod Epikúrem v Tvoje antika ten krok nikde není. Otázka 3 níž.
+- **Odpovědi bez myslitele z dat.** Kdo v cestě 2 řekl B, C nebo D (Hobbes), v cestě 7 v posledním bloku D (Asch), u senátora v cestě 33 D, v cestě 34 v prvním kroku D nebo v cestě 8 B, myslitele u otázky neuvidí; uvidí pravidlo a odpověď. U D v cestě 34 a B v cestě 8 odstavec Seneku a Epikúra jmenuje, ale tu odpověď nehájí, proto jsem je do `osoby` nedal.
+- **Cesty 1 a 3 až 6** nemají oddíl Kdo je na tvé straně; myslitelé z nich přijdou jen ze Sporů.
+- **Pole Teď** stojí u každé ukázané otázky, i když student na stránce otázky nic nenapsal. Je to pozvánka, ne výtka: bez prvního názoru má popisek „Jak bys odpověděl ty?“ a nic nad sebou.
+- **Bloky mimo cesty** (Spor v portrétu Platóna, Gýgův prsten, pokusy, Moje stanovisko u myšlenek profilů) do přehledu nevstupují: nemají jednoznačnou velkou otázku. Otázky 2 a 8 proto zatím ukážou jen studentovu odpověď. Otázka 2 níž.
+
+### Co rozhodnout po K2
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Odpovědi bez myslitele z dat** (Hobbes, Asch, Stockdale, Diotima): student s takovou odpovědí u otázky myslitele neuvidí. Doporučuji nechat; připsat nejbližšího myslitele z dat by tvrdilo víc, než cesta říká, a nové osoby nepřibývají.
+   Odpověď:
+2. **Bloky mimo cesty** (Gýgův prsten k otázce 2, Spor Platón × Diogenés k otázce 6, pokusy): doporučuji je přidat až spolu s polem velké otázky u bloku nebo stránky, nejspíš s prvním středověkým celkem; teď ne.
+   Odpověď:
+3. **Cesta 33, odpověď A:** doporučuji v R přepsat „najdeš na konci tohohle kroku“ na znění, které platí i mimo krok („jeho větu o budoucnosti najdeš na konci cesty“).
+   Odpověď:
+4. **Kam dál období 2:** Tvoje antika je první ze čtyř karet (před připravovaným obdobím 3). Doporučuji nechat; antika tam končí.
    Odpověď:
 
 ## Zadání P6
