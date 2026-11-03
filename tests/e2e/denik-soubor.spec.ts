@@ -53,6 +53,9 @@ test('deník stažený na jednom zařízení jde nahrát na druhém a přidá se
 test('cizí soubor deník nezmění; tlačítka jdou klávesnicí a stránka projde axe', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await otevri(page, denik([{ id: 'tady', otazka: 'Kolik je dost?', odpoved: 'Málo.' }]));
+  // Stálý posluchač drží zachytávání výběru souboru zapnuté po celý test. Bez něj ho waitForEvent zapíná až
+  // s každým čekáním a Enter bývá rychlejší: výběr se otevře nezachycený a událost nepřijde (na GitHubu i tady).
+  page.on('filechooser', () => {});
   const cizi = join(tmpdir(), 'atlas-cizi-soubor.json');
   writeFileSync(cizi, '{"jine": true}');
   await nahraj(page, cizi);

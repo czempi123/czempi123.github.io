@@ -433,3 +433,13 @@ Odpověď na otázku níž rozhodne, jestli se větev uzavře. Prázdná odpově
 Odpověď: Schvaluji (3. 11. 2026).
 
 Model: Opus 5.5 · medium. Až po schválení autorem: sloučení `antika-doplnky` do `main` (`--no-ff`), push hlavní větve (nasadí web, pořád s `noindex`), pohled, že kontroly na GitHubu jsou zelené, plán a zadání do archivu, řádek v `docs/plan.md` a Další větve v pořadí, plán větve z Projektu Claude odstranit a aktualizovat tam `docs/plan.md`.
+
+## Po uzavření
+
+Hotovo 3. 11. 2026. Autor větev schválil („Schvaluji, spusť uzavření.“).
+
+- **Sloučení:** 682c508 (`git merge --no-ff antika-doplnky`), celé `npm test` na Macu zelené, pak commit uzavření cd033ed (plán a zadání do archivu, rozcestník v `docs/plan.md`). Větev `antika-doplnky` zůstává.
+- **Push:** z Macu neprošel, token GitHubu v Klíčence je neplatný („Invalid username or token“). Hlavní větev šla na GitHub přes klon v cloudovém prostředí Claude (git bundle z Macu), 812fbed..cd033ed.
+- **Kontroly na GitHubu:** `pages.yml` web nasadil. Kontrola typů, vitest i sestavení zelené; Playwright spadl dvakrát po sobě v jediném testu z 687, `denik-soubor.spec.ts` „cizí soubor deník nezmění“: výběr souboru otevřený Enterem nepřišel jako událost. V Linuxu s `CI=1` padal asi jednou ze tří. Oprava: stálý posluchač výběru souboru v testu (`docs/pouceni.md` › Technika), pak 20 průchodů bez chyby. Šla do `main` zvlášť, spolu s tímto zápisem.
+- **Projekt Claude:** plán větve odstraněný, `docs/plan.md` aktualizovaný.
+
