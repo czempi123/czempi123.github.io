@@ -13,7 +13,7 @@ Proč teď: antika má deset cest a dvanáct stránek osobností, ale student z 
 | T2 | Texty náboženství: Co je náboženství?, judaismus | Opus 5.5 · high se skilly `atlas-psani` a `atlas-osobnost` | hotovo 1. 11. 2026; čeká na odpovědi po T2 |
 | K2 | Deník na konci období: „Tvoje antika“, vlastní myšlenkový autoportrét | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 1. 11. 2026 (`/denik/antika/`); odpovědi po K2 prázdné (souhlas; odpověď 3 provedena v R) |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 3. 11. 2026 (`docs/revize/antika-doplnky-2026-11-03.md`); čeká na odpovědi po R |
-| O | Opravy po revizi a úprava skillů | Opus 5.5 · high | čeká |
+| O | Opravy po revizi a úprava skillů | Opus 5.5 · high | hotovo 3. 11. 2026; odpovědi po R prázdné (souhlas); čeká na schválení |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
 
 **Proč v tomhle pořadí.** Podklady jsou první, protože všech jedenáct nových stránek stojí na tvrzeních a citátech, které atlas zatím nemá. Náboženství má vlastní krok podkladů: má jiné prameny, jinou míru opatrnosti (student může být věřící, atlas o pravdivosti tradice nerozhoduje) a jeho úvod se dá psát nezávisle na filozofii. Šablony (K1) vzniknou dřív než texty, stejně jako ve větvích `stoicky-tyden` a `interaktivita-v1`; P6N může běžet souběžně s K1. Deník na konci období (K2) je nejtěžší komponenta větve a čte všechno, co student v antice udělal, včetně nových stránek otázek 2 a 8; proto jde po textech.
@@ -79,7 +79,7 @@ Revize ho dala před středověk (oddíl 12, „Deník na konci období“): stu
 - **Zbylých devět směrů** (milétská škola, pythagorejci, eleaté, atomisté, sofisté, peripatetici, kyrenaici, skepticismus, novoplatonismus) jako stránky, nejspíš hlavně z dat.
 - **Pokusy Achilleus a želva a Karneadova deska**; **pojmy** a **Příběh týdne** (F5).
 - **Buddhismus a čínská tradice** s okny Mezitím jinde; **vrstva náboženství na mapě**.
-- **Odkaz na otázku 9** z věty o hranici religionistiky na stránce Co je náboženství?, až otázka 9 dostane stránku; stejně cesta 35.
+- **Odkaz na otázku 9** z věty o hranici religionistiky na stránce Co je náboženství?, až otázka 9 dostane stránku; stejně cesta 35. Třetí karta Kam dál na Co je náboženství? se pak vrátí z otázky 6 na otázku 9 (odpověď 4 po R).
 - **Nahrání deníku ze souboru zpět** jen před zkouškou s domácími průchody (revize antiky, nález 8).
 - **Zkouška se studenty**, až je autor bude mít; do té doby `noindex`.
 - Skill `atlas-obdobi` a plán středověku (P12) v pořadí z 26. 10. 2026.
@@ -395,6 +395,32 @@ Prázdná odpověď znamená souhlas s doporučením.
 5. **Mapka tradice (pro O):** v mapce tradice jen jména, role a roky v seznamu pod ní; u blízkých bodů popisek západnějšího bodu doleva. Doporučuji.
    Odpověď:
 
+## Po O (3. 11. 2026)
+
+Všech deset nálezů revize je opravených podle doporučení (odpovědi po R prázdné, tedy souhlas) a k tomu odkaz z medailonků židovské tradice na judaismus (odpověď 2 po T2). Skilly jsou upravené, celé `npm test` prošlo (kontrola typů bez chyb, 937 testů dat, 687 testů v Playwrightu) a snímky dotčených stránek jsou v `Claude outputs/snimky/o/`. Nic jsem neposlal na GitHub.
+
+**Opraveno:**
+1. **Proč hřmí?** Odpověď 3 a Odkryj podle Seneky, Naturales quaestiones II, 18, 1. Latinský text jsem si před zápisem přečetl celý (Anaximandros „omnia ad spiritum rettulit“, hrom je „nubis ictae sonus“). Nový pramen `seneca-nq-ii`, řádek v `k-overeni.md`; úvody oddílů mají nově pole `zdroje`, takže Seneca stojí v Pramenech stránky.
+2. **Otázka 2:** Marcus je zastánce vrácení („Vrať mu ho: je jeho a slíbil jsi to. Řekni mu napřed, čeho se bojíš, a když tě neposlechne, nezlob se a snášej ho dál.“).
+3. **Období 1:** „Lidé v ní začali chtít důvody, o kterých se dá přít, a ne všem se to líbilo.“
+4. **Mapka tradice:** jen jména, role a roky zůstaly v seznamu pod ní. Popisek Javne jde doleva podle pravidla, které v mapce už bylo; sdílená `MiniMapa.astro` se změnila jen v popisu pro čtečku (místo bez řádků nemá prázdné závorky), mapky profilů se nehnuly. Nový test v `nove-stranky.spec.ts` (jen jména, názvy se nepřekrývají, seznam).
+5. **Náboženství:** závěrečná otázka Co je náboženství? („spolužákovi, který každý týden chodí do kostela, do synagogy nebo do mešity… kdyby ses ptal sám na sebe?“) a u Dt 30,19 otázka „Volí tu celý lid jako jeden, nebo každý sám za sebe?“.
+6. **Občan světa:** období 2 u otázky 8 končí Marcem a úlem místo Diogena; anekdota je teď v kynismu, u otázky 8 a v profilu Diogena, `hovory-vi-54` dvakrát.
+7. **Tvoje antika:** řádek „cesta · tvoje odpověď“ stojí nad důvodem.
+8. **Uvozovací věty:** otázka 2 Epikúros „Ukázal to na zákonech:“, Marcus „Co dělat s člověkem, který dělá chybu, si v zápisníku shrnul do dvou vět:“; otázka 8 Epikúros „Z jeho knih zbyly hlavně krátké výroky. V jednom vysvětluje, kde je bezpečí nejčistší:“, Marcus „Připomínal si to obrazem z včelína:“.
+9. **Kam dál na Co je náboženství?:** „Velká otázka 6 · Co je skutečné?“; návrat na otázku 9 je v Co zůstává na později.
+10. **`scripts/kontrola-fokus.mjs`** vynechává prvky, které `checkVisibility()` nevidí.
+- **Filón a judaismus:** stránka tradice má pole `tradice` (`zidovska`) a medailonek osoby téže tradice z něj dostane kartu „Náboženství · Judaismus“ (`kamDalMedailonku`); jednotkový test a test v prohlížeči.
+
+**Skilly a poučení:** `atlas-osobnost` má oddíl Stránka směru; `atlas-cesta` oddíl Stránka myšlenkového pokusu a u stránky otázky zastánce každé odpovědi, uvozovací věty a otázky bez cesty; `atlas-komponenta` oddíl Stránky skládané z dat (šablony, vazba v datech, Prameny z textu, mapka, Tvoje antika, kontrola fokusu); `atlas-revize` novou perspektivu Stránky z dat a náboženství. Poučení z větve jsou v `docs/pouceni.md`, poznámky pro `atlas-obdobi` (šablona období, směry, náboženství doby, pokusy, přehled v deníku) v `skills/atlas-obdobi/poznamky.md`. Kopie v `skills/` jsou upravené; do účtu Claude jsem je dal ke schválení na kartách v chatu (čtyři skilly, `atlas-cesta` zvlášť). Rozhodnutí kroku jsou v `docs/rozhodnuti.md`, `docs/design.md` popisuje pole `tradice` a `zdroje`.
+
+**Nad čím jsem váhal:**
+- **Odkryj u Anaximandra.** Revize navrhovala „Odpovídal ale i na námitky“. Otázky a odpovědi jsou ale Senekova forma výkladu, ne doložený spor; napsal jsem „Jeho výklad ale odpovídá i na otázky, které by mu položil pochybovač, a dá se zkoumat.“ a „převyprávěl“ místo „zapsal“.
+- **Epikúros u otázky 8.** Komu Hlavní myšlenky psal, podklady neříkají; uvozovací věta stojí na tom, co říká profil (zbyly dopisy a sbírky krátkých výroků), a nic nevymýšlí.
+- **Druhá půlka odpovědi 5** (popisek západnějšího bodu doleva) už v kódu byla. Nové pravidlo pro blízké body jsem nepřidával, aby se nehýbaly mapky profilů a medailonků.
+- **Karta tradice místo druhého člověka.** Kam dál medailonku má tři místa; u Filóna je teď Platón, Judaismus a Mapa a čas a Lidé a směry zůstaly v drobečcích. Šlo by dát kartu tradice až místo Mapy a času.
+- **Snímky** jsem pořídil jen u změněných míst (pokus Proč hřmí?, otázky 2 a 8, období 1 a 2, Co je náboženství?, judaismus s mapkou, Tvoje antika, Filón), ne celé stránky znovu.
+
 ## Zadání P6
 
 Model: Sonnet 5.5 · high s vyhledáváním; sporná místa (citáty, přisouzení, Thalés a mýtus) Opus 5.5 · high.
@@ -529,4 +555,17 @@ Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev antika-dopl
 
 ## Uzavření
 
+Odpověď na otázku níž rozhodne, jestli se větev uzavře. Prázdná odpověď tu souhlas neznamená: sloučení a GitHub smí rozhodnout jen ty.
+
+**Schvaluješ větev antika-doplnky po opravách (O)?** Když ano, sloučí se do hlavní větve a hlavní větev se pošle na GitHub (nasadí web, pořád s `noindex`). Když ne, napiš, co změnit.
+Odpověď:
+
 Model: Opus 5.5 · medium. Až po schválení autorem: sloučení `antika-doplnky` do `main` (`--no-ff`), push hlavní větve (nasadí web, pořád s `noindex`), pohled, že kontroly na GitHubu jsou zelené, plán a zadání do archivu, řádek v `docs/plan.md` a Další větve v pořadí, plán větve z Projektu Claude odstranit a aktualizovat tam `docs/plan.md`.
+
+```
+Pracuješ v repozitáři atlas (/Users/vojtechczempka/Atlas), větev antika-doplnky. Uzavření větve po schválení autorem. Archiv nečti.
+
+0. git switch antika-doplnky, git status bez necommitnutých změn. Přečti CLAUDE.md a v tomto plánu tabulku, oddíl Po O a Uzavření s odpovědí. Bez souhlasu v odpovědi nic neslučuj.
+1. git switch main, git merge --no-ff antika-doplnky, celé npm test, git push origin main. Počkej, až kontroly na GitHubu doběhnou (gh run list), a podívej se na nasazený web.
+2. Plán větve a záznam revize do docs/archiv/, řádek v docs/plan.md (rozcestník a Další větve v pořadí). V Projektu Claude plán větve odstraň a aktualizuj docs/plan.md. Commit v hlavní větvi a push.
+```

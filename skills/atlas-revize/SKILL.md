@@ -12,7 +12,7 @@ Revize hledá to, co by studentovi vadilo nebo co by ho zavedlo: nepřesnost, sl
 1. **Připrav si podklady:** zadání celku, podkladový list z `docs/podklady/`, `docs/styl.md` a samotný obsah (MDX a data). U hotového webu spusť `npm run build` a `npm test`.
 2. **Projdi celek jako student.** Celý průchod od vstupu po návrat, včetně odboček do profilů a mapy. Zkus odpovědět špatně, přeskočit krok, vrátit se, obnovit stránku, otevřít krok přímým odkazem. Na hotovém webu na šířce 390 a 1440 px, ve světlém i tmavém režimu a klávesnicí; pořiď snímky obrazovek a prohlédni je. Projdi ho i jako student, který s filozofem celku nesouhlasí (chce hodně vydělávat, nevěří, že stačí málo): najde v celku někoho, kdo mu dává za pravdu? Celek o tom, co má člověk unést, přijmout nebo odpustit (stoici, osud, role), projdi i jako student, kterému doma nebo ve třídě někdo ubližuje: čte někde, že se má smířit? Spočítej slova, která student na cestě opravdu přečte (`node scripts/slova-cesta.mjs <slug>`, i po krocích); štítek `minut` má říkat, kolik vyšlo. Délka sama nález není (autor nekrátí kvůli délce); nález je krok, kde by unavený student přestal číst, a poslední krok bez mezititulků.
 3. **Srovnej celek s ostatními cestami období.** Vypiš si vedle sebe úvody, závěrečné odstavce, názvy kroků a bloky všech hotových cest období (příkazy v `atlas-psani` › Postup při revizi a v `atlas-cesta` › Postup, krok 3) a kapitolu portrétu, která vypráví scénu cesty, polož vedle jejího kroku. Vzor, který se opakuje potřetí (stejný konec úvodu, výčet v závěru, krok Kdo je na tvé straně, stejný krok 2), je nález „důležité“, i když každá věta zvlášť obstojí; kapitola portrétu, která opakuje krok cesty slovo od slova, taky.
-4. **Projdi šest perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, lidský hlas a čtivost (skill `atlas-psani`). Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
+4. **Projdi sedm perspektiv** podle části „Kontrolní seznam revize“ níže: filozof, historik, student, učitel, rozhraní, stránky z dat a náboženství (u celku bez nich jen odkazy a opakování), lidský hlas a čtivost (skill `atlas-psani`). Shrnutí porovnej s podkladovým listem, čísla a sporná místa přímo s pramenem.
 5. **Oprav rovnou**, co je drobné a jednoznačné: překlepy, konvence (jména, letopočty, uvozovky), redakční vsuvky ve studentském textu, rozbité odkazy, strojové obraty, které jdou škrtnout nebo přepsat beze změny významu (navazovací vata, pochvala na úvod zpětné vazby, zbytky značek, pomlčka místo čárky). Zásahy do významu, příběhu nebo struktury jen navrhni; patří k nim i věta, která po škrtnutí zůstane prázdná a potřebuje fakt z podkladů. Větu, kterou opravuješ, najdi nejdřív v `tests/`: testy hlídají přesné znění a upravují se v tomtéž commitu.
 6. **Zapiš nálezy** do `docs/revize/<id-celku>-<datum>.md` ve formátu níže, nejvýš deset nejdůležitějších. Studentský obsah nikdy nedoplňuj o poznámky z revize.
 7. **Předej** v pár větách: verdikt (připraveno ke schválení / po opravách / přepracovat), tři nejdůležitější nálezy a co bylo ověřeno technicky.
@@ -52,7 +52,7 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 
 ## Kontrolní seznam revize
 
-Šest perspektiv. U každé otázky hledej konkrétní místo, kde odpověď zní „ne“.
+Sedm perspektiv. U každé otázky hledej konkrétní místo, kde odpověď zní „ne“.
 
 ### 1. Filozof
 
@@ -119,7 +119,25 @@ Blokující nálezy jsou opravené nebo předané autorovi s hotovým návrhem o
 - Nevidí student číslo cesty z katalogu (nadtitulek, karta, Kam dál, drobečky)?
 - Prošly automatické kontroly (`npm run build`, `npm test`)?
 
-### 6. Lidský hlas a čtivost
+### 6. Stránky z dat a náboženství
+
+Stránky období, směru, pokusu, úvodu a tradice a přehled období v deníku skládá šablona z dat; píše se jen jejich menší část. Čti i to, co nikdo nepsal.
+
+- Projdi oddíly z dat (Co se dělo, Otázky doby, Lidé a směry, Cesty, Na mapě, Rodokmen, Kde a kdy), karty Kam dál a popisky mapky. Nepřekrývají se popisky blízkých bodů na 390 px?
+- Vede každý odkaz z pásu období, štítků směrů, drobečků a Kam dál na stránku, ne na řádek přehledu bez stránky? Ověř skriptem nad `dist/`.
+- Neříká stránka období, směr, otázka a profil tutéž anekdotu potřetí („občan světa“)? Vypiš klíčová slova každé anekdoty a citátu napříč `src/content`. Nestojí spor dvou škol slovo od slova na obou stránkách směrů?
+- Říkají stránka období a úvod oddílu o mýtu, náboženství a filozofii totéž jako Co je filozofie? Věta „začali se ptát po důvodech tam, kde dřív stačil příběh“ dělá z příběhu stupeň před rozumem. Nese odpověď, která v pokusu zastupuje filozofii, důvod?
+- Má na stránce otázky každá možnost úvodního případu zastánce? Dá uvozovací věta každému citátu situaci?
+- Dává každá věta přehledu v deníku smysl bez kroku cesty, ze kterého je?
+
+Náboženství čti očima věřícího křesťana, muslima i žida, nevěřícího studenta a studenta, kterému je víra cizí.
+
+- Neoslovuje text čtenáře jen zvenku („kamarád, který chodí do kostela… kdybys tam chodil sám“)? Nekončí stránka obrazem jediné tradice?
+- Nevykládá atlas posvátný text jako fakt („Volit musí každý sám“ u jednotného „ty“ v Dt 30,19)? Výklad, o který se tradice přou, patří do otázky pro studenta.
+- Nerozhoduje text o pravdivosti tradice? To je otázka 9. Mluví o tradici zevnitř (jak ji žijí věřící) i zvenku (jak ji srovnává religionista)?
+- Má citát z posvátného textu `tradice` a citát autora mimo data `bezOsoby`? Jsou jména bez stránky (Durkheim, Otto, Maimonides) bez odkazu?
+
+### 7. Lidský hlas a čtivost
 
 Řídí se skillem `atlas-psani`; tady jsou otázky, které v revizi kladeš.
 

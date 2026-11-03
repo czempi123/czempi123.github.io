@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 3. 11. 2026: Antika-doplnky, krok O (opravy po revizi)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pokus Proč hřmí?: za filozofii stojí Anaximandrův výklad hromu podle Seneky (Naturales quaestiones II, 18, 1), ne záblesk na mraku z IEP | Odpověď za filozofii musí nést důvod, se kterým se dá přít; autor nechal odpověď po R prázdnou (souhlas) |
+| Marcus Aurelius je na stránce otázky 2 zastánce vrácení mobilu (Hovory VIII, 59) | Student, který slib dodrží, neměl mezi šesti hlasy zastánce |
+| Úvody oddílů mají pole `zdroje` pro prameny výkladu mimo citáty a bloky | Seneca by jinak v Pramenech stránky Co je filozofie? chyběl |
+| Náboženská tradice má pole `tradice` (judaismus: `zidovska`); medailonek osoby téže tradice dostane v Kam dál kartu tradice místo druhého člověka | Odpověď 2 po T2: odkaz z dat, ne ruční; Kam dál má tři místa a Lidé a směry zůstávají v drobečcích |
+| Mapka Kde a kdy u tradice nese jen jména míst; role a roky jsou v seznamu pod ní. Sdílená mini mapa profilů se nemění | Odpověď 5 po R; popisky blízkých míst (Javne, Jeruzalém) se křížily; popisek západnějšího bodu jde doleva podle pravidla, které už v mapce bylo |
+| Kam dál na Co je náboženství? vede do vzniku stránky otázky 9 na otázku 6 Co je skutečné? | Odpověď 4 po R; karta „Je Bůh?“ vedla na řádek přehledu bez stránky |
+
 ## 1. 11. 2026: Antika-doplnky, krok K2 (Tvoje antika)
 
 | Rozhodnutí | Důvod |

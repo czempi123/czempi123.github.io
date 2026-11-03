@@ -4,7 +4,8 @@ otazka: "Co je správné a co dlužím druhým?"
 disciplina: "Etika, morálka"
 # Podklad: docs/podklady/antika-doplnky.md › d) Otázka 2. Případ je dnešní podoba Platónova příkladu ze Ústavy I,
 # 331c (zbraně, které chce zpátky přítel, jenž zešílel); hněv, ne alkohol. Platónův původ případu prozradí až jeho hlas.
-# Epikúrova Hlavní myšlenka 37 mluví o zákonech; použití na slib je výklad a myšlenka to říká („o zákonech“).
+# Epikúrova Hlavní myšlenka 37 mluví o zákonech; použití na slib je výklad a myšlenka to říká („na zákonech“).
+# Marcus je zastánce vrácení (Hovory VIII, 59: pouč, nebo snášej; revize R, nález 2): kdo slib dodrží, má svůj hlas.
 pripad: "Vrátíš mu ho?"
 hlasy:
   - osoba: sokrates
@@ -43,14 +44,14 @@ hlasy:
     odpoved: "Slib je dohoda, která vás oba má chránit, abyste si neublížili. Když by mu vrácení ublížilo, slib přestal dělat to, kvůli čemu jste ho uzavřeli."
     myslenka: >-
       Spravedlnost podle Epikúra nespadla z nebe. Lidé se dohodli, že si navzájem neublíží, protože jim to prospívá.
-      Dohoda platí, dokud tuhle službu dělá. O zákonech to napsal takhle:
+      Dohoda platí, dokud tuhle službu dělá. Ukázal to na zákonech:
     citat: kd-37
     zdroje: [dl-x-139]
   - osoba: marcus-aurelius
-    odpoved: "Nevracej mu ho jen proto, že křičí, a nezlob se na něj. Vysvětli mu, proč čekáš, a když to nepochopí, jeho zlost unes."
+    odpoved: "Vrať mu ho: je jeho a slíbil jsi to. Řekni mu napřed, čeho se bojíš, a když tě neposlechne, nezlob se a snášej ho dál."
     myslenka: >-
       Marcus Aurelius vládl celé říši a skoro každý den jednal s lidmi, kteří ho zlobili.
-      Člověk podle stoiků neexistuje sám pro sebe, je společenský tvor. Do zápisníku si to shrnul do dvou vět:
+      Člověk podle stoiků neexistuje sám pro sebe, je společenský tvor. Co dělat s člověkem, který dělá chybu, si v zápisníku shrnul do dvou vět:
     citat: hovory-viii-59
     zdroje: [marcus-hovory, sep-marcus-aurelius]
 kamDal:

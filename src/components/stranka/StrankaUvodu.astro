@@ -21,7 +21,7 @@ const zaznam = await getEntry('uvody', id);
 if (!zaznam) throw new Error(`Úvod „${id}“ není v src/content/uvody`);
 const fm = zaznam.data;
 const { Content } = await render(zaznam);
-const prameny = await pramenyZTextu(zaznam.body);
+const prameny = await pramenyZTextu(zaznam.body, { prameny: fm.zdroje });
 ---
 <Zakladni titulek={fm.nazev} popis={fm.perex} sekce={sekce} zpet={zpet} kratkyTitulek={fm.nazev} drobecky={drobecky}>
   <article class={`uvod-stranka stranka obdobi-${fm.obdobi}`} data-navsteva={adresa} data-nazev={fm.nazev}>

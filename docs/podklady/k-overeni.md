@@ -831,6 +831,7 @@ Podklady: `docs/podklady/antika-doplnky.md`. Číst a použít jen to, co je v t
 | Žalm 29 (náboženství v pokusu „Proč hřmí?“) | Český text nečten | P6N dodá v podkladech k judaismu; jeden překlad pro obě stránky |
 | Beethoven, 6. symfonie, 4. věta „Bouře“ (umění v pokusu) | Nečteno | **Ověřeno v T1**: Britannica „Symphony No. 6 in F Major“ (premiéra ve Vídni 22. 12. 1808) a programová poznámka Berlínské filharmonie (4. věta Gewitter, Sturm; 5. věta Hirtengesang, díky po bouři) |
 | Aëtios III, 3, 1–2 (Anaximandros: hrom z větru uvězněného v mraku) | Nečteno; IEP říká jen o blesku jako záblesku na tmavém mraku | Použít jen IEP, nebo přečíst Aëtia/Diels A 23 |
+| Seneca, Naturales quaestiones II, 18, 1 (Anaximandros: hrom je zvuk mraku, do kterého narazí vítr) | **Ověřeno v R a O** (3. 11. 2026), latinský text The Latin Library | Použito v pokusu Proč hřmí?, zdroj `seneca-nq-ii`; Aëtios netřeba |
 | Plútarchos, Cato Starší 22 (Cato žádá odeslání filozofů) | Nečteno | Nepoužít; kdyby ano, přečíst |
 | Cicero, O státě III (Karneadovy řeči o spravedlnosti) | Nečteno; SEP říká, že všechny prameny o řečích jsou pozdní a pochybné | Jen „Vypráví se, že…“ |
 | Původ slova *filosofia* (Pýthagorás; Diogenés Laertios I, 12; Cicero, Tuskulské hovory V, 8–9) | Nečteno | Nepoužít, dokud se nepřečte |

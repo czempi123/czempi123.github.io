@@ -1,6 +1,8 @@
 ---
 // Kde a kdy: mapka míst náboženské tradice z pole `mista` v src/content/nabozenstvi/<id>.mdx (místa z mista.yaml)
 // a pod ní tatáž místa jako seznam s rolí a roky (čtečka i telefon). Výřez se spočítá z míst (vyrezMiniMapy).
+// Mapka nese jen jména: role a roky by se u blízkých míst (Javne a Jeruzalém) křížily s popiskem souseda,
+// a seznam pod mapkou je říká celé (revize větve antika-doplnky, nález 4).
 // Použití v MDX: <MistaTradice tradice={props.tradice} />
 import { getEntry } from 'astro:content';
 import MiniMapa from '../osobnost/MiniMapa.astro';
@@ -22,9 +24,7 @@ const radky = zaznam.data.mista.map((m) => {
 });
 const body = new Map<string, MistoMiniMapy>();
 for (const r of radky) {
-  const b = body.get(r.misto.id) ?? { nazev: r.misto.nazev, souradnice: r.misto.souradnice as [number, number], radky: [] };
-  b.radky.push(r.popis);
-  body.set(r.misto.id, b);
+  if (!body.has(r.misto.id)) body.set(r.misto.id, { nazev: r.misto.nazev, souradnice: r.misto.souradnice as [number, number], radky: [] });
 }
 ---
 {radky.length > 0 && (

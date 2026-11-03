@@ -2,6 +2,7 @@
 // Sdílí je src/content.config.ts i testy (tests/data/stranky.test.ts). Texty těchto stránek jsou v MDX; frontmatter
 // nese jen to, co stránka skládá sama (hlavička, otázky doby, hlasy, místa na mapce).
 import { z } from 'astro/zod';
+import { Tradice } from './schema';
 
 const Id = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'id: malá písmena bez diakritiky, číslice a pomlčky');
 const Text = z.string().trim().min(1);
@@ -89,6 +90,8 @@ export const Uvod = z
     perex: Text,
     /** barva stránky (období, ze kterého je první příběh) */
     obdobi: Obdobi,
+    /** prameny textu mimo citáty a bloky (výklad v Odkryj, v próze); citáty a bloky do Pramenů přidá stránka sama */
+    zdroje: z.array(Id).default([]),
   })
   .strict();
 
@@ -106,6 +109,8 @@ export const Nabozenstvi = z
     poradi: z.number().int(),
     /** období, ve kterých tradice v atlasu vystupuje; první dává barvu stránky */
     obdobi: z.array(Obdobi).min(1),
+    /** tradice osob v lide.yaml, kterým stránka patří: jejich medailonky na ni vedou z Kam dál */
+    tradice: Tradice.optional(),
     perex: Text,
     mista: z
       .array(

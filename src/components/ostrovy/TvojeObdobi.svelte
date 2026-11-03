@@ -99,12 +99,13 @@
     <Mince ikona={b.osoba.ikona} obdobi={b.osoba.obdobi} varianta="tint" velikost={40} />
     <div class="blizky__text">
       <p class="jmeno">{#if b.osoba.adresa}<a href={b.osoba.adresa}>{b.osoba.jmeno}</a>{:else}{b.osoba.jmeno}{/if}</p>
-      {#if b.duvod}<p class="duvod">{b.duvod}</p>{/if}
+      <!-- Cesta a odpověď nad důvodem: důvod začíná větou kroku („Jestli nemáš…“) a bez ní je hádanka (revize R, nález 7). -->
       <ul class="stopy">
         {#each b.stopy as s (s.adresa + s.odpoved)}
           <li class="t-popisek"><a href={s.adresa}>{s.cesta}</a> · <span class="vizualne-skryte">{'tvoje odpověď '}</span>{s.odpoved}</li>
         {/each}
       </ul>
+      {#if b.duvod}<p class="duvod">{b.duvod}</p>{/if}
     </div>
   </li>
 {/snippet}
@@ -137,7 +138,7 @@
   .blizky__text { min-width: 0; }
   .jmeno { margin: var(--s-2) 0 var(--s-2); font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani-l); }
   .jmeno a { display: inline-block; min-height: 24px; }
-  .duvod { margin: 0 0 var(--s-2); }
+  .duvod { margin: var(--s-2) 0 0; }
   .stopy { margin: 0; padding: 0; list-style: none; color: var(--ink-2); }
   .stopy li + li { margin-top: var(--s-1); }
   .stopy a { display: inline-block; min-height: 24px; }

@@ -48,8 +48,11 @@ const cil = (id: string): CilStranky | undefined => {
   const druh = najdiOsobu(p.data.osoba).hloubka === 'portret' ? 'Portrét' : 'Profil';
   return { href, druh, text: `${p.data.titulek}: ${p.data.pointa.charAt(0).toLowerCase()}${p.data.pointa.slice(1).replace(/\.$/, '')}` };
 };
+// Stránka tradice osoby (pole `tradice` u náboženství, třeba judaismus u Filóna).
+const tradice = osoba.tradice ? (await getCollection('nabozenstvi')).find((n) => n.data.tradice === osoba.tradice) : undefined;
 const kamDal = kamDalMedailonku({
   osoba,
+  tradice: tradice && { href: `/nabozenstvi/${tradice.id}/`, nazev: tradice.data.nazev },
   vztahy: data.vztahy,
   osobaPodleId: najdiOsobu,
   cil,

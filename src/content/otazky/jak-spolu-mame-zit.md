@@ -40,14 +40,14 @@ hlasy:
     odpoved: "O vedení výletu se prát nemusíš: hlavně ať je mezi vámi klid a nikdo nikomu neubližuje. Jeď tam, kam pojedou tví přátelé."
     myslenka: >-
       Epikúros chtěl hlavně klid a bezpečí před ostatními lidmi. Moudrý se podle něj do politiky nehrne a žije raději mezi přáteli.
-      Kde je bezpečí nejčistší, napsal v jedné ze svých hlavních myšlenek:
+      Z jeho knih zbyly hlavně krátké výroky. V jednom vysvětluje, kde je bezpečí nejčistší:
     citat: kd-14
     zdroje: [dl-x-139, dl-x-117]
   - osoba: marcus-aurelius
     odpoved: "Ptej se, co pomůže celé třídě, ne jen tobě a tvým kamarádům. Když bude dobře třídě, bude dobře i tobě."
     myslenka: >-
       Marcus Aurelius byl císař a o obec se starat musel. Do zápisníku si ale připomínal, proč to pro něj není jen povinnost:
-      jeho prospěch a prospěch celku se podle stoiků nedají oddělit. Stačila mu na to jedna věta:
+      jeho prospěch a prospěch celku se podle stoiků nedají oddělit. Připomínal si to obrazem z včelína:
     citat: hovory-vi-54
     zdroje: [marcus-hovory]
 kamDal:

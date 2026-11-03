@@ -19,7 +19,19 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`. Jak psát, aby se st
 
 Hloubku určuje `docs/architektura.md` a pole `hloubka` v `lide.yaml`. Doba a lidé, mini osa, mapa a vztahy se generují z dat; ručně se do nich píšou jen dvě až tři věty (místo narození, konec života).
 
-Stránka směru a pojmu se řídí stejnými zásadami (scéna, nejsilnější verze, vlastní pokus), jen místo životního příběhu vypráví okamžik, kdy směr nebo pojem vznikl.
+Stránka směru a pojmu se řídí stejnými zásadami (scéna, nejsilnější verze, vlastní pokus), jen místo životního příběhu vypráví okamžik, kdy směr nebo pojem vznikl. Co je u stránky směru navíc, je v oddílu Stránka směru.
+
+## Stránka směru
+
+Vlastní stránku `/smer/<id>/` dostane směr, který nese cesty nebo portréty (v antice stoicismus, epikureismus, kynismus a Akademie); ostatní zůstávají štítkem v Lidech a směrech. Stránku má jen směr s `perex` a textem v `src/content/smery/<id>.mdx` (jedno bez druhého zastaví sestavení). Stavba a komponenty jsou v `docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice; vzor `src/content/smery/stoicismus.mdx`.
+
+- **Založení scénou** (`<Oddil kotva="zalozeni">`): okamžik, kdy směr vznikl (Zénón po ztroskotání v knihkupectví, Diogenés a Antisthenova hůl). Když tu scénu už vypráví profil zakladatele, nevyprávěj ji znovu: krátké založení s odkazem na kapitolu profilu (epikureismus a Zahrada).
+- **Tři myšlenky** (`<Myslenky>` s `<Myslenka>`) jsou myšlenky školy, ne jednoho člena. Každá má důvod, a kde to jde, odkaz na krok cesty nebo blok, ve kterém si ji student vyzkoušel.
+- **Rodokmen** (`<Rodokmen smer={props.smer} />`) se skládá z `vztahy.yaml`. Když v něm někdo chybí nebo má špatný typ vztahu, oprav data skillem `atlas-data`, ne text.
+- **Spor** s jiným směrem: obě strany v nejsilnější verzi. Spor dvou škol (Karneadés a Chrýsippos) se vypráví na jedné stránce, sousední směr odkáže jednou větou; odkaz slibuje jen to, co na cílové stránce opravdu stojí („jak na ni odpovídal Chrýsippos“, ne „stejná otázka“).
+- **Anekdota nejvýš dvakrát v atlasu.** Stránka směru stojí mezi profilem, stránkou období a stránkou otázky a tatáž doložená anekdota („občan světa“) na ní snadno padne potřetí. Před psaním vyhledej klíčová slova každé anekdoty a citátu napříč `src/content` (`grep -rn`).
+- **Zkus to žít** jako u profilu (`ZkusToZitKarta`); stoicismus odkazuje na Stoický týden (`<TydenOdkaz id="stoicky" />`).
+- Odkazy na stránku směru (štítky v Lidech a směrech a na stránce období, nadtitulek medailonku, drobečky týdne) se objeví samy, jakmile stránka existuje (`adresaSmeru`): ručně je nepiš.
 
 ## Postup
 
@@ -218,5 +230,6 @@ Hned za tím Změň jednu věc „Utečeš?“ a teprve pak Sókratova odpověď
 - Věty do 25 slov, odstavce do 4 vět, tykání, jména a skloňování podle `lide.yaml`, letopočty s nezlomitelnými mezerami?
 - Je-li ve stránce kresba s pohybem: říká text totéž i bez ní, jde pohyb zastavit a neopakuje kresbu z cesty?
 - Neopakuje kapitola scénu nebo citát, které nese cesta celku? Zeptal ses u každé myšlenky, jestli by jí student mohl pohnout?
+- Stránka směru: neopakuje scénu profilu zakladatele ani větu sousedního směru a je každá anekdota v atlasu nejvýš dvakrát?
 - Prošlo `npm test` celé a jsou snímky na 390 a 1440 px ve světlém i tmavém režimu prohlédnuté?
 - Přečetl by to šestnáctiletý člověk dobrovolně až do konce?

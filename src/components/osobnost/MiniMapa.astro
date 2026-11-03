@@ -40,7 +40,7 @@ const vidimne = body.filter((b) => b.xy[0] > 0 && b.xy[0] < vyrez.sirka && b.xy[
 const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis })), vyrez.sirka);
 ---
 <figure class={`minimapa obdobi-${obdobi}`}>
-  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => `${b.nazev} (${b.popis.join(', ')})`).join('; ')}`}>
+  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}`}>
     <rect width={vyrez.sirka} height={vyrez.vyska} class="more" />
     <path d={p.sit} class="sit" />
     <path d={p.pevnina} class="svit svit--1" />

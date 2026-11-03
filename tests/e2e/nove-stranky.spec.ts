@@ -134,6 +134,10 @@ test('odkazy na nové stránky: Domů, Lidé a směry, otázky, medailonek, drob
   await expect(page.locator('.nadtitulek').getByRole('link', { name: 'Stoicismus' })).toHaveAttribute('href', '/smer/stoicismus/');
   await expect(page.getByRole('navigation', { name: 'Kde jsem' }).getByRole('link', { name: 'Helenismus a Řím' })).toHaveAttribute('href', '/obdobi/helenismus-a-rim/');
 
+  // Medailonek osoby z tradice se stránkou vede na tradici (odpověď 2 po T2).
+  await page.goto('/osobnost/filon-alexandrijsky/');
+  await expect(page.locator('.kamdal a[href="/nabozenstvi/judaismus/"]')).toContainText('Judaismus');
+
   await page.goto('/osobnost/platon/');
   await expect(page.getByRole('navigation', { name: 'Kde jsem' }).getByRole('link', { name: 'Počátky a klasické Řecko' })).toHaveAttribute('href', '/obdobi/pocatky-a-klasicke-recko/');
 
@@ -167,4 +171,20 @@ test('Gýgův prsten: blok na stránce pokusu sdílí stav s portrétem Platóna
   await predem.getByText('Záleží na tom, o co by šlo.').click();
   await predem.getByRole('button', { name: 'Tohle je můj tah' }).click();
   await expect(predem.getByRole('link', { name: /Příběh o prstenu/ })).toHaveAttribute('href', '#platon-gyguv-prsten');
+});
+
+test('mapka tradice nese jen jména a popisky blízkých míst se nepřekrývají (revize R, nález 4)', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/nabozenstvi/judaismus/');
+  const mapa = page.locator('.mista-tradice .minimapa');
+  await expect(mapa.locator('.role tspan')).toHaveCount(0);
+  await expect(mapa.locator('svg')).toHaveAttribute('aria-label', 'Mapa: Jeruzalém; Babylón; Alexandrie; Javne');
+  const boxy = await mapa.locator('.nazev').evaluateAll((el) => el.map((e) => e.getBoundingClientRect().toJSON()));
+  for (const [i, a] of boxy.entries()) {
+    for (const b of boxy.slice(i + 1)) {
+      const prekryv = Math.min(a.right, b.right) - Math.max(a.left, b.left) > 0 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 0;
+      expect(prekryv).toBe(false);
+    }
+  }
+  await expect(page.locator('.mista-tradice__seznam li')).toContainText(['Jeruzalém · centrum do 70 n. l.', 'Babylón', 'Alexandrie', 'Javne · centrum od 70 n. l.']);
 });
