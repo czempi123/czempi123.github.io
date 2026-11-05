@@ -1,11 +1,14 @@
 <script lang="ts">
   // Karta člověka: medailonek z dat, věk ve zvoleném roce, kde právě je, atribut s „proč“,
   // vztahy s poznámkou vůči zvolenému roku a Změř vzdálenost mezi dvěma lidmi.
+  // Život na mapě (u lidí s aspoň dvěma místy): zastávky života, Předchozí a Další zastávka a Přehrát;
+  // přehrávání samo běží v MapaACas.svelte, karta jen ukazuje, kde člověk právě je.
   import { onMount } from 'svelte';
   import type { OsobaV, MistoV, UdalostV, ObdobiV, VstupMapy } from '../../lib/mapa-vstup';
   import { kdeVRoce, odkudPrisla, vetaOVeku, poznamkaVRoce, vzdalenost, zijeVRoce } from '../../lib/cas-mapy';
   import { rok as rokText, rozpeti } from '../../lib/casy';
   import { sporNaDalku } from '../../lib/vztahy';
+  import { type Zastavka, zastavkaVRoce, predchoziZastavka, dalsiZastavka, radekZastavky, oznameniZastavky, ZIVOT_NA_MAPE as T } from '../../lib/zivot-na-mape';
   import Mince from './Mince.svelte';
 
   interface Props {
@@ -22,8 +25,42 @@
     onvyber: (id: string) => void;
     onsrovnat: (id: string | undefined) => void;
     onzavrit: () => void;
+    zastavky?: Zastavka[];
+    prehrava?: boolean;
+    /** bez omezeného pohybu; jinak tlačítko Přehrát chybí */
+    mohuPrehrat?: boolean;
+    onprehrat?: () => void;
+    onzastavit?: () => void;
+    onzastavka?: (rok: number) => void;
   }
-  let { osoba, rok, lide, podleId, vztahy, mista, udalosti, obdobi, zijici, srovnat, onvyber, onsrovnat, onzavrit }: Props = $props();
+  let {
+    osoba, rok, lide, podleId, vztahy, mista, udalosti, obdobi, zijici, srovnat, onvyber, onsrovnat, onzavrit,
+    zastavky = [], prehrava = false, mohuPrehrat = true, onprehrat, onzastavit, onzastavka,
+  }: Props = $props();
+
+  // ── Život na mapě ──────────────────────────────────────────────────────────
+  let aktualni = $derived(zastavkaVRoce(zastavky, rok));
+  let predchozi = $derived(predchoziZastavka(zastavky, rok));
+  let dalsi = $derived(dalsiZastavka(zastavky, rok));
+  // Oblast aria-live: mění se jen při příchodu na jinou zastávku, ne s každým rokem.
+  let oznameni = $derived(osoba && aktualni >= 0 ? oznameniZastavky(zastavky[aktualni], mista.get(zastavky[aktualni].misto)?.nazev ?? '', osoba) : '');
+  // Seznam zastávek je jedna zastávka tabulátoru; šipky mezi nimi přesouvají fokus (Enter nastaví rok).
+  let fokusZastavky = $state(0);
+  $effect(() => {
+    fokusZastavky = Math.max(0, aktualni);
+  });
+  let seznamZastavek: HTMLOListElement | undefined = $state();
+  function sipkyZastavek(e: KeyboardEvent) {
+    const n = zastavky.length;
+    const cil = { ArrowDown: fokusZastavky + 1, ArrowRight: fokusZastavky + 1, ArrowUp: fokusZastavky - 1, ArrowLeft: fokusZastavky - 1, Home: 0, End: n - 1 }[e.key];
+    if (cil === undefined) return;
+    e.preventDefault();
+    fokusZastavky = Math.min(n - 1, Math.max(0, cil));
+    seznamZastavek?.querySelectorAll<HTMLButtonElement>('button')[fokusZastavky]?.focus();
+  }
+  const naRok = (r: number | null) => {
+    if (r !== null) onzastavka?.(r);
+  };
 
   // Atribut se při prvním setkání s člověkem ukáže rozbalený.
   let videne = $state(new Set<string>());
@@ -131,6 +168,66 @@
       {/if}
     </section>
 
+    {#if zastavky.length}
+      <section class="zivot" aria-labelledby="zivot-nadpis">
+        <h3 id="zivot-nadpis" class="nadtitulek">{T.nadpis}</h3>
+        <div class="zivot__ovladani">
+          <button
+            type="button"
+            id="zivot-predchozi"
+            class="zivot__tl"
+            aria-label={T.predchoziCelkem}
+            aria-disabled={predchozi === null}
+            onclick={() => naRok(predchozi)}
+          >
+            <svg width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>{T.predchozi}
+          </button>
+          {#if mohuPrehrat}
+            <button
+              type="button"
+              id="zivot-prehrat"
+              class="zivot__tl zivot__tl--hlavni"
+              onclick={() => (prehrava ? onzastavit?.() : onprehrat?.())}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                {#if prehrava}<rect x="2" y="2" width="10" height="10" rx="1.5" />{:else}<path d="M3 1.5v11l9.5-5.5z" />{/if}
+              </svg>{prehrava ? T.zastavit : T.prehrat}
+            </button>
+          {/if}
+          <button
+            type="button"
+            id="zivot-dalsi"
+            class="zivot__tl"
+            aria-label={T.dalsiCelkem}
+            aria-disabled={dalsi === null}
+            onclick={() => naRok(dalsi)}
+          >
+            {T.dalsi}<svg class="zivot__vpravo" width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>
+          </button>
+        </div>
+        <ol class="zastavky" aria-label={T.seznam} bind:this={seznamZastavek} onkeydown={sipkyZastavek}>
+          {#each zastavky as z, i (i)}
+            <li class="zastavka" class:zastavka--ted={i === aktualni} class:zastavka--byla={i < aktualni}>
+              <button
+                type="button"
+                tabindex={i === fokusZastavky ? 0 : -1}
+                aria-current={i === aktualni ? 'step' : undefined}
+                onclick={() => {
+                  fokusZastavky = i;
+                  onzastavka?.(z.rok);
+                }}
+              >
+                <span class="zastavka__bod" aria-hidden="true"></span>
+                <span class="zastavka__misto">{mista.get(z.misto)?.nazev}</span>
+                <span class="zastavka__radek">{radekZastavky(z, osoba)}</span>
+              </button>
+            </li>
+          {/each}
+        </ol>
+        <p class="vizualne-skryte" aria-live="polite">{oznameni}</p>
+      </section>
+    {/if}
+
     {#if vztahyOsoby.length}
       <section class="vztahy" aria-labelledby="vztahy-nadpis">
         <h3 id="vztahy-nadpis" class="nadtitulek">Vztahy</h3>
@@ -237,6 +334,64 @@
   .zmer__vysledek { margin: var(--s-2) 0 0; font-family: var(--font-serif); font-size: 19px; line-height: 1.3; }
   .zmer__data { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
   .tlacitka { display: flex; gap: var(--s-2); }
+  /* Život na mapě: svislá linka zastávek, prošlé plné, aktuální větší s prstencem, budoucí prázdné.
+     Oddíl je umístěný, aby skrytá oblast aria-live (vizualne-skryte, absolutní) zůstala v posuvné kartě;
+     jinak ji prohlížeč umístí vůči stránce a ta na telefonu dostane svislý posuvník. */
+  .zivot { position: relative; }
+  .zastavky { margin: 0; padding: 0; list-style: none; }
+  .zastavka { position: relative; }
+  .zastavka::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--rule); }
+  .zastavka:first-child::before { top: 50%; }
+  .zastavka:last-child::before { bottom: 50%; }
+  .zastavka { --cara-byla: color-mix(in srgb, var(--pc) 60%, var(--rule)); }
+  .zastavka--byla::before { background: var(--cara-byla); }
+  .zastavka--ted::before { background: linear-gradient(to bottom, var(--cara-byla) 50%, var(--rule) 50%); }
+  .zastavka--ted:first-child::before { background: var(--rule); }
+  .zastavka--ted:last-child::before { background: var(--cara-byla); }
+  .zastavka button {
+    position: relative;
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr);
+    column-gap: var(--s-3);
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 3px 4px 3px 0;
+    border: 0;
+    border-radius: var(--r-xs);
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+  .zastavka button:hover .zastavka__misto { text-decoration: underline; text-decoration-color: var(--pc); text-underline-offset: 3px; }
+  .zastavka__bod { grid-row: 1 / span 2; justify-self: center; width: 10px; height: 10px; border: 2px solid var(--muted); border-radius: 999px; background: var(--surface); }
+  .zastavka--byla .zastavka__bod { border-color: var(--pc); background: var(--pc); }
+  .zastavka--ted .zastavka__bod { width: 14px; height: 14px; border-color: var(--pc); background: var(--pc); box-shadow: 0 0 0 3px var(--pc-tint); }
+  .zastavka__misto { font-weight: 600; line-height: 1.25; }
+  .zastavka--ted .zastavka__misto { color: var(--pc); }
+  .zastavka__radek { grid-column: 2; font-size: 13px; line-height: 1.3; color: var(--ink-2); }
+  .zivot__ovladani { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-2); }
+  .zivot__tl {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 var(--s-3);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-xs);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .zivot__tl:hover { border-color: var(--muted); }
+  .zivot__tl[aria-disabled='true'] { cursor: not-allowed; border-style: dashed; color: var(--muted); }
+  .zivot__tl--hlavni { flex: 1; justify-content: center; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); }
+  .zivot__tl--hlavni:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  .zivot__tl--hlavni svg { fill: currentColor; }
+  .zivot__vpravo { transform: scaleX(-1); }
   .tlacitko {
     display: inline-flex;
     align-items: center;

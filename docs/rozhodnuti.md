@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 5. 11. 2026: Interaktivita-v2, krok K2 (Přehrát život)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Oddíl Život na mapě v kartě člověka mají lidé s aspoň dvěma různými místy za život (27 z 50); zastávky vznikají z `kdeVRoce` rok po roku, nová zastávka při každé změně místa (návrat do Athén je nová zastávka) | Odpověď 6 (souhlas); pravidlo stejné jako mapa, takže zastávky nikdy neodporují tomu, kde mapa člověka ukazuje |
+| Zastávka, na kterou člověka přesune jen pravidlo „od osmnácti na působiště bez času“, nese v kartě místo a roli bez roku a věku („Athény · působení“); v přehrávání stojí jako ostatní | Rok a věk příchodu by tvrdily, co v datech není (Prótagorás „asi 18 let“ v Athénách). Návrat hned po pobytu s časem má rok jistý (Sókratés z Potidaie 431) |
+| Ovládání stojí nad seznamem zastávek: Předchozí, Přehrát (během běhu Zastavit) a Další; Předchozí a Další mají `aria-disabled`, ne `disabled`, a stojí vždy | Na telefonu by pod osmi zastávkami bylo ovládání až po posunutí panelu; vypnuté tlačítko by na kraji života vzalo fokus klávesnici |
+| Přehrání: život za 10 s a 1 s zastavení na každé zastávce (Aristotelés 18 s); Přehrát po Zastavit pokračuje z daného roku, z roku smrti jede od narození | Odpověď 6; zastavení a pokračování je běžné chování přehrávače |
+| Historie: první posun roku při přehrávání založí jeden záznam, dál se adresa jen přepisuje (nejvýš pětkrát za vteřinu) a na konci nese rok, kde přehrávání skončilo; Zpět vrátí rok před přehráním | Plán: „jeden záznam navíc“; záznam na začátku drží výchozí stav, který by přepisování jinak smazalo |
+| Přehrávání zastaví posuvník (i tažení okna), pás období, výběr jiného člověka, zavření karty, klepnutí na zastávku, Předchozí a Další, Zpět i zapnutí omezeného pohybu; kamera drží období člověka, dokud rok leží v jeho okně | Zadání K2 |
+| Při omezeném pohybu tlačítko Přehrát chybí a nic se samo nespouští; zastávky, Předchozí a Další zůstávají | Odpověď 6 |
+| Odkaz „Přehrát život na mapě“ pod mini mapou v Době a lidech vede na `/mapa/?rok=<narození>&osoba=<id>&zivot=1` (adresa ze `zapisAdresu`); mapa příznak `zivot` přečte, dá fokus na Přehrát (při omezeném pohybu na Další zastávka) a z adresy ho smaže. Ve společném profilu za osobu stránky | Odpověď 7: připravit, nespouštět |
+| Žádná nová data; seznam lidí se zastávkami a tenkých tras vypisuje `scripts/zivot-na-mape-vypis.ts` (plán, Po K2) | Odpověď 8 |
+
 ## 5. 11. 2026: Interaktivita-v2, krok K1 (osa hlasů)
 
 | Rozhodnutí | Důvod |

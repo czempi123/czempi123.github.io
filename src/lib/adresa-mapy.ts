@@ -7,6 +7,11 @@ export interface StavAdresy {
   osoba?: string;
   srovnat?: string;
   stin: boolean;
+  /**
+   * Příchod z odkazu „Přehrát život na mapě“ na stránce osoby: karta se otevře s fokusem na Přehrát
+   * (při omezeném pohybu na Další zastávka). Mapa příznak po načtení z adresy smaže, nic se samo nespustí.
+   */
+  zivot?: boolean;
 }
 
 const idVzor = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -31,6 +36,7 @@ export function prectiAdresu(
     osoba: platnaOsoba(osoba),
     srovnat: platnaOsoba(srovnat),
     stin: p.get('stin') === '1',
+    zivot: p.get('zivot') === '1' && !!platnaOsoba(osoba),
   };
 }
 
@@ -42,5 +48,6 @@ export function zapisAdresu(s: StavAdresy, obdobiProRok: number): string {
   if (s.osoba) p.set('osoba', s.osoba);
   if (s.osoba && s.srovnat) p.set('srovnat', s.srovnat);
   if (s.stin) p.set('stin', '1');
+  if (s.osoba && s.zivot) p.set('zivot', '1');
   return `?${p.toString()}`;
 }
