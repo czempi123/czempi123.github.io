@@ -17,6 +17,7 @@ describe('adresa otázky', () => {
       prvni: 'otazka-jak-poznam-pravdu-prvni',
       ted: 'otazka-jak-poznam-pravdu-ted',
       stav: 'otazka-jak-poznam-pravdu',
+      osa: 'otazka-jak-poznam-pravdu-osa',
     });
   });
 });

@@ -121,6 +121,7 @@ const TYPY_BLOKU: Record<string, string> = {
   KdoZilDriv: 'Kdo žil dřív?',
   SlozArgument: 'Slož argument',
   ZaverCesty: 'Závěr cesty',
+  OsaHlasu: 'Osa hlasů',
 };
 
 /** Krátký štítek druhu zastavení: „Krok 3“, „Volba s důvodem“, „Kresba“, „Kapitola 02“, „Hlas“… */

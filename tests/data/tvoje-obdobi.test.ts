@@ -10,7 +10,7 @@ import type { Denik } from '../../src/lib/denik';
 const KATALOG: KatalogObdobi = {
   otazky: [
     { cislo: 3, slug: 'ma-zivot-smysl', otazka: 'Má život smysl?', adresa: '/otazka/ma-zivot-smysl/', duvody: {} },
-    { cislo: 1, slug: 'jak-zit', otazka: 'Jak mám žít?', adresa: '/otazka/jak-zit/', duvody: { seneca: 'Život je dlouhý, když ho umíš použít.' } },
+    { cislo: 1, slug: 'jak-zit', otazka: 'Jak mám žít?', adresa: '/otazka/jak-zit/', duvody: { seneca: 'Život je dlouhý, když ho umíš použít.' }, hlasy: ['epikuros', 'diogenes', 'seneca'] },
     { cislo: 2, slug: 'co-je-spravne', otazka: 'Co je správné?', adresa: '/otazka/co-je-spravne/', duvody: {} },
   ],
   cesty: [
@@ -151,6 +151,43 @@ describe('Tvoje antika z deníku', () => {
     const d = prazdny();
     d.bloky = { 'cesta34-dost-casu': { vyber: 0, proc: '', potvrzeno: true } };
     expect(prehledObdobi(d, k)).toEqual([]);
+  });
+});
+
+describe('Tvoje antika: volba na ose hlasů', () => {
+  const sVolbou = (slug: string, volba: unknown) => ({ ...prazdny(), bloky: { [`otazka-${slug}-osa`]: volba } });
+
+  it('volba sama otázku ukáže, s důvodem z hlasu a odkazem na osu', () => {
+    const p = prehledObdobi(sVolbou('jak-zit', { volba: 'seneca' }), KATALOG);
+    expect(p).toHaveLength(1);
+    expect(p[0].nejbliz).toEqual({ osoba: KATALOG.osoby.seneca, adresa: '/otazka/jak-zit/#jak-zit-osa', duvod: 'Život je dlouhý, když ho umíš použít.' });
+    expect(p[0].blizci).toEqual([]);
+  });
+
+  it('důvod z hlasu se u téhož myslitele z cest neopakuje', () => {
+    const d = { ...sVolbou('jak-zit', { volba: 'seneca' }), bloky: { 'otazka-jak-zit-osa': { volba: 'seneca' }, 'cesta34-odejit-spor': { prvni: 0, konecna: 0, duvod: '' } } };
+    const p = prehledObdobi(d, KATALOG);
+    const seneca = p[0].blizci.find((b) => b.osoba.id === 'seneca')!;
+    expect(seneca.duvod).toBeUndefined();
+    expect(p[0].nejbliz?.duvod).toBe('Život je dlouhý, když ho umíš použít.');
+  });
+
+  it('„nikdo“, neznámé id, hlas jiné otázky a poškozený stav nic neukážou', () => {
+    for (const v of [{ volba: 'nikdo' }, { volba: 'neexistuje' }, { volba: 'marcus-aurelius' }, 'seneca', { volba: 3 }, null]) {
+      expect(prehledObdobi(sVolbou('jak-zit', v), KATALOG), JSON.stringify(v)).toEqual([]);
+    }
+  });
+
+  it('otázka bez seznamu hlasů v katalogu (starší katalog) volbu nečte', () => {
+    expect(prehledObdobi(sVolbou('ma-zivot-smysl', { volba: 'seneca' }), KATALOG)).toEqual([]);
+  });
+
+  it('u otázky s jinými zápisy stojí volba vedle nich', () => {
+    const d = { ...sVolbou('jak-zit', { volba: 'epikuros' }), zapisy: [zapis('otazka-jak-zit-prvni', 'Neublížit.')] };
+    const p = prehledObdobi(d, KATALOG);
+    expect(p[0].zacatek).toBe('Neublížit.');
+    expect(p[0].nejbliz?.osoba.id).toBe('epikuros');
+    expect(p[0].nejbliz?.duvod).toBeUndefined();
   });
 });
 

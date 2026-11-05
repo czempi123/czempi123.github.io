@@ -1,12 +1,13 @@
 ---
 // Stránka velké otázky: otázka a úvod scénou → Tvůj první názor → odpovědi myslitelů na úvodní případ →
-// proč to tak viděli (časová osa) → cesty k otázce → Změnil se? → Kam dál (pole kamDal) → Prameny. Obsah v src/content/otazky/<slug>.mdx (frontmatter hlasy, text = úvod).
+// proč to tak viděli (osa hlasů s volbou „Kdo z nich je ti nejblíž?“, pak hlasy pod sebou) → cesty k otázce → Změnil se? → Kam dál (pole kamDal) → Prameny. Obsah v src/content/otazky/<slug>.mdx (frontmatter hlasy, text = úvod).
 // Hlasy, cesty a návrat se ukážou až po prvním názoru nebo po „Přeskočit“; bez JavaScriptu jsou vidět hned.
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import PrvniNazor from '../../components/ostrovy/PrvniNazor.svelte';
 import ZmenilSe from '../../components/ostrovy/ZmenilSe.svelte';
 import HlasyOsa from '../../components/otazka/HlasyOsa.astro';
+import OsaHlasu from '../../components/otazka/OsaHlasu.astro';
 import HlasyOdpovedi from '../../components/otazka/HlasyOdpovedi.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
@@ -85,6 +86,7 @@ const klic = klicOtazky(slug);
 
       <section class="ctenarsky oddil" aria-labelledby={`${slug}-proc-nadpis`}>
         <h2 class="t-h2 oddil__nadpis" id={`${slug}-proc-nadpis`}>Proč to tak <em>viděli</em></h2>
+        <OsaHlasu slug={slug} hlasy={hlasy} />
         <HlasyOsa hlasy={hlasy} adresa={adresaProfilu} />
       </section>
 

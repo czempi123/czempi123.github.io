@@ -22,11 +22,12 @@ export const maStranku = (o: { hlasy?: Hlas[] }) => (o.hlasy?.length ?? 0) > 0;
 /** Stránka otázky, nebo (dokud ji otázka nemá) kotva v přehledu /otazky/. */
 export const adresaOtazky = (id: string, o: { hlasy?: Hlas[] }) => (maStranku(o) ? `/otazka/${id}/` : `/otazky/#${id}`);
 
-/** Klíče v deníku: první názor, odpověď na konci a stav „přeskočeno“. */
+/** Klíče v deníku: první názor, odpověď na konci, stav „přeskočeno“ a volba na ose hlasů (stav bloku). */
 export const klicOtazky = (id: string) => ({
   prvni: `otazka-${id}-prvni`,
   ted: `otazka-${id}-ted`,
   stav: `otazka-${id}`,
+  osa: `otazka-${id}-osa`,
 });
 
 /** Hlasy seřazené podle začátku života (kdo žil dřív, je výš). Stejný rok drží pořadí zápisu. */

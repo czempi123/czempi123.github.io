@@ -2,9 +2,11 @@
 // Hlasy myslitelů na časové ose stránky velké otázky: mince, letopočty, jméno (odkaz na profil, pokud ho
 // osoba má), myšlenka (proč to tak viděl, odstavce) a citát z pramene. Kotva #hlas-<osoba>. Pořadí podle narození dodá stránka (seradHlasy v src/lib/otazky.ts).
 // Telefon: svislá linka vlevo s mincemi, letopočty nad jménem. Notebook: letopočty v levém okraji vedle mince.
+// Štítek „Tobě nejblíž“ stojí skrytý u každého hlasu; ukáže ho osa hlasů nad seznamem podle volby studenta (OsaHlasu.svelte).
 import type { TOsoba } from '../../lib/schema';
 import Mince from '../ui/Mince.astro';
 import Citat from '../ui/Citat.astro';
+import { OSA_HLASU } from '../../lib/osa-hlasu';
 import { zivot } from '../../lib/casy';
 import { odstavce } from '../../lib/bloky';
 
@@ -24,6 +26,7 @@ const { hlasy, adresa } = Astro.props;
         <h3 class="hlas__jmeno t-h3">
           {adresa(h.osoba.id) ? <a href={adresa(h.osoba.id)}>{h.osoba.jmeno}</a> : h.osoba.jmeno}
         </h3>
+        <p class="hlas__stitek t-popisek" data-nejbliz={h.osoba.id} hidden>{OSA_HLASU.stitek}</p>
         <div class="hlas__myslenka">{odstavce(h.myslenka).map((o) => <p set:html={o} />)}</div>
         {h.citat && <Citat id={h.citat} kompaktni />}
       </div>
@@ -56,6 +59,16 @@ const { hlasy, adresa } = Astro.props;
   .hlas__roky { margin: 0 0 var(--s-1); color: var(--pc); font-weight: 600; }
   .hlas__jmeno { margin: 0 0 var(--s-2); }
   .hlas__jmeno a { text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .hlas__stitek {
+    display: inline-block;
+    margin: 0 0 var(--s-2);
+    padding: 2px var(--s-3);
+    border-radius: var(--r-full);
+    background: var(--pc);
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .hlas__stitek[hidden] { display: none; }
   .hlas__myslenka :global(p) { margin: 0 0 var(--s-3); }
   .hlas__myslenka :global(p:last-child) { margin-bottom: 0; }
   @media (min-width: 1100px) {

@@ -30,7 +30,7 @@ export async function katalogObdobi(obdobi: number[]): Promise<{ katalog: Katalo
     const o = osobyDat.get(id);
     if (!o) throw new Error(`Tvoje antika: osoba „${id}“ není v src/data/lide.yaml.`);
     const adresa = adresaOsoby(id);
-    osoby[id] ??= { id, jmeno: o.jmeno, obdobi: o.obdobi, ...(adresa ? { adresa } : {}), ...(o.atribut ? { ikona: o.atribut.ikona } : {}) };
+    osoby[id] ??= { id, jmeno: o.jmeno, obdobi: o.obdobi, ...(adresa ? { adresa } : {}), ...(o.atribut ? { ikona: o.atribut.ikona } : {}), ...(o.zena ? { zena: true as const } : {}) };
   };
 
   const katalogCest: CestaKatalogu[] = [];
@@ -73,11 +73,15 @@ export async function katalogObdobi(obdobi: number[]): Promise<{ katalog: Katalo
     }
   }
 
-  const katalogOtazek: OtazkaKatalogu[] = (await getCollection('otazky')).map((o) => ({
+  // Hlasy otázek: kdo z nich je studentovi nejblíž, zvolí na ose hlasů (src/lib/osa-hlasu.ts).
+  const otazky = await getCollection('otazky');
+  otazky.forEach((o) => o.data.hlasy.forEach((h) => pridejOsobu(h.osoba)));
+  const katalogOtazek: OtazkaKatalogu[] = otazky.map((o) => ({
     cislo: o.data.cislo,
     slug: o.id,
     otazka: o.data.otazka,
     adresa: adresaOtazky(o.id, o.data),
+    hlasy: o.data.hlasy.map((h) => h.osoba),
     duvody: Object.fromEntries(
       o.data.hlasy.flatMap((h) => {
         const d = duvodZMyslenky(h.myslenka);

@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 5. 11. 2026: Interaktivita-v2, krok K1 (osa hlasů)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Osa hlasů stojí na začátku oddílu Proč to tak viděli na všech osmi stránkách otázek; seznam hlasů pod ní zůstává, jen zvolený hlas dostane štítek „Tobě nejblíž“ | Odpovědi autora 1 až 5 prázdné (souhlas s doporučením) |
+| Měřítko v poměru let od začátku nejstaršího po konec nejmladšího života, mince v polovině života; za posledním hlasem zlom a „dnes“ s „asi N let“ (od tisíce let na padesátky) | Odpověď 3; dnešek v měřítku by stlačil antiku do první třetiny |
+| Skok a volba jsou oddělené: mince na ose jsou odkazy na hlas v seznamu, volba je řada tlačítek s mincí a jménem pod osou (`aria-pressed`) a „Nikdo z nich“; změna klepnutím na jiné, zrušení tlačítkem Začít znovu | Na telefonu se pod sedm mincí v 230 px tlačítko se jménem nevejde; jedna věc na prvek je jednodušší i pro čtečku |
+| Kresba je SVG ve třech šířkách (360, 640, 960 jednotek), mezi kterými přepíná dotaz na šířku obalu; úzká kresba nemá jména pod mincemi, nesou je tlačítka volby se stejnou mincí | Stojí i bez JavaScriptu a po hydrataci nic neposkočí; jména by na telefonu daly pět řádků mincí |
+| Volba je stav bloku `otazka-<slug>-osa` (`{ volba }` s id osoby nebo „nikdo“) bez pole pro důvod; id, které na stránce není, se čte jako žádná volba | Odpověď 4 |
+| Věty po volbě jsou jen z dat: „Od Epikúra tě dělí asi 2 300 let. To je víc než 30 lidských životů. Na tuhle otázku přesto odpovídáš podobně jako on.“ a „Nejdál od sebe tu žili … Dělí je …“; plánované „a přesto si odpovídají“ vypadlo | Dvojice nejvzdálenějších hlasů spolu nemluvila: věta by tvrdila rozhovor, který nebyl (`docs/pouceni.md`, spojovací věta) |
+| Rok dneška je `ROK_DNES` v `src/lib/casy.ts` (2026) | Zadání K1: jedno místo, ne natvrdo na víc místech |
+| Tvoje antika: volba stojí u otázky nad mysliteli z cest jako „Na stránce otázky je ti nejblíž Epikúros.“ s důvodem z hlasu; „Nikdo z nich“ se tam neukáže a otázku sám nepřidá | 1. pád z dat drží každé jméno (3. pád v datech není; „ses postavil k Senekovi“ by potřeboval nový údaj); „nikdo“ by v přehledu zněl jako „chybí ti“ |
+| V přípravě hodiny je osa zastavení `b:<slug>-osa` (druh blok, komponenta `OsaHlasu`, nadtitulek „Kdy žili“, jen celá podoba); na plátně zůstane osa a otázka, tlačítka, značka a věty se neukážou. Hlasy za ní mají pořadí o jedno dál | Odpověď 5: třída hlasuje zvednutím ruky |
+
 ## 3. 11. 2026: Antika-doplnky, krok O (opravy po revizi)
 
 | Rozhodnutí | Důvod |
