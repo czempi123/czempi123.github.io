@@ -127,6 +127,7 @@ Stránka `/otazka/<slug>/` (`docs/design.md` › Velká otázka) je rozhovor nap
 - **Uvozovací věta dá citátu situaci**: komu, kdy, na co odpovídal, z podkladů nebo z hotového portrétu, nic vymyšleného. „O zákonech to napsal takhle:“ a „Stačila mu na to jedna věta:“ jen ohlašují citát; kde situace není, stačí krátká vazba k myšlence („Ukázal to na zákonech:“). Neopakuj obrat, kterým týž autor uvádí citát jinde („v jedné ze svých hlavních myšlenek“ stojí u Zrcadla času).
 - **Otázka bez vlastní cesty** (v antice 2 a 8): hlasy jen od lidí se stránkou, a Kam dál vede na kroky a kapitoly, kde téma je (Gýgův prsten, Kritón v cestě 7). Soubor `.md` stačí, když text nepotřebuje komponenty.
 - Cesty k otázce se na stránce ukážou samy z `otazka:` v přehledu cesty. Na otázku odkazuj adresou `/otazka/<slug>/`.
+- **Osa hlasů** nad seznamem (Kdy žili) se skládá z hlasů sama, ale nový hlas nebo hlas přes přelom letopočtu ji změní na všech třech šířkách: mince se rozestoupí do dalšího řádku, letopočty se přeskládají a věty po volbě (vzdálenost do dneška, kdo žil nejdál od sebe) dostanou jiná jména a čísla. Po každé změně hlasů pusť `npx vite-node scripts/osa-hlasu-rady.ts` (řádky mincí a značky všech stránek a šířek): nejvýš čtyři řádky, na ose přes přelom „1 n. l.“ a aspoň dvě značky na kresbu. Nad sedm hlasů nebo přes tisíc let rozpětí si osu prohlédni na 390 px a přesné znění vět ověř v `tests/data/osa-hlasu.test.ts`.
 
 ## Stránka myšlenkového pokusu
 

@@ -2,6 +2,7 @@
 // kontrast a přístupnost (axe, WCAG 2 AA), žádné vodorovné posouvání, navigace a snímky obrazovky.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { projedStranku } from './strany';
 
 // `preskocit`: stránka otázky skrývá hlasy do prvního názoru; v prohlídce je chceme vidět celé.
 const STRANKY: { cesta: string; nazev: string; nadpis: RegExp; preskocit?: string }[] = [
@@ -44,14 +45,8 @@ const REZIMY = ['light', 'dark'] as const;
 async function pripravit(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('astro-island[component-url*="Hledani"]:not([ssr])', { state: 'attached' });
-  // Líně hydratované ostrovy a obrázky: projeď stránku, ať je vše vykreslené.
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 600) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 30));
-    }
-    window.scrollTo(0, 0);
-  });
+  // Líně hydratované ostrovy a obrázky: projeď stránku okamžitým posunem (tests/e2e/strany.ts), ať je vše vykreslené.
+  await projedStranku(page, 600, 30);
 }
 
 for (const s of STRANKY) {

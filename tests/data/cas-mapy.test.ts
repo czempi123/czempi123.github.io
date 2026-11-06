@@ -141,6 +141,21 @@ describe('kde je člověk v daném roce', () => {
     const kde = (r: number) => kdeVRoce(os('epikuros'), r)?.misto;
     expect([-335, -315, -308, -300].map(kde)).toEqual(['samos', 'kolofon', 'mytilena', 'athenes']);
   });
+  it('pobyt jen s „do“ platí od osmnácti let až do roku „do“', () => {
+    const seneca = (r: number) => kdeVRoce(os('seneca'), r)?.misto;
+    expect([10, 20, 40, 45, 60].map(seneca)).toEqual(['corduba', 'rim', 'rim', 'korsika', 'rim']);
+    expect(kdeVRoce(os('epiktetos'), 80)?.misto).toBe('rim');
+    expect(kdeVRoce(os('anaxagoras'), -450)?.misto).toBe('athenes');
+    expect(kdeVRoce(os('anaxagoras'), -430)?.misto).toBe('lampsakos');
+    // Příchod podle pravidla data neříkají: mapa nekreslí cestu.
+    expect(kdeVRoce(os('seneca'), 18)).toMatchObject({ misto: 'rim', prichodOdvozeny: true });
+    expect(odkudPrisla(os('seneca'), 18)).toBeNull();
+    expect(odkudPrisla(os('seneca'), 41)).toBe('rim');
+  });
+  it('pobyt s časem nese „asi“ z dat', () => {
+    expect(kdeVRoce(os('aristoteles'), -346)).toMatchObject({ misto: 'assos', priblizne: true, zacatek: -347 });
+    expect(kdeVRoce(os('aristoteles'), -330)).toMatchObject({ misto: 'athenes', priblizne: false });
+  });
   it('mimo život nikde', () => expect(kdeVRoce(os('platon'), -300)).toBeNull());
 });
 

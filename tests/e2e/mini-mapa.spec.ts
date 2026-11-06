@@ -51,7 +51,7 @@ test('mini mapa: přibližný rok z dat má „asi“, přesný ne', async ({ pa
   await expect(epiktetos.locator('g.popisek', { hasText: 'Níkopolis' })).toContainText('působení asi 93');
   await page.goto('/osobnost/marcus-aurelius/');
   const marcus = page.locator('.minimapa svg');
-  await expect(marcus.locator('g.popisek', { hasText: 'Carnuntum' })).toContainText('válečné tažení asi 172');
+  await expect(marcus.locator('g.popisek', { hasText: 'Carnuntum' })).toContainText('vojenské tažení asi 172');
   await expect(marcus.locator('g.popisek', { hasText: 'Řím' })).toContainText('narození 121');
   await expect(marcus.locator('g.popisek', { hasText: 'Řím' })).not.toContainText('asi');
 });

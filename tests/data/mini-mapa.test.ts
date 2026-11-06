@@ -9,7 +9,7 @@ const korinth = misto('Korinth', [22.88, 37.906], ['pobyt', 'smrt 323 př. n. l.
 const sinope = misto('Sinópé', [35.15, 42.02], ['narození']);
 const thurioi = misto('Thurioi', [16.49, 39.72], ['působení 444 př. n. l.']);
 const abdera = misto('Abdéra', [24.98, 40.95], ['narození']);
-const potidaia = misto('Potidaia', [23.33, 40.19], ['válečné tažení 432 př. n. l.']);
+const potidaia = misto('Potidaia', [23.33, 40.19], ['vojenské tažení 432 př. n. l.']);
 
 const naVyrezu = (mista: MistoMiniMapy[]) => {
   const v = vyrezMiniMapy(mista);
@@ -49,7 +49,7 @@ describe('výřez mini mapy, když by popisek vyjel ven', () => {
   // a ten by na telefonu vyjel přes levý okraj mapy.
   const aristoteles = [
     misto('Stageira', [23.75, 40.53], [`narození ${rok(-384)}`]),
-    misto('Athény', [23.727, 37.984], [`studia asi ${rok(-367)}`, `působení ${rok(-335)}`]),
+    misto('Athény', [23.727, 37.984], [`studium asi ${rok(-367)}`, `působení ${rok(-335)}`]),
     misto('Assos', [26.34, 39.49], [`pobyt asi ${rok(-347)}`]),
     misto('Lesbos', [26.3, 39.2], [`pobyt asi ${rok(-345)}`]),
     misto('Pella', [22.52, 40.76], [`působení asi ${rok(-343)}`]),

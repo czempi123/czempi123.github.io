@@ -6,6 +6,7 @@
 import type { Denik } from './denik';
 import { odpovedStudenta, kodyStrany, type PopisStran } from './strany';
 import { klicOtazky } from './otazky';
+import { volbaZeStavu, NIKDO } from './osa-hlasu';
 
 export interface OsobaKatalogu {
   id: string;
@@ -15,6 +16,7 @@ export interface OsobaKatalogu {
   /** ikona atributu pro minci */
   ikona?: string;
   obdobi: number;
+  zena?: true;
 }
 
 export interface OtazkaKatalogu {
@@ -24,6 +26,8 @@ export interface OtazkaKatalogu {
   adresa: string;
   /** důvod podle hlasu na stránce otázky: osoba → první odstavec „Proč to tak viděl“ */
   duvody: Record<string, string>;
+  /** id osob s hlasem na stránce otázky (volba na ose hlasů); starší katalog je nemá */
+  hlasy?: string[];
 }
 
 export interface CestaKatalogu {
@@ -99,7 +103,17 @@ export interface OtazkaPrehledu {
   /** odpověď „Po setkání s filozofy“ (Změnil se?, nebo pole Teď na téhle stránce) */
   ted?: string;
   pravidla: PravidloCesty[];
+  /** koho si student na ose hlasů stránky otázky zvolil jako sobě nejbližšího; „Nikdo z nich“ tu není */
+  nejbliz?: Nejbliz;
   blizci: Blizky[];
+}
+
+export interface Nejbliz {
+  osoba: OsobaKatalogu;
+  /** osa na stránce otázky */
+  adresa: string;
+  /** proč to tak viděl: hlas na stránce otázky */
+  duvod?: string;
 }
 
 /** Kolik myslitelů u otázky stojí hned vidět; ostatní jsou pod „A další“. */
@@ -112,6 +126,8 @@ export const TVOJE_ANTIKA = {
   uvod: 'Tvoje odpovědi na velké otázky a vedle nich filozofové, kteří to viděli podobně jako ty. Je tu jen to, co jsi v atlasu sám napsal a zvolil, a svou odpověď můžeš kdykoli přepsat.',
   /** popisek odkazu v Můj deník */
   odkaz: 'Co sis myslel o velkých otázkách a kdo z antiky to viděl podobně.',
+  /** řádek s volbou na ose hlasů: „Na stránce otázky je ti nejblíž Epikúros.“ (odkaz na osu a na stránku osoby) */
+  nejbliz: { pred: 'Na ', odkaz: 'stránce otázky', po: ' je ti nejblíž ' },
 } as const;
 
 /** Text zápisu z deníku, nebo undefined (prázdný, chybějící, poškozený). */
@@ -170,6 +186,14 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
       });
     const uOtazky = stopy.get(o.cislo) ?? new Map();
     const ukazane = new Set<string>();
+    // Volba na ose hlasů: jen hlas, který na stránce otázky opravdu je; „Nikdo z nich“ otázku sám neukáže.
+    const volba = volbaZeStavu(bloky[klic.osa], o.hlasy ?? []);
+    let nejbliz: Nejbliz | undefined;
+    if (volba && volba !== NIKDO && k.osoby[volba]) {
+      const duvod = o.duvody[volba];
+      if (duvod) ukazane.add(duvod);
+      nejbliz = { osoba: k.osoby[volba], adresa: `${o.adresa.split('#')[0]}#${o.slug}-osa`, ...(duvod ? { duvod } : {}) };
+    }
     const blizci: Blizky[] = [...uOtazky.entries()]
       .sort((a, b) => b[1].stopy.length - a[1].stopy.length || a[1].poradi - b[1].poradi)
       .map(([id, z]) => {
@@ -178,7 +202,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
         if (novy) ukazane.add(novy);
         return { osoba: k.osoby[id], ...(novy ? { duvod: novy } : {}), stopy: z.stopy };
       });
-    if (!zacatek && !ted && !pravidla.length && !blizci.length) continue;
+    if (!zacatek && !ted && !pravidla.length && !blizci.length && !nejbliz) continue;
     vysledek.push({
       cislo: o.cislo,
       slug: o.slug,
@@ -187,6 +211,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
       ...(zacatek ? { zacatek } : {}),
       ...(ted ? { ted } : {}),
       pravidla,
+      ...(nejbliz ? { nejbliz } : {}),
       blizci,
     });
   }

@@ -4,6 +4,56 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 6. 11. 2026: Interaktivita-v2, krok O (opravy po revizi R)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pobyt s „do“ a bez „od“ platí od osmnácti let, nebo od konce předchozího pobytu s časem, je-li pozdější, až do roku „do“; u člověka bez rodiště v datech od narození (Epikúros na Samu). Data se nemění | Odpověď 1 po R; dřív platil jen v roce „do“, takže Epiktétos v Římě nebyl a Anaxagorás šel do vyhnanství před Athénami. Nová data by chtěla zdroj u každého místa a rozhodnutí z 2. 10. 2026 je zatím nepřidává |
+| Příchod na takový pobyt je v Životě na mapě odvozená zastávka (místo a role bez roku a věku) a mapa k němu nekreslí tečkovanou cestu (`prichodOdvozeny` v `Poloha`) | Rok příchodu data neříkají; stejné pravidlo jako u působiště bez času |
+| „Asi“ nese rok zastávky, který pochází z přibližného pobytu: ze začátku pobytu, kam člověk přišel, nebo z konce pobytu, odkud se vrátil; věk u takového roku také („Assos · pobyt · asi 347 př. n. l. · asi 37 let“). `kdeVRoce` vrací `priblizne` a `zacatek` pobytu | Odpověď 3; mini mapa a karta o tomtéž roce říkaly jednou „asi“ a jednou nic. Rok návratu po přesném pobytu „asi“ nedostane (Platón v Athénách 360 po Syrákúsách 361) |
+| Návrat do rodiště má roli „zpátky doma“ (řádek i oznámení pro čtečku); první zastávka zůstává „rodiště · … · narodil se“ | Odpověď 4; „rodiště · 431 př. n. l.“ se čte jako rok narození |
+| Osa hlasů přes přelom letopočtu má vždy značku „1 n. l.“ (přednost před sousedy); sousední značky blíž než šest písmen nebo s mezerou mezi popisky pod dvě písmena odpadnou; když pak osa nemá rok př. n. l., dostane nejstarší kulatou stovku, která se vejde. Každá kresba má aspoň dvě značky | Odpověď 2; na telefonu stáli Epiktétos a Marcus Aurelius bez letopočtu a „Co je správné?“ měla jedinou značku |
+| Druhá věta po volbě je jedna a zaokrouhlená jako první: „Nejdál od sebe tu žili Aristotelés a Epiktétos: dělí je asi 380 let.“ Popis osy pro čtečku má „asi“ u přibližného roku | Odpověď 6; „asi 376“ a dvakrát „To je … lidských životů“ zněly jako šablona |
+| Jeden slovník rolí míst `ROLE_MISTA` v `src/lib/cas-mapy.ts` pro kartu člověka a Život na mapě; mini mapa bere `ROLE_UDALOSTI` (u místa s rokem „narození“ a „smrt“, jinak totéž: „studium“, „vojenské tažení“) | Odpověď 6; na stránce Aristotela stálo nad sebou „studia“ a „studium“ |
+| Testy cest berou společnou přípravu stránky z `tests/e2e/strany.ts` (`pripravitStranku`, `projedStranku`): okamžitý posun a ostrovy do okna přes prvního potomka | Odpověď 6; plynulý posun dělal průchod cesty 1 nespolehlivým a stejná smyčka byla v šesti dalších souborech |
+| Skill `atlas-obdobi` začíná dluhem předchozího období vůči architektuře; co antice chybí, je v referenci jako první otázka plánu středověku | Odpověď 5; co s dluhem udělat, rozhodne autor v P12 |
+
+## 6. 11. 2026: Interaktivita-v2, krok S (skill atlas-obdobi)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Plán období žije v `docs/plany/<slug>.md` ve tvaru plánu větve, s celky jako budoucími větvemi; každý celek pak dostane vlastní větev a plán | Plán i architektura znají jen plány větví; `docs/plan.md` je už dlouhý a Projekt Claude ho drží celý |
+| U nových osob v plánu období prázdná odpověď souhlas není (stejně jako u sloučení, GitHubu, obrázků a mazání) | Nové osoby smí podle CLAUDE.md rozhodnout jen autor |
+| Strop hlasů na ose hlasů se nestanoví; nad sedm hlasů nebo přes tisíc let rozpětí chce skill výpis rozvržení (`scripts/osa-hlasu-rady.ts`) a kontrolu na 390 px, strop rozhodne revize středověku | Středověk osu natáhne o tisíc let; jak se antika stlačí, ukáže až skutečná data |
+
+## 5. 11. 2026: Interaktivita-v2, krok K2 (Přehrát život)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Oddíl Život na mapě v kartě člověka mají lidé s aspoň dvěma různými místy za život (27 z 50); zastávky vznikají z `kdeVRoce` rok po roku, nová zastávka při každé změně místa (návrat do Athén je nová zastávka) | Odpověď 6 (souhlas); pravidlo stejné jako mapa, takže zastávky nikdy neodporují tomu, kde mapa člověka ukazuje |
+| Zastávka, na kterou člověka přesune jen pravidlo „od osmnácti na působiště bez času“, nese v kartě místo a roli bez roku a věku („Athény · působení“); v přehrávání stojí jako ostatní | Rok a věk příchodu by tvrdily, co v datech není (Prótagorás „asi 18 let“ v Athénách). Návrat hned po pobytu s časem má rok jistý (Sókratés z Potidaie 431) |
+| Ovládání stojí nad seznamem zastávek: Předchozí, Přehrát (během běhu Zastavit) a Další; Předchozí a Další mají `aria-disabled`, ne `disabled`, a stojí vždy | Na telefonu by pod osmi zastávkami bylo ovládání až po posunutí panelu; vypnuté tlačítko by na kraji života vzalo fokus klávesnici |
+| Přehrání: život za 10 s a 1 s zastavení na každé zastávce (Aristotelés 18 s); Přehrát po Zastavit pokračuje z daného roku, z roku smrti jede od narození | Odpověď 6; zastavení a pokračování je běžné chování přehrávače |
+| Historie: první posun roku při přehrávání založí jeden záznam, dál se adresa jen přepisuje (nejvýš pětkrát za vteřinu) a na konci nese rok, kde přehrávání skončilo; Zpět vrátí rok před přehráním | Plán: „jeden záznam navíc“; záznam na začátku drží výchozí stav, který by přepisování jinak smazalo |
+| Přehrávání zastaví posuvník (i tažení okna), pás období, výběr jiného člověka, zavření karty, klepnutí na zastávku, Předchozí a Další, Zpět i zapnutí omezeného pohybu; kamera drží období člověka, dokud rok leží v jeho okně | Zadání K2 |
+| Při omezeném pohybu tlačítko Přehrát chybí a nic se samo nespouští; zastávky, Předchozí a Další zůstávají | Odpověď 6 |
+| Odkaz „Přehrát život na mapě“ pod mini mapou v Době a lidech vede na `/mapa/?rok=<narození>&osoba=<id>&zivot=1` (adresa ze `zapisAdresu`); mapa příznak `zivot` přečte, dá fokus na Přehrát (při omezeném pohybu na Další zastávka) a z adresy ho smaže. Ve společném profilu za osobu stránky | Odpověď 7: připravit, nespouštět |
+| Žádná nová data; seznam lidí se zastávkami a tenkých tras vypisuje `scripts/zivot-na-mape-vypis.ts` (plán, Po K2) | Odpověď 8 |
+
+## 5. 11. 2026: Interaktivita-v2, krok K1 (osa hlasů)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Osa hlasů stojí na začátku oddílu Proč to tak viděli na všech osmi stránkách otázek; seznam hlasů pod ní zůstává, jen zvolený hlas dostane štítek „Tobě nejblíž“ | Odpovědi autora 1 až 5 prázdné (souhlas s doporučením) |
+| Měřítko v poměru let od začátku nejstaršího po konec nejmladšího života, mince v polovině života; za posledním hlasem zlom a „dnes“ s „asi N let“ (od tisíce let na padesátky) | Odpověď 3; dnešek v měřítku by stlačil antiku do první třetiny |
+| Skok a volba jsou oddělené: mince na ose jsou odkazy na hlas v seznamu, volba je řada tlačítek s mincí a jménem pod osou (`aria-pressed`) a „Nikdo z nich“; změna klepnutím na jiné, zrušení tlačítkem Začít znovu | Na telefonu se pod sedm mincí v 230 px tlačítko se jménem nevejde; jedna věc na prvek je jednodušší i pro čtečku |
+| Kresba je SVG ve třech šířkách (360, 640, 960 jednotek), mezi kterými přepíná dotaz na šířku obalu; úzká kresba nemá jména pod mincemi, nesou je tlačítka volby se stejnou mincí | Stojí i bez JavaScriptu a po hydrataci nic neposkočí; jména by na telefonu daly pět řádků mincí |
+| Volba je stav bloku `otazka-<slug>-osa` (`{ volba }` s id osoby nebo „nikdo“) bez pole pro důvod; id, které na stránce není, se čte jako žádná volba | Odpověď 4 |
+| Věty po volbě jsou jen z dat: „Od Epikúra tě dělí asi 2 300 let. To je víc než 30 lidských životů. Na tuhle otázku přesto odpovídáš podobně jako on.“ a „Nejdál od sebe tu žili … Dělí je …“; plánované „a přesto si odpovídají“ vypadlo | Dvojice nejvzdálenějších hlasů spolu nemluvila: věta by tvrdila rozhovor, který nebyl (`docs/pouceni.md`, spojovací věta) |
+| Rok dneška je `ROK_DNES` v `src/lib/casy.ts` (2026) | Zadání K1: jedno místo, ne natvrdo na víc místech |
+| Tvoje antika: volba stojí u otázky nad mysliteli z cest jako „Na stránce otázky je ti nejblíž Epikúros.“ s důvodem z hlasu; „Nikdo z nich“ se tam neukáže a otázku sám nepřidá | 1. pád z dat drží každé jméno (3. pád v datech není; „ses postavil k Senekovi“ by potřeboval nový údaj); „nikdo“ by v přehledu zněl jako „chybí ti“ |
+| V přípravě hodiny je osa zastavení `b:<slug>-osa` (druh blok, komponenta `OsaHlasu`, nadtitulek „Kdy žili“, jen celá podoba); na plátně zůstane osa a otázka, tlačítka, značka a věty se neukážou. Hlasy za ní mají pořadí o jedno dál | Odpověď 5: třída hlasuje zvednutím ruky |
+
 ## 3. 11. 2026: Antika-doplnky, krok O (opravy po revizi)
 
 | Rozhodnutí | Důvod |

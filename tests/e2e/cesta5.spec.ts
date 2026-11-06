@@ -1,21 +1,13 @@
 // Cesta 5 „Co mám ve svých rukou?“: celý průchod jen klávesnicí na telefonu a jednou bez odkrytí bloků.
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 import { test, expect, type Page } from '@playwright/test';
+import { pripravitStranku } from './strany';
 
 const CESTA5 = '/cesta/co-mam-ve-svych-rukou/';
 const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Záleží na tom, co mě potká?', 'Snímek z chatu', 'Kamenná tvář', 'Tvoje pravidlo'];
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    window.scrollTo(0, 0);
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
   const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });

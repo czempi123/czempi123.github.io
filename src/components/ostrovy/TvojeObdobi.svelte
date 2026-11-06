@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
   import { nacti } from '../../lib/denik';
   import { klicOtazky } from '../../lib/otazky';
-  import { prehledObdobi, NEJBLIZ, type Blizky, type KatalogObdobi, type OtazkaPrehledu } from '../../lib/tvoje-obdobi';
+  import { prehledObdobi, NEJBLIZ, TVOJE_ANTIKA, type Blizky, type KatalogObdobi, type OtazkaPrehledu } from '../../lib/tvoje-obdobi';
   import MojeStanovisko from './MojeStanovisko.svelte';
   import Mince from '../mapa/Mince.svelte';
   import { nezlomitelne } from '../../lib/sazba.js';
@@ -75,6 +75,17 @@
           </ul>
         {/if}
 
+        {#if o.nejbliz}
+          <!-- Volba na ose hlasů stránky otázky stojí nad mysliteli z cest: student ji udělal sám a výslovně. -->
+          <div class="blizky nejbliz">
+            <Mince ikona={o.nejbliz.osoba.ikona} obdobi={o.nejbliz.osoba.obdobi} varianta="sel" velikost={40} />
+            <div class="blizky__text">
+              <p class="nejbliz__veta">{TVOJE_ANTIKA.nejbliz.pred}<a href={o.nejbliz.adresa}>{TVOJE_ANTIKA.nejbliz.odkaz}</a>{TVOJE_ANTIKA.nejbliz.po}{#if o.nejbliz.osoba.adresa}<a class="jmeno-odkaz" href={o.nejbliz.osoba.adresa}>{o.nejbliz.osoba.jmeno}</a>{:else}<strong>{o.nejbliz.osoba.jmeno}</strong>{/if}.</p>
+              {#if o.nejbliz.duvod}<p class="duvod">{o.nejbliz.duvod}</p>{/if}
+            </div>
+          </div>
+        {/if}
+
         {#if o.blizci.length}
           <h3 class="t-h3 podnadpis">Kdo to viděl podobně jako ty</h3>
           <ul class="seznam blizci">
@@ -139,6 +150,10 @@
   .jmeno { margin: var(--s-2) 0 var(--s-2); font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani-l); }
   .jmeno a { display: inline-block; min-height: 24px; }
   .duvod { margin: var(--s-2) 0 0; }
+  .nejbliz { margin-top: var(--s-6); padding: var(--s-4) var(--s-5); border-radius: var(--r-sm); background: var(--pc-tint, var(--sunk)); }
+  .nejbliz__veta { margin: var(--s-2) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani-l); }
+  .nejbliz__veta a { display: inline-block; min-height: 24px; }
+  .jmeno-odkaz { font-weight: 600; }
   .stopy { margin: 0; padding: 0; list-style: none; color: var(--ink-2); }
   .stopy li + li { margin-top: var(--s-1); }
   .stopy a { display: inline-block; min-height: 24px; }

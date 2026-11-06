@@ -2,23 +2,15 @@
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 // Hlídá i tón celku: student sedí mezi vězni, nikdo se neosvobodí sám, vypravěč si není jistý a zpátky se jde z povinnosti.
 import { test, expect, type Page } from '@playwright/test';
+import { pripravitStranku } from './strany';
 
 const CESTA3 = '/cesta/je-to-co-vidim-cela-skutecnost/';
 const KROKY3 = ['Jeskyně', 'Odkud to vím?', 'Ven', 'Čtverec sám', 'Učitel a žák', 'Vyměnit stíny', 'Zpátky dolů', 'Tvoje pravidlo'];
 // Co nese portrét Platóna nebo co do studentského textu nepatří (zadání P8, podklady celku 4).
 const NEPATRI = /Isokrat|Diogen|loutkář|manipul|probud|Nyhan|Nature|\bMeta\b|ukázal|truhlář|stolovost|Syrák|Gýg|Leonti|Héfaist|Menón|osm[áé] knih|společné ženy|svatou povinností|rčení/;
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    window.scrollTo(0, 0);
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
   const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });

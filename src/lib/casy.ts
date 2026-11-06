@@ -3,6 +3,12 @@ import type { TDatum, TOsoba } from './schema';
 
 const NBSP = ' ';
 
+/**
+ * Rok „dneška“ pro věty a osy, které počítají vzdálenost do současnosti (osa hlasů na stránkách otázek).
+ * Jediné místo v kódu; období 8 má v src/data/obdobi.yaml okno do téhož roku. Po Novém roce se změní tady.
+ */
+export const ROK_DNES = 2026;
+
 /** Počet let mezi dvěma letopočty (přes přelom letopočtu bez roku nula). */
 export function rozdilLet(od: number, do_: number): number {
   const d = do_ - od;

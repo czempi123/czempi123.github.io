@@ -10,13 +10,14 @@ import { NAZVY_KRESEB, NADTITULKY_KRESEB } from './kresby';
 import { VYCHOZI_NADTITULKY } from './nadtitulky';
 import { ODDILY } from './oddily';
 import { ODDIL_MISTA, ODDIL_RODOKMEN } from './stranky';
+import { OSA_HLASU } from './osa-hlasu';
 
 // ─── Zastavení ────────────────────────────────────────────────────────────────
 
 /**
  * Druh zastavení. Id má tvar `<předpona>:<stránka>[/<část>]`:
  * k:<cesta> přehled cesty, k:<cesta>/<n> krok · o:<profil> celý profil, o:<profil>/<kotva> kapitola nebo oddíl ·
- * h:<otázka> celá stránka otázky, h:<otázka>/<osoba> hlas · b:<id bloku> blok · p:<id příběhu> příběh ·
+ * h:<otázka> celá stránka otázky, h:<otázka>/<osoba> hlas, b:<otázka>-osa osa hlasů (od K1 větve interaktivita-v2) · b:<id bloku> blok · p:<id příběhu> příběh ·
  * t:<týden> celý týden cvičení (Stoický týden; třída ho projde doma, dny zastavením nejsou) ·
  * s:<typ>-<slug> stránka období, směru, pokusu, úvodu nebo tradice, s:<…>/<kotva> její oddíl (od K1 větve antika-doplnky).
  */
@@ -294,10 +295,13 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
     const idStranky = `h:${q.id}`;
     const spolecne = { kde: q.data.otazka, stranka, otazka: q.id };
     vse.push({ id: idStranky, druh: 'otazka', nazev: q.data.otazka, kotva: null, adresa: stranka, obdobi: null, rodic: null, poradi: 0, ...spolecne });
+    // Osa hlasů na začátku oddílu Proč to tak viděli (OsaHlasu.astro skládá kotvu stejně); na plátně bez volby a vět.
+    const kotvaOsy = `${q.id}-osa`;
+    vse.push({ id: `b:${kotvaOsy}`, druh: 'blok', nazev: OSA_HLASU.vyzva, kotva: kotvaOsy, adresa: adresa(stranka, kotvaOsy), obdobi: null, typ: 'OsaHlasu', nadtitulek: OSA_HLASU.nadtitulek, rodic: idStranky, poradi: 1, ...spolecne });
     seradHlasy(hlasy, v.osoby).forEach((h, i) => {
       const o = jmeno(h.osoba);
       const kotva = `hlas-${o.id}`;
-      vse.push({ id: `h:${q.id}/${o.id}`, druh: 'hlas', nazev: o.jmeno, kotva, adresa: adresa(stranka, kotva), obdobi: o.obdobi, osoba: o.id, rodic: idStranky, poradi: i + 1, ...spolecne });
+      vse.push({ id: `h:${q.id}/${o.id}`, druh: 'hlas', nazev: o.jmeno, kotva, adresa: adresa(stranka, kotva), obdobi: o.obdobi, osoba: o.id, rodic: idStranky, poradi: i + 2, ...spolecne });
     });
   }
 

@@ -48,7 +48,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Tentýž citát a tentýž doložený detail nejvýš dvakrát v celku. Scéna z portrétu se v cestě neopakuje doslova; cesta přitom musí stát i bez portrétu.
 - Kapitola portrétu se scénou, kterou nese cesta, se vypráví kratší s odkazem na krok cesty; jinak ji opakuje slovo od slova (portrét Sókrata a cesta 1; `atlas-osobnost`, `atlas-cesta`).
 - Šablona napříč cestami se v jednom celku neprojeví, v deseti ano: úvod a závěrečný odstavec se píšou naposledy a porovnávají s cestami období, závěr se ptá na první tah té cesty a krok se zastánci má mezititulky (`atlas-cesta`, `atlas-revize`; revize antiky).
-- Každé období zkusí aspoň jednu cestu jiné stavby a nové bloky dřív, než vznikne další cesta stejné stavby (`atlas-cesta`, `skills/atlas-obdobi/poznamky.md`).
+- Každé období zkusí aspoň jednu cestu jiné stavby a nové bloky dřív, než vznikne další cesta stejné stavby (`atlas-cesta`, `atlas-obdobi`).
 - Počet hlasů nebo cest v textu („tři další“) zastará s prvním novým hlasem: nepiš ho, nebo ho ověř proti stránce (závěr cesty 4; `atlas-cesta`).
 - Číslo cesty z katalogu student nevidí; v textu a v Kam dál je cesta názvem s nadtitulkem „Cesta“ (`atlas-cesta`, `atlas-osobnost`).
 - U každé myšlenky profilu a u medailonků hledej místo pro prvek, kterým student pohne a uvidí myšlenku líp než z textu (`atlas-osobnost`, `atlas-data`).
@@ -112,6 +112,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Karta Kam dál nevede na řádek přehledu bez stránky („Je Bůh?“). Do vzniku stránky vede na existující stránku, která na téma navazuje, a návrat odkazu se zapíše do plánu (antika-doplnky, R).
 - Vazba stránky na lidi patří do dat: tradice zná své osoby polem `tradice` a medailonek Filóna z něj sám skládá kartu judaismu (antika-doplnky, O).
 - Přehled období v deníku (Tvoje antika) čte student o týdny později a bez kroku cesty: věta převzatá z kroku („Jestli nemáš…“) potřebuje odkud nad sebou (antika-doplnky, R).
+- Místo jen s „do“ platilo na mapě jen v jediném roce a Život na mapě z toho udělal příběh (Epiktétos v Římě nikdy nebyl, Anaxagorás šel do vyhnanství před Athénami); a „asi“ z dat se ztratilo cestou přes `kdeVRoce`, takže karta tvrdila přesný rok, který mini mapa o kus výš nesla s „asi“. Kdo z dat skládá vyprávění, přečte výpis zastávek všech lidí jako životopis (`scripts/zivot-na-mape-vypis.ts --podrobne`; interaktivita-v2, R).
 - Prameny stránky z textu (`pramenyZTextu`) vidí jen citáty a bloky. Pramen výkladu v próze nebo v Odkryj patří do `zdroje` ve frontmatteru, jinak v Pramenech chybí (antika-doplnky, O).
 
 ## Technika
@@ -157,3 +158,8 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Chromium na Linuxu (GitHub) nevyrobí z `tap()` do zhruba 300 ms po dotykovém tažení přes CDP (`Input.dispatchTouchEvent`) žádný `click`, na Macu ano: test prstem ve Slož argument proto po tažení počká 500 ms a ověří výběr karty dřív, než klepne dál. Co na Macu projde a na GitHubu ne, zkoušej na Linuxu s `CI=true` (cloudové prostředí Claude, klon veřejného repozitáře) (interaktivita-v1, Uzavření).
 - Výběr souboru v testu z klávesnice: `waitForEvent('filechooser')` zapíná zachytávání až s čekáním a Enter bývá rychlejší, takže se výběr otevře nezachycený a test do minuty spadne (na GitHubu dvakrát po sobě, v Linuxu s `CI=1` asi jednou ze tří). Test, který výběr otevírá klávesou, si hned po otevření stránky přidá stálý posluchač `page.on('filechooser', () => {})` (antika-doplnky, Uzavření).
 - `scripts/kontrola-fokus.mjs` hlásil odkazy v zavřeném `<details>` (Prameny) jako překryv: Chromium jim dává rozměry. Viditelnost se ověřuje `checkVisibility()` (antika-doplnky, R).
+- Mince ve Svelte (`mapa/Mince.svelte`) má vlastní `<svg>`: lokátor `svg:visible` v ostrovu s mincemi v tlačítkách chytí i je a přísný Playwright spadne. Kresbu hledej podle její třídy (`svg.osa__kresba:visible`; interaktivita-v2, K1).
+- Restartovaný `npm run dev` vracel 500 na každé stránce (`kamDal` undefined, „perex chybí“): stará mezipaměť obsahu bez výchozích hodnot schématu. Pomohlo `npm run dev -- --force`; sestavení (`npm run build`) tím netrpí (interaktivita-v2, K1).
+- `onDestroy` v ostrovu běží i při sestavení (SSR): `cancelAnimationFrame` v něm shodil sestavení stránky `/mapa`. Úklid po `requestAnimationFrame` patří do funkce, kterou vrací `onMount` (interaktivita-v2, K2).
+- Stránka má `scroll-behavior: smooth`, takže `scrollTo` v testu se za 40 ms posune jen o pár pixelů a `scrollIntoView` na `astro-island` (`display: contents`) nedělá nic: průchod cesty 1 proto padal asi jednou ze čtyř. Testy berou `pripravitStranku` a `projedStranku` z `tests/e2e/strany.ts` (okamžitý posun, ostrov přes prvního potomka; interaktivita-v2, R).
+- Text `vizualne-skryte` je absolutně umístěný: v posuvném panelu bez umístěného předka (karta člověka na telefonu) se umístí vůči stránce a ta dostane svislý posuvník (o 486 px). Oddíl s takovým textem dostane `position: relative`; test nástroje celé obrazovky hlídá přetečení do stran i dolů (interaktivita-v2, K2).

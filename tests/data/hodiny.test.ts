@@ -5,7 +5,7 @@ import { parse } from 'yaml';
 import { osoby } from '../../src/lib/data';
 import {
   katalogZastaveni, znackyMdx, adresaHodiny, hodinaZAdresy, hodinaProStudenty, hodinaZeSouboru, najdiZastaveni, domaProjdi,
-  ID_ZASTAVENI, NENI_V_ATLASU, type VstupKatalogu, type UlozenaHodina,
+  ID_ZASTAVENI, NENI_V_ATLASU, podobyZastaveni, type VstupKatalogu, type UlozenaHodina,
 } from '../../src/lib/hodiny';
 
 // Obsah stejně jako kolekce Astra (src/content.config.ts): frontmatter jako data, zbytek jako body.
@@ -107,11 +107,17 @@ describe('katalog zastavení z obsahu a dat', () => {
     expect(z('o:krates-a-hipparchia/myslenky').nazev).toBe('Tři velké myšlenky');
   });
 
-  it('otázka 1: stránka a hlasy v pořadí časové osy, jméno z dat', () => {
+  it('otázka 1: stránka, osa hlasů a hlasy v pořadí časové osy, jméno z dat', () => {
     const fm = vstup.otazky.find((q) => q.id === 'jak-zit')!.data.hlasy!.map((h) => h.osoba);
     const hlasy = katalog.filter((x) => x.druh === 'hlas' && x.otazka === 'jak-zit');
     expect(hlasy.map((h) => h.osoba).sort()).toEqual([...fm].sort());
-    expect(hlasy.map((h) => h.poradi)).toEqual(fm.map((_, i) => i + 1));
+    // Osa hlasů stojí na stránce nad hlasy (od K1 větve interaktivita-v2): poradí 1, hlasy za ní.
+    expect(z('b:jak-zit-osa')).toMatchObject({
+      druh: 'blok', typ: 'OsaHlasu', nazev: 'Kdo z nich je ti nejblíž?', nadtitulek: 'Kdy žili',
+      adresa: '/otazka/jak-zit/#jak-zit-osa', rodic: 'h:jak-zit', poradi: 1, obdobi: null, otazka: 'jak-zit',
+    });
+    expect(podobyZastaveni(z('b:jak-zit-osa')!)).toEqual(['cely']);
+    expect(hlasy.map((h) => h.poradi)).toEqual(fm.map((_, i) => i + 2));
     expect(hlasy[0].osoba).toBe('diogenes');
     expect(z('h:jak-zit/epikuros')).toMatchObject({ nazev: 'Epikúros', adresa: '/otazka/jak-zit/#hlas-epikuros', rodic: 'h:jak-zit' });
     expect(z('h:jak-zit')).toMatchObject({ druh: 'otazka', obdobi: null });

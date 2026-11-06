@@ -1,5 +1,6 @@
 // Společné pomůcky testů posledního kroku cest s blokem Kdo je na tvé straně (větev interaktivita-v1, K1 a T1):
 // deník se zápisy bloků před načtením stránky a pořadí potomků oddílu po přeskládání. Používají cesta2, 7, 8, 33 a 34.
+// Od revize interaktivita-v2 i společná příprava stránky (projedStranku, pripravitStranku) pro všechny testy cest.
 import { expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -41,17 +42,42 @@ export async function kotvy(page: Page, ids: string[]) {
 }
 
 /** Písma načtená, stránka jednou projetá (ostrovy client:visible) a všechny ostrovy hydratované. */
-export async function pripravitKrok(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
+/**
+ * Projede stránku po `krok` pixelech, aby se hydratovaly líné ostrovy (`client:visible`) a načetly obrázky.
+ * Posun je okamžitý: stránka má `scroll-behavior: smooth` a plynulý `scrollTo` se za 40 ms posune jen o pár
+ * pixelů, takže by se smyčka ke kresbám dole dostala jen podle toho, jak rychle zrovna běží prohlížeč
+ * (revize interaktivita-v2, R: průchod cesty 1 padal asi jednou ze čtyř).
+ */
+export async function projedStranku(page: Page, krok = 500, pauza = 40) {
+  await page.evaluate(async ([k, p]) => {
+    for (let y = 0; y < document.body.scrollHeight; y += k) {
       window.scrollTo({ top: y, behavior: 'instant' });
-      await new Promise((r) => setTimeout(r, 40));
+      await new Promise((r) => setTimeout(r, p));
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [krok, pauza] as const);
+}
+
+/**
+ * Písma, projetí stránky a hydratace všech ostrovů. Ostrovy, které ještě čekají, se posunou do okna každý
+ * zvlášť: `astro-island` má `display: contents` a `scrollIntoView` na něm nic neudělá, posouvá se proto jeho
+ * první potomek. Používají cesta, cesta3, 4, 5, 8, průchod a poslední kroky cest se stranami.
+ */
+export async function pripravitStranku(page: Page) {
+  await page.evaluate(() => document.fonts.ready);
+  await projedStranku(page);
+  await page.evaluate(async () => {
+    for (const el of Array.from(document.querySelectorAll('astro-island[ssr]'))) {
+      (el.firstElementChild ?? el).scrollIntoView({ block: 'center', behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 100));
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
   });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15_000 });
 }
+
+/** Příprava kroku cesty (cesta2, 7, 8, 33, 34): stejná jako `pripravitStranku`. */
+export const pripravitKrok = pripravitStranku;
 
 export async function bezNalezuAxe(page: Page) {
   const v = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();

@@ -1,0 +1,42 @@
+---
+// Osa hlasů na začátku oddílu Proč to tak viděli (stránka velké otázky). Obal s kotvou <slug>-osa, nadtitulkem
+// a šířkou širokého oddílu (960 px); osu, výzvu a volbu kreslí ostrov src/components/ostrovy/OsaHlasu.svelte.
+// V přípravě hodiny je to zastavení b:<slug>-osa (src/lib/hodiny.ts). Hlasy dodává stránka v pořadí podle narození.
+// Použití: <OsaHlasu slug={slug} hlasy={hlasy} />
+import Ostrov from '../ostrovy/OsaHlasu.svelte';
+import type { TOsoba } from '../../lib/schema';
+import { zivot } from '../../lib/casy';
+import { popisOsy, OSA_HLASU, type HlasOsy } from '../../lib/osa-hlasu';
+
+interface Props {
+  slug: string;
+  hlasy: { osoba: TOsoba }[];
+}
+const { slug, hlasy } = Astro.props;
+const vytah: HlasOsy[] = hlasy.map(({ osoba: o }) => ({
+  id: o.id,
+  jmeno: o.jmeno,
+  ...(o.jmeno2 ? { jmeno2: o.jmeno2 } : {}),
+  ...(o.zena ? { zena: true } : {}),
+  ...(o.narozen ? { narozen: o.narozen } : {}),
+  ...(o.zemrel ? { zemrel: o.zemrel } : {}),
+  ...(o.aktivni ? { aktivni: o.aktivni } : {}),
+  obdobi: o.obdobi,
+  ...(o.atribut ? { ikona: o.atribut.ikona } : {}),
+  zivotText: zivot(o),
+}));
+---
+<div class="osa-hlasu" id={`${slug}-osa`}>
+  <p class="t-nadtitulek osa-hlasu__nad">{OSA_HLASU.nadtitulek}</p>
+  <Ostrov client:load slug={slug} hlasy={vytah} popis={popisOsy(vytah)} />
+</div>
+
+<style>
+  /* Z čtenářského sloupce do šířky širokého oddílu, na telefonu přes šířku sloupce. */
+  .osa-hlasu {
+    width: min(960px, calc(100vw - 2 * var(--okraj)));
+    margin: 0 0 var(--s-7) calc(50% - min(480px, 50vw - var(--okraj)));
+    scroll-margin-top: calc(var(--hlavicka, 64px) + var(--hodina, 0px) + var(--s-4));
+  }
+  .osa-hlasu__nad { margin: 0 0 var(--s-2); color: var(--ink-2); }
+</style>

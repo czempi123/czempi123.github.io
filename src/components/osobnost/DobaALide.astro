@@ -16,9 +16,18 @@ import Mince from '../ui/Mince.astro';
 import MiniOsa from './MiniOsa.astro';
 import DvaZivoty from './DvaZivoty.astro';
 import MiniMapa from './MiniMapa.astro';
+import { maZastavky, ZIVOT_NA_MAPE } from '../../lib/zivot-na-mape';
+import { zivotOsoby, obdobiProRok } from '../../lib/cas-mapy';
+import { zapisAdresu } from '../../lib/adresa-mapy';
+import { data } from '../../lib/data';
 
 interface Props { osoba: TOsoba; dalsi?: TOsoba[] }
 const { osoba, dalsi = [] } = Astro.props;
+// Pod mini mapou odkaz „Přehrát život na mapě“ u lidí se zastávkami (aspoň dvě místa): Mapa a čas v roce narození,
+// karta otevřená a fokus na Přehrát; samo se nic nespustí (interaktivita-v2, K2). Ve společném profilu za osobu stránky.
+const rokNarozeni = maZastavky(osoba) ? zivotOsoby(osoba)?.od : undefined;
+const prehratZivot = rokNarozeni === undefined ? undefined
+  : `/mapa/${zapisAdresu({ rok: rokNarozeni, obdobi: osoba.obdobi, osoba: osoba.id, stin: false, zivot: true }, obdobiProRok(data.obdobi, rokNarozeni))}`;
 const osoby = [osoba, ...dalsi];
 const dvojice = osoby.length > 1;
 const naStrance = new Set(osoby.map((o) => o.id));
@@ -65,6 +74,12 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
     <div class="doba__mapa">
       <h3 class="t-ovladani-l">{dvojice ? 'Kde žili' : osoba.zena ? 'Kde žila' : 'Kde žil'}</h3>
       <MiniMapa osoba={osoba} dalsi={dalsi} />
+      {prehratZivot && (
+        <a class="prehrat-zivot" href={prehratZivot}>
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" /></svg>
+          {ZIVOT_NA_MAPE.odkaz}
+        </a>
+      )}
     </div>
   </div>
 
@@ -140,6 +155,23 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
   }
   .jmeno-odkaz:hover { text-decoration-thickness: 2px; }
   .legenda { margin-top: var(--s-2); }
+  .prehrat-zivot {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    margin-top: var(--s-3);
+    padding: 0 var(--s-4);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--r-xs);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--fs-ovladani);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .prehrat-zivot svg { fill: var(--pc); }
+  .prehrat-zivot:hover { background: var(--sunk); }
   @media (min-width: 900px) {
     .doba__mrizka { grid-template-columns: 7fr 5fr; align-items: start; }
     .doba__vztahy { grid-template-columns: repeat(3, 1fr); }

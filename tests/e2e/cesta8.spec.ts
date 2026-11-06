@@ -5,24 +5,15 @@
 // student, který nesouhlasí, má spojence; nikde není způsob smrti, obhajoba dobrovolné smrti ani klid a spánek
 // jako to, co čeká.
 import { test, expect, type Page } from '@playwright/test';
-import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, pripravitStranku } from './strany';
 
 const CESTA8 = '/cesta/proc-se-bat-smrti/';
 const KROKY8 = ['Dopis', 'Čeho se vlastně bojíme', '„Netýká se nás“', 'Zrcadlo', 'Host u stolu', 'Týká se nás?', 'Ti druzí', 'Blízko', 'Tvoje pravidlo'];
 // Co do cesty nepatří (zadání P8, podkladový list celku 6: Citlivá místa, Tón, Překryvy).
 const NEPATRI = /nácvik|každý den na smrt|vysvobo|úlev|\bklid|spán|usnou|o nic nejde|bolest je krátká|krátká bolest|pět věcí|litují|dobrovoln|sebevra|vzít si život|vzal si život|dveře|Hégési|Marcellin|statečné i žít|Poručil jsem si|Paulin|večerní|krátkost|vodní hodiny|umíráme každý den|nejhorší|Ídomene|Hermarch|Theón|Aufidi|Bassus|močen|měchýř|střev|úplavic|dusi[lt]|dušnost|rakovin|\bALS\b|poprav|Texas|lebk|hřbitov|rakev|rakv|hrob|mrtvol|až umřeš|až tu nebudeš|zisk|dokázal[ay]? |ukázal[ay]? |prokázal/i;
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    window.scrollTo(0, 0);
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
   const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
