@@ -48,7 +48,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Tentýž citát a tentýž doložený detail nejvýš dvakrát v celku. Scéna z portrétu se v cestě neopakuje doslova; cesta přitom musí stát i bez portrétu.
 - Kapitola portrétu se scénou, kterou nese cesta, se vypráví kratší s odkazem na krok cesty; jinak ji opakuje slovo od slova (portrét Sókrata a cesta 1; `atlas-osobnost`, `atlas-cesta`).
 - Šablona napříč cestami se v jednom celku neprojeví, v deseti ano: úvod a závěrečný odstavec se píšou naposledy a porovnávají s cestami období, závěr se ptá na první tah té cesty a krok se zastánci má mezititulky (`atlas-cesta`, `atlas-revize`; revize antiky).
-- Každé období zkusí aspoň jednu cestu jiné stavby a nové bloky dřív, než vznikne další cesta stejné stavby (`atlas-cesta`, `skills/atlas-obdobi/poznamky.md`).
+- Každé období zkusí aspoň jednu cestu jiné stavby a nové bloky dřív, než vznikne další cesta stejné stavby (`atlas-cesta`, `atlas-obdobi`).
 - Počet hlasů nebo cest v textu („tři další“) zastará s prvním novým hlasem: nepiš ho, nebo ho ověř proti stránce (závěr cesty 4; `atlas-cesta`).
 - Číslo cesty z katalogu student nevidí; v textu a v Kam dál je cesta názvem s nadtitulkem „Cesta“ (`atlas-cesta`, `atlas-osobnost`).
 - U každé myšlenky profilu a u medailonků hledej místo pro prvek, kterým student pohne a uvidí myšlenku líp než z textu (`atlas-osobnost`, `atlas-data`).

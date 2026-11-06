@@ -8,7 +8,7 @@ Proč teď: středověk přidá hlasy na stránky otázek a desítky lidí na ma
 | --- | --- | --- | --- |
 | K1 | Osa hlasů: logika rozestupů a volby v `src/lib`, ostrov na začátku oddílu Proč to tak viděli na všech osmi stránkách otázek, zápis do deníku, Tvoje antika, zastavení v přípravě hodiny | Opus 5.5 · high (xhigh při zaseknutí) se skilly `atlas-komponenta` a `atlas-psani` | hotovo 5. 11. 2026 |
 | K2 | Přehrát život: zastávky života z `kdeVRoce`, oddíl v kartě člověka na mapě, přehrávání roku, odkaz ze stránek osob | Opus 5.5 · high se skillem `atlas-komponenta` | hotovo 5. 11. 2026 |
-| S | Skill `atlas-obdobi`: postup plánu období podle architektury, poznámek z antiky a hotových šablon; `skills/atlas-obdobi/SKILL.md`, poznámky zapracované a smazané | Opus 5.5 · high | čeká |
+| S | Skill `atlas-obdobi`: postup plánu období podle architektury, poznámek z antiky a hotových šablon; `skills/atlas-obdobi/SKILL.md`, poznámky zapracované a smazané | Opus 5.5 · high | hotovo 6. 11. 2026 |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
 | O | Opravy po revizi a úprava skillů (`atlas-komponenta`, `atlas-cesta` › Stránka velké otázky, `atlas-data` › místa pro Přehrát život) | Opus 5.5 · high | čeká |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
@@ -188,26 +188,69 @@ Co by šlo jinak: zastávky na mapě jako tečkovaná trasa celého života (dne
 
 **npm test:** kontrola typů bez chyb, vitest 989 z 989, Playwright 711 ze 712. První běh chytil skutečnou chybu: skrytá oblast `aria-live` v kartě protáhla stránku Mapy a času na telefonu o 486 px (deset testů `mapa.spec.ts`); oprava v kartě, nový test to hlídá. Ve druhém běhu spadl jen `cesta.spec.ts:88` (průchod cesty 1): kresba Šaty v kroku 6 má při načtení nulovou výšku, takže se `client:visible` někdy nespustí. Padá i samotný, asi jednou ze čtyř, a mapy ani stránek osob se netýká; nález pro revizi R.
 
-## Zadání S
+## Po S
 
-Model: Opus 5.5 · high. Nový chat v Projektu Atlas. Krok jde pustit i souběžně s revizí, na K1 a K2 nezávisí kódem.
+Hotovo 6. 11. 2026 (Opus 5.5). Skill `atlas-obdobi` je ve `skills/atlas-obdobi/`: `SKILL.md` (102 řádků) a `references/kontrola-planu.md`. Poznámky jsou zapracované a `poznamky.md` je smazaný. Kód ani data se neměnily; žádný test ani skript `skills/` ani `poznamky.md` nečte (grep v `tests`, `scripts`, `src`, `.github`, `package.json`), testy proto neběžely.
+
+**Co skill obsahuje**
+
+- **Výstup P12:** `docs/plany/<slug>.md` ve tvaru plánu větve, řádek v `docs/plan.md`, rozhodnutí v `docs/rozhodnuti.md`; každý celek pak dostane vlastní větev a plán.
+- **Postup v osmi krocích** s tím, které oddíly architektury číst a co vypsat z repozitáře místo čtení stránek.
+- **Oddíly:** Lidé a hloubky (nová osoba jen se souhlasem autora, protihlas z jiné tradice, ženy jako plné hlasy), Otázky doby, cesty a celky (vyváženost, jiná stavba a nové bloky, úvody a závěry napříč, délka, otázky bez cesty, pokusy), Mapa, čas a data (výřez, kotvy, místa s časem pro Přehrát život, hlasy na ose hlasů), Náboženství doby a Mezitím jinde, Stránky ze šablon (období, směry, anekdoty, Tvoje <období>), Pohyblivá myšlenka, Kdy je plán hotový, Tvar plánu (osm částí), Na které skilly plán navazuje.
+- **Reference** `kontrola-planu.md`: kontrolní seznam po oblastech, příkazy k výpisu, antika jako ukázka (tabulka čísel ověřená výpisem 6. 11. 2026), co doplnila `antika-doplnky` a nálezy souhrnné revize převedené na body plánu.
+- **Odkazy:** CLAUDE.md › Workflow a skilly (všech osm skillů je ve `skills/`), `docs/plan.md` (řádek `atlas-obdobi`, řádek P13 a řádek této větve v rozcestníku; i v Projektu Claude), `docs/pouceni.md` (odkaz na poznámky vede na skill).
+
+**Kam šly poznámky** (15 bodů)
+
+| Poznámka | Kam |
+| --- | --- |
+| Stavba cest | SKILL › Otázky doby, cesty a celky › Jiná stavba; reference › Otázky a cesty |
+| Protihlas z jiné tradice | SKILL › Lidé a hloubky; reference › Lidé |
+| Vyváženost otázek | SKILL › Vyváženost; reference › Otázky a cesty |
+| Délka | SKILL › Délka; reference › Otázky a cesty |
+| Úvody a závěry napříč | SKILL › Úvody a závěry napříč; reference spolu s nálezy 1 a 2 souhrnné revize |
+| Interaktivita v plánu | SKILL › Pohyblivá myšlenka a Hotové bloky (Slož argument pro cestu 9 už stojí); reference › Interaktivita |
+| Šablony od začátku (úvod oddílu z `antika-doplnky`) | SKILL › Stránky ze šablon, úvodní věta; reference › Co po celcích chybělo |
+| Šablona období | SKILL › Stránka období; kotvy, rok a osoba v Mapa, čas a data; otázky doby v Otázky doby |
+| Scéna období | SKILL › Stránka období |
+| Směry | SKILL › Směry a Anekdoty a citáty |
+| Náboženství doby | SKILL › Náboženství doby; odkaz na otázku 9 v Otázka bez cesty v období |
+| Myšlenkové pokusy | SKILL › Myšlenkové pokusy |
+| Stránky otázek bez cesty | SKILL › Otázka bez cesty v období |
+| Přehled období v deníku | SKILL › Přehled období v deníku |
+| Mezitím jinde | SKILL › Mezitím jinde |
+
+**Nad čím jsem váhal a co jsem zvolil**
+
+1. **Kde žije plán období.** Plán i architektura znají jen plány větví. Zvolil jsem `docs/plany/<slug>.md` ve stejném tvaru, s celky jako budoucími větvemi; každý celek pak dostane vlastní plán. Šlo by i jako oddíl v `docs/plan.md`, ten je ale už teď dlouhý a Projekt Claude ho drží celý.
+2. **Co do SKILL a co do reference.** Postup a pravidla jsou ve SKILL, kontrolní seznam a čísla antiky v referenci: čísla zastarají a v referenci je jde přepočítat bez sahání na postup.
+3. **Strop hlasů na ose.** K1 má nejvíc sedm hlasů a ve středověku se osa natáhne o tisíc let. Pevný strop jsem nedal; skill chce nad sedm hlasů nebo přes tisíc let rozpětí výpis rozvržení (`scripts/osa-hlasu-rady.ts`) a kontrolu na 390 px v revizi celku. Strop rozhodne revize středověku, jak říká Nad čím jsem váhal.
+4. **Prázdná odpověď u nových osob.** Nové osoby smí podle CLAUDE.md rozhodnout jen autor, proto u nich prázdná odpověď souhlas není, stejně jako u sloučení, GitHubu, obrázků a mazání.
+5. **Datum.** Zadání chtělo „Hotový 5. 11. 2026“; skill vznikl 6. 11., proto je v `docs/plan.md` 6. 11. 2026.
+6. **Výpis dat.** Python na Macu nemá modul `yaml` a skript mimo repozitář nenajde `js-yaml`; reference proto radí krátký skript ve `scripts/`, který se po výpisu smaže (tak vznikla čísla antiky).
+
+Co by šlo jinak: ukázka hotového plánu období jako druhá reference (vymyšlený středověk by ale P12 jen opsal), nebo inventura období jako stálý skript ve `scripts/` (kód, který tenhle krok psát neměl).
+
+## Zadání R
+
+Model: Opus 5.5 · high se skillem `atlas-revize`. Nový chat v Projektu Atlas.
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok S větve interaktivita-v2 (skill atlas-obdobi). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok R větve interaktivita-v2, revize celé větve se skillem atlas-revize: osa hlasů (K1), Přehrát život (K2) a skill atlas-obdobi (S). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
 
-0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, v Obsahu větve oddíl 3 (Skill atlas-obdobi), Nad čím jsem váhal, oddíly Po K1 a Po K2 a toto zadání. Přečti celé skills/atlas-obdobi/poznamky.md. Tvar skillu (frontmatter, délka, referenční soubory) převezmi z skills/atlas-data/SKILL.md a skills/atlas-komponenta/ (jen stavbu, ne obsah). V docs/architektura.md čti jen oddíly Osm období, Kostra osobností, Průřezové linie, Náboženství světa a Pořadí výroby a z Katalogu cest řádky období 3; v docs/plan.md jen Sada skillů, Výrobní workflow jednoho celku a Plán etap. Ukázkou je hotová antika: jako vzor tvaru plánu větve smíš z archivu číst docs/archiv/plany/antika-doplnky.md (tabulka kroků, Co rozhodnout před prvním krokem, jeden oddíl Po a jedno zadání) a docs/revize/antika-2026-10-25.md jen oddíl se souhrnem nálezů; jinak archiv nečti. Co antika má, zjisti výpisem z repozitáře (src/content, src/data), ne čtením stránek.
+0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, Obsah větve, Nad čím jsem váhal, Co rozhodnout před prvním krokem, oddíly Po K1, Po K2 a Po S a toto zadání. V docs/design.md čti jen Velká otázka › Osa hlasů, Tvoje antika, Mapa a čas › Život na mapě a v Komponentách řádek Osa hlasů v tabulce podob; v docs/rozhodnuti.md jen záznamy z 5. a 6. 11. 2026. Archiv nečti. Co větev mění, ukáže git diff main...interaktivita-v2 --stat; otevři jen soubory, které revize potřebuje.
 
-1. Napiš skills/atlas-obdobi/SKILL.md (krátký, postup a kritéria hotového): jak z architektury udělat plán jednoho období (P12). Výběr lidí a hloubek (portrét, profil, medailonek; nová osoba v datech jen se souhlasem autora), velké otázky doby, cesty a pořadí celků (každé období aspoň jedna cesta jiné stavby a nové bloky), výřez mapy a dějinné kotvy, náboženství doby a Mezitím jinde, stránky ze šablon období, směru, pokusu a tradice, přehled období v deníku (Tvoje <období>), hlasy pro osu hlasů na stránkách otázek (K1), místa s rolí a časem pro Přehrát život (K2: kdo bez času dostane jen odvozenou zastávku) a jedna pohyblivá myšlenka (kresba s pohybem) na celek. K tomu tvar plánu větve, jak se ustálil: tabulka kroků s modelem a úsilím, otázky s doporučením a prázdnou odpovědí jako souhlasem, oddíly Po, zadání dalšího kroku v plném znění a archiv provedených zadání. Na konci, na které skilly plán navazuje (atlas-overeni, atlas-data, atlas-osobnost, atlas-cesta, atlas-komponenta, atlas-psani, atlas-revize).
+1. Čtyři pohledy skillu (filozof, historik, student, učitel) a k nim z kontrolního seznamu skillu rozhraní, stránky z dat a lidský hlas, nad tím, co větev mění: osm stránek otázek s osou hlasů a štítkem „Tobě nejblíž“, věty po volbě a po „Nikdo z nich“ (src/lib/osa-hlasu.ts, OSA_HLASU), Tvoje antika s volbou z osy, zastavení b:<slug>-osa v přípravě hodiny a na plátně; karta člověka s oddílem Život na mapě (zastávky, Předchozí, Přehrát, Další, oznámení), přehrávání na mapě a odkaz „Přehrát život na mapě“ v Době a lidech; skill skills/atlas-obdobi/SKILL.md a references/kontrola-planu.md (čísla v referenci ověř výpisem z repozitáře, postup proti docs/architektura.md › Osm období a Pořadí výroby, tvar plánu proti tomuto plánu). Texty pro studenty čti se skillem atlas-psani.
 
-2. Jeden referenční soubor skills/atlas-obdobi/references/kontrola-planu.md: kontrolní seznam plánu období s hotovou antikou jako ukázkou (co antika má podle typů stránek a dat, co chybělo a doplnila větev antika-doplnky, co našla souhrnná revize). Čísla ověř výpisem z repozitáře.
+2. Průchod v prohlížeči (npm run build na pozadí, pak npx astro preview --port 4323) na 390 a 1440 px ve světlém i tmavém režimu a klávesnicí: aspoň tři stránky otázek (Kdo vlastně jsem? se sedmi hlasy, Co je správné? a jedna se čtyřmi hlasy) bez volby, s volbou, se změnou, s „Nikdo z nich“ a po obnovení stránky; Tvoje antika s volbou; Mapa a čas s Aristotelem (Přehrát do konce, Zastavit, Zpět v prohlížeči), Senekou přes rok nula, Plótínem a Hérakleitem bez oddílu; odkaz ze stránky Aristotela; omezený pohyb (scripts/revize-pohyb.mjs nebo ručně). Fokus pod lištou zkontroluj scripts/kontrola-fokus.mjs. Snímky skládej scripts/snimky-listy.mjs a scripts/snimky-zivot-na-mape.mjs do Claude outputs/revize-interaktivita-v2/.
 
-3. Každou poznámku ze skills/atlas-obdobi/poznamky.md zapracuj do SKILL.md nebo do reference; pak soubor smaž (git rm). V Po S napiš, kam která poznámka šla.
+3. Odložený nález z Po K2: cesta.spec.ts:88 (kresba Šaty v kroku 6 cesty 1 má při načtení nulovou výšku, client:visible se někdy nespustí). Zjisti příčinu a zapiš ji jako nález s návrhem opravy; oprav jen, když je to drobnost.
 
-4. Odkazy: CLAUDE.md › Workflow a skilly (atlas-obdobi už existuje), docs/plan.md › Sada skillů, řádek atlas-obdobi („Hotový 5. 11. 2026: skills/atlas-obdobi/SKILL.md“). Plán docs/plan.md uprav i v Projektu Claude.
+4. Drobnosti (překlep, mezera, zjevně chybný odkaz) oprav rovnou a zapiš do záznamu revize. Zásadní nálezy seřaď podle dopadu ve formátu skillu (kde, co je špatně, proč to vadí studentovi, oprava v plném znění), nejvýš deset. Záznam ulož do docs/revize/interaktivita-v2-<datum>.md s verdiktem.
 
-5. Žádný kód ani data. Ověř grepem, jestli nějaký test nebo skript čte skills/ nebo poznamky.md; pokud ano, pusť dotčené testy (npx vitest run). Celé npm test netřeba.
+5. Celé npm test jednou na konci, na pozadí s výstupem do souboru; výsledek zapiš do záznamu.
 
-6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek S na „hotovo“, oddíl „Po S“ (co skill obsahuje, kam šly poznámky, nad čím jsi váhal, co jsi zvolil) a pod něj zadání kroku R v plném znění ve stejném tvaru jako toto (Opus 5.5 · high se skillem atlas-revize: revize větve, tedy osy hlasů K1, Přehrát život K2 a skillu S, s čtyřmi pohledy skillu a průchodem v prohlížeči na 390 a 1440 px); zadání S přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání K2. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
+6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek R na „hotovo <datum>; čeká na odpovědi po R“, oddíl „Po R“ (verdikt, nálezy jednou větou s odkazem na záznam, nad čím jsi váhal) s „Co rozhodnout po R“ (otázky s doporučením, prázdná odpověď znamená souhlas) a pod ním zadání kroku O v plném znění ve stejném tvaru jako toto (Opus 5.5 · high: opravy po revizi, úprava skillů atlas-komponenta, atlas-cesta › Stránka velké otázky a atlas-data › místa pro Přehrát život, poučení do docs/pouceni.md). Zadání R přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání S. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
 
-7. Pak se zastav a napiš mi krátce, co skill obsahuje, nad čím jsi váhal a co jsi zvolil, a jedním pokynem, jak skill uložím do účtu Claude.
+7. Pak se zastav a napiš mi krátce verdikt, nejdůležitější nálezy a co mám rozhodnout.
 ```

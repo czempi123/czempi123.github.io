@@ -53,3 +53,27 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 8. Pak se zastav a napiš mi krátce, co jsi postavil, nad čím jsi váhal a co jsi zvolil, a ukaž list snímků. Spustit nemusím nic.
 ```
+
+## Zadání S
+
+Model: Opus 5.5 · high. Nový chat v Projektu Atlas. Krok jde pustit i souběžně s revizí, na K1 a K2 nezávisí kódem.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok S větve interaktivita-v2 (skill atlas-obdobi). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
+
+0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, v Obsahu větve oddíl 3 (Skill atlas-obdobi), Nad čím jsem váhal, oddíly Po K1 a Po K2 a toto zadání. Přečti celé skills/atlas-obdobi/poznamky.md. Tvar skillu (frontmatter, délka, referenční soubory) převezmi z skills/atlas-data/SKILL.md a skills/atlas-komponenta/ (jen stavbu, ne obsah). V docs/architektura.md čti jen oddíly Osm období, Kostra osobností, Průřezové linie, Náboženství světa a Pořadí výroby a z Katalogu cest řádky období 3; v docs/plan.md jen Sada skillů, Výrobní workflow jednoho celku a Plán etap. Ukázkou je hotová antika: jako vzor tvaru plánu větve smíš z archivu číst docs/archiv/plany/antika-doplnky.md (tabulka kroků, Co rozhodnout před prvním krokem, jeden oddíl Po a jedno zadání) a docs/revize/antika-2026-10-25.md jen oddíl se souhrnem nálezů; jinak archiv nečti. Co antika má, zjisti výpisem z repozitáře (src/content, src/data), ne čtením stránek.
+
+1. Napiš skills/atlas-obdobi/SKILL.md (krátký, postup a kritéria hotového): jak z architektury udělat plán jednoho období (P12). Výběr lidí a hloubek (portrét, profil, medailonek; nová osoba v datech jen se souhlasem autora), velké otázky doby, cesty a pořadí celků (každé období aspoň jedna cesta jiné stavby a nové bloky), výřez mapy a dějinné kotvy, náboženství doby a Mezitím jinde, stránky ze šablon období, směru, pokusu a tradice, přehled období v deníku (Tvoje <období>), hlasy pro osu hlasů na stránkách otázek (K1), místa s rolí a časem pro Přehrát život (K2: kdo bez času dostane jen odvozenou zastávku) a jedna pohyblivá myšlenka (kresba s pohybem) na celek. K tomu tvar plánu větve, jak se ustálil: tabulka kroků s modelem a úsilím, otázky s doporučením a prázdnou odpovědí jako souhlasem, oddíly Po, zadání dalšího kroku v plném znění a archiv provedených zadání. Na konci, na které skilly plán navazuje (atlas-overeni, atlas-data, atlas-osobnost, atlas-cesta, atlas-komponenta, atlas-psani, atlas-revize).
+
+2. Jeden referenční soubor skills/atlas-obdobi/references/kontrola-planu.md: kontrolní seznam plánu období s hotovou antikou jako ukázkou (co antika má podle typů stránek a dat, co chybělo a doplnila větev antika-doplnky, co našla souhrnná revize). Čísla ověř výpisem z repozitáře.
+
+3. Každou poznámku ze skills/atlas-obdobi/poznamky.md zapracuj do SKILL.md nebo do reference; pak soubor smaž (git rm). V Po S napiš, kam která poznámka šla.
+
+4. Odkazy: CLAUDE.md › Workflow a skilly (atlas-obdobi už existuje), docs/plan.md › Sada skillů, řádek atlas-obdobi („Hotový 5. 11. 2026: skills/atlas-obdobi/SKILL.md“). Plán docs/plan.md uprav i v Projektu Claude.
+
+5. Žádný kód ani data. Ověř grepem, jestli nějaký test nebo skript čte skills/ nebo poznamky.md; pokud ano, pusť dotčené testy (npx vitest run). Celé npm test netřeba.
+
+6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek S na „hotovo“, oddíl „Po S“ (co skill obsahuje, kam šly poznámky, nad čím jsi váhal, co jsi zvolil) a pod něj zadání kroku R v plném znění ve stejném tvaru jako toto (Opus 5.5 · high se skillem atlas-revize: revize větve, tedy osy hlasů K1, Přehrát život K2 a skillu S, s čtyřmi pohledy skillu a průchodem v prohlížeči na 390 a 1440 px); zadání S přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání K2. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
+
+7. Pak se zastav a napiš mi krátce, co skill obsahuje, nad čím jsi váhal a co jsi zvolil, a jedním pokynem, jak skill uložím do účtu Claude.
+```
