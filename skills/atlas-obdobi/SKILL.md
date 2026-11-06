@@ -12,6 +12,7 @@ Období jsou podklady, stránky, cesty a revize v osmi až deseti větvích za �
 ## Postup
 
 1. **Přečti** `CLAUDE.md`, `docs/styl.md`, `docs/pouceni.md` a `references/kontrola-planu.md`. V `docs/architektura.md` jen řádek období v Osm období a v Kostře osobností, cesty období z Katalogu cest a z Mapy otázek a období, zastavení období v Průřezových liniích, tradice období v Náboženství světa a řádek fáze v Pořadí výroby. Hotové stránky nečti; co atlas má, vypiš z repozitáře (reference › Jak spočítat, co atlas má).
+   **Dluh předchozího období.** Porovnej předchozí období s jeho řádky v Kostře osobností, Náboženství světa, Myšlenkových pokusech a Pořadí výroby (výpis stránek, ne čtení). Co chybí, vypiš v plánu jako první otázku pro autora: dodělat před prvním celkem, souběžně, nebo později. Pro antiku je dluh v referenci › Co antika proti architektuře ještě nemá.
 2. **Lidé a hloubky**, pak **otázky doby, cesty a celky** (oddíly níže).
 3. **Mapa, čas a data:** výřez, kotvy, místa s časem, hlasy na ose.
 4. **Náboženství doby a Mezitím jinde.**
@@ -59,7 +60,7 @@ Období jsou podklady, stránky, cesty a revize v osmi až deseti větvích za �
 Šablony jsou v `docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice. Plán je dává do celků od začátku, nejpozději do celku, který je poprvé potřebuje.
 
 - **Stránka období** `/obdobi/<slug>/` se skládá hlavně z dat. Píše se jen úvodní scéna, perex, odstavec ke každé otázce doby a nepovinné Mezitím jinde. Scéna neopakuje scénu portrétu a o mýtu, víře a filozofii neříká nic jiného než Co je filozofie? (pět odpovědí na hrom nejsou schody); ve středověku, kde víra a rozum jsou téma (otázka 9, linie Víra a rozum), dvojnásob. Kam dál předchozího období vede na další období, které má čárkovaný okraj, dokud nemá stránku.
-- **Směry:** stránku dostane směr, který nese cesty nebo portréty (v antice čtyři ze třinácti, ve středověku podle architektury patristika a scholastika); ostatní zůstávají štítkem. Směr potřebuje v datech zakladatele (`zakladatel`), vztahy učitel a žák (rodokmen se skládá sám) a spor s jiným směrem; píše se se skillem `atlas-osobnost` › Stránka směru. Spor dvou škol se vypráví na jedné stránce, sousední odkáže větou.
+- **Směry:** stránku dostane směr, který nese cesty nebo portréty (v antice čtyři ze třinácti, ve středověku třeba patristika a scholastika; architektura neříká, které směry stránku dostanou); ostatní zůstávají štítkem. Směr potřebuje v datech zakladatele (`zakladatel`), vztahy učitel a žák (rodokmen se skládá sám) a spor s jiným směrem; píše se se skillem `atlas-osobnost` › Stránka směru. Spor dvou škol se vypráví na jedné stránce, sousední odkáže větou.
 - **Anekdoty a citáty** hlídej napříč stránkami: stránky z dat (období, směr, otázka) je zopakují nejsnáz. Než plán přidělí anekdotu stránce, vyhledej ji v `src/content`; tentýž citát nejvýš dvakrát v celku.
 - **Přehled období v deníku** (Tvoje <období>, `/denik/<slug>/`) nad `src/lib/tvoje-obdobi.ts` a `katalogObdobi([n])` v `src/components/denik/_katalog-obdobi.ts`. Vstup z deníku a z poslední stránky období, jen z toho, co student udělal, bez procent a typů; nese i volbu z osy hlasů.
 

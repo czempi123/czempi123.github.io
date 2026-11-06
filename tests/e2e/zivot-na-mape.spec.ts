@@ -30,7 +30,9 @@ test('život na mapě: zastávky Aristotela, klepnutí na zastávku, Předchozí
   await expect(zastavky(page)).toHaveCount(8);
   await expect(zastavky(page).nth(0)).toContainText('Stageira');
   await expect.poll(() => text(zastavky(page).nth(0))).toContain('rodiště · 384 př. n. l. · narodil se');
-  await expect.poll(() => text(zastavky(page).nth(2))).toContain('pobyt · 347 př. n. l. · 37 let');
+  // Přibližný pobyt nese „asi“ u roku i u věku, návrat do rodiště je „zpátky doma“ (revize interaktivita-v2, R).
+  await expect.poll(() => text(zastavky(page).nth(2))).toContain('pobyt · asi 347 př. n. l. · asi 37 let');
+  await expect.poll(() => text(zastavky(page).nth(5))).toContain('zpátky doma · asi 340 př. n. l. · asi 44 let');
   // V roce 360 je v Athénách u Platóna.
   await expect(zastavky(page).nth(1)).toHaveAttribute('aria-current', 'step');
 
@@ -39,7 +41,7 @@ test('život na mapě: zastávky Aristotela, klepnutí na zastávku, Předchozí
   await expect(page).toHaveURL(/rok=-347&osoba=aristoteles/);
   await expect(zastavky(page).nth(2)).toHaveAttribute('aria-current', 'step');
   await expect(page.locator('.box__misto')).toContainText('Assos');
-  await expect.poll(() => text(zivot(page).locator('[aria-live]'))).toBe('Assos, 347 př. n. l., 37 let.');
+  await expect.poll(() => text(zivot(page).locator('[aria-live]'))).toBe('Assos, asi 347 př. n. l., asi 37 let.');
 
   await page.getByRole('button', { name: 'Další zastávka' }).click();
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '-345');
@@ -61,12 +63,25 @@ test('život na mapě: zastávky Aristotela, klepnutí na zastávku, Předchozí
   await expect(prehrat(page)).toHaveCount(0);
 });
 
+test('život na mapě: pobyt jen s „do“ (Epiktétos v Římě do 93) je zastávka bez roku a mapa ho tam ukazuje', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/mapa/?rok=80&osoba=epiktetos');
+  await pripravit(page);
+  await expect(zastavky(page)).toHaveCount(3);
+  await expect.poll(() => text(zastavky(page).nth(1))).toBe('Řím pobyt');
+  await expect(zastavky(page).nth(1)).toHaveAttribute('aria-current', 'step');
+  await expect(page.locator('.box__misto')).toContainText('Řím');
+  await expect.poll(() => text(zastavky(page).nth(2))).toContain('působení · asi 93 n. l. · asi 38 let');
+});
+
 test('život na mapě: klávesnice v seznamu zastávek, Další přes přelom letopočtu (Seneca)', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/mapa/?rok=-1&osoba=seneca');
   await pripravit(page);
-  await expect(zastavky(page)).toHaveCount(3);
+  // Corduba → Řím (pobyt jen s „do“, od osmnácti) → Korsika → Řím.
+  await expect(zastavky(page)).toHaveCount(4);
   // Seznam je jedna zastávka tabulátoru: fokus má jen aktuální zastávka, šipky přesouvají fokus.
   await expect(zastavky(page).nth(0)).toHaveAttribute('tabindex', '0');
   await expect(zastavky(page).nth(1)).toHaveAttribute('tabindex', '-1');
@@ -74,12 +89,12 @@ test('život na mapě: klávesnice v seznamu zastávek, Další přes přelom le
   await page.keyboard.press('ArrowDown');
   await expect(zastavky(page).nth(1)).toBeFocused();
   await page.keyboard.press('End');
-  await expect(zastavky(page).nth(2)).toBeFocused();
+  await expect(zastavky(page).nth(3)).toBeFocused();
   await page.keyboard.press('Home');
   await expect(zastavky(page).nth(0)).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  await expect(rok(page)).toHaveAttribute('aria-valuenow', '41');
+  await expect(rok(page)).toHaveAttribute('aria-valuenow', '18');
   // Ovládání stojí nad seznamem: Shift+Tab vede ze seznamu na Další, pak na Předchozí.
   await page.keyboard.press('Shift+Tab');
   await expect(page.getByRole('button', { name: 'Další zastávka' })).toBeFocused();
@@ -88,7 +103,7 @@ test('život na mapě: klávesnice v seznamu zastávek, Další přes přelom le
   await page.keyboard.press('Enter');
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '-1');
   await page.getByRole('button', { name: 'Další zastávka' }).click();
-  await expect(rok(page)).toHaveAttribute('aria-valuenow', '41');
+  await expect(rok(page)).toHaveAttribute('aria-valuenow', '18');
 });
 
 test('život na mapě: Přehrát projede život, na konci stojí rok smrti a přibude jeden záznam historie', async ({ page }) => {

@@ -221,12 +221,43 @@ export interface Poloha {
   role: PobytOsoby['role'];
   /** místo z pobytu s časem (true), nebo odvozené z působiště či rodiště (false) */
   urcite: boolean;
+  /** pobyt s časem má v datech „priblizne“ (u místa smrti přibližné úmrtí): jeho roky nesou „asi“ */
+  priblizne?: boolean;
+  /** první rok pobytu s časem, ze kterého místo je (u odvozeného začátku odhad) */
+  zacatek?: number;
+  /** pobyt má jen „do“ a jeho začátek dalo pravidlo „od osmnácti“: rok příchodu data neříkají */
+  prichodOdvozeny?: boolean;
+}
+
+/** Slovník rolí míst (karta člověka, Život na mapě); mini mapa u místa s rokem píše událost (narození, smrt). */
+export const ROLE_MISTA: Record<PobytOsoby['role'], string> = {
+  narozeni: 'rodiště', studium: 'studium', pusobeni: 'působení', pobyt: 'pobyt', exil: 'vyhnanství', tazeni: 'vojenské tažení', smrt: 'místo smrti',
+};
+export const ROLE_UDALOSTI: Record<PobytOsoby['role'], string> = { ...ROLE_MISTA, narozeni: 'narození', smrt: 'smrt' };
+
+/**
+ * Začátek pobytu, který má jen „do“ (Seneca v Římě do 41, Epiktétos v Římě do 93): od osmnácti let, nebo od
+ * konce předchozího pobytu s časem, je-li pozdější. Bez rodiště v datech od začátku života (Epikúros na Samu).
+ */
+function zacatekPobytuDo(o: OsobaMapy, m: PobytOsoby, zivot: Zivot, rodiste: PobytOsoby | undefined): { od: number; odvozeny: boolean } {
+  const do_ = m.do!;
+  if (!rodiste) return { od: zivot.od, odvozeny: false };
+  const osmnact = o.narozen ? posunRok(o.narozen.rok, 18) : zivot.od;
+  let predchozi: number | null = null;
+  for (const x of o.mista ?? []) {
+    if (x === m || x.role === 'smrt' || x.do === undefined) continue;
+    if (x.do < do_ && (predchozi === null || x.do > predchozi)) predchozi = x.do;
+  }
+  if (predchozi !== null && predchozi >= osmnact) return { od: predchozi, odvozeny: false };
+  if (osmnact > do_) return { od: do_, odvozeny: false };
+  return { od: osmnact, odvozeny: true };
 }
 
 /**
  * Kde osoba v roce r byla. Pořadí:
- * 1. pobyt s časem, který rok pokrývá (nejpozději začínající vyhrává; chybí-li „od“, platí od narození
- *    jen u lidí bez známého rodiště, jinak jen v roce „do“; chybí-li „do“, platí až do smrti),
+ * 1. pobyt s časem, který rok pokrývá (nejpozději začínající vyhrává; chybí-li „do“, platí až do smrti;
+ *    chybí-li „od“, platí od osmnácti let nebo od konce předchozího pobytu s časem, u lidí bez rodiště
+ *    v datech od narození),
  * 2. od 18 let působiště, studium nebo pobyt bez času (v pořadí dat),
  * 3. rodiště,
  * 4. jakékoli jiné místo kromě místa smrti.
@@ -242,23 +273,32 @@ export function kdeVRoce(o: OsobaMapy, r: number): Poloha | null {
   // Místo smrti v roce úmrtí.
   if (o.zemrel && r === o.zemrel.rok) {
     const smrt = mista.find((m) => m.role === 'smrt');
-    if (smrt) return { misto: smrt.misto, role: 'smrt', urcite: true };
+    if (smrt) return { misto: smrt.misto, role: 'smrt', urcite: true, priblizne: !!(smrt.priblizne || o.zemrel.priblizne), zacatek: r };
   }
-  let nejlepsi: { m: PobytOsoby; start: number } | null = null;
+  let nejlepsi: { m: PobytOsoby; start: number; odvozeny: boolean } | null = null;
   for (const m of mista) {
     if (m.role === 'smrt') continue;
     let od: number;
     let do_: number;
+    let odvozeny = false;
     if (m.rok !== undefined) {
       od = m.rok;
       do_ = m.rok;
-    } else if (m.od !== undefined || m.do !== undefined) {
-      od = m.od ?? (rodiste ? m.do! : zivot.od);
+    } else if (m.od !== undefined) {
+      od = m.od;
       do_ = m.do ?? zivot.do;
+    } else if (m.do !== undefined) {
+      ({ od, odvozeny } = zacatekPobytuDo(o, m, zivot, rodiste));
+      do_ = m.do;
     } else continue;
-    if (r >= od && r <= do_ && (!nejlepsi || od >= nejlepsi.start)) nejlepsi = { m, start: od };
+    if (r >= od && r <= do_ && (!nejlepsi || od >= nejlepsi.start)) nejlepsi = { m, start: od, odvozeny };
   }
-  if (nejlepsi) return { misto: nejlepsi.m.misto, role: nejlepsi.m.role, urcite: true };
+  if (nejlepsi) {
+    return {
+      misto: nejlepsi.m.misto, role: nejlepsi.m.role, urcite: true, priblizne: !!nejlepsi.m.priblizne, zacatek: nejlepsi.start,
+      ...(nejlepsi.odvozeny ? { prichodOdvozeny: true } : {}),
+    };
+  }
 
   const vek = n !== undefined ? rozdilLet(n, r) : null;
   const bezCasu = mista.filter((m) => m.rok === undefined && m.od === undefined && m.do === undefined);
@@ -268,7 +308,7 @@ export function kdeVRoce(o: OsobaMapy, r: number): Poloha | null {
       if (m) return { misto: m.misto, role: m.role, urcite: false };
     }
   }
-  if (rodiste) return { misto: rodiste.misto, role: 'narozeni', urcite: rodiste.rok === r };
+  if (rodiste) return { misto: rodiste.misto, role: 'narozeni', urcite: rodiste.rok === r, ...(rodiste.rok === r ? { zacatek: r } : {}) };
   const jine = mista.find((m) => m.role !== 'smrt');
   return jine ? { misto: jine.misto, role: jine.role, urcite: false } : null;
 }
@@ -278,6 +318,8 @@ export function odkudPrisla(o: OsobaMapy, r: number): string | null {
   const ted = kdeVRoce(o, r);
   const predtim = kdeVRoce(o, posunRok(r, -1));
   if (!ted || !predtim || ted.misto === predtim.misto) return null;
+  // Příchod do pobytu jen s „do“ dalo pravidlo „od osmnácti“: rok cesty data neříkají.
+  if (ted.prichodOdvozeny) return null;
   // Tečkovaná cesta jen u doložených přesunů, ne při přechodu z rodiště na působiště.
   if (!ted.urcite && !predtim.urcite) return null;
   return predtim.misto;

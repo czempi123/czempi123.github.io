@@ -1,7 +1,7 @@
 // Život na mapě (interaktivita-v2, K2): zastávky života z kdeVRoce, Předchozí a Další zastávka,
 // časový plán přehrávání a texty zastávek. Čisté funkce bez DOM; běží při sestavení i v prohlížeči.
 // Letopočty: záporné = př. n. l.; rok nula neexistuje, plán proto počítá v astronomickém číslování.
-import { kdeVRoce, zivotOsoby, vekVRoce, posunRok, naAstro, zAstro, let_, type OsobaMapy, type Poloha } from './cas-mapy';
+import { kdeVRoce, zivotOsoby, vekVRoce, posunRok, naAstro, zAstro, let_, ROLE_MISTA, type OsobaMapy, type Poloha } from './cas-mapy';
 import { rok as rokText } from './casy';
 
 const NBSP = '\u00a0';
@@ -13,46 +13,65 @@ export interface Zastavka {
   role: Poloha['role'];
   /** věk v roce zastávky, nebo null, když neznáme narození */
   vek: number | null;
-  /** rok přibližný: první zastávka u přibližného narození nebo u doby činnosti */
+  /**
+   * rok přibližný: první zastávka u přibližného narození nebo u doby činnosti, zastávka z přibližného pobytu
+   * (rok jeho začátku) a zastávka hned po konci přibližného pobytu (návrat)
+   */
   asiRok: boolean;
-  /** přibližný rok narození: věk s „asi“ */
+  /** věk s „asi“: přibližný rok narození nebo přibližný rok zastávky */
   asiVek: boolean;
+  /** návrat do rodiště (rodiště, které není první zastávkou): „zpátky doma“ */
+  domu: boolean;
   /**
    * Rok příchodu data neříkají: kdeVRoce přesune člověka z rodiště na působiště bez času v osmnácti
-   * (nebo v roce, odkud ho nic jiného nedrží). Zastávka v přehrávání je, ale text rok ani věk netvrdí.
+   * (nebo v roce, odkud ho nic jiného nedrží), stejně jako na začátek pobytu, který má jen „do“.
+   * Zastávka v přehrávání je, ale text rok ani věk netvrdí.
    */
   odvozena: boolean;
 }
 
 /**
  * Zastávky života: rok po roku od narození do smrti (u lidí bez nich doba činnosti) a nová zastávka,
- * kdykoli kdeVRoce vrátí jiné místo. Rok zastávky je jistý, když místo pochází z pobytu s časem, nebo když
+ * kdykoli kdeVRoce vrátí jiné místo. Rok zastávky je známý, když místo pochází z pobytu s časem, nebo když
  * člověk na místo přišel hned po konci pobytu s časem (Sókratés se z Potidaie vrací do Athén roku 431).
+ * „Asi“ nese rok, který pochází z přibližného pobytu: ze začátku toho, kam člověk přišel, nebo z konce toho,
+ * odkud se vrátil (Aristotelés v Assu asi 347, ve Stageiře po Pelle asi 340).
  */
 export function zastavkyZivota(o: OsobaMapy): Zastavka[] {
   const z = zivotOsoby(o);
   if (!z) return [];
   const out: Zastavka[] = [];
   let predtimUrcite = false;
+  let predtimPriblizne = false;
   for (let r = z.od; naAstro(r) <= naAstro(z.do); r = posunRok(r, 1)) {
     const kde = kdeVRoce(o, r);
     if (!kde) continue;
     const posledni = out[out.length - 1];
+    const urcite = kde.urcite && kde.role !== 'narozeni';
     if (posledni && posledni.misto === kde.misto) {
-      predtimUrcite = kde.urcite && kde.role !== 'narozeni';
+      predtimUrcite = urcite;
+      predtimPriblizne = urcite && !!kde.priblizne;
       continue;
     }
     const prvni = !posledni;
+    const odvozena = !prvni && ((!kde.urcite && !predtimUrcite) || !!kde.prichodOdvozeny);
+    // Rok ze začátku pobytu, kam člověk přišel, nebo z konce pobytu, odkud odešel.
+    const zeZacatku = kde.urcite && kde.zacatek === r;
+    const asiRok = prvni
+      ? z.jenCinnost || !!o.narozen?.priblizne
+      : !odvozena && (zeZacatku ? !!kde.priblizne : predtimPriblizne);
     out.push({
       rok: r,
       misto: kde.misto,
       role: kde.role,
       vek: vekVRoce(o, r),
-      asiRok: prvni && (z.jenCinnost || !!o.narozen?.priblizne),
-      asiVek: !!o.narozen?.priblizne,
-      odvozena: !prvni && !kde.urcite && !predtimUrcite,
+      asiRok,
+      asiVek: !!o.narozen?.priblizne || asiRok,
+      domu: !prvni && kde.role === 'narozeni',
+      odvozena,
     });
-    predtimUrcite = kde.urcite && kde.role !== 'narozeni';
+    predtimUrcite = urcite;
+    predtimPriblizne = urcite && !!kde.priblizne;
   }
   return out;
 }
@@ -160,10 +179,8 @@ export function rokVCase(plan: PlanPrehravani, t: number): number {
 
 // ─── Texty ───────────────────────────────────────────────────────────────────
 
-const ROLE: Record<Poloha['role'], string> = {
-  narozeni: 'rodiště', studium: 'studium', pusobeni: 'působení', pobyt: 'pobyt', exil: 'vyhnanství', tazeni: 'vojenské tažení', smrt: 'místo smrti',
-};
-export const roleZastavky = (z: Zastavka) => ROLE[z.role];
+/** Role zastávky ze slovníku rolí míst (ROLE_MISTA); návrat do rodiště je „zpátky doma“. */
+export const roleZastavky = (z: Pick<Zastavka, 'role' | 'domu'>) => (z.domu ? ZIVOT_NA_MAPE.domu : ROLE_MISTA[z.role]);
 
 /** „347 př. n. l.“, „asi 427 př. n. l.“; u odvozené zastávky nic (rok data neříkají). */
 export function rokZastavky(z: Zastavka): string {
@@ -187,11 +204,11 @@ export function radekZastavky(z: Zastavka, o: Pick<OsobaMapy, 'zena'>): string {
 }
 
 /**
- * Oznámení pro čtečku: „Assos, 347 př. n. l., 37 let.“; u místa smrti „…, 62 let, zemřel tu.“;
- * u odvozené zastávky jen místo a role („Athény, působení.“).
+ * Oznámení pro čtečku: „Assos, asi 347 př. n. l., asi 37 let.“; u místa smrti „…, 62 let, zemřel tu.“;
+ * u odvozené zastávky jen místo a role („Athény, působení.“); u návratu domů s rolí („Athény, zpátky doma, …“).
  */
 export function oznameniZastavky(z: Zastavka, nazev: string, o: Pick<OsobaMapy, 'zena'>): string {
-  const casti = [nazev, z.odvozena ? roleZastavky(z) : '', rokZastavky(z), vekZastavky(z, o)].filter(Boolean);
+  const casti = [nazev, z.odvozena || z.domu ? roleZastavky(z) : '', rokZastavky(z), vekZastavky(z, o)].filter(Boolean);
   if (z.role === 'smrt') casti.push(o.zena ? 'zemřela tu' : 'zemřel tu');
   return `${casti.join(', ')}.`;
 }
@@ -207,4 +224,6 @@ export const ZIVOT_NA_MAPE = {
   dalsiCelkem: 'Další zastávka',
   seznam: 'Zastávky života',
   odkaz: 'Přehrát život na mapě',
+  /** role návratu do rodiště */
+  domu: 'zpátky doma',
 } as const;

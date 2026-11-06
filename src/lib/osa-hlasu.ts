@@ -66,12 +66,12 @@ export function zaokrouhliLeta(n: number): number {
 }
 
 /** Polovina života v astronomických letech (mince stojí tam), začátek a konec. */
-export function polohaHlasu(o: HlasOsy): { od: number; do: number; stred: number; priblizne: boolean } | null {
+export function polohaHlasu(o: HlasOsy): { od: number; do: number; stred: number; priblizne: boolean; odPriblizne: boolean; doPriblizne: boolean } | null {
   const z = zivotOsoby(o);
   if (!z) return null;
   const od = naAstro(z.od);
   const do_ = naAstro(z.do);
-  return { od, do: do_, stred: (od + do_) / 2, priblizne: z.odPriblizne || z.doPriblizne };
+  return { od, do: do_, stred: (od + do_) / 2, priblizne: z.odPriblizne || z.doPriblizne, odPriblizne: z.odPriblizne, doPriblizne: z.doPriblizne };
 }
 
 /** Kolik let uplynulo od konce posledního života do dneška, zaokrouhleně, a jestli patří „asi“. */
@@ -164,12 +164,21 @@ function krokZnacek(roky: number, delka: number, rozestup: number): number {
 /**
  * Značky letopočtů nad osou. Bez roku nula; éra jen u posledního roku před n. l. a u prvního n. l.
  * (osa jen př. n. l. ji má jednou vpravo). Značka, jejíž popisek by vyjel z měřítka, odpadne.
+ * Osa přes přelom letopočtu má vždy značku „1 n. l.“: kulatý krok (200, 250 let) by první rok n. l. jinak
+ * posunul za konec měřítka a Epiktétos s Markem by na telefonu stáli bez letopočtu (revize interaktivita-v2).
+ * Sousední značka, jejíž popisek by se k jinému přiblížil na méně než šířku dvou písmen, odpadne; přelom
+ * má přednost.
  */
 function znackyLet(od: number, do_: number, x: (a: number) => number, R: RozmeryOsy, konec: number): { x: number; text: string }[] {
   const krok = krokZnacek(do_ - od, konec - R.vlevo, R.pismo * 6);
+  const prelom = od <= 0 && do_ >= 1;
   const roky: number[] = [];
   for (let r = Math.ceil(zAstro(od) / krok) * krok; naAstro(r) <= do_; r += krok) {
     if (r !== 0 && naAstro(r) >= od) roky.push(r);
+  }
+  if (prelom && !roky.includes(1)) {
+    roky.push(1);
+    roky.sort((a, b) => a - b);
   }
   const popis = (vybrane: number[]) => {
     const posledniPred = [...vybrane].reverse().find((r) => r < 0);
@@ -180,12 +189,35 @@ function znackyLet(od: number, do_: number, x: (a: number) => number, R: Rozmery
       text: r === posledniPred ? rokText(r) : r === prvniPo ? rokText(r) : String(Math.abs(r)),
     }));
   };
+  const pul = (z: { text: string }) => sirkaTextu(z.text, R.pismo) / 2;
+  // Značky, které vyjedou z měřítka (přelom zůstane, i kdyby přesahoval), a sousedé, kteří se potkají.
+  const ven = (s: ReturnType<typeof popis>) => s.filter((z) => z.r !== 1 && (z.x - pul(z) < 0 || z.x + pul(z) > konec + 4));
+  const blizko = (s: ReturnType<typeof popis>) =>
+    s.findIndex((z, j) => j > 0 && (z.x - s[j - 1].x < R.pismo * 6 || z.x - pul(z) - (s[j - 1].x + pul(s[j - 1])) < R.pismo * 2));
   let vybrane = roky;
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 12; i++) {
     const s = popis(vybrane);
-    const ven = s.filter((z) => z.x - sirkaTextu(z.text, R.pismo) / 2 < 0 || z.x + sirkaTextu(z.text, R.pismo) / 2 > konec + 4);
-    if (!ven.length) return s.map(({ x: zx, text }) => ({ x: zx, text }));
-    vybrane = vybrane.filter((r) => !ven.some((z) => z.r === r));
+    const v = ven(s);
+    if (v.length) {
+      vybrane = vybrane.filter((r) => !v.some((z) => z.r === r));
+      continue;
+    }
+    // Z dvojice, která se potká, odpadne ta, která není přelomem (z dvojice bez přelomu ta pozdější).
+    const b = blizko(s);
+    if (b === -1) break;
+    vybrane = vybrane.filter((r) => r !== (s[b].r === 1 ? s[b - 1].r : s[b].r));
+  }
+  // Osa přes přelom bez jediného roku př. n. l. (úzká kresba, kde kulatý krok padl těsně před přelom):
+  // nejstarší kulatá stovka př. n. l., která se vejde.
+  if (prelom && !vybrane.some((r) => r < 0)) {
+    for (let c = Math.ceil(zAstro(od) / 100) * 100; c < 0; c += 100) {
+      const zkus = [c, ...vybrane];
+      const s = popis(zkus);
+      if (naAstro(c) >= od && !ven(s).length && blizko(s) === -1) {
+        vybrane = zkus;
+        break;
+      }
+    }
   }
   return popis(vybrane).map(({ x: zx, text }) => ({ x: zx, text }));
 }
@@ -271,11 +303,13 @@ export function rozlozeniOsy(hlasy: HlasOsy[], sirka: SirkaOsy): RozlozeniOsy {
 export function popisOsy(hlasy: HlasOsy[]): string {
   const polohy = hlasy.map(polohaHlasu).filter((p): p is NonNullable<typeof p> => !!p);
   if (!polohy.length) return OSA_HLASU.popis;
-  const od = zAstro(Math.min(...polohy.map((p) => p.od)));
-  const do_ = zAstro(Math.max(...polohy.map((p) => p.do)));
+  // „Asi“ u roku, který je v datech přibližný (seznam pod osou píše „asi 540–480 př. n. l.“).
+  const prvni = polohy.reduce((a, b) => (b.od < a.od ? b : a));
+  const posledni = polohy.reduce((a, b) => (b.do > a.do ? b : a));
+  const asi = (b: boolean) => (b ? `asi${NBSP}` : '');
   const dd = letDoDneska(hlasy);
-  const pak = dd ? `, a pak ${dd.asi ? `asi${NBSP}` : ''}${let_(dd.let)} do dneška` : '';
-  return `${OSA_HLASU.popis} v poměru let, od roku ${rokText(od)} do roku ${rokText(do_)}${pak}.`;
+  const pak = dd ? `, a pak ${asi(dd.asi)}${let_(dd.let)} do dneška` : '';
+  return `${OSA_HLASU.popis} v poměru let, od roku ${asi(prvni.odPriblizne)}${rokText(zAstro(prvni.od))} do roku ${asi(posledni.doPriblizne)}${rokText(zAstro(posledni.do))}${pak}.`;
 }
 
 // ─── Věty po volbě ────────────────────────────────────────────────────────────
@@ -299,8 +333,9 @@ export function vetaOVzdalenosti(h: HlasOsy): string | null {
 
 /**
  * Dva hlasy otázky, které žily nejdál od sebe (konec nejdřív končícího a začátek nejpozději začínajícího
- * života), a věta o nich: „Nejdál od sebe tu žili Aristotelés a Seneca. Dělí je asi 321 let. To je víc
- * než čtyři lidské životy.“ Když se všechny životy potkaly, null.
+ * života), a jedna věta o nich, zaokrouhlená jako věta o vzdálenosti do dneška: „Nejdál od sebe tu žili
+ * Aristotelés a Epiktétos: dělí je asi 380 let.“ Přirovnání k životům nese už první věta, druhé by znělo
+ * jako šablona (revize interaktivita-v2). Když se všechny životy potkaly, null.
  */
 export function vetaONejdelsiVzdalenosti(hlasy: HlasOsy[]): string | null {
   let prvni: HlasOsy | null = null;
@@ -315,7 +350,9 @@ export function vetaONejdelsiVzdalenosti(hlasy: HlasOsy[]): string | null {
   const v = vzdalenost({ ...prvni, mista: [] }, { ...posledni, mista: [] });
   if (!v || v.druh !== 'deli') return null;
   const zili = prvni.zena && posledni.zena ? 'žily' : 'žili';
-  return nezlomitelne(`Nejdál od sebe tu ${zili} ${prvni.jmeno} a ${posledni.jmeno}. ${v.text}`);
+  const r = zaokrouhliLeta(v.let);
+  const asi = r !== v.let || v.asi ? `asi${NBSP}` : '';
+  return nezlomitelne(`Nejdál od sebe tu ${zili} ${prvni.jmeno} a ${posledni.jmeno}: dělí je ${asi}${let_(r)}.`);
 }
 
 /** Věta po „Nikdo z nich“; odkaz vede na Změnil se? dole na stránce. */

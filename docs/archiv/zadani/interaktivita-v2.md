@@ -101,3 +101,27 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 7. Pak se zastav a napiš mi krátce verdikt, nejdůležitější nálezy a co mám rozhodnout.
 ```
+
+## Zadání O
+
+Model: Opus 5.5 · high. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve interaktivita-v2, opravy po revizi R a úprava skillů. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
+
+0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, oddíl Po R s odpověďmi Co rozhodnout po R (prázdná odpověď znamená souhlas) a toto zadání, a celý záznam revize docs/revize/interaktivita-v2-2026-11-06.md. V docs/design.md čti jen Velká otázka › Osa hlasů a Mapa a čas › Život na mapě. Archiv nečti.
+
+1. Nález 1 (blokující): pravidlo v kdeVRoce (src/lib/cas-mapy.ts) pro pobyt s „do“ a bez „od“ podle odpovědi 1. Nejdřív testy v tests/data/zivot-na-mape.test.ts (Epiktétos Hierapolis → Řím → Níkopolis, Seneca Corduba → Řím → Korsika → Řím, Anaxagorás Klazomeny → Athény → Lampsakos) a v testech mapy (Seneca v roce 20 n. l. v Římě), pak oprava. Projdi npx vite-node scripts/zivot-na-mape-vypis.ts --podrobne u všech lidí s oddílem a hlídej, co se změnilo i na mapě (grep -rn kdeVRoce src: co další na pravidle stojí).
+
+2. Nálezy 2 až 4: značka „1 n. l.“ na ose hlasů (znackyLet v src/lib/osa-hlasu.ts) s testem na všech osmi stránkách a třech šířkách; „asi“ u zastávek z přibližných pobytů a u věku (Poloha nese priblizne, zastavkyZivota, rokZastavky, vekZastavky, oznameniZastavky); „zpátky doma“ u návratu do rodiště. Každou změnu znění nejdřív najdi v tests/ (grep -rn) a test uprav v témže commitu. Po změně npx vite-node scripts/osa-hlasu-rady.ts a výpis zastávek znovu.
+
+3. Nálezy 6 až 10 podle odpovědi 6: společná příprava stránky s behavior: 'instant' a posunem prvního potomka ostrova v tests/e2e/strany.ts pro cesta.spec.ts, cesta3, cesta4, cesta5, cesta8, pruchod a prohlidka; zaokrouhlená druhá věta po volbě; „asi“ v popisOsy; jeden slovník rolí pro MiniMapa.astro a kartu; záznam S (6. 11. 2026) v docs/rozhodnuti.md a záznam O tamtéž.
+
+4. Nález 5 a úprava skillů ve skills/ (kopie pak autor uloží do účtu Claude): atlas-obdobi (Postup, krok 1: dluh předchozího období; reference: oddíl Co antika proti architektuře ještě nemá a „vlastní stránku má 13 z 24 portrétů a profilů“; Směry: „ve středověku třeba patristika a scholastika“); atlas-komponenta (osa a letopočty přes přelom letopočtu na každé šířce; „asi“ z dat se nesmí ztratit cestou přes logiku; ostrov s display: contents se do okna posouvá přes prvního potomka); atlas-cesta › Stránka velké otázky (osa hlasů: co hlídat, když přibude hlas nebo stránka sáhne přes přelom, výpis osa-hlasu-rady.ts); atlas-data › místa pro Přehrát život (pobyt jen s „do“, „priblizne“ u míst, kontrola výpisem zastávek po každé vlně). Poučení jednou větou do docs/pouceni.md (Technika: plynulý posun v testech; Co se skládá z dat: místo jen s „do“ a ztracené „asi“).
+
+5. Ověř v prohlížeči (npm run build na pozadí, pak npx astro preview --port 4323): node scripts/revize-osa-hlasu.mjs a node scripts/snimky-zivot-na-mape.mjs do Claude outputs/oprava-interaktivita-v2/, osu Kdo vlastně jsem? a Co je správné? na 390 px, karta Epiktéta, Seneky, Sókrata a Aristotela na 390 a 1440 px ve světlém i tmavém režimu. Celé npm test jednou na konci, na pozadí s výstupem do souboru.
+
+6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek O na „hotovo <datum>“, oddíl „Po O“ (co je opravené, nad čím jsi váhal, výsledek testů) a pod něj zadání kroku Uzavření v plném znění ve stejném tvaru (Opus 5.5 · medium: otázka na schválení, kterou zodpoví jen autor, sloučení do main, push hlavní větve, kontroly na GitHubu zelené, plán a zadání do docs/archiv/, řádek v docs/plan.md). Zadání O přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání R. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
+
+7. Pak se zastav a napiš mi krátce, co je opravené, nad čím jsi váhal a co mám zkontrolovat před schválením.
+```

@@ -156,6 +156,24 @@ describe('osa hlasů: letopočty, zlom a dnešek', () => {
       }
     }
   });
+  it('osa přes přelom letopočtu má na každé šířce značku „1 n. l.“; každá kresba aspoň dvě značky', () => {
+    let presPrelom = 0;
+    for (const o of OTAZKY) {
+      const p = o.hlasy.map((h) => polohaHlasu(h)!);
+      const prelom = Math.min(...p.map((x) => x.od)) <= 0 && Math.max(...p.map((x) => x.do)) >= 1;
+      if (prelom) presPrelom++;
+      for (const s of SIRKY) {
+        const z = rozlozeniOsy(o.hlasy, s).znacky.map((x) => bezNb(x.text));
+        expect(z.length, `${o.slug} ${s}: ${z.join(' | ')}`).toBeGreaterThanOrEqual(2);
+        if (prelom) {
+          expect(z, `${o.slug} ${s}`).toContain('1 n. l.');
+          expect(z.some((t) => t.endsWith('př. n. l.')), `${o.slug} ${s}: ${z.join(' | ')}`).toBe(true);
+        }
+      }
+    }
+    // Šest stránek sahá přes přelom (revize R: na telefonu u nich chyběl letopočet n. l.).
+    expect(presPrelom).toBe(6);
+  });
   it('osa přes přelom letopočtu má éru dvakrát', () => {
     const o = OTAZKY.find((x) => x.slug === 'kdo-vlastne-jsem')!;
     const z = rozlozeniOsy(o.hlasy, 'siroka').znacky.map((x) => bezNb(x.text));
@@ -176,7 +194,8 @@ describe('osa hlasů: letopočty, zlom a dnešek', () => {
   });
   it('popis pro čtečky říká rozsah a dnešek', () => {
     const kdo = OTAZKY.find((x) => x.slug === 'kdo-vlastne-jsem')!;
-    expect(bezNb(popisOsy(kdo.hlasy))).toBe('Hlasy na ose času v poměru let, od roku 540 př. n. l. do roku 180 n. l., a pak asi 1 850 let do dneška.');
+    // Hérakleitův rok narození je přibližný, Markův rok smrti ne.
+    expect(bezNb(popisOsy(kdo.hlasy))).toBe('Hlasy na ose času v poměru let, od roku asi 540 př. n. l. do roku 180 n. l., a pak asi 1 850 let do dneška.');
   });
   it('čísla od tisíce mají nezlomitelnou mezeru', () => {
     expect(cislo(2300)).toBe(`2${NB}300`);
@@ -206,12 +225,13 @@ describe('osa hlasů: věty po volbě', () => {
   });
   it('nejdál od sebe na každé otázce', () => {
     const cekane: Record<string, string> = {
-      'jak-zit': 'Nejdál od sebe tu žili Diogenés a Seneca. Dělí je asi 322 let. To je víc než čtyři lidské životy.',
-      'kdo-vlastne-jsem': 'Nejdál od sebe tu žili Hérakleitos a Marcus Aurelius. Dělí je asi 600 let. To je asi osm lidských životů.',
+      'jak-zit': 'Nejdál od sebe tu žili Diogenés a Seneca: dělí je asi 320 let.',
+      'kdo-vlastne-jsem': 'Nejdál od sebe tu žili Hérakleitos a Marcus Aurelius: dělí je asi 600 let.',
     };
     for (const o of OTAZKY) {
       const v = bezNb(vetaONejdelsiVzdalenosti(o.hlasy));
-      expect(v, o.slug).toMatch(/^Nejdál od sebe tu žili \S.* a \S.*\. Dělí je (asi )?\d+ let\./);
+      // Jedna věta, zaokrouhlená jako první (zaokrouhliLeta), bez druhého „To je … lidských životů“.
+      expect(v, o.slug).toMatch(/^Nejdál od sebe tu žili \S.* a \S.*: dělí je (asi )?\d+ (let|roky|rok)\.$/);
       if (cekane[o.slug]) expect(v, o.slug).toBe(cekane[o.slug]);
     }
   });

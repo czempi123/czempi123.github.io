@@ -30,7 +30,9 @@ describe('zastávky života', () => {
     ]);
     const z = zastavkyZivota(os('aristoteles'));
     expect(new Set(z.map((x) => x.misto)).size).toBe(6);
-    expect(z.every((x) => !x.odvozena && !x.asiRok)).toBe(true);
+    expect(z.every((x) => !x.odvozena)).toBe(true);
+    // Přibližné pobyty (Athény 367 až Pella) a návrat po nich (Stageira 340) mají „asi“; rodiště, Athény 335 a Chalkis ne.
+    expect(z.map((x) => x.asiRok)).toEqual([false, true, true, true, true, true, false, false]);
     expect(z.map((x) => x.vek)).toEqual([0, 17, 37, 39, 41, 44, 49, 62]);
     expect(z.at(-1)!.role).toBe('smrt');
   });
@@ -40,19 +42,47 @@ describe('zastávky života', () => {
     expect(trasa('platon')).toEqual([['athenes', -427], ['syrakusy', -366], ['athenes', -365], ['syrakusy', -361], ['athenes', -360]]);
   });
 
-  it('Sókratés: návrat z tažení má jistý rok, i když Athény nemají čas', () => {
+  it('Sókratés: návrat z tažení má jistý rok, i když Athény nemají čas; návrat domů je „zpátky doma“', () => {
     const z = zastavkyZivota(os('sokrates'));
     expect(z.map((x) => x.misto)).toEqual(['athenes', 'potidaia', 'athenes', 'delion', 'athenes', 'amfipolis', 'athenes']);
-    expect(z[2]).toMatchObject({ rok: -431, odvozena: false, vek: 38 });
-    expect(bez(radekZastavky(z[2], os('sokrates')))).toBe('rodiště · 431 př. n. l. · 38 let');
+    expect(z[2]).toMatchObject({ rok: -431, odvozena: false, vek: 38, asiRok: false });
+    expect(bez(radekZastavky(z[2], os('sokrates')))).toBe('zpátky doma · 431 př. n. l. · 38 let');
+    expect(bez(oznameniZastavky(z[2], nazev('athenes'), os('sokrates')))).toBe('Athény, zpátky doma, 431 př. n. l., 38 let.');
+    // První zastávka zůstává rodištěm.
+    expect(bez(radekZastavky(z[0], os('sokrates')))).toBe('rodiště · 469 př. n. l. · narodil se');
   });
 
-  it('Seneca přes přelom letopočtu: narození asi 1 př. n. l., věk bez roku nula', () => {
+  it('Seneca přes přelom letopočtu: Corduba → Řím → Korsika → Řím, věk bez roku nula', () => {
     const z = zastavkyZivota(os('seneca'));
-    expect(z.map((x) => [x.misto, x.rok])).toEqual([['corduba', -1], ['korsika', 41], ['rim', 49]]);
-    expect(z[1].vek).toBe(41);
+    expect(z.map((x) => [x.misto, x.rok])).toEqual([['corduba', -1], ['rim', 18], ['korsika', 41], ['rim', 49]]);
+    // Řím „do 41“ bez „od“: příchod data neříkají, zastávka je odvozená (jen místo a role).
+    expect(z[1]).toMatchObject({ misto: 'rim', odvozena: true });
+    expect(bez(radekZastavky(z[1], os('seneca')))).toBe('působení');
+    expect(z[2].vek).toBe(41);
     expect(bez(rokZastavky(z[0]))).toBe('asi 1 př. n. l.');
-    expect(bez(vekZastavky(z[1], os('seneca')))).toBe('asi 41 let');
+    expect(bez(vekZastavky(z[2], os('seneca')))).toBe('asi 41 let');
+  });
+
+  it('Epiktétos: Hierapolis → Řím → Níkopolis (pobyt v Římě jen s „do“)', () => {
+    const z = zastavkyZivota(os('epiktetos'));
+    expect(z.map((x) => x.misto)).toEqual(['hierapolis', 'rim', 'nikopolis']);
+    expect(z[1]).toMatchObject({ odvozena: true });
+    expect(bez(radekZastavky(z[1], os('epiktetos')))).toBe('pobyt');
+    expect(z[2]).toMatchObject({ rok: 93, asiRok: true, odvozena: false });
+    expect(bez(radekZastavky(z[2], os('epiktetos')))).toBe('působení · asi 93 n. l. · asi 38 let');
+  });
+
+  it('Anaxagorás: Klazomeny → Athény → vyhnanství v Lampsaku, v tomhle pořadí', () => {
+    const z = zastavkyZivota(os('anaxagoras'));
+    expect(z.map((x) => x.misto)).toEqual(['klazomenai', 'athenes', 'lampsakos']);
+    expect(z[1]).toMatchObject({ odvozena: true });
+    // Do Lampsaku odchází po konci přibližného pobytu v Athénách: rok s „asi“.
+    expect(z[2]).toMatchObject({ rok: -435, asiRok: true, odvozena: false, role: 'exil' });
+    expect(bez(radekZastavky(z[2], os('anaxagoras')))).toBe('vyhnanství · asi 435 př. n. l. · asi 65 let');
+  });
+
+  it('Epikúros: pobyt jen s „do“ u člověka bez rodiště v datech platí od narození', () => {
+    expect(zastavkyZivota(os('epikuros'))[0]).toMatchObject({ misto: 'samos', rok: -341, odvozena: false });
   });
 
   it('nejistý pobyt: příchod podle pravidla „od osmnácti“ netvrdí rok ani věk', () => {
@@ -111,7 +141,7 @@ describe('Předchozí a Další zastávka', () => {
   });
   it('přes přelom letopočtu', () => {
     const s = zastavkyZivota(os('seneca'));
-    expect(dalsiZastavka(s, -1)).toBe(41);
+    expect(dalsiZastavka(s, -1)).toBe(18);
     expect(predchoziZastavka(s, 1)).toBe(-1);
     expect(zastavkaVRoce(s, 1)).toBe(0);
   });
@@ -173,20 +203,23 @@ describe('texty zastávek', () => {
   const a = os('aristoteles');
   const z = zastavkyZivota(a);
   it('řádek a oznámení', () => {
-    expect(bez(radekZastavky(z[2], a))).toBe('pobyt · 347 př. n. l. · 37 let');
-    expect(bez(oznameniZastavky(z[2], nazev('assos'), a))).toBe('Assos, 347 př. n. l., 37 let.');
+    expect(bez(radekZastavky(z[2], a))).toBe('pobyt · asi 347 př. n. l. · asi 37 let');
+    expect(bez(oznameniZastavky(z[2], nazev('assos'), a))).toBe('Assos, asi 347 př. n. l., asi 37 let.');
+    expect(bez(radekZastavky(z[1], a))).toBe('studium · asi 367 př. n. l. · asi 17 let');
+    expect(bez(radekZastavky(z[5], a))).toBe('zpátky doma · asi 340 př. n. l. · asi 44 let');
+    expect(bez(radekZastavky(z[6], a))).toBe('působení · 335 př. n. l. · 49 let');
     expect(bez(radekZastavky(z[0], a))).toBe('rodiště · 384 př. n. l. · narodil se');
     expect(bez(oznameniZastavky(z[7], nazev('chalkis'), a))).toBe('Chalkis, 322 př. n. l., 62 let, zemřel tu.');
   });
   it('přibližné narození dá „asi“ věku', () => {
     const p = os('platon');
     const zp = zastavkyZivota(p);
-    expect(bez(radekZastavky(zp[1], p))).toBe('pobyt · 366 př. n. l. · asi 61 let');
+    expect(bez(radekZastavky(zp[1], p))).toBe('pobyt · asi 366 př. n. l. · asi 61 let');
     expect(bez(rokZastavky(zp[0]))).toBe('asi 427 př. n. l.');
   });
   it('nezlomitelné mezery v letopočtu a ve věku', () => {
-    expect(radekZastavky(z[2], a)).toContain('347\u00a0př.\u00a0n.\u00a0l.');
-    expect(radekZastavky(z[2], a)).toContain('37\u00a0let');
+    expect(radekZastavky(z[2], a)).toContain('asi\u00a0347\u00a0př.\u00a0n.\u00a0l.');
+    expect(radekZastavky(z[2], a)).toContain('asi\u00a037\u00a0let');
   });
 });
 

@@ -68,7 +68,7 @@ test('bez volby, volba, změna, obnovení, Začít znovu a Nikdo z nich (390 px)
   await moznost(page, NEJVIC, 'Epikúros').click();
   await expect(moznost(page, NEJVIC, 'Epikúros')).toHaveAttribute('aria-pressed', 'true');
   await expect(vety(page, NEJVIC)).toContainText('Od Epikúra tě dělí asi 2 300 let. To je víc než 30 lidských životů. Na tuhle otázku přesto odpovídáš podobně jako on.');
-  await expect(vety(page, NEJVIC)).toContainText('Nejdál od sebe tu žili Hérakleitos a Marcus Aurelius. Dělí je asi 600 let. To je asi osm lidských životů.');
+  await expect(vety(page, NEJVIC)).toContainText('Nejdál od sebe tu žili Hérakleitos a Marcus Aurelius: dělí je asi 600 let.');
   await expect(vety(page, NEJVIC)).toHaveAttribute('aria-live', 'polite');
   await expect(kresba(page, NEJVIC).locator('.ty')).toHaveCount(1);
   await expect(kresba(page, NEJVIC).locator('a.m--zvolena')).toHaveAttribute('href', '#hlas-epikuros');

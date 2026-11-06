@@ -3,6 +3,7 @@
 // i tmavém režimu s axe, bez vodorovného posouvání a se snímky. Cesta 6 navíc celá jen klávesnicí
 // a jednou bez odkrytí bloků.
 import { test, expect, type Page } from '@playwright/test';
+import { pripravitStranku } from './strany';
 import AxeBuilder from '@axe-core/playwright';
 
 const CESTA = '/cesta/kdy-mam-dobry-duvod-verit/';
@@ -29,29 +30,8 @@ const CESTY = [
   { adresa: CESTA2, nazev: 'Jsem pořád tentýž, když se měním?', kroky: KROKY2, snimek: 'cesta2' },
 ];
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    // Stránka má scroll-behavior: smooth: bez „instant“ by se za 40 ms posunula o pár pixelů a kresba
-    // v kroku 6 by se do okna nedostala (revize interaktivita-v2, R).
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo({ top: y, behavior: 'instant' });
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  });
-  // Při souběhu s ostatními testy se ostrov kresby (šaty v kroku 6) někdy nestihl hydratovat do pěti vteřin:
-  // ostrovy, které ještě čekají, se posunou do okna každý zvlášť a na hydrataci je víc času. Ostrov sám má
-  // display: contents a scrollIntoView na něm nic neudělá; posouvá se jeho první potomek.
-  await page.evaluate(async () => {
-    for (const el of Array.from(document.querySelectorAll('astro-island[ssr]'))) {
-      (el.firstElementChild ?? el).scrollIntoView({ block: 'center', behavior: 'instant' });
-      await new Promise((r) => setTimeout(r, 100));
-    }
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15_000 });
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 async function axe(page: Page) {
   const v = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();

@@ -5,7 +5,7 @@
   // přehrávání samo běží v MapaACas.svelte, karta jen ukazuje, kde člověk právě je.
   import { onMount } from 'svelte';
   import type { OsobaV, MistoV, UdalostV, ObdobiV, VstupMapy } from '../../lib/mapa-vstup';
-  import { kdeVRoce, odkudPrisla, vetaOVeku, poznamkaVRoce, vzdalenost, zijeVRoce } from '../../lib/cas-mapy';
+  import { kdeVRoce, odkudPrisla, vetaOVeku, poznamkaVRoce, vzdalenost, zijeVRoce, ROLE_MISTA } from '../../lib/cas-mapy';
   import { rok as rokText, rozpeti } from '../../lib/casy';
   import { sporNaDalku } from '../../lib/vztahy';
   import { type Zastavka, zastavkaVRoce, predchoziZastavka, dalsiZastavka, radekZastavky, oznameniZastavky, ZIVOT_NA_MAPE as T } from '../../lib/zivot-na-mape';
@@ -89,9 +89,8 @@
   let udalostiRoku = $derived(osoba ? udalosti.filter((u) => u.osoby.includes(osoba!.id) && rok >= u.od && rok <= (u.do ?? u.od)) : []);
   let nazevObdobi = $derived(osoba ? obdobi.find((o) => o.id === osoba!.obdobi)?.nazev : '');
 
-  const ROLE: Record<string, string> = {
-    narozeni: 'rodiště', studium: 'studium', pusobeni: 'působení', pobyt: 'pobyt', exil: 'vyhnanství', tazeni: 'vojenské tažení', smrt: 'místo smrti',
-  };
+  // Slovník rolí je společný s Životem na mapě a mini mapou (src/lib/cas-mapy.ts).
+  const ROLE = ROLE_MISTA;
   const tvar = (o: OsobaV, muz: string, zena: string) => (o.zena ? zena : muz);
 
   type RadekVztahu = { druhy: OsobaV; typ: string; role: string; poznamka?: string; tradovany?: boolean };

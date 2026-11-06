@@ -2,6 +2,7 @@
 // žádné „Proč“, žádná reflexe ve Sporu, žádné „Co se změnilo“. Hlídá, že nové dobrovolné části průchod
 // nezdržují: další krok je po každém bloku hned po ruce, reflexe zůstává zavřená a deník po cestě nic nenabízí.
 import { test, expect, type Page, type Locator } from '@playwright/test';
+import { pripravitStranku } from './strany';
 
 const CESTY = [
   { slug: 'kdy-mam-dobry-duvod-verit', kroku: 7, pravidlo: 'cesta1-moje-pravidlo', spor: 'cesta1-meritko-spor', zacatek: 'Krok 2 · Jak bys to zjišťoval ty?' },
@@ -13,17 +14,8 @@ const CESTY = [
   { slug: 'jsem-porad-tentyz-kdyz-se-menim', kroku: 8, pravidlo: 'cesta2-moje-pravidlo', spor: 'cesta2-seneca-plutarchos', zacatek: 'Krok 1 · Loď' },
 ];
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 30));
-    }
-    window.scrollTo(0, 0);
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 /** Udělá v bloku jen to, co je k němu potřeba; nepovinná pole nechá být. Vrací druh bloku. */
 async function odpovez(blok: Locator): Promise<string> {

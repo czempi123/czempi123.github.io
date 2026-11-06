@@ -71,7 +71,7 @@ Počty v datech (lidé podle hloubky a období, vztahy podle typu, události pod
 | Co | Počet | Poznámka |
 | --- | --- | --- |
 | Stránky období | 2 | Počátky a klasické Řecko (`mapa: { rok: -399, osoba: sokrates }`), Helenismus a Řím |
-| Lidé v datech | 50 | 30 v období 1, 20 v období 2; hloubka 6 portrétů, 18 profilů, 26 medailonků |
+| Lidé v datech | 50 | 30 v období 1, 20 v období 2; hloubka 6 portrétů, 18 profilů, 26 medailonků; vlastní stránku má 13 z 24 portrétů a profilů |
 | Stránky osob | 12 + 34 | 12 MDX (13 lidí, Kratés a Hipparchia společně) a 34 medailonků z dat; bez stránky Lucretius, Konfucius, Pýthagorás |
 | Cesty | 10 | 14 až 35 minut, průměrně 27; k otázce 1 čtyři, k otázce 3 dvě, k 4, 5, 6, 7 po jedné, k 2, 8, 9, 10 žádná |
 | Stránky otázek | 8 | 42 hlasů, 4 až 7 na stránku, s osou hlasů; otázky 9 a 10 bez stránky |
@@ -89,6 +89,16 @@ Počty v datech (lidé podle hloubky a období, vztahy podle typu, události pod
 ### Co po celcích chybělo a doplnila větev `antika-doplnky`
 
 Deset celků postavilo cesty, portréty a profily, ale student neměl kudy vstoupit do celku: pás období vedl jen na kotvy v Lidech, směry byly jména, polovina otázek neměla stránku. Větev `antika-doplnky` (3. 11. 2026) dodělala Co je filozofie?, stránky období 1 a 2, čtyři směry, stránky otázek 2 a 8, pokusy Gýgův prsten a Zrcadlo času, Co je náboženství? s judaismem a Tvoje antika. Tytéž stránky má každé další období od prvního celku.
+
+### Co antika proti architektuře ještě nemá (6. 11. 2026)
+
+Antika není hotový vzor celá: proti Kostře osobností, Náboženství světa, Myšlenkovým pokusům a fázi F3 v Pořadí výroby jí chybí tohle. Plán středověku (P12) to dá autorovi jako první otázku: dodělat před prvním celkem středověku, souběžně, nebo později.
+
+| Co chybí | Podle architektury | Dnes |
+| --- | --- | --- |
+| Stránky 11 lidí s hloubkou profil | Thalés, Pýthagorás, Démokritos, Zénón z Eleje, Zénón z Kitia, Chrýsippos, Pyrrhón, Lucretius, Cicero, Hypatia, Plótínos | devět z nich má jen medailonek z dat, Pýthagorás a Lucretius žádnou stránku |
+| Stránky tradic | buddhismus a čínská tradice (okna Mezitím jinde období 1 a 2, F3) | jen judaismus |
+| Myšlenkové pokusy období 1 a 2 | Achilleus a želva, Karneadova deska | jen Gýgův prsten a Zrcadlo času |
 
 ### Co našla souhrnná revize (25. 10. 2026) a co z toho plyne pro plán
 

@@ -1,6 +1,8 @@
 // Snímky oddílu Život na mapě pro autora (interaktivita-v2, K2): celá obrazovka Mapy a času s kartou posunutou
 // na oddíl, s pohybem (Přehrát) i při omezeném pohybu, a odkaz pod mini mapou na stránce osoby.
 // node scripts/snimky-zivot-na-mape.mjs   (ZAKLAD: běžící web, výchozí náhled na portu 4323; VEN: složka)
+// OSOBY=epiktetos:80,seneca:20 navíc vyfotí kartu každého z nich v daném roce na 390 a 1440 px ve světlém i tmavém
+// režimu (krok O: karty po opravě pravidla pro pobyt jen s „do“).
 import { chromium } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 
@@ -53,6 +55,10 @@ for (const [sirka, rezim] of [[390, 'light'], [1440, 'dark']]) {
   await prvek.screenshot({ path: soubor });
   vystup.push(soubor);
   await page.close();
+}
+for (const zaznam of (process.env.OSOBY ?? '').split(',').filter(Boolean)) {
+  const [osoba, rok] = zaznam.split(':');
+  for (const sirka of [390, 1440]) for (const rezim of ['light', 'dark']) await mapa(`zivot-${osoba}`, sirka, rezim, false, `/mapa/?rok=${rok}&osoba=${osoba}`);
 }
 console.log(vystup.join(' '));
 await browser.close();

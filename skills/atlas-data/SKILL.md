@@ -55,6 +55,15 @@ Proto drž roky (s `priblizne`, kde jsou přibližné), místa s rolí a `od`/`d
 
 Narazíš-li při vyplňování na dvojici, u které by takový prvek něco naučil (žili současně a nepotkali se, dělí je staletí a přesto na sebe navazují), zapiš ji do podkladů vlny jako námět. Měřítko: student něco udělá a uvidí myšlenku, kterou by z textu pochopil hůř; ozdoba ani hra na body ne. Nové prvky staví `atlas-komponenta`.
 
+## Místa pro Přehrát život
+
+Karta člověka v Mapě a čase vypráví z míst život jako cestu (Život na mapě, `src/lib/zivot-na-mape.ts`): zastávky vznikají z `kdeVRoce` rok po roku. Co v datech chybí nebo je nejisté, student čte jako příběh.
+
+- **Pobyt jen s „do“** (Seneca v Římě `do: 41`) platí od osmnácti let, nebo od konce předchozího pobytu s časem, až do roku „do“; u člověka bez rodiště v datech od narození. Rok příchodu karta neukáže. Když pramen začátek pobytu dává, zapiš `od`: pravidlo je náhrada, ne zdroj.
+- **`priblizne` u místa** nese „asi“ až do karty: u roku zastávky, u věku a u návratu po takovém pobytu. Bez značky karta tvrdí přesný rok, který pramen nemá; s ní mini mapa i karta říkají o tomtéž roce totéž.
+- **Dva pobyty se stejným začátkem**: vyhrává ten, který začíná nejpozději, a při shodě ten pozdější v datech (Platónova cesta na Sicílii `rok: -387` zmizí pod Akademií `od: -387`, která v datech stojí za ní). Krátká cesta v roce, kdy začíná delší pobyt, proto patří v datech až za ten pobyt.
+- **Po každé vlně** si vypiš zastávky všech lidí s oddílem (`npx vite-node scripts/zivot-na-mape-vypis.ts --podrobne`) a přečti je jako životopis: pořadí míst, „asi“, návraty („zpátky doma“), tenké trasy (místa bez času). Co nesedí s pramenem, oprav v datech, ne v kartě.
+
 ## Kdy přepnout na atlas-overeni
 
 - Prameny dávají jiné roky (rozdíl větší než deset let) nebo jiné místo narození.

@@ -3,23 +3,15 @@
 // Hlídá i tón celku: první obrazovka je Mieza, opilost má jednu větu, text netvrdí, čemu Aristotelés Alexandra učil,
 // Sókratés mluví Platónovými ústy, zvyk není dril, střed není půlka a student, který nesouhlasí, má spojence.
 import { test, expect, type Page } from '@playwright/test';
+import { pripravitStranku } from './strany';
 
 const CESTA4 = '/cesta/staci-vedet-co-je-spravne/';
 const KROKY4 = ['Háj a hostina', 'Co ti tehdy chybělo?', 'Kdo ví, udělá to', 'Stavitelem se stáváš stavěním', 'Věděl to doopravdy?', 'Kde je střed?', 'Jak dlouho to trvá?', 'Tvoje pravidlo'];
 // Co nese portrét, jiná cesta nebo stránka otázky a co do studentského textu nepatří (zadání P8, podklady celku 5).
 const NEPATRI = /lagun|delfín|zub[yů]|ježov|Hermei|závě[ťt]|Lesb|vlaštov|slab(á|ou|é) vůl|\bvůl[eií]\b|otroctví|jídl|váh[auy]|diet|závisl|odklád|telefon|mobil|Fyllid|Kallisthen|Lanik|Anaxarch|Maltz|Lally|dokázal[ay]? |ukázal[ay]? |nejslavnějš|takovým ses udělal|Jsme to, co opakovaně|sebevra|opakovaně děláme/i;
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    window.scrollTo(0, 0);
-  });
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Společná příprava (tests/e2e/strany.ts): okamžitý posun, ostrovy do okna přes prvního potomka.
+const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
   const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });

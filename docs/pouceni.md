@@ -112,6 +112,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Karta Kam dál nevede na řádek přehledu bez stránky („Je Bůh?“). Do vzniku stránky vede na existující stránku, která na téma navazuje, a návrat odkazu se zapíše do plánu (antika-doplnky, R).
 - Vazba stránky na lidi patří do dat: tradice zná své osoby polem `tradice` a medailonek Filóna z něj sám skládá kartu judaismu (antika-doplnky, O).
 - Přehled období v deníku (Tvoje antika) čte student o týdny později a bez kroku cesty: věta převzatá z kroku („Jestli nemáš…“) potřebuje odkud nad sebou (antika-doplnky, R).
+- Místo jen s „do“ platilo na mapě jen v jediném roce a Život na mapě z toho udělal příběh (Epiktétos v Římě nikdy nebyl, Anaxagorás šel do vyhnanství před Athénami); a „asi“ z dat se ztratilo cestou přes `kdeVRoce`, takže karta tvrdila přesný rok, který mini mapa o kus výš nesla s „asi“. Kdo z dat skládá vyprávění, přečte výpis zastávek všech lidí jako životopis (`scripts/zivot-na-mape-vypis.ts --podrobne`; interaktivita-v2, R).
 - Prameny stránky z textu (`pramenyZTextu`) vidí jen citáty a bloky. Pramen výkladu v próze nebo v Odkryj patří do `zdroje` ve frontmatteru, jinak v Pramenech chybí (antika-doplnky, O).
 
 ## Technika
@@ -160,4 +161,5 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Mince ve Svelte (`mapa/Mince.svelte`) má vlastní `<svg>`: lokátor `svg:visible` v ostrovu s mincemi v tlačítkách chytí i je a přísný Playwright spadne. Kresbu hledej podle její třídy (`svg.osa__kresba:visible`; interaktivita-v2, K1).
 - Restartovaný `npm run dev` vracel 500 na každé stránce (`kamDal` undefined, „perex chybí“): stará mezipaměť obsahu bez výchozích hodnot schématu. Pomohlo `npm run dev -- --force`; sestavení (`npm run build`) tím netrpí (interaktivita-v2, K1).
 - `onDestroy` v ostrovu běží i při sestavení (SSR): `cancelAnimationFrame` v něm shodil sestavení stránky `/mapa`. Úklid po `requestAnimationFrame` patří do funkce, kterou vrací `onMount` (interaktivita-v2, K2).
+- Stránka má `scroll-behavior: smooth`, takže `scrollTo` v testu se za 40 ms posune jen o pár pixelů a `scrollIntoView` na `astro-island` (`display: contents`) nedělá nic: průchod cesty 1 proto padal asi jednou ze čtyř. Testy berou `pripravitStranku` a `projedStranku` z `tests/e2e/strany.ts` (okamžitý posun, ostrov přes prvního potomka; interaktivita-v2, R).
 - Text `vizualne-skryte` je absolutně umístěný: v posuvném panelu bez umístěného předka (karta člověka na telefonu) se umístí vůči stránce a ta dostane svislý posuvník (o 486 px). Oddíl s takovým textem dostane `position: relative`; test nástroje celé obrazovky hlídá přetečení do stran i dolů (interaktivita-v2, K2).
