@@ -320,7 +320,7 @@ export function vetaONejdelsiVzdalenosti(hlasy: HlasOsy[]): string | null {
 
 /** Věta po „Nikdo z nich“; odkaz vede na Změnil se? dole na stránce. */
 export const VETA_NIKDO = {
-  text: nezlomitelne('Žádný z nich to nevidí jako ty. Tím spíš stojí za to napsat tvou odpověď vlastními slovy, dole v oddílu '),
+  text: nezlomitelne('Žádný z nich to nevidí jako ty. Tím spíš stojí za to napsat svou odpověď vlastními slovy, dole v oddílu '),
   odkaz: 'Změnil se?',
   kotva: '#zmenil-se',
 } as const;

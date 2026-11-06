@@ -104,7 +104,7 @@ test('bez volby, volba, změna, obnovení, Začít znovu a Nikdo z nich (390 px)
   // Nikdo z nich: věta s odkazem na Změnil se?, značka u dneška, žádný štítek.
   await moznost(page, NEJVIC, 'Nikdo z nich').click();
   await expect(moznost(page, NEJVIC, 'Nikdo z nich')).toHaveAttribute('aria-pressed', 'true');
-  await expect(vety(page, NEJVIC)).toContainText('Žádný z nich to nevidí jako ty. Tím spíš stojí za to napsat tvou odpověď vlastními slovy, dole v oddílu Změnil se?');
+  await expect(vety(page, NEJVIC)).toContainText('Žádný z nich to nevidí jako ty. Tím spíš stojí za to napsat svou odpověď vlastními slovy, dole v oddílu Změnil se?');
   await expect(vety(page, NEJVIC).getByRole('link', { name: 'Změnil se?' })).toHaveAttribute('href', '#zmenil-se');
   await expect(vety(page, NEJVIC)).not.toContainText('Nejdál od sebe');
   await expect(kresba(page, NEJVIC).locator('.ty')).toHaveCount(1);

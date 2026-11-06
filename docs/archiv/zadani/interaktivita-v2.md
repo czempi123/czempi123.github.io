@@ -77,3 +77,27 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 7. Pak se zastav a napiš mi krátce, co skill obsahuje, nad čím jsi váhal a co jsi zvolil, a jedním pokynem, jak skill uložím do účtu Claude.
 ```
+
+## Zadání R
+
+Model: Opus 5.5 · high se skillem `atlas-revize`. Nový chat v Projektu Atlas.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok R větve interaktivita-v2, revize celé větve se skillem atlas-revize: osa hlasů (K1), Přehrát život (K2) a skill atlas-obdobi (S). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
+
+0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, Obsah větve, Nad čím jsem váhal, Co rozhodnout před prvním krokem, oddíly Po K1, Po K2 a Po S a toto zadání. V docs/design.md čti jen Velká otázka › Osa hlasů, Tvoje antika, Mapa a čas › Život na mapě a v Komponentách řádek Osa hlasů v tabulce podob; v docs/rozhodnuti.md jen záznamy z 5. a 6. 11. 2026. Archiv nečti. Co větev mění, ukáže git diff main...interaktivita-v2 --stat; otevři jen soubory, které revize potřebuje.
+
+1. Čtyři pohledy skillu (filozof, historik, student, učitel) a k nim z kontrolního seznamu skillu rozhraní, stránky z dat a lidský hlas, nad tím, co větev mění: osm stránek otázek s osou hlasů a štítkem „Tobě nejblíž“, věty po volbě a po „Nikdo z nich“ (src/lib/osa-hlasu.ts, OSA_HLASU), Tvoje antika s volbou z osy, zastavení b:<slug>-osa v přípravě hodiny a na plátně; karta člověka s oddílem Život na mapě (zastávky, Předchozí, Přehrát, Další, oznámení), přehrávání na mapě a odkaz „Přehrát život na mapě“ v Době a lidech; skill skills/atlas-obdobi/SKILL.md a references/kontrola-planu.md (čísla v referenci ověř výpisem z repozitáře, postup proti docs/architektura.md › Osm období a Pořadí výroby, tvar plánu proti tomuto plánu). Texty pro studenty čti se skillem atlas-psani.
+
+2. Průchod v prohlížeči (npm run build na pozadí, pak npx astro preview --port 4323) na 390 a 1440 px ve světlém i tmavém režimu a klávesnicí: aspoň tři stránky otázek (Kdo vlastně jsem? se sedmi hlasy, Co je správné? a jedna se čtyřmi hlasy) bez volby, s volbou, se změnou, s „Nikdo z nich“ a po obnovení stránky; Tvoje antika s volbou; Mapa a čas s Aristotelem (Přehrát do konce, Zastavit, Zpět v prohlížeči), Senekou přes rok nula, Plótínem a Hérakleitem bez oddílu; odkaz ze stránky Aristotela; omezený pohyb (scripts/revize-pohyb.mjs nebo ručně). Fokus pod lištou zkontroluj scripts/kontrola-fokus.mjs. Snímky skládej scripts/snimky-listy.mjs a scripts/snimky-zivot-na-mape.mjs do Claude outputs/revize-interaktivita-v2/.
+
+3. Odložený nález z Po K2: cesta.spec.ts:88 (kresba Šaty v kroku 6 cesty 1 má při načtení nulovou výšku, client:visible se někdy nespustí). Zjisti příčinu a zapiš ji jako nález s návrhem opravy; oprav jen, když je to drobnost.
+
+4. Drobnosti (překlep, mezera, zjevně chybný odkaz) oprav rovnou a zapiš do záznamu revize. Zásadní nálezy seřaď podle dopadu ve formátu skillu (kde, co je špatně, proč to vadí studentovi, oprava v plném znění), nejvýš deset. Záznam ulož do docs/revize/interaktivita-v2-<datum>.md s verdiktem.
+
+5. Celé npm test jednou na konci, na pozadí s výstupem do souboru; výsledek zapiš do záznamu.
+
+6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek R na „hotovo <datum>; čeká na odpovědi po R“, oddíl „Po R“ (verdikt, nálezy jednou větou s odkazem na záznam, nad čím jsi váhal) s „Co rozhodnout po R“ (otázky s doporučením, prázdná odpověď znamená souhlas) a pod ním zadání kroku O v plném znění ve stejném tvaru jako toto (Opus 5.5 · high: opravy po revizi, úprava skillů atlas-komponenta, atlas-cesta › Stránka velké otázky a atlas-data › místa pro Přehrát život, poučení do docs/pouceni.md). Zadání R přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání S. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
+
+7. Pak se zastav a napiš mi krátce verdikt, nejdůležitější nálezy a co mám rozhodnout.
+```

@@ -9,7 +9,7 @@ Proč teď: středověk přidá hlasy na stránky otázek a desítky lidí na ma
 | K1 | Osa hlasů: logika rozestupů a volby v `src/lib`, ostrov na začátku oddílu Proč to tak viděli na všech osmi stránkách otázek, zápis do deníku, Tvoje antika, zastavení v přípravě hodiny | Opus 5.5 · high (xhigh při zaseknutí) se skilly `atlas-komponenta` a `atlas-psani` | hotovo 5. 11. 2026 |
 | K2 | Přehrát život: zastávky života z `kdeVRoce`, oddíl v kartě člověka na mapě, přehrávání roku, odkaz ze stránek osob | Opus 5.5 · high se skillem `atlas-komponenta` | hotovo 5. 11. 2026 |
 | S | Skill `atlas-obdobi`: postup plánu období podle architektury, poznámek z antiky a hotových šablon; `skills/atlas-obdobi/SKILL.md`, poznámky zapracované a smazané | Opus 5.5 · high | hotovo 6. 11. 2026 |
-| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | čeká |
+| R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 6. 11. 2026; čeká na odpovědi po R |
 | O | Opravy po revizi a úprava skillů (`atlas-komponenta`, `atlas-cesta` › Stránka velké otázky, `atlas-data` › místa pro Přehrát život) | Opus 5.5 · high | čeká |
 | Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká |
 
@@ -231,26 +231,71 @@ Hotovo 6. 11. 2026 (Opus 5.5). Skill `atlas-obdobi` je ve `skills/atlas-obdobi/`
 
 Co by šlo jinak: ukázka hotového plánu období jako druhá reference (vymyšlený středověk by ale P12 jen opsal), nebo inventura období jako stálý skript ve `scripts/` (kód, který tenhle krok psát neměl).
 
-## Zadání R
+## Po R
 
-Model: Opus 5.5 · high se skillem `atlas-revize`. Nový chat v Projektu Atlas.
+Hotovo 6. 11. 2026 (Opus 5.5) se skillem `atlas-revize`. **Verdikt: po opravách** (záznam `docs/revize/interaktivita-v2-2026-11-06.md`). Osa hlasů na všech osmi stránkách, volba, změna, „Nikdo z nich“, obnovení, Začít znovu, Tvoje antika, Přehrát život i odkaz ze stránky osoby fungují; nálezy jsou v tom, co ukazují data, a v letopočtech.
+
+**Nálezy**
+
+1. **[blokující] Místo jen s „do“ platí jen v jediném roce:** Epiktétos v Životě na mapě nikdy není v Římě, Seneca jde z Cordoby rovnou na Korsiku a Anaxagorás odchází do vyhnanství dřív, než přijde do Athén (pravidlo v `kdeVRoce`).
+2. **[důležité] Osa hlasů na telefonu nemá letopočet n. l.:** na šesti stránkách stojí Epiktétos a Marcus Aurelius za značkou „250 př. n. l.“ bez popisku.
+3. **[důležité] Zastávky ztrácejí „asi“:** karta Aristotela píše „Athény · studium · 367 př. n. l. · 17 let“, mini mapa na jeho stránce u téhož „asi 367“.
+4. **[důležité] Návrat domů má roli „rodiště“:** Sókratés má třikrát „Athény · rodiště · 431 př. n. l. · 38 let“.
+5. **[důležité] Skill `atlas-obdobi` nevidí dluh antiky vůči architektuře:** 11 profilů bez stránky, buddhismus, čínská tradice a dva pokusy; plán středověku by je přeskočil.
+6. **[drobné] Průchod cesty 1 padal na plynulém posunu stránky:** `scrollTo` se za 40 ms posune o 11 px a `scrollIntoView` na ostrovu s `display: contents` nedělá nic; v `cesta.spec.ts` opraveno, šest dalších souborů má stejnou smyčku.
+7. **[drobné] Druhá věta po volbě:** „asi 376 let“ bez zaokrouhlení a podruhé „To je … lidských životů“.
+8. **[drobné] Popis osy pro čtečku bez „asi“** u přibližného roku.
+9. **[drobné] Mini mapa a karta jmenují role jinak** („studia“ × „studium“, „válečné“ × „vojenské tažení“).
+10. **[drobné] Rozhodnutí kroku S chybí v `docs/rozhodnuti.md`.**
+
+**Opraveno rovnou:** „napsat tvou odpověď“ → „napsat svou odpověď“ ve větě po „Nikdo z nich“ (`osa-hlasu.ts`, test, `docs/design.md`; v Po K1 výš zůstává původní znění); příprava stránky v `tests/e2e/cesta.spec.ts` s `behavior: 'instant'` a posunem prvního potomka ostrova (průchod cesty 1 čtyřikrát souběžně bez chyby). Nový skript `scripts/revize-osa-hlasu.mjs` (osa na třech stránkách bez volby, s volbou, se změnou, s „Nikdo z nich“ a po obnovení; Tvoje antika). Snímky jsou v `Claude outputs/revize-interaktivita-v2/`.
+
+**Nad čím jsem váhal**
+
+- Nález 1 je starší než větev (mapa ho měla), ale Život na mapě z něj dělá vyprávění. Za blokující ho mám, protože student čte opak toho, co se stalo, a oprava je malá.
+- Pravidlo, nebo data: doplnit `od` ke třem místům by chtělo zdroj u každého a nová data se podle rozhodnutí z 2. 10. 2026 zatím nepřidávají. Pravidlo „s do bez od platí od osmnácti“ dělá, co „do“ znamená, a opraví i místa, která přibudou.
+- „Zpátky doma“ místo „návrat“ (zní jako cesta) nebo „doma“ (u Sókrata po čtyřiceti letech v Athénách divné samo).
+- `kontrola-fokus.mjs` hlásí na Mapě a čase překryvy; na telefonu jsou to prvky karty odrolované z posuvného panelu (Hérakleitos bez oddílu jich má sedm), na notebooku značky a kotvy mimo větev. Nepočítám je jako nález.
+
+**npm test:** kontrola typů bez chyb, vitest 989 z 989, Playwright 712 z 712 (6,8 min), včetně průchodu cesty 1.
+
+### Co rozhodnout po R
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Místa s „do“ a bez „od“ opravit pravidlem:** pobyt platí od osmnácti let (nebo od konce předchozího pobytu s časem) do roku „do“, beze změny dat. Doporučuji.
+   Odpověď:
+2. **Osa hlasů:** na každé ose přes přelom letopočtu značka „1 n. l.“, sousední značky blíž než šest písmen odpadnou, každá kresba aspoň dvě značky. Doporučuji.
+   Odpověď:
+3. **„Asi“ u zastávek** z přibližného pobytu a u návratu po něm, i u věku („Assos · pobyt · asi 347 př. n. l. · asi 37 let“). Doporučuji.
+   Odpověď:
+4. **Návrat do rodiště jako „zpátky doma“** („Athény · zpátky doma · 431 př. n. l. · 38 let“); první zastávka zůstává „rodiště · … · narodil se“. Doporučuji.
+   Odpověď:
+5. **Dluh předchozího období ve skillu `atlas-obdobi`:** nový bod v Postupu, krok 1, a oddíl „Co antika proti architektuře ještě nemá“ v referenci. Co s dluhem antiky udělat (dodělat před středověkem, souběžně, nebo později), bude první otázkou plánu středověku (P12), ne téhle větve. Doporučuji.
+   Odpověď:
+6. **Drobné nálezy 6 až 10 v kroku O:** společná příprava stránky v `tests/e2e/strany.ts` pro sedm souborů, jedna zaokrouhlená věta „Nejdál od sebe tu žili Aristotelés a Epiktétos: dělí je asi 380 let.“, „asi“ v popisu osy, jeden slovník rolí („studium“, „vojenské tažení“), záznam S v `docs/rozhodnuti.md`. Doporučuji.
+   Odpověď:
+
+## Zadání O
+
+Model: Opus 5.5 · high. Nový chat v Projektu Atlas.
 
 ```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok R větve interaktivita-v2, revize celé větve se skillem atlas-revize: osa hlasů (K1), Přehrát život (K2) a skill atlas-obdobi (S). Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve interaktivita-v2, opravy po revizi R a úprava skillů. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit).
 
-0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, Obsah větve, Nad čím jsem váhal, Co rozhodnout před prvním krokem, oddíly Po K1, Po K2 a Po S a toto zadání. V docs/design.md čti jen Velká otázka › Osa hlasů, Tvoje antika, Mapa a čas › Život na mapě a v Komponentách řádek Osa hlasů v tabulce podob; v docs/rozhodnuti.md jen záznamy z 5. a 6. 11. 2026. Archiv nečti. Co větev mění, ukáže git diff main...interaktivita-v2 --stat; otevři jen soubory, které revize potřebuje.
+0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, oddíl Po R s odpověďmi Co rozhodnout po R (prázdná odpověď znamená souhlas) a toto zadání, a celý záznam revize docs/revize/interaktivita-v2-2026-11-06.md. V docs/design.md čti jen Velká otázka › Osa hlasů a Mapa a čas › Život na mapě. Archiv nečti.
 
-1. Čtyři pohledy skillu (filozof, historik, student, učitel) a k nim z kontrolního seznamu skillu rozhraní, stránky z dat a lidský hlas, nad tím, co větev mění: osm stránek otázek s osou hlasů a štítkem „Tobě nejblíž“, věty po volbě a po „Nikdo z nich“ (src/lib/osa-hlasu.ts, OSA_HLASU), Tvoje antika s volbou z osy, zastavení b:<slug>-osa v přípravě hodiny a na plátně; karta člověka s oddílem Život na mapě (zastávky, Předchozí, Přehrát, Další, oznámení), přehrávání na mapě a odkaz „Přehrát život na mapě“ v Době a lidech; skill skills/atlas-obdobi/SKILL.md a references/kontrola-planu.md (čísla v referenci ověř výpisem z repozitáře, postup proti docs/architektura.md › Osm období a Pořadí výroby, tvar plánu proti tomuto plánu). Texty pro studenty čti se skillem atlas-psani.
+1. Nález 1 (blokující): pravidlo v kdeVRoce (src/lib/cas-mapy.ts) pro pobyt s „do“ a bez „od“ podle odpovědi 1. Nejdřív testy v tests/data/zivot-na-mape.test.ts (Epiktétos Hierapolis → Řím → Níkopolis, Seneca Corduba → Řím → Korsika → Řím, Anaxagorás Klazomeny → Athény → Lampsakos) a v testech mapy (Seneca v roce 20 n. l. v Římě), pak oprava. Projdi npx vite-node scripts/zivot-na-mape-vypis.ts --podrobne u všech lidí s oddílem a hlídej, co se změnilo i na mapě (grep -rn kdeVRoce src: co další na pravidle stojí).
 
-2. Průchod v prohlížeči (npm run build na pozadí, pak npx astro preview --port 4323) na 390 a 1440 px ve světlém i tmavém režimu a klávesnicí: aspoň tři stránky otázek (Kdo vlastně jsem? se sedmi hlasy, Co je správné? a jedna se čtyřmi hlasy) bez volby, s volbou, se změnou, s „Nikdo z nich“ a po obnovení stránky; Tvoje antika s volbou; Mapa a čas s Aristotelem (Přehrát do konce, Zastavit, Zpět v prohlížeči), Senekou přes rok nula, Plótínem a Hérakleitem bez oddílu; odkaz ze stránky Aristotela; omezený pohyb (scripts/revize-pohyb.mjs nebo ručně). Fokus pod lištou zkontroluj scripts/kontrola-fokus.mjs. Snímky skládej scripts/snimky-listy.mjs a scripts/snimky-zivot-na-mape.mjs do Claude outputs/revize-interaktivita-v2/.
+2. Nálezy 2 až 4: značka „1 n. l.“ na ose hlasů (znackyLet v src/lib/osa-hlasu.ts) s testem na všech osmi stránkách a třech šířkách; „asi“ u zastávek z přibližných pobytů a u věku (Poloha nese priblizne, zastavkyZivota, rokZastavky, vekZastavky, oznameniZastavky); „zpátky doma“ u návratu do rodiště. Každou změnu znění nejdřív najdi v tests/ (grep -rn) a test uprav v témže commitu. Po změně npx vite-node scripts/osa-hlasu-rady.ts a výpis zastávek znovu.
 
-3. Odložený nález z Po K2: cesta.spec.ts:88 (kresba Šaty v kroku 6 cesty 1 má při načtení nulovou výšku, client:visible se někdy nespustí). Zjisti příčinu a zapiš ji jako nález s návrhem opravy; oprav jen, když je to drobnost.
+3. Nálezy 6 až 10 podle odpovědi 6: společná příprava stránky s behavior: 'instant' a posunem prvního potomka ostrova v tests/e2e/strany.ts pro cesta.spec.ts, cesta3, cesta4, cesta5, cesta8, pruchod a prohlidka; zaokrouhlená druhá věta po volbě; „asi“ v popisOsy; jeden slovník rolí pro MiniMapa.astro a kartu; záznam S (6. 11. 2026) v docs/rozhodnuti.md a záznam O tamtéž.
 
-4. Drobnosti (překlep, mezera, zjevně chybný odkaz) oprav rovnou a zapiš do záznamu revize. Zásadní nálezy seřaď podle dopadu ve formátu skillu (kde, co je špatně, proč to vadí studentovi, oprava v plném znění), nejvýš deset. Záznam ulož do docs/revize/interaktivita-v2-<datum>.md s verdiktem.
+4. Nález 5 a úprava skillů ve skills/ (kopie pak autor uloží do účtu Claude): atlas-obdobi (Postup, krok 1: dluh předchozího období; reference: oddíl Co antika proti architektuře ještě nemá a „vlastní stránku má 13 z 24 portrétů a profilů“; Směry: „ve středověku třeba patristika a scholastika“); atlas-komponenta (osa a letopočty přes přelom letopočtu na každé šířce; „asi“ z dat se nesmí ztratit cestou přes logiku; ostrov s display: contents se do okna posouvá přes prvního potomka); atlas-cesta › Stránka velké otázky (osa hlasů: co hlídat, když přibude hlas nebo stránka sáhne přes přelom, výpis osa-hlasu-rady.ts); atlas-data › místa pro Přehrát život (pobyt jen s „do“, „priblizne“ u míst, kontrola výpisem zastávek po každé vlně). Poučení jednou větou do docs/pouceni.md (Technika: plynulý posun v testech; Co se skládá z dat: místo jen s „do“ a ztracené „asi“).
 
-5. Celé npm test jednou na konci, na pozadí s výstupem do souboru; výsledek zapiš do záznamu.
+5. Ověř v prohlížeči (npm run build na pozadí, pak npx astro preview --port 4323): node scripts/revize-osa-hlasu.mjs a node scripts/snimky-zivot-na-mape.mjs do Claude outputs/oprava-interaktivita-v2/, osu Kdo vlastně jsem? a Co je správné? na 390 px, karta Epiktéta, Seneky, Sókrata a Aristotela na 390 a 1440 px ve světlém i tmavém režimu. Celé npm test jednou na konci, na pozadí s výstupem do souboru.
 
-6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek R na „hotovo <datum>; čeká na odpovědi po R“, oddíl „Po R“ (verdikt, nálezy jednou větou s odkazem na záznam, nad čím jsi váhal) s „Co rozhodnout po R“ (otázky s doporučením, prázdná odpověď znamená souhlas) a pod ním zadání kroku O v plném znění ve stejném tvaru jako toto (Opus 5.5 · high: opravy po revizi, úprava skillů atlas-komponenta, atlas-cesta › Stránka velké otázky a atlas-data › místa pro Přehrát život, poučení do docs/pouceni.md). Zadání R přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání S. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
+6. Commit česky a stručně ve větvi interaktivita-v2; nic neposílej na GitHub. V plánu větve: řádek O na „hotovo <datum>“, oddíl „Po O“ (co je opravené, nad čím jsi váhal, výsledek testů) a pod něj zadání kroku Uzavření v plném znění ve stejném tvaru (Opus 5.5 · medium: otázka na schválení, kterou zodpoví jen autor, sloučení do main, push hlavní větve, kontroly na GitHubu zelené, plán a zadání do docs/archiv/, řádek v docs/plan.md). Zadání O přesuň do docs/archiv/zadani/interaktivita-v2.md pod zadání R. Plán větve aktualizuj i v Projektu Claude (docs/plany/interaktivita-v2.md); nic dalšího do projektu nepřidávej.
 
-7. Pak se zastav a napiš mi krátce verdikt, nejdůležitější nálezy a co mám rozhodnout.
+7. Pak se zastav a napiš mi krátce, co je opravené, nad čím jsi váhal a co mám zkontrolovat před schválením.
 ```

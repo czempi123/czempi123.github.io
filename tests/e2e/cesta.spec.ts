@@ -32,20 +32,23 @@ const CESTY = [
 async function pripravit(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(async () => {
+    // Stránka má scroll-behavior: smooth: bez „instant“ by se za 40 ms posunula o pár pixelů a kresba
+    // v kroku 6 by se do okna nedostala (revize interaktivita-v2, R).
     for (let y = 0; y < document.body.scrollHeight; y += 500) {
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: 'instant' });
       await new Promise((r) => setTimeout(r, 40));
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   });
   // Při souběhu s ostatními testy se ostrov kresby (šaty v kroku 6) někdy nestihl hydratovat do pěti vteřin:
-  // ostrovy, které ještě čekají, se posunou do okna každý zvlášť a na hydrataci je víc času.
+  // ostrovy, které ještě čekají, se posunou do okna každý zvlášť a na hydrataci je víc času. Ostrov sám má
+  // display: contents a scrollIntoView na něm nic neudělá; posouvá se jeho první potomek.
   await page.evaluate(async () => {
     for (const el of Array.from(document.querySelectorAll('astro-island[ssr]'))) {
-      el.scrollIntoView({ block: 'center' });
+      (el.firstElementChild ?? el).scrollIntoView({ block: 'center', behavior: 'instant' });
       await new Promise((r) => setTimeout(r, 100));
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   });
   await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15_000 });
 }
