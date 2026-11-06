@@ -11,7 +11,7 @@ Proč teď: středověk přidá hlasy na stránky otázek a desítky lidí na ma
 | S | Skill `atlas-obdobi`: postup plánu období podle architektury, poznámek z antiky a hotových šablon; `skills/atlas-obdobi/SKILL.md`, poznámky zapracované a smazané | Opus 5.5 · high | hotovo 6. 11. 2026 |
 | R | Revize větve | Opus 5.5 · high se skillem `atlas-revize` | hotovo 6. 11. 2026 |
 | O | Opravy po revizi a úprava skillů (`atlas-komponenta`, `atlas-cesta` › Stránka velké otázky, `atlas-data` › místa pro Přehrát život) | Opus 5.5 · high | hotovo 6. 11. 2026 |
-| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | čeká na schválení autorem |
+| Uzavření | Schválení autorem, sloučení, push hlavní větve (nasadí web), kontroly na GitHubu zelené | Opus 5.5 · medium | hotovo 6. 11. 2026: schváleno, sloučeno a na GitHubu |
 
 **Proč v tomhle pořadí.** Osa hlasů je větší ze dvou prvků a mění osm hotových stránek, deník i přípravu hodiny; jde první, aby revize měla nejvíc času na to, co je nejvíc vidět. Přehrát život stojí na hotových funkcích mapy (`kdeVRoce`, `odkudPrisla`, posuvník) a je menší. Skill `atlas-obdobi` jde po obou, protože plán období má počítat i s nimi (hlasy na ose, místa s časem pro Přehrát život); na K1 a K2 jinak nezávisí, takže ho jde pustit i souběžně v jiném chatu. Revize projde všechno najednou.
 
@@ -235,7 +235,7 @@ Co by šlo jinak: ukázka hotového plánu období jako druhá reference (vymyš
 
 ## Po R
 
-Hotovo 6. 11. 2026 (Opus 5.5) se skillem `atlas-revize`. **Verdikt: po opravách** (záznam `docs/revize/interaktivita-v2-2026-11-06.md`). Osa hlasů na všech osmi stránkách, volba, změna, „Nikdo z nich“, obnovení, Začít znovu, Tvoje antika, Přehrát život i odkaz ze stránky osoby fungují; nálezy jsou v tom, co ukazují data, a v letopočtech.
+Hotovo 6. 11. 2026 (Opus 5.5) se skillem `atlas-revize`. **Verdikt: po opravách** (záznam `docs/archiv/revize/interaktivita-v2-2026-11-06.md`). Osa hlasů na všech osmi stránkách, volba, změna, „Nikdo z nich“, obnovení, Začít znovu, Tvoje antika, Přehrát život i odkaz ze stránky osoby fungují; nálezy jsou v tom, co ukazují data, a v letopočtech.
 
 **Nálezy**
 
@@ -315,22 +315,8 @@ Co by šlo jinak: doplnit `od` ke třem pobytům se zdrojem místo pravidla; u �
 Tady prázdná odpověď souhlas není: sloučení do hlavní větve a push na GitHub rozhoduje jen autor.
 
 1. **Schvaluješ větev `interaktivita-v2`** (osa hlasů, Přehrát život, skill `atlas-obdobi` a opravy po revizi) ke sloučení do hlavní větve a k poslání na GitHub, čímž se nasadí web?
-   Odpověď:
+   Odpověď: Ano, schvaluji (6. 11. 2026, v chatu Uzavření).
 
-## Zadání Uzavření
+## Po uzavření
 
-Model: Opus 5.5 · medium. Nový chat v Projektu Atlas.
-
-```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: uzavření větve interaktivita-v2 po mém schválení. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
-
-0. git switch interaktivita-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md a v plánu větve docs/plany/interaktivita-v2.md tabulku kroků, oddíl Po O, Co rozhodnout po O s mou odpovědí a toto zadání. Bez výslovného souhlasu v odpovědi nic neslučuj ani neposílej; prázdná odpověď tu souhlas není. Když souhlas chybí, zastav se a zeptej se.
-
-1. git switch main, git merge --no-ff interaktivita-v2, celé npm test na pozadí s výstupem do souboru. Když projde, git push origin main. Počkej, až kontroly na GitHubu doběhnou (gh run list, gh run watch), a když nějaká spadne, zjisti proč (gh run view --log-failed), oprav v main, pusť dotčené testy a pošli znovu. Pak se podívej na nasazený web https://czempi123.github.io/ (stránka otázky Kdo vlastně jsem? na 390 px: osa s „1 n. l.“; Mapa a čas s Epiktétem v roce 80 n. l.: Život na mapě s Římem).
-
-2. Plán větve docs/plany/interaktivita-v2.md do docs/archiv/plany/, záznam revize docs/revize/interaktivita-v2-2026-11-06.md do docs/archiv/revize/, zadání Uzavření přesuň pod zadání O v docs/archiv/zadani/interaktivita-v2.md. V docs/plan.md řádek větve v rozcestníku (hotovo, schváleno, sloučeno a na GitHubu s datem; soubor v docs/archiv/plany/), řádek atlas-obdobi a P13 jen když se mění, a odstavec „Další větve v pořadí“: na řadě je plán středověku (P12) se skillem atlas-obdobi, jehož první otázkou je dluh antiky vůči architektuře; úprava designu čeká na rozhodnutí autora. Odkazy na plán větve v CLAUDE.md, docs/pouceni.md a skillech, které vedou do docs/plany/, přepiš na archiv (grep -rn "plany/interaktivita-v2").
-
-3. V Projektu Claude odstraň docs/plany/interaktivita-v2.md a aktualizuj docs/plan.md; nic dalšího do projektu nepřidávej. Commit v hlavní větvi česky a stručně a push; počkej na zelené kontroly.
-
-4. Pak se zastav a napiš mi krátce, co je na webu, jak dopadly kontroly na GitHubu, a připomeň mi uložit upravené skilly (atlas-obdobi, atlas-komponenta, atlas-cesta, atlas-data) do účtu Claude.
-```
+Hotovo 6. 11. 2026 (Opus 5.5). Autor větev schválil, sloučení `--no-ff` do hlavní větve, celé `npm test` v hlavní větvi zelené (kontrola typů bez chyb, vitest 995 z 995, Playwright 713 z 713). Plán, záznam revize a zadání jsou v `docs/archiv/`, řádek větve v `docs/plan.md`.
