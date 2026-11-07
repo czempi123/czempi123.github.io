@@ -8,9 +8,9 @@ Plán 3. období, Středověk (400–1450), podle `docs/architektura.md` a skill
 
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
-| Z | Odpovědi k tomuto plánu, větev a plán celku 11 se zadáním P6 | Opus 5.5 · medium | čeká na odpovědi |
+| `design-v2` | Úprava designu před středověkem: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo (`docs/plany/design-v2.md`) | Opus 5.5 · high se skilly `frontend-design` a `atlas-komponenta`; ladí se společně s autorem | běží: D1 (tři směry na plátně) 7. 11. 2026 |
+| Z | Odpovědi k tomuto plánu, větev a plán celku 11 se zadáním P6 | Opus 5.5 · medium | čeká na odpovědi; celek 11 začne po `design-v2` |
 | `celek-11` | „Proč dělám, co nechci?“: portrét Augustina, cesta 10, stránka období Středověk, křesťanství, blok Úryvek s otázkou | P6 Opus 5.5 · high s vyhledáváním (`atlas-overeni`), P6N Opus 5.5 · high, K Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`, P7 Opus 5.5 · high (`atlas-osobnost`, `atlas-psani`), P8 Opus 5.5 · high (`atlas-cesta`, `atlas-psani`), R a O Opus 5.5 · high (`atlas-revize`), Uzavření Opus 5.5 · medium | čeká |
-| `design-v2` | Úprava designu: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo | Opus 5.5 · high se skilly `frontend-design` a `atlas-komponenta`; ladí se společně s autorem | čeká na odpověď 8 |
 | `celek-12` | „Kde je štěstí, když o všechno přijdu?“: profily Boëthia a Hildegardy z Bingenu, cesta 12, stránka otázky 10, blok Dialog, kresba Kolo Štěstěny | jako celek 11 | čeká |
 | `antika-dluh` | Co antika dluží architektuře: devět profilů a pokusy Achilleus a želva a Karneadova deska | P6 Sonnet 5.5 · high s vyhledáváním, P7 Opus 5.5 · medium, K Opus 5.5 · high, R a O Opus 5.5 · high | čeká na odpověď 1 |
 | `celek-13` | „Může rozum dokázat Boha?“: profily Anselma z Canterbury a Viléma Ockhama, portrét Tomáše Akvinského, cesta 9, stránka otázky 9 | jako celek 11 | čeká |
@@ -25,7 +25,7 @@ Plán 3. období, Středověk (400–1450), podle `docs/architektura.md` a skill
 
 - **Celky jdou podle doby příběhu:** Augustin v zahradě v Miláně (386), Boëthius ve vězení (524), Anselmův Proslogion (1078), Averroes před chalífou (asi 1169), Hus v Kostnici (1415). Mapa, osa a Doba a lidé se plní popořadě a každý celek má z čeho skládat: Augustin je v datech dřív než Boëthius, Avicenna dřív než Averroes, Tomáš dřív než Hus.
 - **První dvě cesty mají jinou stavbu než antika.** Augustinova Vyznání se nejlíp čtou z textu (Úryvek s otázkou) a Boëthiova Útěcha filozofií je sama rozhovor (Dialog). Oba bloky vzniknou v kroku K dřív, než se napíše další cesta stavby antiky.
-- **Design po prvním celku:** celek 11 postaví první stránky nové doby (barva lapis lazuli, stránka období, Úryvek s otázkou), takže návrh se ladí na dvou obdobích. Dialog, Kolo Štěstěny a pojmy po najetí pak vzniknou rovnou v novém stylu; středověk je na pojmy bohatý (univerzálie, scholastika, důkaz z pojmu).
+- **Design před středověkem** (rozhodnutí autora z 1. 11. a 7. 11. 2026): stránka období, Úryvek s otázkou, Dialog, Kolo Štěstěny i texty s pojmy vzniknou rovnou v novém stylu a nebudou se předělávat; středověk je na pojmy bohatý (univerzálie, scholastika, důkaz z pojmu).
 - **Dluh antiky mezi celky 12 a 13:** profily jsou lehčí než cesty a mohou použít nové bloky. Plótínos a Hypatia navazují na Augustina a Boëthia, kteří už budou mít stránku.
 - **Medailonky až po celcích** (vznikají hromadně), okno do Asie před souhrnnou revizí, aby ho revize viděla.
 
@@ -143,7 +143,7 @@ Každý středověký hlas roztáhne osu přes tisíc let, takže krok T každé
 
 ### 5. Mapa, čas a data
 
-- **Výřez:** výpis 35 míst lidí středověku (`scripts/_vyrez.mjs`, po výpisu smazaný) proti projekci z `src/lib/mapa.ts`: na notebooku (1032 × 456) se vejdou všechna od Marrákeše po Buchara a od Fustátu po Canterbury. Na telefonu (390 × 330) padnou za okraj Bagdád, Hamadán, Isfahán, Tús a Buchara; posun středu na východ by zase vyřadil Córdobu, Fez a Marrákeš (bod 6).
+- **Výřez:** výpis 35 míst lidí středověku (`scripts/_vyrez.mjs`, po výpisu smazaný) proti projekci z `src/lib/mapa.ts`: na notebooku (1032 × 456) se vejdou všechna od Marrákeše po Bucharu a od Fustátu po Canterbury. Na telefonu (390 × 330) padnou za okraj Bagdád, Hamadán, Isfahán, Tús a Buchara; posun středu na východ by zase vyřadil Córdobu, Fez a Marrákeš (bod 6).
 - **Kotvy** (`udalosti.yaml`, `druh: kotva`, každá se zdrojem):
 
 | Kotva | Celek |
@@ -241,8 +241,8 @@ Prázdná odpověď znamená souhlas s doporučením. U bodu 2 ne.
 7. **Stránku dostanou směry islámská filozofie (celek 14) a scholastika (celek 15);** patristika, židovská filozofie, mystika a nominalismus zůstanou štítkem? Doporučuji ano: oba mají zakladatele, rodokmen mezi lidmi atlasu a spor s jiným směrem, patristika ne.
    Odpověď:
 
-8. **Úprava designu (scrapbook s prvky neumorfismu, pojmy po najetí) jako větev `design-v2` hned po celku 11?** Doporučuji ano (zdůvodnění pod tabulkou kroků). Ladí se společně: plán větve vznikne po uzavření celku 11 a začne tvými podněty.
-   Odpověď:
+8. **Úprava designu: kdy?** Rozhodnuto autorem 7. 11. 2026: ještě před středověkem, jak řekl 1. 11. Větev `design-v2` běží (`docs/plany/design-v2.md`) a celek 11 začne po ní.
+   Odpověď: design před celkem 11.
 
 9. **Spory celků:** Augustin × Epiktétos, Boëthius × Aristotelés, Anselm × Tomáš, Averroes × al-Ghazálí, Abelárd × Tomáš? Doporučuji ano; podklady každého celku Spor ověří a můžou navrhnout jiný.
    Odpověď:

@@ -4,6 +4,12 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 7. 11. 2026: Úprava designu před středověkem
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Úprava designu (styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo) proběhne ve větvi `design-v2` ještě před prvním celkem středověku | Autor to tak chtěl už 1. 11. 2026; plán středověku ji omylem zařadil až za celek 11. Nové šablony a bloky středověku tak vzniknou rovnou v novém stylu |
+
 ## 6. 11. 2026: Interaktivita-v2, krok O (opravy po revizi R)
 
 | Rozhodnutí | Důvod |
