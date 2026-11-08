@@ -137,7 +137,7 @@
   --d-tah: 300ms;      /* tužka dokreslí kroužek */
   --d-presun: 320ms;   /* karta do koše, mince po škále */
   --d-list: 400ms;     /* další krok cesty, let fotky na desku */
-  --d-otoceni: 760ms;  /* otočení listu mezi stránkami (autor 8. 11.: pomaleji, víc jako papír) */
+  --d-otoceni: 900ms;  /* otočení listu mezi stránkami: ohyb od rohu ke hřbetu (autor 8. 11.) */
   --d-prichod: 420ms;  /* příchod na profil: titulek, pruh, pásky */
   --z-prichod: 80ms;   /* krok mezi částmi příchodu */
   --d-kamera: 600ms;   /* kamera Mapy a času */

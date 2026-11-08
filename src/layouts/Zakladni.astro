@@ -90,7 +90,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
           zpet = !!(a && a.navigationType === 'traverse' && a.from && a.entry && a.entry.index < a.from.index);
         } catch (chyba) {}
         e.viewTransition.types.add(zpet ? 'zpet' : 'dalsi');
-        // Stín na stránce během otočení (.otoceni-stin, global.css › Přechody).
+        // Rub zahnutého listu během otočení (.otoceni-ohyb, global.css › Přechody).
         var t = document.documentElement.classList;
         t.add('otaci-se');
         if (zpet) t.add('otaci-se--zpet');
@@ -101,6 +101,8 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
   </head>
   <body>
     <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
+    {/* Rub zahnutého listu při přechodu mezi stránkami (global.css › Přechody); před hlavičkou, aby ležel pod ní. */}
+    <div class="otoceni-ohyb" aria-hidden="true"><div class="otoceni-ohyb__papir"></div></div>
     {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} obdobi={obdobi} />}
     <ListaHodiny />
     {drobecky && <Drobecky cesta={drobecky} />}
@@ -114,7 +116,6 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
       </footer>
     )}
     {Astro.slots.has('lista') ? <slot name="lista" /> : <SpodniLista sekce={sekce} />}
-    <div class="otoceni-stin" aria-hidden="true"></div>
     <script is:inline>
       // Pevná spodní lišta nesmí zakrýt prvek, na který přijde fokus z klávesnice. Prohlížeč stránku sám
       // neposune, když prvek leží ve viditelné části, byť pod lištou (scroll-padding na to nestačí).
