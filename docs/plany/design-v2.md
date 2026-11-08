@@ -10,8 +10,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | --- | --- | --- | --- |
 | D1 | Tři směry na plátně a jejich spojení podle autora | Opus 5.5 · high se skillem `frontend-design` | hotovo 7. 11. 2026; spojení autor schválil 7. 11. 2026 |
 | D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D2) |
-| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | čeká na odpovědi po D2 |
-| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | čeká |
+| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D3) |
+| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | čeká na odpovědi po D3 |
 | Brána | Autor schválí návrh na plátně; teprve potom kód | autor | čeká |
 | K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | čeká |
@@ -313,6 +313,97 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 2. Tokeny pohybu: pojmenované délky a křivky (odezva na stisk asi 120 ms, rozložení lístku a odkrytí 200 až 300 ms, přechod mezi stránkami 350 až 450 ms, kamera mapy 600 ms) a u každé ukázky, které tokeny používá. Jen transform a opacity; stín najetí přes pseudoprvek, kterému se mění průhlednost, ne přechodem box-shadow. Nic se nehýbe samo kromě jednoho okamžiku při příchodu na stránku a kreseb.
 
 3. Do plánu větve zapiš oddíl Po D3: tokeny pohybu jako tabulka, pravidla pohybu (kdy ano, kdy ne, omezený pohyb, Firefox bez přechodů mezi stránkami), nad čím jsi váhal a co by šlo jinak, otázky Co rozhodnout po D3 a zadání D4 v plném znění. docs/design.md nepřepisuj (to udělá krok O). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+4. Pak se zastav a napiš mi, na co se mám na plátně podívat.
+```
+
+## Po D3 (8. 11. 2026)
+
+**Na plátně** pod design systémem přibyla řada „D3 Pohyb“ se dvěma stránkami: „Pohyb: den“ a „Pohyb: noční zápisník“ (`project/Pohyb.dc.html`, noc ji vkládá s režimem `noc`). Nahoře přepínače Den / Noční zápisník a Skutečná / Čtyřikrát pomaleji (zpomalí všechny délky, aby šel pohyb prohlédnout). Pak Délky a křivky s tlačítkem Přehrát délky, jedenáct živých ukázek a Pravidla. Každá ukázka má přepínač Omezený pohyb, tokeny, které používá, a větu o klidovém stavu. Titulek stránky sám ukazuje jediný povolený okamžik bez činu: při otevření se jednou usadí.
+
+**Komentář na plátně** u Osmi období v nočním design systému („souvislý přechod jakoby bez hranic jako je nyní“): do design systému přibyl nad karty období **pás období**, osm papírů slepených do jednoho vytrženého pruhu, kde sousedé na hranách přecházejí do sebe stejným přechodem jako dnešní `PasObdobi` (krajní pětina segmentu jde do poloviční směsi se sousedem). Ve dne i v noci je stejný, protože papír období se v noci nemění. Odpovědi po D2 byly prázdné, takže platí všech šest doporučení.
+
+### Tokeny pohybu
+
+| Token | Hodnota | Křivka | Kde |
+| --- | --- | --- | --- |
+| `--d-stisk` | 120 ms | `--k-stisk` | najetí, stisk, vtlačení možnosti, zvýraznění poznámky na okraji, zvednutí vybrané karty |
+| `--d-bod` | 180 ms | `--k-papir` | body lidí v Mapě a čase |
+| `--d-listek` | 240 ms | `--k-papir`; `--k-dopad` u razítka a pásky | lístek zpětné vazby, lístek pojmu, razítko, páska |
+| `--d-odkryti` | 280 ms | `--k-papir` | Odkryj |
+| `--d-tah` | 300 ms | `--k-papir` | tužka dokreslí kroužek |
+| `--d-presun` | 320 ms | `--k-papir` | karta do koše, mince po škále |
+| `--d-list` | 400 ms | `--k-list` | přechod mezi stránkami, další krok, let fotky z karty na desku |
+| `--d-prichod` | 420 ms, krok `--z-prichod` 80 ms | `--k-papir` | příchod na profil: titulek, pruh a dvě pásky po sobě, celé do 480 ms |
+| `--d-kamera` | 600 ms | `--k-list` | kamera Mapy a času (beze změny) |
+
+| Křivka | Hodnota | Povaha |
+| --- | --- | --- |
+| `--k-stisk` | `cubic-bezier(.25, .1, .25, 1)` | stav prvku; rychle se rozjede a je tam |
+| `--k-papir` | `cubic-bezier(.22, .61, .36, 1)` | papír se rozkládá nebo pokládá: vyjede hned a dlouho dosedá, nikdy nepřestřelí |
+| `--k-list` | `cubic-bezier(.65, 0, .35, 1)` | celý list a kamera: pomalu se zvedne, přejede, pomalu dosedne |
+| `--k-dopad` | `cubic-bezier(.55, 0, 1, .45)` | razítko a páska: zrychlují k papíru a zastaví se naráz, bez odskoku |
+
+**Ukázky a jejich tokeny:** mezi stránkami `--d-list`, `--k-list` (páska `--d-listek`, `--k-dopad`); další krok `--d-list`, `--k-list`; příchod `--d-prichod`, `--z-prichod`, `--k-papir`, pásky `--d-listek`, `--k-dopad`; najetí a stisk `--d-stisk`, `--k-stisk`; Volba `--d-stisk`, `--d-tah`, `--d-listek`, `--k-papir`; Odkryj `--d-odkryti`, `--k-papir`; Roztřiď `--d-presun`, `--k-papir`, `--d-stisk`; Spor `--d-presun`, `--k-papir`; pojem `--d-stisk`, `--k-stisk`, `--d-listek`, `--k-papir`; razítko `--d-listek`, `--k-dopad`; Mapa a čas `--d-bod`, `--k-papir`, `--d-kamera`, `--k-list`.
+
+**Pro K1:** dnešní `--pohyb-rychle` (150 ms), `--pohyb` (250 ms) a `--pohyb-kamera` (600 ms) používá 25 souborů. K1 je nechá jako přezdívky (`--pohyb-rychle` = `--d-stisk`, `--pohyb` = `--d-listek`, `--pohyb-kamera` = `--d-kamera`), aby se nic nerozbilo; kroky K2 až K7 je při přepisu komponent nahradí novými jmény a O přezdívky smaže.
+
+**Stín najetí bez přechodu `box-shadow`.** Prvek nese vtlačený stín (`--vtla-hl`, u zvoleného `--vtla`) a pod obsahem má dvě vrstvy: `::before` s plochou a stínem `--vyst` a `::after` jen se stínem `--zved`. Najetí rozsvítí `::after`, stisk zhasne obě a odkryje vtlačený stín, zvolení totéž s `--vtla`. Mění se jen `opacity` vrstev a `transform` prvku. Karta má totéž s `--lezi`, `--lezi-zved` a `--lezi-tlak`, poznámka na okraji s lístkem pod sebou.
+
+### Pravidla pohybu
+
+- **Kdy ano:** po činu studenta (stisk, volba, odkrytí, otevření pojmu, další krok, posun roku); jednou při příchodu na stránku s titulkem s pruhem nebo deskou s páskou; v kresbách, které pohyb mají v sobě.
+- **Kdy ne:** oddíly při posouvání nevyjíždějí, nic nebliká, aby si toho student všiml, nic neodskakuje ani nepřestřelí. Pohyb nikdy neschovává obsah: text je čitelný i uprostřed přechodu a odpověď v Odkryj je v kódu od začátku.
+- **Jen `transform` a `opacity`.** Jediná výjimka je tah tužky (`stroke-dashoffset` v malém SVG): kroužek ve Volbě a kresby.
+- **Omezený pohyb:** při `prefers-reduced-motion` se nic nehýbe a každý stav je tam hned. Klidový stav ukazuje konec pohybu, ne začátek: kroužek celý, lístek rozložený, razítko otištěné, nová stránka hned. Kresby stojí a text pod nimi říká totéž.
+- **Příchod na profil** jen při nové návštěvě (`pagereveal` s typem navigace jiným než návrat v historii), ne po tlačítku Zpět.
+- **Přechody mezi stránkami** (`@view-transition { navigation: auto }`, typy `dalsi` a `zpet` z `navigation.activation` v `pagereveal`): Chrome a Edge od 126, Safari od 18.2. Firefox umí od verze 144 jen přechody v rámci jedné stránky, mezi dokumenty zatím ne; stránka se tam přepne bez animace jako dnes a nic nechybí. Fotka z karty na desku: `view-transition-name` jen na kliknuté kartě a cílové desce, nastavené těsně před přechodem (`pageswap`, `pagereveal`) a po něm zase odebrané.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **List v deníku, nebo posun.** Stránka se otočí kolem levé hrany (`rotateY`, rub skrytý) a ztmavne, jak se odvrací od světla; nová leží pod ní. Je to nejvíc „deník“, ale na celé obrazovce telefonu může působit těžce. Jinak: nový list se položí shora s malým posunem a natočením a starý zprůhlední. Rozhodne otázka 1; K2 to vyzkouší na levném telefonu v revizi.
+- **Devět délek místo čtyř ze zásad.** Každá má jednu práci a ukázka Délky ukazuje, že rostou s velikostí papíru. Šlo by i se čtyřmi (stisk, lístek, list, kamera) a zbytek odvodit, ale v kódu by se pak pod jedním jménem schovávaly různé věci.
+- **Volba po sobě:** vtlačení, pak kroužek, a lístek, až je kroužek z půlky hotový. Celé trvá asi půl vteřiny. Šlo by všechno najednou (rychlejší, ale tři pohyby naráz se tříští).
+- **Kroužek tužkou jako výjimka** z `transform` a `opacity`. Kreslí se jen kousek SVG o 40 × 38 px, takže výkon nebolí. Jinak: kroužek se objeví naráz s průhledností, ale pak by nebylo vidět, že ho „někdo nakreslil“.
+- **Razítko a páska s `--k-dopad`** zrychlují a zastaví se naráz. Pružné doskočení by bylo živější, ale odporuje zásadě, že nic neodskakuje.
+- **Mince se kutálí:** posune se a zároveň otočí o celé otáčky, takže na zastávce stojí rovně. Šlo by bez otáčení; kutálení ale říká, že mince je věc, ne ukazatel.
+- **Odkryj: papír se odklopí a zmizí.** Zůstat přeložený nahoře nemůže, zakryl by otázku. Odkrytou odpověď zase přeloží Zase přeložit.
+- **Mapa a čas je jen náznak.** Body stojí u Athén a Abdéry ve sloupci, ne na mapě; podklad a polohy ukáže D4.
+- **Pás období** v design systému je jeden vytržený pruh; ornamenty období v něm zatím nejsou (dnešní pás je má maskované do ztracena). D4 ukáže, jestli je pás potřebuje i v novém papíru.
+
+## Co rozhodnout po D3
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Stránka se otočí jako list v deníku** (kolem levé hrany), fotka přeletí na desku? Doporučuji ano; když se ti otočení na telefonu nebude líbit, zbude položení listu shora.
+   Odpověď:
+
+2. **Kroužek tužkou jako jediná výjimka z `transform` a `opacity`** (spolu s kresbami)? Doporučuji ano.
+   Odpověď:
+
+3. **Příchod na profil jen při nové návštěvě, celé do 480 ms**, a nikde jinde nic samo? Doporučuji ano.
+   Odpověď:
+
+4. **Pás období jako jeden pruh bez hranic** (podle tvého komentáře), ve dne i v noci stejný, na Domů a v Mapě a čase? Doporučuji ano; D4 ho ukáže na obrazovkách.
+   Odpověď:
+
+5. **Chceš něco změnit v pohybu?** Napiš kterou ukázku a co (třeba „list rychleji“, „mince bez otáčení“, „razítko víc dopadne“). Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+## Zadání D4: obrazovky na plátně
+
+Opus 5.5 · high. Pusť v novém chatu v Projektu Atlas filozofie, až vyplníš odpovědi po D3 (prázdná odpověď znamená souhlas).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok D4 větve design-v2, obrazovky na plátně. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Vzhled: Spojení, Po D2 (jen Nad čím jsem váhal), Po D3, Co rozhodnout po D2 a Co rozhodnout po D3 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti. Načti skill frontend-design. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti moje komentáře, project/canvas.json, z project/DesignSystem.dc.html a project/Pohyb.dc.html jen <helmet> se styly a z project/Spojeni.dc.html a project/Spojeni-telefon.dc.html, co potřebuješ ke skladbě profilu a kroku cesty. Obsah obrazovek ber ze skutečných stránek atlasu (src/content, src/data), jen části, které obrazovka ukazuje. Když odpovědi po D3 nebo komentáře něco mění, oprav nejdřív design systém nebo stránku Pohyb na plátně.
+
+1. Na plátno přidej obrazovky, každou na notebooku (1440) i telefonu (390), ve dne i v nočním zápisníku, postavené jen z tokenů a prvků design systému: Domů (s pásem období), Mapa a čas (podklad mapy, karta člověka, posuvník, body lidí), profil Sókrata (celá hlavička, kapitola, citát, Doba a lidé, Kam dál), krok cesty s Volbou a zpětnou vazbou, stránka velké otázky s osou hlasů, stránka období v jiné barvě (Helenismus a Řím), Můj deník s razítkem a jedna kresba v novém papíru. Pohyb, který na obrazovce je (přechod, příchod, volba), ať jde spustit jako na stránce Pohyb, s Omezeným pohybem. Tinty období nahraď listem s páskou, kde to obrazovka potřebuje (otázka 5 po D2), a ukaž, jestli stránka období nebo Domů potřebuje větší display než jmeno 104 px.
+
+2. Kontrast nových dvojic barev ověř výpočtem (krátký skript v scripts/, po výpisu ho smaž). Telefon: dotykové cíle aspoň 44 × 44, nic nepřetéká do stran.
+
+3. Do plánu větve zapiš oddíl Po D4: co je na kterých obrazovkách, co se proti design systému změnilo, nad čím jsi váhal a co by šlo jinak, otázky Co rozhodnout po D4 (mezi nimi schválení návrhu jako brána před kódem) a zadání K1 v plném znění. docs/design.md nepřepisuj (to udělá krok O). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
 
 4. Pak se zastav a napiš mi, na co se mám na plátně podívat.
 ```
