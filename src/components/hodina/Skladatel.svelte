@@ -404,7 +404,7 @@
 
 <!-- Přehled hodiny pro učitele: jen na papíře (Vytisknout přehled), na obrazovce skrytý. -->
 <div class="tisk">
-  <p class="tisk__nad">Přehled hodiny · Atlas myšlení</p>
+  <p class="tisk__nad">Přehled hodiny · Agora</p>
   <p class="tisk__nazev">{nazev || 'Hodina bez názvu'}</p>
   <p class="tisk__odkaz">Odkaz pro studenty: {odkazNaPapir}</p>
   {#if poznamka.trim()}<p class="tisk__poznamka">{poznamka}</p>{/if}

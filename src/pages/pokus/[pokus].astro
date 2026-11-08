@@ -36,12 +36,11 @@ const prameny = await pramenyZTextu(zaznam.body, {
 });
 const stranka = `/pokus/${slug}/`;
 ---
-<Zakladni
+<Zakladni obdobi={fm.obdobi}
   titulek={fm.nazev}
   popis={`Myšlenkový pokus ${fm.nazev} (${fm.pramen}). ${fm.perex}`}
   sekce="otazky"
   zpet={{ href: '/otazky/', text: 'Otázky' }}
-  kratkyTitulek="Myšlenkový pokus"
   drobecky={[
     { text: 'Otázky', href: '/otazky/' },
     ...(otazka ? [{ text: `Otázka ${otazka.data.cislo}`, href: adresaOtazky(otazka.id, otazka.data) }] : []),

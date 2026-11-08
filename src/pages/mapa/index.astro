@@ -6,14 +6,17 @@ import Zakladni from '../../layouts/Zakladni.astro';
 import MapaACas from '../../components/mapa/MapaACas.svelte';
 import { vstupMapy } from '../../lib/mapa-vstup-build';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { obdobiProRok } from '../../lib/cas-mapy';
 
 const vstup = vstupMapy(await adresaStranekOsob());
+// Logo dostane období výchozího roku mapy už při sestavení; po načtení ho ostrov drží podle roku.
+const obdobiMapy = obdobiProRok(vstup.obdobi, -360);
 ---
 <Zakladni
   titulek="Mapa a čas"
   popis="Kdo žil s kým, kdo po kom a jak daleko od sebe: mapa myslitelů, posuvník roku a řeka životů."
   sekce="mapa"
-  kratkyTitulek="Mapa a čas"
+  obdobi={obdobiMapy}
   hledat={false}
   aplikace
 >

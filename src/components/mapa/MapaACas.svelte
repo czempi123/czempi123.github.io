@@ -19,6 +19,7 @@
   import PasObdobi from './PasObdobi.svelte';
   import KartaCloveka from './KartaCloveka.svelte';
   import Mince from './Mince.svelte';
+  import { obarviLogo } from '../../lib/logo';
 
   interface Props {
     vstup: VstupMapy;
@@ -33,6 +34,8 @@
   // ── Stav ───────────────────────────────────────────────────────────────────
   let rok = $state(untrack(() => vychoziRok));
   let obdobi = $state(obdobiProRok(untrack(() => vstup.obdobi), untrack(() => vychoziRok)));
+  // Velké A v logu hlavičky nese papír zvoleného období (src/lib/logo.ts).
+  $effect(() => obarviLogo(obdobi));
   let osobaId: string | undefined = $state();
   let srovnatId: string | undefined = $state();
   let stin = $state(false);

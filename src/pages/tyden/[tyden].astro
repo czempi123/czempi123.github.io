@@ -47,12 +47,11 @@ const dny = t.dny.map((d) => {
   };
 });
 ---
-<Zakladni
+<Zakladni obdobi={t.obdobi}
   titulek={t.nazev}
   popis={`${t.vstup}.`}
   sekce="lide"
   drobecky={drobecky}
-  kratkyTitulek={t.nazev}
 >
   <article class={`tyden stranka obdobi-${t.obdobi}`}>
     <header class="tyden__hlava ctenarsky">

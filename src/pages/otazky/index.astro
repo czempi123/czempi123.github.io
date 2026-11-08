@@ -8,7 +8,7 @@ import { cestyOtazky } from '../../lib/vstupy';
 const otazky = (await getCollection('otazky')).sort((a, b) => a.data.cislo - b.data.cislo);
 const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data }));
 ---
-<Zakladni titulek="Otázky" sekce="otazky" drobecky={[{ text: 'Otázky' }]} kratkyTitulek="Otázky">
+<Zakladni titulek="Otázky" sekce="otazky" drobecky={[{ text: 'Otázky' }]}>
   <div class="stranka">
     <header class="hlava ctenarsky">
       <h1 class="t-h1">Deset velkých otázek</h1>

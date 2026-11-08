@@ -16,8 +16,8 @@ interface Props {
   sekce?: Sekce;
   drobecky?: { text: string; href?: string }[];
   zpet?: { href: string; text: string };
-  /** telefonní titulek v horní liště (výchozí: Atlas myšlení) */
-  kratkyTitulek?: string;
+  /** období stránky (1 až 8): velké A v logu nese jeho papír; bez období je v inkoustu */
+  obdobi?: number;
   /** stránka, kterou má Pagefind indexovat */
   hledat?: boolean;
   /** celoobrazovkový nástroj (Mapa a čas): bez drobečků a patičky, obsah vyplní okno */
@@ -25,8 +25,10 @@ interface Props {
   /** stránka pro autora (dílna): vyhledávače ji neindexují */
   noindex?: boolean;
 }
-const { titulek, popis = 'Interaktivní atlas filozofie pro střední školy: lidé, otázky, mapa a čas.', sekce, drobecky, zpet, kratkyTitulek, hledat = true, aplikace = false, noindex = false } = Astro.props;
-const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atlas myšlení`;
+// Název webu je Agora (design-v2, otázka 11 po D4); „atlas“ zůstává v textech o tom, jak se v něm pohybovat.
+const NAZEV_WEBU = 'Agora';
+const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false } = Astro.props;
+const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WEBU}`;
 ---
 <!doctype html>
 <html lang="cs">
@@ -35,11 +37,15 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{plnyTitulek}</title>
     <meta name="description" content={popis} />
+    <meta property="og:site_name" content={NAZEV_WEBU} />
+    <meta property="og:title" content={plnyTitulek} />
+    <meta property="og:description" content={popis} />
+    <meta property="og:locale" content="cs_CZ" />
     {/* Do konce zkoušky se studenty: celý zveřejněný atlas mimo vyhledávače. Po zkoušce smaž tento řádek a vrať původní podmínku `noindex &&` (dílna zůstane mimo vyhledávače). */}
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#EFEDE6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1D1B18" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
       // Ruční volba režimu (atlas-rezim) má přednost před nastavením systému; nastaví se před vykreslením.
@@ -73,11 +79,24 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
         }
       } catch (e) {}
     </script>
+    <script is:inline>
+      // Přechod mezi stránkami (global.css › Přechody): list se otočí kolem levé hrany. Návrat v historii
+      // dostane typ zpet (list se přiklopí zpátky), ostatní příchody typ dalsi. Firefox a omezený pohyb přechod nemají.
+      addEventListener('pagereveal', function (e) {
+        if (!e.viewTransition) return;
+        var zpet = false;
+        try {
+          var a = window.navigation && navigation.activation;
+          zpet = !!(a && a.navigationType === 'traverse' && a.from && a.entry && a.entry.index < a.from.index);
+        } catch (chyba) {}
+        e.viewTransition.types.add(zpet ? 'zpet' : 'dalsi');
+      });
+    </script>
     <Pisma />
   </head>
   <body>
     <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
-    {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} titulek={kratkyTitulek} />}
+    {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} obdobi={obdobi} />}
     <ListaHodiny />
     {drobecky && <Drobecky cesta={drobecky} />}
     <main id="obsah" tabindex="-1" data-pagefind-body={hledat ? '' : undefined} class:list={{ aplikace }}>
@@ -85,7 +104,7 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     </main>
     {!aplikace && (
       <footer class:list={['paticka', 'stranka', 't-popisek', { 'paticka--lista': Astro.slots.has('lista') }]} data-pagefind-ignore>
-        <p>Atlas myšlení · Vojtěch Czempka · texty a data CC BY-NC-SA 4.0, kód MIT</p>
+        <p>{NAZEV_WEBU} · Vojtěch Czempka · texty a data CC BY-NC-SA 4.0, kód MIT</p>
         <p><a class="paticka__ucitel" href="/hodina/nova/">Pro učitele: připravit hodinu</a></p>
       </footer>
     )}
@@ -138,7 +157,8 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     margin-top: var(--s-9);
     padding-top: var(--s-5);
     padding-bottom: calc(var(--spodni-lista) + var(--s-6));
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--linka);
+    color: var(--ink-3);
   }
   .paticka p { margin: 0; }
   .paticka__ucitel { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-2); }

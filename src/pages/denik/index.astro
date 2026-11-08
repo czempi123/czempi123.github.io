@@ -13,7 +13,7 @@ const navraty = await nactiNavraty();
 // Týdny cvičení: deník ukáže přijatý týden mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz.
 const tydny = (await getCollection('tydny')).map((t) => ({ id: t.id, nazev: t.data.nazev, odkaz: adresaTydne(t.id), vstup: t.data.vstup, pocet: t.data.dny.length }));
 ---
-<Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} kratkyTitulek="Můj deník" hledat={false}>
+<Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} hledat={false}>
   <div class="stranka ctenarsky">
     <header class="hlava">
       <h1 class="t-h1">Můj deník</h1>

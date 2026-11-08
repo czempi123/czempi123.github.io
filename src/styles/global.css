@@ -11,7 +11,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background: var(--paper);
+  background: var(--papir);
   scroll-padding-top: calc(var(--hlavicka) + var(--hodina) + var(--s-4));
 }
 
@@ -75,7 +75,7 @@ a:hover { text-decoration-thickness: 2px; }
   border-radius: 2px;
 }
 
-::selection { background: var(--period-1-soft); color: var(--ink); }
+::selection { background: var(--listek); color: var(--ink); }
 
 /* Typografické třídy podle tokenů */
 .t-display-1 { font-size: var(--fs-display-1); line-height: var(--lh-display-1); letter-spacing: var(--ls-display-1); }
@@ -126,10 +126,10 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   z-index: 100;
   padding: var(--s-3) var(--s-4);
   background: var(--ink);
-  color: var(--paper);
+  color: var(--na-inkoustu);
   font-family: var(--font-sans);
   font-weight: 600;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-ovladani);
 }
 .preskocit:focus { top: var(--s-2); }
 
@@ -533,3 +533,39 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   animation-timing-function: var(--k-dopad);
   animation-fill-mode: both;
 }
+
+/* ─── Přechody mezi stránkami (design-v2, K2; Po D3 › Pravidla pohybu, plátno project/Pohyb.dc.html) ───────
+   List se otočí kolem levé hrany jako stránka v sešitu: při příchodu (typ dalsi) odklopí stará stránka
+   a pod ní leží nová, při návratu v historii (typ zpet) se nová přiklopí zpátky přes starou. Typ nastaví skript
+   v hlavičce Zakladni.astro (pagereveal, navigation.activation). Hlavička a spodní lišta stojí (view-transition-name).
+   Jen transform a opacity. Při omezeném pohybu přechod není, stránka se přepne hned; Firefox přechody mezi
+   dokumenty zatím neumí a přepne ji taky bez animace. Let fotky z karty na desku přijde v K3. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+@keyframes list-odklopit {
+  from { transform: perspective(2400px) rotateY(0deg); }
+  to { transform: perspective(2400px) rotateY(-100deg); }
+}
+@keyframes list-priklopit {
+  from { transform: perspective(2400px) rotateY(-100deg); }
+  to { transform: perspective(2400px) rotateY(0deg); }
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  transform-origin: 0 50%;
+  backface-visibility: hidden;
+  mix-blend-mode: normal;
+  animation-duration: var(--d-list);
+  animation-timing-function: var(--k-list);
+  animation-fill-mode: both;
+}
+/* Výchozí (i bez typu): stará stránka nahoře odklopí, nová pod ní stojí. */
+::view-transition-old(root) { z-index: 1; animation-name: list-odklopit; }
+::view-transition-new(root) { z-index: 0; animation-name: none; opacity: 1; }
+/* Návrat v historii: nová stránka se přiklopí přes starou. */
+html:active-view-transition-type(zpet)::view-transition-old(root) { z-index: 0; animation-name: none; }
+html:active-view-transition-type(zpet)::view-transition-new(root) { z-index: 1; animation-name: list-priklopit; }
+/* Hlavička a spodní lišta: bez prolnutí, nová hned (logo může změnit barvu období). */
+::view-transition-group(hlavicka),
+::view-transition-group(spodni-lista) { animation-duration: 0s; }

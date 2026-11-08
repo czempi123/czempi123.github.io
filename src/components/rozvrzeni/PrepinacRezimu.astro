@@ -1,9 +1,9 @@
 ---
-// Přepínač světlého a tmavého režimu. Výchozí je nastavení systému; ruční volba se uloží
+// Přepínač světlého a tmavého režimu (malé vystouplé tlačítko). Výchozí je nastavení systému; ruční volba se uloží
 // do localStorage (klíč atlas-rezim) a nastaví data-theme na <html> (skript v Zakladni.astro).
 import Ikona from '../ui/Ikona.astro';
 ---
-<button class="rezim" type="button" data-prepinac-rezimu aria-label="Přepnout na tmavý režim">
+<button class="rezim vystouple vystouple--m" type="button" data-prepinac-rezimu aria-label="Přepnout na tmavý režim">
   <Ikona id="mesic" velikost={20} class="rezim__mesic" />
   <Ikona id="slunce" velikost={20} class="rezim__slunce" />
 </button>
@@ -32,19 +32,17 @@ import Ikona from '../ui/Ikona.astro';
 </script>
 
 <style>
+  /* Malé vystouplé tlačítko (vrstvy stínu z global.css › .vystouple). */
   .rezim {
     display: grid;
     place-items: center;
     width: var(--dotyk);
     height: var(--dotyk);
     padding: 0;
-    border: 1px solid transparent;
-    border-radius: var(--r-full);
-    background: none;
+    border-radius: var(--r-plne);
     color: var(--ink-2);
-    cursor: pointer;
   }
-  .rezim:hover { color: var(--ink); border-color: var(--rule); }
+  .rezim:hover { color: var(--ink); }
   .rezim :global(.rezim__slunce) { display: none; }
   .rezim[data-tmavy='true'] :global(.rezim__slunce) { display: block; }
   .rezim[data-tmavy='true'] :global(.rezim__mesic) { display: none; }

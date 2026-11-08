@@ -30,6 +30,10 @@ const PLOCHY = ['papir', 'list', 'plocha', 'listek'];
 const TEXT: [string, string][] = [
   ...['ink', 'ink-2', 'ruka', 'ink-3'].flatMap((t) => PLOCHY.map((p): [string, string] => [t, p])),
   ['na-inkoustu', 'ink'],
+  // Rám (K2): Můj deník a klávesa / na malé vystouplé ploše, „Ukázat možnosti“ v liště hodiny po najetí.
+  ['ink', 'plocha-m'],
+  ['ink-2', 'plocha-m'],
+  ['na-inkoustu', 'ink-2'],
   // Popisky na mapě: názvy krajin a „dnes“ (--ink-3 na pevnině), názvy moří a měřítko (--ink-2 na moři).
   ['ink-3', 'map-land'],
   ['ink-2', 'map-land'],

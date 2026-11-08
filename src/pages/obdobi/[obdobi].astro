@@ -52,12 +52,11 @@ const prameny = await pramenyZTextu(zaznam.body, { prameny: udalosti.map((u) => 
 const stranka = `/obdobi/${zaznam.id}/`;
 const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
 ---
-<Zakladni
+<Zakladni obdobi={o.id}
   titulek={o.nazev}
   popis={`Období ${o.id}: ${o.nazev} (${okno}). ${fm.perex}`}
   sekce="lide"
   zpet={{ href: '/lide/', text: 'Lidé a směry' }}
-  kratkyTitulek={`Období ${o.id}`}
   drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: `Období ${o.id}: ${o.nazev}` }]}
 >
   <article class={`obdobi-stranka stranka obdobi-${o.id}`} data-navsteva={stranka} data-nazev={o.nazev}>

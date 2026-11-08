@@ -71,7 +71,7 @@ const adresaStranky = `/osobnost/${osoba.id}/`;
 const deska = !!(osoba.obrazek || osoba.atribut);
 const druhy = (await kdoZilNaMedailonku())(osoba.id);
 ---
-<Zakladni
+<Zakladni obdobi={osoba.obdobi}
   titulek={osoba.jmeno}
   popis={`${osoba.jmeno} (${zivot(osoba)}): ${osoba.kdo}`}
   sekce="lide"

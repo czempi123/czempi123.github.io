@@ -69,48 +69,54 @@
 </dialog>
 
 <style>
+  /* Hledání ve vtlačené drážce (design-v2, K2): na telefonu kolečko s ikonou, na notebooku drážka s klávesou /. */
   .hledat {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-2);
-    min-width: var(--dotyk);
-    min-height: var(--dotyk);
-    padding: 0 var(--s-3);
     justify-content: center;
-    border: 1px solid transparent;
-    border-radius: var(--r-sm);
-    background: none;
-    color: var(--ink-2);
+    gap: var(--s-2);
+    width: var(--dotyk);
+    height: var(--dotyk);
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-plne);
+    background: var(--papir);
+    box-shadow: var(--vtla);
+    color: var(--ink-3);
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
     font-weight: 500;
     cursor: pointer;
   }
-  .hledat:hover { color: var(--ink); border-color: var(--rule); }
+  .hledat:hover { box-shadow: var(--vtla-mele); color: var(--ink); }
+  .hledat svg { width: 18px; height: 18px; }
   .hledat__text, kbd { display: none; }
+  /* Klávesa jako malý vystouplý knoflík v drážce. */
   kbd {
-    padding: 0 6px;
-    border: 1px solid var(--rule);
-    border-radius: var(--r-xs);
+    padding: 1px 7px;
+    border-radius: var(--r-razitko);
+    background: var(--plocha-m);
+    box-shadow: var(--vyst-m);
     font-family: var(--font-sans);
     font-size: 12px;
-    color: var(--muted);
+    color: var(--ink-2);
   }
   @media (min-width: 900px) {
-    .hledat { border-color: var(--rule); min-width: 160px; justify-content: flex-start; }
+    .hledat { width: auto; min-width: 190px; padding: 10px var(--s-4); justify-content: flex-start; cursor: text; }
     .hledat__text { display: inline; margin-right: auto; }
     kbd { display: inline; }
   }
+  /* Okno hledání: ležící list. */
   .dialog {
     width: min(720px, calc(100vw - 32px));
     max-height: min(80vh, 760px);
     margin: 10vh auto auto;
     padding: 0;
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-papir);
+    background: var(--list);
     color: var(--ink);
-    box-shadow: var(--stin-mapa);
+    box-shadow: var(--lezi-zved);
   }
   .dialog::backdrop { background: rgb(0 0 0 / 35%); }
   .dialog__vnitrek { padding: var(--s-5); }
@@ -118,20 +124,20 @@
   .zavrit {
     display: grid; place-items: center;
     width: var(--dotyk); height: var(--dotyk);
-    border: 0; border-radius: var(--r-full); background: none; color: var(--ink-2); cursor: pointer;
+    border: 0; border-radius: var(--r-plne); background: none; color: var(--ink-2); cursor: pointer;
   }
-  .zavrit:hover { background: var(--sunk); color: var(--ink); }
+  .zavrit:hover { background: var(--papir); box-shadow: var(--vtla-mele); color: var(--ink); }
   :global(#hledani-vysledky) {
     --pagefind-ui-scale: 0.9;
     --pagefind-ui-primary: var(--ink);
     --pagefind-ui-text: var(--ink);
-    --pagefind-ui-background: var(--surface);
-    --pagefind-ui-border: var(--rule);
-    --pagefind-ui-tag: var(--sunk);
+    --pagefind-ui-background: var(--list);
+    --pagefind-ui-border: var(--tuzka);
+    --pagefind-ui-tag: var(--plocha-m);
     --pagefind-ui-border-width: 1px;
-    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-border-radius: 10px;
     --pagefind-ui-font: var(--font-sans);
   }
   :global(#hledani-vysledky .pagefind-ui__result-title) { font-family: var(--font-serif); }
-  :global(#hledani-vysledky mark) { background: var(--period-1-tint); color: var(--ink); }
+  :global(#hledani-vysledky mark) { background: var(--listek); color: var(--ink); }
 </style>

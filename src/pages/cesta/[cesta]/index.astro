@@ -47,7 +47,7 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
 // Týdny cvičení, které se po této cestě nabízejí (pole nabizet.cesty v src/content/tydny/<id>.yaml): karta v Kam dál.
 const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.includes(cesta.id));
 ---
-<Zakladni
+<Zakladni obdobi={c.obdobi}
   titulek={c.nazev}
   popis={c.vstup}
   sekce="otazky"

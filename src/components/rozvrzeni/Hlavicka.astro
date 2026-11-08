@@ -1,6 +1,9 @@
 ---
-// Stálá hlavička. Notebook: logo, čtyři vstupy (aktivní podtržený inkoustem), hledání s klávesou /,
-// Můj deník, přepínač režimu. Telefon: název nebo „‹ Zpět na …“, hledání a režim; vstupy ve spodní liště.
+// Stálá hlavička (design-v2, K2; plátno project/Domu.dc.html › rám). Notebook: logo Agora, čtyři ploché vstupy
+// (aktivní vtlačený), hledání ve vtlačené drážce s klávesou /, vystouplý Můj deník a malý vystouplý přepínač režimu.
+// Telefon: „‹ Zpět na …“ (nebo logo), hledání ikonou a přepínač; vstupy jsou ve spodní liště.
+// Logo je koláž pěti vytržených písmen; velké A nese papír období stránky (třída obdobi-N, bez období v inkoustu).
+// Mapa a čas mění období loga podle roku (src/lib/logo.ts, atribut data-logo).
 import Ikona from '../ui/Ikona.astro';
 import PrepinacRezimu from './PrepinacRezimu.astro';
 import Hledani from '../ostrovy/Hledani.svelte';
@@ -8,28 +11,28 @@ import Hledani from '../ostrovy/Hledani.svelte';
 export type Sekce = 'domu' | 'mapa' | 'otazky' | 'lide' | 'denik' | undefined;
 interface Props {
   sekce?: Sekce;
-  titulek?: string;
   zpet?: { href: string; text: string };
+  /** období stránky (1 až 8): velké A v logu v jeho papíru; bez období v inkoustu */
+  obdobi?: number;
 }
-const { sekce, titulek = 'Atlas myšlení', zpet } = Astro.props;
+const { sekce, zpet, obdobi } = Astro.props;
 const vstupy = [
   { id: 'domu', href: '/', text: 'Domů' },
   { id: 'mapa', href: '/mapa/', text: 'Mapa a čas' },
   { id: 'otazky', href: '/otazky/', text: 'Otázky' },
   { id: 'lide', href: '/lide/', text: 'Lidé a směry' },
 ] as const;
+const PISMENA = ['A', 'g', 'o', 'r', 'a'];
 ---
 <header class="hlavicka" data-pagefind-ignore>
   <div class="hlavicka__vnitrek stranka">
-    <div class="telefon-vlevo">
-      {zpet ? (
-        <a class="zpet t-ovladani" href={zpet.href}><Ikona id="zpet" velikost={20} /><span>Zpět na {zpet.text}</span></a>
-      ) : (
-        <a class="logo" href="/"><Ikona id="globus" velikost={24} /><span>{titulek}</span></a>
-      )}
-    </div>
-    <a class="logo logo--notebook" href="/" aria-label="Atlas myšlení, domů">
-      <Ikona id="globus" velikost={26} /><span>Atlas myšlení</span>
+    {zpet && (
+      <a class="zpet t-ovladani" href={zpet.href}><Ikona id="zpet" velikost={20} /><span>Zpět na {zpet.text}</span></a>
+    )}
+    <a class:list={['logo', obdobi ? `obdobi-${obdobi}` : 'bez-obdobi', { 'logo--se-zpet': zpet }]} href="/" aria-label="Agora, domů" data-logo>
+      <span class="logo__kolaz" aria-hidden="true">
+        {PISMENA.map((p, i) => <span class={`lz lz${i + 1}`}>{p}</span>)}
+      </span>
     </a>
     <nav class="vstupy" aria-label="Hlavní navigace">
       <ul>
@@ -40,7 +43,7 @@ const vstupy = [
     </nav>
     <div class="nastroje">
       <Hledani client:load />
-      <a class="denik t-ovladani" href="/denik/" aria-current={sekce === 'denik' ? 'page' : undefined}>
+      <a class="denik vystouple vystouple--m t-ovladani" href="/denik/" aria-current={sekce === 'denik' ? 'page' : undefined}>
         <Ikona id="denik" velikost={20} /><span>Můj deník</span>
       </a>
       <PrepinacRezimu />
@@ -48,70 +51,145 @@ const vstupy = [
   </div>
 </header>
 
+<script>
+  // Stín pod hlavičkou až po posunu stránky: na začátku leží hlavička na papíře jako na plátně.
+  const hlavicka = document.querySelector<HTMLElement>('header.hlavicka');
+  if (hlavicka) {
+    const posun = () => hlavicka.toggleAttribute('data-posunuto', scrollY > 2);
+    addEventListener('scroll', posun, { passive: true });
+    posun();
+  }
+</script>
+
 <style>
   .hlavicka {
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--paper) 94%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--rule);
+    /* Tečkovaný papír: u horního okraje sedí na tečky stránky. */
+    background-color: var(--papir);
+    background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+    background-size: var(--tecky-krok) var(--tecky-krok);
+    /* Při přechodu mezi stránkami hlavička stojí a otočí se jen list pod ní (global.css › Přechody). */
+    view-transition-name: hlavicka;
   }
+  /* Stín je vrstva, mění se jen její průhlednost. */
+  .hlavicka::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    box-shadow: var(--hlavicka-stin);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--d-stisk) var(--k-stisk);
+  }
+  .hlavicka[data-posunuto]::after { opacity: 1; }
   .hlavicka__vnitrek {
     display: flex;
     align-items: center;
-    gap: var(--s-4);
+    gap: var(--s-3);
     height: var(--hlavicka);
   }
+
+  /* Logo: pět písmen na útržcích papíru, mírně natočených a přes sebe; po najetí se srovnají do řady.
+     Natočení je ve vlastnostech rotate a translate, takže se srovnají přechodem bez transform v každém snímku. */
   .logo {
     display: inline-flex;
+    flex: none;
     align-items: center;
-    gap: var(--s-2);
     min-height: var(--dotyk);
-    font-family: var(--font-serif);
-    font-size: 22px;
-    letter-spacing: -0.01em;
+    padding: 0 var(--s-1);
+    margin-left: calc(-1 * var(--s-1));
+    color: var(--ink);
     text-decoration: none;
-    white-space: nowrap;
   }
+  .logo__kolaz { display: inline-flex; align-items: center; filter: var(--odlep-m); }
+  .lz {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 27px;
+    padding: 0 3px 2px;
+    margin-left: -2px;
+    background: var(--list);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1;
+    clip-path: polygon(4% 6%, 30% 0, 62% 5%, 96% 1%, 100% 40%, 95% 72%, 100% 96%, 64% 100%, 34% 94%, 3% 100%, 0 62%, 5% 30%);
+    transition: rotate var(--d-stisk) var(--k-stisk), translate var(--d-stisk) var(--k-stisk);
+  }
+  .lz1 {
+    z-index: 1;
+    min-width: 22px;
+    height: 30px;
+    margin-left: 0;
+    background: var(--pp);
+    color: var(--na-pp);
+    font-size: 21px;
+    rotate: -6deg;
+    translate: 0 -1px;
+  }
+  .lz2 { background: var(--listek); rotate: 4deg; translate: 0 2px; }
+  .lz3 { rotate: -3deg; }
+  .lz4 { background: var(--listek); rotate: 5deg; translate: 0 -2px; }
+  .lz5 { rotate: -4deg; translate: 0 1px; }
+  .logo:focus-visible .lz { rotate: 0deg; translate: none; }
+  @media (hover: hover) {
+    .logo:hover .lz { rotate: 0deg; translate: none; }
+  }
+
   .zpet {
     display: inline-flex;
+    flex: 0 1 auto;
     align-items: center;
     gap: var(--s-1);
+    min-width: 0;
     min-height: var(--dotyk);
     margin-left: -6px;
+    overflow: hidden;
+    color: var(--ink);
     text-decoration: none;
   }
-  .telefon-vlevo { flex: 1; min-width: 0; overflow: hidden; }
-  .logo--notebook, .vstupy, .denik { display: none; }
-  .nastroje { display: flex; align-items: center; gap: var(--s-1); }
+  .zpet span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .zpet:hover span { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 5px; }
+  .logo--se-zpet, .vstupy, .denik { display: none; }
+  .nastroje { display: flex; flex: none; align-items: center; gap: var(--s-3); margin-left: auto; }
 
   @media (min-width: 900px) {
-    .telefon-vlevo { display: none; }
-    .logo--notebook { display: inline-flex; font-size: 24px; }
-    .vstupy { display: block; flex: 1; }
-    .vstupy ul { display: flex; gap: var(--s-2); margin: 0 0 0 var(--s-6); padding: 0; list-style: none; }
+    .hlavicka__vnitrek { gap: var(--s-4); }
+    .zpet { display: none; }
+    .logo, .logo--se-zpet { display: inline-flex; margin-right: var(--s-3); }
+    .lz { min-width: 23px; height: 30px; padding: 0 4px 2px; font-size: 23px; }
+    .lz1 { min-width: 27px; height: 33px; font-size: 26px; }
+    .vstupy { display: block; flex: 1; min-width: 0; }
+    .vstupy ul { display: flex; gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+    /* Ploché odkazy; aktivní je vtlačený do papíru. */
     .vstupy a {
       display: inline-flex;
       align-items: center;
       min-height: var(--dotyk);
-      padding: 0 var(--s-2);
+      padding: 10px var(--s-4);
+      border-radius: var(--r-plne);
       color: var(--ink-2);
       text-decoration: none;
-      border-bottom: 2px solid transparent;
+      white-space: nowrap;
     }
-    .vstupy a:hover { color: var(--ink); }
-    .vstupy a[aria-current='page'] { color: var(--ink); border-bottom-color: var(--ink); }
+    .vstupy a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 5px; }
+    .vstupy a[aria-current='page'] { background: var(--papir); box-shadow: var(--vtla); color: var(--ink); }
+    .vstupy a[aria-current='page']:hover { text-decoration: none; }
     .denik {
       display: inline-flex;
       align-items: center;
       gap: var(--s-2);
       min-height: var(--dotyk);
-      padding: 0 var(--s-3);
-      color: var(--ink-2);
+      padding: 10px 18px;
+      border-radius: var(--r-plne);
+      color: var(--ink);
       text-decoration: none;
+      white-space: nowrap;
     }
-    .denik:hover, .denik[aria-current='page'] { color: var(--ink); }
-    .nastroje { gap: var(--s-2); }
+    .nastroje { gap: 14px; margin-left: 0; }
   }
 </style>
