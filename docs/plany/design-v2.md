@@ -445,7 +445,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 ### Nad čím jsem váhal a co by šlo jinak
 
 - **Pult náhledu přímo nad obrazovkou.** Ovládání pohybu je vidět u obrazovky, kterou spouští, a čárkovaná hrana ho odděluje. Jinak: obrazovky čisté a ovládání v samostatném artboardu, ale pak by se pohyb spouštěl daleko od místa, kde se děje.
-- **Ikony v razítkách** jsou jednoduché tahy (kalich, jeskyně, váhy, lucerna, přesýpací hodiny, vavřín…). Rok narození u lidí bez atributu je tichý, ale číslo bez „př. n. l.“ samo nic neřekne; jinak by šlo první písmeno jména v Kalamu, jenže to bylo právě to, co se nelíbilo.
+- **Poštovní razítko** nese jméno a roky po obvodu, takže je čitelné i samo; vedle jména v seznamu je to zdvojení, ale razítko pak funguje i tam, kde jméno vedle není (osa hlasů). Text po obvodu je od 56 px dolů drobný (asi 6 px), proto pod 48 px mizí. Jinak: razítko bez textu, jen dva kruhy a atribut, menší a klidnější. Ikony jsou jednoduché tahy (kalich, jeskyně, váhy, lucerna, přesýpací hodiny, vavřín…); lidé bez atributu mají vlnovky jako na poštovním razítku.
 - **Lístky období bez stránky** vypadají jako ostatní, protože pás je jeden předmět. Jinak: zploštit je a dát čárkovaný okraj jako zakázaným prvkům; pás by pak vypadal rozbitý.
 - **Krok cesty na notebooku** má záhlaví webu i lištu cesty. Jinak: jen lišta cesty, víc soustředění, ale z kroku by nebylo vidět, kde v atlasu student je.
 - **Body v Mapě a čase** stojí u města ve sloupci, aby se jména nepřekrývala; na telefonu jsou bez jmen a vybírá se pod mapou. Jinak: tečky na telefonu klikací a jméno v bublině, ale u Athén by byly cíle menší než 44 px.
