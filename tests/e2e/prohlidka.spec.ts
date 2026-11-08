@@ -64,9 +64,9 @@ for (const s of STRANKY) {
         await pripravit(page);
 
         await expect(page.locator('h1')).toContainText(s.nadpis);
-        // Režim odpovídá nastavení systému.
+        // Režim odpovídá nastavení systému (papír --papir ve dne a v nočním zápisníku).
         const pozadi = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-        expect(pozadi).toBe(rezim === 'light' ? 'rgb(244, 239, 230)' : 'rgb(23, 20, 15)');
+        expect(pozadi).toBe(rezim === 'light' ? 'rgb(239, 237, 230)' : 'rgb(29, 27, 24)');
         // Žádné vodorovné posouvání stránky.
         const presah = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         expect(presah).toBeLessThanOrEqual(0);
@@ -100,7 +100,7 @@ test('ruční přepínač režimu přebije systém a zapamatuje si volbu', async
   expect(await page.evaluate(() => localStorage.getItem('atlas-rezim'))).toBe('dark');
   await page.goto('/lide/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(23, 20, 15)');
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(29, 27, 24)');
   await page.locator('[data-prepinac-rezimu]').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });

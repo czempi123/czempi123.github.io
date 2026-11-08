@@ -1,4 +1,6 @@
-/* Základní styly Atlasu myšlení: čtenářský papír, patková typografie, fokus jen z klávesnice. */
+/* Základní styly Atlasu myšlení: tečkovaný papír, patková typografie, fokus jen z klávesnice.
+   Od K1 větve design-v2 i prvky papíru (list, páska, razítka, titulek s pruhem, lístek s páskou),
+   vrstvy stínu pro najetí a stisk a pravidla pohybu; viz oddíl Papír níž a docs/plany/design-v2.md › Po K1. */
 
 *,
 *::before,
@@ -32,7 +34,10 @@ html[data-obsah-js] { scroll-padding-top: calc(var(--hlavicka) + var(--hodina) +
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--paper);
+  /* Tečkovaný papír jen v CSS: tečka 1,1 px po 22 px (na telefonu 20 px). */
+  background-color: var(--papir);
+  background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+  background-size: var(--tecky-krok) var(--tecky-krok);
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: var(--fs-text);
@@ -128,7 +133,18 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 }
 .preskocit:focus { top: var(--s-2); }
 
-/* Barva období pro podstrom: nastav --obdobi-* přes třídu .obdobi-N */
+/* Barva období pro podstrom: třída .obdobi-N nastaví inkoust --p, papír --pp a text na papíru --na-pp.
+   Bez třídy (velká otázka, deník) je pruh i páska v inkoustu. Staré --pc* zůstávají do přepisu komponent. */
+:root { --p: var(--ink); --pp: var(--ink); --na-pp: var(--na-inkoustu); }
+.bez-obdobi { --p: var(--ink); --pp: var(--ink); --na-pp: var(--na-inkoustu); }
+.obdobi-1 { --p: var(--p-1); --pp: var(--pp-1); --na-pp: var(--na-papiru); }
+.obdobi-2 { --p: var(--p-2); --pp: var(--pp-2); --na-pp: var(--na-papiru); }
+.obdobi-3 { --p: var(--p-3); --pp: var(--pp-3); --na-pp: var(--na-papiru); }
+.obdobi-4 { --p: var(--p-4); --pp: var(--pp-4); --na-pp: var(--na-papiru); }
+.obdobi-5 { --p: var(--p-5); --pp: var(--pp-5); --na-pp: var(--na-papiru); }
+.obdobi-6 { --p: var(--p-6); --pp: var(--pp-6); --na-pp: var(--na-papiru); }
+.obdobi-7 { --p: var(--p-7); --pp: var(--pp-7); --na-pp: var(--na-papiru); }
+.obdobi-8 { --p: var(--p-8); --pp: var(--pp-8); --na-pp: var(--na-papiru); }
 .obdobi-1 { --pc: var(--period-1); --pc-tint: var(--period-1-tint); --pc-soft: var(--period-1-soft); --pc-plate: var(--period-1-plate); --pc-on-plate: var(--period-1-on-plate); }
 .obdobi-2 { --pc: var(--period-2); --pc-tint: var(--period-2-tint); --pc-soft: var(--period-2-soft); --pc-plate: var(--period-2-plate); --pc-on-plate: var(--period-2-on-plate); }
 .obdobi-3 { --pc: var(--period-3); --pc-tint: var(--period-3-tint); --pc-soft: var(--period-3-soft); --pc-plate: var(--period-3-plate); --pc-on-plate: var(--period-3-on-plate); }
@@ -138,11 +154,17 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 .obdobi-7 { --pc: var(--period-7); --pc-tint: var(--period-7-tint); --pc-soft: var(--period-7-soft); --pc-plate: var(--period-7-plate); --pc-on-plate: var(--period-7-on-plate); }
 .obdobi-8 { --pc: var(--period-8); --pc-tint: var(--period-8-tint); --pc-soft: var(--period-8-soft); --pc-plate: var(--period-8-plate); --pc-on-plate: var(--period-8-on-plate); }
 
+/* Omezený pohyb: nic se nehýbe a každý stav je hned na konci. Délky jsou 0,01 ms (ne none), aby animace
+   skončila ve svém konečném snímku a události transitionend a animationend přišly jako jindy; zpoždění
+   (příchod po částech) se ruší. Prvky papíru, jejichž klidový styl už je konec pohybu, mají animaci vypnutou úplně. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
+  .rozlozit, .dopad { animation: none !important; }
 }
 
 /* ─── Interaktivní bloky (src/components/bloky, docs/design.md › Komponenty) ─────────────────── */
@@ -273,3 +295,241 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 .kresba .k-volba--radek { grid-template-columns: 5.5em auto; align-items: center; justify-content: start; gap: var(--s-2); margin-top: var(--s-2); }
 /* Pohyblivý prvek (k-hybe) má vlastní animaci jen pod .kresba--pohyb; když student pohyb zastaví, zůstane stát tam, kde je. */
 .kresba:not(.kresba--bezi) .k-hybe { animation-play-state: paused !important; }
+
+/* ─── Papír (design-v2, K1; plátno: project/DesignSystem.dc.html a Domu.dc.html) ─────────────────────
+   Natočení listů, pásek a razítek je ve vlastnosti rotate, ne v transform: animace rozložení a dopadu
+   (transform) a posun po najetí ho tak nepřepíšou. */
+
+/* Tečkovaný papír pro plochu uvnitř stránky (plátno mapy, kresby, moře). */
+.papir {
+  background-color: var(--papir);
+  background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+  background-size: var(--tecky-krok) var(--tecky-krok);
+}
+/* Vytržený okraj (zubatý nahoře i dole) a stín, který ho sleduje: stín patří obalu, okraj vnitřku. */
+.trh { clip-path: var(--trh); }
+.odlep { filter: var(--odlep); }
+
+/* Ležící list, který se čte: citát, Zkus to žít, karta člověka, rám fotky. */
+.papirovy-list {
+  position: relative;
+  background: var(--list);
+  box-shadow: var(--lezi);
+  border-radius: var(--r-papir);
+}
+
+/* Páska v papíru období: pruhy po 7 px pod −45°, zubaté konce. Rodič potřebuje position: relative. */
+.paska {
+  position: absolute;
+  z-index: 2;
+  width: 120px;
+  height: 30px;
+  background: repeating-linear-gradient(-45deg,
+    color-mix(in srgb, var(--pp) var(--paska-a), transparent) 0 7px,
+    color-mix(in srgb, var(--pp) var(--paska-b), transparent) 7px 14px);
+  clip-path: var(--paska-tvar);
+  pointer-events: none;
+}
+.paska--nahore { top: -14px; left: calc(50% - 60px); rotate: -2deg; }
+.paska--vlevo { top: -10px; left: -34px; rotate: -34deg; }
+.paska--vpravo { top: -8px; right: -36px; rotate: 30deg; }
+.paska--mala { width: 90px; height: 24px; }
+.paska--mala.paska--nahore { top: -11px; left: calc(50% - 45px); }
+
+/* Razítko místa a času nad titulkem (dvojitý rámeček v inkoustu období). */
+.razitko-mista {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 16px 9px;
+  border: 2.5px solid var(--p);
+  outline: 1px solid var(--p);
+  outline-offset: 3px;
+  border-radius: var(--r-razitko);
+  color: var(--p);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.35;
+  rotate: -3deg;
+  /* Plátno má 0,92; s ní má období 4 ve dne a 1, 2 a 7 na lístku v noci text pod 4,5 : 1. */
+  opacity: .96;
+}
+.razitko-mista :is(b, strong) { font-size: 16px; font-weight: 700; }
+
+/* Titulek s pruhem: jméno na vytrženém listu a pod ním pruh rukou v papíru období
+   (bez období v inkoustu: .bez-obdobi). Na telefonu jméno 56 px a pruh 26 px. */
+.titulek { display: inline-block; max-width: 100%; rotate: -1.2deg; filter: var(--odlep); }
+.titulek__list { padding: 24px 40px 30px; background: var(--list); clip-path: var(--trh); }
+.titulek__jmeno {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-jmeno);
+  font-weight: 400;
+  line-height: var(--lh-jmeno);
+  letter-spacing: var(--ls-jmeno);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.titulek-pruh { display: inline-block; max-width: 100%; margin: -16px 0 0 60px; rotate: 1.8deg; filter: var(--odlep); }
+.titulek-pruh__papir {
+  padding: 8px 26px 10px;
+  background: var(--pp);
+  color: var(--na-pp);
+  clip-path: var(--trh);
+  font-family: var(--font-ruka);
+  font-size: var(--fs-ruka-l);
+  font-weight: 700;
+  line-height: var(--lh-ruka-l);
+}
+@media (max-width: 699px) {
+  .titulek__list { padding: 12px 18px 16px; }
+  .titulek-pruh { margin: -10px 0 0 26px; }
+  .titulek-pruh__papir { padding: 6px 16px 8px; }
+}
+
+/* Razítko člověka (poštovní razítko, Po D4): dva soustředné kruhy v inkoustu období, po obvodu nahoře jméno
+   a dole roky, uprostřed atribut (kdo ho nemá, má vlnovky). Velikost --mv (72 Doba a lidé, 78 karta v Mapě a čase,
+   64 hlasy a lidé období, 56 osa); pod 48 px třída --bez-obvodu nechá jen kruh s atributem. Natočení --rr podle id.
+   SVG a filtr nedotištěného inkoustu skládá komponenta (K3). */
+.razitko-cloveka {
+  flex: none;
+  display: block;
+  width: var(--mv, 56px);
+  height: var(--mv, 56px);
+  color: var(--p);
+  rotate: var(--rr, -8deg);
+  opacity: .96;
+  line-height: 0;
+}
+.razitko-cloveka svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.razitko-cloveka .rz-k { fill: none; stroke: currentColor; }
+.razitko-cloveka .rz-b { fill: currentColor; }
+.razitko-cloveka .rz-ik { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.razitko-cloveka .rz-t { font: 700 11px var(--font-sans); letter-spacing: .06em; fill: currentColor; }
+.razitko-cloveka .rz-r { font-size: 9px; font-weight: 600; letter-spacing: .03em; }
+.razitko-cloveka--bez-obvodu :is(.rz-t, .rz-b) { display: none; }
+
+/* Lístek s páskou: místo tinty období (zpětná vazba Volby, věty po volbě, Návrat, srovnání). */
+.listek-paska {
+  position: relative;
+  margin-top: var(--s-5);
+  padding: calc(var(--s-5) + 2px) var(--s-5) var(--s-4);
+  background: var(--listek);
+  box-shadow: var(--lezi);
+  color: var(--ink);
+  rotate: -.6deg;
+}
+.listek-paska > :last-child { margin-bottom: 0; }
+
+/* Vrstvy stínu bez přechodu box-shadow: prvek nese vtlačený stín (stisk), pod obsahem leží ::before s plochou
+   a stínem vystouplého a ::after jen se zvednutým stínem. Najetí rozsvítí ::after, stisk zhasne obě vrstvy
+   a odkryje vtlačený stín, zvolení totéž s --vtla. Mění se jen opacity vrstev a transform prvku.
+   Proměnné: --vy-dno (barva vtlačené plochy), --vy-plocha, --vy-stin, --vy-zved, --vy-tlak, --vy-y (zvednutí). */
+.vystouple {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background: var(--vy-dno, var(--papir));
+  box-shadow: var(--vy-tlak, var(--vtla-hl));
+  cursor: pointer;
+  transition: transform var(--d-stisk) var(--k-stisk);
+}
+.vystouple::before,
+.vystouple::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity var(--d-stisk) var(--k-stisk);
+}
+.vystouple::before { background: var(--vy-plocha, var(--plocha)); box-shadow: var(--vy-stin, var(--vyst)); }
+.vystouple::after { opacity: 0; box-shadow: var(--vy-zved, var(--zved)); }
+@media (hover: hover) {
+  .vystouple:hover { transform: translateY(var(--vy-y, -1px)); }
+  .vystouple:hover::after { opacity: 1; }
+}
+.vystouple:active { transform: translateY(1px); }
+.vystouple:active::before,
+.vystouple:active::after { opacity: 0; }
+.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"]) { --vy-tlak: var(--vtla); transform: none; }
+.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"])::before,
+.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"])::after { opacity: 0; }
+/* Malé vystouplé (Můj deník, zpět, přepínač) a hlavní tlačítko na plném inkoustu. */
+.vystouple--m { --vy-plocha: var(--plocha-m); --vy-stin: var(--vyst-m); }
+.vystouple--ink { --vy-dno: var(--ink); --vy-plocha: var(--ink); --vy-stin: var(--vyst-ink); --vy-zved: var(--zved-ink); --vy-tlak: var(--vtla-ink); color: var(--na-inkoustu); }
+
+/* Ležící papír, který vede jinam (karta): po najetí se zvedne a srovná, po stisku přitiskne. */
+.lezi-odkaz {
+  position: relative;
+  isolation: isolate;
+  background: var(--list);
+  box-shadow: var(--lezi-tlak);
+  rotate: var(--nat, -.8deg);
+  transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
+}
+.lezi-odkaz::before,
+.lezi-odkaz::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity var(--d-stisk) var(--k-stisk);
+}
+.lezi-odkaz::before { box-shadow: var(--lezi); }
+.lezi-odkaz::after { opacity: 0; box-shadow: var(--lezi-zved); }
+@media (hover: hover) {
+  .lezi-odkaz:hover { rotate: 0deg; transform: translateY(-3px); }
+  .lezi-odkaz:hover::after { opacity: 1; }
+}
+.lezi-odkaz:active { rotate: 0deg; transform: none; }
+.lezi-odkaz:active::before,
+.lezi-odkaz:active::after { opacity: 0; }
+
+/* Zakázaný prvek: zploštělý, bez stínu, s čárkovaným okrajem tužkou a textem popisku. */
+.zakazane,
+.vystouple:disabled,
+.vystouple[aria-disabled="true"],
+.lezi-odkaz[aria-disabled="true"] {
+  --vy-dno: transparent;
+  background: transparent;
+  box-shadow: none;
+  outline: 1.5px dashed var(--tuzka);
+  outline-offset: -1.5px;
+  color: var(--ink-3);
+  rotate: 0deg;
+  transform: none;
+  cursor: not-allowed;
+}
+:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .lezi-odkaz[aria-disabled="true"])::before,
+:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .lezi-odkaz[aria-disabled="true"])::after { display: none; }
+/* Fokus z klávesnice i u prvku se zakázaným obrysem a na plném inkoustu: rámeček v inkoustu kolem prvku. */
+:is(.vystouple, .lezi-odkaz, .zakazane):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Rozložení lístku při vložení (zpětná vazba, lístek pojmu): papír se rozloží od horní hrany. */
+@keyframes listek-rozlozit {
+  from { transform: perspective(700px) rotateX(-88deg); opacity: 0; }
+  45% { opacity: 1; }
+  to { transform: perspective(700px) rotateX(0deg); opacity: 1; }
+}
+.rozlozit {
+  transform-origin: 50% 0;
+  animation-name: listek-rozlozit;
+  animation-duration: var(--d-listek);
+  animation-timing-function: var(--k-papir);
+  animation-fill-mode: both;
+}
+/* Dopad razítka (Cesta prošlá, razítko v deníku): zrychluje k papíru a zastaví se naráz, bez odskoku.
+   Konec nemá opacity, takže razítko skončí na své vlastní průhlednosti. */
+@keyframes razitko-dopad {
+  from { transform: scale(1.35); opacity: 0; }
+  to { transform: scale(1); }
+}
+.dopad {
+  animation-name: razitko-dopad;
+  animation-duration: var(--d-listek);
+  animation-timing-function: var(--k-dopad);
+  animation-fill-mode: both;
+}

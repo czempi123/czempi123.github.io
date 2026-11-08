@@ -51,7 +51,7 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
 
       // Barvy z tokenů: první křivka v barvě období, druhá inkoustem.
       const barvy = await graf.evaluate((f) => [...f.querySelectorAll<SVGPathElement>('.graf__krivka')].map((k) => getComputedStyle(k).stroke));
-      expect(barvy).toEqual(rezim === 'light' ? ['rgb(123, 53, 101)', 'rgb(33, 28, 23)'] : ['rgb(212, 141, 191)', 'rgb(241, 235, 224)']);
+      expect(barvy).toEqual(rezim === 'light' ? ['rgb(123, 53, 101)', 'rgb(36, 33, 29)'] : ['rgb(212, 141, 191)', 'rgb(238, 232, 221)']);
 
       const v = await new AxeBuilder({ page }).include(GRAF).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       expect(v.violations.map((x) => `${x.id}: ${x.help}`)).toEqual([]);

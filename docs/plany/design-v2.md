@@ -12,8 +12,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D2) |
 | D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D3); odpovědi po D3 8. 11. 2026 |
 | D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D4) |
-| Brána | Autor schválí návrh na plátně; teprve potom kód | autor | na řadě (Co rozhodnout po D4, otázka 9) |
-| K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
+| Brána | Autor schválí návrh na plátně; teprve potom kód | autor | schváleno 8. 11. 2026 (Co rozhodnout po D4, otázka 9) |
+| K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 8. 11. 2026 (oddíl Po K1) |
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | čeká |
 | K3 | Stránky osob: hlavička profilu (titulek s pruhem, razítko, deska s fotkou a páskou, lístky cest, štítky otázek, Proč kalich), kapitoly, citát, Doba a lidé, myšlenky, Zkus to žít, Kam dál, Prameny, obsah profilu, medailonky; snímky pro autora | totéž | čeká |
 | K4 | Bloky a jejich pohyb: Volba, Odkryj, Roztřiď, Změň jednu věc, Spor, Slož argument, Kdo žil dřív?, Příběh, Kdo je na tvé straně, Návrat, Závěr cesty, Moje stanovisko, první názor | totéž | čeká |
@@ -462,37 +462,37 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 Prázdná odpověď znamená souhlas s doporučením. Jen u otázky 9 potřebuji výslovnou odpověď.
 
 1. **Poštovní razítko s atributem místo mince v celém atlasu** (Lidé, Mapa a čas, osa hlasů, Doba a lidé, karta týdne, příprava hodiny)? Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 2. **Pruh bez období v inkoustu** na stránkách, které nepatří jednomu období (otázka, deník, Otázky, Lidé)? Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 3. **Odtržený lístek období** v hlavičce stránky období místo razítka? Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 4. **Lístek s páskou místo tint i u karty týdne a koleček v přípravě hodiny?** Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 5. **Bez většího displeje:** titulky na Domů i na stránce období 104 px jako jméno člověka? Doporučuji ano (přepínač `titulek` na plátně ukáže 148 px).
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 6. **Pás období na telefonu svisle na Domů a vodorovně posuvný v Mapě a čase?** Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 7. **Krok cesty na notebooku se záhlavím webu nad lištou cesty?** Doporučuji ano.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 8. **Chceš něco změnit na obrazovkách?** Napiš kterou a co (nebo komentář na plátně). Bez odpovědi zůstává, jak je.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 9. **Brána: schvaluješ návrh na plátně (design systém, pohyb a obrazovky) jako podklad pro kód?** Bez výslovného „ano“ K1 nezačne.
-   Odpověď:
+   Odpověď: ano (8. 11. 2026)
 
 10. **Záložky i jinde místo vtlačených štítků** (Otázky doby na stránce období, štítky směrů)? Doporučuji ano u otázek, štítky směrů nechat vtlačené.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 11. **Jak daleko sahá nový název Agora?** Doporučuji: záhlaví, titulek stránek v prohlížeči, popis pro sdílení, úvodní věta na Domů a README; repozitář, adresa webu a soubory v `docs/` zůstávají, jak jsou (o přejmenování adresy rozhodneš zvlášť). V textech pro studenty zůstává „atlas“ tam, kde mluví o tom, jak se v něm pohybovat.
-   Odpověď:
+   Odpověď: (prázdná, souhlas s doporučením)
 
 ## Zadání K1: základ v kódu
 
@@ -514,6 +514,118 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 5. Do plánu větve zapiš oddíl Po K1: co je v tokens.css a global.css, které přezdívky zůstaly a pro který krok, co se na webu změnilo už teď a co čeká na K2 až K7, nad čím jsi váhal, otázky Co rozhodnout po K1 a zadání K2 v plném znění. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
 
 6. Pak se zastav a napiš mi, na které snímky se mám podívat.
+```
+
+## Po K1 (8. 11. 2026)
+
+Odpovědi po D4: otázka 9 (brána) „ano“, ostatní prázdné, takže platí doporučení. Plátno se kvůli nim neměnilo: všechny potvrzují stav, který na něm je (otázky 4 a 10 se týkají K4 a K6).
+
+### Co je v `tokens.css`
+
+- **Papír, plochy, inkousty a tužka** pro den a noční zápisník podle `<helmet>` design systému (`--papir`, `--tecka`, `--list`, `--plocha`, `--plocha-m`, `--listek`, `--linka`, `--tuzka`, `--ink`, `--ink-2`, `--ruka`, `--ink-3`, `--na-inkoustu`, `--na-papiru`). Noc běží jako dřív: podle systému (`prefers-color-scheme`, když student nezvolil den) a ručně přes `data-theme` z přepínače režimu.
+- **Osm období:** inkoust `--p-1` až `--p-8` (v noci zesvětlený) a papír `--pp-1` až `--pp-8` (ve dne i v noci stejný). Hodnoty jsou tytéž jako dosud, jen pod novým jménem. Podstromu je nastaví třída `.obdobi-N` (`--p`, `--pp`, `--na-pp`), bez třídy nebo s `.bez-obdobi` je pruh i páska v inkoustu.
+- **Stíny** `--vyst`, `--vyst-m`, `--zved`, `--vtla`, `--vtla-mele`, `--vtla-hl`, `--vyst-ink`, `--zved-ink`, `--vtla-ink`, `--lezi`, `--lezi-zved`, `--lezi-tlak`, filtr `--odlep`, a navíc z obrazovek D4 `--deska` (rám fotky), `--pas-stin` (pás období) a `--lista-stin` (spodní lišta telefonu). V tisku jsou všechny stíny `none`.
+- **Páska** `--paska-a`, `--paska-b` a tvar `--paska-tvar`, **vytržený okraj** `--trh`, **filtr fotky** `--foto`, krok teček `--tecky-krok` (22 px, na telefonu 20 px).
+- **Písma:** `--font-ruka` (Kalam) a stupnice z D2: `--fs-jmeno` 104 / 56 px, `--fs-h1` 64 / 40, `--fs-h2` 44 / 30, `--fs-h3` 30 / 24, `--fs-citat` 31 / 23, `--fs-perex` 23 / 19, `--fs-text` 21 / 18, `--fs-ruka-l` 40 / 26, `--fs-ruka` 19 / 17, ovládání a popisky beze změny.
+- **Zaoblení** `--r-papir` 0, `--r-razitko` 3, `--r-ovladani` 10, `--r-plne` 999; **okraj stránky** 16 px na telefonu, 48 px na notebooku (dřív 80); mezery beze změny.
+- **Pohyb:** `--d-stisk` 120 ms až `--d-kamera` 600 ms, `--z-prichod` 80 ms, křivky `--k-stisk`, `--k-papir`, `--k-list`, `--k-dopad`. Při omezeném pohybu jsou všechny délky 0.
+
+### Co je v `global.css`
+
+- **Tečkovaný papír** na `body` jen v CSS (`radial-gradient`, tečka 1,1 px), třída `.papir` pro plochy uvnitř stránky (plátno mapy, kresby).
+- **Vytržený okraj** `.trh` (clip-path) a `.odlep` (stín, který sleduje zubatý okraj; patří obalu).
+- **Třídy papíru:** `.papirovy-list` (ležící list), `.paska` s polohami `--nahore`, `--vlevo`, `--vpravo` a menší `--mala`, `.razitko-mista`, titulek s pruhem `.titulek` › `.titulek__list` › `.titulek__jmeno` a `.titulek-pruh` › `.titulek-pruh__papir` (Kalam 700 v papíru období), `.razitko-cloveka` (velikost `--mv`, natočení `--rr`, části SVG `.rz-k`, `.rz-b`, `.rz-ik`, `.rz-t`, `.rz-r`, pod 48 px `--bez-obvodu`), `.listek-paska` (lístek místo tinty období).
+- **Vrstvy stínu bez přechodu `box-shadow`:** `.vystouple` (varianty `--m` a `--ink` pro hlavní tlačítko) a `.lezi-odkaz` (karta). Prvek nese vtlačený stín, `::before` plochu se stínem vystouplého, `::after` stín zvednutého; najetí, stisk a zvolení (`aria-pressed`, `aria-current`, `aria-selected`) mění jen `opacity` vrstev a `transform`.
+- **Zakázaný prvek** (`.zakazane`, `:disabled`, `aria-disabled`): bez stínu a vrstev, čárkovaný okraj tužkou, text `--ink-3`. **Fokus** z klávesnice zůstává rámeček 2 px v inkoustu, i u zakázaného a na plném inkoustu.
+- **Klíčové snímky:** `listek-rozlozit` (třída `.rozlozit`: `rotateX` od horní hrany, `--d-listek`, `--k-papir`) a `razitko-dopad` (třída `.dopad`: z 1,35 na 1, `--k-dopad`, bez odskoku).
+- **Omezený pohyb:** přechody a animace trvají 0,01 ms a zpoždění se ruší, takže stav je hned na konci; `.rozlozit` a `.dopad` nemají animaci vůbec.
+- **Kalam** lokálně z `@fontsource/kalam` (latin a latin-ext, 400 a 700) v `Pisma.astro`, bez přednačtení, protože ho zatím žádná stránka nepoužívá. Ověřeno vykreslením: obě podmnožiny i oba řezy se načtou, česká písmena včetně ď, ť, ů a Ů jsou v Kalamu, žádný požadavek mimo web (`Claude outputs/snimky/design-v2-k1/kalam-cestina.png`).
+
+### Přezdívky: co zůstalo a pro který krok
+
+| Staré jméno | Ukazuje na | Kdo ho používá | Nahradí |
+| --- | --- | --- | --- |
+| `--paper` | `--papir` | 42 míst: rám, deník, mapa, kresby | K2 až K7 podle komponenty |
+| `--surface` | `--list` | 80 míst: bloky, karty, lišty | K4 (bloky), K2, K3, K6 |
+| `--sunk` | papír smíchaný s linkou (`color-mix`) | 25 míst: přepínače, najetí, podklady | K4 a K7 (vtlačené místo barvy) |
+| `--rule` | `--linka` | 141 míst | K2 až K7; kde je linka jedinou hranicí ovládání, přejde na stín nebo tužku |
+| `--muted` | stará hodnota `#6B6154` / `#A69B8A` | 99 míst | K3 až K7; nový `--ink-3` je o odstín světlejší a na tintě období 2 by měl 4,47 : 1, proto přezdívka drží starou hodnotu, dokud tinty nezmizí |
+| `--period-N` | `--p-N` | 10 míst | K3, K6, K7 |
+| `--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate` (třída `.obdobi-N`) | staré tinty a desky | 315 míst | K3 (desky), K4 (tinty ve zpětné vazbě), K6, K7 (kresby) |
+| `--period-N-tint`, `-soft`, `-plate`, `-on-plate` | dnešní hodnoty | přes `--pc-*` | K3 až K7, pak smazat |
+| `--fs-display-1`, `--fs-display-2` | `--fs-jmeno` | jen třídy `.t-display-*` | K3 a K6 (titulek s pruhem) |
+| `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-full` | `--r-razitko`, `--r-ovladani`, `--r-plne` | 139 míst | K2 až K7 |
+| `--stin-mapa`, `--stin-list` | `--lezi`, `--lista-stin` | 9 míst | K7, K2 |
+| `--pohyb-rychle`, `--pohyb`, `--pohyb-kamera` | `--d-stisk`, `--d-listek`, `--d-kamera` | 75 míst ve 25 souborech | K2 až K7 |
+| `--map-*` | beze změny | mapa a mini mapa | K7 (mapa jako výstřižek) |
+
+**Co přezdívka nepokryje (práce pro K2 až K7):**
+
+- **K2:** hlavička a spodní lišta mají plné pozadí `--paper` bez stínu; logo Agora, vtlačená aktivní položka, vystouplý Můj deník a hledání ve vtlačené drážce chybí.
+- **K3:** desky s fotkou jsou dál v duotónu období (`--pc-plate`), ne na listu s páskami a filtrem `--foto`; jméno není na vytrženém listu s pruhem; mince místo razítka člověka (SVG s textem po obvodu a filtrem nedotištěného inkoustu skládá komponenta, CSS je hotové).
+- **K4:** bloky jsou plochá karta `--surface` s linkou a zaoblením 10 px; hlavní tlačítko je plný inkoust bez `--vyst-ink`; možnosti Volby nejsou vystouplé; zpětná vazba je tinta, ne `.listek-paska` s `.rozlozit`; pole na psaní nejsou v Kalamu.
+- **K5:** lišta cesty a drážka postupu jsou ploché; lístek cesty nemá pahýl.
+- **K6:** pás období je dnešní plynulý pruh, ne odtrhávací lístky; štítky otázek, karta týdne a kolečka hodiny jsou tinty.
+- **K7:** mapa má moře a pevninu z `--map-*`, ne výstřižek staré mapy; kresby berou tři tóny z desky (`--pc-plate`, `--pc-on-plate`), ne koláž z papíru.
+
+### Co se na webu změnilo už teď
+
+Každá stránka leží na tečkovaném papíře v nových barvách: papír je chladnější a šedší (`#EFEDE6` místo `#F4EFE6`), noc je noční zápisník (`#1D1B18`). Inkoust je o odstín teplejší. Nadpisy h2, h3 a citát jsou o kus menší, text na telefonu má 18 px. Okraj stránky na notebooku je 48 px místo 80, takže obsah je širší. Tlačítka a bloky mají zaoblení 10 px místo 8 a 14. Najetí je rychlejší (120 ms místo 150) a při omezeném pohybu se ruší i zpoždění. Rozvržení, komponenty a texty zůstávají, jak byly; stránky se nerozbily (snímky níž).
+
+### Testy a kontrola
+
+- `npm run build` prošel. Kontrola typů (`astro check`) bez chyb, Vitest: 1 121 testů prošlo. `tests/data/kontrast.test.ts` hlídá nově 234 dvojic ve dne i v noci: čtyři inkousty na papíru, listu, ploše a lístku, tužka jako hranice 3 : 1, text na hlavním tlačítku, inkoust období na papíru, listu a lístku, text na pruhu všech osmi období, razítko místa s průhledností, a do K7 staré tinty a desky.
+- Kontrast nových dvojic jsem spočítal i jednorázovým skriptem (`scripts/kontrast-k1.mjs`, po výpisu smazaný): nejnižší text ve dne 4,71 : 1 (razítko místa období 4 na papíře), v noci 4,58 : 1 (razítko místa období 1 na lístku); nejnižší hranice tužkou 3,24 : 1 ve dne a 3,34 : 1 v noci. Text na pruhu období má nejméně 5,48 : 1 (období 4).
+- Playwright (celá sada, 713 testů) prošel po třech opravách: prohlídka a přepínač režimu ověřovaly barvu papíru natvrdo (`prohlidka.spec.ts`), graf barvu inkoustu (`graf.spec.ts`) a axe našel `--muted` na tintě období 2 (Mapa a čas, Dva životy) s 4,47 : 1, což vyřešila stará hodnota přezdívky. Celé `npm test` pak prošlo až na dva testy kreseb v `jeskyne.spec.ts`, které po tabulátoru měřily polohu tlačítka nad lištou cesty hned, ještě během plynulého posunu (text 18 px na telefonu posunul tlačítko blíž k liště a závod se projevil zhruba jednou z pěti). Měří teď až po dojetí posunu (`expect.poll`); deset běhů po sobě prošlo.
+- **Snímky:** testy v repozitáři žádné referenční snímky nemají (snímky v `test-results/` jsou jen pro prohlédnutí a Playwright je maže), takže se žádné neaktualizovaly. Snímky pro autora jsou v `Claude outputs/snimky/design-v2-k1/`: `domu-`, `sokrates-` a `krok2-` (cesta 1, krok 2) na 390 a 1440 px ve dne (`light`) i v noci (`dark`), a `kalam-cestina.png`.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Průhlednost razítka místa 0,96 místo 0,92 z plátna.** S 0,92 má text razítka období 4 ve dne a období 1, 2 a 7 na lístku v noci 4,32 až 4,44 : 1. Jinak: nechat 0,92 a ztmavit inkoust období, ale inkousty drží barvy, které student zná z mapy a osy.
+- **Natočení ve vlastnosti `rotate`, ne v `transform`.** List, páska, razítko a karta se tak dají rozložit, otisknout nebo zvednout animací `transform`, a natočení zůstane. Jinak: natočení v `transform` a animace s ním v každém snímku, což by každá komponenta musela opakovat.
+- **Omezený pohyb 0,01 ms místo `none`.** Animace tak skončí ve svém posledním snímku a události konce přijdou jako jindy (na nich stojí některé ostrovy); zpoždění se ruší, takže příchod po částech je hned celý. Rozložení lístku a dopad razítka mají `none`, protože jejich klidový styl už je konec pohybu.
+- **`--sunk` jako papír smíchaný s linkou.** Nový systém zapuštěnou barvu nemá (vtlačené je papír se stínem), ale 25 míst ji dnes používá jako podklad přepínačů a najetí; bez ní by splynula s papírem. Zmizí s K4 a K7.
+- **Okraj 48 px už v K1.** Je to hodnota z D2 a rám ji v K2 stejně převezme. Jinak: nechat 80 px do K2; obsah na notebooku by se pak rozšířil až s novou hlavičkou.
+- **Display jako jméno.** `--fs-display-1` a `-2` ukazují na `--fs-jmeno` (104 / 56 px), protože Po D4 větší display nepřidává. Dnes je žádná stránka nepoužívá, takže se nic nezměnilo.
+- **Razítko člověka jen jako CSS.** SVG s textem po obvodu, ikonou atributu a filtrem nedotištěného inkoustu je komponenta; postaví ji K3 místo `Mince.svelte`, aby ikony šly ze spritu atlasu.
+- **Kalam bez přednačtení.** Zatím ho nic nepoužívá, takže se ani nestáhne; přednačtení latin podmnožiny 700 přijde s pruhem se jménem v K3 (je na první obrazovce profilu).
+- **Jména tříd** jsem volil tak, aby se nepotkala s třídami komponent: `list`, `pruh`, `mince`, `karta`, `deska` a `tecky` už v komponentách jsou, proto `.papirovy-list`, `.titulek-pruh`, `.razitko-cloveka`, `.lezi-odkaz` a `.papir`.
+
+## Co rozhodnout po K1
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Razítko místa s průhledností 0,96** místo 0,92 z plátna, aby text razítka měl ve všech obdobích aspoň 4,5 : 1? Doporučuji ano.
+   Odpověď:
+
+2. **Okraj stránky 48 px na notebooku už teď** (obsah je širší než dřív, ještě před novou hlavičkou)? Doporučuji ano.
+   Odpověď:
+
+3. **Chceš něco změnit na snímcích po K1** (papír, barvy, velikost písma)? Napiš kde a co. Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+## Zadání K2: rám webu
+
+Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po K1 (prázdná odpověď znamená souhlas).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K2 větve design-v2, rám webu v novém vzhledu. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Pravidla pohybu), Po D4 (Co se proti design systému změnilo: Navigace a logo), Co rozhodnout po D4 (otázka 11, Agora), Po K1 a Co rozhodnout po K1 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíl Navigace a rozvržení. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/Domu.dc.html v <helmet> jen část „rám: hlavička, drobečky, spodní lišta“ a @container pro telefon, z těla jen hlavičku, drobečky a spodní lištu, a z project/Pohyb.dc.html jen styly a skript ukázky „mezi stránkami“. Když odpovědi po K1 něco mění, oprav nejdřív tokens.css nebo global.css.
+
+1. Hlavička na notebooku: logo Agora jako koláž pěti vytržených písmen (velké A v papíru období stránky přes --pp a --na-pp, na stránkách bez období v inkoustu; po najetí se písmena srovnají do řady, --d-stisk; odkaz s popiskem „Agora, domů“, jednotlivá písmena čtečka nečte), navigace jako ploché odkazy s vtlačenou aktivní položkou (--vtla), hledání ve vtlačené drážce, Můj deník vystouplý (.vystouple .vystouple--m) a přepínač režimu jako malé vystouplé tlačítko. Drobečky v --ink-3. Telefon: horní lišta se Zpět, hledáním ikonou a přepínačem, spodní lišta s vtlačenou aktivní položkou a stínem --lista-stin. Lišta hodiny a promítání musí fungovat dál. Stránka 404 na vytrženém listu s titulkem a pruhem bez období.
+
+2. Název Agora podle odpovědi 11 po D4: záhlaví, titulek stránek v prohlížeči, popis pro sdílení, úvodní věta na Domů a README; repozitář, adresa webu a docs/ zůstávají. V textech pro studenty zůstává „atlas“ tam, kde mluví o tom, jak se v něm pohybovat (skill atlas-psani). Věty hlídají testy přesným zněním: najdi je v tests/ a uprav v témže commitu.
+
+3. Přechody mezi stránkami podle Po D3 (Pravidla pohybu): @view-transition { navigation: auto }, typy dalsi a zpet z navigation.activation v pagereveal, list se otočí kolem levé hrany (--d-list, --k-list); při omezeném pohybu a ve Firefoxu se stránka přepne bez animace. Let fotky z karty na desku nech na K3.
+
+4. Rám přepiš na nová jména tokenů (Po K1, tabulka přezdívek); co rám přestane používat, odškrtni v tabulce přezdívek v plánu.
+
+5. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro prohlídku, fokus a lištu, hledání, noindex, odkazy, hodinu a promítání), node scripts/kontrola-fokus.mjs, klávesnicí na dvou výškách okna, a node scripts/snimky-listy.mjs na Domů, profil Sókrata, krok cesty 1/2, Mapa a čas a 404 na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Restartuj náhled npm run dev.
+
+6. Do plánu větve zapiš oddíl Po K2: co se v rámu změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K2 a zadání K3 v plném znění. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+7. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
 
 ## Uzavření

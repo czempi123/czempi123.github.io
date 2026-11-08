@@ -1,29 +1,81 @@
 /*
- * Design tokeny Atlasu myšlení, varianta A · Papír a pigment (docs/design.md).
- * Světlý režim je výchozí; tmavý podle nastavení systému, nebo ručně přes data-theme na <html>
+ * Design tokeny Atlasu myšlení: papír, inkoust a páska (větev design-v2, krok K1).
+ * Zdroj hodnot: plátno design-v2, project/DesignSystem.dc.html a project/Domu.dc.html (<helmet>),
+ * pravidla v docs/plany/design-v2.md (Po D2, Po D3, Po D4).
+ * Den je výchozí; noční zápisník podle nastavení systému, nebo ručně přes data-theme na <html>
  * (volba uložená v localStorage, viz src/components/rozvrzeni/PrepinacRezimu.astro).
  * Velikosti písma plynule rostou mezi šířkou 390 px (telefon) a 1440 px (notebook).
+ *
+ * Na konci souboru jsou přezdívky: stará jména (--paper, --surface, --period-N, --pohyb…),
+ * která komponenty používají dnes. Kroky K2 až K7 je při přepisu komponent nahradí novými
+ * jmény a krok O je smaže (seznam v plánu větve, oddíl Po K1).
  */
 
 :root {
-  /* Základ (A) */
-  --paper: #F4EFE6;
-  --surface: #FBF8F2;
-  --sunk: #EAE3D6;
-  --rule: #DDD3C3;
+  /* Papír, plochy, inkousty (den) */
+  --papir: #EFEDE6;       /* pozadí stránky; také vtlačená plocha (liší ji jen stín) */
+  --tecka: #CBC4B6;       /* tečky papíru, jen ozdoba */
+  --list: #FBFAF6;        /* vytržený list, citát, rám fotky, karta */
+  --plocha: #F8F6F1;      /* vystouplé: lístek cesty, možnost, vedlejší tlačítko */
+  --plocha-m: #F3F1EB;    /* malé vystouplé: Můj deník, zpět, přepínač */
+  --listek: #F6EFD9;      /* lístek pojmu, lístek zpětné vazby, poznámka na okraji */
+  --linka: #D8D1C3;       /* řádky pole, perforace, dělicí linky; nikdy jediná hranice ovládání */
+  --tuzka: #8A8277;       /* jen hranice (3 : 1): vlnovka pojmu, linka pole, čárkovaný okraj zakázaného */
+  --ink: #24211D;         /* nadpisy, text, hlavní tlačítko, rámeček fokusu */
+  --ink-2: #3F3A33;       /* perexy, text lístků a štítků, popisky polí */
+  --ruka: #4C4740;        /* poznámky Kalamem, písmena možností */
+  --ink-3: #6A6258;       /* popisky obrázků, „Cesta“ nad názvem, drobečky, zakázaný text */
+  --na-inkoustu: #F8F6F1; /* text na hlavním tlačítku */
+  --na-papiru: #FBF4EE;   /* text na pruhu v papíru období (ve dne i v noci) */
+
+  /* Osm období: inkoust --p-N (text, razítko, kroužek tužkou, pahýl) a papír --pp-N (pruh, páska, lístek pásu).
+     Papír je ve dne i v noci stejný, inkoust se v noci zesvětlí. Pro podstrom je nastaví třída .obdobi-N (global.css). */
+  --p-1: #A34329; --p-2: #7B3565; --p-3: #2D4E9B; --p-4: #865B0F; --p-5: #1C5B6B; --p-6: #3D6B38; --p-7: #A12538; --p-8: #5A4A9C;
+  --pp-1: #A34329; --pp-2: #7B3565; --pp-3: #2D4E9B; --pp-4: #865B0F; --pp-5: #1C5B6B; --pp-6: #3D6B38; --pp-7: #A12538; --pp-8: #5A4A9C;
+  /* Tinty, soft a desky období (dnešní hodnoty; D2 je nemění). Tinty nahradí lístek s páskou v K3 až K6,
+     desky a kresby přejdou na papír v K3 a K7; krok O je smaže. */
+  /* Přezdívka --muted (dnešní popisky) má do zmizení tint (K3 až K7) starou hodnotu: nový --ink-3 je o odstín
+     světlejší a na tintě období 2 by měl 4,47 : 1. Kde tinta není, ber --ink-3. */
   --muted: #6B6154;
-  --ink-2: #4A4239;
-  --ink: #211C17;
-  /* Období (A): barva · tint · soft · deska */
-  --period-1: #A34329; --period-1-tint: #ECDED3; --period-1-soft: #E2C9BC; --period-1-plate: #A34329; --period-1-on-plate: #ECDED3;
-  --period-2: #7B3565; --period-2-tint: #E8DCD9; --period-2-soft: #D9C6CA; --period-2-plate: #7B3565; --period-2-on-plate: #E8DCD9;
-  --period-3: #2D4E9B; --period-3-tint: #E0DFDE; --period-3-soft: #C8CCD6; --period-3-plate: #2D4E9B; --period-3-on-plate: #E0DFDE;
-  --period-4: #865B0F; --period-4-tint: #E9E0D0; --period-4-soft: #DCCEB7; --period-4-plate: #865B0F; --period-4-on-plate: #E9E0D0;
-  --period-5: #1C5B6B; --period-5-tint: #DEE0DA; --period-5-soft: #C4CECB; --period-5-plate: #1C5B6B; --period-5-on-plate: #DEE0DA;
-  --period-6: #3D6B38; --period-6-tint: #E2E2D5; --period-6-soft: #CCD2C0; --period-6-plate: #3D6B38; --period-6-on-plate: #E2E2D5;
-  --period-7: #A12538; --period-7-tint: #ECDBD5; --period-7-soft: #E2C3C0; --period-7-plate: #A12538; --period-7-on-plate: #ECDBD5;
-  --period-8: #5A4A9C; --period-8-tint: #E5DEDF; --period-8-soft: #D2CBD6; --period-8-plate: #5A4A9C; --period-8-on-plate: #E5DEDF;
-  /* Mapa (A) */
+  --period-1-tint: #ECDED3; --period-1-soft: #E2C9BC; --period-1-plate: #A34329; --period-1-on-plate: #ECDED3;
+  --period-2-tint: #E8DCD9; --period-2-soft: #D9C6CA; --period-2-plate: #7B3565; --period-2-on-plate: #E8DCD9;
+  --period-3-tint: #E0DFDE; --period-3-soft: #C8CCD6; --period-3-plate: #2D4E9B; --period-3-on-plate: #E0DFDE;
+  --period-4-tint: #E9E0D0; --period-4-soft: #DCCEB7; --period-4-plate: #865B0F; --period-4-on-plate: #E9E0D0;
+  --period-5-tint: #DEE0DA; --period-5-soft: #C4CECB; --period-5-plate: #1C5B6B; --period-5-on-plate: #DEE0DA;
+  --period-6-tint: #E2E2D5; --period-6-soft: #CCD2C0; --period-6-plate: #3D6B38; --period-6-on-plate: #E2E2D5;
+  --period-7-tint: #ECDBD5; --period-7-soft: #E2C3C0; --period-7-plate: #A12538; --period-7-on-plate: #ECDBD5;
+  --period-8-tint: #E5DEDF; --period-8-soft: #D2CBD6; --period-8-plate: #5A4A9C; --period-8-on-plate: #E5DEDF;
+
+  /* Stíny: vystouplé jde zmáčknout, vtlačené je zvolené, ležící papír se čte. */
+  --vyst: -5px -5px 12px rgb(255 255 255 / .95), 5px 6px 13px rgb(150 140 124 / .4);
+  --vyst-m: -3px -3px 8px rgb(255 255 255 / .95), 3px 4px 9px rgb(150 140 124 / .38);
+  --zved: -6px -6px 14px rgb(255 255 255 / .95), 8px 11px 20px rgb(150 140 124 / .46);
+  --vtla: inset 3px 3px 7px rgb(150 140 124 / .45), inset -3px -3px 7px rgb(255 255 255 / .95);
+  --vtla-mele: inset 2px 2px 4px rgb(150 140 124 / .32), inset -2px -2px 4px rgb(255 255 255 / .9);
+  --vtla-hl: inset 4px 4px 9px rgb(150 140 124 / .58), inset -2px -2px 6px rgb(255 255 255 / .9);
+  --vyst-ink: -3px -3px 8px rgb(255 255 255 / .9), 4px 5px 11px rgb(60 50 40 / .35);
+  --zved-ink: -4px -4px 10px rgb(255 255 255 / .9), 6px 9px 18px rgb(60 50 40 / .42);
+  --vtla-ink: inset 3px 3px 7px rgb(0 0 0 / .55), inset -2px -2px 5px rgb(255 255 255 / .12);
+  --lezi: 0 1px 1px rgb(0 0 0 / .06), 0 12px 22px -12px rgb(60 50 40 / .35);
+  --lezi-zved: 0 2px 3px rgb(0 0 0 / .06), 0 22px 30px -14px rgb(60 50 40 / .44);
+  --lezi-tlak: 0 1px 1px rgb(0 0 0 / .08), 0 4px 8px -4px rgb(60 50 40 / .35);
+  --deska: 0 1px 1px rgb(0 0 0 / .08), 0 14px 26px -10px rgb(60 50 40 / .4);
+  --odlep: drop-shadow(0 7px 8px rgb(60 50 40 / .28));
+  --pas-stin: drop-shadow(5px 6px 6px rgb(150 140 124 / .42)) drop-shadow(-4px -4px 6px rgb(255 255 255 / .85));
+  --lista-stin: 0 -10px 18px -12px rgb(60 50 40 / .35);
+
+  /* Páska (pruhy po 7 px v papíru období) a filtr fotky na desce */
+  --paska-a: 62%;
+  --paska-b: 42%;
+  --foto: grayscale(1) sepia(.22) contrast(1.06);
+
+  /* Tečkovaný papír: tečka po 22 px (na telefonu 20 px). */
+  --tecky-krok: 22px;
+  /* Vytržený okraj listu a pruhu, zubaté konce pásky (clip-path). */
+  --trh: polygon(0 3px, 6% 0, 12% 4px, 19% 1px, 26% 5px, 33% 0, 40% 4px, 47% 1px, 54% 5px, 61% 0, 68% 4px, 75% 1px, 82% 5px, 89% 0, 95% 4px, 100% 1px, 100% calc(100% - 3px), 94% 100%, 88% calc(100% - 4px), 81% calc(100% - 1px), 74% calc(100% - 5px), 67% 100%, 60% calc(100% - 4px), 53% calc(100% - 1px), 46% calc(100% - 5px), 39% 100%, 32% calc(100% - 4px), 25% calc(100% - 1px), 18% calc(100% - 5px), 11% 100%, 5% calc(100% - 4px), 0 calc(100% - 1px));
+  --paska-tvar: polygon(3% 0, 97% 0, 100% 20%, 97% 40%, 100% 60%, 97% 80%, 100% 100%, 3% 100%, 0 80%, 3% 60%, 0 40%, 3% 20%);
+
+  /* Mapa (beze změny do K7) */
   --map-sea: #D6E0DC;
   --map-sea-line: #B4C5BF;
   --map-land: #F8F4EB;
@@ -34,17 +86,20 @@
   /* Písma */
   --font-serif: 'Newsreader', 'Iowan Old Style', Georgia, serif;
   --font-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ruka: 'Kalam', 'Bradley Hand', 'Segoe Print', cursive;
 
-  /* Typografie: velikost · řádkování · prostrkání. Měřítko zvětší všechno písmo najednou (promítání na plátně: 1,5). */
+  /* Typografie z D2: velikost · řádkování · prostrkání (telefon → notebook).
+     Měřítko zvětší všechno písmo najednou (promítání na plátně: 1,5). */
   --meritko: 1;
-  --fs-display-1: calc(var(--meritko) * clamp(76px, calc(76px + 72 * (100vw - 390px) / 1050), 148px)); --lh-display-1: 0.9; --ls-display-1: -0.035em;
-  --fs-display-2: calc(var(--meritko) * clamp(50px, calc(50px + 42 * (100vw - 390px) / 1050), 92px)); --lh-display-2: 0.98; --ls-display-2: -0.025em;
-  --fs-h1: calc(var(--meritko) * clamp(44px, calc(44px + 20 * (100vw - 390px) / 1050), 64px)); --lh-h1: 1; --ls-h1: -0.02em;
-  --fs-h2: calc(var(--meritko) * clamp(34px, calc(34px + 14 * (100vw - 390px) / 1050), 48px)); --lh-h2: 1.05; --ls-h2: -0.015em;
-  --fs-h3: calc(var(--meritko) * clamp(27px, calc(27px + 7 * (100vw - 390px) / 1050), 34px)); --lh-h3: 1.12; --ls-h3: 0;
-  --fs-citat: calc(var(--meritko) * clamp(25px, calc(25px + 7 * (100vw - 390px) / 1050), 32px)); --lh-citat: 1.25; --ls-citat: 0;
+  --fs-jmeno: calc(var(--meritko) * clamp(56px, calc(56px + 48 * (100vw - 390px) / 1050), 104px)); --lh-jmeno: 0.92; --ls-jmeno: -0.035em;
+  --fs-h1: calc(var(--meritko) * clamp(40px, calc(40px + 24 * (100vw - 390px) / 1050), 64px)); --lh-h1: 1; --ls-h1: -0.02em;
+  --fs-h2: calc(var(--meritko) * clamp(30px, calc(30px + 14 * (100vw - 390px) / 1050), 44px)); --lh-h2: 1.05; --ls-h2: -0.015em;
+  --fs-h3: calc(var(--meritko) * clamp(24px, calc(24px + 6 * (100vw - 390px) / 1050), 30px)); --lh-h3: 1.12; --ls-h3: 0;
+  --fs-citat: calc(var(--meritko) * clamp(23px, calc(23px + 8 * (100vw - 390px) / 1050), 31px)); --lh-citat: 1.25; --ls-citat: 0;
   --fs-perex: calc(var(--meritko) * clamp(19px, calc(19px + 4 * (100vw - 390px) / 1050), 23px)); --lh-perex: 1.55; --ls-perex: 0;
-  --fs-text: calc(var(--meritko) * clamp(19px, calc(19px + 2 * (100vw - 390px) / 1050), 21px)); --lh-text: 1.65; --ls-text: 0;
+  --fs-text: calc(var(--meritko) * clamp(18px, calc(18px + 3 * (100vw - 390px) / 1050), 21px)); --lh-text: 1.65; --ls-text: 0;
+  --fs-ruka-l: calc(var(--meritko) * clamp(26px, calc(26px + 14 * (100vw - 390px) / 1050), 40px)); --lh-ruka-l: 1.15;
+  --fs-ruka: calc(var(--meritko) * clamp(17px, calc(17px + 2 * (100vw - 390px) / 1050), 19px)); --lh-ruka: 1.35;
   --fs-ovladani-l: calc(var(--meritko) * 17px); --lh-ovladani-l: 1.3; --ls-ovladani-l: 0;
   --fs-ovladani: calc(var(--meritko) * 15px); --lh-ovladani: 1.45; --ls-ovladani: 0;
   --fs-popisek: calc(var(--meritko) * clamp(12px, calc(12px + 1 * (100vw - 390px) / 1050), 13px)); --lh-popisek: 1.5; --ls-popisek: 0;
@@ -54,10 +109,10 @@
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
   --s-7: 48px; --s-8: 64px; --s-9: 80px; --s-10: 96px;
 
-  /* Mřížka a rozvržení */
+  /* Mřížka a rozvržení: okraj stránky 16 px na telefonu, 48 px na notebooku (D2). */
   --sloupce: 12;
   --mezera-mrizky: 24px;
-  --okraj: clamp(16px, calc(16px + 64 * (100vw - 390px) / 1050), 80px);
+  --okraj: clamp(16px, calc(16px + 32 * (100vw - 390px) / 1050), 48px);
   --ctenarsky-sloupec: 680px;
   --max-sirka: 1440px;
   --hlavicka: 56px;
@@ -66,89 +121,168 @@
   /* Výška lišty hodiny pod hlavičkou; 0, když lišta na stránce není (src/scripts/hodina-lista.ts). */
   --hodina: 0px;
 
-  /* Zaoblení */
-  --r-xs: 4px; --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-full: 999px;
+  /* Zaoblení z D2: listy, citát, karta a fotka jsou papír bez zaoblení. */
+  --r-papir: 0;
+  --r-razitko: 3px;
+  --r-ovladani: 10px;
+  --r-plne: 999px;
 
-  /* Stíny (jen překryv na mapě a spodní list) */
-  --stin-mapa: 0 6px 18px rgb(0 0 0 / 12%);
-  --stin-list: 0 -8px 28px rgb(0 0 0 / 14%);
+  /* Pohyb (D3): délky, krok příchodu a čtyři křivky. */
+  --d-stisk: 120ms;    /* najetí, stisk, vtlačení, zvednutí karty */
+  --d-bod: 180ms;      /* body lidí v Mapě a čase */
+  --d-listek: 240ms;   /* lístek zpětné vazby a pojmu, razítko, páska */
+  --d-odkryti: 280ms;  /* Odkryj */
+  --d-tah: 300ms;      /* tužka dokreslí kroužek */
+  --d-presun: 320ms;   /* karta do koše, mince po škále */
+  --d-list: 400ms;     /* přechod mezi stránkami, další krok */
+  --d-prichod: 420ms;  /* příchod na profil: titulek, pruh, pásky */
+  --z-prichod: 80ms;   /* krok mezi částmi příchodu */
+  --d-kamera: 600ms;   /* kamera Mapy a času */
+  --k-stisk: cubic-bezier(.25, .1, .25, 1);
+  --k-papir: cubic-bezier(.22, .61, .36, 1);
+  --k-list: cubic-bezier(.65, 0, .35, 1);
+  --k-dopad: cubic-bezier(.55, 0, 1, .45);
+}
 
-  /* Pohyb */
-  --pohyb-rychle: 150ms;
-  --pohyb: 250ms;
-  --pohyb-kamera: 600ms;
+@media (max-width: 699px) {
+  :root { --tecky-krok: 20px; }
 }
 
 @media (min-width: 900px) {
   :root { --hlavicka: 72px; }
 }
 
-/* Tisk (přehled hodiny): vždy světlý papír a tmavý inkoust, i když obrazovka běží v tmavém režimu.
-   Selektory s html:root mají větší váhu než tmavý režim níž, takže platí bez ohledu na pořadí. */
-@media print {
-  html:root, html:root:not([data-theme="light"]), html:root[data-theme="dark"] {
-    --paper: #FFFFFF; --surface: #FFFFFF; --sunk: #F1ECE3; --rule: #CFC5B4;
-    --muted: #5E554A; --ink-2: #3F3830; --ink: #14110D;
-    color-scheme: light;
-  }
-}
-
+/* Noční zápisník. Stejné hodnoty dvakrát: podle systému (když student nezvolil den) a ručně. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    /* Základ (A) */
-    --paper: #17140F;
-    --surface: #211D17;
-    --sunk: #2B261F;
-    --rule: #3B342B;
-    --muted: #A69B8A;
-    --ink-2: #D2C9BB;
-    --ink: #F1EBE0;
-    /* Období (A): barva · tint · soft · deska */
-    --period-1: #E48B68; --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
-    --period-2: #D48DBF; --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
-    --period-3: #95ACEE; --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
-    --period-4: #E0B359; --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
-    --period-5: #6DBFCE; --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
-    --period-6: #93C486; --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
-    --period-7: #F0848F; --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
-    --period-8: #B5A8F0; --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
-    /* Mapa (A) */
-    --map-sea: #0E1618;
-    --map-sea-line: #1F3136;
-    --map-land: #241F19;
-    --map-coast: #5E5446;
+    --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
+    --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
+    --na-inkoustu: #1D1B18; --muted: #A69B8A;
+    --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
+    --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
+    --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
+    --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
+    --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
+    --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
+    --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
+    --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
+    --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
+    --vyst: -4px -4px 10px rgb(255 236 210 / .045), 5px 6px 14px rgb(0 0 0 / .6);
+    --vyst-m: -3px -3px 7px rgb(255 236 210 / .045), 3px 4px 9px rgb(0 0 0 / .55);
+    --zved: -5px -5px 12px rgb(255 236 210 / .06), 8px 11px 22px rgb(0 0 0 / .66);
+    --vtla: inset 3px 3px 7px rgb(0 0 0 / .6), inset -3px -3px 7px rgb(255 236 210 / .045);
+    --vtla-mele: inset 2px 2px 4px rgb(0 0 0 / .45), inset -2px -2px 4px rgb(255 236 210 / .04);
+    --vtla-hl: inset 4px 4px 10px rgb(0 0 0 / .72), inset -2px -2px 6px rgb(255 236 210 / .04);
+    --vyst-ink: -3px -3px 8px rgb(255 236 210 / .05), 4px 5px 12px rgb(0 0 0 / .6);
+    --zved-ink: -4px -4px 10px rgb(255 236 210 / .06), 6px 9px 18px rgb(0 0 0 / .66);
+    --vtla-ink: inset 3px 3px 7px rgb(0 0 0 / .35), inset -2px -2px 5px rgb(255 255 255 / .45);
+    --lezi: 0 1px 1px rgb(0 0 0 / .3), 0 12px 22px -12px rgb(0 0 0 / .75);
+    --lezi-zved: 0 2px 3px rgb(0 0 0 / .3), 0 22px 30px -14px rgb(0 0 0 / .8);
+    --lezi-tlak: 0 1px 1px rgb(0 0 0 / .35), 0 4px 8px -4px rgb(0 0 0 / .7);
+    --deska: 0 1px 1px rgb(0 0 0 / .3), 0 14px 26px -10px rgb(0 0 0 / .8);
+    --odlep: drop-shadow(0 7px 9px rgb(0 0 0 / .55));
+    --pas-stin: drop-shadow(5px 6px 7px rgb(0 0 0 / .6)) drop-shadow(-3px -3px 6px rgb(255 236 210 / .05));
+    --lista-stin: 0 -10px 18px -12px rgb(0 0 0 / .8);
+    --paska-a: 52%; --paska-b: 34%;
+    --foto: grayscale(1) sepia(.18) contrast(1.02) brightness(.8);
+    --map-sea: #0E1618; --map-sea-line: #1F3136; --map-land: #241F19; --map-coast: #5E5446;
     --map-glow-1: 0.16; --map-glow-2: 0.32;
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  /* Základ (A) */
-  --paper: #17140F;
-  --surface: #211D17;
-  --sunk: #2B261F;
-  --rule: #3B342B;
-  --muted: #A69B8A;
-  --ink-2: #D2C9BB;
-  --ink: #F1EBE0;
-  /* Období (A): barva · tint · soft · deska */
-  --period-1: #E48B68; --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
-  --period-2: #D48DBF; --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
-  --period-3: #95ACEE; --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
-  --period-4: #E0B359; --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
-  --period-5: #6DBFCE; --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
-  --period-6: #93C486; --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
-  --period-7: #F0848F; --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
-  --period-8: #B5A8F0; --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
-  /* Mapa (A) */
-  --map-sea: #0E1618;
-  --map-sea-line: #1F3136;
-  --map-land: #241F19;
-  --map-coast: #5E5446;
+  --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
+  --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
+  --na-inkoustu: #1D1B18; --muted: #A69B8A;
+  --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
+  --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
+  --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
+  --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
+  --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
+  --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
+  --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
+  --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
+  --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
+  --vyst: -4px -4px 10px rgb(255 236 210 / .045), 5px 6px 14px rgb(0 0 0 / .6);
+  --vyst-m: -3px -3px 7px rgb(255 236 210 / .045), 3px 4px 9px rgb(0 0 0 / .55);
+  --zved: -5px -5px 12px rgb(255 236 210 / .06), 8px 11px 22px rgb(0 0 0 / .66);
+  --vtla: inset 3px 3px 7px rgb(0 0 0 / .6), inset -3px -3px 7px rgb(255 236 210 / .045);
+  --vtla-mele: inset 2px 2px 4px rgb(0 0 0 / .45), inset -2px -2px 4px rgb(255 236 210 / .04);
+  --vtla-hl: inset 4px 4px 10px rgb(0 0 0 / .72), inset -2px -2px 6px rgb(255 236 210 / .04);
+  --vyst-ink: -3px -3px 8px rgb(255 236 210 / .05), 4px 5px 12px rgb(0 0 0 / .6);
+  --zved-ink: -4px -4px 10px rgb(255 236 210 / .06), 6px 9px 18px rgb(0 0 0 / .66);
+  --vtla-ink: inset 3px 3px 7px rgb(0 0 0 / .35), inset -2px -2px 5px rgb(255 255 255 / .45);
+  --lezi: 0 1px 1px rgb(0 0 0 / .3), 0 12px 22px -12px rgb(0 0 0 / .75);
+  --lezi-zved: 0 2px 3px rgb(0 0 0 / .3), 0 22px 30px -14px rgb(0 0 0 / .8);
+  --lezi-tlak: 0 1px 1px rgb(0 0 0 / .35), 0 4px 8px -4px rgb(0 0 0 / .7);
+  --deska: 0 1px 1px rgb(0 0 0 / .3), 0 14px 26px -10px rgb(0 0 0 / .8);
+  --odlep: drop-shadow(0 7px 9px rgb(0 0 0 / .55));
+  --pas-stin: drop-shadow(5px 6px 7px rgb(0 0 0 / .6)) drop-shadow(-3px -3px 6px rgb(255 236 210 / .05));
+  --lista-stin: 0 -10px 18px -12px rgb(0 0 0 / .8);
+  --paska-a: 52%; --paska-b: 34%;
+  --foto: grayscale(1) sepia(.18) contrast(1.02) brightness(.8);
+  --map-sea: #0E1618; --map-sea-line: #1F3136; --map-land: #241F19; --map-coast: #5E5446;
   --map-glow-1: 0.16; --map-glow-2: 0.32;
   color-scheme: dark;
 }
 
+/* Tisk (přehled hodiny): vždy bílý papír bez teček a stínů, i když obrazovka běží v nočním zápisníku.
+   Selektory s html:root mají větší váhu než noční režim výš, takže platí bez ohledu na pořadí. */
+@media print {
+  html:root, html:root:not([data-theme="light"]), html:root[data-theme="dark"] {
+    --papir: #FFFFFF; --tecka: transparent; --list: #FFFFFF; --plocha: #FFFFFF; --plocha-m: #FFFFFF; --listek: #FFFFFF;
+    --linka: #CFC5B4; --tuzka: #8A8277; --ink-3: #5E554A; --ruka: #3F3830; --ink-2: #3F3830; --ink: #14110D;
+    --na-inkoustu: #FFFFFF; --muted: #5E554A;
+    --vyst: none; --vyst-m: none; --zved: none; --vtla: none; --vtla-mele: none; --vtla-hl: none;
+    --vyst-ink: none; --zved-ink: none; --vtla-ink: none; --lezi: none; --lezi-zved: none; --lezi-tlak: none; --deska: none;
+    --odlep: none; --pas-stin: none;
+    --sunk: #F1ECE3;
+    color-scheme: light;
+  }
+}
+
+/* ─── Přezdívky ────────────────────────────────────────────────────────────────────────────
+   Stará jména, která komponenty používají dnes, ukazují na nové hodnoty. Když komponentu přepíšeš
+   (K2 až K7), ber nová jména; krok O přezdívky smaže. */
+:root {
+  --paper: var(--papir);
+  --surface: var(--list);
+  /* Dnešní „zapuštěná“ plocha (podklad přepínače, najetí na vedlejší tlačítko) nemá v novém systému
+     barvu: vtlačené je papír se stínem. Do přepisu bloků (K4) je to papír o kus tmavší k lince. */
+  --sunk: color-mix(in srgb, var(--papir) 55%, var(--linka));
+  --rule: var(--linka);
+
+  /* Inkousty období: stejné hodnoty jako dřív, jen pod novým jménem. */
+  --period-1: var(--p-1); --period-2: var(--p-2); --period-3: var(--p-3); --period-4: var(--p-4);
+  --period-5: var(--p-5); --period-6: var(--p-6); --period-7: var(--p-7); --period-8: var(--p-8);
+
+  /* Stará stupnice písma: display-1 a display-2 jsou teď jméno na listu (104 / 56 px, Po D4). */
+  --fs-display-1: var(--fs-jmeno); --lh-display-1: var(--lh-jmeno); --ls-display-1: var(--ls-jmeno);
+  --fs-display-2: var(--fs-jmeno); --lh-display-2: var(--lh-jmeno); --ls-display-2: var(--ls-jmeno);
+
+  /* Zaoblení: ovládání 10 px, plné 999 px; bloky (dnes --r-md) do K4 zaoblené jako ovládání. */
+  --r-xs: var(--r-razitko);
+  --r-sm: var(--r-ovladani);
+  --r-md: var(--r-ovladani);
+  --r-lg: var(--r-ovladani);
+  --r-full: var(--r-plne);
+
+  /* Stíny mapy a spodního listu (K7, K2) */
+  --stin-mapa: var(--lezi);
+  --stin-list: var(--lista-stin);
+
+  /* Pohyb */
+  --pohyb-rychle: var(--d-stisk);
+  --pohyb: var(--d-listek);
+  --pohyb-kamera: var(--d-kamera);
+}
+
+/* Omezený pohyb: všechny délky na nulu, takže se nic nehýbe a každý stav je tam hned
+   (global.css k tomu vypíná přechody a animace a ukazuje konečný stav). */
 @media (prefers-reduced-motion: reduce) {
-  :root { --pohyb-rychle: 0ms; --pohyb: 0ms; --pohyb-kamera: 0ms; }
+  :root {
+    --d-stisk: 0ms; --d-bod: 0ms; --d-listek: 0ms; --d-odkryti: 0ms; --d-tah: 0ms; --d-presun: 0ms;
+    --d-list: 0ms; --d-prichod: 0ms; --z-prichod: 0ms; --d-kamera: 0ms;
+  }
 }
