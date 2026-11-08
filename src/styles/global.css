@@ -535,29 +535,37 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 }
 
 /* ─── Přechody mezi stránkami (design-v2, K2; Po D3 › Pravidla pohybu, plátno project/Pohyb.dc.html) ───────
-   List se otočí kolem levé hrany jako stránka v sešitu: při příchodu (typ dalsi) odklopí stará stránka
-   a pod ní leží nová, při návratu v historii (typ zpet) se nová přiklopí zpátky přes starou. Typ nastaví skript
-   v hlavičce Zakladni.astro (pagereveal, navigation.activation). Hlavička a spodní lišta stojí (view-transition-name).
-   Jen transform a opacity. Při omezeném pohybu přechod není, stránka se přepne hned; Firefox přechody mezi
-   dokumenty zatím neumí a přepne ji taky bez animace. Let fotky z karty na desku přijde v K3. */
+   List papíru se otočí kolem levé hrany jako stránka v sešitu. Při příchodu (typ dalsi) se stará stránka nejdřív
+   zvedne za pravý okraj, pak se přetočí doleva, trochu se prohne a odvrátí od světla (ztmavne); na novou stránku
+   pod ní padá stín, který s odletem listu slábne. Při návratu v historii (typ zpet) se nová stránka přiklopí zpátky
+   přes starou a cestou se rozjasní. Typ nastaví skript v hlavičce Zakladni.astro (pagereveal, navigation.activation),
+   stín je prvek .otoceni-stin v nové stránce, vidět jen během přechodu (třída otaci-se na <html>).
+   Hlavička a spodní lišta stojí (view-transition-name). Pohyb je transform a opacity; ztmavení odvráceného listu
+   je filtr jasu na snímku staré stránky, protože snímek jinak ztmavit nejde (výjimka jako tah tužky).
+   Při omezeném pohybu přechod není, stránka se přepne hned; Firefox přechody mezi dokumenty zatím neumí.
+   Let fotky z karty na desku přijde v K3. */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
 }
 @keyframes list-odklopit {
-  from { transform: perspective(2400px) rotateY(0deg); }
-  to { transform: perspective(2400px) rotateY(-100deg); }
+  0% { transform: perspective(1600px) rotateY(0deg); filter: brightness(1); animation-timing-function: cubic-bezier(.3, 0, .6, 1); }
+  /* zvednutí za okraj: list se jen nadzvedne a prohne */
+  20% { transform: perspective(1600px) rotateY(12deg) skewY(1deg); filter: brightness(.96); animation-timing-function: cubic-bezier(.4, 0, .35, 1); }
+  /* přetočení ke hřbetu: list se zužuje, odvrací od světla a pod ním se odkrývá nová stránka */
+  100% { transform: perspective(1600px) rotateY(96deg) skewY(-2deg); filter: brightness(.5); }
 }
 @keyframes list-priklopit {
-  from { transform: perspective(2400px) rotateY(-100deg); }
-  to { transform: perspective(2400px) rotateY(0deg); }
+  0% { transform: perspective(1600px) rotateY(96deg) skewY(-2deg); filter: brightness(.5); animation-timing-function: cubic-bezier(.5, 0, .65, .5); }
+  80% { transform: perspective(1600px) rotateY(9deg) skewY(.8deg); filter: brightness(.95); animation-timing-function: cubic-bezier(.2, .6, .35, 1); }
+  /* dosednutí: poslední kousek pomalu, bez odskoku */
+  100% { transform: perspective(1600px) rotateY(0deg); filter: brightness(1); }
 }
 ::view-transition-old(root),
 ::view-transition-new(root) {
   transform-origin: 0 50%;
   backface-visibility: hidden;
   mix-blend-mode: normal;
-  animation-duration: var(--d-list);
-  animation-timing-function: var(--k-list);
+  animation-duration: var(--d-otoceni);
   animation-fill-mode: both;
 }
 /* Výchozí (i bez typu): stará stránka nahoře odklopí, nová pod ní stojí. */
@@ -569,3 +577,34 @@ html:active-view-transition-type(zpet)::view-transition-new(root) { z-index: 1; 
 /* Hlavička a spodní lišta: bez prolnutí, nová hned (logo může změnit barvu období). */
 ::view-transition-group(hlavicka),
 ::view-transition-group(spodni-lista) { animation-duration: 0s; }
+
+/* Stín na stránce během otočení. Při příchodu ho vrhá zvedající se list: nejtmavší u levé hrany (hřbet),
+   s odletem listu slábne a ustupuje k hřbetu. Při návratu leží na přiklápěném listu a s dosednutím mizí. */
+.otoceni-stin { display: none; }
+html.otaci-se .otoceni-stin {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgb(20 16 10 / .42) 0%, rgb(20 16 10 / .2) 30%, rgb(20 16 10 / 0) 75%);
+  transform-origin: 0 50%;
+  animation-name: otoceni-stin;
+  animation-duration: var(--d-otoceni);
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+html.otaci-se.otaci-se--zpet .otoceni-stin {
+  background: linear-gradient(90deg, rgb(20 16 10 / .5) 0%, rgb(20 16 10 / .28) 60%, rgb(20 16 10 / .16) 100%);
+  animation-name: otoceni-stin-zpet;
+  animation-timing-function: ease-in;
+}
+@keyframes otoceni-stin {
+  0% { opacity: .2; transform: scaleX(1); }
+  30% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(.35); }
+}
+@keyframes otoceni-stin-zpet {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}

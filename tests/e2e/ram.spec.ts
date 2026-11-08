@@ -98,6 +98,9 @@ test('přechod mezi stránkami: typ dalsi, při omezeném pohybu žádný', asyn
   await page.getByRole('navigation', { name: 'Hlavní navigace' }).first().getByRole('link', { name: 'Lidé a směry' }).click();
   await expect(page).toHaveURL(/\/lide\/$/);
   await expect.poll(prechod).toBe('dalsi');
+  // Stín otočení je vidět jen během přechodu.
+  await expect(page.locator('html')).not.toHaveClass(/otaci-se/);
+  await expect(page.locator('.otoceni-stin')).toBeHidden();
   await page.goBack();
   await expect(page).toHaveURL(/\/otazky\/$/);
   await expect.poll(prechod).toBe('zpet');

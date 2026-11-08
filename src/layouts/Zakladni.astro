@@ -90,6 +90,11 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
           zpet = !!(a && a.navigationType === 'traverse' && a.from && a.entry && a.entry.index < a.from.index);
         } catch (chyba) {}
         e.viewTransition.types.add(zpet ? 'zpet' : 'dalsi');
+        // Stín na stránce během otočení (.otoceni-stin, global.css › Přechody).
+        var t = document.documentElement.classList;
+        t.add('otaci-se');
+        if (zpet) t.add('otaci-se--zpet');
+        e.viewTransition.finished.finally(function () { t.remove('otaci-se', 'otaci-se--zpet'); });
       });
     </script>
     <Pisma />
@@ -109,6 +114,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
       </footer>
     )}
     {Astro.slots.has('lista') ? <slot name="lista" /> : <SpodniLista sekce={sekce} />}
+    <div class="otoceni-stin" aria-hidden="true"></div>
     <script is:inline>
       // Pevná spodní lišta nesmí zakrýt prvek, na který přijde fokus z klávesnice. Prohlížeč stránku sám
       // neposune, když prvek leží ve viditelné části, byť pod lištou (scroll-padding na to nestačí).

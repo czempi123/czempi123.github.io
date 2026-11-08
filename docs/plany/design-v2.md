@@ -644,7 +644,7 @@ Odpovědi po K1 byly prázdné, takže platí doporučení: razítko místa s pr
 - **Patička** v `--ink-3` s linkou `--linka` a podpisem „Agora · Vojtěch Czempka · …“.
 - **Stránka 404:** titulek „Tady nic není.“ na vytrženém listu a pod ním pruh bez období „Stránka nenalezena“ (Kalam, v inkoustu). Tlačítko Domů je zatím dnešní `Tlacitko` (K4).
 - **Název Agora** (otázka 11 po D4): titulek stránek „… · Agora“ (Domů jen „Agora“), výchozí popis „Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.“, nově `og:site_name`, `og:title`, `og:description` a `og:locale` pro sdílení, nadtitulek na Domů „Agora · filozofie od Thaléta po dnešek“, README, patička a záhlaví tisku přehledu hodiny. Barva lišty prohlížeče (`theme-color`) má nové hodnoty papíru. Repozitář, adresa webu, `docs/` a texty pro studenty, které mluví o pohybu v atlasu („Tahle stránka v atlasu neexistuje“), zůstávají. Testy žádnou z vět s názvem nehlídaly.
-- **Přechody mezi stránkami** (`global.css`, konec souboru): `@view-transition { navigation: auto }` jen bez omezeného pohybu. Při příchodu (typ `dalsi`) stará stránka odklopí kolem levé hrany (`rotateY` do −100°, `--d-list`, `--k-list`) a pod ní leží nová; při návratu v historii (typ `zpet`) se nová přiklopí zpátky přes starou. Typ nastaví skript v hlavičce `Zakladni.astro` v `pagereveal` z `navigation.activation` (návrat = `traverse` na starší záznam). Hlavička a spodní lišta mají vlastní `view-transition-name`, takže stojí a změní se hned. Firefox a omezený pohyb přepnou stránku bez animace.
+- **Přechody mezi stránkami** (`global.css`, konec souboru): `@view-transition { navigation: auto }` jen bez omezeného pohybu. Při příchodu (typ `dalsi`) se stará stránka otočí kolem levé hrany jako list v sešitu a pod ní leží nová; při návratu v historii (typ `zpet`) se nová přiklopí zpátky přes starou. Po autorově připomínce (níž) list trvá 760 ms (`--d-otoceni`), nejdřív se zvedne, pak se otáčí od čtenáře ke hřbetu, zužuje se, lehce prohne a odvrací od světla, a na stránku pod ním padá stín (`.otoceni-stin`). Typ nastaví skript v hlavičce `Zakladni.astro` v `pagereveal` z `navigation.activation` (návrat = `traverse` na starší záznam). Hlavička a spodní lišta mají vlastní `view-transition-name`, takže stojí a změní se hned. Firefox a omezený pohyb přepnou stránku bez animace.
 - **`docs/design.md`** › Navigace a rozvržení: notebook, telefon a přechod popsané podle K2 (zbytek souboru přepíše O).
 
 ### Přezdívky
@@ -666,7 +666,7 @@ Rám už nepoužívá žádnou přezdívku (`--paper`, `--surface`, `--sunk`, `-
 - **Logo místo titulku stránky na telefonu.** Plátno má v horní liště telefonu logo nebo Zpět; titulek stránky stojí hned pod lištou jako nadpis a aktivní položka spodní lišty říká, kde student je. Jinak: logo a vedle něj krátký titulek; na 390 px by se s hledáním a přepínačem vešel jen krátký (otázka 1).
 - **Hlavička drží nahoře** jako dřív, i když plátno ji kreslí jen na začátku stránky. Na papíře bez čáry by se při posouvání text pod ní ztrácel, proto stín až po posunu. Jinak: hlavička odjede se stránkou a vrátí se při posunu nahoru; to by změnilo lišty Obsah a hodiny, které se o ni opírají.
 - **Logo v Mapě a čase přebarvuje ostrov** podle roku, jak to ukazuje plátno (terakota roku 424 př. n. l.). Při přehrávání života se A mění s obdobím; přechod barvy nemá, aby nic neblikalo.
-- **Přechod bez ztmavení listu.** Plátno přidává odklápěnému listu černou vrstvu do 0,32; snímek stránky v přechodu jde ztmavit jen filtrem, a pravidla pohybu dovolují jen `transform` a `opacity`. Otočení samo je čitelné. Jinak: `filter: brightness()` na starém snímku.
+- **Ztmavení odvráceného listu filtrem.** Snímek stránky v přechodu jde ztmavit jen filtrem jasu, ne průhledností; je to druhá výjimka z pravidla `transform` a `opacity` (vedle tahu tužky). Stín na stránce pod listem je obyčejný prvek, mění se jen jeho průhlednost a šířka.
 - **Kroky cesty se zatím otáčejí jako stránky** a hlavička cesty s nimi, protože krok je samostatná stránka. Vlastní přechod mezi kroky (list posune, drážka postupu doběhne, hlavička a lišta stojí) je v K5 podle ukázky „další krok“ na plátně.
 - **Agora i v patičce a v tisku přehledu hodiny.** Otázka 11 je nejmenovala, ale je to podpis webu; „Atlas myšlení“ by vedle loga Agora působil jako jiný web (otázka 2).
 - **Ikona v záložce prohlížeče** zůstala glóbus (`public/favicon.svg`); nová by měla být velké A na útržku, ale to je obrázek, ne rám (otázka 3).
@@ -677,16 +677,23 @@ Rám už nepoužívá žádnou přezdívku (`--paper`, `--surface`, `--sunk`, `-
 Prázdná odpověď znamená souhlas s doporučením.
 
 1. **Na telefonu bez Zpět jen logo**, bez krátkého titulku stránky v horní liště? Doporučuji ano.
-   Odpověď:
+   Odpověď: souhlasím (8. 11. 2026)
 
 2. **Agora i v patičce a v záhlaví tisku přehledu hodiny?** Doporučuji ano.
-   Odpověď:
+   Odpověď: souhlasím (8. 11. 2026)
 
 3. **Nová ikona v záložce prohlížeče:** velké A na útržku papíru v inkoustu místo glóbu (udělá ji K3 spolu s razítkem člověka)? Doporučuji ano.
-   Odpověď:
+   Odpověď: souhlasím (8. 11. 2026)
 
 4. **Chceš něco změnit na snímcích po K2** (logo, hlavička, spodní lišta, 404, přechod)? Napiš kde a co. Bez odpovědi zůstává, jak je.
-   Odpověď:
+   Odpověď: „Co bych rád změnil je ten přechod. Jako základ se mi líbí, ale je to víc, že to působí jako prostě slide jako u prezentace než otočení listu. Je to možná moc rychlé a moc statické. Kdyby to šlo udělat víc jako otočení papírového listu, bylo by to super.“ Provedeno hned (8. 11. 2026, oddíl Přechod po připomínce).
+
+### Přechod po připomínce (8. 11. 2026)
+
+- **Proč působil jako slide:** list se otáčel k čtenáři, takže jeho pravá hrana v perspektivě rostla a utíkala z obrazovky a nová stránka se objevila až na konci. Teď se otáčí od čtenáře ke hřbetu: zužuje se a nová stránka se pod ním odkrývá zprava, jako když v sešitu otočíš list.
+- **Pomaleji a živěji:** 760 ms místo 400 (nový token `--d-otoceni`; `--d-list` zůstává pro další krok cesty a let fotky). Prvních 20 % se list jen nadzvedne a lehce prohne (`skewY`), pak se rozjede, uprostřed je nejrychlejší a k hřbetu se odvrací od světla (jas klesá na 50 %).
+- **Stín:** na novou stránku pod listem padá stín od hřbetu, který s odletem listu slábne a ustupuje (`.otoceni-stin` v `Zakladni.astro`, vidět jen během přechodu přes třídu `otaci-se` na `<html>`). Při návratu leží stín na přiklápěném listu a s dosednutím mizí; list dosedá pomalu, bez odskoku.
+- **Ověřeno** snímky v pěti okamžicích (80 až 600 ms) tam i zpět na 1440 px; test rámu hlídá, že stín po přechodu zmizí. Omezený pohyb a Firefox beze změny: stránka se přepne hned.
 
 ## Zadání K3: stránky osob
 
