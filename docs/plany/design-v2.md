@@ -11,8 +11,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | D1 | Tři směry na plátně a jejich spojení podle autora | Opus 5.5 · high se skillem `frontend-design` | hotovo 7. 11. 2026; spojení autor schválil 7. 11. 2026 |
 | D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D2) |
 | D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D3); odpovědi po D3 8. 11. 2026 |
-| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | na řadě |
-| Brána | Autor schválí návrh na plátně; teprve potom kód | autor | čeká |
+| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D4) |
+| Brána | Autor schválí návrh na plátně; teprve potom kód | autor | na řadě (Co rozhodnout po D4, otázka 9) |
 | K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | čeká |
 | K3 | Stránky osob: hlavička profilu (titulek s pruhem, razítko, deska s fotkou a páskou, lístky cest, štítky otázek, Proč kalich), kapitoly, citát, Doba a lidé, myšlenky, Zkus to žít, Kam dál, Prameny, obsah profilu, medailonky; snímky pro autora | totéž | čeká |
@@ -406,6 +406,103 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 3. Do plánu větve zapiš oddíl Po D4: co je na kterých obrazovkách, co se proti design systému změnilo, nad čím jsi váhal a co by šlo jinak, otázky Co rozhodnout po D4 (mezi nimi schválení návrhu jako brána před kódem) a zadání K1 v plném znění. docs/design.md nepřepisuj (to udělá krok O). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
 
 4. Pak se zastav a napiš mi, na co se mám na plátně podívat.
+```
+
+## Po D4 (8. 11. 2026)
+
+**Na plátně** pod Pohybem přibyla řada „D4 Obrazovky“: osm obrazovek, každá ve čtyřech artboardech (notebook 1440 ve dne, notebook v nočním zápisníku, telefon 390 ve dne, telefon v noci). Den na notebooku je komponenta (`project/<Obrazovka>.dc.html`), ostatní tři ji vkládají s režimem `noc`; telefon je táž stránka v úzkém rámu (rozvržení přes container queries, jako to bude v kódu). Nahoře na každé obrazovce je pult **Náhled pohybu** s čárkovanou hranou, který k obrazovce nepatří: spouští pohyb, který obrazovka má, a přepíná Omezený pohyb a Čtyřikrát pomaleji jako stránka Pohyb. Domů a Období mají v panelu vlastností přepínač `titulek` 104 / 148 px. Obsah je ze skutečných stránek (`src/content`, `src/data`), mapy z Natural Earth (`world-atlas`, `geoConicConformal` jako `src/lib/mapa.ts`).
+
+**Komentáře autora během D4:** medailonky (kolečka s písmenem) se nelíbily, autor zvolil razítko s ikonou; mapa života v profilu má mít šipky a oblouky místo rovných čar. Obojí provedeno.
+
+### Co je na kterých obrazovkách
+
+- **Domů** (`Domu`): titulek na vytrženém listu „Velké otázky mají dlouhé dějiny.“ s pruhem „Filozofie od Thaléta po dnešek.“, perex, hlavní tlačítko Začít první cestu s údajem a tiché Poznat Sókrata; první cesta jako velký lístek s pahýlem (7 kroků, asi 14 min) a razítky Sókrata a Prótagora; Osm období jako pás odtrhávacích lístků s ornamenty (na telefonu svisle, perforace vodorovně), lístky 3 až 8 bez odkazu s „připravujeme“; tři vstupy jako karty; Na začátek. Pohyb: příchod (titulek, pruh).
+- **Mapa a čas** (`MapaCas`): malý pás období (zvolené období vtlačené, na telefonu vodorovně posuvný), Egejské moře, body lidí roku 424 př. n. l. ve sloupcích u Athén a Délia, posuvník 560 až 300 př. n. l. s drážkou a jezdcem jako razítko, věta „žije 8 lidí z atlasu“, karta člověka na listu s páskou (razítko, kdo, proč, rámeček V roce…, Život na mapě se zastávkami, Předchozí a Další, Otevřít stránku). Na telefonu jsou tečky na mapě jen kresba, vybírá se čipy pod mapou. Pohyb: body (`--d-bod`) při posunu roku, karta (`--d-listek`) při výběru člověka.
+- **Profil Sókrata** (`ProfilSokrates`): celá hlavička (razítko místa, titulek, pruh, dva lístky cest, tři štítky otázek, deska s bustou a dvěma páskami, Proč kalich, popisek), úvod, velký citát, kapitola 01 s pojmem „Delfy“ (poznámka na okraji na notebooku, lístek po klepnutí na telefonu) a blokem Nejdřív sám (srovnání se rozloží jako lístek), Doba a lidé (Současníci na ose, Kde žil: tři tažení obloukem se šipkou a rokem, Žáci a Znali se s razítky), Zkus to žít na listu s páskou, Kam dál. Pohyb: přechod z Lidí (list se otočí kolem levé hrany) a příchod (titulek, pruh, dvě pásky).
+- **Krok cesty** (`KrokCesty`): cesta 1, krok 2. Lišta cesty s drážkou postupu, titulek kroku na listu, „kde jsme“ rukou, Volba se čtyřmi možnostmi z `cesta1-jak-zjistit`, Proč právě tohle, Tohle je můj tah (zakázané, dokud nevybereš), zpětná vazba jako lístek s páskou a pod ní Co udělal Sókratés; Další krok posune list na krok 3. Telefon: horní lišta (zpět, postup, Odejít) a spodní lišta Předchozí a Další krok. Pohyb: vtlačení, kroužek tužkou, rozložení lístku, posun kroku.
+- **Velká otázka 1** (`VelkaOtazka`): titulek „Jak mám žít?“ s pruhem bez období „Pět odpovědí na jedno léto.“, případ Sklad, nebo tábor? na listu, pět hlasů, osa Kdy žili (razítka v polovině života ve dvou řadách, na telefonu ve čtyřech, pruhy životů, zlom, dnes), Kdo z nich je ti nejblíž? (razítko se na ose zvýrazní, u dneška se objeví Ty, věty z `vetyPoVolbe` na lístku), Cesty k otázce.
+- **Období 2** (`ObdobiHelenismus`): místo razítka odtržený lístek období 2 z pásu (ornament mozaika a oblouk), titulek a pruh v tyrském purpuru, deska s mapou Středomoří roku 161 n. l., Příběh Tři filozofové v senátu, Otázky doby (pět, s lístky cest), Lidé a směry (štítky směrů, osm lidí s razítky). Pohyb: příchod.
+- **Můj deník** (`MujDenik`): titulek a pruh bez období, Rozpracované, záznam cesty 1 s razítkem Cesta prošlá, Na začátku × Teď, odpovědi z kroků, Návrat (Zpráva před čtvrtletkou) na lístku s páskou, stanovisko, přijatá výzva s Označit jako hotové, deník v souboru. Pohyb: razítko dopadne (`--k-dopad`).
+- **Kresba** (`KresbaVitr`): Stejný vítr v kapitole 01 Prótagora. Plátno je tečkovaný papír s linkou, vítr tužkou, postavy z listu s obrysem inkoustem, šála v barvě období, přepínače čekání a chůze ve vtlačené drážce, Zastavit pohyb; s Omezeným pohybem kresba stojí a text pod ní říká totéž.
+
+### Co se proti design systému změnilo
+
+- **Razítko člověka místo mince.** Atribut z dat (`atribut.ikona`) otištěný v barvě období: kruh s dvojitým obrysem (2 px a 1 px s mezerou), bez stínu, natočený o −8°, velikost `--mv`. Kdo atribut nemá, má v razítku rok narození. Ikony jsou na plátně nakreslené nově; v kódu je K3 sjednotí se spritem atlasu.
+- **Pruh bez období:** stránky, které nepatří jednomu období (velká otázka, Můj deník), mají pruh v inkoustu (`--ink`, text `--na-inkoustu`).
+- **Odtržený lístek období** na stránce období místo razítka místa: týž lístek jako v pásu na Domů, s ornamentem a perforací.
+- **Tinty období nahradil lístek s páskou** (otázka 5 po D2): zpětná vazba Volby, věty po volbě na ose hlasů, Návrat, srovnání v Nejdřív sám; Zkus to žít je list s páskou. Karta týdne a kolečka v hodině na obrazovkách nejsou; navrhuji totéž.
+- **Plátna nejsou vtlačená.** Mapa, mini mapa a kresba jsou tečkovaný papír s tenkou linkou; vtlačené zůstává jen zvolené a aktivní.
+- **Pás období:** na telefonu svisle; malý pás v Mapě a čase se zvoleným obdobím vtlačeným; lístky bez stránky nesou „připravujeme“ a po najetí se nezvednou.
+- **Navigace:** odkazy v záhlaví i spodní lišta telefonu jsou ploché, aktivní je vtlačený (jako ve Spojení); vystupuje jen Můj deník.
+- **Lístek se rozkládá při vložení** (`@keyframes` s `rotateX`, `--d-listek`, `--k-papir`), takže v kódu nemusí čekat schovaný v rozvržení.
+- **Display:** 104 px stačí. Na Domů láme 148 px větu do tří řádků a přebije pás období; jméno období drží 104 px jako jméno člověka. `display-1` ani `display-2` nepřidávám.
+
+### Kontrola
+
+- **Kontrast** 19 nových dvojic ve dne i v noci výpočtem (`scripts/kontrast-d4.mjs`, po výpisu smazaný): všechny projdou. Nejnižší text 4,72 : 1 (popisek na lístku v noci), nejnižší netextový prvek 3,24 : 1 (vítr tužkou na papíru ve dne).
+- **Telefon a notebook:** zdroje obrazovek jsem vykreslil v Chrome na 390 a 1440 px ve dne i v noci (vlastním jednoduchým během komponent, bez písem z Google, ne v editoru plátna). Nic nepřetéká do stran; všechny dotykové cíle mají aspoň 44 × 44 px kromě pojmu v řádku textu („z Delf“ 42 × 27), který má plochu klepnutí zvětšenou neviditelným okrajem (výjimka pro odkaz v textu). Výšky artboardů jsou podle změřené výšky s rezervou na otevřené lístky.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Pult náhledu přímo nad obrazovkou.** Ovládání pohybu je vidět u obrazovky, kterou spouští, a čárkovaná hrana ho odděluje. Jinak: obrazovky čisté a ovládání v samostatném artboardu, ale pak by se pohyb spouštěl daleko od místa, kde se děje.
+- **Ikony v razítkách** jsou jednoduché tahy (kalich, jeskyně, váhy, lucerna, přesýpací hodiny, vavřín…). Rok narození u lidí bez atributu je tichý, ale číslo bez „př. n. l.“ samo nic neřekne; jinak by šlo první písmeno jména v Kalamu, jenže to bylo právě to, co se nelíbilo.
+- **Lístky období bez stránky** vypadají jako ostatní, protože pás je jeden předmět. Jinak: zploštit je a dát čárkovaný okraj jako zakázaným prvkům; pás by pak vypadal rozbitý.
+- **Krok cesty na notebooku** má záhlaví webu i lištu cesty. Jinak: jen lišta cesty, víc soustředění, ale z kroku by nebylo vidět, kde v atlasu student je.
+- **Body v Mapě a čase** stojí u města ve sloupci, aby se jména nepřekrývala; na telefonu jsou bez jmen a vybírá se pod mapou. Jinak: tečky na telefonu klikací a jméno v bublině, ale u Athén by byly cíle menší než 44 px.
+- **Osa hlasů** skládá razítka do řad, aby se nepřekrývala (Diogenés a Aristotelés žili skoro současně). Jinak: jedna řada a razítka menší.
+- **Přechod v profilu** ukazuje otočení listu a příchod; let fotky z karty na desku je jen na stránce Pohyb, protože na obrazovce není karta, ze které by vyletěla.
+
+## Co rozhodnout po D4
+
+Prázdná odpověď znamená souhlas s doporučením. Jen u otázky 9 potřebuji výslovnou odpověď.
+
+1. **Razítko s atributem místo mince v celém atlasu** (Lidé, Mapa a čas, osa hlasů, Doba a lidé, karta týdne, příprava hodiny)? Doporučuji ano.
+   Odpověď:
+
+2. **Pruh bez období v inkoustu** na stránkách, které nepatří jednomu období (otázka, deník, Otázky, Lidé)? Doporučuji ano.
+   Odpověď:
+
+3. **Odtržený lístek období** v hlavičce stránky období místo razítka? Doporučuji ano.
+   Odpověď:
+
+4. **Lístek s páskou místo tint i u karty týdne a koleček v přípravě hodiny?** Doporučuji ano.
+   Odpověď:
+
+5. **Bez většího displeje:** titulky na Domů i na stránce období 104 px jako jméno člověka? Doporučuji ano (přepínač `titulek` na plátně ukáže 148 px).
+   Odpověď:
+
+6. **Pás období na telefonu svisle na Domů a vodorovně posuvný v Mapě a čase?** Doporučuji ano.
+   Odpověď:
+
+7. **Krok cesty na notebooku se záhlavím webu nad lištou cesty?** Doporučuji ano.
+   Odpověď:
+
+8. **Chceš něco změnit na obrazovkách?** Napiš kterou a co (nebo komentář na plátně). Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+9. **Brána: schvaluješ návrh na plátně (design systém, pohyb a obrazovky) jako podklad pro kód?** Bez výslovného „ano“ K1 nezačne.
+   Odpověď:
+
+## Zadání K1: základ v kódu
+
+Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po D4 a schválíš bránu (otázka 9).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K1 větve design-v2, základ nového vzhledu v kódu. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co se proti design systému změnilo) a Co rozhodnout po D4 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Když otázka 9 (brána) nemá „ano“, zastav se a napiš mi to. docs/design.md nečti celý, jen nadpisy a oddíl o tokenech. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/DesignSystem.dc.html a project/Domu.dc.html jen <helmet> se styly: to je zdroj hodnot tokenů (den a noc), stínů, pásky, razítka, titulku s pruhem, razítka člověka a tokenů pohybu. Když odpovědi po D4 něco mění, oprav nejdřív plátno.
+
+1. src/styles/tokens.css: nové tokeny papíru, ploch, inkoustů a tužky pro den a noční zápisník (noc přes dnešní přepínač režimu i prefers-color-scheme, jak to atlas dělá teď), osm období (--p a papír pruhu --pp, v noci zesvětlené inkousty), stíny (--vyst, --vyst-m, --zved, --vtla, --vtla-mele, --vtla-hl, --vyst-ink, --zved-ink, --vtla-ink, --lezi, --lezi-zved, --lezi-tlak, --odlep), páska (--paska-a, --paska-b), filtr fotky (--foto), stupnice písma z D2 (jméno 104 px, na telefonu 56 px, text 21 a 18 px), zaoblení a mezery z D2, tokeny pohybu (--d-stisk až --d-kamera, --z-prichod, --k-stisk, --k-papir, --k-list, --k-dopad). Dnešní jména tokenů, která komponenty používají, nech jako přezdívky na nové hodnoty, aby se nic nerozbilo (barvy i --pohyb-rychle = --d-stisk, --pohyb = --d-listek, --pohyb-kamera = --d-kamera); co přezdívka nepokryje, zapiš do plánu jako práci pro K2 až K7.
+
+2. src/styles/global.css: tečkovaný papír jen v CSS (radial-gradient), vytržený okraj (clip-path), třídy pro list, pásku, razítko místa, titulek s pruhem, razítko člověka (atribut v kruhu podle Po D4), lístek s páskou místo tint období, vrstvy stínu pro najetí a stisk bez přechodu box-shadow (::before a ::after, mění se jen opacity a transform), pravidlo zakázaného prvku (zploštělé s čárkovaným okrajem tužkou), viditelný fokus, a omezený pohyb (prefers-reduced-motion: žádný přechod ani animace, stav hned na konci). Klíčové snímky rozložení lístku (rotateX) a dopadu razítka.
+
+3. Písma: Kalam lokálně (@fontsource/kalam, podmnožiny latin a latin-ext, řezy 400 a 700) vedle Newsreaderu a Instrument Sans; ověř, že se načtou česká písmena. Nic z externích serverů za běhu.
+
+4. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro testy rozvržení a snímků, které se tokeny změní), node scripts/snimky-listy.mjs na Domů, profil Sókrata a krok cesty 1/2 na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž). Snímky, které se mění kvůli novému vzhledu, aktualizuj a v plánu napiš které. Restartuj náhled npm run dev.
+
+5. Do plánu větve zapiš oddíl Po K1: co je v tokens.css a global.css, které přezdívky zůstaly a pro který krok, co se na webu změnilo už teď a co čeká na K2 až K7, nad čím jsi váhal, otázky Co rozhodnout po K1 a zadání K2 v plném znění. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+6. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
 
 ## Uzavření
