@@ -10,8 +10,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | --- | --- | --- | --- |
 | D1 | Tři směry na plátně a jejich spojení podle autora | Opus 5.5 · high se skillem `frontend-design` | hotovo 7. 11. 2026; spojení autor schválil 7. 11. 2026 |
 | D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D2) |
-| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D3) |
-| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | čeká na odpovědi po D3 |
+| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D3); odpovědi po D3 8. 11. 2026 |
+| D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | na řadě |
 | Brána | Autor schválí návrh na plátně; teprve potom kód | autor | čeká |
 | K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | čeká |
@@ -321,7 +321,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 **Na plátně** pod design systémem přibyla řada „D3 Pohyb“ se dvěma stránkami: „Pohyb: den“ a „Pohyb: noční zápisník“ (`project/Pohyb.dc.html`, noc ji vkládá s režimem `noc`). Nahoře přepínače Den / Noční zápisník a Skutečná / Čtyřikrát pomaleji (zpomalí všechny délky, aby šel pohyb prohlédnout). Pak Délky a křivky s tlačítkem Přehrát délky, jedenáct živých ukázek a Pravidla. Každá ukázka má přepínač Omezený pohyb, tokeny, které používá, a větu o klidovém stavu. Titulek stránky sám ukazuje jediný povolený okamžik bez činu: při otevření se jednou usadí.
 
-**Komentář na plátně** u Osmi období v nočním design systému („souvislý přechod jakoby bez hranic jako je nyní“): do design systému přibyl nad karty období **pás období**, osm papírů slepených do jednoho vytrženého pruhu, kde sousedé na hranách přecházejí do sebe stejným přechodem jako dnešní `PasObdobi` (krajní pětina segmentu jde do poloviční směsi se sousedem). Ve dne i v noci je stejný, protože papír období se v noci nemění. Odpovědi po D2 byly prázdné, takže platí všech šest doporučení.
+**Komentáře na plátně.** U Osmi období v design systému: první verze pásu (osm papírů, které na hranách plynule přecházely do sebe jako dnešní `PasObdobi`) se autorovi nelíbila. Pás je teď **osm odtrhávacích lístků**, každý na papíře svého období, a od souseda ho dělí perforace jako pahýl u lístku cesty: čárkovaná linka v `--na-papiru` na 55 % a dva výseky v barvě papíru stránky. Názvy období jsou v Newsreaderu, ne v Kalamu (autor: „ten font tam nepoužívejme“). Podle autora má pás „trochu prostorový look“: vystupuje z papíru (`--vyst`), každý lístek má světlo vlevo nahoře a stín vpravo dole a výseky perforace jsou vtlačené (`--vtla-mele`); text na nejsvětlejším místě lístku má nejméně 4,6 : 1 (období 4). Ve dne i v noci je pás stejný. U ukázky Mapa a čas chyběla mapa: podkladem je teď Egejské moře z Natural Earth (`world-atlas` 50m, `geoConicConformal` jako `src/lib/mapa.ts`), pevnina `--list` s obrysem tužkou, moře je tečkovaný papír. Odpovědi po D2 byly prázdné, takže platí všech šest doporučení.
 
 ### Tokeny pohybu
 
@@ -368,27 +368,27 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 - **Razítko a páska s `--k-dopad`** zrychlují a zastaví se naráz. Pružné doskočení by bylo živější, ale odporuje zásadě, že nic neodskakuje.
 - **Mince se kutálí:** posune se a zároveň otočí o celé otáčky, takže na zastávce stojí rovně. Šlo by bez otáčení; kutálení ale říká, že mince je věc, ne ukazatel.
 - **Odkryj: papír se odklopí a zmizí.** Zůstat přeložený nahoře nemůže, zakryl by otázku. Odkrytou odpověď zase přeloží Zase přeložit.
-- **Mapa a čas je jen náznak.** Body stojí u Athén a Abdéry ve sloupci, ne na mapě; podklad a polohy ukáže D4.
-- **Pás období** v design systému je jeden vytržený pruh; ornamenty období v něm zatím nejsou (dnešní pás je má maskované do ztracena). D4 ukáže, jestli je pás potřebuje i v novém papíru.
+- **Mapa a čas:** lidé z Athén stojí ve sloupci vedle města, aby se jména nepřekrývala; skutečná Mapa a čas je rozkládá podle toho, kde kdo v roce byl. Celou obrazovku ukáže D4.
+- **Pás období jako odtrhávací lístky** dělí období ostře, takže mezi nimi už není plynulý přechod jako dnes. Ornamenty období v lístcích zatím nejsou; D4 ukáže, jestli je lístky na Domů potřebují.
 
 ## Co rozhodnout po D3
 
-Prázdná odpověď znamená souhlas s doporučením.
+Prázdná odpověď znamená souhlas s doporučením. Autor 8. 11. 2026: k otázce 4 komentář na plátně, zbytek „může být“.
 
 1. **Stránka se otočí jako list v deníku** (kolem levé hrany), fotka přeletí na desku? Doporučuji ano; když se ti otočení na telefonu nebude líbit, zbude položení listu shora.
-   Odpověď:
+   Odpověď: může být.
 
 2. **Kroužek tužkou jako jediná výjimka z `transform` a `opacity`** (spolu s kresbami)? Doporučuji ano.
-   Odpověď:
+   Odpověď: může být.
 
 3. **Příchod na profil jen při nové návštěvě, celé do 480 ms**, a nikde jinde nic samo? Doporučuji ano.
-   Odpověď:
+   Odpověď: může být.
 
 4. **Pás období jako jeden pruh bez hranic** (podle tvého komentáře), ve dne i v noci stejný, na Domů a v Mapě a čase? Doporučuji ano; D4 ho ukáže na obrazovkách.
-   Odpověď:
+   Odpověď (komentář na plátně): „Toto se mi moc nelíbí, udělej to třeba jako ty oddělení u cesty a počtu kroků, kde to je jak odtrhávací lístek, a každá část bude mít svou barvu.“ Provedeno v design systému (viz Po D3).
 
 5. **Chceš něco změnit v pohybu?** Napiš kterou ukázku a co (třeba „list rychleji“, „mince bez otáčení“, „razítko víc dopadne“). Bez odpovědi zůstává, jak je.
-   Odpověď:
+   Odpověď: může být; k ukázce Mapa a čas komentář na plátně („chybí ta mapa samotná“), mapa doplněna.
 
 ## Zadání D4: obrazovky na plátně
 
@@ -399,7 +399,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Vzhled: Spojení, Po D2 (jen Nad čím jsem váhal), Po D3, Co rozhodnout po D2 a Co rozhodnout po D3 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti. Načti skill frontend-design. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti moje komentáře, project/canvas.json, z project/DesignSystem.dc.html a project/Pohyb.dc.html jen <helmet> se styly a z project/Spojeni.dc.html a project/Spojeni-telefon.dc.html, co potřebuješ ke skladbě profilu a kroku cesty. Obsah obrazovek ber ze skutečných stránek atlasu (src/content, src/data), jen části, které obrazovka ukazuje. Když odpovědi po D3 nebo komentáře něco mění, oprav nejdřív design systém nebo stránku Pohyb na plátně.
 
-1. Na plátno přidej obrazovky, každou na notebooku (1440) i telefonu (390), ve dne i v nočním zápisníku, postavené jen z tokenů a prvků design systému: Domů (s pásem období), Mapa a čas (podklad mapy, karta člověka, posuvník, body lidí), profil Sókrata (celá hlavička, kapitola, citát, Doba a lidé, Kam dál), krok cesty s Volbou a zpětnou vazbou, stránka velké otázky s osou hlasů, stránka období v jiné barvě (Helenismus a Řím), Můj deník s razítkem a jedna kresba v novém papíru. Pohyb, který na obrazovce je (přechod, příchod, volba), ať jde spustit jako na stránce Pohyb, s Omezeným pohybem. Tinty období nahraď listem s páskou, kde to obrazovka potřebuje (otázka 5 po D2), a ukaž, jestli stránka období nebo Domů potřebuje větší display než jmeno 104 px.
+1. Na plátno přidej obrazovky, každou na notebooku (1440) i telefonu (390), ve dne i v nočním zápisníku, postavené jen z tokenů a prvků design systému: Domů (s pásem období jako odtrhávacími lístky), Mapa a čas (podklad mapy, karta člověka, posuvník, body lidí), profil Sókrata (celá hlavička, kapitola, citát, Doba a lidé, Kam dál), krok cesty s Volbou a zpětnou vazbou, stránka velké otázky s osou hlasů, stránka období v jiné barvě (Helenismus a Řím), Můj deník s razítkem a jedna kresba v novém papíru. Pohyb, který na obrazovce je (přechod, příchod, volba), ať jde spustit jako na stránce Pohyb, s Omezeným pohybem. Tinty období nahraď listem s páskou, kde to obrazovka potřebuje (otázka 5 po D2), a ukaž, jestli stránka období nebo Domů potřebuje větší display než jmeno 104 px.
 
 2. Kontrast nových dvojic barev ověř výpočtem (krátký skript v scripts/, po výpisu ho smaž). Telefon: dotykové cíle aspoň 44 × 44, nic nepřetéká do stran.
 
