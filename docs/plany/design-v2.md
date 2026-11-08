@@ -412,7 +412,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 **Na plátně** pod Pohybem přibyla řada „D4 Obrazovky“: osm obrazovek, každá ve čtyřech artboardech (notebook 1440 ve dne, notebook v nočním zápisníku, telefon 390 ve dne, telefon v noci). Den na notebooku je komponenta (`project/<Obrazovka>.dc.html`), ostatní tři ji vkládají s režimem `noc`; telefon je táž stránka v úzkém rámu (rozvržení přes container queries, jako to bude v kódu). Nahoře na každé obrazovce je pult **Náhled pohybu** s čárkovanou hranou, který k obrazovce nepatří: spouští pohyb, který obrazovka má, a přepíná Omezený pohyb a Čtyřikrát pomaleji jako stránka Pohyb. Domů a Období mají v panelu vlastností přepínač `titulek` 104 / 148 px. Obsah je ze skutečných stránek (`src/content`, `src/data`), mapy z Natural Earth (`world-atlas`, `geoConicConformal` jako `src/lib/mapa.ts`).
 
-**Komentáře autora během D4:** medailonky (kolečka s písmenem) se nelíbily, autor zvolil razítko s ikonou; mapa života v profilu má mít šipky a oblouky místo rovných čar. Obojí provedeno.
+**Komentáře autora během D4:** medailonky (kolečka s písmenem) se nelíbily, autor zvolil razítko s ikonou a pak poštovní razítko se jménem po obvodu; mapa života v profilu má mít šipky a oblouky místo rovných čar. Obojí provedeno.
 
 ### Co je na kterých obrazovkách
 
@@ -427,7 +427,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 ### Co se proti design systému změnilo
 
-- **Razítko člověka místo mince.** Atribut z dat (`atribut.ikona`) otištěný v barvě období: kruh s dvojitým obrysem (2 px a 1 px s mezerou), bez stínu, natočený o −8°, velikost `--mv`. Kdo atribut nemá, má v razítku rok narození. Ikony jsou na plátně nakreslené nově; v kódu je K3 sjednotí se spritem atlasu.
+- **Poštovní razítko člověka místo mince** (autor 8. 11.: medailonky s písmenem a pak prosté kruhové razítko „nejsou v topu“, zvolil poštovní razítko). Dva soustředné kruhy v inkoustu období, po obvodu nahoře jméno a dole roky (Instrument Sans), mezi nimi dvě tečky, uprostřed atribut z dat (`atribut.ikona`); kdo atribut nemá, má uprostřed razítkové vlnovky. Inkoust je trochu nedotištěný (SVG filtr se šumem), bez stínu, každé razítko natočené jinak (−14° až +12° podle id). Velikost `--mv`: 72 px v Doba a lidé, 78 na kartě v Mapě a čase, 64 u hlasů a lidí období, 56 na ose; pod 48 px (osa na telefonu, tlačítka volby) obvod mizí a zůstane kruh s atributem. Ikony jsou na plátně nakreslené nově; v kódu je K3 sjednotí se spritem atlasu.
 - **Pruh bez období:** stránky, které nepatří jednomu období (velká otázka, Můj deník), mají pruh v inkoustu (`--ink`, text `--na-inkoustu`).
 - **Odtržený lístek období** na stránce období místo razítka místa: týž lístek jako v pásu na Domů, s ornamentem a perforací.
 - **Tinty období nahradil lístek s páskou** (otázka 5 po D2): zpětná vazba Volby, věty po volbě na ose hlasů, Návrat, srovnání v Nejdřív sám; Zkus to žít je list s páskou. Karta týdne a kolečka v hodině na obrazovkách nejsou; navrhuji totéž.
@@ -456,7 +456,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 Prázdná odpověď znamená souhlas s doporučením. Jen u otázky 9 potřebuji výslovnou odpověď.
 
-1. **Razítko s atributem místo mince v celém atlasu** (Lidé, Mapa a čas, osa hlasů, Doba a lidé, karta týdne, příprava hodiny)? Doporučuji ano.
+1. **Poštovní razítko s atributem místo mince v celém atlasu** (Lidé, Mapa a čas, osa hlasů, Doba a lidé, karta týdne, příprava hodiny)? Doporučuji ano.
    Odpověď:
 
 2. **Pruh bez období v inkoustu** na stránkách, které nepatří jednomu období (otázka, deník, Otázky, Lidé)? Doporučuji ano.
