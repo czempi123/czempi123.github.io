@@ -9,8 +9,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
 | D1 | Tři směry na plátně a jejich spojení podle autora | Opus 5.5 · high se skillem `frontend-design` | hotovo 7. 11. 2026; spojení autor schválil 7. 11. 2026 |
-| D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | čeká na odpovědi níže |
-| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | čeká |
+| D2 | Design systém na plátně: tokeny (papír, plochy, stíny vystouplé a vtlačené, inkousty, páska a razítko pro osm období, písma a jejich role), knihovna prvků ve všech stavech, tmavý režim („noční zápisník“); kontrast AA výpočtem | Opus 5.5 · high se skillem `frontend-design` | hotovo 8. 11. 2026 (oddíl Po D2) |
+| D3 | Pohyb na plátně: živé ukázky celého jazyka pohybu (oddíl Pohyb) a jeho pravidla | Opus 5.5 · high se skillem `frontend-design` | čeká na odpovědi po D2 |
 | D4 | Obrazovky na plátně: Domů, Mapa a čas, profil, krok cesty, stránka otázky, stránka období jiné barvy (Helenismus a Řím), Můj deník a jedna kresba; notebook a telefon, světlý a tmavý režim | Opus 5.5 · high se skillem `frontend-design` | čeká |
 | Brána | Autor schválí návrh na plátně; teprve potom kód | autor | čeká |
 | K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
@@ -151,6 +151,168 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 2. Kontrast AA všech textů a hranic ovládání ověř výpočtem (krátký skript v scripts/, po výpisu ho smaž), ne odhadem.
 
 3. Do plánu větve zapiš oddíl Po D2: tokeny jako tabulky (světlý a tmavý), výsledek kontroly kontrastu, nad čím jsi váhal a co by šlo jinak, otázky Co rozhodnout po D2 a zadání D3 v plném znění. docs/design.md nepřepisuj (to udělá krok O). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+4. Pak se zastav a napiš mi, na co se mám na plátně podívat.
+```
+
+## Po D2 (8. 11. 2026)
+
+**Na plátně** vpravo od Spojení přibyly dvě stránky: „Design systém: den“ a „Design systém: noční zápisník“. Je to táž stránka (`project/DesignSystem.dc.html`, noc ji vkládá s režimem `noc`); přepínač Den / Noční zápisník je i v její hlavičce. Obsah: papír a plochy, stíny, inkousty, osm období, písma se stupnicí, zaoblení, mezery a prvky ve všech stavech; nahoře list Zkus si to s opravdovými prvky na klávesnici a myši. Kontrast u inkoustů a období stránka počítá přímo ze zobrazených barev.
+
+Komentáře na plátně žádné nebyly. Odpovědi před D2 byly prázdné, takže platí všech šest doporučení (plugin Design zatím nepřidán).
+
+### Tokeny: papír, plochy, inkousty
+
+Světlé hodnoty jsou ze schváleného Spojení beze změny; noční zápisník je nový.
+
+| Token | Den | Noc | Použití |
+| --- | --- | --- | --- |
+| `--papir` | `#EFEDE6` | `#1D1B18` | pozadí stránky; také vtlačená plocha (liší ji jen stín) |
+| `--tecka` | `#CBC4B6` | `#36322C` | tečky papíru po 22 px (na telefonu 20), jen ozdoba |
+| `--list` | `#FBFAF6` | `#2A2723` | vytržený list se jménem, citát, rám fotky, karta |
+| `--plocha` | `#F8F6F1` | `#27241F` | vystouplé: lístek cesty, možnost, vedlejší tlačítko |
+| `--plocha-m` | `#F3F1EB` | `#23211D` | malé vystouplé: Můj deník, zpět, přepínač |
+| `--listek` | `#F6EFD9` | `#3A3426` | lístek pojmu, poznámka na okraji po najetí |
+| `--linka` | `#D8D1C3` | `#3D3832` | řádky pole, perforace pahýlu, dělicí linky; nikdy jediná hranice ovládání |
+| `--tuzka` | `#8A8277` | `#8C8476` | jen hranice (3 : 1): vlnovka pojmu, spodní linka pole, čárkovaný okraj zakázaného |
+| `--ink` | `#24211D` | `#EEE8DD` | nadpisy, text, hlavní tlačítko, rámeček fokusu |
+| `--ink-2` | `#3F3A33` | `#D3CBBE` | perexy, text lístků a štítků, popisky polí |
+| `--ruka` | `#4C4740` | `#C6BDAE` | poznámky Kalamem, písmena možností |
+| `--ink-3` | `#6A6258` | `#A89F90` | popisky obrázků, „Cesta“ nad názvem, drobečky, zakázaný text |
+| `--na-inkoustu` | `#F8F6F1` | `#1D1B18` | text na hlavním tlačítku |
+| `--na-papiru` | `#FBF4EE` | `#FBF4EE` | text na pruhu v barvě období |
+
+### Stíny
+
+| Token | Den | Noc | Kdy |
+| --- | --- | --- | --- |
+| `--vyst` | `-5px -5px 12px rgb(255 255 255 / .95), 5px 6px 13px rgb(150 140 124 / .4)` | `-4px -4px 10px rgb(255 236 210 / .045), 5px 6px 14px rgb(0 0 0 / .6)` | vystouplé v klidu |
+| `--vyst-m` | `-3px -3px 8px … / .95, 3px 4px 9px rgb(150 140 124 / .38)` | `-3px -3px 7px … / .045, 3px 4px 9px rgb(0 0 0 / .55)` | malé vystouplé |
+| `--zved` | `-6px -6px 14px … / .95, 8px 11px 20px rgb(150 140 124 / .46)` | `-5px -5px 12px … / .06, 8px 11px 22px rgb(0 0 0 / .66)` | najetí na vystouplé |
+| `--vtla` | `inset 3px 3px 7px rgb(150 140 124 / .45), inset -3px -3px 7px rgb(255 255 255 / .95)` | `inset 3px 3px 7px rgb(0 0 0 / .6), inset -3px -3px 7px rgb(255 236 210 / .045)` | zvolené, aktivní, štítek otázky, drážka |
+| `--vtla-mele` | `inset 2px 2px 4px … / .32, inset -2px -2px 4px … / .9` | `inset 2px 2px 4px rgb(0 0 0 / .45), …` | najetí na vtlačený štítek |
+| `--vtla-hl` | `inset 4px 4px 9px … / .58, inset -2px -2px 6px … / .9` | `inset 4px 4px 10px rgb(0 0 0 / .72), …` | okamžik stisku |
+| `--vyst-ink`, `--zved-ink`, `--vtla-ink` | stín hlavního tlačítka v klidu, po najetí a při stisku | totéž v noci | hlavní tlačítko |
+| `--lezi` | `0 1px 1px rgb(0 0 0 / .06), 0 12px 22px -12px rgb(60 50 40 / .35)` | `0 1px 1px rgb(0 0 0 / .3), 0 12px 22px -12px rgb(0 0 0 / .75)` | citát, karta, lístek pojmu |
+| `--lezi-zved`, `--lezi-tlak` | karta po najetí (`0 22px 30px -14px`) a po stisku (`0 4px 8px -4px`) | totéž tmavší | karta, která vede jinam |
+| `--odlep` | `drop-shadow(0 7px 8px rgb(60 50 40 / .28))` | `drop-shadow(0 7px 9px rgb(0 0 0 / .55))` | filtr pro vytržený list a pruh (stín sleduje zubatý okraj) |
+
+Přesné hodnoty všech stínů jsou v `<helmet>` souboru `project/DesignSystem.dc.html`; K1 je přenese do `tokens.css`.
+
+### Osm období
+
+Každé období má **inkoust** `--p` (text, razítko, kroužek tužkou, pahýl, postup) a **papír** `--pp` (pruh se jménem, páska). Papír je ve dne i v noci stejný kus barevného papíru, inkoust se v noci zesvětlí. Páska: pruhy po 7 px pod úhlem −45°, papír období na 62 a 42 % (noc 52 a 34 %), zubaté konce.
+
+| N | Období | Pigment | Papír (den i noc) | Inkoust den | Inkoust noc |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Počátky a klasické Řecko | terakota | `#A34329` | `#A34329` | `#E48B68` |
+| 2 | Helenismus a Řím | tyrský purpur | `#7B3565` | `#7B3565` | `#D48DBF` |
+| 3 | Středověk | lapis lazuli | `#2D4E9B` | `#2D4E9B` | `#95ACEE` |
+| 4 | Renesance a raný novověk | olovnato-cínová žluť | `#865B0F` | `#865B0F` | `#E0B359` |
+| 5 | Osvícenství | pruská modř | `#1C5B6B` | `#1C5B6B` | `#6DBFCE` |
+| 6 | 19. století | smaragdová zeleň | `#3D6B38` | `#3D6B38` | `#93C486` |
+| 7 | 20. století: krize a hledání | kadmiová červeň | `#A12538` | `#A12538` | `#F0848F` |
+| 8 | Po válce a dnes | dioxazinová fialová | `#5A4A9C` | `#5A4A9C` | `#B5A8F0` |
+
+Hodnoty jsou z dnešního `docs/design.md`, takže mapa, osa a pás období zůstávají v barvách, které student zná. Tinty, soft tóny a desky (`--period-N-tint`, `-soft`, `-plate`) D2 nemění; viz otázka 5.
+
+### Písma
+
+| Token | Písmo | Notebook / telefon | Řádek, prostrkání | Kde |
+| --- | --- | --- | --- | --- |
+| `jmeno` | Newsreader 400 | 104 / 56 | 0,92 · −3,5 % | jméno na vytrženém listu |
+| `h1` | Newsreader 400 | 64 / 40 | 1,0 · −2 % | nadpis stránky a kroku |
+| `h2` | Newsreader 400 | 44 / 30 | 1,05 · −1,5 % | oddíly |
+| `h3` | Newsreader 400 | 30 / 24 | 1,12 | kapitoly, bloky |
+| `citat` | Newsreader 400 | 31 / 23 | 1,25 | citát s páskou |
+| `perex` | Newsreader 400 | 23 / 19 | 1,55 | úvod stránky |
+| `text` | Newsreader 400 | 21 / 18 | 1,65 | čtení, sloupec 680 px |
+| `ruka-l` | Kalam 700 | 40 / 26 | 1,15 | pruh se jménem |
+| `ruka` | Kalam 400 | 19 / 17 | 1,35 | poznámky, lístek pojmu; pole 18 px na řádku 28 px |
+| `ovladani-l` | Instrument Sans 600 | 17 | 1,3 | velká tlačítka |
+| `ovladani` | Instrument Sans 500 a 600 | 15 | 1,45 | tlačítka, štítky, záhlaví |
+| `popisek` | Instrument Sans 400 | 13 / 12 | 1,5 | popisky, „Cesta“ nad názvem; malými písmeny |
+
+### Zaoblení a mezery
+
+- Zaoblení: `papir` 0 (listy, citát, karta, fotka), `razitko` 3, `ovladani` 10 (tlačítko, lístek, možnost), `plne` 999 (štítek, ikona, přepínač).
+- Mezery: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 80 · 96 (beze změny). Okraj stránky 48 px na notebooku (Spojení), 16 px na telefonu. Dotykový cíl aspoň 44 × 44, tlačítka 48.
+
+### Stavy prvků
+
+| Prvek | Klid | Najetí | Stisk | Zvoleno | Zakázáno |
+| --- | --- | --- | --- | --- | --- |
+| Hlavní tlačítko | plný inkoust, `--vyst-ink` | `--zved-ink`, −1 px | `--vtla-ink`, +1 px | nemá | zploštělé, čárkovaný okraj tužkou, text `--ink-3` |
+| Vedlejší tlačítko | `--plocha`, `--vyst` | `--zved`, −1 px | `--papir`, `--vtla-hl` | `--vtla` a ✓ (`aria-pressed`) | totéž jako u hlavního |
+| Tiché tlačítko | podtržené tužkou | podtržení inkoustem 2 px | +1 px | nemá | bez podtržení, `--ink-3` |
+| Ikonové | kolečko 48, `--vyst-m` | `--zved` | `--vtla-hl` | `--vtla` | zploštělé, čárkované |
+| Lístek cesty | `--vyst` | `--zved`, −2 px | `--vtla-hl` | cesta, ve které jsi: `--vtla`, pahýl „3 ze 7“ | připravujeme: bez stínu, čárkovaný, pahýl „brzy“ |
+| Štítek otázky | vtlačený `--vtla` | `--vtla-mele`, text `--ink`, podtržení | `--vtla-hl` | tečka v barvě období a tučně (`aria-current`) | bez stínu, čárkovaný |
+| Karta | ležící, −0,8°, `--lezi` | narovná se, −3 px, `--lezi-zved` | `--lezi-tlak` | zapadne do papíru `--vtla` | bez stínu a šipky, čárkovaná |
+| Pole | řádky `--linka`, spodní linka `--tuzka` 1,5 px | linka `--ink` | nemá; místo toho vyplněno | nemá | řádky slabší, spodní linka čárkovaná |
+| Možnost Volby | `--vyst` | `--zved`, −1 px | `--vtla-hl` | `--vtla` a kroužek tužkou v barvě období | po odeslání tahu zploštělá, čárkovaná |
+| Pojem | vlnovka `--tuzka` | vlnovka `--ink`, poznámka podložená lístkem | nemá | nemá | nemá |
+
+Fokus z klávesnice má všechno stejný: 2 px `--ink`, odsazení 3 px, jen `:focus-visible`. Přechody stavů na plátně: 120 ms, `ease`; při omezeném pohybu žádné. Citát, deska s fotkou, titulek s pruhem, razítko a Proč kalich stavy nemají, plátno ukazuje jejich varianty.
+
+### Kontrola kontrastu
+
+Skript `scripts/kontrast-d2.mjs` (vzorec relativního jasu z WCAG 2.1, po výpisu smazán) prošel 152 dvojic v obou režimech: **0 pod hranicí AA.**
+
+- **Text (4,5 : 1)** na papíru, listu, ploše, malé ploše a lístku pro `--ink`, `--ink-2`, `--ruka` a `--ink-3`: den nejméně 5,1 : 1, noc nejméně 4,72 : 1 (`--ink-3` na lístku pojmu).
+- **Inkousty období** na papíru, listu, ploše a lístku: den nejméně 5,1 : 1 (období 4 na papíru), noc nejméně 4,82 : 1 (období 1 na lístku).
+- **Text na pruhu** `#FBF4EE` na papíru osmi období: nejméně 5,48 : 1 (období 4). Text na hlavním tlačítku 14,84 : 1 (den) a 14,09 : 1 (noc).
+- **Hranice ovládání (3 : 1):** tužka den nejméně 3,24 : 1 (na papíru), noc 4,02 : 1; rámeček fokusu a hlavní tlačítko proti papíru přes 12 : 1; postup cesty v drážce nejméně 5,10 : 1.
+- **Co výpočet nepokrývá a jak je to vyřešené:** stín v neumorfismu hranici neunese (u světlého papíru je pod 1,5 : 1). Proto žádný stav nestojí jen na stínu: zvolenou možnost nese kroužek, zvolený štítek tečka a tučný řez, zvolené tlačítko ✓, pole spodní linka, zakázaný prvek čárkovaný okraj, a tlačítka a lístky identifikuje jejich text. Tečky papíru, páska a perforace jsou ozdoba.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Neumorfismus a přístupnost.** Stín sám nestačí, proto má každý stav druhý znak (viz výš). Jinak by šel tenký obrys tužkou u všech vystouplých prvků: bezpečnější, ale papír by přestal vystupovat a vypadal by jako běžný formulář.
+- **Štítek otázky je vtlačený, a přitom je to odkaz.** Je to jediná výjimka z pravidla „vtlačené = zvolené“. Schválené Spojení ho tak má (slepotisk z B) a odkaz ho odliší najetím a podtržením. Jinak: štítek plochý s obrysem tužkou, nebo vystouplý jako malé tlačítko.
+- **Noční zápisník v teplé tmě**, ne modročerný: papír `#1D1B18`, list jen o stupeň světlejší (bílý list by v noci svítil). Pruh a páska jsou v noci stejný barevný papír, inkousty období se zesvětlí a fotka se ztlumí na 80 % jasu. Jinak by šly v noci tmavší papíry období; pruh by pak méně zářil, ale na papíru by se ztrácel lapis a pruská modř.
+- **Popisky malými písmeny místo verzálkových nadtitulků.** Spojení už má „Cesta“ malými písmeny; nadtitulek verzálkami nad každým nadpisem je poznávací znak šablonových webů. Dotkne se mnoha komponent (K3 až K6), proto otázka 3.
+- **Zakázáno = zploštělé s čárkovaným okrajem**, ne průhledné. Navazuje na dnešní „připravujeme“ v Kam dál a na pravidlo papíru (co nevystupuje, nejde zmáčknout) a zůstane čitelné.
+- **Zvolená karta zapadne do papíru.** Šla by i přilepit páskou, ale páska už nese barvu období a citáty; dvojí význam by mátl.
+- **Stupnice písma bez `display-1` a `display-2`.** Jméno má 104 px jako ve Spojení (dřív 148). Jestli velký display potřebuje stránka období nebo Domů, ukáže D4. Text na telefonu 18 px místo 19, jak to má krok cesty ve Spojení.
+- **Přechod stínu není jen `transform` a `opacity`,** jak chce zásada pohybu 5. Na plátně se stín přepíná přechodem `box-shadow`; v kódu ho D3 a K1 mají udělat přes pseudoprvek s větším stínem, kterému se mění jen průhlednost.
+- **Tinty období** (zpětná vazba Volby, Zkus to žít, karta týdne, kolečka v hodině) D2 nemění. V novém vzhledu by je mohl nahradit list s páskou v barvě období; potvrdí to obrazovky v D4.
+
+## Co rozhodnout po D2
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Štítek otázky vtlačený, i když je to odkaz** (výjimka z pravidla, jak je ve Spojení)? Doporučuji ano.
+   Odpověď:
+
+2. **Noční zápisník v teplé tmě, list jen o stupeň světlejší, pruh a páska stejné ve dne i v noci, fotka v noci ztlumená?** Doporučuji ano.
+   Odpověď:
+
+3. **Popisky malými písmeny místo verzálkových nadtitulků v celém atlasu?** Doporučuji ano.
+   Odpověď:
+
+4. **Zakázané prvky zploštělé s čárkovaným okrajem tužkou?** Doporučuji ano.
+   Odpověď:
+
+5. **Tinty období nahradit listem s páskou** (zpětná vazba Volby, Zkus to žít, karta týdne)? Doporučuji ano; D4 to ukáže na obrazovkách, než se rozhodne v kódu.
+   Odpověď:
+
+6. **Chceš něco změnit v barvách, stínech nebo písmu?** Napiš co a kde (třeba „páska světlejší“, „noc modřejší“, „pruh menší“). Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+## Zadání D3: pohyb na plátně
+
+Opus 5.5 · high. Pusť v novém chatu v Projektu Atlas filozofie, až vyplníš odpovědi po D2 (prázdná odpověď znamená souhlas).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok D3 větve design-v2, pohyb na plátně. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Pohyb, Po D2 a Co rozhodnout po D2 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti. Načti skill frontend-design. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti moje komentáře, project/canvas.json a z project/DesignSystem.dc.html jen <helmet> se styly (tokeny a prvky, ze kterých ukázky postavíš). Když odpovědi po D2 něco mění, oprav nejdřív design systém na plátně.
+
+1. Na plátno přidej stránku Pohyb (den i noční zápisník jako u design systému): každý řádek katalogu z oddílu Pohyb jako živá ukázka, kterou spustí student (tlačítko Přehrát nebo opravdový čin: klepnutí, volba, odkrytí): přechod mezi stránkami jako list v deníku a fotka z karty v Lidech, která přeletí na desku profilu; další krok cesty doleva a zpátky doprava; příchod na profil (páska se jednou přilepí, titulek a pruh se usadí); najetí a stisk tlačítka, lístku a karty; Volba (vtlačení, tužka dokreslí kroužek, zpětná vazba se rozloží jako lístek); Odkryj (odklopení přeloženého papíru); Roztřiď (karta přeletí do koše); Spor (mince po škále); pojem (lístek se rozbalí ze slova, poznámka na okraji se zvýrazní); razítko v deníku po dokončené cestě; body lidí v Mapě a čase s rokem. U každé ukázky přepínač Omezený pohyb, který ukáže její klidový stav.
+
+2. Tokeny pohybu: pojmenované délky a křivky (odezva na stisk asi 120 ms, rozložení lístku a odkrytí 200 až 300 ms, přechod mezi stránkami 350 až 450 ms, kamera mapy 600 ms) a u každé ukázky, které tokeny používá. Jen transform a opacity; stín najetí přes pseudoprvek, kterému se mění průhlednost, ne přechodem box-shadow. Nic se nehýbe samo kromě jednoho okamžiku při příchodu na stránku a kreseb.
+
+3. Do plánu větve zapiš oddíl Po D3: tokeny pohybu jako tabulka, pravidla pohybu (kdy ano, kdy ne, omezený pohyb, Firefox bez přechodů mezi stránkami), nad čím jsi váhal a co by šlo jinak, otázky Co rozhodnout po D3 a zadání D4 v plném znění. docs/design.md nepřepisuj (to udělá krok O). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
 
 4. Pak se zastav a napiš mi, na co se mám na plátně podívat.
 ```
