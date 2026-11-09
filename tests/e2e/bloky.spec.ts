@@ -64,7 +64,8 @@ const BLOKY: {
       await expect(blok.locator('h3')).toHaveText('Nikdo není moudřejší.');
       await expect(blok.locator('h3 em')).toHaveText('moudřejší.');
       await expect(blok.locator('figcaption')).toContainText('Chairefón');
-      await expect(blok.locator('.mince')).toHaveAttribute('aria-label', 'Sókratés · kalich');
+      // Deska bez obrazu nese razítko člověka s atributem (design-v2, K3; dřív mince).
+      await expect(blok.locator('.razitko-cloveka')).toHaveAttribute('aria-label', 'Sókratés · kalich');
       // Bez interakce: nic, na co by šlo tabulátorem.
       await expect(blok.locator('a, button, input, textarea')).toHaveCount(0);
     },

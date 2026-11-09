@@ -6,7 +6,7 @@
 import { getEntry, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import Deska from '../../components/ui/Deska.astro';
-import Mince from '../../components/ui/Mince.astro';
+import Ikona from '../../components/ui/Ikona.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
 import VstupyOsoby from '../../components/osobnost/VstupyOsoby.astro';
 import ObsahProfilu from '../../components/osobnost/ObsahProfilu.astro';
@@ -56,7 +56,7 @@ const obrazkyNaStrance = [
 ];
 const dev = import.meta.env.DEV;
 ---
-<Zakladni obdobi={osoba.obdobi}
+<Zakladni obdobi={osoba.obdobi} strankaOsoby
   titulek={nazevStranky}
   popis={dvojice
     ? `${nazevStranky}: ${osoby.map((o) => `${o.jmeno} (${zivot(o)}), ${o.kdo.charAt(0).toLowerCase()}${o.kdo.slice(1).replace(/\.$/, '')}`).join('; ')}.`
@@ -72,38 +72,44 @@ const dev = import.meta.env.DEV;
   <article class:list={['osobnost', 'stranka', `obdobi-${osoba.obdobi}`, { 'osobnost--dvojice': dvojice }]} data-navsteva={`/osobnost/${zaznam.id}/`} data-nazev={nazevStranky}>
     <header class="osobnost__hlavicka">
       <div class="osobnost__titulek">
-        <p class="t-nadtitulek nadtitulek">{fm.nadtitulek}</p>
-        <h1 class="t-display-2">{fm.titulek}.<br /><em>{nezlomitelne(fm.pointa)}</em></h1>
-        {dvojice ? (
-          /* Dvojice: řádek dat pro každou osobu; období jednou, na kratším prvním řádku. */
-          <ul class="data data--dvojice t-ovladani">
-            {osoby.map((o, i) => (
-              <li>
-                <span class="data__jmeno">{o.jmeno}</span>
-                {' · '}<span class="t-letopocet">{zivot(o)}</span>
-                {mistoOsoby(o) && <> · {mistoOsoby(o)}</>}
-                {i === 0 && <>{' · '}<a href={adresaObdobi}>období {obdobi.id}</a></>}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="data t-ovladani">
-            <span class="t-letopocet">{zivot(osoba)}</span>
-            {mistoOsoby(osoba) && <> · {mistoOsoby(osoba)}</>}
-            {' · '}<a href={adresaObdobi}>období {obdobi.id}</a>
-          </p>
-        )}
+        <div class="osobnost__nad">
+          {/* Razítko místa a času: rodiště (nebo poslední působiště), roky a období s odkazem. */}
+          {dvojice ? (
+            /* Dvojice: řádek dat pro každou osobu; období jednou, na kratším prvním řádku. */
+            <ul class="razitko-mista data data--dvojice">
+              {osoby.map((o, i) => (
+                <li>
+                  <b class="data__jmeno">{o.jmeno}</b>
+                  {' · '}<span>{zivot(o)}</span>
+                  {mistoOsoby(o) && <> · {mistoOsoby(o)}</>}
+                  {i === 0 && <>{' · '}<a href={adresaObdobi}>období {obdobi.id}</a></>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="razitko-mista data">
+              {mistoOsoby(osoba) && <b>{mistoOsoby(osoba)}</b>}
+              <span>{zivot(osoba)}</span>
+              <a href={adresaObdobi}>období {obdobi.id} · {obdobi.nazev}</a>
+            </p>
+          )}
+        </div>
+        {/* Jméno na vytrženém listu a pointa na pruhu v papíru období; čtečka je čte jako jeden nadpis. */}
+        <h1 class="osobnost__h1">
+          <span class="titulek prichod-titulek"><span class="titulek__list"><span class="titulek__jmeno">{fm.titulek}.</span></span></span>
+          {' '}<span class="titulek-pruh prichod-pruh"><span class="titulek-pruh__papir"><span class="titulek-pruh__text">{nezlomitelne(fm.pointa)}</span></span></span>
+        </h1>
         {/* Vyplní a ukáže skript v ObsahProfilu, když se student vrací a naposledy četl jiný než první oddíl. */}
         <p class="cteni t-ovladani" data-cteni hidden><a href="#obsah">Pokračovat ve čtení: <span data-cteni-nazev></span></a></p>
         <VstupyOsoby osoba={osoba} dalsi={dalsi} cast="cesty" />
       </div>
       <div class="osobnost__deska">
         {/* Dvojice: jeden obraz s oběma (rytina na šířku), pod ním atribut každé osoby. */}
-        <Deska osoba={osoba} pomer={dvojice ? '6 / 5' : undefined}>
+        <Deska osoba={osoba} pomer={dvojice ? '6 / 5' : undefined} osobni>
           {atributy.map((o) => (
-            <span class:list={['proc', { 'proc--mince': o.obrazek || dvojice }]}>
-              {/* S fotografií na desce chybí mince; atribut proto zůstane u popisku. */}
-              {(o.obrazek || dvojice) && <Mince osoba={o} varianta="ring" velikost={dvojice ? 36 : 40} />}
+            <span class:list={['proc', { 'proc--vlys': o.obrazek || dvojice }]}>
+              {/* S fotografií na desce chybí razítko s atributem; atribut proto stojí u popisku ve vtlačeném kolečku. */}
+              {(o.obrazek || dvojice) && <span class="vlys" aria-hidden="true"><Ikona sada="atributy" id={o.atribut!.ikona} velikost={22} /></span>}
               <span><strong>Proč {o.atribut!.nazev}?</strong> {nezlomitelne(o.atribut!.proc)}</span>
             </span>
           ))}
@@ -147,61 +153,73 @@ const dev = import.meta.env.DEV;
     gap: var(--s-6);
     padding-top: var(--s-5);
   }
-  .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
-  h1 { margin-bottom: var(--s-5); }
-  h1 em { color: var(--ink-2); }
-  .data { color: var(--ink-2); margin: 0; }
-  .data a { color: inherit; }
-  .osobnost__deska { max-width: 420px; }
+  /* Razítko místa a času nad jménem. Nadtitulek z obsahu („Senekův portrét“) se v hlavičce neukazuje (autor 9. 11. 2026). */
+  .osobnost__nad { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); margin: 0 0 var(--s-4); padding-left: 6px; }
+  .data { margin: 0; }
+  .data a { color: inherit; text-underline-offset: 0.18em; }
+  .data--dvojice { padding: 8px 16px 9px; list-style: none; }
+  .data--dvojice li + li { margin-top: 2px; }
+  .data--dvojice .data__jmeno { font-size: 13px; }
+  /* Nadpis: jméno na vytrženém listu a pod ním pruh s pointou (třídy papíru v global.css). */
+  .osobnost__h1 { margin: 0; font: inherit; }
+  .osobnost__h1 :is(.titulek__list, .titulek-pruh__papir, .titulek__jmeno) { display: block; }
+  .osobnost__h1 .titulek-pruh { display: table; }
+  /* Dvojice: dvě jména by na 104 px zabrala dva řádky a list přes celou šířku; menší jméno se vejde na jeden. */
+  .osobnost--dvojice .titulek__jmeno { font-size: var(--fs-h1); line-height: 1.05; }
+  .osobnost--dvojice .titulek-pruh__papir { font-size: var(--fs-ruka-l); }
+  .osobnost__deska { max-width: 420px; padding-inline: 6px; }
   @media (max-width: 899px) {
     .osobnost__deska :global(.deska__plocha) { aspect-ratio: 16 / 10 !important; }
     /* Deska je tu na šířku: obrázek na výšku smí mít pro ni vlastní střed výřezu (`vyrezNaSirku`). */
     .osobnost__deska :global(.deska__plocha img) { object-position: var(--vyrez-sirka, var(--vyrez, 50% 25%)) !important; }
   }
-  .proc { display: block; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  /* „Proč kalich?“ pod deskou: atribut ve vtlačeném kolečku a věta, pak popisek obrazu. */
+  .proc { display: block; margin-top: var(--s-4); font-family: var(--font-sans); font-size: 14px; line-height: 1.45; color: var(--ink-2); }
   .proc strong { color: var(--ink); font-weight: 600; }
-  .proc--mince { display: flex; gap: var(--s-3); align-items: flex-start; }
-  .proc--mince :global(.mince) { flex: none; }
+  .proc--vlys { display: flex; gap: 14px; align-items: flex-start; }
   .proc + .proc { margin-top: var(--s-3); }
-  .data--dvojice { padding: 0; list-style: none; }
-  .data--dvojice li + li { margin-top: var(--s-1); }
-  .data__jmeno { color: var(--ink); font-weight: 600; }
+  .obraz-popisek { display: block; margin-top: var(--s-3); color: var(--ink-3); }
   /* Dvojice na telefonu: dva atributy a popisek pod deskou by odsunuly první odstavec z první obrazovky.
      Titulek je proto menší (jen tady má dvě jména) a mezery v hlavičce užší. */
   @media (max-width: 899px) {
-    .osobnost--dvojice .osobnost__hlavicka { gap: var(--s-4); padding-top: var(--s-3); }
-    .osobnost--dvojice h1 { font-size: 34px; line-height: 1.05; margin-bottom: var(--s-2); }
-    .osobnost--dvojice .nadtitulek { margin-bottom: var(--s-2); }
-    .osobnost--dvojice .data--dvojice li + li { margin-top: 2px; }
-    .osobnost--dvojice .proc { font-size: 14px; line-height: 1.4; }
-    .osobnost--dvojice .proc + .proc { margin-top: var(--s-2); }
+    .osobnost--dvojice .osobnost__hlavicka { gap: var(--s-4); padding-top: var(--s-2); }
+    .osobnost--dvojice .osobnost__nad { margin-bottom: var(--s-3); gap: var(--s-2); }
+    .osobnost--dvojice .titulek__jmeno { font-size: 34px; line-height: 1.05; }
+    .osobnost--dvojice .titulek-pruh__papir { font-size: 20px; padding: 3px 12px 5px; }
+    .osobnost--dvojice :global(.titulek__list) { padding: 8px 14px 12px; }
+    .osobnost--dvojice .data--dvojice { padding: 5px 10px 6px; font-size: 12px; }
+    .osobnost--dvojice :global(.deska__list) { padding: 6px 6px 8px; }
+    .osobnost--dvojice .proc { font-size: 13px; line-height: 1.4; margin-top: var(--s-2); }
+    .osobnost--dvojice .proc :global(.vlys) { width: 36px; height: 36px; }
     .osobnost--dvojice .obraz-popisek { margin-top: var(--s-2); }
+    .osobnost--dvojice .osobnost__deska :global(figcaption) { margin-top: var(--s-2); }
     /* Rytina s oběma na šířku: nižší deska, střed výřezu drží hlavy i výbavu na zemi (vyrezNaSirku). */
     .osobnost--dvojice .osobnost__deska :global(.deska__plocha) { aspect-ratio: 2 / 1 !important; }
     .osobnost--dvojice :global(.obsah-lista) { margin-top: var(--s-3) !important; }
     .osobnost--dvojice .obsah :global(.uvod) { margin-top: var(--s-3); }
     /* Cesta a otázka stojí vedle sebe nad deskou: pod sebou by odsunuly první odstavec z první obrazovky
        (P8 celku 8). Titulek se rozpadne do mřížky hlavičky (display: contents), aby cesta a otázka byly v jednom řádku;
-       otázka se do volného sloupce vedle cesty doplní sama (dense). Délka cesty a šipky na telefonu chybí. */
+       otázka se do volného sloupce vedle cesty doplní sama (dense). Délka cesty na telefonu chybí. */
     .osobnost--dvojice .osobnost__hlavicka { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-auto-flow: row dense; gap: 0 var(--s-3); }
     .osobnost--dvojice .osobnost__titulek { display: contents; }
     .osobnost--dvojice .osobnost__titulek > *,
     .osobnost--dvojice .osobnost__deska { grid-column: 1 / -1; }
     .osobnost--dvojice .osobnost__titulek > :global(.vstupy-osoby--cesty) { grid-column: 1; margin-top: var(--s-3); }
     .osobnost--dvojice .osobnost__hlavicka > :global(.vstupy-osoby--otazky) { grid-column: 2; margin-top: var(--s-3); }
-    .osobnost--dvojice .osobnost__deska { margin-top: var(--s-3); }
+    .osobnost--dvojice .osobnost__deska { margin-top: var(--s-4); }
     .osobnost--dvojice :global(.vstupy-osoby ul),
-    .osobnost--dvojice :global(.vstupy-osoby li) { height: 100%; }
-    .osobnost--dvojice :global(.vstup) { min-height: 0; padding: var(--s-2) var(--s-3); align-items: flex-start; }
-    .osobnost--dvojice :global(.vstup .vstup__meta),
-    .osobnost--dvojice :global(.vstup svg) { display: none; }
-    .osobnost--dvojice :global(.vstup__nazev) { font-size: 17px; line-height: 1.2; }
-    .osobnost--dvojice :global(.vstup--otazka .vstup__nazev) { font-size: 17px; }
+    .osobnost--dvojice :global(.vstupy-osoby li) { height: 100%; margin: 0 !important; padding: 0; }
+    .osobnost--dvojice :global(.vstupy-osoby--otazky ul) { padding: 0 0 8px !important; }
+    .osobnost--dvojice :global(.vstupy-osoby--otazky ul::after) { left: 0; right: 0; top: auto; bottom: 0; width: auto; height: 14px; clip-path: var(--trh); }
+    .osobnost--dvojice :global(.vstup) { width: 100%; min-height: 0; }
+    .osobnost--dvojice :global(.vstup--cesta .vstup__text) { padding: var(--s-2) var(--s-3); }
+    .osobnost--dvojice :global(.vstup--otazka) { padding: var(--s-2) var(--s-3) 14px !important; border-radius: var(--r-ovladani) var(--r-ovladani) 0 0 !important; }
+    .osobnost--dvojice :global(.vstup__pahyl) { display: none; }
+    .osobnost--dvojice :global(.vstup__nazev) { font-size: 17px !important; line-height: 1.2; }
   }
-  .obraz-popisek { display: block; margin-top: var(--s-3); color: var(--ink-2); }
   /* „Pokračovat ve čtení“: tichý textový odkaz pod letopočty, vidět bez posouvání i na telefonu. */
-  .cteni { margin: var(--s-2) 0 0; }
-  .cteni a { display: inline-block; padding: var(--s-3) 0; color: var(--ink); text-underline-offset: 0.2em; }
+  .cteni { margin: var(--s-4) 0 0; }
+  .cteni a { display: inline-block; padding: var(--s-3) 0; color: var(--ink); text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
   .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
   /* Středová osa: text, kapitoly i bloky v jednom čtecím sloupci uprostřed; široké oddíly
      (Doba a lidé, Myšlenky, Zkus to žít, Kam dál) se rozprostřou přes celou šířku stránky. */
@@ -215,8 +233,7 @@ const dev = import.meta.env.DEV;
   .osnova-autor {
     margin: var(--s-8) 0;
     padding: var(--s-5);
-    border: 2px dashed var(--muted);
-    border-radius: var(--r-md);
+    outline: 1.5px dashed var(--tuzka);
     font-family: var(--font-sans);
     font-size: 15px;
   }
@@ -224,7 +241,7 @@ const dev = import.meta.env.DEV;
     /* Vlevo jméno s cestou a pod nimi otázky, vpravo deska přes oba řádky; pořadí je stejné jako na telefonu. */
     .osobnost__hlavicka { grid-template-columns: 1fr 380px; grid-template-rows: 1fr auto; align-items: end; gap: 0 var(--s-8); padding-top: var(--s-7); }
     .osobnost__titulek { grid-column: 1; grid-row: 1; }
-    .osobnost__deska { grid-column: 2; grid-row: 1 / span 2; justify-self: end; width: 100%; }
-    .osobnost__hlavicka :global(.vstupy-osoby--otazky) { grid-column: 1; grid-row: 2; align-self: start; margin-top: var(--s-3); }
+    .osobnost__deska { grid-column: 2; grid-row: 1 / span 2; justify-self: end; align-self: start; width: 100%; }
+    .osobnost__hlavicka :global(.vstupy-osoby--otazky) { grid-column: 1; grid-row: 2; align-self: start; margin-top: var(--s-6); }
   }
 </style>

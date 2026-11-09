@@ -226,12 +226,12 @@ const skript = `(function () {
 
 <style>
   /* Řádek odkazů pod hlavičkou profilu: bez JavaScriptu vždy, s ním jen na notebooku. */
-  .obsah-profilu { margin: var(--s-7) 0 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .obsah-profilu { margin: var(--s-7) 0 0; border-top: 1.5px dashed var(--tuzka); border-bottom: 1.5px dashed var(--tuzka); }
   .obsah-profilu ol { display: flex; flex-wrap: wrap; gap: 0 var(--s-5); margin: 0; padding: var(--s-2) 0; list-style: none; }
   ol { font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: var(--lh-ovladani); }
   li a { display: flex; align-items: center; gap: var(--s-2); min-height: var(--dotyk); text-decoration: none; font-weight: 500; }
-  li a:hover { text-decoration: underline; }
-  .cislo { color: var(--pc); font-weight: 600; }
+  li a:hover { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
+  .cislo { font-family: var(--font-ruka); font-size: 17px; color: var(--p); font-weight: 700; }
   /* Právě čtený oddíl: tučně a s linkou, ne jen barvou. */
   .obsah-profilu a[aria-current] { font-weight: 700; box-shadow: inset 0 -2px 0 var(--ink); }
 
@@ -240,9 +240,9 @@ const skript = `(function () {
   :global(html[data-obsah-js]) .obsah-lista { display: block; position: sticky; top: calc(var(--hlavicka) + var(--hodina)); z-index: 30; height: var(--dotyk); margin: var(--s-6) calc(-1 * var(--okraj)) 0; }
   .obsah-lista__pruh { position: absolute; inset: 0 0 auto; height: var(--dotyk); }
   /* Papír a linky přes celou šířku okna; stín místo přesahu, aby nevzniklo vodorovné posouvání. */
-  .obsah-lista__pozadi { position: absolute; inset: 0; background: var(--paper); box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
+  .obsah-lista__pozadi { position: absolute; inset: 0; background: var(--papir); box-shadow: 0 0 0 100vmax var(--papir); clip-path: inset(0 -100vmax); }
   .obsah-lista__pozadi::before,
-  .obsah-lista__pozadi::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: var(--rule); box-shadow: 0 0 0 100vmax var(--rule); clip-path: inset(0 -100vmax); }
+  .obsah-lista__pozadi::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: var(--linka); box-shadow: 0 0 0 100vmax var(--linka); clip-path: inset(0 -100vmax); }
   .obsah-lista__pozadi::before { top: 0; }
   .obsah-lista__pozadi::after { bottom: 0; }
   /* Pod hlavičkou webu horní linku nese hlavička sama. */
@@ -268,9 +268,9 @@ const skript = `(function () {
   .obsah-lista__tlacitko svg { flex: none; }
   .obsah-lista__ted { display: flex; flex: 1; gap: var(--s-2); min-width: 0; color: var(--ink-2); font-weight: 500; }
   .obsah-lista__ted[hidden] { display: none; }
-  .obsah-lista__ted::before { content: '·'; color: var(--muted); }
+  .obsah-lista__ted::before { content: '·'; color: var(--ink-3); }
   .obsah-lista__nazev { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .sipka { margin-left: auto; transition: rotate var(--pohyb-rychle); }
+  .sipka { margin-left: auto; transition: rotate var(--d-stisk) var(--k-stisk); }
   .obsah-lista__tlacitko[aria-expanded='true'] .sipka { rotate: 180deg; }
 
   .obsah-panel {
@@ -280,16 +280,14 @@ const skript = `(function () {
     right: var(--okraj);
     overflow-y: auto;
     overscroll-behavior: contain;
-    border: 1px solid var(--rule);
-    border-top: 0;
-    border-radius: 0 0 var(--r-sm) var(--r-sm);
-    background: var(--surface);
+    background: var(--list);
+    box-shadow: var(--lezi-zved);
   }
-  .obsah-panel--nahoru { top: auto; bottom: 100%; border-top: 1px solid var(--rule); border-bottom: 0; border-radius: var(--r-sm) var(--r-sm) 0 0; }
+  .obsah-panel--nahoru { top: auto; bottom: 100%; }
   .obsah-panel ol { margin: 0; padding: var(--s-2) 0; list-style: none; }
   .obsah-panel a { padding: 0 var(--s-4); }
-  .obsah-panel .predel { margin-top: var(--s-2); padding-top: var(--s-2); border-top: 1px solid var(--rule); }
-  .obsah-panel a[aria-current] { font-weight: 700; background: var(--pc-tint); box-shadow: inset 3px 0 0 var(--pc); }
+  .obsah-panel .predel { margin-top: var(--s-2); padding-top: var(--s-2); border-top: 1px solid var(--linka); }
+  .obsah-panel a[aria-current] { font-weight: 700; background: var(--listek); box-shadow: inset 3px 0 0 var(--p); }
 
   @media (max-width: 899px) {
     :global(html[data-obsah-js]) .obsah-profilu { display: none; }
@@ -297,8 +295,8 @@ const skript = `(function () {
   @media (min-width: 900px) {
     /* Notebook: lišta nezabírá místo a je vidět, až řádek odkazů odjede z obrazovky. */
     :global(html[data-obsah-js]) .obsah-lista { height: 0; margin-top: 0; }
-    .obsah-lista__pruh { visibility: hidden; opacity: 0; transition: opacity var(--pohyb-rychle), visibility 0s var(--pohyb-rychle); }
-    .obsah-lista[data-prilepeno] .obsah-lista__pruh { visibility: visible; opacity: 1; transition: opacity var(--pohyb-rychle); }
+    .obsah-lista__pruh { visibility: hidden; opacity: 0; transition: opacity var(--d-stisk), visibility 0s var(--d-stisk); }
+    .obsah-lista[data-prilepeno] .obsah-lista__pruh { visibility: visible; opacity: 1; transition: opacity var(--d-stisk); }
     .obsah-lista__tlacitko { width: auto; max-width: 100%; }
     .obsah-lista__ted { flex: 0 1 auto; }
     .sipka { margin-left: var(--s-1); }

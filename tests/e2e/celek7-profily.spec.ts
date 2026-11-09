@@ -81,7 +81,11 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
       await luk.getByRole('radio', { name: 'Pošle ho daleko.' }).check({ force: true });
       await luk.getByRole('button', { name: 'Rozhodnuto' }).click();
       await luk.getByRole('radio', { name: 'Povol tětivu' }).check({ force: true });
-      await luk.locator('.zmenena').getByRole('radio', { name: 'Nepošle ho nikam.' }).check({ force: true });
+      // Skrytý přepínač (1 px) může po posunu ležet přesně na spodní hraně okna (K3: vyšší list citátu nad blokem);
+      // Playwright ho pak hlásí jako mimo okno. Možnost se nejdřív posune doprostřed.
+      const nikam = luk.locator('.zmenena').getByRole('radio', { name: 'Nepošle ho nikam.' });
+      await nikam.evaluate((e) => (e.closest('label') ?? e).scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await nikam.check({ force: true });
       await luk.locator('.zmenena').getByRole('button').click();
       const posun = luk.getByRole('region', { name: 'Posun odpovědi' });
       await expect(posun).toContainText('Tvoje odpověď se posunula.');

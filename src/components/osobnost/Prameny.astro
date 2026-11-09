@@ -46,10 +46,13 @@ const obr = [...new Set(obrazky)].map((id) => data.zdroje.obrazky.find((o) => o.
 </details>
 
 <style>
-  .prameny { margin: var(--s-8) 0 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  summary { min-height: var(--dotyk); display: flex; align-items: center; cursor: pointer; }
+  /* Prameny: rozbalovací list pod tečkovanou linkou; obsah v popiskovém písmu. */
+  .prameny { margin: var(--s-8) 0 0; border-top: 1.5px dashed var(--tuzka); border-bottom: 1.5px dashed var(--tuzka); }
+  summary { min-height: var(--dotyk); display: flex; align-items: center; gap: var(--s-2); cursor: pointer; color: var(--ink); }
+  summary:hover { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
   .prameny__obsah { padding-bottom: var(--s-5); color: var(--ink-2); }
   h3 { margin: var(--s-4) 0 var(--s-2); color: var(--ink); }
   ul { margin: 0; padding-left: var(--s-5); }
   li { margin-bottom: var(--s-1); }
+  a { text-decoration-color: var(--tuzka); text-underline-offset: 0.18em; }
 </style>

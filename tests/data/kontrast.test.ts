@@ -22,7 +22,7 @@ export const kontrast = (a: string, b: string) => {
   const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
   return (x + 0.05) / (y + 0.05);
 };
-// Razítko místa má průhlednost 0,96 (global.css): počítá se barva smíchaná s papírem pod ním.
+// Razítko místa a razítko člověka (K3) mají průhlednost 0,96 (global.css): počítá se barva smíchaná s papírem pod ním.
 const smichat = (a: string, b: string, podil: number) =>
   '#' + [1, 3, 5].map((i) => Math.round(parseInt(a.slice(i, i + 2), 16) * podil + parseInt(b.slice(i, i + 2), 16) * (1 - podil)).toString(16).padStart(2, '0')).join('');
 
@@ -43,6 +43,8 @@ const TEXT: [string, string][] = [
     [`p-${n}`, 'papir'],
     [`p-${n}`, 'list'],
     [`p-${n}`, 'listek'],
+    // Stránky osob (K3): počet kroků v pahýlu lístku cesty na vystouplé ploše.
+    [`p-${n}`, 'plocha'],
     ['na-papiru', `pp-${n}`],
     // Desky a tinty období zůstávají do K3 až K7 (přezdívky v tokens.css).
     [`period-${n}-on-plate`, `period-${n}-plate`],

@@ -15,7 +15,7 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | Brána | Autor schválí návrh na plátně; teprve potom kód | autor | schváleno 8. 11. 2026 (Co rozhodnout po D4, otázka 9) |
 | K1 | Základ: `tokens.css` a `global.css` podle D2, Kalam lokálně (podmnožiny latin a latin-ext), textura papíru jen v CSS, stíny, tokeny pohybu, omezený pohyb | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 8. 11. 2026 (oddíl Po K1) |
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | hotovo 8. 11. 2026 (oddíl Po K2) |
-| K3 | Stránky osob: hlavička profilu (titulek s pruhem, razítko, deska s fotkou a páskou, lístky cest, štítky otázek, Proč kalich), kapitoly, citát, Doba a lidé, myšlenky, Zkus to žít, Kam dál, Prameny, obsah profilu, medailonky; snímky pro autora | totéž | čeká |
+| K3 | Stránky osob: hlavička profilu (titulek s pruhem, razítko, deska s fotkou a páskou, lístky cest, štítky otázek, Proč kalich), kapitoly, citát, Doba a lidé, myšlenky, Zkus to žít, Kam dál, Prameny, obsah profilu, medailonky; snímky pro autora | totéž | hotovo 9. 11. 2026 (oddíl Po K3); kontrolní bod se snímky |
 | K4 | Bloky a jejich pohyb: Volba, Odkryj, Roztřiď, Změň jednu věc, Spor, Slož argument, Kdo žil dřív?, Příběh, Kdo je na tvé straně, Návrat, Závěr cesty, Moje stanovisko, první názor | totéž | čeká |
 | K5 | Cesta: hlavička s postupem, spodní lišta, přehled cesty, karta cesty, přechod mezi kroky; snímky pro autora | totéž | čeká |
 | K6 | Stránky z dat a deník: Domů, období a pás období, směr, otázka s osou hlasů, pokus, úvody, náboženství, Lidé, Otázky, Můj deník, Tvoje antika, Stoický týden, příprava hodiny a promítání | totéž | čeká |
@@ -545,24 +545,24 @@ Odpovědi po D4: otázka 9 (brána) „ano“, ostatní prázdné, takže platí
 
 | Staré jméno | Ukazuje na | Kdo ho používá | Nahradí |
 | --- | --- | --- | --- |
-| `--paper` | `--papir` | 37 míst: deník, mapa, kresby; ✓ rám (K2) | K3 až K7 podle komponenty |
-| `--surface` | `--list` | 76 míst: bloky, karty, lišty cesty; ✓ rám (K2: spodní lišta, hledání, lišta hodiny) | K4 (bloky), K3, K5, K6 |
+| `--paper` | `--papir` | 35 míst: deník, mapa, kresby, bloky; ✓ rám (K2), ✓ stránky osob (K3) | K4 až K7 podle komponenty |
+| `--surface` | `--list` | 73 míst: bloky, karty, lišty cesty; ✓ rám (K2), ✓ stránky osob (K3; zbývá bod mini mapy, K7) | K4 (bloky), K5, K6, K7 |
 | `--sunk` | papír smíchaný s linkou (`color-mix`) | 22 míst: přepínače, najetí, podklady; ✓ rám (K2: hledání, lišta hodiny) | K4 a K7 (vtlačené místo barvy) |
-| `--rule` | `--linka` | 130 míst; ✓ rám (K2) | K3 až K7; kde je linka jedinou hranicí ovládání, přejde na stín nebo tužku |
-| `--muted` | stará hodnota `#6B6154` / `#A69B8A` | 94 míst; ✓ rám (K2: drobečky, spodní lišta, hledání, lišta hodiny) | K3 až K7; nový `--ink-3` je o odstín světlejší a na tintě období 2 by měl 4,47 : 1, proto přezdívka drží starou hodnotu, dokud tinty nezmizí |
-| `--period-N` | `--p-N` | 10 míst | K3, K6, K7 |
-| `--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate` (třída `.obdobi-N`) | staré tinty a desky | 315 míst | K3 (desky), K4 (tinty ve zpětné vazbě), K6, K7 (kresby) |
+| `--rule` | `--linka` | 115 míst; ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7) | K4 až K7; kde je linka jedinou hranicí ovládání, přejde na stín nebo tužku |
+| `--muted` | stará hodnota `#6B6154` / `#A69B8A` | 89 míst; ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7) | K3 až K7; nový `--ink-3` je o odstín světlejší a na tintě období 2 by měl 4,47 : 1, proto přezdívka drží starou hodnotu, dokud tinty nezmizí |
+| `--period-N` | `--p-N` | 10 míst: přiřazení `.obdobi-N` v `global.css`, deník, Domů; ✓ stránky osob (K3, nepoužívaly ho) | K6, K7 |
+| `--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate` (třída `.obdobi-N`) | staré tinty a desky | 359 míst (`--pc` 257, tint 55, soft 28, plate 10, on-plate 9); ✓ desky (K3: deska je list s páskami, `--pc-plate` už jen kresby v `global.css` a hlavička stránky období přes `--period-N-plate`), ✓ stránky osob mimo mini mapu a mini osu (K7) | K4 (tinty ve zpětné vazbě, Mince v blocích), K6 (hlavička období), K7 (kresby, mini mapa, mini osa) |
 | `--period-N-tint`, `-soft`, `-plate`, `-on-plate` | dnešní hodnoty | přes `--pc-*` | K3 až K7, pak smazat |
-| `--fs-display-1`, `--fs-display-2` | `--fs-jmeno` | jen třídy `.t-display-*` | K3 a K6 (titulek s pruhem) |
+| `--fs-display-1`, `--fs-display-2` | `--fs-jmeno` | jen třídy `.t-display-*` v `global.css`; ✓ stránky osob (K3: titulek s pruhem), žádná komponenta je už nepoužívá | O je smaže i s třídami (K6 je nepotřebuje) |
 | `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-full` | `--r-razitko`, `--r-ovladani`, `--r-plne` | 132 míst; ✓ rám (K2); `--r-lg` už nepoužívá nikdo | K3 až K7, `--r-lg` smaže O |
 | `--stin-mapa`, `--stin-list` | `--lezi`, `--lista-stin` | 8 míst: mapa a Mapa a čas; ✓ rám (K2: hledání) | K7 |
-| `--pohyb-rychle`, `--pohyb`, `--pohyb-kamera` | `--d-stisk`, `--d-listek`, `--d-kamera` | 75 míst ve 25 souborech (rám je nepoužíval) | K3 až K7 |
+| `--pohyb-rychle`, `--pohyb`, `--pohyb-kamera` | `--d-stisk`, `--d-listek`, `--d-kamera` | 117 výskytů (počítáno i s `var(--pohyb…)` v hodnotách); ✓ stránky osob (K3: vstupy, obsah profilu) | K4 až K7 |
 | `--map-*` | beze změny | mapa a mini mapa | K7 (mapa jako výstřižek) |
 
 **Co přezdívka nepokryje (práce pro K2 až K7):**
 
 - ~~**K2:** hlavička a spodní lišta mají plné pozadí `--paper` bez stínu; logo Agora, vtlačená aktivní položka, vystouplý Můj deník a hledání ve vtlačené drážce chybí.~~ Hotovo v K2 (oddíl Po K2).
-- **K3:** desky s fotkou jsou dál v duotónu období (`--pc-plate`), ne na listu s páskami a filtrem `--foto`; jméno není na vytrženém listu s pruhem; mince místo razítka člověka (SVG s textem po obvodu a filtrem nedotištěného inkoustu skládá komponenta, CSS je hotové).
+- ~~**K3:** desky s fotkou jsou dál v duotónu období (`--pc-plate`), ne na listu s páskami a filtrem `--foto`; jméno není na vytrženém listu s pruhem; mince místo razítka člověka.~~ Hotovo v K3 (oddíl Po K3).
 - **K4:** bloky jsou plochá karta `--surface` s linkou a zaoblením 10 px; hlavní tlačítko je plný inkoust bez `--vyst-ink`; možnosti Volby nejsou vystouplé; zpětná vazba je tinta, ne `.listek-paska` s `.rozlozit`; pole na psaní nejsou v Kalamu.
 - **K5:** lišta cesty a drážka postupu jsou ploché; lístek cesty nemá pahýl.
 - **K6:** pás období je dnešní plynulý pruh, ne odtrhávací lístky; štítky otázek, karta týdne a kolečka hodiny jsou tinty.
@@ -723,6 +723,96 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 8. Pak se zastav a napiš mi, na které snímky se mám podívat (kontrolní bod se snímky po K3).
 ```
 
+## Po K3 (9. 11. 2026)
+
+Odpovědi po K2 jsou v repozitáři (otázky 1 až 3 „souhlasím“, otázka 4 vyřízená přechodem po připomínce), takže rám ani `tokens.css` se kvůli nim neměnily; nová ikona v záložce prohlížeče (otázka 3) je hotová tady.
+
+### Co se na stránkách osob změnilo
+
+- **Hlavička profilu** (`StrankaProfilu.astro`): nahoře razítko místa a času (`.razitko-mista`: rodiště, roky, odkaz „období N · název“). Nadtitulek z obsahu („Senekův portrét“) jsem nejdřív dal rukou vedle razítka; autor 9. 11. řekl, že je navíc, takže v hlavičce není (pole `nadtitulek` v datech zůstává). Pod nimi nadpis h1 složený ze dvou kusů papíru: jméno s tečkou na vytrženém listu (`.titulek`) a pointa na pruhu v papíru období (`.titulek-pruh`, Kalam 700). Čtečka je čte jako jeden nadpis („Sókratés. Muž, který se ptal.“), takže testy nadpisů se neměnily. Kalam 700 latin se na stránkách osob přednačítá (`Pisma ruka`, parametr `strankaOsoby` v `Zakladni.astro`). Společný profil má menší jméno (`--fs-h1`), aby se „Kratés a Hipparchia.“ vešlo na jeden řádek. **Po připomínce autora (9. 11.: jméno a dovětek vypadaly jako text položený na papír, dva různé prvky):** přes list i pruh leží zrno papíru (šum v obrázku SVG, `mix-blend-mode: multiply`, v noci `soft-light`), které jde i přes písmo; inkoust jména je trochu nedotištěný (maska se šumem) a ve dne lehce vtlačený, fix na pruhu (`.titulek-pruh__text`) má stejnou masku. Barvy písma i papíru zůstávají, takže kontrast se nemění (zrno text i papír ztmaví stejně). Platí i pro titulek stránky 404.
+- **Deska** (`Deska.astro`, sdílí ji i Příběh v cestách): fotka na ležícím listu se dvěma páskami v papíru období, filtr `--foto` místo duotónu `--pc-plate`; bez obrazu tečkovaný papír s razítkem člověka (104 px) místo mince s ornamentem. Pod deskou „Proč kalich?“ s ikonou atributu ve vtlačeném kolečku (`.vlys` v `global.css`) a popisek obrazu v `--ink-3`.
+- **Lístky cest** (`VstupyOsoby.astro`): dva kusy vystouplého papíru, hlavní díl a za perforací pahýl s počtem kroků v inkoustu období a minutami; délku čtečka slyší dál za slovem Cesta. **Po připomínkách autora (9. 11.):** po najetí se lístek u perforace natrhne (pahýl se pootočí o 7° kolem horního rohu u perforace a klesne, hlavní díl se nadzvedne; jen `transform` a `rotate`, `--d-stisk`), a lístky stojí vždy v jedné řadě a zúží se: u Seneky se tři zalomily pod sebe a odsunuly záložky otázek. Tři lístky v navigaci užší než 980 px a dva v užší než 620 px mají menší název a užší pahýl (container query). Na telefonu pod 600 px zůstává řádek odkazů (lístky by u Seneky odsunuly desku z první obrazovky).
+- **Záložky velkých otázek** místo tlačítek s obrysem: papír období, nahoře rukou „otázka 7“, pod tím znění; po najetí se povytáhnou (`--d-stisk`), při fokusu z klávesnice vylezou nad okraj listu. **Po připomínce autora (9. 11.)**: u Aristotela (osm otázek) se záložky zalomily do dvou řad a horní řada visela ve vzduchu. Teď jsou vždy zastrčené pod jedním okrajem listu: v jedné řadě, když se vejdou (do čtyř od 520 px šířky navigace, pět a víc od 860 px a menším písmem), jinak pod sebou, vyčnívající zleva z okraje listu vpravo (telefon, užší okno). Rozhoduje container query nad navigací a počet záložek (`:has`).
+- **Razítko člověka** (`src/components/ui/RazitkoCloveka.astro`, `src/lib/razitko.ts`): dva kruhy v inkoustu období, jméno a roky po obvodu (dlouhý text se stáhne na místo mezi tečkami), atribut ze spritu `atributy.svg`, bez atributu vlnovky, natočení −14° až +12° podle id, pod 48 px bez obvodu. Nedotištěný inkoust je jedna maska se šumem v CSS (obrázek SVG s `feTurbulence`), ne SVG filtr u každého razítka jako na plátně. Je v Doba a lidé (72 px) a na desce bez obrazu. **Na Minci zůstávají** (K6 a K7 přepnou jen import): Lidé a směry, Mapa a čas (karta člověka, body, osa), osa hlasů a hlasy na stránce otázky, karta cesty a první cesta na Domů, přehled cesty, rodokmen a osa událostí na stránkách období a směru, hlavička stránky směru, lidé období, Tvoje antika, a v blocích (BlokHlava, BlokFilozof, Spor, Kdo žil dřív?) Svelte verze `mapa/Mince.svelte` (K4).
+- **Ikona v záložce prohlížeče** (`public/favicon.svg`): velké A (Newsreader jako cesta, ne písmo) v `--na-inkoustu` na vytrženém útržku v inkoustu, mírně natočeném; glóbus zmizel.
+- **Tělo profilu:** kapitola má číslo rukou v inkoustu období a nadpis `--fs-h2` (dřív `--fs-h1`); citát leží na listu s páskou (kompaktní citát v kartách a na ose otázky zůstává bez listu); Doba a lidé má současníky a Dva životy na jednom listu a mini mapu na vystřiženém listu (obě komponenty samy zůstávají do K7), u lidí razítka místo mincí, tlačítko „Přehrát život na mapě“ malé vystouplé; myšlenky jsou ležící listy; Zkus to žít list s páskou (tlačítko „Přijmout výzvu“ je ostrov, nový vzhled dostane v K4); Kam dál ležící karty (`.lezi-odkaz`, připravovaná karta `.zakazane`: čárkovaná tužkou, bez šipky a stínu), na notebooku až čtyři vedle sebe; Prameny a řádek obsahu mezi čárkovanými linkami tužkou; lišta Obsah na papíru, rozbalený seznam jako list se stínem `--lezi-zved`, čtený oddíl na lístku s linkou v inkoustu období.
+- **Medailonek** (`StrankaMedailonku.astro`): jméno na vytrženém listu bez pruhu (medailonek pointu nemá), razítko místa pod ním, kdo a proč beze změny, deska jako u profilu.
+- **Sdílené komponenty** na stránkách období, směru, otázky, pokusu a tradice: změnil se jen Kam dál a Citát (a Deska v Příběhu v cestách); hlavička stránky (`HlavickaStranky`) a zbytek zůstávají pro K6. Testy těch stránek prošly beze změny.
+- **Pohyb** (Po D3): *příchod na profil* (titulek, pruh a dvě pásky na desce po sobě, `--d-prichod`, `--z-prichod`, pásky `--d-listek` a `--k-dopad`) jen při nové návštěvě: třídu `prichod` dá `<html>` skript v hlavičce `Zakladni.astro`, když typ navigace není `traverse` (ani `back_forward`), není omezený pohyb a prohlížeč zná `pagereveal` (Firefox ne). Po přechodu listu z K2 začne příchod, až se list skoro odvine. Animace jen přidávají začátek, klidový stav je konec pohybu. *Let fotky z karty na desku*: skript si pamatuje poslední kliknutý odkaz; v `pageswap` dá kartě (odkaz vyšší než 40 px, v okně, cíl je stránka osoby) `view-transition-name: deska-osoby` a cíl zapíše do `sessionStorage`; nová stránka v `pagereveal` dá totéž jméno desce `#deska-osoby` a po přechodu ho obě stránky zase smažou. Aby deska byla v DOM před prvním vykreslením, mají stránky osob `<link rel="expect" href="#deska-osoby" blocking="render">`. Jméno v řádku textu (Doba a lidé) ani Zpět let nespustí.
+- **`docs/design.md`** › Komponenty: deska, razítko člověka, citát, Kam dál a vstupy osobnosti podle K3 (zbytek přepíše O).
+
+### Přezdívky
+
+V tabulce přezdívek (Po K1) jsou odškrtnuté stránky osob s počty zbylých míst. Stránky osob už nepoužívají `--pc-plate`, `--fs-display`, `--period-N` ani tinty; zbývají jen v mini mapě a mini ose (`--pc`, `--pc-tint`, `--rule`, `--muted`, `--surface`, K7) a v blocích uvnitř profilu (K4). Třídy `.t-display-*` nepoužívá už nic, O je smaže.
+
+### Testy a kontrola
+
+- `npm run build` prošel, Vitest 1 149 testů (nově `tests/data/razitko.test.ts`: natočení, místo na obvodu pro každého člověka v datech; v `kontrast.test.ts` nově inkoust období na vystouplé ploše, číslo v pahýlu).
+- **Nový test** `tests/e2e/stranky-osob.spec.ts` (7 testů): hlavička (jméno na listu, pointa na pruhu v papíru období a Kalamu, razítko místa, dvě pásky, filtr fotky, Kalam přednačtený), lístky a záložky (natržení u perforace po najetí, tři lístky Seneky v jedné řadě na 1440 i 1180 px se záložkami na první obrazovce, záložky v jedné řadě na notebooku, na telefonu pod sebou se třemi odsazeními a společným pravým okrajem, deska Epikúra se sedmi otázkami na první obrazovce, nic nepřetéká), razítka (počet, jméno a roky po obvodu, atribut, vlnovky, jedinečná id, různé natočení, deska bez obrazu), Kam dál, příchod (nová návštěva ano, po Zpět a při omezeném pohybu ne, klidový stav celý), let fotky, ikona.
+- **Upravené testy:** `krates-hipparchia.spec.ts` (atribut u popisku je `.vlys`, ne mince), `bloky.spec.ts` (Příběh v dílně: deska bez obrazu nese razítko s popiskem „Sókratés · kalich“) a `celek7-profily.spec.ts` (skrytý přepínač ve Změň jednu věc ležel po posunu přesně na spodní hraně okna a Playwright ho hlásil jako mimo okno; možnost se teď nejdřív posune doprostřed).
+- Dotčené sady (prohlídka, obsah, platon, seneca, aristoteles, celek7-profily, krates-hipparchia, medailonky, mini-mapa, doba-odkazy, obrazky-licence, otazka, ram) prošly; axe na stránkách osob bez nálezu. Celé `npm test` (kontrola typů, Vitest, 728 testů v Playwrightu): 722 prošlo, 6 spadlo. Čtyři byly Příběh v dílně (test čekal minci) a jeden kontrola kotev: `<link rel="expect" href="#deska-osoby">` měly i medailonky bez desky (odkaz na neexistující kotvu); teď ho dostane jen stránka s deskou (`deskaOsoby` v `Zakladni.astro`). Šestý, tažení karty v Roztřiď (`bloky.spec.ts`), spadl jen pod zátěží celého běhu; samostatně prošel čtyřikrát po sobě. Po opravách prošly `bloky`, `odkazy`, `stranky-osob`, `medailonky` a `krates-hipparchia`; celé `npm test` jsem znovu nepouštěl. Po připomínkách autora (záložky, lístky, nadtitulek, zrno papíru) prošly znovu `stranky-osob`, `prohlidka`, `obsah`, `ram`, `krates-hipparchia`, `medailonky`, `otazka` a `nove-stranky` (269 testů).
+- **Kontrast** nových dvojic výpočtem (jednorázový skript, smazaný): nejnižší ve dne razítko člověka období 4 na papíře 4,71 : 1 (průhlednost 0,96 jako razítko místa), v noci razítko období 1 na lístku 4,58 : 1; text záložky (`--na-papiru` na papíru období) nejméně 5,48 : 1 a přechod záložku jen ztmavuje.
+- **Klávesnice:** `scripts/kontrola-fokus.mjs` na Sókratovi, Thalétovi a společném profilu na 390 a 1440 px bez nálezu. Tabulátor tam i zpátky na 1440 × 700, 1440 × 1000, 390 × 640 a 390 × 844 (jednorázový skript, smazaný): nic pod lištami; jediný nález je pole Odkryj v kapitole 01 Sókrata na 1440 × 700, které po tabulátoru končí 4 px pod oknem (blok, K4).
+- **Snímky** pro autora v `Claude outputs/snimky/design-v2-k3/`: `sokrates-`, `platon-`, `seneca-` (tři cesty), `krates-a-hipparchia-` a `thales-` (medailonek) na 390 a 1440 px ve dne (`light`) i v noci (`dark`), každá stránka na 1 až 4 listech.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Přechod listu na stránky osob v testech často odpadne, už od K2.** V headless Chromiu nová stránka osoby přechod většinou nedostane (`pagereveal` bez `viewTransition`), i na stavu před K3 a i bez letu fotky; na stránky bez osob (Lidé, Otázky, cesty) jde. Odpadá to náhodně (jednou z několika pokusů projde) a pomohlo odebrat čtyři styly, které mají jen stránky osob, takže tipuji časování načtení stylů v headless prohlížeči. Test letu proto ověřuje vždy kartu a úklid a jméno desky jen tehdy, když přechod nastal. V opravdovém Chromu jsem to neověřil (otázka 7); revize R to má zkusit na telefonu.
+- **Maska místo SVG filtru u razítka.** Plátno má u každého razítka filtr `url(#…)` se šumem. Při hledání předchozí chyby to chvíli vypadalo jako viník, opakování to nepotvrdilo; maska vypadá stejně, je jedna pro všechna razítka a nepotřebuje desítky id, tak zůstala.
+- **Nadtitulek v hlavičce** jsem nejdřív nechal rukou vedle razítka (nese autorský text); autor ho 9. 11. označil za navíc, takže zmizel jako na plátně. Medailonek nadtitulek má dál, protože nese odkaz na směr („Stoicismus · medailonek“); kdyby měl zmizet i tam, je to otázka 2.
+- **Medailonek bez pruhu.** Medailonek nemá pointu; pruh by musel nést něco vymyšleného. Jméno je na listu bez tečky.
+- **Velikost písma na razítku.** 11 a 9 jednotek ze sta dává na 72 px asi 8 a 6,5 px. Je to jako na plátně a razítko je pro čtečku skryté (jméno stojí hned vedle), ale přečíst se dá jen zblízka (otázka 3).
+- **Kapitola o stupeň menší** (`--fs-h2` místo `--fs-h1`), jak ji kreslí plátno; tam je 48 px.
+- **Mince mimo stránky osob zůstaly** podle zadání; seznam míst je výš. Bloky v profilu (Kdo žil dřív?, Spor, Volba s filozofem) mají v profilu zatím minci vedle razítek v Doba a lidé.
+
+## Co rozhodnout po K3
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Záložky otázek v jedné řadě, a když se nevejdou, pod sebou** (nikdy dvě řady nad sebou), **lístky cest vždy v jedné řadě** a natržení u perforace po najetí? Doporučuji ano.
+   Odpověď:
+
+2. **Medailonek bez pruhu a s nadtitulkem nad jménem** (nadtitulek tam nese odkaz na směr; u profilu nadtitulek po tvé připomínce zmizel)? Doporučuji ano.
+   Odpověď:
+
+3. **Text po obvodu razítka** (jméno a roky, na 72 px asi 8 px): nechat, nebo razítko v Doba a lidé zvětšit na 84 px? Doporučuji nechat.
+   Odpověď:
+
+4. **Citát na listu s páskou na všech stránkách** (i v cestách a na stránkách otázek), kompaktní citát bez listu? Doporučuji ano.
+   Odpověď:
+
+5. **Jméno a dovětek „vytištěné“ na papíře** (zrno přes písmo, nedotištěný inkoust): stačí to, nebo víc (silnější zrno, výraznější otisk)? Doporučuji nechat, jak je, a doladit při revizi R na skutečném displeji.
+   Odpověď:
+
+6. **Chceš něco změnit na snímcích po K3?** Napiš kde a co. Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+7. **Otočí se list a přiletí fotka, když v Chromu (nebo v Safari) klepneš v náhledu na Sókratovi dole v Kam dál na kartu Platóna?** Napiš ano, nebo ne. Při „ne“ to K4 opraví jako první věc.
+   Odpověď:
+
+## Zadání K4: bloky a jejich pohyb
+
+Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po K3 (prázdná odpověď znamená souhlas).
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K4 větve design-v2, bloky v novém vzhledu a jejich pohyb. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co se proti design systému změnilo: poštovní razítko, tinty období nahradil lístek s páskou), Co rozhodnout po D4 (otázky 1 a 4), Po K1 (třídy papíru, vrstvy stínu, přezdívky), Po K3 a Co rozhodnout po K3 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíl Bloky (u každého bloku jen popis vzhledu a stavů, ne příklady YAML). Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/DesignSystem.dc.html v <helmet> jen části o tlačítkách, možnostech, poli na psaní, lístku zpětné vazby a vtlačeném stavu, které nejsou v tokens.css a global.css; z project/KrokCesty.dc.html z těla jen jeden blok Volba a jedno Odkryj; z project/Pohyb.dc.html jen styly a skript ukázek Volba (kroužek tužkou, lístek), Odkryj, Roztřiď a Spor. Když odpověď 7 po K3 je „ne“, oprav nejdřív přechod listu a let fotky na stránky osob (Zakladni.astro, global.css › Přechody, Příchod, Let fotky) a ověř v opravdovém prohlížeči; když odpovědi po K3 mění něco jiného, oprav nejdřív to.
+
+1. Společné pro bloky: blok jako ležící list (.papirovy-list, bez linky a zaoblení 10 px), nadtitulek v inkoustu období, hlavní tlačítko na plném inkoustu (.vystouple .vystouple--ink), vedlejší a tiché tlačítko podle design systému (src/components/ui/Tlacitko.astro i tlačítka v ostrovech, blok__tl), zakázané tlačítko čárkované tužkou, pole na psaní v Kalamu na linkách (poznámka po K3: pole Odkryj v kapitole 01 Sókrata končí po tabulátoru na 1440 × 700 o 4 px pod oknem). Zpětná vazba a odkrytý obsah místo tinty jako lístek s páskou (.listek-paska), který se při vložení rozloží (.rozlozit); „Začít znovu“ všude stejně.
+
+2. Bloky jeden po druhém: Volba s důvodem (možnosti vystouplé, zvolená vtlačená, kroužek tužkou kolem písmene, --d-tah), Odkryj, Roztřiď (karta se zvedne, koš vtlačený, přesun --d-presun), Změň jednu věc, Spor (škála a značky), Slož argument, Kdo žil dřív?, Příběh (deska z K3 už je nová), Kdo je na tvé straně, Návrat, Závěr cesty, Moje stanovisko, první názor, Zkus to žít (tlačítko v ostrovu), Dva životy (společná léta místo tinty). Pohyb podle Po D3; při omezeném pohybu je každý stav hned na konci (kroužek celý, lístek rozložený).
+
+3. Razítko člověka v blocích: Svelte verze (src/components/ui/RazitkoCloveka.svelte nad src/lib/razitko.ts, stejné SVG a CSS .razitko-cloveka jako Astro verze) místo mapa/Mince.svelte v BlokHlava, BlokFilozof, Spor a Kdo žil dřív?; pod 48 px bez obvodu. Ostatní místa s mincí (seznam v Po K3) nech pro K6 a K7.
+
+4. Bloky přepiš na nová jména tokenů (Po K1, tabulka přezdívek): --surface, --rule, --sunk, --muted, --pc-tint, --pc-soft, --pohyb…; co přestanou používat, odškrtni v tabulce přezdívek v plánu. Když tinty období (--pc-tint, --period-N-tint) už nikdo nepoužívá, zapiš to; smaže je O.
+
+5. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro bloky, pruchod, cesta, cesta2 až cesta8, cesta33, cesta34, sloz-argument, spor-reflexe, navrat, zaver, dva-zivoty, tyden, otazka, stranky-osob, prohlidka, hodina-podoby), node scripts/kontrola-fokus.mjs na kroku cesty 1/2, 6/3 a 4/6 a na profilu Sókrata, klávesnicí na dvou výškách okna, a node scripts/snimky-cesta.mjs na cestě 1 (s odpověďmi i bez) a node scripts/snimky-prvek.mjs na každém bloku na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
+
+6. Do plánu větve zapiš oddíl Po K4: co se na blocích změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K4 a zadání K5 v plném znění. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+7. Pak se zastav a napiš mi, na které snímky se mám podívat.
+```
 
 ## Uzavření
 

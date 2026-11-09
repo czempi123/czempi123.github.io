@@ -381,6 +381,44 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   font-weight: 700;
   line-height: var(--lh-ruka-l);
 }
+/* Jméno a pointa jsou vytištěné a napsané na papíře, ne položené na něm (autor 9. 11. 2026, K3):
+   1) přes list i pruh leží zrno papíru (šum v obrázku SVG, násobí se s barvou pod sebou, takže jde i přes písmo);
+   2) inkoust jména je trochu nedotištěný (maska se šumem, jemnější než u razítka) a lehce vtlačený;
+   3) fix na pruhu (.titulek-pruh__text) se do papíru trochu vsákne (maska) a nemá ostrý digitální okraj.
+   Kontrast se nemění: barvy písma i papíru zůstávají, mění se jen zrno a pokrytí. */
+.titulek__list,
+.titulek-pruh__papir { position: relative; isolation: isolate; }
+.titulek__list::after,
+.titulek-pruh__papir::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: var(--zrno-papiru);
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+  opacity: .28;
+}
+.titulek-pruh__papir::after { opacity: .34; }
+:root {
+  --zrno-papiru: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='z'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .44 0 0 0 -.9 .75'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23z)'/%3E%3C/svg%3E");
+  --sum-inkoustu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 1.55'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23s)'/%3E%3C/svg%3E");
+}
+.titulek__jmeno,
+.titulek-pruh__text {
+  -webkit-mask-image: var(--sum-inkoustu);
+  mask-image: var(--sum-inkoustu);
+  -webkit-mask-size: 220px 220px;
+  mask-size: 220px 220px;
+}
+/* Ve dne písmo lehce vtlačené do listu; v noci ne (světlý okraj by na tmavém papíru zářil). */
+.titulek__jmeno { text-shadow: 0 1px 0 rgb(255 255 255 / .55); }
+.titulek-pruh__text { text-shadow: 0 0 .6px currentColor; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .titulek__jmeno { text-shadow: none; } :root:not([data-theme='light']) :is(.titulek__list, .titulek-pruh__papir)::after { mix-blend-mode: soft-light; opacity: .5; } }
+:root[data-theme='dark'] .titulek__jmeno { text-shadow: none; }
+:root[data-theme='dark'] :is(.titulek__list, .titulek-pruh__papir)::after { mix-blend-mode: soft-light; opacity: .5; }
+@media print { .titulek__list::after, .titulek-pruh__papir::after { display: none; } }
 @media (max-width: 699px) {
   .titulek__list { padding: 12px 18px 16px; }
   .titulek-pruh { margin: -10px 0 0 26px; }
@@ -401,13 +439,38 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   opacity: .96;
   line-height: 0;
 }
-.razitko-cloveka svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.razitko-cloveka svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Nedotištěný inkoust: maska ze šumu (obrázek SVG s feTurbulence), jedna pro všechna razítka. Plátno mělo
+     filtr url(#…) u každého razítka; s ním přechod mezi stránkami v Chromu podezřele často odpadal (K3, neověřeno). */
+  --rz-sum: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.6'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--rz-sum);
+  mask-image: var(--rz-sum);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
 .razitko-cloveka .rz-k { fill: none; stroke: currentColor; }
 .razitko-cloveka .rz-b { fill: currentColor; }
 .razitko-cloveka .rz-ik { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 .razitko-cloveka .rz-t { font: 700 11px var(--font-sans); letter-spacing: .06em; fill: currentColor; }
 .razitko-cloveka .rz-r { font-size: 9px; font-weight: 600; letter-spacing: .03em; }
 .razitko-cloveka--bez-obvodu :is(.rz-t, .rz-b) { display: none; }
+
+/* Vtlačené kolečko s ikonou atributu u „Proč kalich?“ pod deskou (K3). */
+.vlys {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-plne);
+  background: var(--papir);
+  box-shadow: var(--vtla);
+  color: var(--ink-2);
+}
 
 /* Lístek s páskou: místo tinty období (zpětná vazba Volby, věty po volbě, Návrat, srovnání). */
 .listek-paska {
@@ -630,3 +693,42 @@ html.otaci-se .otoceni-ohyb {
   animation-fill-mode: both;
 }
 html.otaci-se--zpet .otoceni-ohyb__papir { animation-direction: reverse; }
+
+/* ─── Příchod na profil (design-v2, K3; Po D3 › Pravidla pohybu, plátno project/Pohyb.dc.html) ──────────────
+   Jednou při nové návštěvě (ne po Zpět): titulek, pruh a dvě pásky na desce po sobě, celé do 480 ms.
+   Třídu prichod dá <html> skript v hlavičce (Zakladni.astro) jen bez omezeného pohybu a mimo Firefox;
+   po přechodu listu (K2) začne příchod, až se list odvine (prichod--po-listu). Klidový stav je konec pohybu:
+   animace jen přidávají začátek, natočení zůstává ve vlastnosti rotate. Rozepsané vlastnosti, ne zkratka
+   animation (minifikace, docs/pouceni.md). */
+@keyframes prichod-titulek { from { opacity: 0; transform: translateY(14px) rotate(-2.2deg); } }
+@keyframes prichod-pruh { from { opacity: 0; transform: translate(-16px, 6px) rotate(2.8deg); } }
+@keyframes prichod-paska-l { from { opacity: 0; transform: translateY(-10px) rotate(-8deg) scale(1.2); } }
+@keyframes prichod-paska-p { from { opacity: 0; transform: translateY(-10px) rotate(8deg) scale(1.2); } }
+html.prichod--po-listu { --prichod-start: calc(var(--d-otoceni) - 300ms); }
+@media (prefers-reduced-motion: no-preference) {
+  html.prichod :is(.prichod-titulek, .prichod-pruh, .prichod-paska-l, .prichod-paska-p) {
+    animation-fill-mode: both;
+    animation-duration: var(--d-prichod);
+    animation-timing-function: var(--k-papir);
+    animation-delay: var(--prichod-start, 0ms);
+  }
+  html.prichod .prichod-titulek { animation-name: prichod-titulek; }
+  html.prichod .prichod-pruh { animation-name: prichod-pruh; animation-delay: calc(var(--prichod-start, 0ms) + var(--z-prichod)); }
+  html.prichod :is(.prichod-paska-l, .prichod-paska-p) { animation-duration: var(--d-listek); animation-timing-function: var(--k-dopad); }
+  html.prichod .prichod-paska-l { animation-name: prichod-paska-l; animation-delay: calc(var(--prichod-start, 0ms) + var(--z-prichod) * 2); }
+  html.prichod .prichod-paska-p { animation-name: prichod-paska-p; animation-delay: calc(var(--prichod-start, 0ms) + var(--z-prichod) * 3); }
+}
+
+/* ─── Let fotky z karty na desku (design-v2, K3; Po D3 › Pravidla pohybu) ─────────────────────────────────
+   Kliknutá karta a cílová deska dostanou view-transition-name jen na dobu přechodu (skript v Zakladni.astro,
+   pageswap a pagereveal). Karta přeletí na místo desky a prolne se s ní; list stránky (K2) se mezitím odvine. */
+::view-transition-group(deska-osoby) {
+  animation-duration: var(--d-list);
+  animation-timing-function: var(--k-list);
+}
+::view-transition-old(deska-osoby),
+::view-transition-new(deska-osoby) {
+  height: 100%;
+  animation-duration: var(--d-list);
+  animation-timing-function: var(--k-list);
+}

@@ -24,10 +24,15 @@ interface Props {
   aplikace?: boolean;
   /** stránka pro autora (dílna): vyhledávače ji neindexují */
   noindex?: boolean;
+  /** stránka osoby (profil, medailonek): Kalam 700 přednačtený (pruh se jménem je na první obrazovce)
+      a deska #deska-osoby musí být v DOM před prvním vykreslením (cíl letu fotky z karty) */
+  strankaOsoby?: boolean;
+  /** stránka má desku osoby (#deska-osoby); medailonek bez obrazu a atributu ji nemá */
+  deskaOsoby?: boolean;
 }
 // Název webu je Agora (design-v2, otázka 11 po D4); „atlas“ zůstává v textech o tom, jak se v něm pohybovat.
 const NAZEV_WEBU = 'Agora';
-const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false } = Astro.props;
+const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby } = Astro.props;
 const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WEBU}`;
 ---
 <!doctype html>
@@ -97,7 +102,58 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         e.viewTransition.finished.finally(function () { t.remove('otaci-se', 'otaci-se--zpet'); });
       });
     </script>
-    <Pisma />
+    <script is:inline>
+      // Příchod na profil (global.css › Příchod na profil): titulek, pruh a pásky po sobě, jen při nové návštěvě.
+      // Po Zpět (traverse), při omezeném pohybu a ve Firefoxu (bez pagereveal) je stránka hned celá.
+      // Let fotky z karty na desku (global.css › Let fotky): jméno přechodu jen na kliknuté kartě a cílové desce.
+      (function () {
+        var t = document.documentElement.classList;
+        var KLIC = 'atlas-let-desky';
+        var pohyb = false;
+        try { pohyb = 'onpagereveal' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+        if (!pohyb) return;
+        var typ = '';
+        try {
+          var a = window.navigation && navigation.activation;
+          typ = a ? a.navigationType : (performance.getEntriesByType('navigation')[0] || {}).type;
+        } catch (e) {}
+        if (typ !== 'traverse' && typ !== 'back_forward') {
+          t.add('prichod');
+          setTimeout(function () { t.remove('prichod', 'prichod--po-listu'); }, 2500);
+        }
+        var posledni = null;
+        addEventListener('click', function (e) { posledni = e.target instanceof Element ? e.target.closest('a[href]') : null; }, true);
+        addEventListener('pageswap', function (e) {
+          if (!e.viewTransition || !posledni) return;
+          try {
+            var akt = e.activation;
+            if (!akt || akt.navigationType === 'traverse' || !akt.entry) return;
+            var cil = new URL(akt.entry.url);
+            var odkaz = new URL(posledni.href, location.href);
+            if (odkaz.pathname !== cil.pathname || !/^\/osobnost\/[^/]+\/$/.test(cil.pathname) || cil.pathname === location.pathname) return;
+            var r = posledni.getBoundingClientRect();
+            // Jen karta (ležící papír, karta člověka), ne jméno v řádku textu, a jen když je vidět.
+            if (r.height < 40 || r.bottom < 0 || r.top > innerHeight) return;
+            posledni.style.viewTransitionName = 'deska-osoby';
+            sessionStorage.setItem(KLIC, cil.pathname);
+            var k = posledni;
+            e.viewTransition.finished.finally(function () { k.style.viewTransitionName = ''; });
+          } catch (x) {}
+        });
+        addEventListener('pagereveal', function (e) {
+          if (e.viewTransition) t.add('prichod--po-listu');
+          var p = null;
+          try { p = sessionStorage.getItem(KLIC); sessionStorage.removeItem(KLIC); } catch (x) {}
+          if (!e.viewTransition || p !== location.pathname) return;
+          var d = document.getElementById('deska-osoby');
+          if (!d) return;
+          d.style.viewTransitionName = 'deska-osoby';
+          e.viewTransition.finished.finally(function () { d.style.viewTransitionName = ''; });
+        });
+      })();
+    </script>
+    {deskaOsoby && <link rel="expect" href="#deska-osoby" blocking="render" />}
+    <Pisma ruka={strankaOsoby} />
   </head>
   <body>
     <a class="preskocit" href="#obsah">Přeskočit na obsah</a>

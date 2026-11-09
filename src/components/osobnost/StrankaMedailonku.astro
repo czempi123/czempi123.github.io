@@ -7,7 +7,7 @@
 import { getCollection } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import Deska from '../ui/Deska.astro';
-import Mince from '../ui/Mince.astro';
+import Ikona from '../ui/Ikona.astro';
 import Prameny from './Prameny.astro';
 import VstupyOsoby from './VstupyOsoby.astro';
 import DobaALide from './DobaALide.astro';
@@ -71,7 +71,7 @@ const adresaStranky = `/osobnost/${osoba.id}/`;
 const deska = !!(osoba.obrazek || osoba.atribut);
 const druhy = (await kdoZilNaMedailonku())(osoba.id);
 ---
-<Zakladni obdobi={osoba.obdobi}
+<Zakladni obdobi={osoba.obdobi} strankaOsoby deskaOsoby={deska}
   titulek={osoba.jmeno}
   popis={`${osoba.jmeno} (${zivot(osoba)}): ${osoba.kdo}`}
   sekce="lide"
@@ -86,11 +86,12 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
     <header class:list={['medailonek__hlavicka', { 'medailonek__hlavicka--deska': deska }]}>
       <div class="medailonek__titulek">
         <p class="t-nadtitulek nadtitulek">{castiNadtitulku.map((c, i) => <>{i > 0 && ' · '}{c.href ? <a href={c.href}>{c.text}</a> : c.text}</>)}</p>
-        <h1 class="t-display-2">{osoba.jmeno}</h1>
-        <p class="data t-ovladani">
-          <span class="t-letopocet">{zivot(osoba)}</span>
-          {misto && <> · {misto}</>}
-          {' · '}<a href={adresaObdobi}>období {obdobi.id}</a>
+        {/* Jméno na vytrženém listu (bez pruhu: medailonek nemá pointu) a razítko místa a času. */}
+        <h1 class="medailonek__h1"><span class="titulek prichod-titulek"><span class="titulek__list"><span class="titulek__jmeno">{osoba.jmeno}</span></span></span></h1>
+        <p class="razitko-mista data">
+          {misto && <b>{misto}</b>}
+          <span>{zivot(osoba)}</span>
+          <a href={adresaObdobi}>období {obdobi.id} · {obdobi.nazev}</a>
         </p>
         {/* Kdo a proč: dvě věty z dat. Na telefonu stojí hned pod jménem, aby byly na první obrazovce. */}
         <dl class="jadro">
@@ -106,13 +107,13 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
         <VstupyOsoby osoba={osoba} cast="cesty" />
         <VstupyOsoby osoba={osoba} cast="otazky" />
       </div>
-      {/* Deska jen s obrazem nebo atributem: prázdná mince by vypadala jako chybějící obrázek (mince nikdy nenese iniciálu). */}
+      {/* Deska jen s obrazem nebo atributem: prázdné razítko by vypadalo jako chybějící obrázek (razítko nikdy nenese iniciálu). */}
       {deska && <div class="medailonek__deska">
         {/* Čtverec místo 4 : 5 jako u profilu: vedle jména a dvou vět by vysoká deska nechala vlevo prázdné místo. */}
-        <Deska osoba={osoba} pomer={osoba.obrazek ? undefined : '1 / 1'}>
+        <Deska osoba={osoba} pomer={osoba.obrazek ? undefined : '1 / 1'} osobni>
           {osoba.atribut && (
             <span class="proc">
-              {osoba.obrazek && <Mince osoba={osoba} varianta="ring" velikost={40} />}
+              {osoba.obrazek && <span class="vlys" aria-hidden="true"><Ikona sada="atributy" id={osoba.atribut.ikona} velikost={22} /></span>}
               <span><strong>Proč {osoba.atribut.nazev}?</strong> {nezlomitelne(osoba.atribut.proc)}</span>
             </span>
           )}
@@ -141,25 +142,25 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
 
 <style>
   .medailonek__hlavicka { display: grid; gap: var(--s-6); padding-top: var(--s-5); }
-  .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  .nadtitulek { margin: 0 0 var(--s-4); color: var(--p); }
   /* Směr se stránkou v nadtitulku: odkaz v barvě období; svislá výplň zvětší dotykový cíl a řádek neposune. */
   .nadtitulek a { color: inherit; text-underline-offset: 0.2em; padding: 14px 0; }
-  h1 { margin-bottom: var(--s-4); }
-  .data { color: var(--ink-2); margin: 0; }
-  .data a { color: inherit; }
+  .medailonek__h1 { margin: 0 0 var(--s-5); font: inherit; }
+  .medailonek__h1 :is(.titulek__list, .titulek__jmeno) { display: block; }
+  .data { margin: 0 0 0 6px; }
+  .data a { color: inherit; text-underline-offset: 0.18em; }
   .jadro { display: grid; gap: var(--s-4); margin: var(--s-6) 0 0; max-width: var(--ctenarsky-sloupec); }
-  .jadro dt { margin-bottom: var(--s-1); color: var(--muted); }
+  .jadro dt { margin-bottom: var(--s-1); color: var(--ink-3); }
   .jadro dd { margin: 0; }
   /* „Kdo“ nese stránku jako perex, „proč“ je o stupeň tišší, ale pořád čtecí písmo. */
   .jadro__kdo { font-size: var(--fs-perex); line-height: var(--lh-perex); }
   .jadro__proc { font-size: var(--fs-text); line-height: 1.55; }
-  .medailonek__titulek :global(.vstupy-osoby--otazky) { margin-top: var(--s-3); }
-  .medailonek__deska { max-width: 420px; }
+  .medailonek__titulek :global(.vstupy-osoby--otazky) { margin-top: var(--s-6); }
+  .medailonek__deska { max-width: 420px; padding-inline: 6px; }
   .kdo-zil-medailonek { margin-top: var(--s-8); }
-  .proc { display: flex; gap: var(--s-3); align-items: flex-start; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .proc { display: flex; gap: 14px; align-items: flex-start; margin-top: var(--s-4); font-family: var(--font-sans); color: var(--ink-2); font-size: 14px; line-height: 1.45; }
   .proc strong { color: var(--ink); font-weight: 600; }
-  .proc :global(.mince) { flex: none; }
-  /* Na telefonu je deska bez obrazu jen mince s ornamentem: nízká, ať nepřebije jméno a dvě věty nad ní. */
+  /* Na telefonu je deska bez obrazu jen razítko na papíře: nízká, ať nepřebije jméno a dvě věty nad ní. */
   @media (max-width: 899px) {
     .medailonek__deska :global(.deska__plocha) { aspect-ratio: 2 / 1 !important; }
   }

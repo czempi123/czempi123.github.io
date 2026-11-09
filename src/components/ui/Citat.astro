@@ -1,5 +1,6 @@
 ---
-// Citát z pramene: Newsreader, linka nad i pod, pod ním autor, dílo, místo.
+// Citát z pramene: ležící list s páskou v papíru období (design-v2, K3), Newsreader, pod ním autor, dílo, místo.
+// Kompaktní citát (uvnitř karty, na časové ose otázky, v týdnu) zůstává bez listu: linka v inkoustu nad ním.
 // Znění a údaje bere z src/data/zdroje.yaml, aby každý citát měl ověřený pramen a překlad.
 import { citatyPodleId } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -11,16 +12,19 @@ const c = citatyPodleId.get(id);
 if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
 ---
 <figure class:list={['citat', { 'citat--velky': velky, 'citat--kompaktni': kompaktni }]}>
+  {!kompaktni && <span class="paska paska--nahore" aria-hidden="true"></span>}
   <blockquote><p>„{nezlomitelne(c.cesky)}“</p></blockquote>
   <figcaption class="t-popisek">{c.autor}, <cite>{c.dilo}</cite> {c.misto}</figcaption>
 </figure>
 
 <style>
   .citat {
-    margin: var(--s-7) 0;
-    padding: var(--s-5) 0 var(--s-4);
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--rule);
+    position: relative;
+    margin: var(--s-8) 0 var(--s-7);
+    padding: 28px 32px 22px;
+    background: var(--list);
+    box-shadow: var(--lezi);
+    rotate: -.6deg;
   }
   blockquote { margin: 0; }
   blockquote p {
@@ -29,9 +33,17 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     line-height: 1.4;
     text-wrap: balance;
   }
-  .citat--kompaktni { margin: var(--s-4) 0 0; padding: var(--s-4) 0 var(--s-3); border-top-color: var(--rule); }
-  .citat--kompaktni blockquote p { font-size: var(--fs-text); line-height: 1.5; }
   .citat--velky blockquote p { font-size: var(--fs-citat); line-height: var(--lh-citat); }
-  figcaption { color: var(--muted); }
+  .citat--kompaktni {
+    margin: var(--s-4) 0 0;
+    padding: var(--s-4) 0 var(--s-3);
+    background: none;
+    box-shadow: none;
+    rotate: 0deg;
+    border-top: 1px solid var(--linka);
+  }
+  .citat--kompaktni blockquote p { font-size: var(--fs-text); line-height: 1.5; }
+  figcaption { color: var(--ink-3); }
   cite { font-style: italic; }
+  @media (max-width: 699px) { .citat:not(.citat--kompaktni) { padding: 24px 18px 18px; } }
 </style>
