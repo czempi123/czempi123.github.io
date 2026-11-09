@@ -71,4 +71,15 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
       expect(kontrast(smichat(t[`p-${n}`], t[p], 0.96), t[p])).toBeGreaterThanOrEqual(4.5);
     },
   );
+  // Vnořený citát jako lepicí lístek v barvě období (K3, Citat.astro): lístek tónovaný 16 % papíru období,
+  // lepicí proužek o 14 % víc; text a podpis v --ink a --ink-2.
+  it.each([1, 2, 3, 4, 5, 6, 7, 8].flatMap((n) => ['ink', 'ink-2'].map((x): [number, string] => [n, x])))(
+    'lepicí lístek období %i: %s splňuje AA i na lepicím proužku',
+    (n, x) => {
+      const listek = smichat(t[`pp-${n}`], t.listek, 0.16);
+      const prouzek = smichat(t[`pp-${n}`], listek, 0.14);
+      expect(kontrast(t[x], listek)).toBeGreaterThanOrEqual(4.5);
+      expect(kontrast(t[x], prouzek)).toBeGreaterThanOrEqual(4.5);
+    },
+  );
 });

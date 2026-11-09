@@ -4,7 +4,7 @@
 // nebo pod cestou vlevo od desky (od 900 px). Tak cesta nezapadne a otázky neodsunou desku a první
 // odstavec z první obrazovky telefonu (revize celku 7, nález 6: Aristotelés a Epikúros měli sedm tlačítek).
 // Design-v2 (K3): cesta je vystouplý lístek s pahýlem (počet kroků a minuty za perforací); po najetí se u perforace
-// natrhne a pahýl se odklopí. Lístky stojí v jedné řadě a zúží se (tři u Seneky), aby neodsunuly záložky. Otázky jsou papírové
+// odtrhne: pahýl odjede a mezi díly je zubatý natržený okraj. Lístky stojí v jedné řadě a zúží se (tři u Seneky), aby neodsunuly záložky. Otázky jsou papírové
 // záložky v papíru období zastrčené pod okrajem listu; po najetí se povytáhnou. Na telefonu vyčnívají zleva pod sebou.
 // Na telefonu (pod 600 px) jsou cesty jen řádek odkazů s názvy: lístky by u Seneky (tři cesty) odsunuly desku
 // pod první obrazovku (revize antiky, nález 6). Od 600 px plné lístky.
@@ -44,7 +44,7 @@ const popisek = dalsi.length
               <span class="t-nadtitulek vstup__nad">Cesta<span class="vstup__meta"> · {c.kroku} kroků{c.minut && ` · asi ${c.minut} minut`}</span></span>
               <span class="vstup__nazev">{c.nazev}</span>
             </span>
-            <span class="vstup__pahyl" aria-hidden="true"><b>{c.kroku}</b>kroků{c.minut && <span>asi {c.minut} min</span>}</span>
+            <span class="vstup__pahyl" aria-hidden="true"><span class="vstup__trh"></span><b>{c.kroku}</b>kroků{c.minut && <span>asi {c.minut} min</span>}</span>
           </a>
         </li>
       ))}
@@ -71,8 +71,9 @@ const popisek = dalsi.length
   .vstup:hover .vstup__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 0.14em; }
 
   /* Lístek cesty: dva kusy vystouplého papíru, hlavní díl a za perforací pahýl s počtem kroků a minutami.
-     Po najetí se lístek u perforace natrhne: pahýl se pootočí kolem horního rohu u perforace a klesne,
-     hlavní díl se zvedne (jen transform, --d-stisk). Lístky stojí v jedné řadě a zúží se, nikdy pod sebou:
+     Po najetí se lístek u perforace odtrhne (autor 9. 11.: pootočení vypadalo jako ohnutí): pahýl odjede
+     o kus doprava a dolů, mezi díly se otevře mezera a oba okraje u perforace jsou zubaté (proužky papíru
+     s ořezem, jen průhlednost a transform, --d-stisk). Lístky stojí v jedné řadě a zúží se, nikdy pod sebou:
      tři lístky u Seneky by jinak odsunuly záložky otázek dolů (připomínka autora 9. 11. 2026). */
   .vstupy-osoby--cesty { container: listky / inline-size; }
   .vstupy-osoby--cesty ul { flex-wrap: nowrap; gap: var(--s-4); }
@@ -84,7 +85,29 @@ const popisek = dalsi.length
     box-shadow: var(--vyst);
     transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
   }
-  .vstup--cesta .vstup__text { flex: 1 1 auto; min-width: 0; padding: 15px 20px 16px; border-radius: var(--r-ovladani) 0 0 var(--r-ovladani); }
+  .vstup--cesta .vstup__text { position: relative; flex: 1 1 auto; min-width: 0; padding: 15px 20px 16px; border-radius: var(--r-ovladani) 0 0 var(--r-ovladani); }
+  /* Natržené okraje: proužky papíru se zubatým ořezem, vidět jen po odtržení. Zuby obou dílů do sebe zapadají. */
+  .vstup--cesta .vstup__text::after,
+  .vstup__trh {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var(--plocha);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--d-stisk) var(--k-stisk);
+  }
+  .vstup--cesta .vstup__text::after {
+    right: -7px;
+    clip-path: polygon(0 0, 60% 0, 100% 6%, 30% 13%, 85% 20%, 20% 28%, 75% 35%, 35% 43%, 95% 50%, 25% 58%, 80% 66%, 30% 73%, 90% 80%, 20% 88%, 70% 94%, 40% 100%, 0 100%);
+  }
+  .vstup__trh {
+    left: -7px;
+    z-index: 1;
+    clip-path: polygon(100% 0, 40% 0, 0 6%, 70% 13%, 15% 20%, 80% 28%, 25% 35%, 65% 43%, 5% 50%, 75% 58%, 20% 66%, 70% 73%, 10% 80%, 80% 88%, 30% 94%, 60% 100%, 100% 100%);
+  }
   .vstup--cesta .vstup__nad { color: var(--ink-3); }
   .vstup--cesta .vstup__meta { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .vstup--cesta .vstup__nazev { font-size: 21px; line-height: 1.2; }
@@ -113,10 +136,12 @@ const popisek = dalsi.length
   .vstup__pahyl::after { content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--papir); }
   .vstup__pahyl::before { top: -10px; }
   .vstup__pahyl::after { bottom: -10px; }
-  /* Natržení: pahýl se odklopí od perforace, hlavní díl se nadzvedne. */
+  /* Odtržení: pahýl odjede od perforace a lehce se stočí, mezi díly zubatá mezera; hlavní díl se nadzvedne. */
   @media (hover: hover) {
     .vstup--cesta:hover .vstup__text { transform: translateY(-2px); }
-    .vstup--cesta:hover .vstup__pahyl { transform: translate(3px, 3px); rotate: 7deg; }
+    .vstup--cesta:hover .vstup__pahyl { transform: translate(14px, 4px); rotate: 2deg; border-left-color: transparent; }
+    .vstup--cesta:hover .vstup__text::after,
+    .vstup--cesta:hover .vstup__trh { opacity: 1; }
   }
   .vstup--cesta:active .vstup__text { transform: translateY(1px); }
   .vstup--cesta:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }

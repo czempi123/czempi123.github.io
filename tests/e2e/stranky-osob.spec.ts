@@ -34,13 +34,14 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
   const cesta = page.locator('.vstup--cesta').first();
   await expect(cesta.locator('.vstup__pahyl')).toHaveText(/7\s*kroků\s*asi 14 min/);
   await expect(cesta.locator('.vstup__pahyl')).toHaveAttribute('aria-hidden', 'true');
-  // Po najetí se lístek u perforace natrhne: pahýl se odklopí (natočení), hlavní díl zůstane rovně.
+  // Po najetí se lístek u perforace odtrhne: pahýl odjede doprava (mezera) a ukážou se zubaté okraje.
   // Najetí se opakuje v čekání: stránka se po načtení ještě může posunout (příchod, lišta Obsah) a ukazatel z lístku sjet.
   await expect.poll(async () => {
     await cesta.hover();
-    // Minifikace slije posun a natočení do jedné matice: 7° je sin 0,1219.
-    return cesta.locator('.vstup__pahyl').evaluate((e) => getComputedStyle(e).transform);
-  }).toMatch(/^matrix\(0\.99\d*, 0\.12\d*/);
+    // Minifikace může slít posun a natočení do jedné matice: čte se posun doprava (m41).
+    return cesta.locator('.vstup__pahyl').evaluate((e) => new DOMMatrix(getComputedStyle(e).transform).m41);
+  }).toBeGreaterThanOrEqual(10);
+  expect(await cesta.locator('.vstup__trh').evaluate((e) => getComputedStyle(e).opacity)).toBe('1');
   // Nadtitulek z obsahu („Sókratův portrét“) v hlavičce není (autor 9. 11. 2026).
   await expect(page.locator('.osobnost__hlavicka')).not.toContainText('Sókratův portrét');
   const zalozky = page.locator('.vstup--otazka');

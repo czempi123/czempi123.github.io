@@ -524,6 +524,8 @@ test('Roztřiď: tažení karty myší do koše, puštění mimo koš kartu vrá
   let blok = await pripravBlok(page, 'cesta6-tri-kose', 'Roztrid');
   const tahni = async (kam: Locator | null) => {
     const karta = blok.locator('.karta');
+    // Pod zátěží celého běhu (od K3 dvakrát) se karta měřila dřív, než se načetla písma, a koš pak nebyl pod ukazatelem.
+    await page.evaluate(() => document.fonts.ready);
     await karta.evaluate((e) => e.scrollIntoView({ block: 'center' }));
     const k = (await karta.boundingBox())!;
     await page.mouse.move(k.x + 60, k.y + k.height / 2);

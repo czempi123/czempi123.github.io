@@ -396,25 +396,33 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   z-index: 1;
   pointer-events: none;
   background-image: var(--zrno-papiru);
-  background-size: 180px 180px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   mix-blend-mode: multiply;
   opacity: .28;
 }
 .titulek-pruh__papir::after { opacity: .34; }
 :root {
-  --zrno-papiru: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='z'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .44 0 0 0 -.9 .75'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23z)'/%3E%3C/svg%3E");
-  --sum-inkoustu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 1.55'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23s)'/%3E%3C/svg%3E");
+  /* Zrno a šum jsou jeden obrázek přes celou plochu (100 % × 100 %, bez opakování): dlaždice měly po natočení
+     listu na švech drobné čárky (autor 9. 11.). Obrázek je široký, takže zrno zůstane jemné i na dlouhém jméně. */
+  --zrno-papiru: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 320' preserveAspectRatio='none'%3E%3Cfilter id='z' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .44 0 0 0 -.9 .75'/%3E%3C/filter%3E%3Crect width='1000' height='320' filter='url(%23z)'/%3E%3C/svg%3E");
+  --sum-inkoustu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 320' preserveAspectRatio='none'%3E%3Cfilter id='s' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1 1.55'/%3E%3C/filter%3E%3Crect width='1000' height='320' filter='url(%23s)'/%3E%3C/svg%3E");
 }
 .titulek__jmeno,
 .titulek-pruh__text {
   -webkit-mask-image: var(--sum-inkoustu);
   mask-image: var(--sum-inkoustu);
-  -webkit-mask-size: 220px 220px;
-  mask-size: 220px 220px;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  /* Maska platí jen uvnitř rámečku prvku: rezerva kolem písmen, aby čárka nad Ó ani začátek S nebyly ustřižené. */
+  padding: .16em .12em .08em;
+  margin: -.16em -.12em -.08em;
 }
 /* Ve dne písmo lehce vtlačené do listu; v noci ne (světlý okraj by na tmavém papíru zářil). */
 .titulek__jmeno { text-shadow: 0 1px 0 rgb(255 255 255 / .55); }
-.titulek-pruh__text { text-shadow: 0 0 .6px currentColor; }
+.titulek-pruh__text { display: block; text-shadow: 0 0 .6px currentColor; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .titulek__jmeno { text-shadow: none; } :root:not([data-theme='light']) :is(.titulek__list, .titulek-pruh__papir)::after { mix-blend-mode: soft-light; opacity: .5; } }
 :root[data-theme='dark'] .titulek__jmeno { text-shadow: none; }
 :root[data-theme='dark'] :is(.titulek__list, .titulek-pruh__papir)::after { mix-blend-mode: soft-light; opacity: .5; }

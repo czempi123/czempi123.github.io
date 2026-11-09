@@ -44,6 +44,22 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
   }
   .citat--kompaktni blockquote p { font-size: var(--fs-text); line-height: 1.5; }
   figcaption { color: var(--ink-3); }
+  /* Citát uvnitř jiného přilepeného papíru (myšlenka, Zkus to žít, blok, lístek): druhá páska přes pásku
+     nevypadá dobře (autor 9. 11. 2026). Vnořený citát je proto lepicí lístek v barvě období: světlý papír
+     tónovaný papírem období, nahoře o stupeň tmavší lepicí proužek, bez pásky, s rohem nadzvednutým stínem. */
+  :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) {
+    padding: 26px 24px 18px;
+    background:
+      linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
+      color-mix(in srgb, var(--pp) 16%, var(--listek));
+    box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
+    rotate: .8deg;
+  }
+  :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) .paska { display: none; }
+  :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) figcaption { color: var(--ink-2); }
+  :global(:root[data-theme='dark']) :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) {
+    box-shadow: 0 1px 1px rgb(0 0 0 / .3), 8px 12px 14px -12px rgb(0 0 0 / .8);
+  }
   cite { font-style: italic; }
   @media (max-width: 699px) { .citat:not(.citat--kompaktni) { padding: 24px 18px 18px; } }
 </style>
