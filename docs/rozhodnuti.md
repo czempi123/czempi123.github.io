@@ -4,6 +4,30 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 12. 11. 2026: Po auditu celého atlasu
+
+Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`, `docs/revize/recenze-mapa-denik-2026-11-12.md`, plán `docs/plany/po-auditu.md` a odpovědi autora z 12. 11. 2026 („U otázek souhlasím, může to tak být“).
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nejdřív se dodělá design (`design-v2`) v plném rozsahu, včetně mapy jako výstřižku, kreseb jako koláže a pojmů; návrh auditu zmenšit K7 neplatí | Kresby jsou to nejzábavnější, co atlas má, a mají vypadat nejlíp |
+| Hotový obsah se teď nemění. Revize obsahu je samostatná fáze 5, až bude atlas celý; postřehy se do té doby sbírají v `docs/navraty.md` (kde, co, jedna věta) | Autor chce nejdřív dokončit projekt; opravovat antiku po kouskách by stálo víc než jedna revize podle zápisníku |
+| Zkoušku dělá zatím autor sám proklikáváním; zkouška se čtenáři přijde s revizí obsahu ve fázi 5. `noindex` zůstává | Autor zatím nemá čtenáře; audit doporučoval zkoušku hned |
+| Závěrečná práce počká, až bude projekt hotový | Autor: není to naléhavé |
+| Průchod atlasem má být hlavně zábavný a pestrý (text, interaktivní lekce, videa, zvuk, testy, hry; různé druhy paměti); stejná aktivita na každé stránce není cíl | Zábava drží pozornost a vede k přemýšlení o tom, co student čte |
+| Každá aktivita projde čtyřmi otázkami: odnese si něco, přemýšlí sám, zůstává otevřená, chtěl by ji udělat, i kdyby nemusel | Aktivita nesmí studenta nechat jen přijímat; má vést k vlastnímu názoru, hodnotám a kritickému myšlení |
+| Pořadí fází: 1 design (`design-v2`), 2 herna (`herna-v1`, `denik-v2`, `film-0`), 3 úklid (`uklid-v1`) před celkem 11, 4 období 3 až 8 s rozpisem aktivit, 5 revize obsahu, zkouška se čtenáři, zrušení `noindex`, závěrečná práce | Nové formáty a pravidla pestrosti mají být hotové dřív, než vznikne středověk |
+| Do `design-v2` přibývá D5 (herní prvky a vizuální zlepšení na plátně), dodatek K3 ke stránkám osob, K4 se dělí na K4a (společný rám aktivity a první bloky) a K4b, K7 na K7a (mapa) a K7b (kresby); K5 dostane tichý Další krok, K6 deník jako zápisník a Moje filozofie | Vizuální zlepšení a funkce mapy a deníku z recenzí (`docs/plany/design-v2.md` › Po auditu) |
+| Deník jako zápisník se sbírkou (razítka, pahýly lístků, vystřižené citáty) už v K6 | Odpověď 1 po auditu |
+| Kvíz Co ti zůstalo? a kartičky bez bodů, jen „víš“ a „zopakuj si“ s odkazem zpět | Odpověď 2; jde o znalost, ne o názor, a zásada bez bodů za názory zůstává |
+| Při stavbě herny dostane každý nový formát jedno místo v antice jako přídavek; hotový text se nepřepisuje | Odpověď 3; formát se vyzkouší na skutečném obsahu |
+| Zvuk namluví autor; zkouška ve větvi `film-0` | Odpověď 4; učitelův hlas je věrohodnější než strojový |
+| Žádné odkazy na cizí videa; místo nich vlastní krátké animované scény v kódu | Odpověď 5; atlas nic nenačítá zvenku a odkazy stárnou |
+| Klidný režim jako přepínač v záhlaví (krátké přechody, čistý papír), krok O | Odpověď 6; pro čtenáře, kterým zdobení ztěžuje čtení |
+| Tichá tečka u ikony Deník, když čeká Návrat (K6). Mění rozhodnutí z 2. 10. 2026, že Návrat nabízí jen deník a jinde nic | Odpověď 7 (výslovné ano); bez tečky Návrat uvidí jen ten, kdo deník otevře sám |
+| Pravidla pestrosti (14 bodů, `docs/plany/stredovek.md` › Po auditu) platí od celku 11; do skillů je zapíše až `uklid-v1`, `CLAUDE.md` se teď nemění | Jedno místo pro pravidla, žádné udržování na dvou místech |
+| Odpovědi po K3 v `design-v2.md`: souhlas se všemi doporučeními | Autor 12. 11. 2026 |
+
 ## 7. 11. 2026: Úprava designu před středověkem
 
 | Rozhodnutí | Důvod |

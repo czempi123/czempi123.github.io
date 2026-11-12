@@ -8,8 +8,9 @@ Plán 3. období, Středověk (400–1450), podle `docs/architektura.md` a skill
 
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
-| `design-v2` | Úprava designu před středověkem: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo (`docs/plany/design-v2.md`) | Opus 5.5 · high se skilly `frontend-design` a `atlas-komponenta`; ladí se společně s autorem | běží: D1 (tři směry na plátně) 7. 11. 2026 |
-| Z | Odpovědi k tomuto plánu, větev a plán celku 11 se zadáním P6 | Opus 5.5 · medium | čeká na odpovědi; celek 11 začne po `design-v2` |
+| `design-v2` | Úprava designu před středověkem: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo (`docs/plany/design-v2.md`) | Opus 5.5 · high se skilly `frontend-design` a `atlas-komponenta`; ladí se společně s autorem | běží: D1 až K3 hotové 7. až 9. 11. 2026; po auditu přibyly D5, K3 dodatek, K4a a K4b, K7a a K7b (12. 11. 2026) |
+| `herna-v1`, `denik-v2`, `film-0`, `uklid-v1` | Po auditu (oddíl Po auditu): knihovna nových aktivit, deník se sbírkou a kvízem, zkouška filmu a zvuku, úklid skillů a plánů s pravidly pestrosti | podle `docs/plan.md` › Plány větví | čeká; před celkem 11 |
+| Z | Odpovědi k tomuto plánu, větev a plán celku 11 se zadáním P6 | Opus 5.5 · medium | čeká na odpovědi; celek 11 začne po `uklid-v1` |
 | `celek-11` | „Proč dělám, co nechci?“: portrét Augustina, cesta 10, stránka období Středověk, křesťanství, blok Úryvek s otázkou | P6 Opus 5.5 · high s vyhledáváním (`atlas-overeni`), P6N Opus 5.5 · high, K Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`, P7 Opus 5.5 · high (`atlas-osobnost`, `atlas-psani`), P8 Opus 5.5 · high (`atlas-cesta`, `atlas-psani`), R a O Opus 5.5 · high (`atlas-revize`), Uzavření Opus 5.5 · medium | čeká |
 | `celek-12` | „Kde je štěstí, když o všechno přijdu?“: profily Boëthia a Hildegardy z Bingenu, cesta 12, stránka otázky 10, blok Dialog, kresba Kolo Štěstěny | jako celek 11 | čeká |
 | `antika-dluh` | Co antika dluží architektuře: devět profilů a pokusy Achilleus a želva a Karneadova deska | P6 Sonnet 5.5 · high s vyhledáváním, P7 Opus 5.5 · medium, K Opus 5.5 · high, R a O Opus 5.5 · high | čeká na odpověď 1 |
@@ -18,7 +19,7 @@ Plán 3. období, Středověk (400–1450), podle `docs/architektura.md` a skill
 | `celek-15` | „Smím neposlechnout, když mi to zakazuje svědomí?“: profil Jana Husa, společný portrét Abeláda a Héloïsy, cesta 11, směr scholastika, Tvoje středověk | jako celek 11 | čeká |
 | `medailonky-stredovek` | Vlna medailonků (P9): Eriugena, Roger Bacon, Duns Scotus, Mistr Eckhart, Buridan s oslem, Christine de Pizan s hlasem na otázce 8 | Sonnet 5.5 · medium se skillem `atlas-data`; sporné prameny Opus 5.5 · high s `atlas-overeni` | čeká |
 | `jinde-asie` | Okno Mezitím jinde s vloženou mapkou: buddhismus, čínská tradice, hinduismus a Šankara | P6N Opus 5.5 · high, K Opus 5.5 · high, texty Opus 5.5 · high | čeká na odpověď 1 |
-| `revize-stredoveku` | P11 souhrnná revize období, P13 úprava skillů | P11 Fable 5.1 · high, P13 Opus 5.5 · high | čeká |
+| `revize-stredoveku` | P11 souhrnná revize období, P13 úprava skillů | P11 Fable 5.2 · high, P13 Opus 5.5 · high | čeká |
 | Hodina | Jedna skutečná hodina nebo průchody se studenty (cesty 10 a 11) | autor | čeká, až autor bude mít studenty |
 
 **Proč v tomhle pořadí**
@@ -258,6 +259,52 @@ Prázdná odpověď znamená souhlas s doporučením. U bodu 2 ne.
 | Náboženství a jinde | Křesťanství a islám mají stránku a P6N; Šankara dvěma větami bez odkazu |
 | Šablony a deník | Stránka období v prvním celku, otázky 9 a 10, dva směry, pokus, dvě tradice a Tvoje středověk mají krok nejpozději v celku, který je potřebuje |
 | Pořadí a tvar | Bloky a šablony před texty; na konci P11, P13 a hodina; tvar ze skillu |
+
+## Po auditu (12. 11. 2026)
+
+Audit atlasu a recenze obsahu antiky (`docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`) vedly k plánu `docs/plany/po-auditu.md`, který autor 12. 11. 2026 přijal. Pro středověk z něj plyne:
+
+- **Před celkem 11** proběhnou `design-v2` (dokončení designu), `herna-v1`, `denik-v2` a `film-0` (knihovna nových aktivit, film a zvuk) a `uklid-v1` (skilly a plány, pravidla pestrosti do skillů). Krok Z začne po nich.
+- **Antika se nepřepisuje.** Postřehy k ní jsou v `docs/navraty.md` pro revizi obsahu ve fázi 5. Kde se v celku středověku ukáže slabé místo hotové stránky, zapíše se tam.
+- **Každý celek má rozpis aktivit** (tabulka níž) a drží pravidla pestrosti. Podklady celku (P6) rozpis smějí změnit, ne zrušit; kontrola pravidel je součástí revize celku (P10).
+- **Po souhrnné revizi středověku** se změří, co období stálo, a rozhodne se hloubka období 4 až 8 (audit, nález 3).
+
+### Rozpis aktivit
+
+Návrh; podklady každého celku ho můžou změnit. Kostra říká, co nese cestu, aby dvě cesty po sobě neměly stejnou (pravidlo 2).
+
+| Celek | Kostra | Aktivity |
+| --- | --- | --- |
+| 11 Augustin | čtení | Úryvek s otázkou, Parta, Přehrát život, Kdo by to řekl? (Augustin, nebo Epiktétos), minutový film (Augustinovy hrušky, podle `film-0`) |
+| 12 Boëthius | rozhovor | Dialog přes celou cestu, Kolo Štěstěny, Poslechni si (báseň z Útěchy; Hildegardin zpěv na otázce 10, když se najde nahrávka s volnou licencí) |
+| 13 Anselm | argument | Slož argument dvakrát (Bůh a ostrov), Najdi slabé místo, Ockhamova břitva, Tipni si |
+| 14 Averroes | mapa | Cesta knihy, Dva životy, tři čtení jedné věty (Roztřiď), Létající člověk s časovačem |
+| 15 Hus | soud | Porota v Kostnici, Páry (Abelárdovo Ano a ne), Pravý, nebo podvržený?, osa hlasů |
+| Medailonky | z dat | střídání malých aktivit podle člověka, Buridanův osel |
+| Konec období | deník | Co ti zůstalo?, kartičky s rozestupem, Tvoje středověk |
+
+Portréty mají formu podle života (pravidlo 11): Augustin jako zpověď, Abelárd a Héloïsa jako dopisy, Tomáš jako námitka a odpověď, Boëthius jako rozhovor, Hildegarda obrazem a zvukem.
+
+### Pravidla pestrosti
+
+Platí od celku 11. Do skillů (`atlas-cesta`, `atlas-obdobi`, `atlas-psani`) je zapíše `uklid-v1`; do té doby je zadání každého celku připomene odkazem sem.
+
+1. Cesta má aspoň čtyři různé druhy aktivit a aspoň jednu hračku. Žádný formát víc než dvakrát.
+2. Dvě cesty po sobě nemají stejnou kostru; Spor už není povinný v každé.
+3. Každé období přinese aspoň dva formáty, které předchozí nemělo.
+4. Stránka osoby nemá vždy totéž: malou aktivitu z dat vybírá atlas podle toho, co je u člověka zajímavé (překvapivý současník: Kdo žil dřív?; daleká cesta: Kde to bylo?; slavná věta: Kdo to řekl?), a sousední stránky se liší.
+5. V každé cestě student aspoň jednou čte, rozhoduje, něčím hýbe a něco si vybavuje.
+6. V každé cestě je aspoň jedna aktivita z každé čtveřice: vytvoř, spočítej o sobě, zažij, hádej a zjisti.
+7. První čin přijde do 120 slov a první obrazovka je scéna nebo otázka na studenta. Kde je scéna daleko (úředník, královský dvůr), začíná cesta studentem.
+8. Než vznikne pole na psaní, zkusí se z nápadu udělat hra: hádat, skládat, hledat chybu, tvořit s formou (ceník, heslo, dopis, zákon).
+9. Závěr cesty má pokaždé jinou formu (pravidlo, rada kamarádovi, dopis, „dřív a teď“, otázka, kterou si odnáším, místo na škále); vždy otevřený a do deníku.
+10. Poslední krok je jedna obrazovka: studentovy odpovědi a kdo stál s ním, jako lístek do deníku. Ostatní zastánci jsou na rozkliknutí.
+11. Portrét má formu podle života (zpověď, dopisy, námitka a odpověď, rozhovor), ne jednu kostru; aspoň jedna hračka na portrét.
+12. Aspoň jednou v cestě totéž znovu po výkladu, aby student viděl vlastní posun; kde to jde, příběh na pokračování přes všechny kroky.
+13. Každý typ stránky (i směr, tradice, období) má místo k činu aspoň jednou za 250 slov.
+14. Důvod jít dál, který není povinnost: sbírka v deníku, vstupy na pět minut (pokusy) viditelné z Domů, volba, kudy cestou jít.
+
+Každá aktivita navíc projde čtyřmi otázkami (autor, 12. 11. 2026): odnese si student něco, přemýšlí sám, zůstává otevřená, chtěl by ji udělat, i kdyby nemusel.
 
 ## Zadání Z: odpovědi, větev a plán celku 11
 
