@@ -16,12 +16,12 @@ Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-
 | Závěrečná práce počká, až bude projekt hotový | Autor: není to naléhavé |
 | Průchod atlasem má být hlavně zábavný a pestrý (text, interaktivní lekce, videa, zvuk, testy, hry; různé druhy paměti); stejná aktivita na každé stránce není cíl | Zábava drží pozornost a vede k přemýšlení o tom, co student čte |
 | Každá aktivita projde čtyřmi otázkami: odnese si něco, přemýšlí sám, zůstává otevřená, chtěl by ji udělat, i kdyby nemusel | Aktivita nesmí studenta nechat jen přijímat; má vést k vlastnímu názoru, hodnotám a kritickému myšlení |
-| Pořadí fází: 1 design (`design-v2`), 2 herna (`herna-v1`, `denik-v2`, `film-0`), 3 úklid (`uklid-v1`) před celkem 11, 4 období 3 až 8 s rozpisem aktivit, 5 revize obsahu, zkouška se čtenáři, zrušení `noindex`, závěrečná práce | Nové formáty a pravidla pestrosti mají být hotové dřív, než vznikne středověk |
+| Pořadí fází: 1 design (`design-v2`), 2 herna (`herna-v1`, `denik-v2`, `film-0` jen s filmem), 3 úklid (`uklid-v1`) před celkem 11, 4 období 3 až 8 s rozpisem aktivit, 5 revize obsahu, zkouška se čtenáři, zrušení `noindex`, závěrečná práce | Nové formáty a pravidla pestrosti mají být hotové dřív, než vznikne středověk |
 | Do `design-v2` přibývá D5 (herní prvky a vizuální zlepšení na plátně), dodatek K3 ke stránkám osob, K4 se dělí na K4a (společný rám aktivity a první bloky) a K4b, K7 na K7a (mapa) a K7b (kresby); K5 dostane tichý Další krok, K6 deník jako zápisník a Moje filozofie | Vizuální zlepšení a funkce mapy a deníku z recenzí (`docs/plany/design-v2.md` › Po auditu) |
 | Deník jako zápisník se sbírkou (razítka, pahýly lístků, vystřižené citáty) už v K6 | Odpověď 1 po auditu |
 | Kvíz Co ti zůstalo? a kartičky bez bodů, jen „víš“ a „zopakuj si“ s odkazem zpět | Odpověď 2; jde o znalost, ne o názor, a zásada bez bodů za názory zůstává |
 | Při stavbě herny dostane každý nový formát jedno místo v antice jako přídavek; hotový text se nepřepisuje | Odpověď 3; formát se vyzkouší na skutečném obsahu |
-| Zvuk namluví autor; zkouška ve větvi `film-0` | Odpověď 4; učitelův hlas je věrohodnější než strojový |
+| Zvuk (Poslechni si) se odkládá na později; autor ho možná namluví sám, rozhodne se až pak. `film-0` zkouší jen animovanou scénu a D5 nenavrhuje přehrávač zvuku | Odpověď 4 (autor 12. 11. 2026, druhá zpráva) |
 | Žádné odkazy na cizí videa; místo nich vlastní krátké animované scény v kódu | Odpověď 5; atlas nic nenačítá zvenku a odkazy stárnou |
 | Klidný režim jako přepínač v záhlaví (krátké přechody, čistý papír), krok O | Odpověď 6; pro čtenáře, kterým zdobení ztěžuje čtení |
 | Tichá tečka u ikony Deník, když čeká Návrat (K6). Mění rozhodnutí z 2. 10. 2026, že Návrat nabízí jen deník a jinde nic | Odpověď 7 (výslovné ano); bez tečky Návrat uvidí jen ten, kdo deník otevře sám |

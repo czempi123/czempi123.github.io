@@ -15,7 +15,7 @@
 | Fáze | Co | Větve | Kdy |
 | --- | --- | --- | --- |
 | 1 | Dokončit design a dotáhnout ho pro hry | `design-v2` | teď |
-| 2 | Herna: knihovna nových aktivit | `herna-v1`, `denik-v2`, `film-0` | po sloučení designu |
+| 2 | Herna: knihovna nových aktivit | `herna-v1`, `denik-v2`, `film-0` (jen film; zvuk později) | po sloučení designu |
 | 3 | Úklid skillů a plánů, pravidla pestrosti do skillů | `uklid-v1` | před celkem 11 |
 | 4 | Období 3 až 8, každé s rozpisem aktivit | `celek-11` a dál | potom |
 | 5 | Revize obsahu celého atlasu, zkouška se čtenáři, zveřejnění, závěrečná práce | později | až bude atlas celý |
@@ -91,10 +91,10 @@ Platí od celku 11; do skillů je zapíše `uklid-v1`. Kopie je v `docs/plany/st
 | --- | --- | --- |
 | `herna-v1` | Formáty z dat: Kdo to řekl? a Kdo by to řekl?, Tipni si, Seřaď na ose, Kde to bylo?, Doplň citát, Páry, Pravý, nebo podvržený?, Najdi slabé místo; střídání malých aktivit na stránkách osob; na mapě Výpravy a Přehrát období | každý formát jednou v dílně a na jednom místě antiky jako přídavek; hotový text se nepřepisuje |
 | `denik-v2` | Co ti zůstalo? pro antiku, kartičky s rozestupem, vystřižené citáty | Tvoje antika |
-| v celcích | Dialog, Úryvek s otázkou, Porota, Příběh v obrazech, Poslechni si a hračky | vzniknou v celku, který je první potřebuje |
-| `film-0` (zkouška) | Jedna animovaná scéna do minuty s titulky (Augustinovy hrušky) a jedna nahrávka Poslechni si namluvená autorem | rozhodne, jestli film a zvuk dostane každý celek |
+| v celcích | Dialog, Úryvek s otázkou, Porota, Příběh v obrazech a hračky (Poslechni si až se zvukem, viz odpověď 4) | vzniknou v celku, který je první potřebuje |
+| `film-0` (zkouška) | Jedna animovaná scéna do minuty s titulky (Augustinovy hrušky) | rozhodne, jestli film dostane každý celek; zvuk se řeší později (odpověď 4) |
 
-**Video a zvuk.** Vložené cizí video (YouTube) odporuje pravidlu, že atlas nic nenačítá zvenku, a odkazy stárnou. Proto vlastní krátké animované scény v kódu (jako jeskyně) a zvuk namluvený autorem: učitelův hlas je věrohodnější než strojový. Hotové video jako soubor zkusí `film-0`; jak dobře vyjde, předem nevím.
+**Video a zvuk.** Vložené cizí video (YouTube) odporuje pravidlu, že atlas nic nenačítá zvenku, a odkazy stárnou. Proto vlastní krátké animované scény v kódu (jako jeskyně). Zvuk (Poslechni si) je odložený na později; autor ho možná namluví sám, rozhodne se až pak. Hotové video jako soubor zkusí `film-0`; jak dobře vyjde, předem nevím.
 
 ## Fáze 3: úklid
 
@@ -124,7 +124,7 @@ Prázdná odpověď znamená souhlas s doporučením. Autor 12. 11. 2026: „U o
    Odpověď: souhlasím (12. 11. 2026)
 
 4. **Zvuk namluvíš sám?** Doporučuji ano, zkouška ve `film-0`. Když ne, zůstane zvuk na později.
-   Odpověď: souhlasím (12. 11. 2026)
+   Odpověď: zvuk zatím nechat na později; možná ho namluvím, ale řešit až pak (12. 11. 2026)
 
 5. **Odkazy na cizí videa** jako karta „Podívej se jinde“ (otevře se v novém okně, nic se nevkládá)? Doporučuji ne; raději vlastní scény.
    Odpověď: souhlasím s doporučením, tedy ne (12. 11. 2026)

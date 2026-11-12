@@ -9,7 +9,7 @@ Plán 3. období, Středověk (400–1450), podle `docs/architektura.md` a skill
 | Krok | Co | Model | Stav |
 | --- | --- | --- | --- |
 | `design-v2` | Úprava designu před středověkem: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo (`docs/plany/design-v2.md`) | Opus 5.5 · high se skilly `frontend-design` a `atlas-komponenta`; ladí se společně s autorem | běží: D1 až K3 hotové 7. až 9. 11. 2026; po auditu přibyly D5, K3 dodatek, K4a a K4b, K7a a K7b (12. 11. 2026) |
-| `herna-v1`, `denik-v2`, `film-0`, `uklid-v1` | Po auditu (oddíl Po auditu): knihovna nových aktivit, deník se sbírkou a kvízem, zkouška filmu a zvuku, úklid skillů a plánů s pravidly pestrosti | podle `docs/plan.md` › Plány větví | čeká; před celkem 11 |
+| `herna-v1`, `denik-v2`, `film-0`, `uklid-v1` | Po auditu (oddíl Po auditu): knihovna nových aktivit, deník se sbírkou a kvízem, zkouška filmu (zvuk později), úklid skillů a plánů s pravidly pestrosti | podle `docs/plan.md` › Plány větví | čeká; před celkem 11 |
 | Z | Odpovědi k tomuto plánu, větev a plán celku 11 se zadáním P6 | Opus 5.5 · medium | čeká na odpovědi; celek 11 začne po `uklid-v1` |
 | `celek-11` | „Proč dělám, co nechci?“: portrét Augustina, cesta 10, stránka období Středověk, křesťanství, blok Úryvek s otázkou | P6 Opus 5.5 · high s vyhledáváním (`atlas-overeni`), P6N Opus 5.5 · high, K Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`, P7 Opus 5.5 · high (`atlas-osobnost`, `atlas-psani`), P8 Opus 5.5 · high (`atlas-cesta`, `atlas-psani`), R a O Opus 5.5 · high (`atlas-revize`), Uzavření Opus 5.5 · medium | čeká |
 | `celek-12` | „Kde je štěstí, když o všechno přijdu?“: profily Boëthia a Hildegardy z Bingenu, cesta 12, stránka otázky 10, blok Dialog, kresba Kolo Štěstěny | jako celek 11 | čeká |
@@ -264,7 +264,7 @@ Prázdná odpověď znamená souhlas s doporučením. U bodu 2 ne.
 
 Audit atlasu a recenze obsahu antiky (`docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`) vedly k plánu `docs/plany/po-auditu.md`, který autor 12. 11. 2026 přijal. Pro středověk z něj plyne:
 
-- **Před celkem 11** proběhnou `design-v2` (dokončení designu), `herna-v1`, `denik-v2` a `film-0` (knihovna nových aktivit, film a zvuk) a `uklid-v1` (skilly a plány, pravidla pestrosti do skillů). Krok Z začne po nich.
+- **Před celkem 11** proběhnou `design-v2` (dokončení designu), `herna-v1`, `denik-v2` a `film-0` (knihovna nových aktivit a film; zvuk je odložený) a `uklid-v1` (skilly a plány, pravidla pestrosti do skillů). Krok Z začne po nich.
 - **Antika se nepřepisuje.** Postřehy k ní jsou v `docs/navraty.md` pro revizi obsahu ve fázi 5. Kde se v celku středověku ukáže slabé místo hotové stránky, zapíše se tam.
 - **Každý celek má rozpis aktivit** (tabulka níž) a drží pravidla pestrosti. Podklady celku (P6) rozpis smějí změnit, ne zrušit; kontrola pravidel je součástí revize celku (P10).
 - **Po souhrnné revizi středověku** se změří, co období stálo, a rozhodne se hloubka období 4 až 8 (audit, nález 3).
@@ -276,7 +276,7 @@ Návrh; podklady každého celku ho můžou změnit. Kostra říká, co nese ces
 | Celek | Kostra | Aktivity |
 | --- | --- | --- |
 | 11 Augustin | čtení | Úryvek s otázkou, Parta, Přehrát život, Kdo by to řekl? (Augustin, nebo Epiktétos), minutový film (Augustinovy hrušky, podle `film-0`) |
-| 12 Boëthius | rozhovor | Dialog přes celou cestu, Kolo Štěstěny, Poslechni si (báseň z Útěchy; Hildegardin zpěv na otázce 10, když se najde nahrávka s volnou licencí) |
+| 12 Boëthius | rozhovor | Dialog přes celou cestu, Kolo Štěstěny; Poslechni si (báseň z Útěchy, Hildegardin zpěv na otázce 10) jen tehdy, když bude zvuk do té doby vyřešený (odložený 12. 11. 2026) |
 | 13 Anselm | argument | Slož argument dvakrát (Bůh a ostrov), Najdi slabé místo, Ockhamova břitva, Tipni si |
 | 14 Averroes | mapa | Cesta knihy, Dva životy, tři čtení jedné věty (Roztřiď), Létající člověk s časovačem |
 | 15 Hus | soud | Porota v Kostnici, Páry (Abelárdovo Ano a ne), Pravý, nebo podvržený?, osa hlasů |
