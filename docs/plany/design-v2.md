@@ -894,7 +894,6 @@ Autor 12. 11. večer poslal zadání K4 ze staré kopie plánu v Projektu Claude
 | pero fialová | `#6B2D8C` | `#D2A6EE` | druhé pero na výběr |
 | pero sépiová | `#7B4420` | `#E0AE7C` | třetí pero na výběr |
 | `--cervena-tuzka` | `#B3261E` | `#F08A7E` | jen tah v Najdi slabé místo; správně a špatně se barvou nerozlišuje nikde |
-| `--zlato` | `#9C7A1C` | `#D9B65A` | zlatá linka středověku (páska, linky kolem iniciály); jen ozdoba, ne text |
 
 **Který pohyb co bere:** otočení kartičky `--d-list`, `--k-list`; přichycení (karta do kapsy, na šňůru, mince po provázku, kotouček do urny) `--d-presun`, `--k-papir`; dopad (štípnutí lístku, razítko „sedí“, otisk, ryska na pravítku, špendlík, slovo do mezery) `--d-listek`, `--k-dopad`; rozložení lístku zpětné vazby a „zkus to jinak“ `--d-listek`, `--k-papir`; kroužek a tah červené tužky `--d-tah`, `--k-papir`; zvednutí karty a uzlík `--d-stisk`; panel příběhu `--d-list`, `--k-list`.
 
@@ -904,7 +903,7 @@ Autor 12. 11. večer poslal zadání K4 ze staré kopie plánu v Projektu Claude
 | --- | --- | --- | --- |
 | 1 Počátky a klasické Řecko | meandr | řecký klíč u čísla | dvojitý rámeček (dnešní) |
 | 2 Helenismus a Řím | mozaika | oblouk z kostek nad číslem | ovál |
-| 3 Středověk | zlatá linka s kosočtverci na lapisu | iniciála jako dlaždice: první písmeno nadpisu na papíru období se zlatým rámečkem, nadpis podtržený zlatou linkou | lomený oblouk |
+| 3 Středověk | dvě linky s kosočtverci | číslo v dvojitém rámečku iniciály | lomený oblouk |
 | 4 Renesance a raný novověk | síť perspektivy | úběžník za číslem v kruhu | kruh s vnitřním kruhem |
 | 5 Osvícenství | šrafy rytiny | šrafovaný medailon | kartuše s dvojitou linkou |
 | 6 19. století | novinový rastr | novinová hlavička (dvojitá linka, tučný titulek) | dvě dvojité linky nad a pod |
@@ -933,7 +932,7 @@ Autor 12. 11. večer poslal zadání K4 ze staré kopie plánu v Projektu Claude
 - **Karty v kapse na telefonu jsou zmenšené** (60 %) a text na nich je čitelný jen zčásti; co v kapse je, říká čtečce popisek kapsy a studentovi lístek zpětné vazby. Jinak: na telefonu kapsy pod sebou přes celou šířku.
 - **Obsah ukázek nových formátů není ověřený a do atlasu nejde bez `atlas-overeni`:** kotoučky s plnou a dutou osou (Aristotelés, Athénská ústava 68, popisuje 4. století; jestli se tak hlasovalo už roku 399 př. n. l., je třeba ověřit), věta o nádobě a ohni (Plútarchos, O poslouchání 48C, na internetu připisovaná Sókratovi), 519 let mezi roky 399 př. n. l. a 121 n. l. Volba, Roztřiď, Spor, Slož argument, citáty a kapitola Sókrata jsou z atlasu.
 - **Mapa v ukázce** je po připomínce autora (13. 11.: „mapa by měla být kvalitnější“) pobřeží z Natural Earth (`world-atlas` 50m, `geoConicConformal`) jako výstřižek staré mapy: pevnina `--listek` s obrysem `--ink-2`, dvě vodní linky podél pobřeží, moře šrafované tužkou, dvojitý rámeček. Delfy jsou na skutečném místě.
-- **Středověk v papírnictví** po připomínce autora (13. 11.: velké P vypadalo špatně): iniciála není vsazená do nadpisu, je to dlaždice vedle něj.
+- **Středověk v papírnictví** po dvou připomínkách autora (13. 11.: velké P vypadalo špatně; plná dlaždice se zlatem pak „měla jinou stylistiku“ než ostatní období): středověk se kreslí stejně jako ostatní, jen linkou ve svém inkoustu. Zlato (`--zlato`) z návrhu vypadlo. **Pravidlo papírnictví:** každé období má jeden inkoust a ozdoby jsou tenká kresba kolem čísla psaného rukou; žádné plné plochy, druhá barva ani vložená písmena.
 - **Stránky jsou vyšší než strop rámu plátna** (8000 px): Herní prvky mají na notebooku asi 10 300 px a na telefonu 12 600 px, stejně jako design systém z D2 přetékají rám.
 - **Jeden přepínač Omezený pohyb pro celou stránku**, ne u každé ukázky jako v D3: ukázek je čtrnáct.
 - **Příběh v obrazech** je koláž z nejjednodušších výstřižků (postava, chrám, hora, zem); výtvarně ho dotáhne až `herna-v1` s obsahem.
@@ -963,8 +962,8 @@ Prázdná odpověď znamená souhlas s doporučením.
 7. **Papírnictví osmi období** podle tabulky. U 20. století: stačí strojopis naznačený (řada x, čárkovaná linka), nebo později přidat čtvrté, strojové písmo jen pro to období? Doporučuji teď nepřidávat a rozhodnout, až 20. století vznikne.
    Odpověď:
 
-8. **Zlatá linka u středověku** (`--zlato`, jediná nová barva papírnictví)? Doporučuji ano.
-   Odpověď:
+8. ~~Zlatá linka u středověku~~ Vyřízeno 13. 11. 2026: autor chtěl středověk ve stejné stylistice jako ostatní období, zlato vypadlo.
+   Odpověď: bez zlata (13. 11. 2026)
 
 9. **Lístek postupu:** hotový krok vyštípnutá dírka, běžící krok číslo v kroužku perem, pahýl se po posledním kroku odtrhne do deníku? Doporučuji ano (K5 a K6).
    Odpověď:
