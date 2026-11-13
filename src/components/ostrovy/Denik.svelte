@@ -6,6 +6,7 @@
   import { nacti, exportuj, nahrajDenik, stavBloku, ulozStavBloku, type Denik } from '../../lib/denik';
   import { nabidkaNavratu, platnyStavNavratu, type NavratDeniku } from '../../lib/navrat';
   import Navrat from './Navrat.svelte';
+  import VolbaPera from './VolbaPera.svelte';
   import MojeHodiny from '../hodina/MojeHodiny.svelte';
   import { cisteDny, hotoveDnyText, idVyzvyTydne } from '../../lib/tydny';
 
@@ -168,6 +169,8 @@
     {@render nabidka_tydnu()}
   {/if}
   <MojeHodiny />
+  <!-- Studentova ruka (K4a, bod 3): pero, kterým píše a volí v celém atlasu. Deník jako zápisník přinese K6. -->
+  <VolbaPera />
   <div class="soubor">
     <button type="button" class="export" onclick={exportuj}>Stáhnout deník do souboru</button>
     <button type="button" class="export" onclick={() => vyberSouboru?.click()}>Nahrát deník ze souboru</button>

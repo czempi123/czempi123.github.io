@@ -1,5 +1,7 @@
 ---
-// Tlačítka: hlavní (inkoust), vedlejší (obrys inkoustu), tiché (obrys linky), textový odkaz.
+// Tlačítka podle design systému (design-v2, K4a): hlavní na plném inkoustu, vedlejší vystouplé, tiché podtržené
+// tužkou, textový odkaz. Vzhled a stavy (najetí, stisk, zakázané čárkovaně tužkou) jsou v global.css: tytéž třídy
+// .blok__tl jako tlačítka v ostrovech, ať se tlačítko chová všude stejně.
 interface Props {
   href?: string;
   varianta?: 'hlavni' | 'vedlejsi' | 'tiche' | 'odkaz';
@@ -13,7 +15,7 @@ import Ikona from './Ikona.astro';
 const Tag = href ? 'a' : 'button';
 ---
 <Tag
-  class:list={['tlacitko', `tlacitko--${varianta}`, trida]}
+  class:list={['tlacitko', `tlacitko--${varianta}`, varianta !== 'odkaz' && ['blok__tl', `blok__tl--${varianta}`], trida]}
   href={href}
   type={href ? undefined : typ}
   {...zbytek}
@@ -23,35 +25,21 @@ const Tag = href ? 'a' : 'button';
 </Tag>
 
 <style>
-  .tlacitko {
+  .tlacitko--odkaz {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: var(--s-2);
-    min-height: 48px;
-    padding: 0 var(--s-5);
-    border-radius: var(--r-sm);
-    font-family: var(--font-sans);
-    font-size: var(--fs-ovladani-l);
-    font-weight: 600;
-    line-height: 1.2;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background var(--pohyb-rychle), border-color var(--pohyb-rychle), color var(--pohyb-rychle);
-  }
-  .tlacitko--hlavni { background: var(--ink); color: var(--paper); border: 1.5px solid var(--ink); min-height: 52px; }
-  .tlacitko--hlavni:hover { background: var(--ink-2); border-color: var(--ink-2); }
-  .tlacitko--vedlejsi { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
-  .tlacitko--vedlejsi:hover { background: var(--sunk); }
-  .tlacitko--tiche { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
-  .tlacitko--tiche:hover { border-color: var(--muted); }
-  .tlacitko--odkaz {
     min-height: var(--dotyk);
     padding: 0;
     background: none;
     border: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-ovladani-l);
+    font-weight: 600;
     color: var(--ink);
     text-decoration: underline;
+    text-decoration-color: var(--tuzka);
     text-underline-offset: 0.2em;
+    cursor: pointer;
   }
 </style>

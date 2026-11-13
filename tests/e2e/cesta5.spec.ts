@@ -129,7 +129,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text5).toContainText('První věta byla Epiktétova, druhá Marcova.');
   await expect(text5.locator('.citat')).toHaveCount(4);
   // Poslední slovo před hlasováním nemá žádná strana.
-  await expect(text5.locator(':scope > p').last()).toContainText('Oba tedy chtějí, aby člověk rány unesl.');
+  await expect(text5.locator(':scope > .cisty-list > p').last()).toContainText('Oba tedy chtějí, aby člověk rány unesl.');
   const spor = page.locator('#cesta5-aristoteles-spor');
   await expect(spor).toContainText('Aristotelés zemřel dřív, než stoická škola vznikla.');
   await expect(spor).toContainText('Kdo z nich má pravdu, rozhodni sám.');
@@ -165,7 +165,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text6).toContainText('Co dělat, když tě někdo urazí?');
   await expect(text6.locator('.citat').first()).toContainText('Když tě někdo podráždí, věz, že tě podráždil tvůj vlastní soud.');
   await expect(page.locator('.krok__obsah')).not.toContainText(/tě bije|ublíží|trapas/);
-  await expect(text6.locator(':scope > p').last()).toContainText('Vyzkoušej je na jednom případu.');
+  await expect(text6.locator(':scope > .cisty-list > p').last()).toContainText('Vyzkoušej je na jednom případu.');
   const chat = page.locator('#cesta5-snimek-z-chatu');
   await chat.getByRole('radio', { name: 'Nechám to být, ať to vyšumí.' }).focus();
   await page.keyboard.press('Space');
@@ -197,7 +197,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text7).toContainText('aby nic necítili');
   await expect(text7).not.toContainText('ukázal');
   await expect(text7).not.toContainText(/Gross|sympatick|laboratoři|zrada/);
-  await expect(text7.locator(':scope > p').last()).toContainText('pracovalo tělo naopak víc');
+  await expect(text7.locator(':scope > .cisty-list > p').last()).toContainText('pracovalo tělo naopak víc');
   const pokus = page.locator('#cesta5-pokus');
   await pokus.getByRole('radio', { name: /Nedá se říct/ }).focus();
   await page.keyboard.press('Space');

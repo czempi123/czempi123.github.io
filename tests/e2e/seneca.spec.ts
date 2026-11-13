@@ -167,7 +167,7 @@ test('Seneca: deska s hermou, licence v Pramenech a Doba a lidé', async ({ page
   await page.goto(SENECA);
   expect(await stred()).toBe('45% 34%');
   await expect(page.locator('.osobnost__deska img')).toHaveAttribute('src', /seneca-smb\.jpg$/);
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('jediná antická podobizna s jeho jménem');
+  await expect(page.locator('.obraz-popisek')).toContainText('jediná antická podobizna s jeho jménem');
   // Celá herma stojí v poslední kapitole; popisek říká, co to je, odkud a z kdy.
   const herma = page.locator('#co-zustalo .pribeh');
   await expect(herma.locator('img')).toHaveAttribute('src', /seneca-herma-smb\.jpg$/);

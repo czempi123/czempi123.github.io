@@ -147,9 +147,9 @@ test('deska osobnosti: rytina má na telefonu vlastní střed výřezu', async (
     expect(await stred(), `${id} · 1440 px`).toBe(siroky);
   }
   // Pod deskou stojí vedle atributu i popisek obrázku: u rytiny říká, čí je to představa (revize P10).
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('Marcus Aurelius na koni.');
+  await expect(page.locator('.obraz-popisek')).toContainText('Marcus Aurelius na koni.');
   await page.goto('/osobnost/epiktetos/');
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('jak si ho představil rytec roku 1715');
+  await expect(page.locator('.obraz-popisek')).toContainText('jak si ho představil rytec roku 1715');
   // Obrázek bez vlastního výřezu na šířku drží svůj běžný střed i na telefonu.
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/osobnost/diogenes/');

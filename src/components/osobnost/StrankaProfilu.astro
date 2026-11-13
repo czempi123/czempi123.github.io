@@ -223,6 +223,9 @@ const dev = import.meta.env.DEV;
   .cteni a { display: inline-block; padding: var(--s-3) 0; color: var(--ink); text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
   .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
   /* Na telefonu a v užším okně přesune ListyProfilu.astro záložky otázek z hlavičky za úvod (K3 dodatek). */
+  /* „Proč kalich?“ a popisek obrazu za prvním odstavcem úvodu (telefon, odpověď 4 po K3 dodatku; přesouvá ListyProfilu). */
+  .obsah :global(.deska-za-uvodem) { margin: 0 0 var(--s-5); padding-left: var(--s-3); border-left: 1.5px solid var(--linka); }
+  .obsah :global(.deska-za-uvodem > .proc:first-child) { margin-top: 0; }
   .obsah :global(.vstupy-osoby--za-uvodem) { max-width: var(--ctenarsky-sloupec); margin: var(--s-7) auto var(--s-5); }
   /* Středová osa: text, kapitoly i bloky v jednom čtecím sloupci uprostřed; široké oddíly
      (Doba a lidé, Myšlenky, Zkus to žít, Kam dál) se rozprostřou přes celou šířku stránky. */

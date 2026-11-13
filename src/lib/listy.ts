@@ -6,7 +6,7 @@
 const PRAZDNE = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
 const SUROVE = new Set(['script', 'style', 'textarea', 'title']);
 /** Prvky souvislého textu; citát (figure.citat) se čte s textem a leží na listu s ním. */
-const TEXT = new Set(['p', 'ul', 'ol', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'hr', 'dl', 'table']);
+const TEXT = new Set(['p', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'hr', 'dl', 'table']);
 
 export interface Uzel {
   html: string;
@@ -151,4 +151,38 @@ export function uchytCitaty(html: string): string {
     if (/citat--kompaktni/.test(tridy)) return cele;
     return `<figure class="citat${tridy} citat--${druhy[i++]}"${zbytek}>`;
   });
+}
+
+/**
+ * Obsah kroku cesty na listech (K4a, bod 1): souvislý text leží na čistém listu, aktivity mezi listy na tečkách.
+ * Text v kroku stojí v `<div class="ctenarsky">` (MDX) nebo přímo na nejvyšší úrovni; oboje se rozdělí na úseky
+ * (useky) a textové úseky se obalí listem `.cisty-list`. Bloky a kresby zůstávají, jak jsou. Páska patří jen
+ * prvnímu listu kroku (na obrazovce nejvýš jedna, jako u kapitoly). Vrací HTML.
+ */
+export function listyKroku(html: string): string {
+  let paska = true;
+  const list = (vnitrek: string) => {
+    const p = paska ? '<span class="paska paska--mala" aria-hidden="true"></span>' : '';
+    paska = false;
+    return `<div class="cisty-list">${p}${vnitrek}</div>`;
+  };
+  const rozdel = (vnitrek: string) => useky(vnitrek).map((u) => (u.druh === 'text' ? list(u.html) : u.html)).join('');
+  let ven = '';
+  let volny = '';
+  const vyprazdni = () => {
+    if (!volny) return;
+    // Text přímo na nejvyšší úrovni: list v čtenářském sloupci; aktivity mezi ním zůstávají venku.
+    ven += useky(volny).map((u) => (u.druh === 'text' ? `<div class="ctenarsky">${list(u.html)}</div>` : u.html)).join('');
+    volny = '';
+  };
+  for (const u of uzlyNejvyssiUrovne(html)) {
+    const ctenarsky = u.tag === 'div' && /(^|\s)ctenarsky(\s|$)/.test(u.trida ?? '');
+    if (!ctenarsky) { volny += u.html; continue; }
+    vyprazdni();
+    const zacatek = u.html.indexOf('>') + 1;
+    const konec = u.html.lastIndexOf('</div>');
+    ven += u.html.slice(0, zacatek) + rozdel(u.html.slice(zacatek, konec)) + u.html.slice(konec);
+  }
+  vyprazdni();
+  return ven;
 }

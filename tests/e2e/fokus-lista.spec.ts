@@ -54,6 +54,9 @@ test('klepnutí myší stránku neposune', async ({ page }) => {
   await page.goto('/cesta/je-to-co-vidim-cela-skutecnost/4/');
   await page.evaluate(() => document.fonts.ready);
   const pole = page.locator('#cesta3-ctverec-sam-pole');
+  // Horní okraj pole těsně nad lištou kroku (rozvržení kroku se s listy a rámem aktivity mění; K4a).
+  await pole.evaluate((e) => window.scrollTo({ top: e.getBoundingClientRect().top + scrollY - (innerHeight - 130), behavior: 'instant' }));
+  await page.waitForTimeout(100);
   const pred = await page.evaluate(() => scrollY);
   const box = (await pole.boundingBox())!;
   // Klepne do horní části pole, která je vidět nad lištou.

@@ -4,7 +4,7 @@
 //   node scripts/snimky-prvek.mjs /cesta/staci-vedet-co-je-spravne/6/ '#kde-je-stred' stred-plavcik-voda 390 light 'plavčík|rozvodněná'
 // Proměnné: ZAKLAD (běžící web; výchozí náhled sestaveného webu na portu 4323), VEN (složka pro výstup),
 // POHYB=1 nechá animace běžet (jinak je omezený pohyb zapnutý a kresba stojí), CEKEJ (ms před snímkem),
-// POSUVNIK (hodnota prvního posuvníku v prvku), DENIK (soubor JSON s deníkem atlas-denik, který stránka
+// POSUVNIK (hodnota prvního posuvníku v prvku), VYSKA (výška okna; prvek vyšší než okno se ve snímku dole nedokreslí), DENIK (soubor JSON s deníkem atlas-denik, který stránka
 // najde v localStorage: blok ve stavu po kontrole nebo po volbě bez klepání).
 import { chromium } from '@playwright/test';
 import { mkdirSync, readFileSync } from 'node:fs';
@@ -16,7 +16,7 @@ const VEN = process.env.VEN ?? 'Claude outputs/snimky';
 mkdirSync(VEN, { recursive: true });
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: sirka, height: 900 }, colorScheme: rezim, reducedMotion: process.env.POHYB ? 'no-preference' : 'reduce', deviceScaleFactor: 2 });
+const page = await browser.newPage({ viewport: { width: sirka, height: Number(process.env.VYSKA ?? 900) }, colorScheme: rezim, reducedMotion: process.env.POHYB ? 'no-preference' : 'reduce', deviceScaleFactor: 2 });
 if (process.env.DENIK) {
   const denik = readFileSync(process.env.DENIK, 'utf8');
   await page.addInitScript((t) => localStorage.setItem('atlas-denik', t), denik);
@@ -38,7 +38,7 @@ if (process.env.POSUVNIK) await prvek.locator('input[type="range"]').first().fil
 await page.waitForTimeout(Number(process.env.CEKEJ ?? 300));
 // Pevné lišty by ležely přes prvek.
 // Spodní lišta telefonu má odkazy viditelné i ve skryté liště; pevná je, takže display: none nic neposune.
-await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .cesta-lista, .cesta-hlavicka, .obsah-lista { visibility: hidden !important; } nav.lista { display: none !important; }' });
+await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .cesta-lista, .cesta-hlavicka, .obsah-lista { visibility: hidden !important; } nav.lista { display: none !important; } .blok__pata { position: static !important; }' });
 const soubor = `${VEN}/${nazev}-${sirka}-${rezim}.png`;
 await prvek.screenshot({ path: soubor });
 console.log(soubor);

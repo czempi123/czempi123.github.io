@@ -1,0 +1,39 @@
+---
+// Společný rám aktivity bez JavaScriptu (K4a): stejné třídy a stavba jako src/components/ostrovy/RamAktivity.svelte,
+// pro aktivity, které se skládají při sestavení (Příběh v K4b, stránky z dat). Ostrov uvnitř plochy může být.
+// Zpětná vazba (slot vazba) leží jako lístek s páskou; pata (slot pata) má Začít znovu vlevo a hlavní čin vpravo.
+// <RamAktivity id="pribeh-delfy" obdobi={1} nadtitulek="Příběh" nazev="Věštba z Delf">
+//   <p class="blok__scena">…</p>
+//   <div class="blok__plocha">…</div>
+//   <Fragment slot="pata"><a class="blok__tl blok__tl--hlavni" href="…">Dál</a></Fragment>
+// </RamAktivity>
+interface Props {
+  id?: string;
+  obdobi?: number;
+  /** rodina aktivit */
+  nadtitulek: string;
+  nazev?: string;
+  /** id nadpisu, který rám pojmenuje; bez něj rám pojmenuje název */
+  labelledby?: string;
+  class?: string;
+}
+const { id, obdobi, nadtitulek, nazev, labelledby, class: trida } = Astro.props;
+const idNazvu = id && nazev ? `${id}-nazev` : undefined;
+---
+<section class:list={['blok', trida, obdobi && `obdobi-${obdobi}`]} id={id} aria-labelledby={labelledby ?? idNazvu}>
+  <div class="blok__hlava" data-cast="hlava">
+    <div class="blok__hlava-text">
+      <p class="t-nadtitulek blok__nadtitulek">{nadtitulek}</p>
+      {nazev && <p class="blok__nazev" id={idNazvu}>{nazev}</p>}
+    </div>
+    <slot name="lide" />
+  </div>
+  <slot />
+  {Astro.slots.has('vazba') && (
+    <div class="listek-paska blok__vazba" data-cast="zpetna">
+      <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+      <slot name="vazba" />
+    </div>
+  )}
+  {Astro.slots.has('pata') && <div class="blok__pata"><div class="blok__pata-hlavni" data-cast="akce"><slot name="pata" /></div></div>}
+</section>

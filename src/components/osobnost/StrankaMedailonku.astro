@@ -94,9 +94,9 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
           <a href={adresaObdobi}>období {obdobi.id} · {obdobi.nazev}</a>
         </p>
         {/* Kdo a proč: dvě věty z dat. Na telefonu stojí hned pod jménem, aby byly na první obrazovce.
-            Souvislý text medailonku leží na čistém listu s jednou páskou (K3 dodatek, bod 1). */}
+            Souvislý text medailonku leží na čistém listu (K3 dodatek, bod 1), bez pásky: vedle desky se dvěma
+            páskami by byly na obrazovce tři (odpověď 5 po K3 dodatku). */}
         <div class="cisty-list jadro-list">
-        <span class="paska paska--mala" aria-hidden="true"></span>
         <dl class="jadro">
           <div>
             <dt class="t-nadtitulek">{zena ? 'Kdo byla' : 'Kdo byl'}</dt>

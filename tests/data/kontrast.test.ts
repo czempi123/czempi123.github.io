@@ -53,6 +53,10 @@ const TEXT: [string, string][] = [
     ['muted', `period-${n}-tint`],
   ]),
   ...['muted'].flatMap((t) => PLOCHY.map((p): [string, string] => [t, p])),
+  // Studentova ruka (K4a, bod 3): text v poli, zvolené písmeno a kroužek, pera v deníku, na všech plochách.
+  ...['pero-modra', 'pero-fialova', 'pero-sepiova'].flatMap((t) => PLOCHY.map((p): [string, string] => [t, p])),
+  // Červená tužka (D5, Najdi slabé místo): tah a věta na listu argumentu.
+  ['cervena-tuzka', 'list'],
 ];
 const HRANICE: [string, string][] = PLOCHY.map((p) => ['tuzka', p]);
 

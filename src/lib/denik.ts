@@ -1,5 +1,6 @@
 // Soukromý deník studenta v localStorage (klíč atlas-denik). Nic se neodesílá; export do souboru.
 // Když úložiště není dostupné (soukromé okno, zablokovaná data), deník funguje jen do zavření stránky.
+import { jePero, type Pero } from './pero';
 
 export interface Zapis {
   /** kde vznikl, např. „sokrates/nikdo-nedela-zlo“ */
@@ -51,6 +52,11 @@ export interface Denik {
    * s psaním. Nepovinné (starší deníky ho nemají), součást exportu. Přijetí týdne a poznámka jsou výzva (`vyzvy`).
    */
   tydny?: Record<string, StavTydne>;
+  /**
+   * Studentovo pero (src/lib/pero.ts): barva, kterou píše a volí. Nepovinné (bez volby modré), součást exportu.
+   * Zapíše se při první odpovědi v bloku (nabídka pera v rámu aktivity) nebo volbou v deníku.
+   */
+  pero?: Pero;
 }
 
 /** Stav týdne cvičení v deníku. Žádná data dnů a žádné série: jen které dny jsou hotové. */
@@ -201,6 +207,7 @@ function rozeber(t: string | null): Denik | null {
           if (!objekt(plny.tydny)) delete plny.tydny;
           else plny.tydny = cisteTydny(plny.tydny);
         }
+        if (plny.pero !== undefined && !jePero(plny.pero)) delete plny.pero;
         if (plny.hodiny !== undefined) {
           if (!Array.isArray(plny.hodiny)) delete plny.hodiny;
           else plny.hodiny = plny.hodiny.filter((h: Partial<HodinaVDeniku> | null) => !!h && typeof h.adresa === 'string' && typeof h.nazev === 'string' && typeof h.kdy === 'string');
@@ -289,6 +296,18 @@ export function zaznamenejKrok(slug: string, krok: number, nazev: string, pocet:
 const CTENI_NEJVYS = 30;
 
 /** Zapamatuje naposledy čtený oddíl stránky (jen kotvu). Volá se při změně oddílu, ne při každém posunu. */
+/** Zvolené pero, nebo undefined, když student ještě nevolil. */
+export function peroDeniku(): Pero | undefined {
+  const p = nacti().pero;
+  return jePero(p) ? p : undefined;
+}
+
+export function ulozPero(p: Pero): void {
+  const d = nacti();
+  if (d.pero === p) return;
+  uloz({ ...d, pero: p });
+}
+
 export function ulozCteni(odkaz: string, kotva: string): void {
   if (tichaStranka()) return;
   const d = nacti();
@@ -515,6 +534,8 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
     for (const [id, t] of Object.entries(ten.tydny ?? {})) if (!tydny[id] || novejsi(t.kdy, tydny[id].kdy)) tydny[id] = t;
     vysledek.tydny = tydny;
   }
+  if (!ten.pero && jePero(novy.pero)) vysledek.pero = novy.pero;
+  else if (!jePero(vysledek.pero)) delete vysledek.pero;
   if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
   return vysledek;
 }

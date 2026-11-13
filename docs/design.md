@@ -219,6 +219,19 @@ Interaktivní bloky, ze kterých se skládají cesty, profily a otázky (`docs/p
 
 Sestavení zkontroluje schéma, druh bloku, osoby a prameny (`src/components/bloky/_kontrola.ts`, test `tests/data/bloky.test.ts`). Prameny bloků z YAML se na profilu samy přidají do rozbalovacích Pramenů.
 
+### Rám aktivity
+
+Od K4a větve design-v2 leží každý blok i každá budoucí hra v jednom společném rámu (plátno Herna.dc.html › Rám aktivity). Rám je pole přímo na tečkovaném papíře, vymezené čtyřmi rohovými značkami tužkou; list patří čtení, takže student na první pohled pozná, kde čte a kde je na řadě (bod 1 z Vizuálních zlepšení). Souvislý text kroku cesty i kapitoly profilu leží na čistém listu (`.cisty-list`; v cestě obal `ListyKroku.astro`, v profilu `Kapitola.astro`, dělení `useky()` a `listyKroku()` v `src/lib/listy.ts`), rám aktivity mezi listy.
+
+- **Části:** hlava (rodina aktivit = nadtitulek z dat, tečka v inkoustu období, nepovinný název, mince lidí), zadání (scéna `.blok__scena`, otázka `.blok__otazka`), plocha (předmět hry), zpětná vazba (lístek s páskou `.listek-paska.blok__vazba`, tiskem; uvnitř jiného přilepeného papíru lepicí lístek v barvě období bez pásky), pata (`Začít znovu` vlevo, hlavní čin vpravo).
+- **Svelte:** `src/components/ostrovy/RamAktivity.svelte`. Props: `id`, `obdobi`, `trida`, `nadtitulek`, `nazev`, `lide`, `labelledby` (id otázky), `data-*`; snippety `children` (zadání a plocha), `vazba` (obsah lístku; bez něj lístek není), `poVazbe`, `hlavni` (hlavní čin v patě); `znovu` (funkce; bez ní tlačítko Začít znovu není), `ulozeno` (věta nad patou), `cerstve` (lístek vznikl činem studenta teď: rozloží se `.rozlozit` a jednou se nabídne pero), `bind:vazbaPrvek` (kam dát fokus). Vzor: `Volba.svelte`.
+- **Astro:** `src/components/bloky/RamAktivity.astro` pro aktivity bez stavu; sloty `default`, `lide`, `vazba`, `pata`.
+- **Nová hra** = jen vnitřek plochy: obsah dá do `children` (s `data-cast` pro podoby hodiny: `scena`, `otazka`, `moznosti`, `duvod`), zpětnou vazbu do `vazba`, svůj hlavní čin do `hlavni` a reset do `znovu`. Třída kořene zůstává `.blok` (testy, průchod cest, promítání, katalog hodin).
+- **Telefon:** rám jde od okraje k okraji; pata s vlastním činem bloku drží u spodní hrany nad lištou v dosahu palce (`position: sticky`), pata s Kam dál nebo jen se Začít znovu ne (další krok nabízí lišta). Skript fokusu v `Zakladni.astro` drží prvek s fokusem nad patou.
+- **Tlačítka:** `.blok__tl--hlavni` na plném inkoustu, `--vedlejsi` vystouplé (vrstvy stínu v `global.css`), `--tiche` podtržené tužkou; zakázané je čárkované tužkou. `Tlacitko.astro` dává tytéž třídy.
+- **Studentova ruka:** pole `.blok__pole` píše Kalamem v barvě pera (`--pero`) na linkách; co student zvolil nebo napsal a ukazuje se po tahu, má třídu `.blok__ruka`. Pero (modré, fialové, sépiové) se vybírá jednou: rám ho nabídne při první odpovědi (`VolbaPera.svelte`), pak je v Mém deníku; uložené je v deníku (`pero`), na `<html>` ho před vykreslením nastaví `data-pero` (`src/lib/pero.ts`).
+- **Pohyb** jen po činu studenta (Po D3): lístek se rozloží (`--d-listek`), při omezeném pohybu a po obnovení stránky leží hned.
+
 ### Co se ukládá
 
 Vše jen v prohlížeči, v záznamu `atlas-denik` (`src/lib/denik.ts`). Bez localStorage bloky fungují do zavření stránky.
@@ -276,7 +289,7 @@ Text scény v odstavcích…
 
 ### Volba s důvodem
 
-Karty A–D (radiogroup, šipky), nepovinné „Proč právě tohle?“, tlačítko „Tohle je můj tah“. Pak zpětná vazba „Tvůj tah: …“ v tintu období, oddíl „Co udělal …“ a rozbalovací „Co kdybys zvolil jinak?“ se zpětnou vazbou ostatních tahů.
+Možnosti A–D jsou lístky s pahýlem (radiogroup, šipky): vystouplé, zvolený vtlačený do papíru, v pahýlu se vyštípne dírka a pero studenta zakroužkuje písmeno (`--d-tah`). Nepovinné „Proč právě tohle?“, v patě „Tohle je můj tah“. Pak zpětná vazba „Tvůj tah: …“ na lístku s páskou, oddíl „Co udělal …“ a rozbalovací „Co kdybys zvolil jinak?“ se zpětnou vazbou ostatních tahů; v patě Začít znovu a Kam dál.
 
 ```mdx
 <Volba id="cesta1-jak-zjistit" />
@@ -308,7 +321,7 @@ Blok s `bezDuvodu: true` nemá pole „Proč právě tohle?“ a do deníku ulo�
 
 ### Odkryj
 
-Vlastní pokus, pak srovnání, volitelně modelové odpovědi a sebekontrola (zaškrtávací věty, nic se nesčítá). Po odkrytí jde odpověď připsat nebo upravit. S `filozof="sokrates"` má hlavička minci filozofa a barvu jeho období. `NejdrivSam.svelte` zůstává jako starší jméno téhož bloku kvůli hotovým stránkám.
+Vlastní pokus (pole perem studenta), pak srovnání, volitelně modelové odpovědi a sebekontrola (zaškrtávací věty, nic se nesčítá). Dokud student neodkryje, leží na místě srovnání přeložený papír; po kliknutí se odklopí od horní hrany (`--d-odkryti`) a pod ním je srovnání na lístku s páskou. Srovnání se vykreslí až odkrytím; dřív není vidět ani pro čtečku. Po odkrytí jde odpověď připsat nebo upravit; Začít znovu smaže odpověď i zápis. S `filozof="sokrates"` má hlavička minci filozofa a barvu jeho období. `NejdrivSam.svelte` zůstává jako starší jméno téhož bloku kvůli hotovým stránkám.
 
 ```mdx
 <Odkryj
@@ -591,9 +604,9 @@ Sestavení se zastaví, když cesta neexistuje, má dva návraty nebo pravidlo n
 
 ### Společné pro všechny bloky
 
-- Karta `.blok` (povrch, okraj `--rule`, zaoblení `md`), hlavička s nadtitulkem v barvě období a mincemi lidí, o kterých blok je; otázka `t-h3`; styly v `global.css` › Interaktivní bloky. „Co udělal …“ má minci filozofa.
-- Pole na psaní vypadají jako linkovaný deník (spodní linka `--muted`, kontrast 3 : 1). Po tahu ve Volbě zůstane vidět jen vybraná karta, ostatní tahy jsou v „Co kdybys zvolil jinak?“.
-- Zpětná vazba se odkrývá krátkým vyjetím (260 ms), při omezeném pohybu bez animace (`src/lib/pohyb.ts`).
+- Rám aktivity `.blok` (oddíl Rám aktivity výš), hlavička s nadtitulkem v barvě období a mincemi lidí, o kterých blok je; otázka `t-h3`; styly v `global.css` › Rám aktivity. „Co udělal …“ má minci filozofa. Bloky, které K4b ještě nepřepsal, mají rám a tlačítka nová, ale zpětnou vazbu v tintě (`.blok__zpetna`).
+- Pole na psaní jsou linkovaný deník (spodní linka `--tuzka`, kontrast 3 : 1) a píše se do nich Kalamem perem studenta. Po tahu ve Volbě zůstane vidět jen vybraný lístek, ostatní tahy jsou v „Co kdybys zvolil jinak?“.
+- Lístek zpětné vazby se rozloží (`.rozlozit`), při omezeném pohybu a po obnovení stránky leží hned.
 - V profilu patří bloky do čtenářského sloupce, i Spor se dvěma sloupci argumentů: uvnitř kapitoly stojí bez obalu, mimo kapitolu v `.blok-sloupec`, který má na stránce osobnosti stejnou šířku (680 px; jinde 960 px).
 - Karty možností jsou nativní přepínače v popiscích (šipky, mezerník, dotyk), cíle aspoň 44 px (karty 56–60).
 - Po odkrytí jde fokus na zpětnou vazbu (`aria-live="polite"`), po „Začít znovu“ na první volbu.

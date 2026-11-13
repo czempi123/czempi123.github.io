@@ -6,6 +6,8 @@ import '../styles/promitani.css';
 import Pisma from '../components/rozvrzeni/Pisma.astro';
 import ListaHodiny from '../components/rozvrzeni/ListaHodiny.astro';
 import { KLIC_AKTIVNI } from '../lib/pruchod-hodiny';
+import { TEXT_DENIKU_SKRIPT } from '../lib/denik';
+import { skriptPera } from '../lib/pero';
 import Hlavicka, { type Sekce } from '../components/rozvrzeni/Hlavicka.astro';
 import SpodniLista from '../components/rozvrzeni/SpodniLista.astro';
 import Drobecky from '../components/rozvrzeni/Drobecky.astro';
@@ -62,6 +64,8 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         if (r === 'light' || r === 'dark') document.documentElement.dataset.theme = r;
       } catch (e) {}
     </script>
+    {/* Studentovo pero z deníku (src/lib/pero.ts), před vykreslením, ať barva pera neproblikne. */}
+    <script is:inline set:html={skriptPera(TEXT_DENIKU_SKRIPT)} />
     <script is:inline define:vars={{ klic: KLIC_AKTIVNI }}>
       // Hodina otevřená v této kartě (src/lib/pruchod-hodiny.ts): když na stránce stojí některé její zastavení,
       // drží se místo pro lištu hodiny a při promítání se stránka vykreslí rovnou bez hlavičky a patičky.
@@ -198,13 +202,21 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
           const lista = [...document.querySelectorAll('.cesta-lista, nav.lista')].find(
             (l) => getComputedStyle(l).position === 'fixed' && l.getBoundingClientRect().height > 0,
           );
-          if (!lista || lista.contains(prvek)) return;
+          // Pata rámu aktivity drží na telefonu u spodní hrany (position: sticky, global.css › Rám aktivity):
+          // prvek v rámu nad ní musí zůstat nad patou, ne jen nad lištou.
+          const pata = prvek.closest('.blok')?.querySelector(':scope > .blok__pata');
+          const drziPata = pata && !pata.contains(prvek) && getComputedStyle(pata).position === 'sticky';
+          if (lista && lista.contains(prvek)) return;
+          // Bez lišty i bez paty hlídá spodní hranu okna: pole na psaní (textarea) Chromium po tabulátoru
+          // posune jen tak, aby byl vidět kurzor, a spodek pole zůstane pod oknem (K4a, Odkryj u Sókrata).
           requestAnimationFrame(() => {
             const r = prvek.getBoundingClientRect();
-            const hrana = lista.getBoundingClientRect().top;
+            let hrana = lista && !lista.contains(prvek) ? lista.getBoundingClientRect().top : innerHeight;
+            if (drziPata) hrana = Math.min(hrana, pata.getBoundingClientRect().top);
             const presah = r.bottom + 16 - hrana;
-            // Prvek vyšší než volné místo neposouvej nad horní okraj.
-            if (presah > 0 && r.top < hrana) scrollBy({ top: Math.min(presah, Math.max(0, r.top - 96)), behavior: 'instant' });
+            // Prvek vyšší než volné místo neposouvej nad horní okraj. Prvek celý pod patou prohlížeč za skrytý
+            // nepovažuje (pata nemá scroll-padding), proto se posune i tehdy.
+            if (presah > 0 && (r.top < hrana || drziPata)) scrollBy({ top: Math.min(presah, Math.max(0, r.top - 96)), behavior: 'instant' });
           });
         });
       })();

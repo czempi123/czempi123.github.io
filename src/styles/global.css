@@ -167,91 +167,172 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   .rozlozit, .dopad { animation: none !important; }
 }
 
-/* ─── Interaktivní bloky (src/components/bloky, docs/design.md › Komponenty) ─────────────────── */
+/* ─── Rám aktivity (design-v2, K4a; plátno Herna.dc.html › Rám aktivity, docs/design.md › Bloky › Rám aktivity) ────
+   Každý blok i hra leží v jednom rámu: pole přímo na tečkovaném papíře, vymezené čtyřmi rohovými značkami tužkou
+   (ne list: list patří čtení, bod 1). Hlava (rodina aktivit v inkoustu období, případně název), zadání (scéna
+   a otázka), plocha (předmět hry), zpětná vazba jako lístek s páskou, pata (Začít znovu vlevo, hlavní čin vpravo).
+   Komponenty: src/components/ostrovy/RamAktivity.svelte a src/components/bloky/RamAktivity.astro. Třída zůstává
+   .blok: hledají ji testy, průchod cest, promítání hodiny i katalog. Na telefonu jde rám od okraje k okraji
+   a pata drží u spodní hrany nad lištou, v dosahu palce (bod 11). */
 .blok {
+  --roh: var(--tuzka);
+  position: relative;
+  container-type: inline-size;
   margin: var(--s-7) 0;
-  padding: var(--s-5);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-md);
-  background: var(--surface);
+  padding: 26px 24px 22px;
+  background:
+    linear-gradient(var(--roh), var(--roh)) 0 0 / 24px 1.5px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 0 0 / 1.5px 24px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 100% 0 / 24px 1.5px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 100% 0 / 1.5px 24px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 0 100% / 24px 1.5px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 0 100% / 1.5px 24px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 100% 100% / 24px 1.5px no-repeat,
+    linear-gradient(var(--roh), var(--roh)) 100% 100% / 1.5px 24px no-repeat;
   scroll-margin-top: calc(var(--hlavicka) + var(--hodina) + var(--s-4));
 }
 .blok > :last-child { margin-bottom: 0; }
-.blok__nadtitulek { margin: 0 0 var(--s-2); color: var(--pc, var(--ink)); }
-.blok__scena { color: var(--ink-2); }
-.blok__otazka { margin: 0 0 var(--s-5); }
-.blok__hlava { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-4); }
-.blok__hlava .blok__nadtitulek { padding-top: var(--s-1); }
+/* Hlava: rodina aktivit (nadtitulek z dat) s tečkou v inkoustu období, vpravo mince lidí; pod ní nepovinný název. */
+.blok__hlava { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-4); margin-bottom: 14px; }
+.blok__hlava-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.blok__nadtitulek {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  padding-top: var(--s-1);
+  font-family: var(--font-sans);
+  font-size: calc(var(--meritko) * 13px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--p);
+}
+.blok__nadtitulek::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--p); }
+.blok__nazev { margin: 0; font-family: var(--font-serif); font-size: calc(var(--meritko) * 28px); font-weight: 400; line-height: 1.15; }
 .blok__mince { display: flex; flex: none; gap: var(--s-1); }
-/* Pole na psaní: linkovaný papír deníku, spodní linka s kontrastem 3 : 1. */
+/* Zadání: scéna a otázka. Bez názvu je otázka nadpisem rámu (t-h3), s názvem menší. */
+.blok__scena { margin: 0 0 var(--s-3); font-size: calc(var(--meritko) * 19px); line-height: 1.55; color: var(--ink-2); }
+.blok__otazka { margin: 0 0 var(--s-5); }
+.blok__nazev ~ .blok__otazka, .blok__otazka--mala { font-size: calc(var(--meritko) * 21px); line-height: 1.4; letter-spacing: 0; }
+.blok__plocha { margin-top: 20px; }
+/* Pole na psaní: studentova ruka (bod 3). Kalam v barvě pera na linkách, spodní linka tužkou (3 : 1). */
 .blok__pole {
+  --radek-pole: calc(var(--meritko) * 28px);
   display: block;
   width: 100%;
-  min-height: calc(3 * 1.6em + var(--s-3));
+  min-height: calc(3 * var(--radek-pole) + 4px);
   margin: 0 0 var(--s-4);
-  padding: var(--s-1) var(--s-1) var(--s-2);
+  padding: 2px 2px 0;
   border: 0;
-  border-bottom: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--tuzka);
   border-radius: 0;
-  background-color: transparent;
-  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.6em - 1px), var(--rule) calc(1.6em - 1px), var(--rule) 1.6em);
-  background-position: 0 var(--s-1);
+  background: transparent repeating-linear-gradient(transparent 0, transparent calc(var(--radek-pole) - 1px), var(--linka) calc(var(--radek-pole) - 1px), var(--linka) var(--radek-pole));
   background-attachment: local;
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: var(--fs-text);
-  line-height: 1.6;
+  color: var(--pero);
+  font-family: var(--font-ruka);
+  font-size: calc(var(--meritko) * 19px);
+  line-height: var(--radek-pole);
   resize: vertical;
 }
-.blok__pole--kratke { min-height: calc(2 * 1.6em + var(--s-3)); }
-.blok__pole::placeholder { color: var(--muted); opacity: 1; font-style: italic; }
+.blok__pole--kratke { min-height: calc(2 * var(--radek-pole) + 4px); }
+.blok__pole::placeholder { color: var(--ink-3); opacity: 1; }
 .blok__pole:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-bottom-color: var(--ink); }
-.blok__pole:disabled { color: var(--ink-2); border-bottom-style: dotted; }
-.blok__popis { display: block; margin-bottom: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 500; color: var(--ink); }
+.blok__pole:disabled { color: var(--pero); -webkit-text-fill-color: var(--pero); opacity: 1; border-bottom-style: dotted; }
+.blok__pole:disabled::placeholder { color: var(--ink-3); -webkit-text-fill-color: var(--ink-3); }
+.blok__popis { display: block; margin-bottom: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 500; color: var(--ink-2); }
+/* Co student napsal nebo zvolil, ukázané po tahu: jeho perem. */
+.blok__ruka { font-family: var(--font-ruka); font-size: calc(var(--meritko) * 19px); line-height: 1.4; color: var(--pero); }
 .blok__akce { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); margin-top: var(--s-4); }
+/* Tlačítka podle design systému: hlavní na plném inkoustu, vedlejší vystouplé, tiché podtržené tužkou;
+   vrstvy stínu (najetí, stisk) dává oddíl Vrstvy stínu níž, zakázané je čárkované tužkou. */
 .blok__tl {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
   min-height: 48px;
-  padding: 0 var(--s-5);
-  border-radius: var(--r-sm);
+  padding: 12px 20px;
+  border-radius: var(--r-ovladani);
   font-family: var(--font-sans);
-  font-size: var(--fs-ovladani-l);
+  font-size: var(--fs-ovladani);
   font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
+  color: var(--ink);
   cursor: pointer;
-  transition: background var(--pohyb-rychle), border-color var(--pohyb-rychle), color var(--pohyb-rychle);
 }
-.blok__tl--hlavni { min-height: 52px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); }
-.blok__tl--hlavni:hover { background: var(--ink-2); border-color: var(--ink-2); }
-.blok__tl--hlavni:disabled { cursor: not-allowed; border-color: var(--rule); background: transparent; color: var(--muted); }
-.blok__tl--vedlejsi { border: 1.5px solid var(--ink); background: transparent; color: var(--ink); }
-.blok__tl--vedlejsi:hover { background: var(--sunk); }
-.blok__tl--vedlejsi:disabled { cursor: not-allowed; border-color: var(--rule); background: transparent; color: var(--muted); }
-.blok__tl--tiche { min-height: 44px; border: 1px solid var(--rule); background: transparent; color: var(--ink); font-size: var(--fs-ovladani); font-weight: 500; }
-.blok__tl--tiche:hover { border-color: var(--muted); }
-.blok__tl--tiche:disabled { cursor: not-allowed; border-style: dashed; border-color: var(--rule); color: var(--muted); }
-/* Zpětná vazba a odkrytý obsah: tint období, titulek v inkoustu. */
+.blok__tl--tiche {
+  min-height: 48px;
+  padding: 12px 6px;
+  border: 0;
+  background: transparent;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--tuzka);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+}
+@media (hover: hover) { .blok__tl--tiche:hover { text-decoration-color: var(--ink); text-decoration-thickness: 2px; } }
+.blok__tl--tiche:active { color: var(--ink-2); transform: translateY(1px); }
+.blok__tl--tiche:disabled { cursor: not-allowed; color: var(--ink-3); text-decoration-style: dashed; }
+.blok__tl--tiche:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* Zpětná vazba: lístek s páskou tiskem (Newsreader, ne Kalam: má dvě až tři věty). Rozloží se při vložení
+   (.rozlozit), jen po činu studenta; po obnovení stránky leží rovnou. */
+.blok__vazba { margin-top: var(--s-5); font-size: calc(var(--meritko) * 19px); line-height: 1.5; color: var(--ink-2); }
+.blok__vazba p { margin: 0 0 var(--s-3); }
+.blok__vazba > :last-child, .blok__vazba > astro-slot > :last-child { margin-bottom: 0; }
+/* Uvnitř jiného přilepeného papíru (myšlenka, Zkus to žít, lístek): lepicí lístek v barvě období bez pásky (Po K3). */
+:is(.papirovy-list, .listek-paska, .cisty-list) .blok .blok__vazba {
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
+    color-mix(in srgb, var(--pp) 16%, var(--listek));
+  box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
+  rotate: .8deg;
+}
+:is(.papirovy-list, .listek-paska, .cisty-list) .blok .blok__vazba > .paska { display: none; }
+.blok__zpetna-titulek { margin: 0 0 var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 600; line-height: var(--lh-ovladani-l); color: var(--ink); }
+/* Zpětná vazba bloků, které ještě nejsou v rámu (K4b): tinta zůstává, než je přepíše. */
 .blok__zpetna {
   margin-top: var(--s-5);
   padding: var(--s-4) var(--s-5);
-  border-radius: var(--r-sm);
-  background: var(--pc-tint, var(--sunk));
+  border-radius: var(--r-razitko);
+  background: var(--pc-tint, var(--plocha));
 }
 .blok__zpetna > :last-child { margin-bottom: 0; }
-.blok__zpetna-titulek { margin: 0 0 var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 600; line-height: var(--lh-ovladani-l); color: var(--ink); }
-.blok__oddil { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--pc-soft, var(--rule)); }
+.blok__oddil { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px dashed var(--tuzka); }
 .blok__ulozeno { margin: var(--s-3) 0 0; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
 .blok__dal { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-5); }
 .blok__dal a { gap: var(--s-2); }
 .blok__dal svg { flex: none; }
+/* Pata: Začít znovu vlevo, hlavní čin vpravo (i když vlevo nic není). */
+.blok__pata { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 22px; }
+.blok__pata-hlavni { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-left: auto; }
+.blok__pata .blok__dal { margin: 0; }
 /* „Co udělal …“: mince filozofa vedle nadpisu. */
 .blok__filozof { display: flex; align-items: center; gap: var(--s-3); margin: 0 0 var(--s-2); }
 .blok__filozof .blok__zpetna-titulek { margin: 0; }
 .blok-sloupec { max-width: 960px; }
+/* Telefon: rám od okraje k okraji (rohové značky u hran obrazovky). Pata s vlastním činem bloku (Tohle je můj tah,
+   Porovnat) drží u spodní hrany nad spodní lištou, v dosahu palce, v jednom řádku se Začít znovu. Pata s Kam dál
+   nebo jen se Začít znovu nedrží: další krok nabízí lišta cesty. Rám uvnitř jiného papíru (myšlenka, lístek) zůstává ve svém papíru. */
+@media (max-width: 699px) {
+  .blok:not(:is(.papirovy-list, .listek-paska, .cisty-list, .blok) .blok) { margin-inline: calc(-1 * var(--okraj)); padding: 24px var(--okraj) var(--s-4); }
+  .blok:not(:is(.papirovy-list, .listek-paska, .cisty-list, .blok) .blok) > .blok__pata:has(.blok__pata-hlavni):not(:has(.blok__dal)) {
+    position: sticky;
+    bottom: var(--pata-dole, 0px);
+    z-index: 5;
+    flex-wrap: nowrap;
+    margin: 18px calc(-1 * var(--okraj)) calc(-1 * var(--s-4));
+    padding: 10px var(--okraj) 12px;
+    background: var(--list);
+    box-shadow: var(--lista-stin);
+  }
+  .blok > .blok__pata .blok__pata-hlavni { flex: 1 1 auto; min-width: 0; }
+  .blok > .blok__pata .blok__pata-hlavni > .blok__tl { flex: 1 1 auto; white-space: normal; }
+  html:has(:is(.cesta-lista, nav.lista)) { --pata-dole: calc(var(--spodni-lista) + env(safe-area-inset-bottom, 0px)); }
+}
 
 /* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Komponenty) ───── */
 .kresba {
@@ -333,6 +414,18 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 @media (max-width: 699px) {
   .cisty-list { margin-inline: calc(8px - var(--okraj)); padding: 30px calc(var(--okraj) + 2px) 18px; }
   .cisty-list > .paska { left: 24px; }
+}
+/* Tři varianty čtenářského sloupce jen ke snímkům K4a (otázka 1 po K4a, scripts/snimky-sloupec.mjs): data-sloupec na <html>
+   „tecky“ = text přímo na tečkách jako před K3 dodatkem, „ztlumene“ = tečky pod textem na 35 %, bez atributu čistý list.
+   Po rozhodnutí autora krok O pravidla smaže. */
+html[data-sloupec] .cisty-list { margin-inline: 0; padding-inline: 0; box-shadow: none; }
+html[data-sloupec] .cisty-list > .paska { display: none; }
+html[data-sloupec='tecky'] .cisty-list { background: none; }
+html[data-sloupec='ztlumene'] .cisty-list {
+  background-color: var(--papir);
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--tecka) 35%, var(--papir)) 1.1px, transparent 1.4px);
+  background-size: var(--tecky-krok) var(--tecky-krok);
+  box-shadow: 0 0 0 14px var(--papir);
 }
 :root {
   /* Sponka u citátu (Citat.astro › citat--sponka): obrys drátku jako maska, barvu dává --tuzka. */
@@ -521,8 +614,10 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 /* Vrstvy stínu bez přechodu box-shadow: prvek nese vtlačený stín (stisk), pod obsahem leží ::before s plochou
    a stínem vystouplého a ::after jen se zvednutým stínem. Najetí rozsvítí ::after, stisk zhasne obě vrstvy
    a odkryje vtlačený stín, zvolení totéž s --vtla. Mění se jen opacity vrstev a transform prvku.
+   Stejně se chovají tlačítka bloků (.blok__tl--hlavni na plném inkoustu, .blok__tl--vedlejsi) a zvolená možnost
+   (.vystouple--zvoleno, třeba lístek ve Volbě).
    Proměnné: --vy-dno (barva vtlačené plochy), --vy-plocha, --vy-stin, --vy-zved, --vy-tlak, --vy-y (zvednutí). */
-.vystouple {
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi) {
   position: relative;
   isolation: isolate;
   border: 0;
@@ -531,8 +626,8 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   cursor: pointer;
   transition: transform var(--d-stisk) var(--k-stisk);
 }
-.vystouple::before,
-.vystouple::after {
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi)::before,
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -541,21 +636,21 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   pointer-events: none;
   transition: opacity var(--d-stisk) var(--k-stisk);
 }
-.vystouple::before { background: var(--vy-plocha, var(--plocha)); box-shadow: var(--vy-stin, var(--vyst)); }
-.vystouple::after { opacity: 0; box-shadow: var(--vy-zved, var(--zved)); }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi)::before { background: var(--vy-plocha, var(--plocha)); box-shadow: var(--vy-stin, var(--vyst)); }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi)::after { opacity: 0; box-shadow: var(--vy-zved, var(--zved)); }
 @media (hover: hover) {
-  .vystouple:hover { transform: translateY(var(--vy-y, -1px)); }
-  .vystouple:hover::after { opacity: 1; }
+  :is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):hover { transform: translateY(var(--vy-y, -1px)); }
+  :is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):hover::after { opacity: 1; }
 }
-.vystouple:active { transform: translateY(1px); }
-.vystouple:active::before,
-.vystouple:active::after { opacity: 0; }
-.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"]) { --vy-tlak: var(--vtla); transform: none; }
-.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"])::before,
-.vystouple:is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"])::after { opacity: 0; }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):active { transform: translateY(1px); }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):active::before,
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):active::after { opacity: 0; }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"], .vystouple--zvoleno) { --vy-tlak: var(--vtla); transform: none; }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"], .vystouple--zvoleno)::before,
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):is([aria-pressed="true"], [aria-current="page"], [aria-current="true"], [aria-selected="true"], .vystouple--zvoleno)::after { opacity: 0; }
 /* Malé vystouplé (Můj deník, zpět, přepínač) a hlavní tlačítko na plném inkoustu. */
 .vystouple--m { --vy-plocha: var(--plocha-m); --vy-stin: var(--vyst-m); }
-.vystouple--ink { --vy-dno: var(--ink); --vy-plocha: var(--ink); --vy-stin: var(--vyst-ink); --vy-zved: var(--zved-ink); --vy-tlak: var(--vtla-ink); color: var(--na-inkoustu); }
+.vystouple--ink, .blok__tl--hlavni { --vy-dno: var(--ink); --vy-plocha: var(--ink); --vy-stin: var(--vyst-ink); --vy-zved: var(--zved-ink); --vy-tlak: var(--vtla-ink); color: var(--na-inkoustu); }
 
 /* Ležící papír, který vede jinam (karta): po najetí se zvedne a srovná, po stisku přitiskne. */
 .lezi-odkaz {
@@ -587,8 +682,8 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 
 /* Zakázaný prvek: zploštělý, bez stínu, s čárkovaným okrajem tužkou a textem popisku. */
 .zakazane,
-.vystouple:disabled,
-.vystouple[aria-disabled="true"],
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi):disabled,
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi)[aria-disabled="true"],
 .lezi-odkaz[aria-disabled="true"] {
   --vy-dno: transparent;
   background: transparent;
@@ -600,10 +695,10 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   transform: none;
   cursor: not-allowed;
 }
-:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .lezi-odkaz[aria-disabled="true"])::before,
-:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .lezi-odkaz[aria-disabled="true"])::after { display: none; }
+:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .blok__tl:disabled, .lezi-odkaz[aria-disabled="true"])::before,
+:is(.zakazane, .vystouple:disabled, .vystouple[aria-disabled="true"], .blok__tl:disabled, .lezi-odkaz[aria-disabled="true"])::after { display: none; }
 /* Fokus z klávesnice i u prvku se zakázaným obrysem a na plném inkoustu: rámeček v inkoustu kolem prvku. */
-:is(.vystouple, .lezi-odkaz, .zakazane):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+:is(.vystouple, .blok__tl--hlavni, .blok__tl--vedlejsi, .lezi-odkaz, .zakazane):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 /* Rozložení lístku při vložení (zpětná vazba, lístek pojmu): papír se rozloží od horní hrany. */
 @keyframes listek-rozlozit {

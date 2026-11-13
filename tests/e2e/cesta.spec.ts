@@ -388,7 +388,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(graf.locator('figcaption')).toContainText('Asi u pětiny lidí, těch nejméně šťastných, se zhruba nad 100 000 dolary ročně zastaví.');
   await expect(text6.locator('.citat')).toHaveCount(2);
   // Oba Epikúrovy citáty stojí před studií; poslední slovo před hlasováním nemá Epikúros, ale křivky.
-  await expect(text6.locator(':scope > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
+  await expect(text6.locator(':scope > .cisty-list > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
   const penize = page.locator('#cesta6-penize');
   await penize.getByRole('radio', { name: /Nedá se říct/ }).focus();
   await page.keyboard.press('Space');

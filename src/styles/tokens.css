@@ -27,6 +27,11 @@
   --ink-3: #6A6258;       /* popisky obrázků, „Cesta“ nad názvem, drobečky, zakázaný text */
   --na-inkoustu: #F8F6F1; /* text na hlavním tlačítku */
   --na-papiru: #FBF4EE;   /* text na pruhu v papíru období (ve dne i v noci) */
+  /* Studentova ruka (D5, bod 3): co student napíše nebo zvolí, je jeho perem. Tři pera, výchozí modré;
+     volbu nese data-pero na <html> (hlavička Zakladni.astro z deníku, src/lib/pero.ts). Červená tužka jen
+     v Najdi slabé místo; správně a špatně se barvou nerozlišuje nikde. */
+  --pero-modra: #1F4AA8; --pero-fialova: #6B2D8C; --pero-sepiova: #7B4420;
+  --cervena-tuzka: #B3261E;
 
   /* Osm období: inkoust --p-N (text, razítko, kroužek tužkou, pahýl) a papír --pp-N (pruh, páska, lístek pásu).
      Papír je ve dne i v noci stejný, inkoust se v noci zesvětlí. Pro podstrom je nastaví třída .obdobi-N (global.css). */
@@ -147,6 +152,11 @@
   --k-dopad: cubic-bezier(.55, 0, 1, .45);
 }
 
+/* Zvolené pero (data-pero na <html>); bez volby modré. */
+:root { --pero: var(--pero-modra); }
+:root[data-pero='fialova'] { --pero: var(--pero-fialova); }
+:root[data-pero='sepiova'] { --pero: var(--pero-sepiova); }
+
 @media (max-width: 699px) {
   :root { --tecky-krok: 20px; }
 }
@@ -161,6 +171,7 @@
     --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
     --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
     --na-inkoustu: #1D1B18; --muted: #A69B8A;
+    --pero-modra: #9DB7F5; --pero-fialova: #D2A6EE; --pero-sepiova: #E0AE7C; --cervena-tuzka: #F08A7E;
     --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
     --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
     --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
@@ -200,6 +211,7 @@
   --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
   --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
   --na-inkoustu: #1D1B18; --muted: #A69B8A;
+  --pero-modra: #9DB7F5; --pero-fialova: #D2A6EE; --pero-sepiova: #E0AE7C; --cervena-tuzka: #F08A7E;
   --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
   --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
   --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
@@ -245,6 +257,7 @@
     --vyst-ink: none; --zved-ink: none; --vtla-ink: none; --lezi: none; --lezi-zved: none; --lezi-tlak: none; --deska: none;
     --odlep: none; --odlep-m: none; --pas-stin: none; --lista-stin: none; --hlavicka-stin: none;
     --sunk: #F1ECE3;
+    --pero-modra: #1F4AA8; --pero-fialova: #6B2D8C; --pero-sepiova: #7B4420; --cervena-tuzka: #B3261E;
     color-scheme: light;
   }
 }

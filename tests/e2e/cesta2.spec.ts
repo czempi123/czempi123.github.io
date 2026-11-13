@@ -145,7 +145,8 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await expect(text6.locator('.citat')).toHaveCount(3);
   await expect(text6.locator('.citat').nth(1)).toContainText('Přestaň se bát, že se jednou stane, co se děje každý den.');
   expect(await text6.evaluate((t) => {
-    const prvky = [...t.children];
+    // Text kroku leží na čistém listu (K4a): sousedé citátu jsou na témž listu.
+    const prvky = [...t.querySelectorAll(':scope > .cisty-list > *')];
     const i = prvky.findIndex((e) => e.textContent!.includes('Přestaň se bát'));
     return [prvky[i + 1]?.textContent, prvky[i + 2]?.textContent].map((x) => (x ?? '').replace(/\u00a0/g, ' '));
   })).toEqual([

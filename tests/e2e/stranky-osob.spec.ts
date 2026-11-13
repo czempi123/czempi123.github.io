@@ -91,6 +91,11 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
   // Odstavec úvodu začíná hned pod deskou (jen lišta Obsah mezi nimi), ne až za záložkami.
   const uvod = (await page.locator('.obsah .uvod p').first().boundingBox())!;
   expect(uvod.y - (deska.y + deska.height)).toBeLessThan(160);
+  // „Proč …?“ a popisek obrazu stojí na telefonu až za prvním odstavcem úvodu (odpověď 4 po K3 dodatku).
+  await expect(page.locator('.osobnost__deska figcaption')).toBeHidden();
+  const zaUvodem = page.locator('.obsah .uvod > p:first-child + .deska-za-uvodem');
+  await expect(zaUvodem).toBeVisible();
+  await expect(zaUvodem).toContainText('Proč');
   await page.addInitScript(() => {
     document.addEventListener('DOMContentLoaded', () => {
       (window as unknown as { __zaUvodem: boolean }).__zaUvodem = !document.querySelector('.osobnost__hlavicka .vstupy-osoby--otazky');
@@ -102,6 +107,8 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.locator('.osobnost__hlavicka .vstupy-osoby--otazky')).toHaveCount(1);
   await expect(page.locator('.vstupy-osoby--za-uvodem')).toHaveCount(0);
+  await expect(page.locator('.osobnost__deska figcaption')).toContainText('Proč');
+  await expect(page.locator('.deska-za-uvodem')).toBeHidden();
   // Společný profil má záložku vedle cesty v hlavičce i na telefonu.
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/osobnost/krates-a-hipparchia/');
@@ -254,10 +261,10 @@ test('čistý list: souvislý text kapitoly na listu s jednou páskou, aktivity 
   expect(Math.round(390 - r.x - r.width)).toBe(8);
   expect(await znaku()).toBeLessThanOrEqual(45);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
-  // Medailonek: kdo a proč na listu s páskou.
+  // Medailonek: kdo a proč na listu bez pásky (vedle desky se dvěma páskami; odpověď 5 po K3 dodatku).
   await page.goto('/osobnost/thales/');
   await expect(page.locator('.cisty-list .jadro')).toHaveCount(1);
-  await expect(page.locator('.jadro-list > .paska')).toHaveCount(1);
+  await expect(page.locator('.jadro-list > .paska')).toHaveCount(0);
 });
 
 test('vlepené věci se nelepí stejně: uchycení citátů podle pořadí, páska jen na listu (K3 dodatek, bod 7)', async ({ page }) => {

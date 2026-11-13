@@ -101,7 +101,7 @@ test('cesta 3: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text3).not.toContainText(/osvobodí se|prohlédl/);
   await expect(text3.locator('.citat')).toHaveCount(1);
   // Poslední slovo před tahem nikomu nestraní.
-  await expect(text3.locator(':scope > p').last()).toContainText('Na zmateném člověku tedy nepoznáš, odkud jde.');
+  await expect(text3.locator(':scope > .cisty-list > p').last()).toContainText('Na zmateném člověku tedy nepoznáš, odkud jde.');
   const venku = page.locator('#cesta3-kdo-byl-venku');
   const zpetna3 = await volbaKlavesnici(page, venku, /Podle toho, jak jistě mluví/);
   await expect(zpetna3).toContainText('nejdřív oslepený a bezradný');
@@ -135,7 +135,7 @@ test('cesta 3: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text5.locator('.citat')).toHaveCount(2);
   await expect(text5.locator('.citat').first()).toContainText('mluvit naprázdno a v básnických metaforách');
   await expect(text5.locator('.citat').nth(1)).toContainText('Léčí přece jednotlivce.');
-  await expect(text5.locator(':scope > p').last()).toContainText('Rozcházejí se v tom, kde to obecné je.');
+  await expect(text5.locator(':scope > .cisty-list > p').last()).toContainText('Rozcházejí se v tom, kde to obecné je.');
   const spor = page.locator('#cesta3-aristoteles-spor');
   await expect(spor).toContainText('Kdo z nich má pravdu, rozhodni sám.');
   await expect(spor).not.toContainText(/tváří v tvář|řekl mu|odpověděl mu|později napsal/);

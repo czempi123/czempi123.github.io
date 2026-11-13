@@ -210,7 +210,7 @@ test('Platón: deska, mini mapa a Doba a lidé sedí na text', async ({ page }) 
   await page.goto(PLATON);
   // Deska na telefonu je na šířku: odlitek má vlastní střed výřezu, aby zůstalo čelo i oči.
   expect(await stred()).toBe('50% 16%');
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('Sádrový odlitek římské mramorové hlavy');
+  await expect(page.locator('.obraz-popisek')).toContainText('Sádrový odlitek římské mramorové hlavy');
   // Mini mapa: tři pobyty v Syrákúsách vedle Athén; přibližné roky nesou „asi“.
   const syrakusy = page.locator('.minimapa svg g.popisek', { hasText: 'Syrákúsy' });
   await expect(syrakusy).toContainText('pobyt asi 387');

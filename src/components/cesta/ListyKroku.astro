@@ -1,0 +1,9 @@
+---
+// Obal obsahu kroku cesty ([krok].astro): souvislý text na čistém listu, aktivity na tečkách mezi listy
+// (K4a, bod 1; listyKroku v src/lib/listy.ts). Citáty na listu se uchytí jako na stránkách osob (uchytCitaty):
+// páska patří listu, citát má sponku, špendlík, zastrčený roh nebo je napsaný rukou na okraji.
+import { listyKroku, uchytCitaty } from '../../lib/listy';
+
+const html = Astro.slots.has('default') ? await Astro.slots.render('default') : '';
+---
+<Fragment set:html={uchytCitaty(listyKroku(html))} />

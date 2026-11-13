@@ -1,11 +1,13 @@
 ---
 // Krok cesty: soustředěná hlavička s postupem, „Kde jsme“, obsah kroku (bloky) a lišta Předchozí / Další.
 // Středová osa: nadpis a text v čtenářském sloupci uprostřed, bloky v širším pásu (960 px) na téže ose.
+// Text kroku leží na čistém listu, bloky v rámu aktivity na tečkách mezi listy (K4a, ListyKroku.astro).
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../../layouts/Zakladni.astro';
 import CestaHlavicka from '../../../components/cesta/CestaHlavicka.astro';
 import CestaLista from '../../../components/cesta/CestaLista.astro';
 import TydenKarta from '../../../components/tyden/TydenKarta.astro';
+import ListyKroku from '../../../components/cesta/ListyKroku.astro';
 import { krokyCesty, adresaKroku, adresaCesty, zacatekCesty } from '../../../lib/cesty';
 
 export async function getStaticPaths() {
@@ -40,7 +42,7 @@ const tydny = dal ? [] : (await getCollection('tydny')).filter((t) => t.data.nab
       <h1 class="t-h2">{k.nazev}</h1>
       {k.kdeJsme && <p class="kde t-ovladani"><span class="t-popisek">Kde jsme:</span> {k.kdeJsme}</p>}
     </header>
-    <div class="krok__obsah"><Content /></div>
+    <div class="krok__obsah"><ListyKroku><Content /></ListyKroku></div>
     {tydny.map((t) => <TydenKarta tyden={t} />)}
   </article>
   <CestaLista
@@ -61,4 +63,5 @@ const tydny = dal ? [] : (await getCollection('tydny')).filter((t) => t.data.nab
   .krok__obsah :global(> .ctenarsky) { margin-inline: auto; }
   .krok__obsah :global(> .blok:first-child), .krok__obsah :global(> astro-island:first-child > .blok), .krok__obsah :global(> .ctenarsky:first-child) { margin-top: var(--s-5); }
   .krok__obsah :global(h2) { margin: var(--s-6) 0 var(--s-4); font-size: var(--fs-h3); line-height: var(--lh-h3); }
+  .krok__obsah :global(.cisty-list > h2:first-child), .krok__obsah :global(.cisty-list > .paska + h2) { margin-top: 0; }
 </style>

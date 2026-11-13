@@ -218,6 +218,8 @@ for (const { sirka, vyska } of SIRKY) {
 
       // Máta změní vodu, ne hladinu. Tlačítka drží stejnou stavbu.
       const radky = () => kresba.getByRole('button').evaluateAll((t) => t.map((x) => Math.round(x.getBoundingClientRect().top)));
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(50);
       const stavba = await radky();
       await kresba.getByRole('button', { name: 'Přidat mátu' }).click();
       await expect(popis).toContainText('chutná jinak');
@@ -225,7 +227,9 @@ for (const { sirka, vyska } of SIRKY) {
       await expect.poll(() => pruhlednost(kresba.locator('.mata'))).toBe('1');
       await expect.poll(() => posunY(voda)).toBe(82);
       await expect(kresba.getByRole('button')).toHaveText(['Dolít vodu', 'Vyndat mátu', 'Od začátku']);
-      expect(await radky()).toEqual(stavba);
+      // Tlačítko pod ukazatelem se po najetí zvedne o 1 px (vrstvy stínu, K4a): stavbu měříme s ukazatelem jinde.
+      await page.mouse.move(0, 0);
+      await expect.poll(radky).toEqual(stavba);
       await popiskyVolne(kresba);
       await kresba.screenshot({ path: `test-results/snimky/pohar-mata-${sirka}-${r}.png` });
       await kresba.getByRole('button', { name: 'Vyndat mátu' }).click();
