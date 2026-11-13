@@ -1,6 +1,8 @@
 ---
 // Citát z pramene: ležící list s páskou v papíru období (design-v2, K3), Newsreader, pod ním autor, dílo, místo.
 // Kompaktní citát (uvnitř karty, na časové ose otázky, v týdnu) zůstává bez listu: linka v inkoustu nad ním.
+// Na stránkách osob se citáty nelepí stejně (K3 dodatek, bod 7): třídu citat--sponka, --spendlik, --roh nebo --okraj
+// jim podle pořadí na stránce doplní ListyProfilu.astro (uchytCitaty v src/lib/listy.ts); páska pak patří listu.
 // Znění a údaje bere z src/data/zdroje.yaml, aby každý citát měl ověřený pramen a překlad.
 import { citatyPodleId } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -11,7 +13,7 @@ const { id, velky = false, kompaktni = false } = Astro.props;
 const c = citatyPodleId.get(id);
 if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
 ---
-<figure class:list={['citat', { 'citat--velky': velky, 'citat--kompaktni': kompaktni }]}>
+<figure class:list={['citat', { 'citat--velky': velky, 'citat--kompaktni': kompaktni }]} data-delka={kompaktni ? undefined : c.cesky.length}>
   {!kompaktni && <span class="paska paska--nahore" aria-hidden="true"></span>}
   <blockquote><p>„{nezlomitelne(c.cesky)}“</p></blockquote>
   <figcaption class="t-popisek">{c.autor}, <cite>{c.dilo}</cite> {c.misto}</figcaption>
@@ -61,5 +63,80 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     box-shadow: 0 1px 1px rgb(0 0 0 / .3), 8px 12px 14px -12px rgb(0 0 0 / .8);
   }
   cite { font-style: italic; }
+
+  /* Vlepené věci se nelepí stejně (K3 dodatek, bod 7). Uchycení dává ListyProfilu.astro podle pořadí citátu na stránce,
+     takže se stránka při načtení nemění. Platí jen pro citát přímo na čistém listu kapitoly nebo v úvodu a pro samostatný
+     citát mezi kapitolami; vnořený citát (myšlenka, Zkus to žít) zůstává lepicím lístkem. Páska patří listu. */
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat:is(.citat--sponka, .citat--spendlik, .citat--roh, .citat--okraj) .paska { display: none; }
+  /* Sponka: drátek přes horní hranu, kreslený tužkou (maska z SVG, barva --tuzka). */
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--sponka::before {
+    content: "";
+    position: absolute;
+    /* Drátek končí nad prvním řádkem, ať nepřekrývá písmena (i na telefonu s okrajem 18 px). */
+    top: -22px;
+    left: 14px;
+    width: 15px;
+    height: 44px;
+    rotate: 6deg;
+    background: var(--tuzka);
+    -webkit-mask: var(--sponka) center / contain no-repeat;
+    mask: var(--sponka) center / contain no-repeat;
+    filter: drop-shadow(1px 2px 1px rgb(60 50 40 / .25));
+  }
+  /* Špendlík: hlavička v inkoustu období s odleskem a stínem. */
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--spendlik { rotate: .7deg; }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--spendlik::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 32%, color-mix(in srgb, var(--p) 25%, white) 0 2px, var(--p) 5px);
+    box-shadow: 2px 4px 4px -1px rgb(60 50 40 / .45);
+  }
+  /* Zastrčený roh: list zasunutý do dvou rohových kapsiček v inkoustu období (levý horní a pravý dolní). */
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh { rotate: .4deg; }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::before,
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::after {
+    content: "";
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    /* Inkoust období, ne papír období: papír se v noci nemění a na tmavém listu by kapsička zmizela (1,55 : 1). */
+    background: linear-gradient(135deg, color-mix(in srgb, var(--p) 78%, var(--list)) 0 50%, transparent 50%);
+    filter: drop-shadow(1px 1px 1px rgb(60 50 40 / .3));
+  }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::before { top: -5px; left: -5px; }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::after { bottom: -5px; right: -5px; rotate: 180deg; }
+  /* Rukou na okraji: krátký citát opsaný tužkou (Kalam). Na notebooku v okraji vedle listu, jinak v textu
+     s linkou tužkou vlevo; bez papíru a bez pásky. */
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--okraj {
+    margin: var(--s-6) 0;
+    padding: 2px 0 2px var(--s-4);
+    background: none;
+    box-shadow: none;
+    border-left: 2px solid var(--tuzka);
+    rotate: -.8deg;
+  }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--okraj blockquote p {
+    font-family: var(--font-ruka);
+    font-size: var(--fs-ruka);
+    line-height: var(--lh-ruka);
+    color: var(--ruka);
+  }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--okraj figcaption { color: var(--ink-3); }
+  /* Do okraje jen tam, kde vedle listu místo opravdu je: ne při promítání hodiny (písmo o polovinu větší)
+     a nikdy širší než okraj vedle listu (list stojí uprostřed stránky). */
+  @media (min-width: 1240px) {
+    :global(html:not(.promitani) .cisty-list) > .citat--okraj {
+      position: absolute;
+      left: calc(100% + var(--s-6));
+      width: min(220px, calc((100vw - 100%) / 2 - var(--s-6) - var(--okraj)));
+      margin: 0;
+      rotate: -2deg;
+    }
+  }
   @media (max-width: 699px) { .citat:not(.citat--kompaktni) { padding: 24px 18px 18px; } }
 </style>

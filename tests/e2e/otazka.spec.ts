@@ -232,7 +232,7 @@ test('profily Epikúra a Diogena vedou na cestu 6 a na stránku otázky 1; karta
 test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehledu a na kartách v Lidech', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   // Hlavička profilu: cesta jako první a nejvýraznější vstup, nad kapitolami; otázka její cesty před ostatními.
-  // Cesty stojí pod jménem, otázky na telefonu až pod deskou (revize celku 7, nález 6).
+  // Cesty stojí pod jménem, otázky na telefonu až pod deskou (revize celku 7, nález 6) a od K3 dodatku až za úvodem.
   await page.goto('/osobnost/epikuros/');
   const vstupy = page.getByRole('navigation', { name: 'Cesty, kde potkáš Epikúra' });
   const otazkyNav = page.getByRole('navigation', { name: 'Velké otázky, kde potkáš Epikúra' });
@@ -242,7 +242,7 @@ test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehl
   const cesta = (await vstupy.getByRole('link').first().boundingBox())!;
   const deska = (await page.locator('.osobnost__deska').boundingBox())!;
   const prvniOtazka = (await otazkyNav.getByRole('link').first().boundingBox())!;
-  // Telefon: jméno, cesty, deska, otázky, obsah. Deska začíná na první obrazovce.
+  // Telefon: jméno, cesty, deska, lišta obsahu, úvod, otázky. Deska začíná na první obrazovce.
   expect(cesta.y + cesta.height).toBeLessThan(deska.y);
   expect(prvniOtazka.y).toBeGreaterThan(deska.y + deska.height);
   expect(deska.y).toBeLessThan(844);
@@ -253,7 +253,7 @@ test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehl
   expect(cesta.height).toBeGreaterThanOrEqual(44);
   await expect(vstupy.locator('.vstup__meta').first()).toBeHidden();
   for (const o of await otazkyNav.getByRole('link').all()) expect((await o.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-  expect(prvniOtazka.y).toBeLessThan(kapitoly.y);
+  expect(prvniOtazka.y).toBeGreaterThan((await page.locator('.obsah .uvod').boundingBox())!.y);
   // Notebook: cesty a pod nimi otázky vlevo, deska vpravo vedle nich.
   await page.setViewportSize({ width: 1440, height: 900 });
   const deskaN = (await page.locator('.osobnost__deska').boundingBox())!;

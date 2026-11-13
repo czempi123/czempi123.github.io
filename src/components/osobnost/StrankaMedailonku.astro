@@ -93,7 +93,10 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
           <span>{zivot(osoba)}</span>
           <a href={adresaObdobi}>období {obdobi.id} · {obdobi.nazev}</a>
         </p>
-        {/* Kdo a proč: dvě věty z dat. Na telefonu stojí hned pod jménem, aby byly na první obrazovce. */}
+        {/* Kdo a proč: dvě věty z dat. Na telefonu stojí hned pod jménem, aby byly na první obrazovce.
+            Souvislý text medailonku leží na čistém listu s jednou páskou (K3 dodatek, bod 1). */}
+        <div class="cisty-list jadro-list">
+        <span class="paska paska--mala" aria-hidden="true"></span>
         <dl class="jadro">
           <div>
             <dt class="t-nadtitulek">{zena ? 'Kdo byla' : 'Kdo byl'}</dt>
@@ -104,6 +107,7 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
             <dd class="jadro__proc">{nezlomitelne(osoba.proc)}</dd>
           </div>
         </dl>
+        </div>
         <VstupyOsoby osoba={osoba} cast="cesty" />
         <VstupyOsoby osoba={osoba} cast="otazky" />
       </div>
@@ -149,7 +153,9 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
   .medailonek__h1 :is(.titulek__list, .titulek__jmeno) { display: block; }
   .data { margin: 0 0 0 6px; }
   .data a { color: inherit; text-underline-offset: 0.18em; }
-  .jadro { display: grid; gap: var(--s-4); margin: var(--s-6) 0 0; max-width: var(--ctenarsky-sloupec); }
+  /* List v hlavičce vedle desky: na telefonu bez přesahu k okraji obrazovky (jako kapitola), ať hlavička drží jednu hranu. */
+  .jadro-list { margin: var(--s-6) 0 0; max-width: var(--ctenarsky-sloupec); }
+  .jadro { display: grid; gap: var(--s-4); margin: 0; }
   .jadro dt { margin-bottom: var(--s-1); color: var(--ink-3); }
   .jadro dd { margin: 0; }
   /* „Kdo“ nese stránku jako perex, „proč“ je o stupeň tišší, ale pořád čtecí písmo. */

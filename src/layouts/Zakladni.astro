@@ -29,10 +29,13 @@ interface Props {
   strankaOsoby?: boolean;
   /** stránka má desku osoby (#deska-osoby); medailonek bez obrazu a atributu ji nemá */
   deskaOsoby?: boolean;
+  /** id prvků, na které čeká první vykreslení (<link rel="expect" blocking="render">): přesun záložek otázek
+      na telefonu za úvod (ListyProfilu.astro) se tak stane dřív, než stránku student uvidí */
+  ocekavat?: string[];
 }
 // Název webu je Agora (design-v2, otázka 11 po D4); „atlas“ zůstává v textech o tom, jak se v něm pohybovat.
 const NAZEV_WEBU = 'Agora';
-const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby } = Astro.props;
+const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby, ocekavat = [] } = Astro.props;
 const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WEBU}`;
 ---
 <!doctype html>
@@ -141,7 +144,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
           } catch (x) {}
         });
         addEventListener('pagereveal', function (e) {
-          if (e.viewTransition) t.add('prichod--po-listu');
+          if (e.viewTransition && t.contains('prichod')) t.add('prichod--po-listu');
           var p = null;
           try { p = sessionStorage.getItem(KLIC); sessionStorage.removeItem(KLIC); } catch (x) {}
           if (!e.viewTransition || p !== location.pathname) return;
@@ -153,6 +156,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
       })();
     </script>
     {deskaOsoby && <link rel="expect" href="#deska-osoby" blocking="render" />}
+    {ocekavat.map((id) => <link rel="expect" href={`#${id}`} blocking="render" />)}
     <Pisma ruka={strankaOsoby} />
   </head>
   <body>

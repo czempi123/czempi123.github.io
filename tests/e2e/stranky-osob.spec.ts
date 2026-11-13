@@ -28,7 +28,7 @@ test('hlavička profilu: jméno na listu, pointa na pruhu, razítko místa, desk
   await expect(page.locator('link[rel="preload"][href*="kalam-latin-700"]')).toHaveCount(1);
 });
 
-test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod sebou pod deskou', async ({ page }) => {
+test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod sebou až za úvodem', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/osobnost/sokrates/');
   const cesta = page.locator('.vstup--cesta').first();
@@ -41,7 +41,8 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
     // Minifikace může slít posun a natočení do jedné matice: čte se posun doprava (m41).
     return cesta.locator('.vstup__pahyl').evaluate((e) => new DOMMatrix(getComputedStyle(e).transform).m41);
   }).toBeGreaterThanOrEqual(10);
-  expect(await cesta.locator('.vstup__trh').evaluate((e) => getComputedStyle(e).opacity)).toBe('1');
+  // Pod zátěží celého běhu může přechod ještě dobíhat (0,98): čeká se na konec.
+  await expect.poll(() => cesta.locator('.vstup__trh').evaluate((e) => getComputedStyle(e).opacity)).toBe('1');
   // Nadtitulek z obsahu („Sókratův portrét“) v hlavičce není (autor 9. 11. 2026).
   await expect(page.locator('.osobnost__hlavicka')).not.toContainText('Sókratův portrét');
   const zalozky = page.locator('.vstup--otazka');
@@ -76,6 +77,35 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
   const deska = (await page.locator('#deska-osoby').boundingBox())!;
   expect(deska.y).toBeLessThan(844 - 120);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  // K3 dodatek: záložky stojí až za úvodem (a citátem pod ním), před první kapitolou; mezi deskou a prvním
+  // odstavcem nic není. Přesun dělá skript při čtení stránky, už při DOMContentLoaded je hotový.
+  const poradi = await page.evaluate(() => {
+    const y = (s: string) => document.querySelector(s)!.getBoundingClientRect().top;
+    return { deska: y('#deska-osoby'), uvod: y('.obsah .uvod'), otazky: y('.vstupy-osoby--otazky'), kapitola: y('.kapitola'), vHlavicce: !!document.querySelector('.osobnost__hlavicka .vstupy-osoby--otazky') };
+  });
+  expect(poradi.vHlavicce).toBe(false);
+  expect(poradi.deska).toBeLessThan(poradi.uvod);
+  expect(poradi.uvod).toBeLessThan(poradi.otazky);
+  expect(poradi.otazky).toBeLessThan(poradi.kapitola);
+  await expect(page.locator('.vstupy-osoby--otazky')).toHaveClass(/vstupy-osoby--za-uvodem/);
+  // Odstavec úvodu začíná hned pod deskou (jen lišta Obsah mezi nimi), ne až za záložkami.
+  const uvod = (await page.locator('.obsah .uvod p').first().boundingBox())!;
+  expect(uvod.y - (deska.y + deska.height)).toBeLessThan(160);
+  await page.addInitScript(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      (window as unknown as { __zaUvodem: boolean }).__zaUvodem = !document.querySelector('.osobnost__hlavicka .vstupy-osoby--otazky');
+    });
+  });
+  await page.reload();
+  expect(await page.evaluate(() => (window as unknown as { __zaUvodem: boolean }).__zaUvodem)).toBe(true);
+  // Na notebooku se vrátí do hlavičky (i po změně šířky okna).
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.locator('.osobnost__hlavicka .vstupy-osoby--otazky')).toHaveCount(1);
+  await expect(page.locator('.vstupy-osoby--za-uvodem')).toHaveCount(0);
+  // Společný profil má záložku vedle cesty v hlavičce i na telefonu.
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/osobnost/krates-a-hipparchia/');
+  await expect(page.locator('.osobnost__hlavicka .vstupy-osoby--otazky')).toHaveCount(1);
 });
 
 test('razítka lidí: Doba a lidé, medailonek a deska bez obrazu', async ({ page }) => {
@@ -90,8 +120,14 @@ test('razítka lidí: Doba a lidé, medailonek a deska bez obrazu', async ({ pag
   await expect(platon.locator('textPath').first()).toHaveText('Platón');
   await expect(platon.locator('textPath').nth(1)).toHaveText(/427.347/);
   await expect(platon.locator('use')).toHaveAttribute('href', '/ikony/atributy.svg#cave');
-  // Kdo atribut nemá, má razítkové vlnovky, nikdy iniciálu.
+  // Kdo atribut ani rodiště nemá, má razítkové vlnovky, nikdy iniciálu.
   await expect(page.locator('.doba__vztahy [data-razitko="chairefon"] path.rz-ik')).toHaveCount(1);
+  // Kdo atribut nemá a rodiště ano, má uprostřed město a rok narození (K3 dodatek, bod 8); „asi“ zůstává.
+  const alk = page.locator('.doba__vztahy [data-razitko="alkibiades"]');
+  await expect(alk.locator('.rz-m')).toHaveText('Athény');
+  await expect(alk.locator('.rz-rok')).toHaveText(/^asi\s450$/);
+  await expect(alk.locator('.rz-era')).toHaveText(/př.\sn.\sl./);
+  await expect(alk.locator('path.rz-ik')).toHaveCount(0);
   // Id oblouků se na stránce neopakují; nedotištěný inkoust je maska v CSS, ne SVG filtr u každého razítka.
   const idcka = await page.locator('.razitko-cloveka [id]').evaluateAll((e) => e.map((x) => x.id));
   expect(new Set(idcka).size).toBe(idcka.length);
@@ -183,4 +219,87 @@ test('ikona v záložce prohlížeče: velké A na útržku papíru v inkoustu',
   const svg = await (await request.get('/favicon.svg')).text();
   expect(svg).toContain('#24211D');
   expect(svg).not.toContain('circle');
+});
+
+test('čistý list: souvislý text kapitoly na listu s jednou páskou, aktivity na tečkách (K3 dodatek, bod 1)', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/osobnost/sokrates/');
+  const kapitoly = page.locator('.kapitola');
+  const n = await kapitoly.count();
+  expect(n).toBe(5);
+  for (let i = 0; i < n; i++) {
+    const k = kapitoly.nth(i);
+    // Nadpis a první text leží na prvním listu; páska jen na něm, pokračovací list za aktivitou ji nemá.
+    await expect(k.locator('.cisty-list').first().locator('h2')).toHaveCount(1);
+    await expect(k.locator('.cisty-list > .paska')).toHaveCount(1);
+    // Odstavce kapitoly jsou všechny na listu; bloky a ostrovy ne.
+    expect(await k.evaluate((e) => [...e.querySelectorAll('.ctenarsky > p')].length)).toBe(0);
+    expect(await k.locator('.cisty-list :is(.blok, astro-island, .kresba)').count()).toBe(0);
+  }
+  // List se nenatáčí, má papír listu a stín; text se vejde do 80 znaků na řádek.
+  const list = page.locator('#delfy .cisty-list').first();
+  expect(await list.evaluate((e) => getComputedStyle(e).rotate)).toBe('none');
+  expect(await list.evaluate((e) => getComputedStyle(e).boxShadow)).not.toBe('none');
+  const znaku = async () => page.locator('#delfy .cisty-list p').first().evaluate((p) => {
+    const r = document.createRange(); r.selectNodeContents(p);
+    const radku = [...r.getClientRects()].reduce((s, x, i, a) => (i && Math.abs(x.top - a[i - 1].top) < 4 ? s : s + 1), 0);
+    return p.textContent!.length / Math.max(1, radku);
+  });
+  expect(await znaku()).toBeLessThanOrEqual(80);
+  // Telefon: list skoro po okraj obrazovky, kolem 8 px teček, a řádek do 45 znaků.
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/osobnost/sokrates/');
+  const r = (await page.locator('#delfy .cisty-list').first().boundingBox())!;
+  expect(Math.round(r.x)).toBe(8);
+  expect(Math.round(390 - r.x - r.width)).toBe(8);
+  expect(await znaku()).toBeLessThanOrEqual(45);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  // Medailonek: kdo a proč na listu s páskou.
+  await page.goto('/osobnost/thales/');
+  await expect(page.locator('.cisty-list .jadro')).toHaveCount(1);
+  await expect(page.locator('.jadro-list > .paska')).toHaveCount(1);
+});
+
+test('vlepené věci se nelepí stejně: uchycení citátů podle pořadí, páska jen na listu (K3 dodatek, bod 7)', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/osobnost/sokrates/');
+  const tridy = await page.locator('.obsah figure.citat:not(.citat--kompaktni)').evaluateAll((e) => e.map((x) => x.className.match(/citat--(sponka|spendlik|roh|okraj)/)?.[1]));
+  expect(tridy).toEqual(['sponka', 'spendlik', 'roh', 'okraj', 'sponka', 'spendlik']);
+  // Po načtení znovu stejně (pořadí, ne náhoda).
+  await page.reload();
+  expect(await page.locator('.obsah figure.citat:not(.citat--kompaktni)').evaluateAll((e) => e.map((x) => x.className.match(/citat--(sponka|spendlik|roh|okraj)/)?.[1]))).toEqual(tridy);
+  // Citát na stránce osoby nemá vlastní pásku; uchycení kreslí ::before.
+  for (const f of await page.locator('.obsah > .ctenarsky > .citat, .cisty-list > .citat').all()) {
+    expect(await f.locator('.paska').evaluate((e) => getComputedStyle(e).display)).toBe('none');
+  }
+  expect(await page.locator('.citat--sponka').first().evaluate((e) => getComputedStyle(e, '::before').maskImage)).toContain('svg');
+  // Rukou na okraji: Kalam, bez papíru; na notebooku vedle listu, na telefonu v textu.
+  const okraj = page.locator('.cisty-list > .citat--okraj').first();
+  expect(await okraj.locator('blockquote p').evaluate((e) => getComputedStyle(e).fontFamily)).toContain('Kalam');
+  const list = (await page.locator('.cisty-list:has(> .citat--okraj)').first().boundingBox())!;
+  expect((await okraj.boundingBox())!.x).toBeGreaterThan(list.x + list.width);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const l2 = (await page.locator('.cisty-list:has(> .citat--okraj)').first().boundingBox())!;
+  const o2 = (await okraj.boundingBox())!;
+  expect(o2.x).toBeGreaterThanOrEqual(l2.x);
+  expect(o2.x + o2.width).toBeLessThanOrEqual(l2.x + l2.width + 1);
+  // Na stránce osoby je viditelná páska jen u listů a desky, ne u citátu.
+  const pasky = await page.locator('.obsah .paska').evaluateAll((e) => e.filter((x) => getComputedStyle(x).display !== 'none').map((x) => x.parentElement!.className));
+  for (const rodic of pasky) expect(rodic).toMatch(/cisty-list|papirovy-list|zkus|listek/);
+});
+
+test('obraz ke kapitole: vybledlé razítko předmětu jen tam, kde ho kapitola má (K3 dodatek, bod 9)', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const [stranka, kotva, predmet] of [['sokrates', 'delfy', 'tripod'], ['diogenes', 'lucerna', 'lantern'], ['epikuros', 'zahrada', 'sprout']]) {
+    await page.goto(`/osobnost/${stranka}/`);
+    await expect(page.locator('.kapitola__predmet')).toHaveCount(1);
+    const p = page.locator(`#${kotva} .kapitola__predmet`);
+    await expect(p).toHaveAttribute('aria-hidden', 'true');
+    await expect(p.locator('use')).toHaveAttribute('href', `/ikony/atributy.svg#${predmet}`);
+    const o = Number(await p.evaluate((e) => getComputedStyle(e).opacity));
+    expect(o).toBeGreaterThan(0.1);
+    expect(o).toBeLessThan(0.3);
+  }
+  await page.goto('/osobnost/platon/');
+  await expect(page.locator('.kapitola__predmet')).toHaveCount(0);
 });

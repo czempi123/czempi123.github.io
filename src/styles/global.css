@@ -318,6 +318,27 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   border-radius: var(--r-papir);
 }
 
+/* Čistý list vlepený do zápisníku (K3 dodatek, bod 1; plátno Zlepseni.dc.html › .ct-list): souvislý text kapitoly
+   a úvodu profilu, nadpis kapitoly na prvním listu. Jedna páska na list (malá, vlevo nahoře), text se nenatáčí;
+   aktivity mezi listy zůstávají na tečkách. Na telefonu list skoro po okraj obrazovky (8 px teček kolem). */
+.cisty-list {
+  position: relative;
+  margin: var(--s-6) 0;
+  padding: 38px 40px 26px;
+  background: var(--list);
+  box-shadow: var(--lezi);
+}
+.cisty-list > .paska { top: -11px; left: 36px; rotate: -3deg; }
+.cisty-list > :last-child { margin-bottom: 0; }
+@media (max-width: 699px) {
+  .cisty-list { margin-inline: calc(8px - var(--okraj)); padding: 30px calc(var(--okraj) + 2px) 18px; }
+  .cisty-list > .paska { left: 24px; }
+}
+:root {
+  /* Sponka u citátu (Citat.astro › citat--sponka): obrys drátku jako maska, barvu dává --tuzka. */
+  --sponka: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 56'%3E%3Cpath d='M5 16v26a4 4 0 0 0 8 0V9A6 6 0 0 0 1 9v35a8 8 0 0 0 16 0V16' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
 /* Páska v papíru období: pruhy po 7 px pod −45°, zubaté konce. Rodič potřebuje position: relative. */
 .paska {
   position: absolute;
@@ -466,6 +487,11 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 .razitko-cloveka .rz-t { font: 700 11px var(--font-sans); letter-spacing: .06em; fill: currentColor; }
 .razitko-cloveka .rz-r { font-size: 9px; font-weight: 600; letter-spacing: .03em; }
 .razitko-cloveka--bez-obvodu :is(.rz-t, .rz-b) { display: none; }
+/* Bez atributu: uprostřed rodné město a rok narození jako datum poštovního razítka (K3 dodatek, bod 8). */
+.razitko-cloveka .rz-m { font: 700 10px var(--font-sans); letter-spacing: .02em; fill: currentColor; }
+.razitko-cloveka .rz-rok { font: 600 9px var(--font-sans); letter-spacing: .02em; fill: currentColor; }
+.razitko-cloveka .rz-era { font: 600 7.5px var(--font-sans); letter-spacing: .05em; fill: currentColor; }
+.razitko-cloveka .rz-l { stroke: currentColor; stroke-width: 1.2; }
 
 /* Vtlačené kolečko s ikonou atributu u „Proč kalich?“ pod deskou (K3). */
 .vlys {

@@ -1,0 +1,32 @@
+---
+// Obal obsahu profilu (MDX) v StrankaProfilu.astro. Vykreslí obsah do řetězce a:
+// 1) doplní citátům uchycení podle pořadí na stránce (K3 dodatek, bod 7; uchytCitaty v src/lib/listy.ts);
+// 2) před první kapitolu vloží skript, který na telefonu a v užším okně (do 899 px) přesune záložky velkých otázek
+//    z hlavičky až za úvod, aby deska a první odstavec zůstaly na první obrazovce. Skript běží při čtení stránky,
+//    takže se nic nepřeskládá před očima; vykreslení do té doby drží <link rel="expect"> v hlavičce (Zakladni.astro,
+//    pole ocekavat). Při změně šířky okna se záložky vrátí. Společný profil (dvojice) má záložky vedle cesty a nemění se.
+import { uchytCitaty } from '../../lib/listy';
+
+// Stejné id čeká <link rel="expect"> ze StrankaProfilu.astro.
+const ID_ZA_UVODEM = 'otazky-za-uvodem';
+const PRESUN = `(function () {
+  var s = document.currentScript;
+  var o = document.querySelector('.osobnost:not(.osobnost--dvojice) .osobnost__hlavicka > .vstupy-osoby--otazky');
+  if (!s || !o) return;
+  var doma = document.createComment(' otázky v hlavičce ');
+  o.before(doma);
+  var m = matchMedia('(max-width: 899px)');
+  function presun() {
+    if (m.matches) s.before(o); else doma.after(o);
+    o.classList.toggle('vstupy-osoby--za-uvodem', m.matches);
+  }
+  presun();
+  if (m.addEventListener) m.addEventListener('change', presun);
+})();`;
+
+let html = uchytCitaty(await Astro.slots.render('default'));
+const prvniKapitola = html.indexOf('<section class="kapitola');
+const skript = `<script id="${ID_ZA_UVODEM}">${PRESUN}</script>`;
+html = prvniKapitola < 0 ? html + skript : html.slice(0, prvniKapitola) + skript + html.slice(prvniKapitola);
+---
+<Fragment set:html={html} />

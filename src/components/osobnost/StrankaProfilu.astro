@@ -10,6 +10,7 @@ import Ikona from '../../components/ui/Ikona.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
 import VstupyOsoby from '../../components/osobnost/VstupyOsoby.astro';
 import ObsahProfilu from '../../components/osobnost/ObsahProfilu.astro';
+import ListyProfilu from '../../components/osobnost/ListyProfilu.astro';
 import { osoba as najdiOsobu, obdobiPodleId, mistaPodleId, data } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -56,7 +57,7 @@ const obrazkyNaStrance = [
 ];
 const dev = import.meta.env.DEV;
 ---
-<Zakladni obdobi={osoba.obdobi} strankaOsoby
+<Zakladni obdobi={osoba.obdobi} strankaOsoby ocekavat={dvojice ? [] : ['otazky-za-uvodem']}
   titulek={nazevStranky}
   popis={dvojice
     ? `${nazevStranky}: ${osoby.map((o) => `${o.jmeno} (${zivot(o)}), ${o.kdo.charAt(0).toLowerCase()}${o.kdo.slice(1).replace(/\.$/, '')}`).join('; ')}.`
@@ -122,7 +123,7 @@ const dev = import.meta.env.DEV;
 
     <ObsahProfilu adresa={`/osobnost/${zaznam.id}/`}>
     <div class="obsah">
-      <Content osoba={osoba} dalsi={dalsi} />
+      <ListyProfilu><Content osoba={osoba} dalsi={dalsi} /></ListyProfilu>
     </div>
 
     {dev && fm.kapitoly.filter((k) => k.stav === 'osnova').length > 0 && (
@@ -221,6 +222,8 @@ const dev = import.meta.env.DEV;
   .cteni { margin: var(--s-4) 0 0; }
   .cteni a { display: inline-block; padding: var(--s-3) 0; color: var(--ink); text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
   .obsah :global(.uvod) { margin-top: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+  /* Na telefonu a v užším okně přesune ListyProfilu.astro záložky otázek z hlavičky za úvod (K3 dodatek). */
+  .obsah :global(.vstupy-osoby--za-uvodem) { max-width: var(--ctenarsky-sloupec); margin: var(--s-7) auto var(--s-5); }
   /* Středová osa: text, kapitoly i bloky v jednom čtecím sloupci uprostřed; široké oddíly
      (Doba a lidé, Myšlenky, Zkus to žít, Kam dál) se rozprostřou přes celou šířku stránky. */
   .osobnost :global(.ctenarsky),

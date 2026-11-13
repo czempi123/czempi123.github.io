@@ -71,6 +71,11 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
       expect(kontrast(smichat(t[`p-${n}`], t[p], 0.96), t[p])).toBeGreaterThanOrEqual(4.5);
     },
   );
+  // Citát se zastrčeným rohem (K3 dodatek, Citat.astro › citat--roh): kapsička 78 % inkoustu období na listu
+  // je ozdoba, ale má být vidět ve dne i v noci jako hranice (3 : 1).
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])('kapsička rohu citátu období %i na listu má 3 : 1', (n) => {
+    expect(kontrast(smichat(t[`p-${n}`], t.list, 0.78), t.list)).toBeGreaterThanOrEqual(3);
+  });
   // Vnořený citát jako lepicí lístek v barvě období (K3, Citat.astro): lístek tónovaný 16 % papíru období,
   // lepicí proužek o 14 % víc; text a podpis v --ink a --ink-2.
   it.each([1, 2, 3, 4, 5, 6, 7, 8].flatMap((n) => ['ink', 'ink-2'].map((x): [number, string] => [n, x])))(

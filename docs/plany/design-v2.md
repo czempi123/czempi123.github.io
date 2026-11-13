@@ -17,7 +17,7 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | K2 | Rám webu: hlavička, drobečky, spodní lišta, přepínač režimu, hledání, stránka 404; přechody mezi stránkami | totéž | hotovo 8. 11. 2026 (oddíl Po K2) |
 | K3 | Stránky osob: hlavička profilu (titulek s pruhem, razítko, deska s fotkou a páskou, lístky cest, štítky otázek, Proč kalich), kapitoly, citát, Doba a lidé, myšlenky, Zkus to žít, Kam dál, Prameny, obsah profilu, medailonky; snímky pro autora | totéž | hotovo 9. 11. 2026 (oddíl Po K3); kontrolní bod se snímky |
 | D5 | Herní prvky a vizuální zlepšení na plátně (oddíl Po auditu): společný rám aktivity, předmět pro každou rodinu aktivit, otočení karty, zamíchání, přichycení karty na osu a do koše, klepnutí do mapy, odhad posuvníkem a odhalení, razítko „sedí“ a lístek „zkus to jinak“ (bez červené a zelené), panel příběhu v obrazech (přehrávač zvuku odložený se zvukem, 12. 11. 2026); body 1 až 5 z Vizuálních zlepšení | Opus 5.5 · high se skillem `frontend-design` | hotovo 13. 11. 2026 (oddíl Po D5) |
-| K3 dodatek | Stránky osob: body 1, 7, 8 a 9 z Vizuálních zlepšení (kapitola na čistém listu, vlepené věci různě, razítko s městem a rokem, obraz ke kapitole); na telefonu záložky otázek až za úvodní odstavec profilu; nejdřív ověřit přechod listu a let fotky v opravdovém Chromu (otázka 8 po K3) | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | čeká |
+| K3 dodatek | Stránky osob: body 1, 7, 8 a 9 z Vizuálních zlepšení (kapitola na čistém listu, vlepené věci různě, razítko s městem a rokem, obraz ke kapitole); na telefonu záložky otázek až za úvodní odstavec profilu; nejdřív ověřit přechod listu a let fotky v opravdovém Chromu (otázka 8 po K3) | Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta` | hotovo 13. 11. 2026 (oddíl Po K3 dodatku); kontrolní bod se snímky |
 | K4a | Společný rám aktivity pro všechny dnešní i budoucí aktivity (hlava, zadání, plocha, zpětná vazba jako lístek, Začít znovu) a první bloky: Volba, Odkryj, tlačítka, pole; studentova ruka (bod 3), aktivita na telefonu přes celou šířku (bod 11); tři snímky čtenářského sloupce (tečky, ztlumené tečky, čistý list) k rozhodnutí | totéž | čeká |
 | K4b | Zbylé bloky: Roztřiď, Změň jednu věc, Spor, Slož argument, Kdo žil dřív?, Příběh, Kdo je na tvé straně, Návrat, Závěr cesty, Moje stanovisko, první názor, Zkus to žít, Dva životy; každá rodina aktivit jako svůj předmět (bod 2); razítko člověka v blocích | totéž | čeká |
 | K5 | Cesta: hlavička s postupem jako lístek, který se štípe (bod 4), spodní lišta, přehled cesty, karta cesty. **Další krok je tichý, dokud student neodpoví** nebo krok výslovně nepřeskočí; hlavní je tlačítko bloku. Přechod mezi kroky krátký (posun listu), otočení listu zůstává mezi stránkami; snímky pro autora | totéž | čeká |
@@ -697,34 +697,34 @@ Autor 12. 11. večer poslal zadání K4 ze staré kopie plánu v Projektu Claude
 Prázdná odpověď znamená souhlas s doporučením.
 
 1. **Čtenářský sloupec:** tečky, ztlumené tečky, nebo čistý list (přepínač u bodu 1 na stránce Zlepšení vzhledu)? Doporučuji čistý list; K4a ho vyfotí na skutečném textu a můžeš to tam změnit.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 2. **Rám aktivity jako pole se čtyřmi značkami na tečkách** (ne ležící list) a pata s Začít znovu vlevo a hlavním činem vpravo? Doporučuji ano.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 3. **Tři pera: modrá, fialová, sépiová, výchozí modrá.** Vyhovují barvy? Doporučuji ano; volba pera bude v deníku a při první odpovědi.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 4. **Zpětná vazba tiskem na lístku s páskou, rukou jen krátké nápovědy?** Doporučuji ano.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 5. **Deset předmětů** (lístky, kapsy, mince na provázku, šňůra s kolíčky, pravítko, otočná kartička, vystřižená slova, kotouček, razítko, červená tužka): chceš některý jinak? Bez odpovědi zůstávají.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 6. **Červená tužka s vlastní barvou jen v Najdi slabé místo**, nebo tam podtrhávat perem studenta? Doporučuji červenou tužku.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 7. **Papírnictví osmi období** podle tabulky. U 20. století: stačí strojopis naznačený (řada x, čárkovaná linka), nebo později přidat čtvrté, strojové písmo jen pro to období? Doporučuji teď nepřidávat a rozhodnout, až 20. století vznikne.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 8. ~~Zlatá linka u středověku~~ Vyřízeno 13. 11. 2026: autor chtěl středověk ve stejné stylistice jako ostatní období, zlato vypadlo.
    Odpověď: bez zlata (13. 11. 2026)
 
 9. **Lístek postupu:** hotový krok vyštípnutá dírka, běžící krok číslo v kroužku perem, pahýl se po posledním kroku odtrhne do deníku? Doporučuji ano (K5 a K6).
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 10. **Plán větve má 143 kB.** Provedená zadání (D2 až K3, D5) a zodpovězené otázky (před D2, po D2, po D3, po K1, po K2) přesunout do `docs/archiv/`, aby se plán i jeho kopie v Projektu Claude četly levněji? Doporučuji ano; udělá to K3 dodatek jako první věc.
-   Odpověď:
+   Odpověď: prázdná, tedy souhlas s doporučením (zjištěno v K3 dodatku 13. 11. 2026)
 
 ## Zadání K3 dodatek: stránky osob po auditu
 
@@ -756,6 +756,74 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 10. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
 
+## Po K3 dodatku (13. 11. 2026)
+
+Odpovědi po D5 byly prázdné v repozitáři i v Projektu Claude, takže platí všechna doporučení: čtenářský sloupec je **čistý list** (K4a ho na krocích cest ještě vyfotí ve třech variantách), rám aktivity se čtyřmi značkami, tři pera s výchozí modrou, zpětná vazba tiskem, deset předmětů, červená tužka, strojopis jen naznačený, lístek postupu, a hotová zadání D2 až K3 a D5 se zodpovězenými otázkami před D2 až po K2 jsou v `docs/archiv/plany/design-v2-d1-k3.md` (samostatný commit). Plán měl po přesunu 127 kB místo 161 kB.
+
+### Přechod listu a let fotky (otázka 8 po K3)
+
+**Fungují.** Ověřeno v opravdovém, viditelném okně Chromu 153 na Macu nad `npm run dev` (Playwright s `headless: false`, skript `scripts/overeni-prechodu.mjs`, zůstává pro revizi R): Sókratés → karta Platóna v Kam dál: přechod typu `dalsi`, list se otočí (`otaci-se`), příchod začne po listu a deska má skupinu `::view-transition-group(deska-osoby)`, fotka tedy z karty přiletí. Lidé → Sókratés totéž. Zpět ze Sókrata na Lidi i z Platóna na Sókrata: typ `zpet`, list se přiklopí, příchod žádný. Odpadání přechodu v K3 byla vlastnost headless Chromia, ne webu.
+
+- **Vestavěný prohlížeč** to ověřit neuměl: když je panel v aplikaci skrytý, stránka nekreslí snímky (`requestAnimationFrame` stojí), `pagereveal` nepřijde a přechod po 4 s odpadne. **Claude in Chrome** nebyl připojený.
+- Drobná oprava: po Zpět zůstávala na `<html>` třída `prichod--po-listu` (bez příchodu nic nedělala); teď ji `pagereveal` dá jen spolu s `prichod` (`Zakladni.astro`).
+
+### Co se na stránkách osob změnilo
+
+- **Čistý list (bod 1).** `Kapitola.astro` vykreslí svůj obsah do řetězce a `useky()` ze `src/lib/listy.ts` ho rozdělí na souvislý text a aktivity (čtou se jen prvky nejvyšší úrovně; odstavce, seznamy a citáty jsou text, bloky, ostrovy a kresby aktivita). Číslo, nadpis a první text kapitoly leží na listu `.cisty-list` (global.css: `--list`, stín `--lezi`, okraje 38/40/26 px, nenatáčí se) s malou páskou vlevo nahoře; za aktivitou pokračuje list **bez pásky** (páska patří kapitole, na obrazovce je nejvýš jedna). Aktivity zůstávají na tečkách. Na notebooku má řádek asi 70 znaků, na telefonu jde list skoro po okraj obrazovky (8 px teček kolem) a řádek má asi 40 znaků. **Medailonek:** kdo a proč na listu s páskou v hlavičce (na telefonu bez přesahu k okraji, jinak stránka přetékala o 5 px). **Úvod profilu** zůstal na tečkách jako perex k hlavičce (otázka 2).
+- **Vlepené věci (bod 7).** `ListyProfilu.astro` obalí obsah profilu a `uchytCitaty()` dá citátům podle pořadí na stránce třídu `citat--sponka`, `--spendlik`, `--roh` (zastrčený roh: dvě kapsičky v inkoustu období) a `--okraj` (rukou Kalamem: na notebooku od 1240 px v okraji vedle listu, užší okno v textu s linkou tužkou), pak znovu. Rukou jen citát do 110 znaků a nikdy velký citát pod úvodem; ten okraj přeskočí a řada jde dál, ať se dva stejné nesejdou. **Páska patří listům**: citát na stránce osoby vlastní pásku nemá, takže je na obrazovce nejvýš jedna páska (u Sókrata pod úvodem sponka). Vnořený citát (myšlenka, Zkus to žít) zůstává lepicím lístkem; citáty v cestách a na otázkách mají pásku dál (K4a, K6).
+- **Razítko člověka (bod 8).** Kdo nemá atribut a má rodiště (role `narozeni`), má uprostřed město, pod ním rok narození a letopočet („asi 450 / př. n. l.“; `stredRazitka()` v `src/lib/razitko.ts`, „asi“, „před“ a „po“ zůstávají). Týká se 13 lidí (Anaximandros, Anaximenés, Xenofanés, Empedoklés, Anaxagorás, Gorgiás, Aspasie, Konfucius, Alkibiadés, Xenokratés, Kleanthés, Musonius Rufus, Karneadés); šest dalších bez atributu i rodiště má vlnovky dál. Pod 48 px vlnovky (text by nešel přečíst). Dlouhé město se stáhne do středu.
+- **Obraz ke kapitole (bod 9).** `Kapitola` má pole `predmet` (id ze spritu `atributy.svg`, výchozí nic): vybledlé razítko (dva kruhy a předmět, inkoust období, 0,17 ve dne a 0,24 v noci, 128 px, na telefonu 84 px) vpravo u nadpisu, pod textem. Vzory: Sókratés 01 Věštba z Delf (trojnožka), Diogenés 02 Lucerna (lucerna), Epikúros 01 Zahrada (výhonek). Zbytek je v `docs/navraty.md` › Stránky osob. Text kapitol se neměnil.
+- **Záložky otázek na telefonu (do 899 px) až za úvodem** (a velkým citátem pod ním), před první kapitolou. Přesouvá je skript, který `ListyProfilu` vloží před první kapitolu; běží při čtení stránky a první vykreslení na něj čeká (`<link rel="expect" href="#otazky-za-uvodem" blocking="render">`, nové pole `ocekavat` v `Zakladni.astro`), takže nic nepřeskočí před očima. Při rozšíření okna se vrátí do hlavičky. Společný profil (Kratés a Hipparchia) má záložku vedle cesty a nemění se.
+
+### Testy a kontrola
+
+- `npm run build` prošel. Vitest celý (1 195 testů; nově `tests/data/listy.test.ts`: uzly, úseky, uchycení citátů; v `razitko.test.ts` střed razítka pro každého člověka v datech; v `kontrast.test.ts` kapsička rohu 3 : 1).
+- Playwright `stranky-osob` (nově čistý list, uchycení citátů, obraz ke kapitole, město v razítku, záložky za úvodem i při `DOMContentLoaded` a návrat na notebooku), `prohlidka`, `obsah`, `platon`, `seneca`, `aristoteles`, `celek7-profily`, `krates-hipparchia`, `medailonky`, `doba-odkazy`, `otazka`, `ram` a `odkazy`. Upravený test: `otazka.spec.ts` (otázky na telefonu nově za úvodem, ne před lištou Obsah).
+- `scripts/kontrola-fokus.mjs` na Sókratovi a Thalétovi na 390 a 1440 px bez nálezu.
+- **Kontrast** (jednorázový skript, smazaný): text na okraji (`--ruka` na papíru i listu) 7,85 ve dne a 7,99 v noci, podpis 5,12 a 6,57; střed razítka (inkoust období 0,96 na listu) nejméně 5,26 a 5,47; sponka (`--tuzka` na listu) 3,63 a 4,02; kapsička rohu nejméně 3,62 ve dne (v noci byla v papíru období 1,55, proto je v inkoustu období). Obraz ke kapitole je ozdoba skrytá čtečce (1,27 a 1,53).
+- **Snímky** v `Claude outputs/snimky/design-v2-k3d/`: `sokrates-`, `seneca-` a `thales-` na 390 a 1440 px ve dne i v noci.
+- **Celé `npm test`** (kontrola typů, Vitest 1 211 testů, Playwright 731): 726 prošlo, 5 spadlo. Tři byly promítání hodiny na 1280 × 720: citát rukou v okraji vedle listu přetekl při písmu o polovinu větším o 190 px; při promítání teď zůstává v textu a v okraji nikdy není širší než místo vedle listu. Čtvrtý byl přechod Otázky → Lidé v `ram.spec.ts` (headless Chromium přechod pod zátěží vynechá, viz Po K3) a pátý průhlednost natrženého lístku těsně před koncem přechodu (0,98); test teď na konec počká. Po opravě `hodina-student`, `ram` a `stranky-osob` prošly (45 testů); celé `npm test` jsem znovu nepouštěl.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Páska u citátu.** Zadání jmenuje pásku mezi způsoby uchycení citátu a zároveň nejvýš jednu pásku na obrazovku. Listy kapitol mají každý pásku a citáty leží na nich nebo těsně u nich, takže citát pásku nedostává nikdy; střídají se čtyři ostatní způsoby. Jinak: list bez pásky (přilepený) a páska u každého čtvrtého citátu (otázka 1).
+- **Pokračovací list bez pásky.** Kapitola se dvěma bloky má tři listy; tři pásky by byly na obrazovce i dvě. Jinak: páska na každém listu, jak říká zadání doslova.
+- **Úvod na tečkách.** Úvod je perex k hlavičce a s listem by se na telefonu první odstavec posunul ještě níž; bod 1 mluví o kapitolách (otázka 2).
+- **První odstavec na telefonu není na první obrazovce ani bez záložek.** Na 390 × 844 začíná úvod u většiny profilů 900 až 1 050 px od horního okraje (Sókratés 950, Seneca 1 050, Prótagorás 810); první obrazovku zaplní razítko, jméno, cesty, deska, „Proč kalich?“ a popisek obrazu. Test proto hlídá, že mezi deskou a prvním odstavcem je jen lišta Obsah, a ne že je odstavec nahoře (otázka 4).
+- **Rozdělení kapitoly v řetězci HTML.** Nemusel jsem měnit MDX ani bloky; čte se jen nejvyšší úroveň, dovnitř bloků a ostrovů dělení nesahá a skripty i komentáře přeskočí. Kdyby nový druh obsahu v kapitole měl ležet na listu (třeba tabulka), stačí ho přidat do `TEXT` v `src/lib/listy.ts`.
+- **Bloky v profilu vypadají vedle listů zatím jako bílé karty** (nový rám se značkami přijde v K4a); na snímcích proto list a blok ještě nejsou tak odlišné, jak budou.
+- **Okraj od 1240 px.** Pod tím by se poznámka (220 px) do okraje vedle sloupce 680 px nevešla; v užším okně je citát rukou v textu.
+- **Medailonek má na obrazovce tři pásky** (list s kdo a proč a deska se dvěma); otázka 5.
+- `docs/design.md` jsem podle zadání nečetl ani neměnil; API `Kapitola` (`predmet`), `.cisty-list`, uchycení citátů a střed razítka do něj zapíše krok O.
+
+## Co rozhodnout po K3 dodatku
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Páska patří listům, citáty střídají sponku, špendlík, zastrčený roh a citát rukou na okraji** (páska u citátu se na stránkách osob nevyskytne)? Doporučuji ano.
+   Odpověď:
+
+2. **Úvod profilu na tečkách** (perex k hlavičce), na čistém listu jen kapitoly? Doporučuji ano.
+   Odpověď:
+
+3. **Pokračovací list kapitoly za blokem bez pásky?** Doporučuji ano.
+   Odpověď:
+
+4. **První odstavec na telefonu:** začíná pod první obrazovkou (844 px), i když záložky už jsou za úvodem. (a) nechat, (b) na telefonu „Proč kalich?“ a popisek obrazu až pod první odstavec úvodu, (c) nižší deska (2 : 1 místo 16 : 10). Doporučuji (b); udělá to K4a jako první věc.
+   Odpověď:
+
+5. **Medailonek: list s kdo a proč bez pásky** (vedle desky se dvěma páskami), nebo s páskou jako teď? Doporučuji bez pásky; udělá to K4a.
+   Odpověď:
+
+6. **Obraz ke kapitole**: vybledlé razítko předmětu u nadpisu, síla 0,17 ve dne a 0,24 v noci, vzory u Sókrata, Diogena a Epikúra? Doporučuji ano.
+   Odpověď:
+
+7. **Razítko s městem a rokem** uprostřed (na 72 px asi 5 až 7 px písma, jako text po obvodu)? Doporučuji ano.
+   Odpověď:
+
+8. **Chceš něco změnit na snímcích po K3 dodatku?** Napiš kde a co. Bez odpovědi zůstává, jak je.
+   Odpověď:
+
 ## Zadání K4a: společný rám aktivity a první bloky
 
 Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po D5 a po K3 dodatku (prázdná odpověď znamená souhlas).
@@ -765,7 +833,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co se proti design systému změnilo: tinty období nahradil lístek s páskou), Po K1 (třídy papíru, vrstvy stínu, přezdívky), Po K3 (Vnořený papír s páskou), Po auditu (body 1, 3 a 11 z Vizuálních zlepšení, Pravidlo střídmosti), Po D5, Po K3 dodatku a odpovědi po D5 a po K3 dodatku, a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a v oddílu Bloky popis vzhledu a stavů Volby a Odkryj. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti ze stránky Herní prvky (D5) jen styly a tělo společného rámu aktivity, Volby a Odkryj, ze stránky Zlepšení vzhledu jen bod 1 a 3, z project/DesignSystem.dc.html v <helmet> jen části o tlačítkách, možnostech, poli na psaní a lístku zpětné vazby, které nejsou v tokens.css a global.css, a z project/Pohyb.dc.html jen styly a skript ukázek Volba (kroužek tužkou, lístek) a Odkryj. Když odpovědi po D5 nebo po K3 dodatku něco mění, oprav nejdřív to.
 
-1. Společný rám aktivity jako jedna komponenta pro všechny dnešní i budoucí bloky a hry (Astro i Svelte verze, jak to bloky potřebují): hlava (nadtitulek rodiny aktivit v inkoustu období, název), zadání, plocha, zpětná vazba jako lístek s páskou (.listek-paska, při vložení .rozlozit; uvnitř jiného přilepeného papíru lepicí lístek v barvě období podle Po K3), „Začít znovu“ všude stejně. Aktivita leží na tečkovaném papíře mezi listy, souvislý text na čistém listu (bod 1, podle varianty čtenářského sloupce zvolené po D5). Na telefonu přes celou šířku, ovládání v dosahu palce (bod 11). Nová hra pak znamená jen vnitřek plochy; zapiš do docs/design.md › Bloky krátce, jak rám použít.
+1. Společný rám aktivity jako jedna komponenta pro všechny dnešní i budoucí bloky a hry (Astro i Svelte verze, jak to bloky potřebují): hlava (nadtitulek rodiny aktivit v inkoustu období, název), zadání, plocha, zpětná vazba jako lístek s páskou (.listek-paska, při vložení .rozlozit; uvnitř jiného přilepeného papíru lepicí lístek v barvě období podle Po K3), „Začít znovu“ všude stejně. Aktivita leží na tečkovaném papíře mezi listy, souvislý text na čistém listu (bod 1, podle varianty čtenářského sloupce zvolené po D5; na stránkách osob už hotové z K3 dodatku: .cisty-list v global.css a useky() ze src/lib/listy.ts, v krocích cest použij totéž). Na telefonu přes celou šířku, ovládání v dosahu palce (bod 11). Nová hra pak znamená jen vnitřek plochy; zapiš do docs/design.md › Bloky krátce, jak rám použít.
 
 2. Tlačítka a pole: hlavní tlačítko na plném inkoustu (.vystouple .vystouple--ink), vedlejší a tiché podle design systému (src/components/ui/Tlacitko.astro i tlačítka v ostrovech, blok__tl), zakázané čárkované tužkou; pole na psaní v Kalamu na linkách a co student napíše nebo zvolí, je jeho perem v barvě zvolené po D5 (bod 3; volba pera jednou, uložená v localStorage s ostatním postupem). Poznámka po K3: pole Odkryj v kapitole 01 Sókrata končí po tabulátoru na 1440 × 700 o 4 px pod oknem; oprav.
 
