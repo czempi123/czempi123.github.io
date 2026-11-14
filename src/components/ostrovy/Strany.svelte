@@ -64,9 +64,22 @@
 <div class="strany" data-strany={blok} bind:this={obal}>{@render children?.()}</div>
 
 <style>
-  /* Odpověď studenta: linka v barvě období, nad ní štítek. Ostatní odpovědi pod odkazem jako „Co kdybys zvolil jinak?“ ve Volbě. */
-  .strany :global(.strany__stitek) { margin: 0 0 var(--s-2); color: var(--pc); }
-  .strany :global(.strana--tvoje) { margin-bottom: var(--s-4); padding-left: var(--s-4); border-left: 3px solid var(--pc); }
+  /* Odpověď studenta (K4b): linka v inkoustu období, nad ní štítek „Na tvé straně“ s tečkou jako rodina aktivit v rámu.
+     Ostatní odpovědi pod odkazem jako „Co kdybys zvolil jinak?“ ve Volbě, s čárkovanou linkou tužkou. */
+  .strany :global(.strany__stitek) {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin: 0 0 var(--s-2);
+    font-family: var(--font-sans);
+    font-size: calc(var(--meritko) * 13px);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--p);
+  }
+  .strany :global(.strany__stitek)::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--p); }
+  .strany :global(.strana--tvoje) { margin-bottom: var(--s-4); padding-left: var(--s-4); border-left: 3px solid var(--p); }
   .strany :global(.strana--tvoje > :last-child) { margin-bottom: 0; }
   .strany :global(.strana--tvoje:has(+ .strana--tvoje)) { margin-bottom: 0; padding-bottom: var(--s-4); }
   .strany :global(.strany__jine) { margin: 0 0 var(--s-5); }
@@ -78,11 +91,12 @@
     font-size: var(--fs-ovladani);
     font-weight: 600;
     text-decoration: underline;
+    text-decoration-color: var(--tuzka);
     text-underline-offset: 0.2em;
     cursor: pointer;
   }
   .strany :global(.strany__jine[open] > summary) { margin-bottom: var(--s-3); }
-  .strany :global(.strany__jine > .strana) { padding-left: var(--s-4); border-left: 2px solid var(--pc-soft); }
+  .strany :global(.strany__jine > .strana) { padding-left: var(--s-4); border-left: 1.5px dashed var(--tuzka); }
   .strany :global(.strany__jine > .strana + .strana) { margin-top: var(--s-4); }
   .strany :global(.strany__jine > .strana > :last-child) { margin-bottom: 0; }
   /* Bez přeskládání vypadá oddíl jako dřív: obaly odpovědí nemají vlastní okraje. */

@@ -45,12 +45,14 @@
     ulozeno?: string;
     /** Začít znovu: bez funkce tlačítko není */
     znovu?: () => void;
+    /** jiný popisek tlačítka (Kdo žil dřív? dává nový odhad: „Zkusit znovu“) */
+    znovuText?: string;
     /** hlavní čin vpravo v patě */
     hlavni?: Snippet;
   }
   let {
     id, obdobi, trida, nadtitulek, nazev, lide = [], labelledby, children, vazba, vazbaPopisek = 'Zpětná vazba',
-    cerstve = false, vazbaPrvek = $bindable(), poVazbe, ulozeno, znovu, hlavni, ...data
+    cerstve = false, vazbaPrvek = $bindable(), poVazbe, ulozeno, znovu, znovuText = 'Začít znovu', hlavni, ...data
   }: Props = $props();
 
   // Pero se nabídne jednou, při první odpovědi: kdo ještě nevolil, dostane modré a může ho tu hned změnit.
@@ -87,7 +89,7 @@
   {#if znovu || hlavni}
     <!-- Pata nese značky podob hodiny na svých částech (data-cast="akce"), sama žádnou: otevřená otázka ji skryje celou. -->
     <div class="blok__pata">
-      {#if znovu}<button class="blok__tl blok__tl--tiche" type="button" data-cast="akce" onclick={znovu}>Začít znovu</button>{/if}
+      {#if znovu}<button class="blok__tl blok__tl--tiche" type="button" data-cast="akce" onclick={znovu}>{znovuText}</button>{/if}
       {#if hlavni}<div class="blok__pata-hlavni" data-cast="akce">{@render hlavni()}</div>{/if}
     </div>
   {/if}

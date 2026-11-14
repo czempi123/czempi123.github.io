@@ -5,6 +5,7 @@
   // <MojeStanovisko client:visible rozbalene id="cesta1-moje-pravidlo" otazka="…" odkaz="/cesta/…/7/" />
   // S `rozbalene` je pole vidět hned a zápis se do deníku ukládá sám během psaní (závěr cesty).
   // `popisek` je text nad polem, když se liší od otázky zápisu v deníku; `nepovinne` k němu přidá „Nepovinné“.
+  // Pole je studentova ruka (K4b): Kalam perem na linkách (.blok__pole), tlačítka rámu aktivity.
   import { onMount } from 'svelte';
   import { nacti, ulozZapis, smazZapis, type Zapis } from '../../lib/denik';
   import { nezlomitelne } from '../../lib/sazba.js';
@@ -54,19 +55,19 @@
 <div class="stanovisko">
   {#if rozbalene}
     <label class="t-ovladani" for={`${id}-stanovisko`}>{nezlomitelne(popisek ?? otazka)}{#if nepovinne}<span class="nepovinne">Nepovinné</span>{/if}</label>
-    <textarea class={[nepovinne && 'kratke']} id={`${id}-stanovisko`} rows={nepovinne ? 2 : 3} bind:value={text} oninput={piseSe} onblur={ulozSamo} aria-describedby={`${id}-stav`}></textarea>
+    <textarea class={['blok__pole', nepovinne && 'blok__pole--kratke']} id={`${id}-stanovisko`} rows={nepovinne ? 2 : 3} bind:value={text} oninput={piseSe} onblur={ulozSamo} aria-describedby={`${id}-stav`}></textarea>
     <p class="t-popisek stav" id={`${id}-stav`} aria-live="polite">{ulozeno ? 'Uloženo v deníku.' : 'Ukládá se samo do deníku.'}</p>
   {:else if !otevreno}
-    <button class="vedlejsi" type="button" onclick={() => (otevreno = true)} aria-expanded="false">
+    <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={() => (otevreno = true)} aria-expanded="false">
       {ulozeno ? 'Upravit stanovisko v deníku' : 'Moje stanovisko'}
     </button>
     {#if ulozeno}<span class="t-popisek">Uloženo v deníku.</span>{/if}
   {:else}
     <label class="t-ovladani" for={`${id}-stanovisko`}>{nezlomitelne(otazka)}</label>
-    <textarea id={`${id}-stanovisko`} rows="3" bind:value={text}></textarea>
+    <textarea class="blok__pole" id={`${id}-stanovisko`} rows="3" bind:value={text}></textarea>
     <div class="akce">
-      <button class="hlavni" type="button" onclick={uloz}>Uložit do deníku</button>
-      <button class="tiche" type="button" onclick={() => (otevreno = false)}>Zrušit</button>
+      <button class="blok__tl blok__tl--hlavni" type="button" onclick={uloz}>Uložit do deníku</button>
+      <button class="blok__tl blok__tl--tiche" type="button" onclick={() => (otevreno = false)}>Zrušit</button>
     </div>
   {/if}
 </div>
@@ -76,31 +77,8 @@
   label { flex-basis: 100%; }
   /* „Nepovinné“ za popiskem: po zalomení začíná u kraje, ne odsazené. */
   label:has(.nepovinne) { display: flex; flex-wrap: wrap; column-gap: var(--s-2); }
-  .nepovinne { font-weight: 400; color: var(--muted); }
-  textarea {
-    flex-basis: 100%;
-    min-height: 88px;
-    padding: var(--s-3);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-sm);
-    background: var(--paper);
-    font-family: var(--font-serif);
-    font-size: var(--fs-text);
-  }
-  textarea.kratke { min-height: 64px; }
+  .nepovinne { font-weight: 400; color: var(--ink-3); }
+  textarea { flex-basis: 100%; margin-bottom: 0; }
   .stav { flex-basis: 100%; margin: 0; color: var(--ink-2); }
-  .akce { display: flex; gap: var(--s-3); }
-  button {
-    min-height: 48px;
-    padding: 0 var(--s-5);
-    border-radius: var(--r-sm);
-    font-family: var(--font-sans);
-    font-size: var(--fs-ovladani-l);
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .hlavni { border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); }
-  .vedlejsi { border: 1.5px solid var(--ink); background: transparent; color: var(--ink); }
-  .vedlejsi:hover { background: var(--sunk); }
-  .tiche { border: 1px solid var(--rule); background: transparent; color: var(--ink); }
+  .akce { display: flex; flex-wrap: wrap; gap: var(--s-3); }
 </style>

@@ -5,6 +5,8 @@
   // „Ukázat chybějící větu“ pak odkryje skrytý předpoklad (řádek s otazníkem) a volbu „Kterou premisu bys
   // napadl ty?“ s nepovinným důvodem (bez něj s bezDuvodu): to je názor, jde do deníku. Kde se dá argument
   // napadnout a zvýrazněný řádek přijdou až po volbě, aby student nevolil podle zvýraznění. Nic se neboduje.
+  // V rámu aktivity (K4b): karty jsou ležící lístky, řádky linkovaný papír s čárkovaným místem; vybraná karta se zvedne
+  // a dostane obrys perem, přesun jede --d-presun. Zpětná vazba i „K tvé volbě“ leží na lístku s páskou.
   // Použití v MDX (obsah v src/content/bloky/dilna-sokrates-zemre.yaml):
   // <SlozArgument id="dilna-sokrates-zemre" />
   import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
@@ -18,8 +20,8 @@
   } from '../../lib/argument';
   import { ID_SKRYTY, type TBlokArgument } from '../../lib/bloky-schema';
   import { odstavce, radek } from '../../lib/bloky';
-  import { odkryti, omezenyPohyb } from '../../lib/pohyb';
-  import BlokHlava from './BlokHlava.svelte';
+  import { odkryti, omezenyPohyb, delkaTokenu } from '../../lib/pohyb';
+  import RamAktivity from './RamAktivity.svelte';
   import BlokDal from './BlokDal.svelte';
   import type { Dal } from './bloky-typy';
 
@@ -43,6 +45,9 @@
   let oblast = $state<HTMLElement>();
   let oblastVolby = $state<HTMLElement>();
   let oblastSkryty = $state<HTMLElement>();
+  /** lístek vznikl činem studenta teď: rozloží se (po obnovení stránky leží) */
+  let cerstve = $state(false);
+  let cerstveVolba = $state(false);
 
   let radky = $derived(radkyArgumentu(blok));
   let premisy = $derived(radky.filter((r) => r !== ZAVER));
@@ -56,7 +61,7 @@
   const textKarty = (kid: string | null) => (kid ? karta(kid)?.text ?? '' : '');
 
   // Karta se při přesunu posune na své místo; při omezeném pohybu skočí.
-  const [odjezd, prijezd] = crossfade({ duration: () => (omezenyPohyb() ? 0 : 220), fallback: () => ({ duration: 0 }) });
+  const [odjezd, prijezd] = crossfade({ duration: () => (omezenyPohyb() ? 0 : delkaTokenu('--d-presun', 320)), fallback: () => ({ duration: 0 }) });
 
   onMount(() => {
     const s = platnyStavArgumentu(stavBloku(id), blok);
@@ -116,6 +121,7 @@
   async function zkontroluj() {
     if (!slozeno) return;
     zkontrolovano = true;
+    cerstve = true;
     vybrana = null;
     ulozStav();
     await tick();
@@ -137,6 +143,7 @@
     if (!napadnout) return;
     proc = blok.bezDuvodu ? '' : proc.trim();
     zapsano = true;
+    cerstveVolba = true;
     ulozStav();
     ulozZapis({ id, otazka: otazkaZapisu(blok), odpoved: zapisArgumentu(blok, napadnout, proc), odkaz, druh: 'argument' });
     await tick();
@@ -151,6 +158,8 @@
     napadnout = null;
     proc = '';
     zapsano = false;
+    cerstve = false;
+    cerstveVolba = false;
     hlaseni = '';
     smazStavBloku(id);
     smazZapis(id);
@@ -215,6 +224,7 @@
 {#snippet kartaTl(k: Karta)}
   <button
     class={['karta', vybrana === k.id && 'karta--vybrana', tah?.kid === k.id && 'karta--tazena']}
+    style:--nat={`${[-1, .8, -.5, 1.1, -.8, .6][blok.karty.findIndex((x) => x.id === k.id) % 6]}deg`}
     type="button"
     data-karta={k.id}
     aria-pressed={vybrana === k.id}
@@ -261,18 +271,94 @@
   </li>
 {/snippet}
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<section class="blok argument obdobi-{blok.obdobi}" id={id} aria-labelledby={`${id}-otazka`} onkeydown={klavesa}>
-  <BlokHlava nadtitulek={blok.nadtitulek ?? VYCHOZI_NADTITULKY.SlozArgument} />
+{#snippet vazbaArgumentu()}
+  {#if zpetna}
+    <p class="blok__zpetna-titulek">{zpetna.titulek}</p>
+    {#each odstavce(zpetna.text) as o, i (i)}<p>{@html o}</p>{/each}
+    {#if odkryto}
+      <div class="blok__oddil" role="region" aria-label="Skrytý předpoklad" tabindex="-1" bind:this={oblastSkryty} in:odkryti>
+        <h4 class="blok__zpetna-titulek">Skrytý předpoklad</h4>
+        {#each odstavce(blok.skryty.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
+      </div>
+    {/if}
+  {/if}
+{/snippet}
+
+{#snippet poKontrole()}
+  {#if zkontrolovano && zpetna}
+    {#if !odkryto}
+      <div class="blok__akce"><button class="blok__tl blok__tl--hlavni argument__odkryt" data-cast="akce" type="button" onclick={odkryj}>Ukázat chybějící větu</button></div>
+    {:else}
+      <div class="napadeni" data-cast="moznosti">
+        <h4 class="t-h3 napadeni__otazka" id={`${id}-napadeni`}>{OTAZKA_NAPADENI}</h4>
+        <div class="napadeni__moznosti" role="radiogroup" aria-labelledby={`${id}-napadeni`}>
+          {#each moznosti as m (m.id)}
+            <label class={['moznost', 'vystouple', napadnout === m.id && 'moznost--vybrana vystouple--zvoleno', zapsano && 'moznost--zamcena', zapsano && napadnout !== m.id && 'moznost--skryta']}>
+              <input class="vizualne-skryte" type="radio" name={`${id}-napadeni`} value={m.id} bind:group={napadnout} onchange={zmenVolbu} disabled={zapsano} />
+              <span class="moznost__bod" aria-hidden="true"></span>
+              <span class="moznost__obsah">
+                {#if m.stitek}<span class="moznost__stitek">{m.stitek}</span>{/if}
+                <span class="moznost__text">{@html radek(m.text)}</span>
+              </span>
+            </label>
+          {/each}
+        </div>
+        {#if !zapsano}
+          {#if !blok.bezDuvodu}
+            <label class="blok__popis" for={`${id}-proc`} data-cast="duvod">Proč právě tahle? <span class="nepovinne">Nepovinné</span></label>
+            <textarea class="blok__pole blok__pole--kratke" data-cast="duvod" id={`${id}-proc`} rows="2" bind:value={proc} onchange={zmenVolbu} placeholder="Stačí pár slov…"></textarea>
+          {/if}
+          <div class="blok__akce"><button class="blok__tl blok__tl--hlavni" data-cast="akce" type="button" onclick={zapis} disabled={!napadnout}>Tohle bych napadl</button></div>
+        {:else}
+          {#if proc}<p class="tvuj-duvod" data-cast="duvod"><span class="t-popisek">Tvůj důvod:</span> <span class="blok__ruka">{proc}</span></p>{/if}
+          {#if zvolena}
+            <div class={['listek-paska', 'blok__vazba', cerstveVolba && 'rozlozit']} data-cast="zpetna" role="region" aria-label="K tvé volbě" aria-live="polite" tabindex="-1" bind:this={oblastVolby}>
+              <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+              {#each odstavce(zvolena.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
+              <div class="blok__oddil" data-cast="napadnout">
+                <h4 class="blok__zpetna-titulek">Kde se dá argument napadnout</h4>
+                {#each odstavce(slabe.proc) as o, i (i)}<p>{@html o}</p>{/each}
+              </div>
+            </div>
+          {/if}
+        {/if}
+      </div>
+    {/if}
+  {/if}
+{/snippet}
+
+{#snippet akce()}
+  {#if !zkontrolovano}
+    <button class="blok__tl blok__tl--hlavni argument__zkontrolovat" type="button" onclick={zkontroluj} disabled={!slozeno}>Zkontrolovat</button>
+  {:else}
+    <BlokDal {dal} />
+  {/if}
+{/snippet}
+
+<RamAktivity
+  {id}
+  obdobi={blok.obdobi}
+  trida="argument"
+  nadtitulek={blok.nadtitulek ?? VYCHOZI_NADTITULKY.SlozArgument}
+  labelledby={`${id}-otazka`}
+  vazba={zkontrolovano && zpetna ? vazbaArgumentu : undefined}
+  {cerstve}
+  bind:vazbaPrvek={oblast}
+  poVazbe={poKontrole}
+  ulozeno={zapsano ? 'Tvoje volba je uložená v deníku.' : undefined}
+  znovu={zkontrolovano ? znovu : undefined}
+  hlavni={!zkontrolovano || (zapsano && dal) ? akce : undefined}
+>
   {#if blok.scena}
     {#each odstavce(blok.scena) as o, i (i)}<p class="blok__scena" data-cast="scena">{@html o}</p>{/each}
   {/if}
   <h3 class="t-h3 blok__otazka" id={`${id}-otazka`} data-cast="otazka">{@html radek(blok.otazka)}</h3>
 
-  <div class={['sklad', !zkontrolovano && 'sklad--dve']} data-cast="moznosti">
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div class={['sklad', !zkontrolovano && 'sklad--dve']} data-cast="moznosti" onkeydown={klavesa}>
     {#if !zkontrolovano}
       <div class={['hromadka', nad === 'hromadka' && 'hromadka--nad']} data-hromadka>
-        <p class="hromadka__napoveda t-popisek">Vyber kartu a pak řádek, nebo ji přetáhni.</p>
+        <p class="hromadka__napoveda">Vyber kartu a pak řádek, nebo ji přetáhni.</p>
         {#if volne.length}
           <ul class="hromadka__karty" aria-label="Karty">
             {#each volne as k (k.id)}<li>{@render kartaTl(k)}</li>{/each}
@@ -304,79 +390,23 @@
     </ol>
   </div>
   <p class="vizualne-skryte" aria-live="polite">{hlaseni}</p>
-
-  {#if !zkontrolovano}
-    <button class="blok__tl blok__tl--hlavni argument__zkontrolovat" data-cast="akce" type="button" onclick={zkontroluj} disabled={!slozeno}>Zkontrolovat</button>
-  {:else if zpetna}
-    <div class="blok__zpetna" data-cast="zpetna" role="region" aria-label="Zpětná vazba" aria-live="polite" tabindex="-1" bind:this={oblast} in:odkryti>
-      <p class="blok__zpetna-titulek">{zpetna.titulek}</p>
-      {#each odstavce(zpetna.text) as o, i (i)}<p>{@html o}</p>{/each}
-      {#if odkryto}
-        <div class="blok__oddil" role="region" aria-label="Skrytý předpoklad" tabindex="-1" bind:this={oblastSkryty} in:odkryti>
-          <h4 class="blok__zpetna-titulek">Skrytý předpoklad</h4>
-          {#each odstavce(blok.skryty.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
-        </div>
-      {/if}
-    </div>
-
-    {#if !odkryto}
-      <button class="blok__tl blok__tl--hlavni argument__odkryt" data-cast="akce" type="button" onclick={odkryj}>Ukázat chybějící větu</button>
-    {:else}
-      <div class="napadeni" data-cast="moznosti">
-        <h4 class="t-h3 napadeni__otazka" id={`${id}-napadeni`}>{OTAZKA_NAPADENI}</h4>
-        <div class="napadeni__moznosti" role="radiogroup" aria-labelledby={`${id}-napadeni`}>
-          {#each moznosti as m (m.id)}
-            <label class={['moznost', napadnout === m.id && 'moznost--vybrana', zapsano && 'moznost--zamcena', zapsano && napadnout !== m.id && 'moznost--skryta']}>
-              <input class="vizualne-skryte" type="radio" name={`${id}-napadeni`} value={m.id} bind:group={napadnout} onchange={zmenVolbu} disabled={zapsano} />
-              {#if m.stitek}<span class="moznost__stitek">{m.stitek}</span>{/if}
-              <span class="moznost__text">{@html radek(m.text)}</span>
-            </label>
-          {/each}
-        </div>
-        {#if !zapsano}
-          {#if !blok.bezDuvodu}
-            <label class="blok__popis" for={`${id}-proc`} data-cast="duvod">Proč právě tahle? <span class="nepovinne">Nepovinné</span></label>
-            <textarea class="blok__pole blok__pole--kratke" data-cast="duvod" id={`${id}-proc`} rows="2" bind:value={proc} onchange={zmenVolbu} placeholder="Stačí pár slov…"></textarea>
-          {/if}
-          <button class="blok__tl blok__tl--hlavni" data-cast="akce" type="button" onclick={zapis} disabled={!napadnout}>Tohle bych napadl</button>
-        {:else}
-          {#if proc}<p class="tvuj-duvod" data-cast="duvod"><span class="t-popisek">Tvůj důvod:</span> {proc}</p>{/if}
-          {#if zvolena}
-            <div class="blok__zpetna" data-cast="zpetna" role="region" aria-label="K tvé volbě" aria-live="polite" tabindex="-1" bind:this={oblastVolby} in:odkryti>
-              {#each odstavce(zvolena.zpetna) as o, i (i)}<p>{@html o}</p>{/each}
-              <div class="blok__oddil" data-cast="napadnout">
-                <h4 class="blok__zpetna-titulek">Kde se dá argument napadnout</h4>
-                {#each odstavce(slabe.proc) as o, i (i)}<p>{@html o}</p>{/each}
-              </div>
-            </div>
-          {/if}
-        {/if}
-      </div>
-    {/if}
-
-    {#if zapsano}<BlokDal {dal} />{/if}
-    <div class="blok__akce" data-cast="akce">
-      {#if zapsano}<p class="blok__ulozeno" data-cast="ulozeno">Tvoje volba je uložená v deníku.</p>{/if}
-      <button class="blok__tl blok__tl--tiche" type="button" onclick={znovu}>Začít znovu</button>
-    </div>
-  {/if}
-</section>
+</RamAktivity>
 
 <style>
   /* Rozvržení se řídí šířkou bloku: v kroku cesty až 960 px, v čtenářském sloupci profilu 680 px, na telefonu karty nad řádky. */
-  .argument { container-type: inline-size; }
-  .sklad { display: grid; gap: var(--s-4); margin-bottom: var(--s-5); }
+  .sklad { display: grid; gap: var(--s-5); margin: var(--s-5) 0; }
   @container (min-width: 600px) {
-    .sklad--dve { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: start; gap: var(--s-5); }
+    .sklad--dve { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: start; gap: var(--s-6); }
   }
 
-  .hromadka { min-height: 64px; border-radius: var(--r-md); transition: background var(--pohyb-rychle); }
-  .hromadka--nad { outline: 1.5px dashed var(--pc); outline-offset: var(--s-2); background: var(--pc-tint); }
-  .hromadka__napoveda { margin: 0 0 var(--s-3); color: var(--ink-2); }
+  .hromadka { min-height: 64px; padding: var(--s-1); transition: outline-color var(--d-stisk) var(--k-stisk); outline: 1.5px dashed transparent; outline-offset: var(--s-2); }
+  .hromadka--nad { outline-color: var(--ink); }
+  .hromadka__napoveda { margin: 0 0 var(--s-3); font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
   .hromadka__karty { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
-  .hromadka__prazdna { margin: 0; padding: var(--s-3) var(--s-4); border: 1px dashed var(--muted); border-radius: var(--r-md); color: var(--ink-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: var(--lh-ovladani); }
+  .hromadka__prazdna { margin: 0; padding: var(--s-3) var(--s-4); border: 1.5px dashed var(--tuzka); color: var(--ink-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: var(--lh-ovladani); }
   .hromadka__zpet { margin-top: var(--s-3); }
 
+  /* Karta: ležící lístek. Vybraná se zvedne a dostane obrys perem studenta (D5). */
   .karta {
     position: relative;
     z-index: 2;
@@ -387,9 +417,10 @@
     min-height: 56px;
     margin: 0;
     padding: var(--s-2) var(--s-3);
-    border: 1.5px solid var(--pc-soft);
-    border-radius: var(--r-md);
-    background: var(--surface);
+    border: 0;
+    background: var(--list);
+    box-shadow: var(--lezi-tlak);
+    rotate: var(--nat, 0deg);
     color: var(--ink);
     font-family: var(--font-serif);
     font-size: var(--fs-ovladani-l);
@@ -400,15 +431,18 @@
     -webkit-user-select: none;
     /* Kartu vede prst; stránka se posouvá všude kolem ní. */
     touch-action: none;
+    transition: translate var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
   }
-  button.karta:hover { border-color: var(--pc); }
+  @media (hover: hover) { button.karta:hover { translate: 0 -2px; box-shadow: var(--lezi); } }
   .karta:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .karta--vybrana { border: 2px solid var(--pc); padding: calc(var(--s-2) - 0.5px) calc(var(--s-3) - 0.5px); background: var(--pc-tint); }
-  .karta--tazena { z-index: 5; border-color: var(--ink); cursor: grabbing; box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 18%, transparent); }
-  .karta--pevna { min-height: 0; padding: 0; border: 0; background: none; cursor: default; touch-action: auto; }
-  .karta__uchyt { flex: none; fill: var(--pc); }
+  .karta--vybrana { translate: 0 -3px; rotate: 0deg; box-shadow: var(--lezi-zved); outline: 2px solid var(--pero); outline-offset: 3px; }
+  .karta--vybrana:focus-visible { outline-color: var(--pero); box-shadow: var(--lezi-zved), 0 0 0 7px var(--papir), 0 0 0 9px var(--ink); }
+  .karta--tazena { z-index: 5; rotate: 0deg; box-shadow: var(--lezi-zved); cursor: grabbing; }
+  .karta--pevna { min-height: 0; padding: 0; background: none; box-shadow: none; rotate: 0deg; cursor: default; touch-action: auto; }
+  .karta__uchyt { flex: none; fill: var(--tuzka); }
   .karta__text { flex: 1; }
 
+  /* Řádky argumentu: linkovaný papír, prázdné místo čárkovaně tužkou. */
   .radky { display: grid; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
   .radek {
     position: relative;
@@ -418,25 +452,25 @@
     gap: var(--s-2);
     min-height: 68px;
     padding: var(--s-2) var(--s-3) var(--s-2) var(--s-2);
-    border: 1px dashed var(--muted);
-    border-radius: var(--r-md);
-    background: var(--paper);
-    transition: border-color var(--pohyb-rychle), background var(--pohyb-rychle);
+    border: 1.5px dashed var(--tuzka);
+    background: var(--list);
+    transition: border-color var(--d-stisk) var(--k-stisk);
   }
-  .radek:has(.karta) { border-style: solid; border-color: var(--rule); }
-  .radek--nad, .radek--nad:has(.karta) { border: 2px solid var(--pc); padding: calc(var(--s-2) - 1px) calc(var(--s-3) - 1px) calc(var(--s-2) - 1px) calc(var(--s-2) - 1px); background: var(--pc-tint); }
+  .radek:has(.karta) { border-style: solid; border-color: var(--linka); }
+  .radek--nad, .radek--nad:has(.karta) { border: 2px dashed var(--ink); padding: calc(var(--s-2) - .5px) calc(var(--s-3) - .5px) calc(var(--s-2) - .5px) calc(var(--s-2) - .5px); }
   /* Závěr pod čarou, jak se argument píše v logice. */
   .radek--zaver { margin-top: var(--s-4); }
   .radek--zaver::before { content: ''; position: absolute; left: 0; right: 0; top: calc(-1 * var(--s-3) - 1px); border-top: 2px solid var(--ink); }
-  .radek__cislo { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--pc); text-align: center; }
+  .radek__cislo { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--p); text-align: center; }
   .radek--zaver .radek__cislo { color: var(--ink); }
   .radek__misto { min-width: 0; }
   .radek--skryty .radek__cislo { font-family: var(--font-serif); font-size: var(--fs-h3); line-height: 1; }
   .radek__chybi { margin: 0; color: var(--ink-2); font-size: var(--fs-ovladani-l); line-height: 1.35; font-style: italic; }
-  .radek--odkryty { border: 1.5px solid var(--pc); background: var(--pc-tint); }
+  /* Odkrytý předpoklad: lepicí lístek v řádku. */
+  .radek--odkryty { border: 1.5px solid var(--linka); background: var(--listek); }
   .radek__skryty { margin: 0; font-size: var(--fs-ovladani-l); line-height: 1.35; font-style: italic; }
-  /* Místo, kde se dá argument napadnout: silnější okraj v barvě období. */
-  .radek--slabe, .radek--slabe:has(.karta) { border: 2.5px solid var(--pc); }
+  /* Místo, kde se dá argument napadnout: silnější okraj v inkoustu období. */
+  .radek--slabe, .radek--slabe:has(.karta) { border: 2.5px solid var(--p); }
 
   /* „Sem“ je tlačítko; jeho plocha pokrývá celý řádek, karta v řádku leží nad ní. */
   .radek__sem {
@@ -444,7 +478,7 @@
     min-height: 44px;
     padding: 0 var(--s-3);
     border: 1.5px solid var(--ink);
-    border-radius: var(--r-sm);
+    border-radius: var(--r-ovladani);
     background: transparent;
     color: var(--ink);
     font-family: var(--font-sans);
@@ -453,37 +487,36 @@
     cursor: pointer;
     scroll-margin-bottom: 56px;
   }
-  .radek__sem::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-md); }
+  .radek__sem::after { content: ''; position: absolute; inset: 0; }
   .radek__sem:focus-visible { outline: none; }
   .radek:has(.radek__sem:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .radek:has(.radek__sem:hover) { border-color: var(--pc); }
+  .radek:has(.radek__sem:hover) { border-color: var(--ink); }
 
-  .moznost__stitek { font-family: var(--font-sans); font-size: var(--fs-popisek); font-style: normal; font-weight: 600; letter-spacing: 0.02em; color: var(--pc); }
+  .moznost__stitek { display: block; font-family: var(--font-sans); font-size: var(--fs-popisek); font-style: normal; font-weight: 600; letter-spacing: 0.02em; color: var(--p); }
 
-  .argument__odkryt { margin-top: var(--s-2); }
   .napadeni { margin-top: var(--s-6); }
   .napadeni__otazka { margin: 0 0 var(--s-4); }
   .napadeni__moznosti { display: grid; gap: var(--s-3); margin-bottom: var(--s-5); }
+  /* Možnost napadení: vystouplý lístek, zvolený vtlačený s tečkou perem. */
   .moznost {
-    position: relative;
-    display: grid;
-    gap: var(--s-1);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
     min-height: 60px;
     padding: var(--s-3) var(--s-4);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    background: var(--paper);
+    border-radius: var(--r-ovladani);
     font-family: var(--font-serif);
     font-size: var(--fs-ovladani-l);
     line-height: 1.4;
-    cursor: pointer;
-    transition: border-color var(--pohyb-rychle), background var(--pohyb-rychle);
+    color: var(--ink);
   }
-  .moznost:hover { border-color: var(--muted); }
+  .moznost__obsah { display: grid; gap: var(--s-1); }
+  .moznost__bod { flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: var(--r-plne); box-shadow: inset 0 0 0 1.5px var(--tuzka); }
+  .moznost--vybrana .moznost__bod { background: var(--pero); box-shadow: inset 0 0 0 3px var(--papir); outline: 1.5px solid var(--pero); }
   .moznost:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .moznost--vybrana { border: 2px solid var(--pc); padding: calc(var(--s-3) - 1px) calc(var(--s-4) - 1px); background: var(--pc-tint); }
   .moznost--zamcena { cursor: default; }
   .moznost--skryta { display: none; }
-  .nepovinne { margin-left: var(--s-2); font-weight: 400; color: var(--muted); }
-  .tvuj-duvod { margin: 0 0 var(--s-4); font-style: italic; }
+  .nepovinne { margin-left: var(--s-2); font-weight: 400; color: var(--ink-3); }
+  .tvuj-duvod { margin: 0 0 var(--s-4); }
+  .tvuj-duvod .t-popisek { color: var(--ink-2); }
 </style>

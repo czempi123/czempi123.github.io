@@ -91,4 +91,19 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
       expect(kontrast(t[x], prouzek)).toBeGreaterThanOrEqual(4.5);
     },
   );
+  // Zpětná vazba bloku uvnitř čistého listu (K4b, global.css › Rám aktivity): lepicí lístek 12 % papíru období, na něm
+  // i studentovo pero (důvod, Předtím → Teď, vlastní karta) a tisk; i na lepicím proužku.
+  it.each([1, 2, 3, 4, 5, 6, 7, 8].flatMap((n) => ['pero-modra', 'pero-fialova', 'pero-sepiova', 'ink-2'].map((x): [number, string] => [n, x])))(
+    'lepicí lístek zpětné vazby období %i: %s splňuje AA i na lepicím proužku',
+    (n, x) => {
+      const listek = smichat(t[`pp-${n}`], t.listek, 0.12);
+      const prouzek = smichat(t[`pp-${n}`], listek, 0.14);
+      expect(kontrast(t[x], listek)).toBeGreaterThanOrEqual(4.5);
+      expect(kontrast(t[x], prouzek)).toBeGreaterThanOrEqual(4.5);
+    },
+  );
+  // Rám aktivity K4b: tečka zodpovězené podmínky (Změň jednu věc) na malém vystouplém čipu, štítek „jedna věc jinak“.
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])('inkoust období %i na malé vystouplé ploše splňuje AA', (n) => {
+    expect(kontrast(t[`p-${n}`], t['plocha-m'])).toBeGreaterThanOrEqual(4.5);
+  });
 });

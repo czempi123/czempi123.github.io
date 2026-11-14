@@ -70,9 +70,10 @@ test('klávesnice: na každé nové stránce jde první odkaz v obsahu tabuláto
       return { ok: r.top >= 0 && r.bottom <= dolni + 1, top: r.top, bottom: r.bottom, dolni, co: document.activeElement!.outerHTML.slice(0, 120) };
     });
     expect(poloha.ok, `${s.adresa} ${JSON.stringify(poloha)}`).toBe(true);
-    // Viditelný rámeček fokusu: na prvku, nebo na obalu, který je větší (koš kolem „Dát sem“ v Roztřiď).
+    // Viditelný rámeček fokusu: na prvku, nebo na obalu, který je větší (celá kapsa kolem „Dát sem“ v Roztřiď).
     const fokus = await page.evaluate(() => {
-      const prvky = [document.activeElement!, document.activeElement!.parentElement!, document.activeElement!.parentElement!.parentElement!];
+      const a = document.activeElement!;
+      const prvky = [a, a.parentElement!, a.parentElement!.parentElement!, ...(a.closest('.kos') ? [a.closest('.kos')!] : [])];
       return { vidi: prvky.some((p) => getComputedStyle(p).outlineStyle !== 'none'), co: document.activeElement!.outerHTML.slice(0, 100) };
     });
     expect(fokus.vidi, `${s.adresa} ${fokus.co}`).toBe(true);
@@ -154,6 +155,8 @@ test('Gýgův prsten: blok na stránce pokusu sdílí stav s portrétem Platóna
   await prsten.getByRole('radio', { name: 'Nepoužiju ho.' }).check({ force: true });
   await prsten.getByRole('button', { name: 'Rozhodnuto' }).click();
   await prsten.getByRole('radio', { name: 'Nikdo se to nikdy nedozví' }).check({ force: true });
+  // Změněná scéna se při přepnutí podmínky rozloží (K4b): počkat, až leží.
+  await prsten.locator('.zmenena').evaluate((e) => Promise.all(e.getAnimations().map((a) => a.finished)));
   await prsten.locator('.zmenena').getByRole('radio', { name: 'Nepoužiju ho.' }).check({ force: true });
   await prsten.locator('.zmenena').getByRole('button').click();
   await expect(prsten.getByRole('link', { name: 'Myšlenkový pokus Gýgův prsten' })).toHaveAttribute('href', '/pokus/gyguv-prsten/');

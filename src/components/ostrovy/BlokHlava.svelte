@@ -1,7 +1,7 @@
 <script lang="ts">
   // Hlava rámu aktivity (K4a): rodina aktivit (nadtitulek z dat) s tečkou v inkoustu období, nepovinný název
-  // a mince lidí, o kterých blok je (razítko člověka místo mince přinese K4b).
-  import Mince from '../mapa/Mince.svelte';
+  // a razítka lidí, o kterých blok je (poštovní razítko, K4b).
+  import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
   import type { ClovekBloku } from './bloky-typy';
 
   interface Props { nadtitulek: string; nazev?: string; lide?: ClovekBloku[] }
@@ -15,7 +15,7 @@
   </div>
   {#if lide.length}
     <span class="blok__mince" aria-hidden="true">
-      {#each lide as c (c.jmeno)}<Mince ikona={c.ikona} obdobi={c.obdobi} varianta="tint" velikost={40} />{/each}
+      {#each lide as c (c.jmeno)}<RazitkoCloveka razitko={c.razitko} obdobi={c.obdobi} velikost={56} />{/each}
     </span>
   {/if}
 </div>

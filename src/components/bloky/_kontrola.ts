@@ -1,6 +1,8 @@
 // Společná kontrola bloků z YAML při sestavení: druh, odkazy na data a obsah čekající na ověření.
 import { getEntry, getCollection } from 'astro:content';
-import { data, osoba } from '../../lib/data';
+import { data, osoba, mistaPodleId } from '../../lib/data';
+import { zivot } from '../../lib/casy';
+import { stredRazitka } from '../../lib/razitko';
 import { chybyBloku } from '../../lib/bloky';
 import type { TBlok } from '../../lib/bloky-schema';
 import { dalsiKrok, krokZAdresy } from '../../lib/cesty';
@@ -32,10 +34,16 @@ export function proOstrov<T extends { zdroje: string[]; kOvereni: string[]; dal?
   return zbytek;
 }
 
-/** Člověk pro mince a „Co udělal …“: jméno, období a atribut z lide.yaml. */
+/** Člověk pro razítka a „Co udělal …“: jméno, období, atribut a údaje razítka z lide.yaml. */
 export function clovek(id: string): ClovekBloku {
   const o = osoba(id);
-  return { jmeno: o.jmeno, obdobi: o.obdobi, ikona: o.atribut?.ikona, zena: o.zena };
+  return {
+    jmeno: o.jmeno, obdobi: o.obdobi, ikona: o.atribut?.ikona, zena: o.zena,
+    razitko: {
+      id: o.id, jmeno: o.jmeno, roky: zivot(o), ikona: o.atribut?.ikona, atribut: o.atribut?.nazev,
+      stred: stredRazitka(o, (m) => mistaPodleId.get(m)?.nazev),
+    },
+  };
 }
 
 /** Kam dál po bloku: vlastní odkaz, jinak v kroku cesty další krok (nebo dokončení cesty). */

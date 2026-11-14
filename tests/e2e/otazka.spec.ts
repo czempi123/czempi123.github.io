@@ -253,7 +253,7 @@ test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehl
   expect(cesta.height).toBeGreaterThanOrEqual(44);
   await expect(vstupy.locator('.vstup__meta').first()).toBeHidden();
   for (const o of await otazkyNav.getByRole('link').all()) expect((await o.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-  expect(prvniOtazka.y).toBeGreaterThan((await page.locator('.obsah .uvod').boundingBox())!.y);
+  expect(prvniOtazka.y).toBeGreaterThan((await page.locator('.obsah .uvod').first().boundingBox())!.y);
   // Notebook: cesty a pod nimi otázky vlevo, deska vpravo vedle nich.
   await page.setViewportSize({ width: 1440, height: 900 });
   const deskaN = (await page.locator('.osobnost__deska').boundingBox())!;

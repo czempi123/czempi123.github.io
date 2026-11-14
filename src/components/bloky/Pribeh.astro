@@ -2,7 +2,8 @@
 // Příběh: krátká scéna se stejnou typografií jako profil. Vedle ní deska v barvě období:
 // obraz scény, když ho předáme v `obrazek` (s popiskem a licencí v zdroje.yaml), jinak ornament a mince
 // s atributem osoby. Portrét osoby se tu nepoužije: popisek patří k místu scény, ne k podobě.
-// Bez JavaScriptu; nic se neukládá.
+// Bez JavaScriptu; nic se neukládá. Příběh je čtení, ne aktivita (K4b, bod 1): text scény leží na čistém listu
+// (.cisty-list, bez pásky: pásky nese deska), ne v rámu aktivity.
 // Použití v MDX:
 // <Pribeh id="delfy" osoba="sokrates" nadtitulek="Delfy" titulek="Odpověď *z Delf*" popisek="Delfy, Apollónova věštírna.">
 //   Text scény v odstavcích…
@@ -46,7 +47,7 @@ const naVysku = pw < ph;
     <div class="pribeh__deska">
       <Deska osoba={osoba} obdobi={obdobi} obrazek={obrazek} obrazOsoby={false} pomer={pomer}>{nezlomitelne(popisek)}{kredit && <span class="pribeh__kredit">{kredit.autor}. Licence <a href={kredit.url} rel="noopener">{kredit.licence}</a>.</span>}</Deska>
     </div>
-    <div class="pribeh__text">
+    <div class="pribeh__text cisty-list">
       {nadtitulek && <p class="t-nadtitulek pribeh__nadtitulek">{nadtitulek}</p>}
       {titulek && <h3 class="t-h2 pribeh__titulek" set:html={radek(titulek)} />}
       <div class="pribeh__scena"><slot /></div>
@@ -59,7 +60,10 @@ const naVysku = pw < ph;
      v čtenářském sloupci profilu (680 px) deska nad textem. */
   .pribeh { margin: var(--s-8) 0; container-type: inline-size; }
   .pribeh__mrizka { display: grid; gap: var(--s-5); }
-  .pribeh__nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  .pribeh__nadtitulek { margin: 0 0 var(--s-3); color: var(--p); }
+  /* List patří do mřížky vedle desky: bez vnějších okrajů čistého listu. */
+  .pribeh__text.cisty-list { margin: 0; }
+  @media (max-width: 699px) { .pribeh__text.cisty-list { margin-inline: calc(8px - var(--okraj)); } }
   .pribeh__titulek { margin-bottom: var(--s-5); max-width: 16ch; }
   .pribeh__scena { max-width: var(--ctenarsky-sloupec); }
   .pribeh__scena :global(p:last-child) { margin-bottom: 0; }

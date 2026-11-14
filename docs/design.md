@@ -350,6 +350,8 @@ Srovnání s filozofem v odstavcích…
 
 ### Roztřiď
 
+Od K4b (plátno Herna.dc.html › Roztřiď): koše jsou papírové kapsy (vtlačené ústí a čelo s výřezem do V), karta navrchu je ležící lístek, po stisku se zvedne s obrysem perem a přejede za čelo kapsy, odkud kus kouká (`prelet` v `src/lib/pohyb.ts`, `--d-presun`); do kapsy jde klepnout kamkoli. Výsledek je na lístku s páskou, vlastní karty perem.
+
 Třídění karet do dvou až čtyř košů. Navrchu leží jedna karta („Zbývá 4 z 6“); student ji **přetáhne** do koše (myší i prstem), nebo u koše zvolí **Dát sem** (klepnutí, Enter, mezerník; cílem je celý koš). Karta položená v koši je tlačítko, které ji vrátí navrch, takže jde přendat. S `vlastni` smí student připsat vlastní karty. Když je hromádka prázdná, „Mám roztříděno“ odkryje výsledek: koše vedle sebe (na telefonu pod sebou), u každé karty její zpětná vazba a pod nimi srovnání s mincí filozofa. Žádný koš není „správně“: zpětná vazba vysvětluje důvod a ptá se dál, `kdyz` dovolí jinou otázku pro kartu v určitém koši.
 
 Tažení patří jen kartě navrchu (`touch-action: none`), stránka se prstem posouvá všude kolem ní; koš pod kartou se zvýrazní okrajem a tintem období. Klávesnicí: Tab jde po koších a položených kartách, po Enteru zůstává fokus u koše, po poslední kartě přejde na „Mám roztříděno“. Co se stalo, slyší čtečka z oblasti `aria-live` („… je v koši Potřebuju. Další karta: …“).
@@ -415,6 +417,8 @@ zdroje: [platon-kriton, platon-faidon]
 
 ### Spor
 
+Od K4b (plátno Herna.dc.html › Spor): postoje jsou dva lístky přišpendlené špendlíkem v papíru období, škála je prověšený provázek s pěti uzlíky (cíle 44 px) a po něm jezdí studentova mince „ty“ v barvě pera (`--d-presun`, jen po činu studenta); šipka odkud kam je čárkovaně perem nad provázkem. Argumenty leží na dvou listech s razítky, posun na lístku s páskou.
+
 Otázka a postoje obou stran; škála s pěti polohami („Platón“, „spíš Platón“, „uprostřed“, „spíš Diogenés“, „Diogenés“) s mincemi na koncích. Poloha se volí tažením nebo klepnutím (prst svisle dál posouvá stránku) i šipkami (přepínače, body 44 px). Po „Tady stojím“ se otevřou argumenty obou stran s mincemi, student se může přesunout a šipka na škále ukazuje odkud kam; může připsat, co ho posunulo nebo udrželo. Zpětnou vazbu k posunu píše blok sám (`zpetnaSporu` v `src/lib/bloky.ts`), nikdy neříká, kdo má pravdu.
 
 **Reflexe** (nepovinná): pod zpětnou vazbou stojí zavřený řádek „Který argument druhé strany byl nejsilnější?“ · Nepovinné (`<details>`, stejný vzor jako „Co kdybys zvolil jinak?“ ve Volbě); „Další krok“ je vidět i bez ní. Druhá strana je ta, na které student nakonec nestojí. Kdo skončil uprostřed, čte „Který argument byl nejsilnější?“ a vybírá z obou stran.
@@ -448,6 +452,8 @@ kOvereni: [ … ]                 # dokud není prázdné, jen v dílně
 Když za jednu stranu nemluví člověk, ale směr (kynici proti Epikúrovi), dostane strana `oznaceni` malým písmenem. Když za ni mluví autor, kterého atlas v datech nemá, smí strana `osoba` vynechat a mít jen `oznaceni` se jménem („Plútarchos“): na škále i v argumentech pak stojí označení a mince je prázdný prstenec v barvě období bloku. Aspoň jedna strana musí být osoba z dat. Obsah tuhle možnost teď nepoužívá: cesta 8 ji měla pro Plútarcha jen do 9. 10. 2026, od té doby je Plútarchos v datech a jeho mince nese trojnožku. Na škále, v polohách („spíš kynici“), ve zpětné vazbě i v deníku pak stojí označení místo jména; v nadpisech se první písmeno zvětší samo. Scéna má říct, čí slova strana používá a že se ti dva nepotkali.
 
 ### Kdo žil dřív?
+
+Od K4b: odhad je studentovým perem (zvolený lístek s tečkou perem, tažený život, společná léta odhadu šrafou perem), skutečnost v inkoustu období; odhalení na lístku s páskou, tlačítko Zkusit znovu v patě rámu (`znovuText`).
 
 Odhad pořadí (karty A / B / Žili ve stejné době), nebo vzdálenosti: na ose s kulatými letopočty leží pevně život A a student přetáhne život B (jeho skutečnou délku) tam, kde podle něj žil, myší, prstem nebo šipkami (PageUp/PageDown po 25 letech). Pod osou se průběžně píše „žili by současně 30 let“ / „dělilo by je 120 let“. Osa je souměrná kolem A, takže její rozsah neprozradí stranu. Po „Odhalit“ se ukáže věta „Žili současně … / Dělí je …“ a věta o věku (`src/lib/cas-mapy.ts`), skutečná poloha vedle čárkovaného odhadu (u pořadí malá osa) a odkaz „Ukázat na mapě v roce …“. Mapa se otevře u současníků v posledním společném roce, jinak v roce úmrtí staršího, s vybraným člověkem a srovnáním. Odhad se jen popíše vedle skutečnosti.
 
@@ -604,7 +610,7 @@ Sestavení se zastaví, když cesta neexistuje, má dva návraty nebo pravidlo n
 
 ### Společné pro všechny bloky
 
-- Rám aktivity `.blok` (oddíl Rám aktivity výš), hlavička s nadtitulkem v barvě období a mincemi lidí, o kterých blok je; otázka `t-h3`; styly v `global.css` › Rám aktivity. „Co udělal …“ má minci filozofa. Bloky, které K4b ještě nepřepsal, mají rám a tlačítka nová, ale zpětnou vazbu v tintě (`.blok__zpetna`).
+- Rám aktivity `.blok` (oddíl Rám aktivity výš), hlavička s nadtitulkem v barvě období a razítky lidí, o kterých blok je (`ui/RazitkoCloveka.svelte`, údaje z `clovek()` v `bloky/_kontrola.ts`); otázka `t-h3`; styly v `global.css` › Rám aktivity. „Co udělal …“ má razítko filozofa. Od K4b stojí v rámu všechny bloky a zpětná vazba je všude lístek s páskou; `.blok__zpetna` s tintou už není.
 - Pole na psaní jsou linkovaný deník (spodní linka `--tuzka`, kontrast 3 : 1) a píše se do nich Kalamem perem studenta. Po tahu ve Volbě zůstane vidět jen vybraný lístek, ostatní tahy jsou v „Co kdybys zvolil jinak?“.
 - Lístek zpětné vazby se rozloží (`.rozlozit`), při omezeném pohybu a po obnovení stránky leží hned.
 - V profilu patří bloky do čtenářského sloupce, i Spor se dvěma sloupci argumentů: uvnitř kapitoly stojí bez obalu, mimo kapitolu v `.blok-sloupec`, který má na stránce osobnosti stejnou šířku (680 px; jinde 960 px).

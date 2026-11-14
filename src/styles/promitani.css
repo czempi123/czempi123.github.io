@@ -40,6 +40,7 @@ html.promitani [data-promitane] { margin-top: var(--s-5); scroll-margin-top: cal
 /* Roztřiď: Dát sem pod popisem koše přes jeho šířku. Vedle názvu by název a popis ve čtyřech koších vedle sebe
    lámal po dvou slovech; tlačítko pokrývá celý koš dál (Roztrid.svelte), mění se jen jeho místo v hlavě koše. */
 html.promitani .kos { display: flex; flex-direction: column; }
+html.promitani .kos__celo { flex: 1 0 auto; display: flex; flex-direction: column; }
 html.promitani .kos__hlava { flex: 1 0 auto; flex-direction: column; align-items: stretch; gap: var(--s-2); }
 /* Koše vedle sebe mají tlačítko ve stejné výšce, i když je popis v jednom kratší. */
 html.promitani .kos__sem { margin-top: auto; }

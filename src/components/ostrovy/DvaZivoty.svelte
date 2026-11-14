@@ -2,7 +2,7 @@
   // Dva životy (Doba a lidé, interaktivita-v1, K2): dva pruhy životů na jedné ose, společná léta zvýrazněná,
   // pod nimi věta z časové logiky mapy („Žili současně 37 let“, „Dělí je 519 let. To je asi sedm lidských životů.“).
   // Student vybere ze seznamu jiného člověka; osa se přepočítá, pruhy se posunou a věta se přepíše (aria-live).
-  // Při omezeném pohybu pruhy skočí. Nic se neukládá. Bez JavaScriptu stojí výchozí dvojice s větou, bez nabídky.
+  // Při omezeném pohybu pruhy skočí. Společná léta jsou šrafa tužkou, ne tinta (K4b). Nic se neukládá. Bez JavaScriptu stojí výchozí dvojice s větou, bez nabídky.
   // Vkládá ho DobaALide.astro přes src/components/osobnost/DvaZivoty.astro; pravidla výběru v src/lib/dvojice.ts.
   import { onMount } from 'svelte';
   import { naAstro, vzdalenost, zAstro, zivotOsoby, type OsobaMapy } from '../../lib/cas-mapy';
@@ -107,15 +107,21 @@
 <style>
   .dva__obraz { margin: 0; }
   .dva__pasy { position: relative; display: grid; gap: 14px; padding: 10px 0; }
-  .dva__mrizka { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
-  /* Společná léta: tint období mezi pruhy s čárkovanými okraji; mezera mezi životy: čárkovaná čára mezi pruhy. */
-  .dva__usek { position: absolute; transition: left var(--pohyb-kamera), width var(--pohyb-kamera); }
-  .dva__usek--spolecne { top: 0; bottom: 0; background: var(--pc-tint); border-inline: 1px dashed var(--pc); }
-  .dva__usek--mezera { top: 50%; height: 0; border-top: 2px dashed var(--muted); }
+  .dva__mrizka { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--linka); }
+  /* Společná léta (K4b, místo tinty): šrafa tužkou mezi pruhy s čárkovanými okraji; mezera mezi životy: čárkovaná
+     čára tužkou mezi pruhy. Posun po výběru jede jako přichycení (--d-presun), při omezeném pohybu skočí. */
+  .dva__usek { position: absolute; transition: left var(--d-presun) var(--k-papir), width var(--d-presun) var(--k-papir); }
+  .dva__usek--spolecne {
+    top: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--tuzka) 45%, transparent) 0 1.5px, transparent 1.5px 6px);
+    border-inline: 1.5px dashed var(--tuzka);
+  }
+  .dva__usek--mezera { top: 50%; height: 0; border-top: 2px dashed var(--tuzka); }
   .dva__popis {
     margin: 0;
     color: var(--ink);
-    transition: padding var(--pohyb-kamera);
+    transition: padding var(--d-presun) var(--k-papir);
   }
   .dva__popis--b { margin-bottom: var(--s-2); }
   .dva__popis strong { font-weight: 600; }
@@ -125,12 +131,12 @@
     position: absolute;
     top: 0;
     height: 12px;
-    border-radius: var(--r-full);
-    background: var(--pc);
-    transition: left var(--pohyb-kamera), width var(--pohyb-kamera);
+    border-radius: var(--r-plne);
+    background: var(--p);
+    transition: left var(--d-presun) var(--k-papir), width var(--d-presun) var(--k-papir);
   }
 
-  .dva__osa { position: relative; height: 22px; border-top: 1px solid var(--muted); color: var(--ink-2); }
+  .dva__osa { position: relative; height: 22px; border-top: 1.5px solid var(--tuzka); color: var(--ink-2); }
   .dva__osa span { position: absolute; top: 4px; transform: translateX(-50%); white-space: nowrap; }
   .dva__era { margin: 0; text-align: right; color: var(--ink-2); }
   .dva__veta {
@@ -147,9 +153,10 @@
     width: 100%;
     min-height: 44px;
     padding: var(--s-2) var(--s-3);
-    border: 1px solid var(--muted);
-    border-radius: var(--r-sm);
-    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-ovladani);
+    background: var(--papir);
+    box-shadow: var(--vtla);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani-l);

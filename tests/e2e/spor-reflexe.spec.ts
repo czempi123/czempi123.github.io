@@ -131,6 +131,9 @@ test('Spor: výběr argumentu druhé strany jen klávesnicí (telefon), vydrží
   await page.keyboard.press('Escape');
   await expect(r).toHaveJSProperty('open', false);
   await expect(r.locator('summary')).toBeFocused();
+  // Pata rámu aktivity (K4a): Začít znovu vlevo, hlavní čin vpravo.
+  await page.keyboard.press('Tab');
+  await expect(spor.getByRole('button', { name: 'Začít znovu' })).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(spor.getByRole('link', { name: 'Další krok: Měsíc na minimum' })).toBeFocused();
 

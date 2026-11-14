@@ -4,7 +4,8 @@
 // 2) před první kapitolu vloží skript, který na telefonu a v užším okně (do 899 px) přesune záložky velkých otázek
 //    z hlavičky až za úvod, aby deska a první odstavec zůstaly na první obrazovce. Skript běží při čtení stránky,
 //    takže se nic nepřeskládá před očima; vykreslení do té doby drží <link rel="expect"> v hlavičce (Zakladni.astro,
-//    pole ocekavat). Při změně šířky okna se záložky vrátí. Společný profil (dvojice) má záložky vedle cesty a nemění se.
+//    pole ocekavat). Týž skript dá na telefonu první odstavec úvodu nad lištu Obsah (odpověď 6 b po K4a).
+//    Při změně šířky okna se záložky i odstavec vrátí. Společný profil (dvojice) má záložky vedle cesty a nemění se.
 import { uchytCitaty } from '../../lib/listy';
 
 // Stejné id čeká <link rel="expect"> ze StrankaProfilu.astro.
@@ -26,7 +27,23 @@ const PRESUN = `(function () {
     za.className = 'deska-za-uvodem t-popisek';
     p.after(za);
   }
+  // Lišta Obsah stojí na telefonu až pod prvním odstavcem úvodu (odpověď 6 b po K4a): první odstavec jde i s popiskem
+  // desky nad lištu, do mělkých kopií obalů .obsah a .uvod (se stejnými atributy, takže platí tytéž styly).
+  // Lišta zůstává sourozencem obsahu stránky, aby při čtení držela pod horní lištou až do konce.
+  var lista = document.querySelector('[data-obsah-lista]');
+  var uvod = p && p.parentElement;
+  var obsah = uvod && uvod.closest('.obsah');
+  var nad = null;
+  if (lista && obsah && p.matches(':first-child') && !obsah.closest('.osobnost--dvojice')) {
+    nad = obsah.cloneNode(false);
+    nad.classList.add('obsah--nad-listou');
+    nad.appendChild(uvod.cloneNode(false));
+  }
   function presun() {
+    if (nad) {
+      if (m.matches) { nad.firstChild.appendChild(p); if (za) nad.firstChild.appendChild(za); lista.before(nad); }
+      else if (nad.isConnected) { uvod.prepend(p); if (za) p.after(za); nad.remove(); }
+    }
     if (o) {
       if (m.matches) s.before(o); else doma.after(o);
       o.classList.toggle('vstupy-osoby--za-uvodem', m.matches);

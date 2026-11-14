@@ -283,24 +283,17 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 .blok__vazba { margin-top: var(--s-5); font-size: calc(var(--meritko) * 19px); line-height: 1.5; color: var(--ink-2); }
 .blok__vazba p { margin: 0 0 var(--s-3); }
 .blok__vazba > :last-child, .blok__vazba > astro-slot > :last-child { margin-bottom: 0; }
-/* Uvnitř jiného přilepeného papíru (myšlenka, Zkus to žít, lístek): lepicí lístek v barvě období bez pásky (Po K3). */
+/* Uvnitř jiného přilepeného papíru (myšlenka, Zkus to žít, lístek): lepicí lístek v barvě období bez pásky (Po K3).
+   Papír období 12 % (ne 16 % jako vnořený citát): na lístku píše i studentovo pero a sépiové by v období 7 mělo 4,27 : 1 (K4b). */
 :is(.papirovy-list, .listek-paska, .cisty-list) .blok .blok__vazba {
   background:
     linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
-    color-mix(in srgb, var(--pp) 16%, var(--listek));
+    color-mix(in srgb, var(--pp) 12%, var(--listek));
   box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
   rotate: .8deg;
 }
 :is(.papirovy-list, .listek-paska, .cisty-list) .blok .blok__vazba > .paska { display: none; }
 .blok__zpetna-titulek { margin: 0 0 var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 600; line-height: var(--lh-ovladani-l); color: var(--ink); }
-/* Zpětná vazba bloků, které ještě nejsou v rámu (K4b): tinta zůstává, než je přepíše. */
-.blok__zpetna {
-  margin-top: var(--s-5);
-  padding: var(--s-4) var(--s-5);
-  border-radius: var(--r-razitko);
-  background: var(--pc-tint, var(--plocha));
-}
-.blok__zpetna > :last-child { margin-bottom: 0; }
 .blok__oddil { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px dashed var(--tuzka); }
 .blok__ulozeno { margin: var(--s-3) 0 0; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
 .blok__dal { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-5); }
@@ -332,6 +325,8 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   .blok > .blok__pata .blok__pata-hlavni { flex: 1 1 auto; min-width: 0; }
   .blok > .blok__pata .blok__pata-hlavni > .blok__tl { flex: 1 1 auto; white-space: normal; }
   html:has(:is(.cesta-lista, nav.lista)) { --pata-dole: calc(var(--spodni-lista) + env(safe-area-inset-bottom, 0px)); }
+  /* Ovládání v rámu s držící patou se při posunu k němu (fokus, skok, posun prohlížeče) nezastaví pod patou (K4b). */
+  .blok:has(> .blok__pata .blok__pata-hlavni) :is(input, textarea, select, label, button, [tabindex]) { scroll-margin-bottom: 84px; }
 }
 
 /* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Komponenty) ───── */
