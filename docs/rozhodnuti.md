@@ -4,6 +4,21 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 14. 11. 2026: Vize jako nosný pilíř a kurikulum
+
+Podklad: zadání autora ze 14. 11. 2026, Strategie vzdělávací politiky ČR do roku 2030+, [RVP G, úplné znění ze září 2021](https://edu.gov.cz/wp-content/uploads/2021/09/001_RVP_GYM_uplne_zneni.pdf), ŠVP 4 (2022) a ŠVP 8 (2021) Gymnázia Třinec; plán `docs/plany/kurikulum.md`, list pro učitele `ucitel/kurikulum.md`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nosný pilíř atlasu, nadřazený úplně všemu: student si z něj má opravdu odnést něco do života. Před každým celkem, aktivitou i revizí stojí nultá otázka „Co si z toho student odnese do života?“ | Autor: je to duše celé aplikace od začátku; atlas je doplněk výuky a tohle je jeho hlavní myšlenka |
+| Atlas je didaktická pomůcka pro výuku a drží požadavky na výuku v pořadí Strategie 2030+, RVP G, ŠVP; při rozporu má přednost dokument, který stojí výš | Autor; práce potrvá déle, proto se počítá už se Strategií 2030+ |
+| RVP G se bere v úplném znění ze září 2021, ne ve znění z roku 2007 | Autor odkaz 14. 11. 2026 opravil; znění 2021 je pro gymnázia závazné od 1. 9. 2025 a přidalo digitální kompetenci, filozofická část je stejná |
+| ŠVP Gymnázia Třinec (ŠVP 4 z roku 2022 a ŠVP 8 z roku 2021) je nejnižší vrstva. Mění rozhodnutí brány F0 „gymnázium bez konkrétního ŠVP“: atlas se dál staví podle RVP G, ŠVP slouží jako zkouška v konkrétní škole | Autor tam chce učit. ŠVP 8 platí jen pro nižší stupeň, vyšší stupeň se v ZSV učí podle ŠVP 4, takže pro filozofii stačí jedno mapování |
+| Student si má při práci s atlasem osvojovat klíčové kompetence; každý nový celek projde sedmi otázkami kontroly kurikula (`docs/plany/kurikulum.md`) | Autor; kompetence chtějí Strategie i RVP G |
+| Hotové části se podle kurikula smějí vrátit do plánu jako revize, ale nejdřív se dodělá design. Hotový obsah se dál nemění do fáze 5; nálezy k antice jsou v `docs/navraty.md` se zdrojem K | Autor; platí pořadí z 12. 11. 2026 |
+| Do zbylých kroků `design-v2` kurikulum nic nepřidává | Karta Do hodiny, sebehodnocení a práce pro třídu jsou nové funkce a patří do herny a do větve `trida-v1` |
+| Šest otázek v `docs/plany/kurikulum.md` › Co rozhodnout (věta pilíře, jádro a rozšíření, společná aktivita v každé nové cestě, lístek z cesty pro učitele, Argumentační klamy do `herna-v1`, `trida-v1` po středověku) čeká na odpověď autora | Jsou to návrhy, ne rozhodnutí |
+
 ## 12. 11. 2026: Po auditu celého atlasu
 
 Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`, `docs/revize/recenze-mapa-denik-2026-11-12.md`, plán `docs/plany/po-auditu.md` a odpovědi autora z 12. 11. 2026 („U otázek souhlasím, může to tak být“).
