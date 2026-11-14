@@ -8,6 +8,7 @@ import ListaHodiny from '../components/rozvrzeni/ListaHodiny.astro';
 import { KLIC_AKTIVNI } from '../lib/pruchod-hodiny';
 import { TEXT_DENIKU_SKRIPT } from '../lib/denik';
 import { skriptPera } from '../lib/pero';
+import { typPrechoduKroku, KLIC_ODKUD } from '../lib/postup';
 import Hlavicka, { type Sekce } from '../components/rozvrzeni/Hlavicka.astro';
 import SpodniLista from '../components/rozvrzeni/SpodniLista.astro';
 import Drobecky from '../components/rozvrzeni/Drobecky.astro';
@@ -91,11 +92,22 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         }
       } catch (e) {}
     </script>
-    <script is:inline>
+    <script is:inline set:html={`
       // Přechod mezi stránkami (global.css › Přechody): list se otočí kolem levé hrany. Návrat v historii
       // dostane typ zpet (list se přiklopí zpátky), ostatní příchody typ dalsi. Firefox a omezený pohyb přechod nemají.
+      // Mezi sousedními kroky téže cesty se list jen posune (typ krok-dal nebo krok-zpet, K5): pozná se z adres
+      // (navigation.activation, jinak adresa uložená při odchodu ze stránky), ne z odkazu.
+      var typKroku = ${typPrechoduKroku.toString()};
+      addEventListener('pageswap', function () { try { sessionStorage.setItem('${KLIC_ODKUD}', location.pathname); } catch (x) {} });
       addEventListener('pagereveal', function (e) {
         if (!e.viewTransition) return;
+        var odkud = '';
+        try {
+          var a0 = window.navigation && navigation.activation;
+          odkud = a0 && a0.from && a0.from.url ? new URL(a0.from.url).pathname : (sessionStorage.getItem('${KLIC_ODKUD}') || '');
+        } catch (x) {}
+        var krok = typKroku(odkud, location.pathname);
+        if (krok) { e.viewTransition.types.add(krok); return; }
         var zpet = false;
         try {
           var a = window.navigation && navigation.activation;
@@ -108,7 +120,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         if (zpet) t.add('otaci-se--zpet');
         e.viewTransition.finished.finally(function () { t.remove('otaci-se', 'otaci-se--zpet'); });
       });
-    </script>
+    `} />
     <script is:inline>
       // Příchod na profil (global.css › Příchod na profil): titulek, pruh a pásky po sobě, jen při nové návštěvě.
       // Po Zpět (traverse), při omezeném pohybu a ve Firefoxu (bez pagereveal) je stránka hned celá.
@@ -168,6 +180,8 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
     {/* Rub zahnutého listu při přechodu mezi stránkami (global.css › Přechody); před hlavičkou, aby ležel pod ní. */}
     <div class="otoceni-ohyb" aria-hidden="true"><div class="otoceni-ohyb__papir"></div></div>
     {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} obdobi={obdobi} />}
+    {/* Lišta pod záhlavím webu (krok cesty, K5): na notebooku pod hlavičkou, na telefonu místo ní. */}
+    <slot name="pod-hlavickou" />
     <ListaHodiny />
     {drobecky && <Drobecky cesta={drobecky} />}
     <main id="obsah" tabindex="-1" data-pagefind-body={hledat ? '' : undefined} class:list={{ aplikace }}>

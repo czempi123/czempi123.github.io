@@ -3,7 +3,7 @@
 // Hlídá i tón celku: první obrazovka je Mieza, opilost má jednu větu, text netvrdí, čemu Aristotelés Alexandra učil,
 // Sókratés mluví Platónovými ústy, zvyk není dril, střed není půlka a student, který nesouhlasí, má spojence.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
 
 const CESTA4 = '/cesta/staci-vedet-co-je-spravne/';
 const KROKY4 = ['Háj a hostina', 'Co ti tehdy chybělo?', 'Kdo ví, udělá to', 'Stavitelem se stáváš stavěním', 'Věděl to doopravdy?', 'Kde je střed?', 'Jak dlouho to trvá?', 'Tvoje pravidlo'];
@@ -14,7 +14,7 @@ const NEPATRI = /lagun|delfín|zub[yů]|ježov|Hermei|závě[ťt]|Lesb|vlaštov|
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);

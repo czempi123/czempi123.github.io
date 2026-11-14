@@ -63,5 +63,17 @@ vysledky.lideNaSokrata = { url: new URL(strana.url()).pathname, log: await log()
 await strana.goBack(); await pockej(3000);
 vysledky.zpet = { url: new URL(strana.url()).pathname, log: await log() };
 
+// K5: mezi sousedními kroky cesty se list jen posune (typ krok-dal / krok-zpet podle adres), na přehled se otočí.
+const CESTA = `${ZAKLAD}/cesta/kdy-mam-dobry-duvod-verit/`;
+await strana.goto(`${CESTA}1/`); await pockej(3000); await log();
+await klikni('.cesta-lista [data-dalsi-krok]'); await pockej(2500);
+vysledky.krok1na2 = { url: new URL(strana.url()).pathname, log: await log(), stip: await strana.evaluate(() => document.querySelector('.cesta-hlavicka .misto')?.className) };
+await klikni('.cesta-lista a.predchozi'); await pockej(2500);
+vysledky.krok2na1 = { url: new URL(strana.url()).pathname, log: await log() };
+await strana.goBack(); await pockej(2500);
+vysledky.zpetVHistorii = { url: new URL(strana.url()).pathname, log: await log() };
+await klikni('.cesta-hlavicka a.zpet'); await pockej(2500);
+vysledky.krokNaPrehled = { url: new URL(strana.url()).pathname, log: await log() };
+
 console.log(JSON.stringify({ kanal: prohlizec.browserType().name() + ' ' + prohlizec.version(), ...vysledky }, null, 1));
 await prohlizec.close();

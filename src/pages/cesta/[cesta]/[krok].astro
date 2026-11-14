@@ -1,5 +1,6 @@
 ---
-// Krok cesty: soustředěná hlavička s postupem, „Kde jsme“, obsah kroku (bloky) a lišta Předchozí / Další.
+// Krok cesty: lišta cesty s lístkem, který se štípe (na notebooku pod záhlavím webu, na telefonu místo něj; K5),
+// „Kde jsme“, obsah kroku (bloky) a lišta Předchozí / Další krok (tichý, dokud student neodpoví).
 // Středová osa: nadpis a text v čtenářském sloupci uprostřed, bloky v širším pásu (960 px) na téže ose.
 // Text kroku leží na čistém listu, bloky v rámu aktivity na tečkách mezi listy (K4a, ListyKroku.astro).
 import { getCollection, render, type CollectionEntry } from 'astro:content';
@@ -9,6 +10,7 @@ import CestaLista from '../../../components/cesta/CestaLista.astro';
 import TydenKarta from '../../../components/tyden/TydenKarta.astro';
 import ListyKroku from '../../../components/cesta/ListyKroku.astro';
 import { krokyCesty, adresaKroku, adresaCesty, zacatekCesty } from '../../../lib/cesty';
+import { blokKroku } from '../../../lib/postup';
 
 export async function getStaticPaths() {
   const cesty = await getCollection('cesty');
@@ -33,9 +35,11 @@ const pred = seznam.find((x) => x.n === k.krok - 1);
 const dal = seznam.find((x) => x.n === k.krok + 1);
 // Poslední krok: pod závěrečným pravidlem karta týdne, který se po této cestě nabízí (nabizet.cesty v datech týdne).
 const tydny = dal ? [] : (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.includes(cesta.id));
+// Další krok je tichý, dokud student neodpoví v posledním bloku s odpovědí (K5); krok bez něj ho má hlavní hned.
+const ceka = blokKroku(zaznam.body ?? '');
 ---
-<Zakladni titulek={`${k.nazev} · ${c.nazev}`} popis={c.vstup} hledat={false}>
-  <CestaHlavicka slot="hlavicka" slug={cesta.id} nazev={c.nazev} kroky={seznam} aktualni={k.krok} />
+<Zakladni titulek={`${k.nazev} · ${c.nazev}`} popis={c.vstup} hledat={false} sekce="otazky" obdobi={c.obdobi}>
+  <CestaHlavicka slot="pod-hlavickou" slug={cesta.id} nazev={c.nazev} obdobi={c.obdobi} kroky={seznam} aktualni={k.krok} minut={c.minut} ceka={ceka} />
   <article class={`krok stranka obdobi-${c.obdobi}`}>
     <header class="krok__hlava">
       <p class="t-nadtitulek nadtitulek">Krok {k.krok} · {c.nazev}</p>
@@ -49,13 +53,14 @@ const tydny = dal ? [] : (await getCollection('tydny')).filter((t) => t.data.nab
     slot="lista"
     predchozi={pred ? { href: pred.href, text: 'Předchozí' } : { href: adresaCesty(cesta.id), text: 'Přehled' }}
     dalsi={dal ? { href: dal.href, text: 'Další krok', nazev: dal.nazev } : { href: `${adresaCesty(cesta.id)}#hotovo`, text: 'Dokončit cestu' }}
+    ceka={ceka}
   />
 </Zakladni>
 
 <style>
   .krok { padding-bottom: var(--s-6); }
   .krok__hlava { max-width: var(--ctenarsky-sloupec); margin-inline: auto; padding: var(--s-6) 0 var(--s-2); }
-  .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  .nadtitulek { margin: 0 0 var(--s-3); color: var(--p); }
   h1 { margin-bottom: var(--s-3); }
   .kde { margin: 0; color: var(--ink-2); }
   .kde .t-popisek { color: var(--ink-2); }

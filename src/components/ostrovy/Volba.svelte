@@ -1,6 +1,6 @@
 <script lang="ts">
-  // Volba s důvodem v rámu aktivity (K4a): možnosti jsou lístky s pahýlem (plátno Herna.dc.html › Volba). Volba lístek
-  // štípne (dírka v pahýlu), vtlačí do papíru a pero studenta zakroužkuje písmeno. Nepovinné „Proč právě tohle?“,
+  // Volba s důvodem v rámu aktivity (K4a): možnosti jsou kroužkovací arch (od K5; štípací lístek s pahýlem patří cestě):
+  // proužky papíru s písmenem na okraji. Volba proužek vtlačí do papíru a pero studenta zakroužkuje písmeno. Nepovinné „Proč právě tohle?“,
   // ke každé možnosti vlastní zpětná vazba „Tvůj tah: …“ na lístku s páskou a oddíl „Co udělal …“.
   // Zpětná vazba vysvětluje důvod, nikdy neznámkuje. Blok s `bezDuvodu: true` pole „Proč právě tohle?“ nemá (cesta 4, krok 2).
   // Použití v MDX (obsah v src/content/bloky/cesta1-jak-zjistit.yaml):
@@ -139,8 +139,7 @@
           onchange={ulozRozpracovane}
           disabled={potvrzeno}
         />
-        <span class="pahyl" aria-hidden="true">
-          <i class="dirka"></i>
+        <span class="okraj" aria-hidden="true">
           <span class="pismeno">{pismeno(i)}<svg class="kruh" viewBox="0 0 40 38" focusable="false"><path pathLength="1" d="M21 3C10 2 3 9 4 20c1 11 11 16 21 14 9-2 13-10 11-19C34 7 27 2 17 4" /></svg></span>
         </span>
         <span class="text">{@html radek(m.text)}</span>
@@ -164,7 +163,9 @@
   @container (min-width: 760px) {
     .moznosti { grid-template-columns: 1fr 1fr; }
   }
-  /* Lístek s pahýlem: vystouplý (global.css › Vrstvy stínu), zvolený vtlačený do papíru. */
+  /* Kroužkovací arch (K5, připomínka autora 14. 11.: štípací lístek s pahýlem patří cestě): proužek papíru, vystouplý
+     (global.css › Vrstvy stínu), zvolený vtlačený do papíru. Na okraji písmeno jako u testu; zvolené písmeno
+     zakroužkuje pero studenta, dřív kolem písmen nic není. Bez pahýlu, perforace a dírky. */
   .karta {
     display: flex;
     align-items: stretch;
@@ -180,40 +181,13 @@
   /* Po tahu zůstane vidět jen vybraný lístek; ostatní tahy jsou v „Co kdybys zvolil jinak?“. */
   .karta--skryta { display: none; }
   .moznosti:has(.karta--skryta) { grid-template-columns: 1fr; }
-  /* Pahýl: perforace čárkovaně a dva výseky v barvě papíru stránky, nahoře a dole. */
-  .pahyl {
-    position: relative;
+  /* Okraj s písmenem: kroužek perem až u zvolené možnosti (autor 14. 11.: nic předem zakroužkované). */
+  .okraj {
     flex: none;
     display: grid;
     place-items: center;
-    width: 56px;
-    border-right: 2px dashed var(--linka);
+    width: 52px;
   }
-  .pahyl::before,
-  .pahyl::after {
-    content: "";
-    position: absolute;
-    right: -8px;
-    width: 14px;
-    height: 7px;
-    background: var(--papir);
-    box-shadow: var(--vtla-mele);
-  }
-  .pahyl::before { top: 0; border-radius: 0 0 7px 7px; }
-  .pahyl::after { bottom: 0; border-radius: 7px 7px 0 0; }
-  /* Štípnutí: dírka v pahýlu (dopad). */
-  .dirka {
-    position: absolute;
-    top: 6px;
-    left: 7px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--papir);
-    box-shadow: var(--vtla-hl);
-    scale: 0;
-  }
-  .karta--vybrana .dirka { scale: 1; }
   .pismeno {
     position: relative;
     width: 26px;
@@ -245,10 +219,9 @@
   .karta--vybrana .kruh { opacity: 1; }
   .karta--vybrana .kruh path { stroke-dashoffset: 0; }
   .karta--vybrana .pismeno { color: var(--pero); }
-  /* Pohyb jen po činu studenta: po obnovení stránky jsou dírka i kroužek rovnou celé. */
-  :global(.volba--ziva) .dirka { transition: scale var(--d-listek) var(--k-dopad); }
+  /* Pohyb jen po činu studenta: po obnovení stránky je kroužek rovnou celý. */
   :global(.volba--ziva) .kruh path { transition: stroke-dashoffset var(--d-tah) var(--k-papir) var(--d-stisk); }
-  .text { align-self: center; padding: 14px 16px; }
+  .text { align-self: center; padding: 14px 16px 14px 2px; }
   .nepovinne { margin-left: var(--s-2); font-weight: 400; color: var(--ink-3); }
   .tvuj-duvod { margin: 0; }
   .tvuj-duvod .t-popisek { color: var(--ink-2); }

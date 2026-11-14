@@ -61,7 +61,7 @@ test('Spor bez reflexe: zůstává zavřená, Další krok je vidět a zápis ji
   await expect(r.locator('summary')).toHaveText(/^Který argument druhé strany byl nejsilnější\?\s*Nepovinné$/);
   await expect(r.getByRole('radio')).toHaveCount(0);
   await expect(r.getByRole('textbox')).toHaveCount(0);
-  await expect(spor.getByRole('link', { name: 'Další krok: Měsíc na minimum' })).toBeVisible();
+  await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
   expect(await zapis(page, KYNICI)).toBe('Na začátku: spíš kynici. Po argumentech: spíš kynici.');
   // Obnovení bez reflexe ji neotevře.
   await page.reload();
@@ -134,8 +134,9 @@ test('Spor: výběr argumentu druhé strany jen klávesnicí (telefon), vydrží
   // Pata rámu aktivity (K4a): Začít znovu vlevo, hlavní čin vpravo.
   await page.keyboard.press('Tab');
   await expect(spor.getByRole('button', { name: 'Začít znovu' })).toBeFocused();
-  await page.keyboard.press('Tab');
-  await expect(spor.getByRole('link', { name: 'Další krok: Měsíc na minimum' })).toBeFocused();
+  // Další krok nabízí rozsvícená lišta kroku (K5); blok ho neopakuje.
+  await expect(spor.getByRole('link', { name: /Další krok/ })).toHaveCount(0);
+  await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
 
   await page.goto('/denik/');
   await expect(page.locator('.seznam--zapisy')).toContainText(text);

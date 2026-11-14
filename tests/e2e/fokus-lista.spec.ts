@@ -79,7 +79,8 @@ test('fokus z klávesnice nezůstane pod lištou hodiny ani pod lištou kroku, t
   const presah = () =>
     page.evaluate(() => {
       const e = document.activeElement as HTMLElement | null;
-      if (!e || e === document.body || e.closest('[data-hodina-lista], .cesta-hlavicka, .cesta-lista, .preskocit')) return 0;
+      // Záhlaví webu (od K5 i nad krokem cesty na notebooku) leží nad lištou hodiny: jeho prvky se nepočítají.
+      if (!e || e === document.body || e.closest('[data-hodina-lista], header.hlavicka, .cesta-hlavicka, .cesta-lista, .preskocit')) return 0;
       const horni = document.querySelector('[data-hodina-lista]')!.getBoundingClientRect().bottom;
       const dolni = document.querySelector('.cesta-lista')!.getBoundingClientRect().top;
       const r = e.getBoundingClientRect();

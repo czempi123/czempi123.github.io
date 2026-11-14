@@ -1,7 +1,7 @@
 // Cesta 5 „Co mám ve svých rukou?“: celý průchod jen klávesnicí na telefonu a jednou bez odkrytí bloků.
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
 
 const CESTA5 = '/cesta/co-mam-ve-svych-rukou/';
 const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Záleží na tom, co mě potká?', 'Snímek z chatu', 'Kamenná tvář', 'Tvoje pravidlo'];
@@ -10,7 +10,7 @@ const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Zálež
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);

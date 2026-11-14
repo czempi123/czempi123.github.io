@@ -1,0 +1,184 @@
+---
+// Lístek cesty, který se štípe (design-v2, K5, bod 4; plátno Zlepseni.dc.html › 4): týž lístek s pahýlem jako
+// v profilu (VstupyOsoby.astro), jen místo názvu nese místa kroků. Prošlý krok je vyštípnutá dírka, běžící krok
+// číslo v kroužku perem studenta, a když je cesta za námi, pahýl se odtrhne a přistane v deníku.
+// Stav ze deníku nastaví skript před vykreslením (stavKroku a pouzijStavKroku v src/lib/postup.ts) a pak
+// src/scripts/postup-cesty.ts; pohyb (štípnutí, kroužek, odtržení) jen po činu studenta, po obnovení je vše hned.
+// <ListekCesty slug="…" nazev="…" kroky={[{ n: 1, nazev: '…' }]} minut={14} aktualni={2} />  (aktualni 0 = přehled cesty)
+import { TEXT_DENIKU_SKRIPT } from '../../lib/denik';
+import { stavKroku, pouzijStavKroku } from '../../lib/postup';
+
+interface Props {
+  slug: string;
+  nazev: string;
+  kroky: { n: number; nazev: string }[];
+  minut?: number;
+  /** krok, na kterém student je; 0 na přehledu cesty */
+  aktualni?: number;
+  /** id bloku, na který krok čeká (Další krok tichý, dokud není hotový) */
+  ceka?: string;
+}
+const { slug, nazev, kroky, minut, aktualni = 0, ceka = '' } = Astro.props;
+const pocet = kroky.length;
+const skript = `(function () {
+  try {
+    var s = document.currentScript;
+    var l = s && s.previousElementSibling;
+    if (!l) return;
+    var d = JSON.parse(${TEXT_DENIKU_SKRIPT} || 'null');
+    var st = (${stavKroku.toString()})(d, l.dataset.slug, Number(l.dataset.krok), Number(l.dataset.pocet), l.dataset.ceka || '');
+    (${pouzijStavKroku.toString()})(st, document);
+  } catch (e) {}
+})();`;
+---
+<div
+  class:list={['listek-cesty', aktualni ? 'listek-cesty--krok' : 'listek-cesty--prehled']}
+  data-listek-cesty
+  data-slug={slug}
+  data-nazev={nazev}
+  data-krok={aktualni}
+  data-pocet={pocet}
+  data-ceka={ceka}
+>
+  <div class="listek-cesty__hl">
+    {aktualni > 0 && <p class="listek-cesty__nazev" aria-hidden="true">{nazev}</p>}
+    <div class="listek-cesty__radek">
+      <ol class="listek-cesty__mista" aria-label={aktualni ? `Postup v cestě, krok ${aktualni} z ${pocet}` : 'Postup v cestě'}>
+        {kroky.map((k) => (
+          <li class="misto" data-misto={k.n === aktualni ? 'ted' : 'volne'} aria-current={k.n === aktualni ? 'step' : undefined}>
+            <span class="vizualne-skryte">Krok {k.n}: {k.nazev}<span data-misto-stav>{k.n === aktualni ? ' (teď)' : ''}</span></span>
+            <span class="misto__cislo" aria-hidden="true">{k.n}</span>
+            <svg class="misto__kruh" viewBox="0 0 40 38" aria-hidden="true" focusable="false"><path pathLength="1" d="M21 3C10 2 3 9 4 20c1 11 11 16 21 14 9-2 13-10 11-19C34 7 27 2 17 4" /></svg>
+            <span class="misto__dirka" aria-hidden="true"></span>
+          </li>
+        ))}
+      </ol>
+      {aktualni > 0 && <p class="postup-text t-ovladani" aria-hidden="true">Krok {aktualni} z {pocet}</p>}
+    </div>
+  </div>
+  <span class="listek-cesty__pahyl" aria-hidden="true">
+    <span class="listek-cesty__trh"></span><b>{pocet}</b><span class="pahyl__kroku">kroků</span>{minut && <span class="pahyl__minut">asi {minut} min</span>}
+  </span>
+  <p class="vizualne-skryte" aria-live="polite" data-pahyl-stav></p>
+</div>
+<script is:inline set:html={skript} />
+<script>
+  import { spustPostupCesty } from '../../scripts/postup-cesty';
+  spustPostupCesty();
+</script>
+
+<style>
+  /* Lístek: dva díly vystouplého papíru, hlavní díl a za perforací pahýl (jako lístek cesty v profilu). */
+  .listek-cesty { position: relative; display: inline-flex; align-items: stretch; max-width: 100%; min-width: 0; }
+  .listek-cesty__hl,
+  .listek-cesty__pahyl { background: var(--plocha); box-shadow: var(--vyst); }
+  .listek-cesty__hl {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 10px 16px 12px;
+    border-radius: var(--r-ovladani) 0 0 var(--r-ovladani);
+  }
+  .listek-cesty__nazev { margin: 0; overflow: hidden; font-size: 19px; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; }
+  .listek-cesty__radek { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+  .listek-cesty__mista { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .postup-text { margin: 0; color: var(--ink-2); white-space: nowrap; }
+
+  /* Místo kroku: číslo v kruhu tužkou; běžící krok zakroužkovaný perem; prošlý krok vyštípnutá dírka. */
+  .misto { position: relative; display: grid; place-items: center; width: 24px; height: 24px; border-radius: var(--r-plne); box-shadow: inset 0 0 0 1px var(--tuzka); }
+  .misto__cislo { font-family: var(--font-sans); font-size: 12px; line-height: 1; color: var(--ink-3); }
+  /* Kroužek na střed čísla: pozice od středu, ne insety (ty by mřížka místa posunula o 7 px doleva, jako ve Volbě v K4a). */
+  .misto__kruh { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: calc(100% + 14px); height: calc(100% + 12px); opacity: 0; fill: none; stroke: var(--pero); stroke-width: 1.8; stroke-linecap: round; overflow: visible; }
+  .misto__kruh path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .misto__dirka { position: absolute; inset: 0; border-radius: inherit; background: var(--papir); box-shadow: var(--vtla-hl); scale: 0; }
+  .misto[data-misto='ted'] { box-shadow: none; }
+  .misto[data-misto='ted'] .misto__cislo { font-family: var(--font-ruka); font-size: 15px; color: var(--pero); }
+  .misto[data-misto='ted'] .misto__kruh { opacity: 1; }
+  .misto[data-misto='dirka'] { box-shadow: none; }
+  .misto[data-misto='dirka'] .misto__cislo { opacity: 0; }
+  .misto[data-misto='dirka'] .misto__dirka { scale: 1; }
+  /* Po činu studenta (Další krok): dírka předchozího kroku se vyštípne a nový kroužek se dotáhne perem, až list dojede. */
+  .misto--stip .misto__dirka { animation: misto-stip var(--d-listek) var(--k-dopad) var(--d-list) both; }
+  .misto--stip .misto__cislo { animation: misto-cislo var(--d-listek) var(--k-dopad) var(--d-list) both; }
+  .misto--tah .misto__kruh path { animation: misto-tah var(--d-tah) var(--k-papir) calc(var(--d-list) + var(--d-stisk)) both; }
+  @keyframes misto-stip { from { scale: 0; } to { scale: 1; } }
+  @keyframes misto-cislo { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes misto-tah { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+  .listek-cesty__pahyl {
+    position: relative;
+    flex: none;
+    width: 92px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 6px;
+    border-left: 2px dashed var(--linka);
+    border-radius: 0 var(--r-ovladani) var(--r-ovladani) 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--ink-2);
+    text-align: center;
+    transform-origin: 0 0;
+  }
+  .listek-cesty__pahyl b { font-family: var(--font-serif); font-size: 20px; font-weight: 500; line-height: 1.1; color: var(--p); }
+  /* Výseky perforace nahoře a dole: papír stránky prosvítá. */
+  .listek-cesty__pahyl::before,
+  .listek-cesty__pahyl::after { content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--papir); }
+  .listek-cesty__pahyl::before { top: -10px; }
+  .listek-cesty__pahyl::after { bottom: -10px; }
+  /* Natržené okraje u perforace (proužky se zubatým ořezem), vidět po odtržení. */
+  .listek-cesty__hl::after,
+  .listek-cesty__trh {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var(--plocha);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .listek-cesty__hl::after { right: -7px; clip-path: polygon(0 0, 60% 0, 100% 6%, 30% 13%, 85% 20%, 20% 28%, 75% 35%, 35% 43%, 95% 50%, 25% 58%, 80% 66%, 30% 73%, 90% 80%, 20% 88%, 70% 94%, 40% 100%, 0 100%); }
+  .listek-cesty__trh { left: -7px; clip-path: polygon(100% 0, 40% 0, 0 6%, 70% 13%, 15% 20%, 80% 28%, 25% 35%, 65% 43%, 5% 50%, 75% 58%, 20% 66%, 70% 73%, 10% 80%, 80% 88%, 30% 94%, 60% 100%, 100% 100%); }
+  /* Odtržený pahýl je v deníku: na lístku zůstane natržený okraj a prázdné místo (lišta neposkočí). */
+  .listek-cesty[data-cely] .listek-cesty__pahyl { opacity: 0; }
+  .listek-cesty[data-cely] .listek-cesty__hl::after { opacity: 1; }
+  .listek-cesty[data-cely] .listek-cesty__hl { border-radius: var(--r-ovladani) 0 0 var(--r-ovladani); }
+  /* Odtržení po posledním kroku: pahýl se utrhne u perforace, stočí se a padá dolů (--d-list, --k-list). */
+  .listek-cesty--odtrhava .listek-cesty__pahyl { animation: pahyl-odtrhnout var(--d-list) var(--k-list) both; }
+  .listek-cesty--odtrhava .listek-cesty__trh { opacity: 1; }
+  @keyframes pahyl-odtrhnout {
+    0% { opacity: 1; transform: none; }
+    30% { opacity: 1; transform: translate(10px, 4px) rotate(4deg); }
+    100% { opacity: 0; transform: translate(26px, 56px) rotate(22deg); }
+  }
+
+  /* Na přehledu cesty: lístek bez názvu (název je nadpis stránky). */
+  .listek-cesty--prehled { margin: 0 0 var(--s-5); }
+
+  /* Telefon (horní lišta kroku): menší místa, pahýl jen s počtem kroků. */
+  @media (max-width: 899px) {
+    .listek-cesty--krok .listek-cesty__hl { gap: 2px; padding: 4px 8px 5px; }
+    .listek-cesty--krok .listek-cesty__nazev { display: none; }
+    .listek-cesty--krok .listek-cesty__radek { flex-direction: column-reverse; align-items: flex-start; gap: 2px; }
+    .listek-cesty--krok .listek-cesty__mista { gap: 2px; }
+    .listek-cesty--krok .misto { width: 18px; height: 18px; }
+    .listek-cesty--krok .misto__cislo { font-size: 10px; }
+    .listek-cesty--krok .misto[data-misto='ted'] .misto__cislo { font-size: 12px; }
+    .listek-cesty--krok .postup-text { font-size: 12px; line-height: 1.1; }
+    .listek-cesty--krok .listek-cesty__pahyl { width: 44px; padding: 0 2px; font-size: 10px; }
+    .listek-cesty--krok .listek-cesty__pahyl b { font-size: 17px; }
+    .listek-cesty--krok .pahyl__minut { display: none; }
+    .listek-cesty--krok .listek-cesty__pahyl::before,
+    .listek-cesty--krok .listek-cesty__pahyl::after { left: -8px; width: 14px; height: 14px; }
+    .listek-cesty--krok .listek-cesty__pahyl::before { top: -7px; }
+    .listek-cesty--krok .listek-cesty__pahyl::after { bottom: -7px; }
+  }
+</style>

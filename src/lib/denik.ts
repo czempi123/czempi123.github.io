@@ -104,6 +104,11 @@ export interface PostupCesty {
    * počítá se od něj Návrat (src/lib/navrat.ts). Nepovinné: starší deníky ho nemají.
    */
   dokonceno?: string;
+  /**
+   * Čas, kdy se po posledním kroku odtrhl pahýl lístku cesty (design-v2, K5, bod 4). Pahýl tím „přistane v deníku“:
+   * sbírku odtržených pahýlů ukáže Můj deník (K6). Zapíše se jednou; nepovinné.
+   */
+  pahyl?: string;
 }
 
 export const KLIC_DENIKU = 'atlas-denik';
@@ -288,8 +293,23 @@ export function zaznamenejKrok(slug: string, krok: number, nazev: string, pocet:
   const navstivene = [...new Set([...(p?.navstivene ?? []), krok])].sort((a, b) => a - b);
   const ted = new Date().toISOString();
   const dokonceno = dokonceniCesty(p, navstivene, pocet, ted);
-  d.cesty = { ...d.cesty, [slug]: { nazev, pocet, krok, navstivene, kdy: ted, ...(dokonceno ? { dokonceno } : {}) } };
+  const pahyl = typeof p?.pahyl === 'string' ? { pahyl: p.pahyl } : {};
+  d.cesty = { ...d.cesty, [slug]: { nazev, pocet, krok, navstivene, kdy: ted, ...(dokonceno ? { dokonceno } : {}), ...pahyl } };
   uloz(d);
+}
+
+/**
+ * Po posledním kroku se pahýl lístku cesty odtrhne a přistane v deníku (K5, bod 4). Zapíše čas jednou;
+ * vrací true, když se pahýl odtrhl teď (pohyb se přehraje), false, když už byl v deníku nebo cesta záznam nemá.
+ */
+export function odtrhniPahyl(slug: string): boolean {
+  if (tichaStranka()) return false;
+  const d = nacti();
+  const p = d.cesty[slug];
+  if (!p || typeof p.pahyl === 'string') return false;
+  d.cesty = { ...d.cesty, [slug]: { ...p, pahyl: new Date().toISOString() } };
+  uloz(d);
+  return true;
 }
 
 /** Nejvýš tolik profilů si deník pamatuje pro „Pokračovat ve čtení“; nejdéle nečtený vypadne. */
@@ -513,7 +533,8 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
     const pocet = Math.max(t.pocet, n.pocet);
     const casy = [t.dokonceno, n.dokonceno].filter((x): x is string => typeof x === 'string').sort();
     const dokonceno = casy[0] ?? (navstivene.length >= pocet ? posledni.kdy : undefined);
-    cesty[slug] = { nazev: posledni.nazev, pocet, krok: posledni.krok, navstivene, kdy: posledni.kdy, ...(dokonceno ? { dokonceno } : {}) };
+    const pahyl = [t.pahyl, n.pahyl].filter((x): x is string => typeof x === 'string').sort()[0];
+    cesty[slug] = { nazev: posledni.nazev, pocet, krok: posledni.krok, navstivene, kdy: posledni.kdy, ...(dokonceno ? { dokonceno } : {}), ...(pahyl ? { pahyl } : {}) };
   }
   const prectene: Record<string, string[]> = { ...(novy.prectene ?? {}) };
   for (const [s, k] of Object.entries(ten.prectene ?? {})) prectene[s] = [...new Set([...k, ...(prectene[s] ?? [])])];

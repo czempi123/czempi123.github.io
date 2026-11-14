@@ -5,7 +5,7 @@
 // student, který nesouhlasí, má spojence; nikde není způsob smrti, obhajoba dobrovolné smrti ani klid a spánek
 // jako to, co čeká.
 import { test, expect, type Page } from '@playwright/test';
-import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, pripravitStranku } from './strany';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, pripravitStranku, dalsiVListe } from './strany';
 
 const CESTA8 = '/cesta/proc-se-bat-smrti/';
 const KROKY8 = ['Dopis', 'Čeho se vlastně bojíme', '„Netýká se nás“', 'Zrcadlo', 'Host u stolu', 'Týká se nás?', 'Ti druzí', 'Blízko', 'Tvoje pravidlo'];
@@ -16,7 +16,7 @@ const NEPATRI = /nácvik|každý den na smrt|vysvobo|úlev|\bklid|spán|usnou|o 
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);

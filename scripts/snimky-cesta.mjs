@@ -80,7 +80,7 @@ for (let n = 1; n < 20; n++) {
     await projed(page);
   }
   // Pevné lišty by na celostránkovém snímku visely uprostřed.
-  await page.addStyleTag({ content: '.cesta-lista, header.hlavicka, .krok__hlavicka, .blok__pata { position: static !important; }' });
+  await page.addStyleTag({ content: '.cesta-lista, header.hlavicka, .cesta-hlavicka, .krok__hlavicka, .blok__pata { position: static !important; }' });
   // Krok rozložený do sloupců (jako snimky-listy.mjs), aby šel přečíst v jednom obrázku.
   const celkem = await page.evaluate(() => document.documentElement.scrollHeight);
   const sl = [];

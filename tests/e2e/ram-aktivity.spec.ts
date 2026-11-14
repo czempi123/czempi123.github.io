@@ -52,13 +52,14 @@ test('Volba v rámu: značky, lístky, kroužek perem, lístek s páskou, pata a
   const pole = blok.locator('textarea');
   expect(await pole.evaluate((e) => getComputedStyle(e).fontFamily)).toMatch(/Kalam/);
   await tah.click();
-  // Zpětná vazba je lístek s páskou; pata má Začít znovu vlevo a Kam dál vpravo.
+  // Zpětná vazba je lístek s páskou; pata má Začít znovu vlevo. Další krok nabízí lišta (K5), blok ho neopakuje.
   const vazba = blok.getByRole('region', { name: 'Zpětná vazba' });
   await expect(vazba).toHaveClass(/listek-paska/);
   await expect(vazba.locator('> .paska')).toHaveCount(1);
   const znovu = blok.locator('.blok__pata').getByRole('button', { name: 'Začít znovu' });
-  const dal = blok.locator('.blok__pata').getByRole('link', { name: /Další krok/ });
-  expect((await znovu.boundingBox())!.x).toBeLessThan((await dal.boundingBox())!.x);
+  await expect(znovu).toBeVisible();
+  await expect(blok.locator('.blok__pata').getByRole('link', { name: /Další krok/ })).toHaveCount(0);
+  await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
   // Pero se nabídne při první odpovědi a uloží se do deníku; jiné pero se projeví hned na celé stránce.
   const nabidka = blok.getByRole('group', { name: 'Tohle je tvoje pero. Chceš jiné?' });
   await expect(nabidka).toBeVisible();

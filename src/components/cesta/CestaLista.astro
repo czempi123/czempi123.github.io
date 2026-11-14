@@ -1,24 +1,42 @@
 ---
-// Pevná lišta kroku cesty: Předchozí krok / Další krok (na konci Dokončit cestu).
+// Pevná lišta kroku cesty (K5; plátno KrokCesty.dc.html › k-nav): Předchozí / Další krok (na konci Dokončit cestu).
+// Další krok je tichý (podtržený tužkou), dokud student v posledním bloku s odpovědí neodpoví; pak hlavní na plném
+// inkoustu. Krok bez takového bloku (text, kresba, zastánci) má Další krok hlavní hned. Hlavní je do té doby čin
+// bloku (Tohle je můj tah, Tady stojím…). Stav z deníku nastaví skript před vykreslením a src/scripts/postup-cesty.ts.
 import Ikona from '../ui/Ikona.astro';
+import { TEXT_DENIKU_SKRIPT } from '../../lib/denik';
+import { stavKroku, pouzijStavKroku } from '../../lib/postup';
 
 interface Props {
   predchozi: { href: string; text: string };
   dalsi: { href: string; text: string; nazev?: string };
+  /** id bloku, na který krok čeká; bez něj je Další krok hlavní hned */
+  ceka?: string;
 }
-const { predchozi, dalsi } = Astro.props;
+const { predchozi, dalsi, ceka } = Astro.props;
+// Před vykreslením: deník rozhodne, jestli je blok, na který krok čeká, už hotový (návrat ke kroku, obnovení).
+const skript = ceka ? `(function () {
+  try {
+    var l = document.querySelector('[data-listek-cesty]');
+    if (!l) return;
+    var d = JSON.parse(${TEXT_DENIKU_SKRIPT} || 'null');
+    var st = (${stavKroku.toString()})(d, l.dataset.slug, Number(l.dataset.krok), Number(l.dataset.pocet), l.dataset.ceka || '');
+    (${pouzijStavKroku.toString()})(st, document);
+  } catch (e) {}
+})();` : '';
 ---
 <nav class="cesta-lista" aria-label="Kroky cesty" data-pagefind-ignore>
   <div class="cesta-lista__vnitrek stranka">
     <a class="blok__tl blok__tl--vedlejsi predchozi" href={predchozi.href}>
       <Ikona id="zpet" velikost={20} /><span>{predchozi.text}</span>
     </a>
-    <a class="blok__tl blok__tl--hlavni dalsi" href={dalsi.href} rel="next">
+    <a class:list={['blok__tl', ceka ? 'blok__tl--tiche' : 'blok__tl--hlavni', 'dalsi']} href={dalsi.href} rel="next" data-dalsi-krok>
       <span>{dalsi.text}{dalsi.nazev && <span class="dalsi__nazev">: {dalsi.nazev}</span>}</span>
       <Ikona id="dal" velikost={20} />
     </a>
   </div>
 </nav>
+{skript && <script is:inline set:html={skript} />}
 
 <style>
   .cesta-lista {
@@ -26,8 +44,12 @@ const { predchozi, dalsi } = Astro.props;
     inset: auto 0 0 0;
     z-index: 40;
     padding-bottom: env(safe-area-inset-bottom);
-    background: var(--surface);
-    border-top: 1px solid var(--rule);
+    background-color: var(--papir);
+    background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+    background-size: var(--tecky-krok) var(--tecky-krok);
+    box-shadow: var(--lista-stin);
+    /* Při posunu listu mezi kroky lišta stojí (global.css › Přechody). */
+    view-transition-name: spodni-lista;
   }
   .cesta-lista__vnitrek {
     display: flex;
@@ -43,6 +65,8 @@ const { predchozi, dalsi } = Astro.props;
   }
   .predchozi { padding-inline: var(--s-4); }
   .dalsi { margin-left: auto; }
+  /* Tichý Další krok drží stejnou plochu jako hlavní, ať tlačítko při rozsvícení neposkočí. */
+  .dalsi.blok__tl--tiche { padding-inline: 20px; }
   .dalsi__nazev { display: none; }
   @media (min-width: 700px) {
     .dalsi__nazev { display: inline; }

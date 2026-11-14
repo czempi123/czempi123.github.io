@@ -303,16 +303,18 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
 .blok__pata { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 22px; }
 .blok__pata-hlavni { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-left: auto; }
 .blok__pata .blok__dal { margin: 0; }
+/* V kroku cesty nabízí další krok lišta a Kam dál bloku zmizí (K5, BlokDal.svelte): prázdný hlavní čin místo nebere. */
+.blok__pata-hlavni:empty { display: none; }
 /* „Co udělal …“: mince filozofa vedle nadpisu. */
 .blok__filozof { display: flex; align-items: center; gap: var(--s-3); margin: 0 0 var(--s-2); }
 .blok__filozof .blok__zpetna-titulek { margin: 0; }
 .blok-sloupec { max-width: 960px; }
 /* Telefon: rám od okraje k okraji (rohové značky u hran obrazovky). Pata s vlastním činem bloku (Tohle je můj tah,
-   Porovnat) drží u spodní hrany nad spodní lištou, v dosahu palce, v jednom řádku se Začít znovu. Pata s Kam dál
-   nebo jen se Začít znovu nedrží: další krok nabízí lišta cesty. Rám uvnitř jiného papíru (myšlenka, lístek) zůstává ve svém papíru. */
+   Porovnat; v patě je tlačítko) drží u spodní hrany nad spodní lištou, v dosahu palce, v jednom řádku se Začít znovu.
+   Pata s Kam dál nebo jen se Začít znovu nedrží: další krok nabízí lišta cesty. Rám uvnitř jiného papíru (myšlenka, lístek) zůstává ve svém papíru. */
 @media (max-width: 699px) {
   .blok:not(:is(.papirovy-list, .listek-paska, .cisty-list, .blok) .blok) { margin-inline: calc(-1 * var(--okraj)); padding: 24px var(--okraj) var(--s-4); }
-  .blok:not(:is(.papirovy-list, .listek-paska, .cisty-list, .blok) .blok) > .blok__pata:has(.blok__pata-hlavni):not(:has(.blok__dal)) {
+  .blok:not(:is(.papirovy-list, .listek-paska, .cisty-list, .blok) .blok) > .blok__pata:has(> .blok__pata-hlavni > button) {
     position: sticky;
     bottom: var(--pata-dole, 0px);
     z-index: 5;
@@ -326,7 +328,7 @@ h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
   .blok > .blok__pata .blok__pata-hlavni > .blok__tl { flex: 1 1 auto; white-space: normal; }
   html:has(:is(.cesta-lista, nav.lista)) { --pata-dole: calc(var(--spodni-lista) + env(safe-area-inset-bottom, 0px)); }
   /* Ovládání v rámu s držící patou se při posunu k němu (fokus, skok, posun prohlížeče) nezastaví pod patou (K4b). */
-  .blok:has(> .blok__pata .blok__pata-hlavni) :is(input, textarea, select, label, button, [tabindex]) { scroll-margin-bottom: 84px; }
+  .blok:has(> .blok__pata > .blok__pata-hlavni > button) :is(input, textarea, select, label, button, [tabindex]) { scroll-margin-bottom: 84px; }
 }
 
 /* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Komponenty) ───── */
@@ -787,7 +789,26 @@ html:active-view-transition-type(zpet)::view-transition-old(root) { z-index: 0; 
 html:active-view-transition-type(zpet)::view-transition-new(root) { z-index: 1; animation-name: list-odklopit; animation-direction: reverse; }
 /* Hlavička a spodní lišta: bez prolnutí, nová hned (logo může změnit barvu období). Rub listu se hýbe sám. */
 ::view-transition-group(hlavicka),
+::view-transition-group(hlavicka-cesty),
 ::view-transition-group(spodni-lista) { animation-duration: 0s; }
+/* Mezi sousedními kroky cesty (K5; plátno Pohyb.dc.html › Další krok): krátký posun listu, ne otočení. Starý list
+   odjede o šířku okna, nový přijede z druhé strany (--d-list, --k-list); lišta cesty a spodní lišta stojí.
+   Typ krok-dal nebo krok-zpet pozná skript v hlavičce Zakladni.astro z adres (typPrechoduKroku v src/lib/postup.ts). */
+@keyframes krok-odjet-vlevo { to { transform: translateX(-100%); } }
+@keyframes krok-odjet-vpravo { to { transform: translateX(100%); } }
+@keyframes krok-prijet-zprava { from { transform: translateX(100%); } }
+@keyframes krok-prijet-zleva { from { transform: translateX(-100%); } }
+html:active-view-transition-type(krok-dal, krok-zpet)::view-transition-old(root),
+html:active-view-transition-type(krok-dal, krok-zpet)::view-transition-new(root) {
+  z-index: 0;
+  opacity: 1;
+  animation-duration: var(--d-list);
+  animation-timing-function: var(--k-list);
+}
+html:active-view-transition-type(krok-dal)::view-transition-old(root) { animation-name: krok-odjet-vlevo; }
+html:active-view-transition-type(krok-dal)::view-transition-new(root) { animation-name: krok-prijet-zprava; }
+html:active-view-transition-type(krok-zpet)::view-transition-old(root) { animation-name: krok-odjet-vpravo; }
+html:active-view-transition-type(krok-zpet)::view-transition-new(root) { animation-name: krok-prijet-zleva; }
 ::view-transition-group(list-ohyb),
 ::view-transition-old(list-ohyb),
 ::view-transition-new(list-ohyb) { animation-name: none; }

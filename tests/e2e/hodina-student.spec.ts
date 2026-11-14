@@ -249,7 +249,7 @@ for (const [sirka, vyska] of [[390, 844], [1440, 900]] as const) {
     const volba = page.locator('#cesta1-jak-zjistit');
     await volba.getByText('Najdu lidi').click();
     await volba.getByRole('button', { name: 'Tohle je můj tah' }).click();
-    await volba.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: 'Další krok: Politik, básníci, řemeslníci' }).click();
+    await page.locator('.cesta-lista [data-dalsi-krok]').click();
     await page.waitForURL('**/cesta/kdy-mam-dobry-duvod-verit/3/');
     await pripravit(page);
     await expect(page.locator('[data-hl-pocet]')).toHaveText('mimo hodinu');

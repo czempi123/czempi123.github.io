@@ -2,7 +2,7 @@
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 // Hlídá i tón celku: student sedí mezi vězni, nikdo se neosvobodí sám, vypravěč si není jistý a zpátky se jde z povinnosti.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
 
 const CESTA3 = '/cesta/je-to-co-vidim-cela-skutecnost/';
 const KROKY3 = ['Jeskyně', 'Odkud to vím?', 'Ven', 'Čtverec sám', 'Učitel a žák', 'Vyměnit stíny', 'Zpátky dolů', 'Tvoje pravidlo'];
@@ -13,7 +13,7 @@ const NEPATRI = /Isokrat|Diogen|loutkář|manipul|probud|Nyhan|Nature|\bMeta\b|u
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
