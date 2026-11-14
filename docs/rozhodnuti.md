@@ -4,6 +4,21 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 14. 11. 2026: Kurikulum: odpovědi autora a dělení souborů
+
+Autor 14. 11. 2026: „Se vším v co rozhodnout souhlasím.“ Otázky jsou v `docs/plany/kurikulum.md` › Co rozhodnout.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Věta pilíře zůstává, jak je v `CLAUDE.md` | Autor souhlasil |
+| Každé období má vyznačené jádro (zhruba tři hodiny) a rozšíření; texty se nekrátí | Dějiny filozofie mají podle ŠVP jednu hodinu týdně; jádro říká, kudy jít, když je málo času |
+| Každá nová cesta má aspoň jednu společnou aktivitu a kartu Do hodiny | Největší mezera proti kurikulu i vizi: v deseti cestách není nic pro dva a víc lidí |
+| Lístek z cesty pro učitele: student sám vybere, co odevzdá; deník se neodevzdává nikdy | Učitel potřebuje podklad, deník zůstává soukromý |
+| Stránka Argumentační klamy a manipulace vznikne v `herna-v1`, ne až ve F5 | Výstup RVP G, látka semináře a nejkratší cesta k digitální kompetenci |
+| Větev `trida-v1` přijde po středověku, před zkouškou se čtenáři; karta Do hodiny a sebehodnocení vzniknou dřív v `herna-v1` | Ať se obsah nezastaví |
+| Kurikulum nemá zvláštní zadání; úkoly jsou zapsané v `docs/plany/po-auditu.md` › Kurikulum a převezmou je plány větví `herna-v1`, `uklid-v1`, celků a `trida-v1` | Autor nemá spouštět nic navíc |
+| Soubor, který se nedá nahrát do Projektu Claude vcelku, se v repozitáři rozdělí na víc souborů (pod 35 kB). `docs/plan.md` je proto rozdělený na tři: strategie zůstává, katalog zadání, Plány větví a Další větve v pořadí jsou v `docs/plan-vetve.md`, kritika prototypu a volba techniky v `docs/plan-vychodiska.md` | Autor: zasekávání na nahrávání ho hodně zdržuje |
+
 ## 14. 11. 2026: Vize jako nosný pilíř a kurikulum
 
 Podklad: zadání autora ze 14. 11. 2026, Strategie vzdělávací politiky ČR do roku 2030+, [RVP G, úplné znění ze září 2021](https://edu.gov.cz/wp-content/uploads/2021/09/001_RVP_GYM_uplne_zneni.pdf), ŠVP 4 (2022) a ŠVP 8 (2021) Gymnázia Třinec; plán `docs/plany/kurikulum.md`, list pro učitele `ucitel/kurikulum.md`.

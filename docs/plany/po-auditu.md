@@ -110,6 +110,15 @@ Do té doby se nic hotového nepřepisuje. Postřehy z autorova proklikávání 
 
 **Na co se při proklikávání dívat:** kde jsi přeskočil text, kde ses nudil, kterou aktivitu bys udělal znovu, kde jsi nevěděl, co máš dělat, co bylo na telefonu malé nebo pomalé, a kde sis řekl „tohle už tu bylo“.
 
+## Kurikulum (14. 11. 2026)
+
+Autor 14. 11. 2026 schválil plán `docs/plany/kurikulum.md` (vize jako nosný pilíř, pod ní Strategie 2030+, RVP G 2021 a ŠVP Gymnázia Třinec). Zvláštní zadání nemá; k fázím přidává:
+
+- **Fáze 2, `herna-v1`:** karta **Do hodiny** (jedna otázka do dvojice a jedna pro třídu; komponenta, v dílně a jednou v antice jako přídavek, třeba u cesty 1), krátké **sebehodnocení** na konci cesty (co už umím, v čem si jistý nejsem; bez bodů, do deníku) a stránka **Argumentační klamy a manipulace** postavená na formátech Najdi slabé místo a Pravý, nebo podvržený?. Hotové texty cest se nepřepisují.
+- **Fáze 3, `uklid-v1`:** sedm otázek kontroly kurikula jako reference skillů `atlas-cesta`, `atlas-obdobi` a `atlas-revize`; do tvaru plánu celku řádek kompetencí, společná aktivita, jádro a list pro učitele s Otázkami do hodiny.
+- **Fáze 4:** každý celek od 11 projde kontrolou kurikula; návrh pro celky 11 až 15 je v `docs/plany/kurikulum.md` › Středověk. Po středověku větev `trida-v1`: cíl hodiny a jeho zhodnocení v přípravě hodiny, lístek z cesty pro učitele, hry pro dvojici a hlasování třídy.
+- **Fáze 5:** antika podle kontroly kurikula a nálezů se zdrojem K v `docs/navraty.md`: jádro období 1 a 2, společná aktivita a karta Do hodiny v cestách, listy pro učitele k celkům 1 až 4, 9 a 10.
+
 ## Co rozhodnout
 
 Prázdná odpověď znamená souhlas s doporučením. Autor 12. 11. 2026: „U otázek souhlasím, může to tak být.“

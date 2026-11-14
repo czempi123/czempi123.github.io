@@ -62,14 +62,26 @@ Design se dodělá první a do zbylých kroků `design-v2` (K7a, K7b, P, R, O) k
 
 | Kdy | Kde | Co |
 | --- | --- | --- |
-| Hotovo 14. 11. 2026 | `CLAUDE.md`, `docs/rozhodnuti.md`, `docs/architektura.md`, `docs/plan.md`, `docs/navraty.md`, `ucitel/kurikulum.md` | Pilíř, pořadí, nultá otázka, vazba na kurikulum, nálezy k antice, list pro učitele |
+| Hotovo 14. 11. 2026 | `CLAUDE.md`, `docs/rozhodnuti.md`, `docs/architektura.md`, `docs/plan.md`, `docs/plan-vetve.md`, `docs/plany/po-auditu.md`, `docs/navraty.md`, `ucitel/kurikulum.md` | Pilíř, pořadí, nultá otázka, vazba na kurikulum, nálezy k antice, list pro učitele |
 | `herna-v1` | přídavek | Karta **Do hodiny** (otázka do dvojice a otázka pro třídu), krátké **sebehodnocení** na konci cesty; stránka Argumentační klamy a manipulace spolu s formáty Najdi slabé místo a Pravý, nebo podvržený? |
 | `uklid-v1` | skilly | Kontrola kurikula jako reference skillů `atlas-cesta`, `atlas-obdobi` a `atlas-revize` |
 | Od celku 11 | plán každého celku | Řádek kompetencí, jedna společná aktivita, vyznačené jádro, list pro učitele s Otázkami do hodiny |
 | Po středověku, před zkouškou se čtenáři | nová větev `trida-v1` | Cíl hodiny a jeho zhodnocení v přípravě hodiny, lístek z cesty pro učitele, hry pro dvojici a hlasování třídy |
 | Fáze 5 | revize obsahu | Hotová antika podle kontroly kurikula; jádro antiky; listy pro učitele k celkům 1 až 4, 9 a 10; stránka směru Německá klasická filozofie, až budou období 5 a 6 |
 
-Řádky `herna-v1`, `trida-v1` a jádro platí, až autor odpoví na otázky níž.
+Autor všechny řádky schválil 14. 11. 2026 („Se vším v co rozhodnout souhlasím“).
+
+## Jak se to postaví
+
+Zvláštní zadání pro kurikulum nejsou. Úkoly jsou zapsané v plánech větví, které přijdou na řadu tak jako tak, a zadání každého kroku vzniká na konci kroku předchozího, jako dosud. Autor spouští jen to, co by spouštěl i bez kurikula.
+
+| Co | Kde je úkol zapsaný | Co je potřeba od autora |
+| --- | --- | --- |
+| Karta Do hodiny, sebehodnocení na konci cesty, Argumentační klamy a manipulace | `docs/plany/po-auditu.md` › Kurikulum; převezme ho plán větve `herna-v1` | Spustit `herna-v1`, až bude design sloučený; podívat se na kartu a sebehodnocení na jedné cestě |
+| Kontrola kurikula ve skillech | `uklid-v1` | Uložit upravené skilly do účtu |
+| Kompetence, společná aktivita, jádro a list pro učitele v nových celcích | `CLAUDE.md` a sedm otázek níž; od `uklid-v1` i skilly | U každého celku číst a schválit jako dosud; u jádra říct, jestli bys takhle hodinu opravdu učil |
+| Větev `trida-v1` | Plán vznikne po středověku | Rozhodnout tehdy, jak má vypadat lístek, který student odevzdá |
+| Antika podle kontroly kurikula | `docs/navraty.md` (zdroj K), fáze 5 | Studenti na zkoušku |
 
 ## Kontrola kurikula
 
@@ -97,22 +109,22 @@ Doplňuje rozpis aktivit v `docs/plany/stredovek.md` › Po auditu. Podklady ka�
 
 ## Co rozhodnout
 
-Prázdná odpověď znamená souhlas s doporučením, kromě bodu 1.
+Autor 14. 11. 2026 souhlasil se vším; věta pilíře zůstává, jak je v `CLAUDE.md`.
 
 1. **Věta pilíře.** V `CLAUDE.md` teď stojí tvoje starší slova: atlas má předávat „lásku k filozofii, odvahu hledat vlastní odpovědi, poctivost k sobě a ohled na druhé“, a nad nimi nová věta, že si student má odnést něco do života. Chceš ji říct jinak?
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)
 
 2. **Jádro a rozšíření** vyznačené v každém období (zhruba tři hodiny jádra na období)? Doporučuji ano. Texty se nekrátí.
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)
 
 3. **Společná aktivita v každé nové cestě** a karta Do hodiny? Doporučuji ano.
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)
 
 4. **Lístek z cesty pro učitele:** student sám vybere, co odevzdá; deník se neodevzdává nikdy? Doporučuji ano.
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)
 
 5. **Argumentační klamy a manipulace** přesunout z F5 do `herna-v1`? Doporučuji ano; je to výstup RVP G, látka semináře a nejkratší cesta k digitální kompetenci.
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)
 
 6. **`trida-v1` až po středověku,** před zkouškou se čtenáři? Doporučuji ano, ať se obsah nezastaví; karta Do hodiny a sebehodnocení vzniknou dřív v herně.
-   Odpověď:
+   Odpověď: souhlasím (14. 11. 2026)

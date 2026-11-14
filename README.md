@@ -40,7 +40,9 @@ Testy v prohlížeči potřebují jednou `npx playwright install chromium`. Ve v
 
 ```text
 CLAUDE.md            pravidla projektu (pro lidi i pro Clauda)
-docs/plan.md         kritika prototypu, technika, strategie a rozcestník plánů
+docs/plan.md         strategie, pilíře a stavba webu
+docs/plan-vychodiska.md  kritika prototypu a volba techniky
+docs/plan-vetve.md   katalog zadání, rozcestník plánů větví a pořadí
 docs/plany/          plány větví: zadání kroků a stav každého celku
 docs/architektura.md období, velké otázky, cesty a osobnosti
 docs/design.md       design systém (barvy, písma, komponenty) a podklady v docs/design/

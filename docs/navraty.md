@@ -23,7 +23,7 @@ Zdroje: **A** = `docs/revize/audit-2026-11-12.md`, **R** = `docs/revize/recenze-
 | všechny cesty | sebehodnocení | Závěr staví vedle sebe Na začátku × Teď, ale student nikde neposoudí, co už umí a v čem si jistý není. | K |
 | všechny cesty | práce se zdrojem | Prameny student jen čte; aspoň jednou za cestu má sám posoudit, kdo co řekl a jestli se tomu dá věřit. | K |
 | celky 1 až 4, 9 a 10 | list pro učitele | Otázky do hodiny mají jen listy celků 5 až 8 a Stoický týden; ostatní celky list v `ucitel/` nemají. | K |
-| období 1 a 2 | jádro | Deset cest má 266 minut a škola na antiku tři až čtyři hodiny; chybí vyznačené jádro a rozšíření (čeká na odpověď autora). | K |
+| období 1 a 2 | jádro | Deset cest má 266 minut a škola na antiku tři až čtyři hodiny; chybí vyznačené jádro a rozšíření (autor je schválil 14. 11. 2026). | K |
 | příprava hodiny | cíl hodiny | Skladatel má název a poznámku pro učitele, ne cíl hodiny a jeho zhodnocení na konci, které chce ŠVP. | K |
 
 ## Cesty
