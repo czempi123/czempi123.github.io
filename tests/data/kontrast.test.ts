@@ -106,4 +106,8 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
   it.each([1, 2, 3, 4, 5, 6, 7, 8])('inkoust období %i na malé vystouplé ploše splňuje AA', (n) => {
     expect(kontrast(t[`p-${n}`], t['plocha-m'])).toBeGreaterThanOrEqual(4.5);
   });
+  // K6: záložky oddílů na okraji stránky období a záložka otázky v deníku mají nahoře odlesk 4 % bílé.
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])('text na záložce v papíru období %i splňuje AA i v odlesku', (n) => {
+    expect(kontrast(t['na-papiru'], smichat('#ffffff', t[`pp-${n}`], 0.04))).toBeGreaterThanOrEqual(4.5);
+  });
 });

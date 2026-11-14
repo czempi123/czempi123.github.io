@@ -9,21 +9,35 @@ import Ikona from '../ui/Ikona.astro';
 import { osoba } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
 
-interface Props { slug: string; nadtitulek?: string }
-const { slug, nadtitulek } = Astro.props;
+interface Props {
+  slug: string;
+  nadtitulek?: string;
+  /** kam lístek vede (Domů: rovnou krok 1); jinak přehled cesty */
+  href?: string;
+  /** nadpis lístku místo názvu cesty (Domů: „Nikdo není *moudřejší.*“, kurzíva hvězdičkami) */
+  titulek?: string;
+  /** velký lístek (Domů): razítka nad textem, větší nadpis */
+  velka?: boolean;
+  /** malý lístek (Otázky doby, přehled otázek): jen nadtitulek, název a pahýl */
+  maly?: boolean;
+  class?: string;
+}
+const { slug, nadtitulek, href, titulek, velka = false, maly = false, class: trida } = Astro.props;
+const nadpis = titulek ? nezlomitelne(titulek).split(/\*([^*]+)\*/).map((t, i) => ({ t, kurziva: i % 2 === 1 })) : undefined;
 const c = await getEntry('cesty', slug);
 if (!c) throw new Error(`Cesta „${slug}“ není v src/content/cesty`);
 const pocet = (await getCollection('kroky')).filter((k) => k.data.cesta === slug).length;
 const lide = c.data.filozofove.map(osoba);
 ---
-<a class={`cesta-karta obdobi-${c.data.obdobi}`} href={`/cesta/${slug}/`}>
+<a class:list={['cesta-karta', `obdobi-${c.data.obdobi}`, { 'cesta-karta--velka': velka, 'cesta-karta--maly': maly }, trida]} href={href ?? `/cesta/${slug}/`}>
   <span class="cesta-karta__hl">
-    <span class="cesta-karta__razitka" aria-hidden="true">{lide.map((o) => <RazitkoCloveka osoba={o} velikost={56} />)}</span>
+    {!maly && <span class="cesta-karta__razitka" aria-hidden="true">{lide.map((o) => <RazitkoCloveka osoba={o} velikost={56} />)}</span>}
     <span class="cesta-karta__text">
-      <span class="t-nadtitulek cesta-karta__nad">{nadtitulek ?? 'Cesta'}<span class="vizualne-skryte"> · {pocet} kroků{c.data.minut && ` · asi ${c.data.minut} minut`}</span></span>
-      <span class="t-h3 cesta-karta__nazev">{c.data.nazev}</span>
-      <span class="cesta-karta__vstup">{nezlomitelne(c.data.vstup)}</span>
-      <span class="cesta-karta__akce">Vydat se na cestu <Ikona id="dal" velikost={20} /></span>
+      <span class="t-nadtitulek cesta-karta__nad">{nadtitulek ?? 'Cesta'}{!maly && <span class="vizualne-skryte"> · {pocet} kroků{c.data.minut && ` · asi ${c.data.minut} minut`}</span>}</span>
+      <span class="t-h3 cesta-karta__nazev">{nadpis ? nadpis.map((x) => (x.kurziva ? <em>{x.t}</em> : x.t)) : c.data.nazev}</span>
+      {maly && <span class="vizualne-skryte"> · {pocet} kroků{c.data.minut && ` · asi ${c.data.minut} minut`}</span>}
+      {!maly && <span class="cesta-karta__vstup">{nezlomitelne(c.data.vstup)}</span>}
+      {!maly && <span class="cesta-karta__akce">Vydat se na cestu <Ikona id="dal" velikost={20} /></span>}
     </span>
   </span>
   <span class="cesta-karta__pahyl" aria-hidden="true"><span class="cesta-karta__trh"></span><b>{pocet}</b>kroků{c.data.minut && <span>asi {c.data.minut} min</span>}</span>
@@ -132,7 +146,27 @@ const lide = c.data.filozofove.map(osoba);
     .cesta-karta__pahyl b { font-size: 20px; }
   }
   @media (min-width: 700px) {
-    .cesta-karta__hl { flex-direction: row; align-items: flex-start; gap: var(--s-5); padding: var(--s-6); }
-    .cesta-karta__razitka { flex: 0 0 56px; flex-direction: column; }
+    .cesta-karta:not(.cesta-karta--velka, .cesta-karta--maly) .cesta-karta__hl { flex-direction: row; align-items: flex-start; gap: var(--s-5); padding: var(--s-6); }
+    .cesta-karta:not(.cesta-karta--velka, .cesta-karta--maly) .cesta-karta__razitka { flex: 0 0 56px; flex-direction: column; }
+  }
+  /* Malý lístek (K6): Otázky doby a přehled otázek; jen nadtitulek, název a pahýl. */
+  .cesta-karta--maly { display: inline-flex; width: min(320px, 100%); margin: 0; }
+  .cesta-karta--maly .cesta-karta__hl { gap: 2px; padding: 12px 16px 14px; }
+  .cesta-karta--maly .cesta-karta__nazev { font-size: 19px; line-height: 1.2; }
+  .cesta-karta--maly .cesta-karta__pahyl { width: 76px; font-size: 12px; }
+  .cesta-karta--maly .cesta-karta__pahyl b { font-size: 20px; }
+  /* Velký lístek na Domů (K6): razítka nad textem, nadpis jako pointa cesty, pahýl širší. */
+  .cesta-karta--velka { max-width: 560px; margin: 0; }
+  .cesta-karta--velka .cesta-karta__hl { gap: var(--s-3); padding: 22px 24px 18px; }
+  .cesta-karta--velka .cesta-karta__nazev { font-size: 34px; line-height: 1.08; letter-spacing: -.01em; }
+  .cesta-karta--velka .cesta-karta__nazev em { color: var(--p); }
+  .cesta-karta--velka .cesta-karta__nad { color: var(--ink-2); }
+  .cesta-karta--velka .cesta-karta__pahyl { width: 108px; }
+  .cesta-karta--velka .cesta-karta__pahyl b { font-size: 30px; }
+  @media (max-width: 699px) {
+    .cesta-karta--velka .cesta-karta__hl { padding: 18px 16px 14px; }
+    .cesta-karta--velka .cesta-karta__nazev { font-size: 27px; }
+    .cesta-karta--velka .cesta-karta__pahyl { width: 76px; }
+    .cesta-karta--velka .cesta-karta__pahyl b { font-size: 24px; }
   }
 </style>

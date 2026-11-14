@@ -877,3 +877,111 @@ html.prichod--po-listu { --prichod-start: calc(var(--d-otoceni) - 300ms); }
   animation-duration: var(--d-list);
   animation-timing-function: var(--k-list);
 }
+
+/* ─── Moje filozofie na papír (design-v2, K6; Denik.svelte › MojeFilozofie) ─────────────────────────────────
+   Tlačítko Vytisknout dá <html> data-tisk="filozofie": na papír jde jen oddíl Moje filozofie, bez rámu webu,
+   menším písmem, aby se vešel na jednu stránku. Barvy pera zůstávají (tiskárna je umí, šedá taky). */
+@media print {
+  html[data-tisk='filozofie'] body { visibility: hidden; background: none; }
+  html[data-tisk='filozofie'] .moje-filozofie {
+    visibility: visible;
+    position: absolute;
+    inset: 0 0 auto 0;
+    margin: 0;
+    font-size: 11pt;
+  }
+  html[data-tisk='filozofie'] .moje-filozofie .netisk { display: none; }
+  html[data-tisk='filozofie'] .moje-filozofie :is(.mf-otazka, .razitko-cloveka) { box-shadow: none; rotate: 0deg; }
+  html[data-tisk='filozofie'] .moje-filozofie .mf-otazka { padding: 6pt 0; border-bottom: .5pt solid #999; break-inside: avoid; }
+  html[data-tisk='filozofie'] .moje-filozofie .mf-otazky { gap: 4pt; margin-top: 6pt; }
+  html[data-tisk='filozofie'] .moje-filozofie :is(.mf-pero, .mf-duvod) { font-size: 10pt; line-height: 1.35; background: none; }
+  html[data-tisk='filozofie'] .moje-filozofie .mf-zneni { font-size: 13pt; margin-bottom: 4pt; }
+  html[data-tisk='filozofie'] .moje-filozofie .razitko-cloveka { --mv: 34px !important; }
+  html[data-tisk='filozofie'] .moje-filozofie .mf-lide { margin-top: 4pt; padding-top: 4pt; }
+}
+
+/* ─── Vystřihnout citát do sbírky v deníku (Citat.astro, src/scripts/vystrihnout.ts; K6) ────────────────── */
+.citat__nuzky {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  display: inline-grid;
+  place-items: center;
+  width: var(--dotyk);
+  height: var(--dotyk);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color var(--d-stisk) var(--k-stisk), transform var(--d-stisk) var(--k-stisk);
+}
+.citat__nuzky:hover { color: var(--ink); }
+.citat__nuzky:active { transform: translateY(1px); }
+.citat__nuzky[aria-pressed='true'] { color: var(--pero); }
+.citat__nuzky:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+html.promitani .citat__nuzky { display: none; }
+@media print { .citat__nuzky { display: none; } }
+
+/* ─── Tichá tečka u Deníku, když čeká Návrat (K6; src/scripts/tecka-deniku.ts) ─────────────────────────────
+   Bez čísla a bez pohybu: jen malá tečka v inkoustu u ikony (záhlaví i spodní lišta). Čtečka slyší větu. */
+.tecka-navratu {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--plocha);
+}
+.tecka-navratu[hidden] { display: none; }
+
+/* ─── Papírnictví období (design-v2, K6, bod 5; plátno Zlepseni.dc.html › 5, plán Po D5) ──────────────────────
+   Vedle barvy má každé období tři věci, všechny jen svým inkoustem a tenkou kresbou: vzor pásky (--vzor-pasky,
+   maska přes pásku v papíru období), ozdobu čísla na začátku kapitoly a tvar razítka místa. Žádné plné plochy,
+   druhá barva ani vložená písmena. Bez období (.bez-obdobi, pruh v inkoustu) páska zůstává jen s pruhy. */
+.obdobi-1 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='30' viewBox='0 0 16 30'%3E%3Cpath d='M0 23h4V8h9v9h-5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 16px; }
+.obdobi-2 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='30' viewBox='0 0 8 30'%3E%3Cpath d='M0 7h4M4 15h4M0 23h4' fill='none' stroke='%23000' stroke-width='4' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 8px; }
+.obdobi-3 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='30' viewBox='0 0 16 30'%3E%3Cpath d='M0 5H16M0 25H16M8 11l4 4-4 4-4-4z' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 16px; }
+.obdobi-4 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='30' viewBox='0 0 20 30'%3E%3Cpath d='M0 12H20M0 21H20M10 0 6 30' fill='none' stroke='%23000' stroke-width='1' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 20px; }
+.obdobi-5 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='30' viewBox='0 0 5 30'%3E%3Cpath d='M-1 30 5 0M4 30 10 0' fill='none' stroke='%23000' stroke-width='1' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 5px; }
+.obdobi-6 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='30' viewBox='0 0 6 30'%3E%3Cpath d='M1 5h.01M4 11h.01M1 17h.01M4 23h.01' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"); --vzor-sirka: 6px; }
+.obdobi-7 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='30' viewBox='0 0 9 30'%3E%3Cpath d='M2 11l5 8m0-8-5 8' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); --vzor-sirka: 9px; }
+.obdobi-8 { --vzor-pasky: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='30' viewBox='0 0 8 30'%3E%3Cpath d='M0 7.5H8M0 15H8M0 22.5H8M.5 0V30' fill='none' stroke='%23000' stroke-width='1' stroke-linecap='butt'/%3E%3C/svg%3E"); --vzor-sirka: 8px; }
+/* Páska s vzorem období: pod vzorem světlejší pruh papíru období, vzor plným papírem období (v noci inkoustem). */
+:is(.obdobi-1, .obdobi-2, .obdobi-3, .obdobi-4, .obdobi-5, .obdobi-6, .obdobi-7, .obdobi-8) .paska {
+  background: color-mix(in srgb, var(--pp) 42%, transparent);
+}
+:is(.obdobi-1, .obdobi-2, .obdobi-3, .obdobi-4, .obdobi-5, .obdobi-6, .obdobi-7, .obdobi-8) .paska::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--pp) 90%, transparent);
+  -webkit-mask: var(--vzor-pasky) 0 50% / var(--vzor-sirka) 100% repeat-x;
+  mask: var(--vzor-pasky) 0 50% / var(--vzor-sirka) 100% repeat-x;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) :is(.obdobi-1, .obdobi-2, .obdobi-3, .obdobi-4, .obdobi-5, .obdobi-6, .obdobi-7, .obdobi-8) .paska::after { background: color-mix(in srgb, var(--p) 80%, transparent); } }
+:root[data-theme='dark'] :is(.obdobi-1, .obdobi-2, .obdobi-3, .obdobi-4, .obdobi-5, .obdobi-6, .obdobi-7, .obdobi-8) .paska::after { background: color-mix(in srgb, var(--p) 80%, transparent); }
+.bez-obdobi .paska::after { content: none; }
+
+/* Začátek kapitoly: číslo rukou a kolem něj tenká kresba období (třída obdobi-N nad kapitolou). */
+.obdobi-1 .kapitola__cislo b { padding: 0 8px 4px 6px; border-left: 2px solid var(--p); border-bottom: 2px solid var(--p); }
+.obdobi-2 .kapitola__cislo b { padding: 10px 10px 2px; border: 3px dotted var(--p); border-bottom: 0; border-radius: 40px 40px 0 0; }
+.obdobi-3 .kapitola__cislo b { padding: 6px 9px 4px; border: 4px double var(--p); }
+.obdobi-4 .kapitola__cislo b { display: inline-grid; place-items: center; width: 42px; height: 42px; border: 1.5px solid var(--p); border-radius: 50%; }
+.obdobi-5 .kapitola__cislo b { padding: 6px 12px; border: 1px solid var(--p); border-radius: 50%; background: repeating-linear-gradient(45deg, transparent 0 3px, color-mix(in srgb, var(--p) 30%, transparent) 3px 4px); }
+.obdobi-6 .kapitola__cislo { padding: 6px 0; border-top: 4px double var(--p); border-bottom: 1px solid var(--p); }
+.obdobi-7 .kapitola__cislo { padding-bottom: 6px; border-bottom: 2px dashed var(--p); letter-spacing: .14em; }
+.obdobi-8 .kapitola__cislo { padding: 8px 10px; background: linear-gradient(color-mix(in srgb, var(--p) 25%, transparent) 1px, transparent 1px) 0 0 / 100% 11px, linear-gradient(90deg, color-mix(in srgb, var(--p) 25%, transparent) 1px, transparent 1px) 0 0 / 11px 100%; }
+
+/* Razítko místa: tvar podle období (období 1 je dnešní dvojitý rámeček). */
+.obdobi-2 .razitko-mista { border-radius: 50%; padding: 14px 28px; text-align: center; }
+.obdobi-3 .razitko-mista { border-radius: 50% 50% 3px 3px / 92% 92% 3px 3px; padding: 30px 20px 8px; outline: 0; text-align: center; }
+.obdobi-4 .razitko-mista { width: 112px; height: 112px; justify-content: center; padding: 14px; border-width: 2px; border-radius: 50%; outline-offset: -8px; text-align: center; }
+.obdobi-5 .razitko-mista { border: 4px double var(--p); border-radius: 16px; outline: 0; }
+.obdobi-6 .razitko-mista { border: 0; border-top: 4px double var(--p); border-bottom: 4px double var(--p); border-radius: 0; outline: 0; padding: 6px 6px 7px; }
+.obdobi-7 .razitko-mista { border: 2px dashed var(--p); outline: 0; letter-spacing: .08em; }
+.obdobi-8 .razitko-mista { border: 2px dotted var(--p); border-radius: 10px; outline: 0; }
+

@@ -20,7 +20,7 @@ const vstupy = [
       <li>
         <a href={v.href} aria-current={sekce === v.id ? 'page' : undefined}>
           <Ikona id={v.ikona} velikost={24} />
-          <span>{v.text}</span>
+          <span>{v.text}</span>{v.id === 'denik' && <span class="tecka-navratu" data-tecka-navratu hidden><span class="vizualne-skryte">čeká tě návrat ke cestě</span></span>}
         </a>
       </li>
     ))}
@@ -43,6 +43,7 @@ const vstupy = [
   }
   ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-1); height: 100%; margin: 0; padding: 0; list-style: none; }
   a {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,6 +60,7 @@ const vstupy = [
     line-height: 1.2;
     text-decoration: none;
   }
+  .tecka-navratu { left: calc(50% + 8px); right: auto; top: 7px; }
   a[aria-current='page'] { background: var(--papir); box-shadow: var(--vtla); color: var(--ink); font-weight: 600; }
   @media (min-width: 900px) { .lista { display: none; } }
 </style>

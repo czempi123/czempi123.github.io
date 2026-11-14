@@ -141,37 +141,39 @@
   .sipka { margin-left: var(--s-1); }
 
   .zastaveni { margin: 0; padding: 0; list-style: none; counter-reset: none; }
-  .zastaveni__polozka { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--s-3); padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
-  .zastaveni__polozka:last-child { border-bottom: 1px solid var(--rule); }
+  .zastaveni__polozka { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--s-3); padding: var(--s-4) 0; border-top: 1px solid var(--linka); }
+  .zastaveni__polozka:last-child { border-bottom: 1px solid var(--linka); }
   .cislo {
     display: grid;
     place-items: center;
     width: 36px;
     height: 36px;
-    border-radius: var(--r-full);
-    background: var(--pc-tint, var(--sunk));
-    color: var(--pc, var(--ink));
+    border-radius: var(--r-plne);
+    /* Číslo zastavení v kroužku inkoustem období jako razítko (K6: bez tinty). */
+    background: var(--list);
+    box-shadow: inset 0 0 0 1.5px var(--p, var(--ink));
+    color: var(--p, var(--ink));
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
     font-weight: 600;
     font-variant-numeric: tabular-nums lining-nums;
   }
   .obsah { min-width: 0; }
-  .kde { margin: 0 0 var(--s-1); font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--muted); overflow-wrap: anywhere; }
+  .kde { margin: 0 0 var(--s-1); font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-3); overflow-wrap: anywhere; }
   .nazev { display: inline-block; margin: 0; color: var(--ink); font-size: var(--fs-perex); line-height: 1.3; overflow-wrap: anywhere; }
   .nazev--chybi { color: var(--ink-2); font-style: italic; }
 
   .doma { margin-top: var(--s-8); }
   .doma__nadpis { margin: 0 0 var(--s-3); }
   .doma__uvod { color: var(--ink-2); }
-  .skupina { margin-top: var(--s-6); padding-left: var(--s-4); border-left: 3px solid var(--pc, var(--rule)); }
+  .skupina { margin-top: var(--s-6); padding-left: var(--s-4); border-left: 3px solid var(--p, var(--linka)); }
   .skupina__nadpis { display: grid; gap: var(--s-1); margin: 0 0 var(--s-2); font-size: var(--fs-perex); line-height: 1.3; }
-  .skupina__druh { color: var(--pc, var(--ink-2)); }
+  .skupina__druh { color: var(--p, var(--ink-2)); }
   .skupina__nadpis a { color: var(--ink); }
   .skupina__polozky { margin: 0; padding: 0; list-style: none; }
-  .skupina__polozky li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-3); padding: var(--s-2) 0; border-top: 1px solid var(--rule); }
+  .skupina__polozky li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-3); padding: var(--s-2) 0; border-top: 1px solid var(--linka); }
   .skupina__polozky a { display: inline-block; min-height: 24px; color: var(--ink); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 500; line-height: 1.4; }
-  .polozka__stitek { color: var(--muted); font-weight: 400; }
+  .polozka__stitek { color: var(--ink-3); font-weight: 400; }
   .hotovo a { color: var(--ink-2); }
   .znacka { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); white-space: nowrap; }
 </style>

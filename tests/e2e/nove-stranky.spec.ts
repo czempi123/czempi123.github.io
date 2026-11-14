@@ -5,17 +5,17 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const STRANKY = [
-  { adresa: '/obdobi/pocatky-a-klasicke-recko/', h1: 'Počátky a klasické Řecko', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
-  { adresa: '/obdobi/helenismus-a-rim/', h1: 'Helenismus a Řím', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
-  { adresa: '/smer/stoicismus/', h1: 'Stoicismus', oddily: ['Ztroskotání a knihkupectví', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/epikureismus/', h1: 'Epikureismus', oddily: ['Škola za plotem', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/kynismus/', h1: 'Kynismus', oddily: ['Hůl a hlava', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/akademie/', h1: 'Platónova Akademie', oddily: ['Žák, který nesouhlasil', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten', oddily: ['Co řekli filozofové'] },
-  { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času', oddily: ['Co řekli filozofové'] },
+  { adresa: '/obdobi/pocatky-a-klasicke-recko/', h1: 'Počátky a klasické Řecko.', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
+  { adresa: '/obdobi/helenismus-a-rim/', h1: 'Helenismus a Řím.', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
+  { adresa: '/smer/stoicismus/', h1: 'Stoicismus.', oddily: ['Ztroskotání a knihkupectví', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/epikureismus/', h1: 'Epikureismus.', oddily: ['Škola za plotem', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/kynismus/', h1: 'Kynismus.', oddily: ['Hůl a hlava', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/akademie/', h1: 'Platónova Akademie.', oddily: ['Žák, který nesouhlasil', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten.', oddily: ['Co řekli filozofové'] },
+  { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času.', oddily: ['Co řekli filozofové'] },
   { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
-  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
+  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus.', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
 ];
 
 async function axe(page: Page) {

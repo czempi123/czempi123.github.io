@@ -20,8 +20,9 @@ const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
   <div class="stranka ctenarsky obdobi-2">
     <header class="hlava">
       <p class="t-nadtitulek nadtitulek">Můj deník · období 1 a 2</p>
-      <h1 class="t-h1">{TVOJE_ANTIKA.nazev}</h1>
-      <p class="t-perex">{nezlomitelne(TVOJE_ANTIKA.uvod)}</p>
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">{TVOJE_ANTIKA.nazev}.</h1></div></div>
+      <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">Co sis myslel a kdo s tebou stál.</span></p></div></div>
+      <p class="t-perex perex">{nezlomitelne(TVOJE_ANTIKA.uvod)}</p>
     </header>
     <TvojeObdobi client:load katalog={katalog} obdobi={2} prvniCesta={prvniCesta} />
   </div>
@@ -30,6 +31,6 @@ const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
 <style>
   .stranka { padding-bottom: var(--s-8); }
   .hlava { padding: var(--s-6) 0 var(--s-2); }
-  .nadtitulek { margin: 0 0 var(--s-2); color: var(--pc); }
-  h1 { margin-bottom: var(--s-4); }
+  .nadtitulek { margin: 0 0 var(--s-4); color: var(--p); }
+  .perex { margin: var(--s-5) 0 0; }
 </style>

@@ -2,7 +2,9 @@
 // a bloky cest (Volba, Spor, Změň jednu věc) se zastánci každé odpovědi. Skládá se při sestavení z kolekcí;
 // zastánce bere z oddílů Kdo je na tvé straně (atribut `osoby` u <Strana>) a ze stran Sporů.
 import { getCollection } from 'astro:content';
-import { osoby as osobyDat, citatyPodleId } from '../../lib/data';
+import { osoby as osobyDat, citatyPodleId, mistaPodleId } from '../../lib/data';
+import { zivot } from '../../lib/casy';
+import { stredRazitka } from '../../lib/razitko';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { adresaOtazky } from '../../lib/otazky';
 import { adresaKroku, adresaCesty, krokyCesty } from '../../lib/cesty';
@@ -30,7 +32,9 @@ export async function katalogObdobi(obdobi: number[]): Promise<{ katalog: Katalo
     const o = osobyDat.get(id);
     if (!o) throw new Error(`Tvoje antika: osoba „${id}“ není v src/data/lide.yaml.`);
     const adresa = adresaOsoby(id);
-    osoby[id] ??= { id, jmeno: o.jmeno, obdobi: o.obdobi, ...(adresa ? { adresa } : {}), ...(o.atribut ? { ikona: o.atribut.ikona } : {}), ...(o.zena ? { zena: true as const } : {}) };
+    const stred = stredRazitka(o, (m) => mistaPodleId.get(m)?.nazev);
+    const razitko = { id, jmeno: o.jmeno, roky: zivot(o), ...(o.atribut ? { ikona: o.atribut.ikona, atribut: o.atribut.nazev } : {}), ...(stred ? { stred } : {}) };
+    osoby[id] ??= { id, jmeno: o.jmeno, obdobi: o.obdobi, ...(adresa ? { adresa } : {}), ...(o.atribut ? { ikona: o.atribut.ikona } : {}), ...(o.zena ? { zena: true as const } : {}), razitko };
   };
 
   const katalogCest: CestaKatalogu[] = [];

@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import Ikona from '../../components/ui/Ikona.astro';
+import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import { maStranku } from '../../lib/otazky';
 import { cestyOtazky } from '../../lib/vstupy';
 const otazky = (await getCollection('otazky')).sort((a, b) => a.data.cislo - b.data.cislo);
@@ -10,9 +11,9 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
 ---
 <Zakladni titulek="Otázky" sekce="otazky" drobecky={[{ text: 'Otázky' }]}>
   <div class="stranka">
-    <header class="hlava ctenarsky">
-      <h1 class="t-h1">Deset velkých otázek</h1>
-      <p class="t-perex">Na tyhle otázky odpovídá každá doba po svém. U otázek najdeš místo pro svou první odpověď, hlasy filozofů a cesty, které k nim vedou.</p>
+    <header class="hlava bez-obdobi">
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">Deset velkých otázek.</h1></div></div>
+      <p class="t-perex perex">Na tyhle otázky odpovídá každá doba po svém. U otázek najdeš místo pro svou první odpověď, hlasy filozofů a cesty, které k nim vedou.</p>
       <a class="uvodni" href="/co-je-filozofie/">
         <span class="t-nadtitulek uvodni__nad">Na začátek</span>
         <span class="uvodni__nazev">Co je filozofie?</span>
@@ -31,13 +32,7 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
             {cestyOtazky(o.data.cislo, cesty).length > 0 && (
               <ul class="cesty" aria-label={`Cesty k otázce ${o.data.cislo}`}>
                 {cestyOtazky(o.data.cislo, cesty).map((c) => (
-                  <li class={`obdobi-${c.obdobi}`}>
-                    <a class="cesta" href={`/cesta/${c.slug}/`}>
-                      <span class="cesta__nad">Cesta</span>
-                      <span class="cesta__nazev">{c.nazev}</span>
-                      <Ikona id="dal" velikost={18} />
-                    </a>
-                  </li>
+                  <li><CestaKarta slug={c.slug} maly class="cesta" /></li>
                 ))}
               </ul>
             )}
@@ -49,38 +44,25 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
 </Zakladni>
 
 <style>
-  .hlava { padding: var(--s-6) 0 var(--s-5); }
-  h1 { margin-bottom: var(--s-4); }
+  .hlava { max-width: 960px; padding: var(--s-6) 0 var(--s-6); }
+  .perex { max-width: var(--ctenarsky-sloupec); margin: var(--s-5) 0 0; }
+  /* Úvod jako lístek k vzetí, ne rámeček. */
   .uvodni {
-    display: inline-flex; align-items: center; gap: var(--s-3); min-height: var(--dotyk); margin-top: var(--s-4); padding: var(--s-2) var(--s-4);
-    border: 1px solid var(--ink); border-radius: var(--r-sm); text-decoration: none;
+    display: inline-flex; align-items: center; gap: var(--s-3); min-height: var(--dotyk); margin-top: var(--s-5); padding: 12px 18px;
+    background: var(--listek); box-shadow: var(--lezi); color: var(--ink); text-decoration: none; rotate: -.8deg;
+    transition: transform var(--d-stisk) var(--k-stisk);
   }
-  .uvodni:hover { background: var(--surface); }
-  .uvodni__nad { color: var(--muted); }
+  .uvodni:hover { transform: translateY(-2px); }
+  .uvodni:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .uvodni__nad { color: var(--ink-2); }
   .uvodni__nazev { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; }
-  .otazky { display: grid; gap: 0 var(--s-6); margin: 0; padding: 0; list-style: none; }
-  .otazky > li { display: flex; gap: var(--s-4); align-items: baseline; padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
-  .cislo { flex: none; width: 2ch; font-size: 15px; font-weight: 600; color: var(--muted); }
-  .text { display: flex; flex-direction: column; gap: var(--s-1); }
-  .text > a { text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
-  .cesty { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-2) 0 0; padding: 0; list-style: none; }
-  .cesta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    min-height: var(--dotyk);
-    padding: var(--s-1) var(--s-3);
-    border: 1px solid var(--pc);
-    border-radius: var(--r-sm);
-    background: var(--surface);
-    font-family: var(--font-sans);
-    font-size: var(--fs-ovladani);
-    line-height: 1.3;
-    text-decoration: none;
-  }
-  .cesta:hover { background: var(--pc-tint); }
-  .cesta__nad { color: var(--pc); font-weight: 600; white-space: nowrap; }
-  .cesta__nazev { font-weight: 500; }
-  .cesta :global(svg) { flex: none; color: var(--pc); }
+  /* Otázky jako řádky zápisníku: číslo rukou, linky tužkou, cesty jako lístky s pahýlem (K6). */
+  .otazky { display: grid; gap: 0 var(--s-7); margin: 0; padding: 0; list-style: none; }
+  .otazky > li { display: flex; gap: var(--s-4); align-items: baseline; padding: var(--s-5) 0; border-top: 1px dashed var(--tuzka); }
+  .cislo { flex: none; width: 2ch; font-family: var(--font-ruka); font-size: var(--fs-ruka-l); line-height: 1; color: var(--ink-2); }
+  .text { display: flex; flex-direction: column; gap: var(--s-1); min-width: 0; }
+  .text > a { color: var(--ink); text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .text > .t-popisek { color: var(--ink-2); }
+  .cesty { display: flex; flex-wrap: wrap; gap: var(--s-4); margin: var(--s-3) 0 0; padding: 0; list-style: none; }
   @media (min-width: 900px) { .otazky { grid-template-columns: 1fr 1fr; } }
 </style>

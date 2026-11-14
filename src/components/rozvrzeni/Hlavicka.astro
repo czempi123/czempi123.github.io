@@ -7,6 +7,7 @@
 import Ikona from '../ui/Ikona.astro';
 import PrepinacRezimu from './PrepinacRezimu.astro';
 import Hledani from '../ostrovy/Hledani.svelte';
+import { nactiNavraty } from '../bloky/_navraty';
 
 export type Sekce = 'domu' | 'mapa' | 'otazky' | 'lide' | 'denik' | undefined;
 interface Props {
@@ -23,8 +24,12 @@ const vstupy = [
   { id: 'lide', href: '/lide/', text: 'Lidé a směry' },
 ] as const;
 const PISMENA = ['A', 'g', 'o', 'r', 'a'];
+// Tichá tečka u Deníku, když čeká Návrat (K6; src/scripts/tecka-deniku.ts): stačí id, cesta a pravidlo.
+const g = globalThis as { __navratyTecky?: Promise<{ id: string; cesta: string; pravidlo: string }[]> };
+g.__navratyTecky ??= nactiNavraty().then((n) => n.map(({ id, cesta, pravidlo }) => ({ id, cesta, pravidlo })));
+const navraty = JSON.stringify(await g.__navratyTecky);
 ---
-<header class="hlavicka" data-pagefind-ignore>
+<header class="hlavicka" data-pagefind-ignore data-navraty={navraty}>
   <div class="hlavicka__vnitrek stranka">
     {zpet && (
       <a class="zpet t-ovladani" href={zpet.href}><Ikona id="zpet" velikost={20} /><span>Zpět na {zpet.text}</span></a>
@@ -44,7 +49,7 @@ const PISMENA = ['A', 'g', 'o', 'r', 'a'];
     <div class="nastroje">
       <Hledani client:load />
       <a class="denik vystouple vystouple--m t-ovladani" href="/denik/" aria-current={sekce === 'denik' ? 'page' : undefined}>
-        <Ikona id="denik" velikost={20} /><span>Můj deník</span>
+        <Ikona id="denik" velikost={20} /><span>Můj deník</span><span class="tecka-navratu" data-tecka-navratu hidden><span class="vizualne-skryte">čeká tě návrat ke cestě</span></span>
       </a>
       <PrepinacRezimu />
     </div>

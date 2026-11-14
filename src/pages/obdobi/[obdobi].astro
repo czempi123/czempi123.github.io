@@ -7,8 +7,8 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
 import OsaUdalosti from '../../components/stranka/OsaUdalosti.astro';
-import Mince from '../../components/ui/Mince.astro';
-import Ikona from '../../components/ui/Ikona.astro';
+import RazitkoCloveka from '../../components/ui/RazitkoCloveka.astro';
+import OkrajObdobi from '../../components/stranka/OkrajObdobi.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import MiniMapa from '../../components/osobnost/MiniMapa.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
@@ -60,7 +60,8 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
   drobecky={[{ text: 'Lidé a směry', href: '/lide/' }, { text: `Období ${o.id}: ${o.nazev}` }]}
 >
   <article class={`obdobi-stranka stranka obdobi-${o.id}`} data-navsteva={stranka} data-nazev={o.nazev}>
-    <HlavickaStranky obdobi={o.id} deska nadtitulek={`Období ${o.id} · ${okno}`} titulek={o.nazev} perex={fm.perex} />
+    <HlavickaStranky obdobi={o.id} deska nadtitulek={`Období ${o.id} · ${okno}`} titulek={o.nazev} pruh={okno} perex={fm.perex} />
+    <OkrajObdobi oddily={[{ kotva: ODDIL_UVOD.kotva, nazev: ODDIL_UVOD.nazev }, ...oddily.map((x) => ({ kotva: x.kotva, nazev: x.nazev }))]} mista={mistaMapy} obdobi={o.id} mapa={odkazMapy} />
 
     <section class="ctenarsky uvod" id={ODDIL_UVOD.kotva} aria-label={ODDIL_UVOD.nazev} data-oddil={ODDIL_UVOD.nazev}>
       <Content />
@@ -71,7 +72,8 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
         <h2 class="t-h2 oddil__nadpis" id={`${od('osa').kotva}-nadpis`} tabindex="-1">{od('osa').nazev}</h2>
         <OsaUdalosti udalosti={udalosti} adresa={adresa} />
         {fm.jinde && (
-          <aside class="jinde" aria-labelledby="jinde-nadpis">
+          <aside class="jinde listek-paska" aria-labelledby="jinde-nadpis">
+            <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
             <p class="t-nadtitulek jinde__nad" id="jinde-nadpis">Mezitím jinde</p>
             {odstavce(fm.jinde).map((p) => <p set:html={p} />)}
           </aside>
@@ -85,16 +87,16 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
         <ol class="otazky-doby">
           {otazkyDoby.map((q) => (
             <li class="otazka-doby">
-              <p class="t-nadtitulek otazka-doby__cislo">Velká otázka {q.cislo}</p>
-              <h3 class="t-h3 otazka-doby__otazka"><a href={q.href}>{q.zneni}</a></h3>
-              {odstavce(q.text).map((p) => <p set:html={p} />)}
-              {q.cesty.length > 0 && (
-                <ul class="cesty-chips" aria-label={`Cesty k otázce ${q.cislo}`}>
-                  {q.cesty.map((c) => (
-                    <li><a class="chip-cesta" href={`/cesta/${c.id}/`}><span class="chip-cesta__nad">Cesta</span> <span>{c.data.nazev}</span><Ikona id="dal" velikost={18} /></a></li>
-                  ))}
-                </ul>
-              )}
+              <p class="otazka-doby__cislo">velká otázka {q.cislo}</p>
+              <div class="otazka-doby__text">
+                <h3 class="t-h3 otazka-doby__otazka"><a href={q.href}>{q.zneni}</a></h3>
+                {odstavce(q.text).map((p) => <p set:html={p} />)}
+                {q.cesty.length > 0 && (
+                  <ul class="cesty-listky" aria-label={`Cesty k otázce ${q.cislo}`}>
+                    {q.cesty.map((c) => <li><CestaKarta slug={c.id} maly class="cesta" /></li>)}
+                  </ul>
+                )}
+              </div>
             </li>
           ))}
         </ol>
@@ -112,7 +114,7 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
               return (
                 <li>
                   {href
-                    ? <a class="smer smer--odkaz t-ovladani" href={href}>{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</a>
+                    ? <a class="smer smer--odkaz t-ovladani" href={href}><span class="smer__nazev">{s.data.nazev}</span>{pocet > 0 && <span class="pocet"> {pocet}</span>}</a>
                     : <span class="smer t-ovladani">{s.data.nazev}{pocet > 0 && <span class="pocet"> {pocet}</span>}</span>}
                 </li>
               );
@@ -123,7 +125,7 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
           {sProfilem.map((l) => (
             <li>
               <a class="clovek" href={adresa(l.id)}>
-                <Mince osoba={l} varianta="tint" velikost={44} />
+                <RazitkoCloveka osoba={l} velikost={64} />
                 <span class="clovek__text">
                   <span class="clovek__jmeno">{l.jmeno}</span>
                   <span class="t-popisek clovek__roky">{zivot(l)}</span>
@@ -180,45 +182,45 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
   .oddil__nadpis:focus { outline: none; }
   .oddil__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .oddil--siroky, .oddil--mapa { max-width: 960px; margin-inline: auto; }
-  .oddil :global(.cesta-karta) { margin: var(--s-4) 0 0; }
-  .jinde { margin-top: var(--s-6); padding: var(--s-4) var(--s-5); border-left: 3px solid var(--pc); background: var(--surface); }
-  .jinde__nad { margin: 0 0 var(--s-2); color: var(--pc); }
+  .oddil :global(.cesta-karta:not(.cesta-karta--maly)) { margin: var(--s-4) 0 0; }
+  .jinde { margin-top: var(--s-6); }
+  .jinde__nad { margin: 0 0 var(--s-2); color: var(--p); }
   .jinde p:last-child { margin-bottom: 0; }
-  .otazky-doby { display: grid; gap: var(--s-6); margin: 0; padding: 0; list-style: none; }
-  .otazka-doby__cislo { margin: 0 0 var(--s-1); color: var(--pc); }
+  /* Otázky doby (plátno ObdobiHelenismus): řádky zápisníku, číslo otázky rukou vlevo, cesty jako lístky s pahýlem. */
+  .otazky-doby { margin: 0; padding: 0; list-style: none; border-bottom: 1px dashed var(--tuzka); }
+  .otazka-doby { display: grid; gap: var(--s-1) var(--s-6); padding: var(--s-6) 0; border-top: 1px dashed var(--tuzka); }
+  .otazka-doby__cislo { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--p); }
   .otazka-doby__otazka { margin: 0 0 var(--s-3); }
-  .otazka-doby__otazka a { text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
-  .cesty-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-3) 0 0; padding: 0; list-style: none; }
-  .chip-cesta {
-    display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--dotyk); padding: var(--s-1) var(--s-3);
-    border: 1px solid var(--pc); border-radius: var(--r-sm); background: var(--surface);
-    font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: 1.3; text-decoration: none;
-  }
-  .chip-cesta:hover { background: var(--pc-tint); }
-  .chip-cesta__nad { color: var(--pc); font-weight: 600; }
-  .chip-cesta :global(svg) { flex: none; color: var(--pc); }
-  .smery { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0 0 var(--s-5); padding: 0; list-style: none; }
+  .otazka-doby__otazka a { text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.14em; }
+  .otazka-doby__text :global(p) { color: var(--ink-2); }
+  .cesty-listky { display: flex; flex-wrap: wrap; gap: var(--s-4); margin: var(--s-4) 0 0; padding: 0; list-style: none; }
+  /* Štítky směrů zůstávají vtlačené (odpověď 10 po D4), počet lidí šedě. */
+  .smery { display: flex; flex-wrap: wrap; gap: var(--s-3); margin: 0 0 var(--s-6); padding: 0; list-style: none; }
   .smer {
-    display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-3);
-    border: 1px solid var(--pc-soft); border-radius: var(--r-full); background: var(--surface); color: var(--ink);
+    display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-4);
+    border-radius: var(--r-plne); background: var(--papir); box-shadow: var(--vtla); color: var(--ink-2); text-decoration: none;
   }
-  .smer--odkaz { border-color: var(--pc); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
-  .smer--odkaz:hover { background: var(--pc-tint); }
-  .pocet { margin-left: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .lide { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
-  .clovek {
-    display: flex; align-items: flex-start; gap: var(--s-4); height: 100%; padding: var(--s-4);
-    border: 1px solid var(--pc); border-radius: var(--r-md); background: var(--surface); text-decoration: none;
-  }
-  .clovek:hover { background: var(--pc-tint); }
-  .clovek :global(.mince) { flex: none; }
-  .clovek__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .clovek__jmeno { font-size: 21px; line-height: 1.25; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .smer--odkaz:hover { box-shadow: var(--vtla-mele); color: var(--ink); }
+  .smer--odkaz:hover .smer__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 4px; }
+  .smer--odkaz:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .pocet { margin-left: 8px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  /* Lidé období: razítko a jméno přímo na papíře, bez rámečku. */
+  .lide { display: grid; gap: var(--s-5) var(--s-6); margin: 0; padding: 0; list-style: none; }
+  .clovek { display: flex; align-items: flex-start; gap: var(--s-4); height: 100%; color: var(--ink); text-decoration: none; }
+  .clovek:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .clovek__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 4px; }
+  .clovek__jmeno { font-size: 21px; line-height: 1.25; }
+  .clovek:hover .clovek__jmeno { text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 0.15em; }
+  .clovek__roky { color: var(--ink-2); }
   .clovek__kdo { font-size: 16px; line-height: 1.45; color: var(--ink-2); margin-top: var(--s-1); }
-  .dalsi-lide { margin: var(--s-4) 0 0; }
+  .dalsi-lide { margin: var(--s-5) 0 0; }
   .dalsi-lide a, .mapa-odkaz a { display: inline-flex; align-items: center; min-height: var(--dotyk); }
   .mapa-odkaz { margin: var(--s-3) 0 0; }
   .siroky-pas { max-width: 960px; margin-inline: auto; }
-  @media (min-width: 700px) { .lide { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 700px) {
+    .lide { grid-template-columns: repeat(2, 1fr); }
+    .otazka-doby { grid-template-columns: 150px minmax(0, 1fr); }
+    .otazka-doby__cislo { padding-top: 6px; }
+  }
   @media (min-width: 1100px) { .lide { grid-template-columns: repeat(3, 1fr); } }
 </style>

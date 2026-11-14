@@ -77,8 +77,8 @@ test('otázka: první názor klávesnicí, hlasy v pořadí, návrat na konci a 
   await expect(page.locator('#jak-poznam-pravdu-prvni-pole')).toBeDisabled();
 
   await page.goto('/denik/');
-  await expect(page.getByText('Když si to můžu ověřit sám.')).toBeVisible();
-  await expect(page.getByText('Když tvrzení obstojí, i když se na něj ptám dál.')).toBeVisible();
+  await expect(page.locator('.seznam--zapisy').getByText('Když si to můžu ověřit sám.')).toBeVisible();
+  await expect(page.locator('.seznam--zapisy').getByText('Když tvrzení obstojí, i když se na něj ptám dál.')).toBeVisible();
 });
 
 test('otázka: Přeskočit ukáže filozofy bez zápisu a návrat se zeptá bez první odpovědi', async ({ page }) => {

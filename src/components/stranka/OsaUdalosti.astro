@@ -1,9 +1,9 @@
 ---
 // Malá osa kotev na stránce období: dějinné kotvy a události ze životů lidí z udalosti.yaml, podle roku.
-// Kotva má značku v barvě období, událost ze života minci osoby (odkaz na její stránku, když ji má).
+// Kotva má značku v inkoustu období, událost ze života razítko osoby (K6) (odkaz na její stránku, když ji má).
 // Rozestupy jsou stejné, ne podle let; na obou šířkách svisle. Nic se nepíše ručně.
 import type { TUdalost } from '../../lib/schema';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import { osoby, mistaPodleId } from '../../lib/data';
 import { rok, rozpeti } from '../../lib/casy';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -20,7 +20,7 @@ const serazene = [...udalosti].sort((a, b) => a.od - b.od);
     return (
       <li class:list={['udalost', `udalost--${u.druh}`, hlavni && `obdobi-${hlavni.obdobi}`]}>
         <span class="udalost__znacka" aria-hidden="true">
-          {hlavni ? <Mince osoba={hlavni} varianta="tint" velikost={32} /> : <span class="udalost__tecka" />}
+          {hlavni ? <RazitkoCloveka osoba={hlavni} velikost={40} /> : <span class="udalost__tecka" />}
         </span>
         <span class="udalost__text">
           <span class="udalost__rok t-letopocet">{u.do !== undefined ? rozpeti(u.od, u.do) : rok(u.od)}</span>
@@ -40,12 +40,13 @@ const serazene = [...udalosti].sort((a, b) => a.od - b.od);
 
 <style>
   .osa-udalosti { position: relative; margin: 0; padding: 0; list-style: none; }
-  .osa-udalosti::before { content: ''; position: absolute; left: 15px; top: 16px; bottom: 16px; width: 2px; background: var(--rule); }
-  .udalost { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-4); }
-  .udalost__znacka { display: grid; place-items: center; width: 32px; height: 32px; }
-  .udalost__tecka { width: 14px; height: 14px; border-radius: 3px; background: var(--pc); box-shadow: 0 0 0 3px var(--paper); }
-  .udalost__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 4px; }
-  .udalost__rok { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--pc); }
+  /* Osa tužkou, kotvy jako čtvereček v inkoustu období, události ze života razítkem osoby. */
+  .osa-udalosti::before { content: ''; position: absolute; left: 19px; top: 20px; bottom: 20px; width: 0; border-left: 2px dashed var(--tuzka); }
+  .udalost { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-4); }
+  .udalost__znacka { display: grid; place-items: center; width: 40px; height: 40px; }
+  .udalost__tecka { width: 14px; height: 14px; border-radius: var(--r-razitko); background: var(--p); box-shadow: 0 0 0 4px var(--papir); }
+  .udalost__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 8px; }
+  .udalost__rok { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--p); }
   .udalost__nazev { font-size: 19px; line-height: 1.35; }
   .udalost__kde { color: var(--ink-2); }
   .udalost__kde a { color: inherit; }

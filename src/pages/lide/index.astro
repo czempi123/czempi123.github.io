@@ -2,7 +2,7 @@
 // Lidé a směry: lidé podle období a hloubky zpracování, se směry a mincemi atributů.
 import { getCollection } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
-import Mince from '../../components/ui/Mince.astro';
+import RazitkoCloveka from '../../components/ui/RazitkoCloveka.astro';
 import { data } from '../../lib/data';
 import { zivot, interval, rozpeti } from '../../lib/casy';
 import { cestyOsoby } from '../../lib/vstupy';
@@ -26,9 +26,9 @@ const HLOUBKY = [
 ---
 <Zakladni titulek="Lidé a směry" sekce="lide" drobecky={[{ text: 'Lidé a směry' }]}>
   <div class="stranka">
-    <header class="hlavicka-stranky">
-      <h1 class="t-h1">Lidé a směry</h1>
-      <p class="t-perex">Filozofové nežili v knihách. Učili se jeden od druhého, přeli se, psali si a někdy se za své myšlenky nechali poslat do vyhnanství. Tady je najdeš podle doby, ve které žili.</p>
+    <header class="hlavicka-stranky bez-obdobi">
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">Lidé a směry.</h1></div></div>
+      <p class="t-perex perex">Filozofové nežili v knihách. Učili se jeden od druhého, přeli se, psali si a někdy se za své myšlenky nechali poslat do vyhnanství. Tady je najdeš podle doby, ve které žili.</p>
       <p class="vstupy t-ovladani">
         <a href="/co-je-filozofie/">Co je filozofie?</a>
         <a href="/nabozenstvi/">Náboženství světa</a>
@@ -71,7 +71,7 @@ const HLOUBKY = [
                     return (
                       <li id={l.id}>
                         <Tag class:list={['karta', { 'karta--odkaz': stranka }]} href={stranka}>
-                          <Mince osoba={l} varianta="tint" velikost={h.id === 'medailonek' ? 36 : h.id === 'profil' ? 44 : 60} />
+                          <RazitkoCloveka osoba={l} velikost={h.id === 'medailonek' ? 48 : h.id === 'profil' ? 64 : 72} />
                           <span class="karta__text">
                             <span class="karta__jmeno">{l.jmeno}</span>
                             <span class="t-popisek karta__roky">{zivot(l)}{l.smery.length > 0 && <> · {l.smery.map((s) => nazevSmeru.get(s)).join(', ')}</>}</span>
@@ -94,58 +94,66 @@ const HLOUBKY = [
 </Zakladni>
 
 <style>
-  .hlavicka-stranky { padding: var(--s-6) 0 var(--s-5); max-width: var(--ctenarsky-sloupec); }
-  h1 { margin-bottom: var(--s-4); }
-  .obdobi { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 4px solid var(--pc); }
-  .cislo { margin: 0 0 var(--s-2); color: var(--pc); }
+  .hlavicka-stranky { padding: var(--s-6) 0 var(--s-5); max-width: 960px; }
+  .perex { max-width: var(--ctenarsky-sloupec); margin: var(--s-5) 0 0; }
+  /* Období: přetržený list zápisníku (čára tužkou), číslo a název v inkoustu období. */
+  .obdobi { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 2px dashed var(--tuzka); }
+  .cislo { margin: 0 0 var(--s-2); color: var(--p); }
   .okno { margin: var(--s-2) 0 0; color: var(--ink-2); }
-  .smery { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-5) 0 var(--s-6); padding: 0; list-style: none; }
+  /* Štítky směrů zůstávají vtlačené (odpověď 10 po D4). */
+  .smery { display: flex; flex-wrap: wrap; gap: var(--s-3); margin: var(--s-5) 0 var(--s-6); padding: 0; list-style: none; }
   .smery li {
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
-    padding: 0 var(--s-3);
-    border: 1px solid var(--pc-soft);
-    border-radius: var(--r-full);
-    background: var(--surface);
-    color: var(--ink);
+    min-height: var(--dotyk);
+    padding: 0 var(--s-4);
+    border-radius: var(--r-plne);
+    background: var(--papir);
+    box-shadow: var(--vtla);
+    color: var(--ink-2);
   }
-  .pocet { margin-left: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  /* Směr se stránkou: celý štítek je odkaz (44 px), okraj v barvě období; bez stránky zůstává tichým štítkem. */
-  .smery li.smer--odkaz { padding: 0; border-color: var(--pc); }
-  .smer--odkaz a { display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-3); color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
-  .smer--odkaz a:hover { background: var(--pc-tint); border-radius: var(--r-full); }
-  .obdobi__odkaz { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .pocet { margin-left: 8px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .smery li.smer--odkaz { padding: 0; }
+  .smer--odkaz a { display: inline-flex; align-items: center; min-height: var(--dotyk); padding: 0 var(--s-4); color: var(--ink); text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.15em; border-radius: var(--r-plne); }
+  .smer--odkaz a:hover { text-decoration-color: var(--ink); }
+  .obdobi__odkaz { color: inherit; text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
   .vstupy { display: flex; flex-wrap: wrap; gap: 0 var(--s-5); margin: var(--s-3) 0 0; }
-  .vstupy a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); text-underline-offset: 0.2em; }
+  .vstupy a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
   .skupina { margin-top: var(--s-6); }
-  .skupina h3 { margin-bottom: var(--s-3); }
-  .karty { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .skupina h3 { margin-bottom: var(--s-4); }
+  .karty { display: grid; gap: var(--s-5); margin: 0; padding: 0; list-style: none; }
+  /* Karta člověka: ležící list s razítkem; portréty a profily vedou na stránku, ostatní jen leží. */
   .karta {
     display: flex;
     align-items: flex-start;
     gap: var(--s-4);
     height: 100%;
-    padding: var(--s-4);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    background: var(--surface);
+    padding: 18px 20px;
+    background: var(--list);
+    box-shadow: var(--lezi);
+    color: var(--ink);
     text-decoration: none;
+    transition: transform var(--d-stisk) var(--k-stisk);
   }
-  .karta--odkaz { border-color: var(--pc); }
-  .karta--odkaz:hover { background: var(--pc-tint); }
-  .karta--odkaz .karta__jmeno { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
-  .karta__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .karta--odkaz:hover { transform: translateY(-3px); box-shadow: var(--lezi-zved); }
+  .karta--odkaz:hover .karta__jmeno { text-decoration-color: var(--ink); }
+  .karta--odkaz:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .karta--odkaz .karta__jmeno { text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 0.15em; }
+  .karta__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 4px; }
   .karta__jmeno { font-size: 21px; line-height: 1.25; }
   .skupina--portret .karta__jmeno { font-size: var(--fs-h3); }
   .karta__kdo { font-size: 16px; line-height: 1.45; color: var(--ink-2); margin-top: var(--s-1); }
   .karta__proc { margin-top: var(--s-2); }
-  .karta__cesta { margin-top: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; line-height: 1.35; color: var(--pc); }
-  .skupina--medailonek .karta { padding: var(--s-3); border-color: transparent; background: none; border-bottom: 1px solid var(--rule); border-radius: 0; }
+  .karta__cesta { margin-top: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; line-height: 1.35; color: var(--p); }
+  /* Medailonky: řádky v zápisníku bez listu, oddělené čárkovanou linkou tužkou. */
+  .skupina--medailonek .karty { gap: 0; }
+  .skupina--medailonek .karta { padding: var(--s-3) 0; background: none; box-shadow: none; border-bottom: 1px dashed var(--tuzka); }
+  .skupina--medailonek .karta--odkaz:hover { transform: none; box-shadow: none; }
   .skupina--medailonek .karta__jmeno { font-size: 19px; }
   .skupina--medailonek .karta__kdo { font-size: 15px; }
   @media (min-width: 700px) {
     .karty { grid-template-columns: repeat(2, 1fr); }
+    .skupina--medailonek .karty { column-gap: var(--s-6); }
   }
   @media (min-width: 1100px) {
     .skupina--portret .karty { grid-template-columns: repeat(3, 1fr); }

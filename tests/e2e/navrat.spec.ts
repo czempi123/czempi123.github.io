@@ -283,18 +283,28 @@ test('starý deník bez času dokončení: nic se nerozbije, návrat se řídí 
   await expect(nabidka(page).getByRole('button', { name: 'Zkusit' })).toBeVisible();
 });
 
-test('Návrat: mimo deník na něj nic neupozorňuje', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await pripravDenik(page, { c1: { dokonceno: 10 } });
-  await expect(nabidka(page)).toBeVisible();
-  for (const adresa of ['/', '/otazky/', '/lide/', '/cesta/kdy-mam-dobry-duvod-verit/', '/cesta/kdy-mam-dobry-duvod-verit/7/', '/osobnost/sokrates/']) {
-    await page.goto(adresa);
-    // Ostrovy pod ohybem se hydratují až po posunu; tady stačí, že se stránka načetla a skripty doběhly.
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('body')).not.toContainText(/Návrat\b/);
-    // Odkaz na deník v navigaci je stejný jako bez nabídky: žádný odznak ani počítadlo.
-    for (const odkaz of await page.locator('a[href="/denik/"]').all()) expect((await odkaz.innerText()).trim()).toMatch(/^(Můj deník|Deník|deníku)?$/);
+test('Návrat: mimo deník jen tichá tečka u Deníku, bez čísla a bez nabídky', async ({ page }) => {
+  // Rozhodnutí autora 12. 11. 2026 (plán po auditu, otázka 7): tečka u ikony Deník, když čeká Návrat.
+  for (const sirka of [1440, 390]) {
+    await page.setViewportSize({ width: sirka, height: 900 });
+    await pripravDenik(page, { c1: { dokonceno: 10 } });
+    await expect(nabidka(page)).toBeVisible();
+    // Na stránce deníku tečka není: Návrat je tam vidět sám.
+    await expect(page.locator('[data-tecka-navratu]:visible')).toHaveCount(0);
+    for (const adresa of ['/', '/otazky/', '/cesta/kdy-mam-dobry-duvod-verit/7/', '/osobnost/sokrates/']) {
+      await page.goto(adresa);
+      await page.waitForLoadState('networkidle');
+      await expect(page.locator('body')).not.toContainText(/Návrat\b/);
+      // Tečka je jen jedna viditelná (záhlaví na notebooku, spodní lišta na telefonu), bez čísla; čtečka slyší větu.
+      const tecka = page.locator('[data-tecka-navratu]:visible');
+      await expect(tecka).toHaveCount(adresa.startsWith('/cesta/') && sirka < 900 ? 0 : 1);
+      if (await tecka.count()) await expect(tecka).toHaveText('čeká tě návrat ke cestě');
+    }
   }
+  // Bez čekajícího návratu tečka nikde není.
+  await page.evaluate(() => localStorage.removeItem('atlas-denik'));
+  await page.goto('/');
+  await expect(page.locator('[data-tecka-navratu]:visible')).toHaveCount(0);
 });
 
 for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska: 900 }]) {

@@ -92,12 +92,12 @@
   .nadpis:focus { outline: none; }
   .nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .seznam { margin: 0; padding: 0; list-style: none; }
-  .seznam li { padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
+  .seznam li { padding: var(--s-4) 0; border-top: 1px solid var(--linka); }
   .seznam p { margin: 0 0 var(--s-1); }
   .nazev { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani-l); overflow-wrap: anywhere; }
   .akce { margin-top: var(--s-2); }
   .akce .blok__tl { min-height: 44px; font-size: var(--fs-ovladani); }
-  .potvrzeni { margin-top: var(--s-2); padding: var(--s-3) var(--s-4); border-radius: var(--r-sm); background: var(--sunk); }
+  .potvrzeni { margin-top: var(--s-2); padding: var(--s-3) var(--s-4); border-radius: var(--r-ovladani); background: var(--papir); }
   .potvrzeni .blok__akce { margin-top: var(--s-2); }
   .zprava { margin: var(--s-3) 0 0; color: var(--ink-2); overflow-wrap: anywhere; }
   .zprava:empty { margin: 0; }

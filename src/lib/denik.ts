@@ -57,6 +57,25 @@ export interface Denik {
    * Zapíše se při první odpovědi v bloku (nabídka pera v rámu aktivity) nebo volbou v deníku.
    */
   pero?: Pero;
+  /**
+   * Vystřižené citáty (design-v2, K6): co si student z citátu na stránce vystřihl do sbírky v deníku.
+   * Znění a údaje se ukládají s citátem, aby sbírka stála i bez stránky. Nejnovější první; nepovinné, součást exportu.
+   */
+  citaty?: CitatVDeniku[];
+  /** Kdy si student deník naposledy zazálohoval (stáhl soubor, poslal odkazem); podle toho deník připomene zálohu. */
+  zaloha?: string;
+}
+
+/** Vystřižený citát ve sbírce deníku. */
+export interface CitatVDeniku {
+  /** id citátu ze zdroje.yaml */
+  id: string;
+  text: string;
+  /** autor, dílo a místo, jak stojí pod citátem */
+  kde: string;
+  /** stránka, odkud ho student vystřihl */
+  odkaz: string;
+  kdy: string;
 }
 
 /** Stav týdne cvičení v deníku. Žádná data dnů a žádné série: jen které dny jsou hotové. */
@@ -217,6 +236,11 @@ function rozeber(t: string | null): Denik | null {
           if (!Array.isArray(plny.hodiny)) delete plny.hodiny;
           else plny.hodiny = plny.hodiny.filter((h: Partial<HodinaVDeniku> | null) => !!h && typeof h.adresa === 'string' && typeof h.nazev === 'string' && typeof h.kdy === 'string');
         }
+        if (plny.citaty !== undefined) {
+          if (!Array.isArray(plny.citaty)) delete plny.citaty;
+          else plny.citaty = plny.citaty.filter(jeCitat);
+        }
+        if (plny.zaloha !== undefined && typeof plny.zaloha !== 'string') delete plny.zaloha;
         return plny;
       }
     }
@@ -455,6 +479,42 @@ export function prijmiVyzvu(v: Omit<Vyzva, 'prijato'>): void {
   uloz(d);
 }
 
+// ─── Sbírka a záloha (design-v2, K6) ─────────────────────────────────────────
+
+const jeCitat = (c: unknown): c is CitatVDeniku =>
+  !!c && typeof c === 'object' && (['id', 'text', 'kde', 'odkaz', 'kdy'] as const).every((p) => typeof (c as Record<string, unknown>)[p] === 'string');
+
+/** Nejvýš tolik vystřižených citátů drží sbírka (nejstarší vypadne). */
+export const CITATY_NEJVYS = 60;
+
+/** Deník s vystřiženým citátem navrchu sbírky; tentýž citát podruhé nepřibude. */
+export function sCitatem(d: Denik, c: Omit<CitatVDeniku, 'kdy'>, kdy: string): Denik {
+  const citaty = (d.citaty ?? []).filter((x) => x.id !== c.id);
+  return { ...d, citaty: [{ ...c, kdy }, ...citaty].slice(0, CITATY_NEJVYS) };
+}
+
+export function vystrihniCitat(c: Omit<CitatVDeniku, 'kdy'>): void {
+  uloz(sCitatem(nacti(), c, new Date().toISOString()));
+}
+
+export function zrusCitat(id: string): void {
+  const d = nacti();
+  if (!d.citaty) return;
+  d.citaty = d.citaty.filter((x) => x.id !== id);
+  uloz(d);
+}
+
+export function maCitat(id: string, d: Denik = nacti()): boolean {
+  return !!d.citaty?.some((x) => x.id === id);
+}
+
+/** Zapíše čas zálohy (stažený soubor, odkaz nebo kód QR); připomenutí zálohy v deníku pak zmizí. */
+export function oznacZalohu(kdy = new Date().toISOString()): void {
+  const d = nacti();
+  d.zaloha = kdy;
+  uloz(d);
+}
+
 export function zaznamenejNavstevu(odkaz: string, nazev: string): void {
   if (tichaStranka()) return;
   const d = nacti();
@@ -469,6 +529,7 @@ export function exportuj(): void {
   a.download = `atlas-denik-${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   URL.revokeObjectURL(a.href);
+  oznacZalohu();
 }
 
 // ─── Nahrání deníku ze souboru (revize antiky, O) ───────────────────────────
@@ -558,6 +619,13 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
   if (!ten.pero && jePero(novy.pero)) vysledek.pero = novy.pero;
   else if (!jePero(vysledek.pero)) delete vysledek.pero;
   if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
+  if (ten.citaty || novy.citaty) {
+    const ze = (x: unknown) => (Array.isArray(x) ? x.filter(jeCitat) : []);
+    vysledek.citaty = spojPodle(ze(ten.citaty), ze(novy.citaty), (c) => c.id, (c) => c.kdy).slice(0, CITATY_NEJVYS);
+  }
+  // Záloha: deník v prohlížeči zálohovaný není jen proto, že se do něj nahrál soubor; zůstává jeho vlastní čas.
+  if (typeof ten.zaloha === 'string') vysledek.zaloha = ten.zaloha;
+  else delete vysledek.zaloha;
   return vysledek;
 }
 

@@ -37,7 +37,7 @@ const otazky = (page: Page) => page.locator('section.otazka');
 
 test('prázdný deník: žádná otázka, jen pozvánka do první cesty', async ({ page }) => {
   await otevri(page, null);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tvoje antika');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tvoje antika.');
   await expect(page.getByText(/Zatím tu nic není\./)).toBeVisible();
   await expect(page.getByRole('link', { name: 'Začít cestou Kdy mám dobrý důvod věřit?' })).toHaveAttribute('href', '/cesta/kdy-mam-dobry-duvod-verit/');
   await expect(otazky(page)).toHaveCount(0);

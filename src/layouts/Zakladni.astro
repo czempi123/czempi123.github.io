@@ -238,6 +238,12 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
     <script>
       // Lišta hodiny a promítání (src/scripts/hodina-lista.ts); bez aktivní hodiny v kartě nedělá nic.
       import { spustListuHodiny } from '../scripts/hodina-lista';
+      // Tichá tečka u Deníku v záhlaví a spodní liště (K6). Patří sem, ne do skriptu hlavičky: s importem by hlavička
+      // dostala vlastní modul navíc a přechod mezi stránkami (pagereveal) by v Chromiu často vypadl (ram.spec).
+      import '../scripts/tecka-deniku';
+      // Nůžky u citátů (K6). Ne ve skriptu Citat.astro: Astro vloží značku <script> k prvnímu citátu na stránce
+      // a ta pak rozdělí text kroku do dalšího čistého listu (ram-aktivity) a stane se posledním prvkem scény příběhu.
+      import '../scripts/vystrihnout';
       spustListuHodiny();
     </script>
   </body>

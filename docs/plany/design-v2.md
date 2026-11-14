@@ -21,7 +21,7 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | K4a | Společný rám aktivity pro všechny dnešní i budoucí aktivity (hlava, zadání, plocha, zpětná vazba jako lístek, Začít znovu) a první bloky: Volba, Odkryj, tlačítka, pole; studentova ruka (bod 3), aktivita na telefonu přes celou šířku (bod 11); tři snímky čtenářského sloupce (tečky, ztlumené tečky, čistý list) k rozhodnutí | totéž | hotovo 13. 11. 2026 (oddíl Po K4a); kontrolní bod se snímky |
 | K4b | Zbylé bloky: Roztřiď, Změň jednu věc, Spor, Slož argument, Kdo žil dřív?, Příběh, Kdo je na tvé straně, Návrat, Závěr cesty, Moje stanovisko, první názor, Zkus to žít, Dva životy; každá rodina aktivit jako svůj předmět (bod 2); razítko člověka v blocích | totéž | hotovo 13. 11. 2026 (oddíl Po K4b) |
 | K5 | Cesta: hlavička s postupem jako lístek, který se štípe (bod 4), spodní lišta, přehled cesty, karta cesty. **Další krok je tichý, dokud student neodpoví** nebo krok výslovně nepřeskočí; hlavní je tlačítko bloku. Přechod mezi kroky krátký (posun listu), otočení listu zůstává mezi stránkami; snímky pro autora | totéž | hotovo 14. 11. 2026 (oddíl Po K5); kontrolní bod se snímky |
-| K6 | Stránky z dat a deník: Domů jako stůl s věcmi k vzetí (bod 10), období a pás období, papírnictví období (bod 5, tokeny `.obdobi-N`), živý okraj (bod 6), směr, otázka s osou hlasů, pokus, úvody, náboženství, Lidé, Otázky, **Můj deník jako opravdový zápisník** (Moje filozofie, sbírka, záznam jako lístek, přenos a záloha, tichá tečka u ikony Deník, když čeká Návrat; oddíl Mapa a deník: funkce), Tvoje antika, Stoický týden, příprava hodiny a promítání | totéž | čeká |
+| K6 | Stránky z dat a deník: Domů jako stůl s věcmi k vzetí (bod 10), období a pás období, papírnictví období (bod 5, tokeny `.obdobi-N`), živý okraj (bod 6), směr, otázka s osou hlasů, pokus, úvody, náboženství, Lidé, Otázky, **Můj deník jako opravdový zápisník** (Moje filozofie, sbírka, záznam jako lístek, přenos a záloha, tichá tečka u ikony Deník, když čeká Návrat; oddíl Mapa a deník: funkce), Tvoje antika, Stoický týden, příprava hodiny a promítání | totéž | hotovo 14. 11. 2026 (oddíl Po K6); kontrolní bod se snímky |
 | K7a | Mapa a čas: podklad mapy jako výstřižek, karta člověka, řeka životů, posuvník, mince, Přehrát život a funkce z oddílu Mapa a deník: funkce; kontrolní snímky | totéž | čeká |
 | K7b | Třináct kreseb jako koláž na rámu `Kresba.svelte` v novém papíru a v tmavém režimu (pravidla v Po D4); obraz ke kapitole (bod 9) tam, kde ho nese kresba; kontrolní snímky | totéž | čeká |
 | P | Pojmy: kolekce `pojmy`, komponenta Pojem (poznámka na okraji na notebooku, lístek po klepnutí na telefonu, fokus z klávesnice), stránka `/pojem/<id>/`, první vlna pojmů z antiky s podklady, vyznačení v textech; české tvary jmen pro hledání (Pagefind neskloňuje) | podklady Opus 5.5 · high (`atlas-overeni`), komponenta Opus 5.5 · high (`atlas-komponenta`), texty `atlas-psani` | čeká |
@@ -412,18 +412,18 @@ Odpovědi po D4: otázka 9 (brána) „ano“, ostatní prázdné, takže platí
 
 | Staré jméno | Ukazuje na | Kdo ho používá | Nahradí |
 | --- | --- | --- | --- |
-| `--paper` | `--papir` | 18 míst (dřív 35; ✓ bloky K4b, ✓ cesta K5): deník, mapa, kresby, zbylé bloky; ✓ rám (K2), ✓ stránky osob (K3), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a) | K4 až K7 podle komponenty |
-| `--surface` | `--list` | 55 míst (dřív 73; ✓ bloky K4b, ✓ lišty cesty, karta a přehled cesty K5): zbylé karty, deník, mapa; ✓ rám (K2), ✓ stránky osob (K3; zbývá bod mini mapy, K7), ✓ rám aktivity, Volba, Odkryj (K4a) | K4 (bloky), K5, K6, K7 |
-| `--sunk` | papír smíchaný s linkou (`color-mix`) | 14 míst (dřív 20; ✓ bloky K4b): přepínače, najetí, podklady; ✓ rám (K2: hledání, lišta hodiny), ✓ tlačítka bloků a Tlacitko.astro (K4a) | K4 a K7 (vtlačené místo barvy) |
-| `--rule` | `--linka` | 78 míst (dřív 115; ✓ bloky K4b, ✓ cesta K5); ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a) | K4 až K7; kde je linka jedinou hranicí ovládání, přejde na stín nebo tužku |
-| `--muted` | stará hodnota `#6B6154` / `#A69B8A` | 53 míst (dřív 88; ✓ bloky K4b, ✓ postup cesty K5); ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7), ✓ rám aktivity, pole na psaní, Volba, Odkryj, tlačítka (K4a) | K3 až K7; nový `--ink-3` je o odstín světlejší a na tintě období 2 by měl 4,47 : 1, proto přezdívka drží starou hodnotu, dokud tinty nezmizí |
-| `--period-N` | `--p-N` | 10 míst: přiřazení `.obdobi-N` v `global.css`, deník, Domů; ✓ stránky osob (K3, nepoužívaly ho) | K6, K7 |
-| `--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate` (třída `.obdobi-N`) | staré tinty a desky | 359 míst (`--pc` 257, tint 55, soft 28, plate 10, on-plate 9); ✓ desky (K3: deska je list s páskami, `--pc-plate` už jen kresby v `global.css` a hlavička stránky období přes `--period-N-plate`), ✓ stránky osob mimo mini mapu a mini osu (K7), ✓ Volba a Odkryj (K4a: lístek s páskou místo tinty), ✓ všechny bloky (K4b: `.blok__zpetna` smazaná, bloky tinty nepoužívají), ✓ cesta (K5: lišta, přehled, karta cesty; zbývá `--pc` 75, tint 23, soft 7, počítáno `grep -o 'var(--pc)'` mimo `tokens.css`, před K5 84, 24, 8) | K4 (tinty ve zpětné vazbě, Mince v blocích), K6 (hlavička období), K7 (kresby, mini mapa, mini osa) |
+| `--paper` | `--papir` | 18 míst (dřív 35; ✓ bloky K4b, ✓ cesta K5): deník, mapa, kresby, zbylé bloky; ✓ rám (K2), ✓ stránky osob (K3), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a); po K6 10 (✓ stránky z dat, Domů, deník, období, hodina; zbývá mapa a kresby) | K4 až K7 podle komponenty |
+| `--surface` | `--list` | 55 míst (dřív 73; ✓ bloky K4b, ✓ lišty cesty, karta a přehled cesty K5): zbylé karty, deník, mapa; ✓ rám (K2), ✓ stránky osob (K3; zbývá bod mini mapy, K7), ✓ rám aktivity, Volba, Odkryj (K4a); po K6 35 (✓ stránky z dat, Domů, deník, období, hodina; zbývá mapa a kresby) | K4 (bloky), K5, K6, K7 |
+| `--sunk` | papír smíchaný s linkou (`color-mix`) | 14 míst (dřív 20; ✓ bloky K4b): přepínače, najetí, podklady; ✓ rám (K2: hledání, lišta hodiny), ✓ tlačítka bloků a Tlacitko.astro (K4a); po K6 3 (✓ stránky z dat, Domů, deník, období, hodina; zbývá mapa a kresby) | K4 a K7 (vtlačené místo barvy) |
+| `--rule` | `--linka` | 78 míst (dřív 115; ✓ bloky K4b, ✓ cesta K5); ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a); po K6 40 (✓ stránky z dat, Domů, deník, období, hodina; zbývá mapa a kresby) | K4 až K7; kde je linka jedinou hranicí ovládání, přejde na stín nebo tužku |
+| `--muted` | stará hodnota `#6B6154` / `#A69B8A` | 53 míst (dřív 88; ✓ bloky K4b, ✓ postup cesty K5); ✓ rám (K2), ✓ stránky osob (K3; zbývá mini osa, K7), ✓ rám aktivity, pole na psaní, Volba, Odkryj, tlačítka (K4a); po K6 27 (✓ stránky z dat, Domů, deník, období, hodina; zbývá mapa a kresby) | K3 až K7; nový `--ink-3` je o odstín světlejší a na tintě období 2 by měl 4,47 : 1, proto přezdívka drží starou hodnotu, dokud tinty nezmizí |
+| `--period-N` | `--p-N` | jen přiřazení `.obdobi-N` v `global.css` (✓ deník a Domů, K6); ✓ stránky osob (K3, nepoužívaly ho) | O s tintami |
+| `--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate` (třída `.obdobi-N`) | staré tinty a desky | 359 míst (`--pc` 257, tint 55, soft 28, plate 10, on-plate 9); ✓ desky (K3: deska je list s páskami, `--pc-plate` už jen kresby v `global.css` a hlavička stránky období přes `--period-N-plate`), ✓ stránky osob mimo mini mapu a mini osu (K7), ✓ Volba a Odkryj (K4a: lístek s páskou místo tinty), ✓ všechny bloky (K4b: `.blok__zpetna` smazaná, bloky tinty nepoužívají), ✓ cesta (K5: lišta, přehled, karta cesty; po K5 `--pc` 75, tint 23, soft 7), ✓ stránky z dat a deník (K6: zbývá `--pc` 30, tint 11, soft 3, plate a on-plate 0; tinty jen mapa, `MiniOsa.astro` a nepoužívaný `ui/Mince.astro`) | K4 (tinty ve zpětné vazbě, Mince v blocích), K6 (hlavička období), K7 (kresby, mini mapa, mini osa) |
 | `--period-N-tint`, `-soft`, `-plate`, `-on-plate` | dnešní hodnoty | přes `--pc-*` | K3 až K7, pak smazat |
 | `--fs-display-1`, `--fs-display-2` | `--fs-jmeno` | jen třídy `.t-display-*` v `global.css`; ✓ stránky osob (K3: titulek s pruhem), žádná komponenta je už nepoužívá | O je smaže i s třídami (K6 je nepotřebuje) |
-| `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-full` | `--r-razitko`, `--r-ovladani`, `--r-plne` | 70 míst (dřív 132; `--r-sm` 22, `--r-md` 17, `--r-full` 13, `--r-xs` 18); ✓ rám (K2), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a), ✓ bloky (K4b), ✓ cesta (K5); `--r-lg` už nepoužívá nikdo | K3 až K7, `--r-lg` smaže O |
+| `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-full` | `--r-razitko`, `--r-ovladani`, `--r-plne` | 70 míst (dřív 132; `--r-sm` 22, `--r-md` 17, `--r-full` 13, `--r-xs` 18); ✓ rám (K2), ✓ rám aktivity, Volba, Odkryj, tlačítka (K4a), ✓ bloky (K4b), ✓ cesta (K5); `--r-lg` už nepoužívá nikdo; po K6 `--r-sm` 10, `--r-md` 4, `--r-full` 4, `--r-xs` 16 (✓ K6) | K3 až K7, `--r-lg` smaže O |
 | `--stin-mapa`, `--stin-list` | `--lezi`, `--lista-stin` | 8 míst: mapa a Mapa a čas; ✓ rám (K2: hledání) | K7 |
-| `--pohyb-rychle`, `--pohyb`, `--pohyb-kamera` | `--d-stisk`, `--d-listek`, `--d-kamera` | 117 výskytů (počítáno i s `var(--pohyb…)` v hodnotách); ✓ stránky osob (K3: vstupy, obsah profilu), ✓ tlačítka bloků, Volba, Odkryj, Tlacitko.astro (K4a: `--pohyb-rychle` 18 místo 26), ✓ bloky (K4b), ✓ cesta (K5: `--pohyb-rychle` 3, `--pohyb` 20, `--pohyb-kamera` 15) | K6, K7 |
+| `--pohyb-rychle`, `--pohyb`, `--pohyb-kamera` | `--d-stisk`, `--d-listek`, `--d-kamera` | 117 výskytů (počítáno i s `var(--pohyb…)` v hodnotách); ✓ stránky osob (K3: vstupy, obsah profilu), ✓ tlačítka bloků, Volba, Odkryj, Tlacitko.astro (K4a: `--pohyb-rychle` 18 místo 26), ✓ bloky (K4b), ✓ cesta (K5: `--pohyb-rychle` 3, `--pohyb` 20, `--pohyb-kamera` 15); po K6 `--pohyb-rychle` 0, `--pohyb` 18, `--pohyb-kamera` 14 (kresby, K7b) | K6, K7 |
 | `--map-*` | beze změny | mapa a mini mapa | K7 (mapa jako výstřižek) |
 
 **Co přezdívka nepokryje (práce pro K2 až K7):**
@@ -432,7 +432,7 @@ Odpovědi po D4: otázka 9 (brána) „ano“, ostatní prázdné, takže platí
 - ~~**K3:** desky s fotkou jsou dál v duotónu období (`--pc-plate`), ne na listu s páskami a filtrem `--foto`; jméno není na vytrženém listu s pruhem; mince místo razítka člověka.~~ Hotovo v K3 (oddíl Po K3).
 - ~~**K4:** bloky jsou plochá karta `--surface` s linkou a zaoblením 10 px; hlavní tlačítko je plný inkoust bez `--vyst-ink`; možnosti Volby nejsou vystouplé; zpětná vazba je tinta, ne `.listek-paska` s `.rozlozit`; pole na psaní nejsou v Kalamu.~~ Hotovo v K4a a K4b (oddíly Po K4a, Po K4b).
 - ~~**K5:** lišta cesty a drážka postupu jsou ploché; lístek cesty nemá pahýl.~~ Hotovo v K5 (oddíl Po K5).
-- **K6:** pás období je dnešní plynulý pruh, ne odtrhávací lístky; štítky otázek, karta týdne a kolečka hodiny jsou tinty.
+- ~~**K6:** pás období je dnešní plynulý pruh, ne odtrhávací lístky; štítky otázek, karta týdne a kolečka hodiny jsou tinty.~~ Hotovo v K6 (oddíl Po K6).
 - **K7:** mapa má moře a pevninu z `--map-*`, ne výstřižek staré mapy; kresby berou tři tóny z desky (`--pc-plate`, `--pc-on-plate`), ne koláž z papíru.
 
 ### Co se na webu změnilo už teď
@@ -1138,6 +1138,109 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro domu, denik, navrat, tyden, otazka, nove-stranky, obdobi, lide, otazky, hodina-podoby, hodina-student, prohlidka, medailonky a ty, které spadnou), node scripts/kontrola-fokus.mjs na Domů, Můj deník, stránce období 1, otázce 1 a Lidech, klávesnicí na dvou výškách okna, node scripts/snimky-listy.mjs na Domů, deníku (prázdném i plném), období 1, otázce 1 a Lidech na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
 7. Do plánu větve zapiš oddíl Po K6: co se na stránkách změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K6 a zadání K7a v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+
+8. Pak se zastav a napiš mi, na které snímky se mám podívat.
+```
+
+## Po K6 (14. 11. 2026)
+
+Odpovědi po K5 byly prázdné v repozitáři i v Projektu Claude, takže platí všech osm doporučení a cesta se neměnila. Během práce autor upozornil na osm chyb a všechny jsou opravené (14. 11.): nadpisy na stole Domů nic neříkaly („kdo žil roku 399“), na Domů chyběl lístek cesty s odtržením, úryvek pohlednice končil po pár slovech („V Athénách se roku 423 př.“), otázky v deníku byly rozházené, uříznuté a mimo střed, Domů se po posunu rozpadlo, nadpis dnešního pokusu vypadal přeškrtnutý, stránka období padala (chyběl `OkrajObdobi.astro`) a oranžové záložky otázek v Rozpracovaných končily dole nahrubo. Snímky jsou v `Claude outputs/snimky/design-v2-k6/`.
+
+### Co se na stránkách změnilo
+
+- **Domů jako stůl** (`src/pages/index.astro`, bod 10): titulek „Velké otázky mají dlouhé dějiny.“ s pruhem „Filozofie od Thaléta po dnešek.“, perex a Začít první cestu jako dosud. Vedle leží lístek první cesty (`CestaKarta` s novou podobou `velka`, „Nikdo není moudřejší.“) s pahýlem, který se po najetí odtrhne. Pod tím stůl se čtyřmi věcmi: kartička dnešního pokusu na pět minut (otázka pokusu jako nadpis, `otazkaPokusu`), pohlednice s příběhem z období (místo a rok, nadpis, celé věty do 320 znaků, `uryvek` a `vety` v `src/lib/stul.ts` přeskočí zkratky jako „př. n. l.“), složená mapa „Rok, kdy Athény soudily Sókrata“ s odkazem na mapu v roce 399 př. n. l. a pruh ze zápisníku („naposledy sis do zápisníku napsal“, jen když student něco má). Pokus a pohlednice se střídají po dnech (`vyberDne`, skript před vykreslením, takže nic neproblikne). Pás období jsou odtrhávací lístky s ornamenty (`PasObdobi.astro`; perforace, zářezy, „připravujeme“ u období bez stránky, na telefonu pod sebou) a tři vstupy jsou ležící karty. Ozdoba bez obsahu je jen jedna, ornamenty na lístcích období.
+- **Můj deník jako zápisník** (`Denik.svelte`, `src/lib/zapisnik.ts`, nové `MojeFilozofie.svelte`, `SbirkaDeniku.svelte`, `PrenosDeniku.svelte`; popis v `docs/design.md` › Můj deník jako zápisník):
+  - Titulek „Můj deník.“ s pruhem „Jen tvůj, jen v tomhle prohlížeči.“
+  - Návrat na lístku s páskou a připomenutí zálohy po dokončené cestě (poznámka rukou, Uložit do souboru).
+  - Rozpracované: lístky cest s pahýlem, které se po najetí odtrhnou. Otázky, ke kterým se student nevrátil, jsou oranžové záložky stejné výšky s ohybem dole.
+  - **Moje filozofie** po velkých otázkách: na začátku a teď perem na linkách (oba sloupce do stejné výšky), pravidla z cest, kdo stál se mnou (razítko a jméno v řádcích) a kdo by mi nejvíc odporoval (`odpurce` v `prehledObdobi`). Vytisknout dá na papír jen tenhle oddíl.
+  - Moje odpovědi a stanoviska jako lístky, podle data (výchozí) nebo podle cest.
+  - Sbírka: razítka potkaných filozofů, odtržené pahýly prošlých cest a vystřižené citáty. Nůžky má každý citát na listu (`Citat.astro`, `src/scripts/vystrihnout.ts`).
+  - Záloha a přenos: soubor ke stažení a nahrání a odkaz s deníkem v kotvě (`src/lib/prenos.ts`). Kdo odkaz otevře, dostane nabídku přidat deník ke svému.
+  - Tichá tečka u Deníku v záhlaví a ve spodní liště, když čeká Návrat (`src/scripts/tecka-deniku.ts`, načítá se ze skriptu v `Zakladni.astro`).
+  - Tvoje antika („Tvoje antika.“) má razítka místo mincí, lepicí lístek s první odpovědí a lístek s páskou u nejbližšího. Stoický týden má dny jako ležící listy a kartu týdne jako lístek s páskou.
+- **Papírnictví období** (bod 5, `global.css`): v `.obdobi-N` vzor pásky (maska z SVG: meandr, vlnovka, kruhy, kříže, hvězdy, ozubení, čárky, body; přes pásku v `--pp` 90 %, v noci `--p` 80 %), ozdoba čísla kapitoly a tvar razítka místa. Každé období jen svým inkoustem; `.bez-obdobi` vzor vypne.
+- **Stránka období** (`src/pages/obdobi/[obdobi].astro`): hlavička s odtrženým lístkem období (ornament, „období N“, krátký název) nad titulkem s pruhem (léta). Mezitím jinde je lístek s páskou. Otázky doby jsou řádky zápisníku (číslo velké otázky rukou) s malým lístkem cesty (`CestaKarta maly`). Lidé a směry mají vtlačené štítky směrů a razítka bez krabic.
+- **Živý okraj** (bod 6, `OkrajObdobi.astro`): od 1240 px kapitoly jako záložky na pravé hraně (běžící kapitola v papíru období) a výstřižek „kde jsme“ se jmény až čtyř míst, který vede na Na mapě. Pod 1240 px a v tisku není; na telefonu zůstávají mezititulky v textu.
+- **Stránky z dat:** hlavička stránky (`HlavickaStranky.astro`) je titulek na listu s tečkou na konci (otázka si nechá otazník), volitelně s pruhem. Otázka má pruh s oborem a úvod na čistém listu s páskou. Osa hlasů má razítka místo mincí, volbu „Kdo z nich je ti nejblíž?“ s razítky na vystouplých tlačítkách a věty na lístku s páskou. Lidé („Lidé a směry.“) mají razítka 72, 64 a 48 px, ležící karty, medailonky jako řádky a vtlačené směry. Otázky („Deset velkých otázek.“) mají řádky s číslem rukou a malé lístky cest. Směr, pokus, úvody, náboženství, tradice, týden, příprava hodiny (kolečka jako kroužek inkoustem, pole vtlačená) a promítání mají nová jména tokenů. `RazitkoCloveka` nahradilo Mince všude kromě Mapy a času; `ui/Mince.astro` už nikdo nepoužívá (smaže O).
+
+### Přezdívky
+
+Odškrtnuté v tabulce Po K1 (K6): `--period-N` (už jen přiřazení `.obdobi-N` v `global.css`), `--pc-plate`, `--pc-on-plate` (mimo přiřazení 0), `--pohyb-rychle` (0). Deník, Domů, období, osa hlasů, týden, hodina, Lidé, Otázky a stránky z dat už přezdívky nepoužívají.
+
+Zbývá (počet `var(--…)` v `src` mimo `tokens.css`, v závorce po K5): `--paper` 10 (18), `--surface` 35 (55), `--sunk` 3 (14), `--rule` 40 (78), `--muted` 27 (53), `--pc` 30 (75), `--pc-tint` 11 (23), `--pc-soft` 3 (7), `--pohyb-rychle` 0 (3), `--pohyb` 18 (20), `--pohyb-kamera` 14 (15), `--r-sm` 10 (22), `--r-md` 4 (17), `--r-full` 4 (13), `--r-xs` 16 (18), `--stin-mapa` 7, `--stin-list` 1. Všechno je v mapě (`src/components/mapa/`, K7a), v kresbách a v pravidlech kreseb v `global.css` (K7b), v mini ose a mini mapě profilu (K7) a v nepoužívaném `ui/Mince.astro`.
+
+**Tinty období** (`--pc-tint`, `--pc-soft`, `--period-N-tint`, `--period-N-soft`) teď používá jen mapa (`Mince.svelte`, `KartaCloveka.svelte`, `Mapa.svelte`, `Reka.svelte`, `Posuvnik.svelte`), mini osa profilu (`MiniOsa.astro`) a nepoužívaný `ui/Mince.astro`; kromě nich už jen přiřazení `.obdobi-N` v `global.css`. Po K7a a K7b je O smaže i s `--muted` (drží starou hodnotu kvůli tintám) a s přiřazením v `global.css`.
+
+### Testy a kontrola
+
+- `npm run build` prošel. Vitest celý (1 365 testů); nový `tests/data/zapisnik.test.ts` (odpůrce, záznamy podle cest, pahýly, potkaní filozofové, vystřižené citáty a jejich spojení, připomenutí zálohy, přenos odkazem tam a zpět, věty a úryvek pohlednice se zkratkami, výběr dne, otázka pokusu).
+- Playwright: dotčené testy upravené (`domu`: titulek a jeden lístek cesty; `navrat`: tečka u Deníku jen mimo deník a jen když čeká Návrat; `nove-stranky`: titulky s tečkou; `otazka`: zápisy hledá v `.seznam--zapisy`, protože Moje filozofie ukazuje tutéž větu; `tvoje-antika`: titulek).
+- `scripts/kontrola-fokus.mjs` na Domů, Můj deník, období 1, otázce 1 a Lidech (390 a 1440 px): bez nálezu.
+- Klávesnicí (jednorázový skript, smazaný) na 390 × 844, 390 × 640, 1440 × 900 a 1440 × 700, Domů, plný deník, Tvoje antika, období 1, otázka 1 a Lidé, 45 tabulátorů: prvek s fokusem nikdy pod záhlavím ani spodní lištou (jediný nález je odkaz Přeskočit na obsah, který leží nad záhlavím záměrně).
+- **Kontrast** nových dvojic (jednorázový skript, smazaný): text na záložce v papíru období s odleskem byl u období 4 jen 4,43, odlesk je proto jen 4 % bílé a dvojici hlídá nová trvalá zkouška v `tests/data/kontrast.test.ts` pro všech osm období. Pero a `--p` na lístku nejméně 4,8; ruka na papíře v pořádku.
+- **Celé `npm test`** před commitem dvakrát. První běh našel dvě chyby navíc: skript nůžek v `Citat.astro` vložil Astro jako značku `<script>` k prvnímu citátu, ta pak rozdělila text kroku do dalšího čistého listu (`ram-aktivity`) a stala se posledním prvkem scény příběhu (`cesta3`). Skript se teď načítá v `Zakladni.astro`. Druhý běh: kontrola typů bez chyb, Vitest 1 365, Playwright 739 ze 740 (9,3 min). Neprošel jen `ram.spec.ts:85` (přechod mezi stránkami, viz Nad čím jsem váhal).
+- **Snímky** v `Claude outputs/snimky/design-v2-k6/` (`scripts/snimky-listy.mjs`): Domů, deník prázdný a plný, Tvoje antika, období 1, otázka 1 a Lidé, na 390 a 1440 px ve dne i v noci.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Kód QR není.** Přenos jde odkazem (a souborem); generátor QR by byl nová závislost (`qrcode-generator`, asi 20 kB) a instalaci jsem bez tebe nepouštěl. Jinak: QR až s tvým souhlasem (otázka 3).
+- **Složená mapa na stole je kresba**, ne výřez opravdové mapy: přeložený list s tečkovanou cestou. Opravdová mapa jako výstřižek přijde v K7a; pak by na stole mohl ležet její kousek.
+- **Pokus a pohlednice se střídají po dnech**, ne po návštěvách: stejný den je stůl stejný a nic neproblikne.
+- **Titulky stránek z dat končí tečkou** jako titulky profilů („Lidé a směry.“); otázka si nechá otazník.
+- **Pruh na stránce otázky nese obor** (etika, epistemologie…), na stránce období léta. Jinak: pruh s první větou úvodu.
+- **„Kde jsme“ na okraji jsou jména míst**, ne výřez mapy: výstřižek mapy by čekal na K7a.
+- **Vystřižené citáty** se ukládají nůžkami u citátu na listu (kompaktní citáty v řádku nůžky nemají).
+- **Rozpracované otázky jako záložky**: stejně vysoké, text uprostřed, dole tmavší ohyb téže barvy a stín. První verze s pruhem papíru pod řadou se autorovi nelíbila (bílý pruh nezapadl).
+- **Přechod mezi stránkami vypadává častěji.** Test `ram.spec.ts:85` (otazky → Lidé, typ `dalsi`) v Chromiu bez okna prošel na HEAD před K6 pětkrát ze šesti, s K6 dvakrát ze šesti; nová stránka pak nedostane přechod (`pagereveal` bez `viewTransition`). Nezpůsobuje to `global.css`, stránky Otázky a Lidé ani skript tečky (zkoušeno vrácením po částech); nejvíc pomohlo vrátit záhlaví a spodní lištu, ale ani to ne spolehlivě. Na stroji s velkou zátěží (5,7) je výsledek rozkolísaný. Prověřit v opravdovém Chromu (`scripts/overeni-prechodu.mjs`) na začátku K7a (otázka 6).
+
+## Co rozhodnout po K6
+
+Kontrolní bod se snímky (`Claude outputs/snimky/design-v2-k6/`). Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Domů jako stůl** (snímky `domu-*`): lístek první cesty, kartička pokusu, pohlednice, složená mapa, pás období jako odtrhávací lístky, tři vstupy. Doporučuji ano.
+   Odpověď:
+
+2. **Můj deník jako zápisník** (snímky `denik-plny-*` a `denik-prazdny-*`): Moje filozofie jako hlavní pohled, výpis podle data až pod ní, sbírka, záloha a přenos, oranžové záložky rozpracovaných otázek s ohybem. Doporučuji ano.
+   Odpověď:
+
+3. **Kód QR k přenosu deníku:** smím přidat závislost `qrcode-generator` (asi 20 kB, načte se jen po klepnutí na „Ukázat kód QR“ v deníku)? Bez ní zůstává odkaz a soubor. Doporučuji ano.
+   Odpověď:
+
+4. **Stránka období** (snímky `obdobi-1-*`): odtržený lístek období nad titulkem, papírnictví období (vzor pásky, ozdoba kapitoly, razítko místa), Otázky doby jako řádky s malými lístky cest, na notebooku záložky kapitol a „kde jsme“ na pravé hraně. Doporučuji ano.
+   Odpověď:
+
+5. **Titulky stránek z dat s tečkou a pruh na otázce s oborem** (snímky `otazka-1-*`, `lide-*`). Doporučuji ano.
+   Odpověď:
+
+6. **Přechod mezi stránkami, který v testu vypadává** (Nad čím jsem váhal): na začátku K7a ho ověřit v opravdovém Chromu a příčinu opravit, než se začne s mapou. Doporučuji ano.
+   Odpověď:
+
+7. **Chceš něco změnit na snímcích po K6?** Napiš kde a co. Bez odpovědi zůstává, jak je.
+   Odpověď:
+
+## Zadání K7a: Mapa a čas
+
+Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po K6 (prázdná odpověď znamená souhlas). Když se krok nevejde do jednoho sezení, udělej nejdřív podklad mapy, lístečky lidí a kartu člověka (bod 1 a 2) a zapiš, co zbylo.
+
+```text
+Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K7a větve design-v2, Mapa a čas. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
+
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Mapa a čas; Co se proti design systému změnilo), Po K1 (přezdívky), Po auditu (Pravidlo střídmosti, Mapa a deník: funkce, řádky K7a), Po K6 a Co rozhodnout po K6 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíly o Mapě a čase (mapa, řeka životů, karta člověka, posuvník, Přehrát život). Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/MapaCas.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript). Když odpovědi po K6 něco mění, oprav to nejdřív (kód QR v deníku jen s mým souhlasem z otázky 3). Podle otázky 6 po K6 nejdřív ověř přechod mezi stránkami v opravdovém Chromu (scripts/overeni-prechodu.mjs; Otázky → Lidé a zpět, Lidé → profil) a test ram.spec.ts:85 (--repeat-each=6, srovnej s commitem před K6); když přechod vypadává i v opravdovém Chromu, najdi příčinu (podezřelé je záhlaví a spodní lišta po K6: data-navraty a tečka u Deníku) a oprav ji.
+
+1. Podklad mapy jako výstřižek staré mapy přilepený páskou (Po D4, MapaCas): moře šrafované tužkou, vodní linky podél pobřeží, pevnina na lístkovém papíře, rámeček se stupnicí, názvy moří kurzívou a krajů prostrkaně, větrná růžice, měřítko; v tmavém režimu týž výstřižek v noci. Barvy mapy (--map-*) převeď na papír a inkousty z tokens.css. Malý pás období nad mapou jako v K6 (zvolené období vtlačené, na telefonu vodorovně posuvný).
+
+2. Lidé roku jako přišpendlené lístečky (razítko člověka místo mapa/Mince.svelte), které se při posunu roku objeví a zmizí a po klepnutí se rozvinou (--d-listek); razítko u lidí, které student už potkal (deník, potkaniFilozofove v src/lib/zapisnik.ts); klepnutí na město ukáže, co tu bylo. Karta člověka na listu s páskou (razítko, kdo, proč, rámeček V roce…, Život na mapě se zastávkami, Předchozí a Další, Otevřít stránku); při výběru jiného člověka se vymění. Popisky na telefonu bez překryvů (ověř testem přes getBoundingClientRect na obou šířkách).
+
+3. Posuvník roku s drážkou a jezdcem jako razítko, věta „žije N lidí z atlasu“; Přehrát život v novém papíru. Pravý panel bez vybraného člověka: co se ten rok dělo a všichni žijící. První návštěva jen s mapou, rokem a jednou výpravou, zbytek pod „Víc“.
+
+4. Řeka životů: výchozí jen učitel a žák, větší řádky, legenda barev, zvýraznění současníků vybraného člověka; Stín odkazu přejmenuj na „Ukázat i ty, na které někdo navazuje“.
+
+5. Přepiš komponenty mapy (src/components/mapa/: Mapa, Reka, Posuvnik, KartaCloveka, Mince a další) na nová jména tokenů (Po K1, tabulka přezdívek): --paper, --surface, --sunk, --rule, --muted, --pc, --pc-tint, --pc-soft, --pohyb…, --r-…, --stin-mapa, --stin-list, --map-*; co přestanou používat, odškrtni v tabulce přezdívek v plánu. Zapiš, co z tint období (--pc-tint, --pc-soft, --period-N-tint, --period-N-soft) po K7a ještě zbývá (po K6: jen mapa, MiniOsa.astro a nepoužívaný ui/Mince.astro); smaže je O.
+
+6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro mapa, mini-mapa, zivot-na-mape, dva-zivoty, doba-odkazy, ram, domu a ty, které spadnou), node scripts/kontrola-fokus.mjs na Mapě a čase (bez vybraného člověka, s vybraným člověkem, s řekou životů) a na Domů, klávesnicí na dvou výškách okna (posuvník, lístečky, karta, řeka), jednou se zpomaleným procesorem při tažení posuvníku a tažení prstem skutečnými dotykovými událostmi (CDP), node scripts/snimky-listy.mjs na Mapě a čase (rok 424 př. n. l. s vybraným Sókratem, řeka životů, první návštěva) na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
+
+7. Do plánu větve zapiš oddíl Po K7a: co se na mapě změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K7a a zadání K7b v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
 
 8. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
