@@ -53,9 +53,10 @@
     <defs>
       <clipPath id="{id}-vnitrek"><path d={VNITREK} /></clipPath>
     </defs>
-    <rect class="k-stin" width="340" height="240" />
-    <path class="k-svetlo" d={POHAR} />
-    <path class="k-tma" d={VNITREK} />
+    <!-- Koláž (K7b): pohár je světlý výstřižek, voda lístkový papír, čára „dost“ papír období (jediný nositel barvy);
+         co chybí, měří tužka. -->
+    <path class="k-svetlo k-vystrih" d={POHAR} />
+    <path class="vnitrek" d={VNITREK} />
 
     <!-- Proud leží pod vodou, takže končí na hladině. -->
     {#if dolito > 0}
@@ -64,12 +65,12 @@
 
     <g clip-path="url(#{id}-vnitrek)">
       <g class="voda" style:transform="translateY({y}px)">
-        <rect class="k-svetlo" x="96" width="108" height="130" />
+        <rect class="vodni" x="96" width="108" height="130" />
         <!-- Máta mění vodu samu, ne její hladinu. -->
         <g class="mata" class:je={stav.mata}>
           <path class="vlnky" d="M104,34 q11,-5 22,0 t22,0 t22,0 t22,0 M108,58 q10,-5 20,0 t20,0 t20,0 t20,0 M112,84 q9,-5 18,0 t18,0 t18,0 t18,0" />
           <path class="stonek" d="M132,27 Q148,20 166,9" />
-          <path class="k-stin" d="M140,23 q-10,-1 -13,-10 q11,0 13,10 Z M150,19 q-2,-11 7,-15 q4,10 -7,15 Z M159,14 q9,-4 16,2 q-9,5 -16,-2 Z" />
+          <path class="lista-maty" d="M140,23 q-10,-1 -13,-10 q11,0 13,10 Z M150,19 q-2,-11 7,-15 q4,10 -7,15 Z M159,14 q9,-4 16,2 q-9,5 -16,-2 Z" />
         </g>
       </g>
     </g>
@@ -80,8 +81,8 @@
 
     <!-- Co ještě chybí: míra od hladiny k čáře. U čáry zmizí. -->
     <g class="chybi" class:pryc={dost}>
-      <rect class="k-svetlo mira" x="77" y={CARA} width="2" height={DNO - CARA} style:transform="scaleY({1 - hladina(stav)})" />
-      <rect class="k-svetlo posuv" x="72" y="-1" width="12" height="2" style:transform="translateY({y}px)" />
+      <rect class="mira" x="77" y={CARA} width="2" height={DNO - CARA} style:transform="scaleY({1 - hladina(stav)})" />
+      <rect class="mira-konec posuv" x="72" y="-1" width="12" height="2" style:transform="translateY({y}px)" />
       <text class="k-popisek posuv" x="66" text-anchor="end" style:transform="translateY({(CARA + y) / 2 + 4}px)">chybí</text>
     </g>
 
@@ -102,19 +103,24 @@
 </Kresba>
 
 <style>
-  .voda { transition: transform var(--pohyb-kamera) cubic-bezier(0.22, 1, 0.36, 1); }
-  .mata { opacity: 0; transition: opacity var(--pohyb); }
+  .voda { transition: transform var(--d-kamera) var(--k-papir); }
+  .mata { opacity: 0; transition: opacity var(--d-listek); }
   .mata.je { opacity: 1; }
-  .vlnky { fill: none; stroke: var(--k-stin); stroke-width: 1.3; stroke-linecap: round; opacity: 0.5; }
-  .stonek { fill: none; stroke: var(--k-stin); stroke-width: 1.8; stroke-linecap: round; }
+  .vnitrek { fill: var(--papir); }
+  .vodni { fill: var(--k-stin); opacity: 0.55; }
+  .vlnky { fill: none; stroke: var(--k-tma); stroke-width: 1.3; stroke-linecap: round; opacity: 0.45; }
+  .stonek { fill: none; stroke: var(--k-tma); stroke-width: 1.6; stroke-linecap: round; opacity: 0.7; }
+  .lista-maty { fill: var(--listek); filter: var(--k-vystrih); }
 
-  .cara { stroke: var(--k-svetlo); stroke-width: 1.4; stroke-dasharray: 4 5; stroke-linecap: round; }
-  .chybi { transition: opacity var(--pohyb); }
+  /* Čára „dost“: proužek papíru období přes pohár. */
+  .cara { stroke: var(--p); stroke-width: 3; stroke-linecap: round; }
+  .mira, .mira-konec { fill: var(--tuzka); }
+  .chybi { transition: opacity var(--d-listek); }
   .chybi.pryc { opacity: 0; }
-  .mira { transform-box: view-box; transform-origin: 78px 82px; transition: transform var(--pohyb-kamera) cubic-bezier(0.22, 1, 0.36, 1); }
-  .posuv { transition: transform var(--pohyb-kamera) cubic-bezier(0.22, 1, 0.36, 1); }
+  .mira { transform-box: view-box; transform-origin: 78px 82px; transition: transform var(--d-kamera) var(--k-papir); }
+  .posuv { transition: transform var(--d-kamera) var(--k-papir); }
 
-  .proud { stroke: var(--k-svetlo); stroke-width: 5; stroke-linecap: round; opacity: 0; }
+  .proud { stroke: var(--k-stin); stroke-width: 5; stroke-linecap: round; opacity: 0; }
   /* Proud je jednorázový děj po klepnutí, ne smyčka; při omezeném pohybu se neukáže. */
   :global(.kresba--pohyb) .proud { animation: proud 700ms ease-out; }
   @keyframes proud {

@@ -115,4 +115,19 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
   it.each([1, 2, 3, 4, 5, 6, 7, 8])('štítek malého pásu období %i má aspoň 5 : 1', (n) => {
     expect(kontrast(t['na-papiru'], t[`pp-${n}`])).toBeGreaterThanOrEqual(5);
   });
+  // K7b, kresby jako koláž (global.css › Kresba s pohybem): tóny k-stin a k-tma jsou z tužky a černé, světlý popisek
+  // (text pro papír období) na nich splňuje AA; šedý papír od černého a hrana skla tužkou mají 3 : 1;
+  // nositel barvy období (k-pp = inkoust období) je na tečkovaném papíře vidět ve dne i v noci.
+  it('kresby: světlý popisek na tmavém a šedém papíře, šedý od černého, hrana tužkou', () => {
+    const tma = smichat(t.tuzka, '#000000', 0.25);
+    const stin = smichat(t.tuzka, tma, 0.78);
+    expect(kontrast(t['na-papiru'], tma)).toBeGreaterThanOrEqual(4.5);
+    expect(kontrast(t['na-papiru'], stin)).toBeGreaterThanOrEqual(4.5);
+    expect(kontrast(stin, tma)).toBeGreaterThanOrEqual(3);
+    expect(kontrast(t.tuzka, tma)).toBeGreaterThanOrEqual(3);
+    expect(kontrast(stin, t.papir)).toBeGreaterThanOrEqual(3);
+  });
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])('kresby: nositel barvy období %i na tečkovaném papíře má 3 : 1', (n) => {
+    expect(kontrast(t[`p-${n}`], t.papir)).toBeGreaterThanOrEqual(3);
+  });
 });

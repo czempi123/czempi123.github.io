@@ -334,26 +334,54 @@ em, i { font-style: italic; }
 }
 
 /* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Komponenty) ───── */
+/* Koláž (design-v2 K7b, plátno project/KresbaVitr.dc.html; pravidla Po D4 › Kresby jako koláž).
+   Materiály: výstřižky z listu, lístku a papíru období se stínem výstřižku (filtr z rámu, --k-vystrih).
+   Světlo a tma: tři tóny, které drží pořadí světlé > střední > tmavé ve dne i v noci (jeskyně, noc venku,
+   tma před narozením). Střední a tmavý jsou z tužky, takže se v noci nemění; světlý je v noci ztlumený list.
+   Tma je tužka smíchaná s černou; jediná barva kresby mimo tokeny. */
 .kresba {
-  /* Tři tóny kresby vycházejí z desky období, stejně jako fotografie: světlo, stín a tma.
-     Tma je stín smíchaný s černou; jediná barva kresby mimo tokeny. */
-  --k-svetlo: var(--pc-on-plate, var(--surface));
-  --k-stin: var(--pc-plate, var(--ink-2));
-  --k-tma: color-mix(in srgb, var(--pc-plate, var(--ink)) 42%, black);
+  --k-svetlo: color-mix(in srgb, var(--na-papiru) 62%, var(--list));
+  --k-tma: color-mix(in srgb, var(--tuzka) 25%, black);
+  --k-stin: color-mix(in srgb, var(--tuzka) 78%, var(--k-tma));
 }
 .kresba .k-svetlo { fill: var(--k-svetlo); }
 .kresba .k-stin { fill: var(--k-stin); }
 .kresba .k-tma { fill: var(--k-tma); }
-.kresba .k-popisek { font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; fill: var(--k-svetlo); }
-.kresba .k-popisek--tmavy { fill: var(--k-tma); }
+/* Výstřižky: papír na papíře, bez obrysových čar. */
+.kresba .k-list { fill: var(--list); }
+.kresba .k-listek-papir { fill: var(--listek); }
+/* Nositel barvy období: ve dne papír období, v noci zesvětlený inkoust období, ať je na tmavém papíře vidět. */
+.kresba .k-pp { fill: var(--p); }
+.kresba .k-vystrih { filter: var(--k-vystrih); }
+/* Směr, pohyb a síly tužkou, čárkovaně. */
+.kresba .k-tuzka { fill: none; stroke: var(--tuzka); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 4 5; }
+.kresba .k-tuzka--plna { stroke-dasharray: none; }
+/* Popisky věcí: Instrument Sans s okrajem v barvě listu, takže se čtou na světlém i tmavém papíře. */
+.kresba .k-popisek {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--ink);
+  stroke: var(--list);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+/* Popisek na tmavém papíře (skála, břeh, život z papíru období): světlý bez okraje. */
+.kresba .k-popisek--svetly { fill: var(--na-papiru); stroke: none; }
+/* Lísteček s páskou (KresbaListek.svelte): repliky Kalamem. */
+.kresba .k-listek__papir { fill: var(--listek); }
+.kresba .k-listek__paska { fill: color-mix(in srgb, var(--pp) 55%, transparent); }
+.kresba .k-listek__text { font-family: var(--font-ruka); font-size: 13.5px; fill: var(--ink); }
 /* Posuvník kresby (snippet ovladani): popisek, posuvník s cílem 44 px a řádek „3 z 5 · název stupně“. */
-.kresba .k-posuvnik { margin: var(--s-3) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); }
+.kresba .k-posuvnik { font-family: var(--font-sans); font-size: var(--fs-ovladani); }
 .kresba .k-posuvnik label { display: block; font-weight: 600; color: var(--ink); }
-.kresba .k-posuvnik input { display: block; width: 100%; height: 44px; margin: 0; accent-color: var(--pc, var(--ink)); cursor: pointer; }
+.kresba .k-posuvnik input { display: block; width: 100%; height: 44px; margin: 0; accent-color: var(--p, var(--ink)); cursor: pointer; }
 .kresba .k-posuvnik output { display: block; color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
-/* Přepínač kresby: pilulky s cílem 44 px, mezi volbami se chodí šipkami. Rám jím přepíná pohledy; kresba ho může dát
-   i do snippetu ovladani, s popiskem v obalu k-volba (popisek nad přepínačem; k-volba--radek ho dá vlevo od něj). */
-.kresba .k-prepinac { display: inline-flex; gap: var(--s-1); padding: 3px; border: 1px solid var(--rule); border-radius: var(--r-full); background: var(--sunk); }
+/* Přepínač kresby: vystouplé pilulky ve vtlačené drážce, zvolená je vtlačená; cíl 44 px, mezi volbami se chodí
+   šipkami. Rám jím přepíná pohledy; kresba ho může dát i do snippetu ovladani, s popiskem v obalu k-volba
+   (popisek nad přepínačem; k-volba--radek ho dá vlevo od něj). */
+.kresba .k-prepinac { display: inline-flex; flex-wrap: wrap; gap: 6px; padding: 4px; border-radius: var(--r-plne); background: var(--papir); box-shadow: var(--vtla-mele); }
 .kresba .k-prepinac label { position: relative; display: block; }
 .kresba .k-prepinac input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .kresba .k-prepinac span {
@@ -361,18 +389,20 @@ em, i { font-style: italic; }
   align-items: center;
   min-height: 44px;
   padding: 0 var(--s-4);
-  border-radius: var(--r-full);
+  border-radius: var(--r-plne);
   font-family: var(--font-sans);
   font-size: var(--fs-ovladani);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-2);
   white-space: nowrap;
+  background: var(--plocha-m);
+  box-shadow: var(--vyst-m);
 }
-.kresba .k-prepinac input:checked + span { background: var(--ink); color: var(--paper); }
+.kresba .k-prepinac input:checked + span { background: var(--papir); box-shadow: var(--vtla); color: var(--ink); font-weight: 600; }
 .kresba .k-prepinac input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
-.kresba .k-volba { display: grid; justify-items: start; gap: var(--s-1); margin: var(--s-3) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); }
+.kresba .k-volba { display: grid; justify-items: start; gap: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-ovladani); }
 .kresba .k-volba__popisek { font-weight: 600; color: var(--ink); }
-.kresba .k-volba--radek { grid-template-columns: 5.5em auto; align-items: center; justify-content: start; gap: var(--s-2); margin-top: var(--s-2); }
+.kresba .k-volba--radek { grid-template-columns: 5.5em auto; align-items: center; justify-content: start; gap: var(--s-2); }
 /* Pohyblivý prvek (k-hybe) má vlastní animaci jen pod .kresba--pohyb; když student pohyb zastaví, zůstane stát tam, kde je. */
 .kresba:not(.kresba--bezi) .k-hybe { animation-play-state: paused !important; }
 

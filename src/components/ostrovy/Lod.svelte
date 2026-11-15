@@ -9,6 +9,7 @@
   // Kresba s pohybem: loď po prknech a druhá loď (Plútarchos, Théseus 23, 1; Hobbes, O tělese II, 11, 7).
   // Použití v MDX: <Lod id="lod-po-prknech" />
   import Kresba from './Kresba.svelte';
+  import { natrzenyPruh } from '../../lib/kresby';
   import { BREH, HLADINA, OBRYS_TRUPU, PLATNO, POCET, POHLEDY_LODI, POPISKY_LODI, PRKNA, SIRKA_TRUPU, TRUP_A, TRUP_B, ZEM, jeVymenene, popisLodi, posunPrkna, stavPosuvniku, type PohledLodi } from '../../lib/lod';
 
   interface Props {
@@ -24,6 +25,8 @@
   let stav = $derived(stavPosuvniku(n));
 
   /** vlnovka přes celou hladinu; o jednu vlnu delší na obě strany, aby se dala posouvat ve smyčce */
+  // Koláž (K7b): břeh natržený pruh lístku, moře pruh šedého papíru, vlny světlou tužkou, prkna výstřižky.
+  const BREH_PRUH = natrzenyPruh(0, BREH - 8, ZEM, PLATNO.vyska, { zub: 1.6, semeno: 4 });
   const VLNA = 24;
   const vlna = (y: number) => {
     let d = `M${BREH - 2 * VLNA},${y} q${VLNA / 4},-3 ${VLNA / 2},0`;
@@ -37,12 +40,9 @@
     <defs>
       <clipPath id="{id}-more"><rect x={BREH} y={HLADINA} width={PLATNO.sirka - BREH} height={PLATNO.vyska - HLADINA} /></clipPath>
     </defs>
-    <rect class="k-stin" width={PLATNO.sirka} height={PLATNO.vyska} />
-
     <!-- Břeh vlevo, hladina vpravo. Samy se hýbou jen vlny. -->
-    <rect class="k-tma zeme" x="0" y={ZEM} width={BREH - 8} height={PLATNO.vyska - ZEM} />
-    <path class="k-tma" d="M{BREH - 8},{PLATNO.vyska} L{BREH - 8},{ZEM} L{BREH},{HLADINA} L{PLATNO.sirka},{HLADINA} L{PLATNO.sirka},{PLATNO.vyska} Z" />
-    <line class="cara" x1="0" y1={ZEM} x2={BREH - 8} y2={ZEM} />
+    <path class="k-listek-papir k-vystrih" d={BREH_PRUH} />
+    <path class="more k-vystrih" d="M{BREH - 8},{PLATNO.vyska} L{BREH - 8},{ZEM} L{BREH},{HLADINA} L{PLATNO.sirka},{HLADINA} L{PLATNO.sirka},{PLATNO.vyska} Z" />
     <g clip-path="url(#{id}-more)">
       <g class="vlny k-hybe">
         <path d={vlna(HLADINA + 7)} />
@@ -60,7 +60,7 @@
       <text class="k-popisek" x="12" y={PLATNO.vyska - 9}>{POPISKY_LODI.druha}</text>
     </g>
     <text class="k-popisek hromada" class:je={pohled === 'vymena'} x="12" y={PLATNO.vyska - 9}>{POPISKY_LODI.hromada}</text>
-    <text class="k-popisek" x={TRUP_A.x + SIRKA_TRUPU / 2} y={PLATNO.vyska - 7} text-anchor="middle">{POPISKY_LODI.pristav}</text>
+    <text class="k-popisek k-popisek--svetly" x={TRUP_A.x + SIRKA_TRUPU / 2} y={PLATNO.vyska - 7} text-anchor="middle">{POPISKY_LODI.pristav}</text>
 
     <!-- Loď v přístavu: nová prkna leží pod starými a ukážou se, až staré odjede. -->
     <g transform="translate({TRUP_A.x} {TRUP_A.y})">
@@ -87,25 +87,25 @@
 </Kresba>
 
 <style>
-  .zeme { fill-opacity: 0.32; }
-  .cara { stroke: var(--k-svetlo); stroke-width: 1.2; stroke-linecap: round; opacity: 0.6; }
+  .more { fill: var(--k-stin); }
 
   /* Vlny: jediný pohyb, který běží sám. Posun o jednu vlnu se opakuje beze švu. */
-  .vlny path { fill: none; stroke: var(--k-svetlo); stroke-width: 1.3; stroke-linecap: round; opacity: 0.5; }
+  .vlny path { fill: none; stroke: var(--k-svetlo); stroke-width: 1.3; stroke-linecap: round; opacity: 0.7; }
   :global(.kresba--pohyb) .vlny { animation: lod-vlny 3.6s linear infinite; }
   @keyframes lod-vlny { to { transform: translateX(24px); } }
 
   /* Nové prkno je světlé a hladké; staré je tmavší a má léta, takže se neliší jen barvou. */
-  .nove { fill: var(--k-svetlo); stroke: var(--k-tma); stroke-width: 0.9; stroke-linejoin: round; opacity: 0; transition: opacity var(--pohyb); }
+  .nove { fill: var(--k-svetlo); stroke: var(--k-tma); stroke-width: 0.7; stroke-linejoin: round; opacity: 0; transition: opacity var(--d-listek); }
   .nove.je { opacity: 1; }
-  .stare { transition: transform var(--pohyb-kamera) cubic-bezier(0.22, 1, 0.36, 1); }
-  .stare__tvar { fill: color-mix(in srgb, var(--k-svetlo) 46%, var(--k-stin)); stroke: var(--k-tma); stroke-width: 0.9; stroke-linejoin: round; }
+  .stare { transition: transform var(--d-kamera) var(--k-papir); }
+  .stare__tvar { fill: color-mix(in srgb, var(--k-svetlo) 46%, var(--k-stin)); stroke: var(--k-tma); stroke-width: 0.7; stroke-linejoin: round; }
   .stare__leta { fill: none; stroke: var(--k-tma); stroke-width: 0.9; stroke-linecap: round; opacity: 0.75; }
 
-  .druha { opacity: 0; transition: opacity var(--pohyb); }
+  .druha { opacity: 0; transition: opacity var(--d-listek); }
   .druha.je { opacity: 1; }
-  .obrys { fill: none; stroke: var(--k-svetlo); stroke-width: 1.1; stroke-dasharray: 3 3; opacity: 0.7; }
-  .podpera { fill: var(--k-svetlo); opacity: 0.7; }
-  .hromada { opacity: 0; transition: opacity var(--pohyb); }
+  /* Obrys druhé lodi tužkou, čárkovaně: zatím jen místo, kam se prkna skládají. */
+  .obrys { fill: none; stroke: var(--tuzka); stroke-width: 1.2; stroke-dasharray: 3 3; }
+  .podpera { fill: var(--ink-3); }
+  .hromada { opacity: 0; transition: opacity var(--d-listek); }
   .hromada.je { opacity: 1; }
 </style>

@@ -295,9 +295,9 @@ test('vlepené věci se nelepí stejně: uchycení citátů podle pořadí, pás
   for (const rodic of pasky) expect(rodic).toMatch(/cisty-list|papirovy-list|zkus|listek/);
 });
 
-test('obraz ke kapitole: vybledlé razítko předmětu jen tam, kde ho kapitola má (K3 dodatek, bod 9)', async ({ page }) => {
+test('obraz ke kapitole: vybledlé razítko předmětu jen tam, kde ho kapitola má (K3 dodatek a K7b, bod 9)', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  for (const [stranka, kotva, predmet] of [['sokrates', 'delfy', 'tripod'], ['diogenes', 'lucerna', 'lantern'], ['epikuros', 'zahrada', 'sprout']]) {
+  for (const [stranka, kotva, predmet] of [['sokrates', 'delfy', 'tripod'], ['diogenes', 'lucerna', 'lantern'], ['epikuros', 'zahrada', 'sprout'], ['platon', 'chlapec-a-ctverec', 'square'], ['protagoras', 'meritko', 'ruler']]) {
     await page.goto(`/osobnost/${stranka}/`);
     await expect(page.locator('.kapitola__predmet')).toHaveCount(1);
     const p = page.locator(`#${kotva} .kapitola__predmet`);
@@ -307,6 +307,7 @@ test('obraz ke kapitole: vybledlé razítko předmětu jen tam, kde ho kapitola 
     expect(o).toBeGreaterThan(0.1);
     expect(o).toBeLessThan(0.3);
   }
-  await page.goto('/osobnost/platon/');
+  // Kapitola bez předmětu razítko nemá (Aristotelés: kapitoly zatím předmět nemají).
+  await page.goto('/osobnost/aristoteles/');
   await expect(page.locator('.kapitola__predmet')).toHaveCount(0);
 });

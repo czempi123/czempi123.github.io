@@ -55,13 +55,14 @@
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.PresypaciHodiny} nazev={NAZEV} pohledy={POHLEDY} bind:pohled popis={popisDne(den)}>
   {#snippet kresba()}
-    <rect class="k-stin" width="340" height="240" />
-
-    <!-- Sklo a rámy: jen to, co dělá hodiny hodinami. -->
-    <path class="k-tma sklo" d={SKLO} />
-    {#each RAMY as r, i (i)}
-      <rect class="k-svetlo" x={r.x} y={r.y} width={r.sirka} height={r.vyska} rx="1.5" />
-    {/each}
+    <!-- Koláž (K7b): sklo výstřižek z černého papíru, rámy lístkový papír, zrnka světlá; tvoje volba je papír
+         období (jediný nositel barvy), v baňce i v legendě. -->
+    <path class="sklo k-vystrih" d={SKLO} />
+    <g class="k-vystrih">
+      {#each RAMY as r, i (i)}
+        <rect class="ram" x={r.x} y={r.y} width={r.sirka} height={r.vyska} />
+      {/each}
+    </g>
 
     {#key kolo}
       <!-- Horní baňka: písek dne, ještě bez vrstvy. Zrnko zmizí ve chvíli, kdy začne padat. -->
@@ -82,7 +83,7 @@
     <text class="k-popisek" x="178" y="56">jeden všední den</text>
     <text class="k-popisek" x="178" y="72">24 hodin</text>
     {#each legenda as l, i (l.id)}
-      {@render zrno(l.id, 186, LEGENDA_Y[i] - 4)}
+      <g class="legenda">{@render zrno(l.id, 186, LEGENDA_Y[i] - 4)}</g>
       <text class="k-popisek" x="198" y={LEGENDA_Y[i]}>{l.text}</text>
       <text class="k-popisek" x="332" y={LEGENDA_Y[i]} text-anchor="end">{l.hodin} h</text>
     {/each}
@@ -113,14 +114,21 @@
 </Kresba>
 
 <style>
-  .sklo { stroke: var(--k-svetlo); stroke-width: 1.2; stroke-linejoin: round; }
+  /* Hrana skla tužkou: v noci by černé sklo na tmavém papíře zmizelo. */
+  .sklo { fill: var(--k-tma); stroke: var(--tuzka); stroke-width: 0.9; stroke-linejoin: round; }
+  .ram { fill: var(--listek); }
 
   .z { stroke-width: 1.2; }
   .z--spanek { fill: none; stroke: var(--k-svetlo); }
   .z--skola { fill: var(--k-svetlo); fill-opacity: 0.45; stroke: none; }
-  .z--ja { fill: var(--k-svetlo); stroke: none; }
+  .z--ja { fill: var(--p); stroke: var(--k-svetlo); stroke-width: 0.8; }
   .z--jiny { fill: var(--k-stin); stroke: var(--k-svetlo); stroke-linejoin: round; }
   .z--protekla { fill: none; stroke: var(--k-svetlo); stroke-dasharray: 1.6 1.6; opacity: 0.75; }
+  /* Legenda leží na papíře, ne na skle: zrnka v inkoustu. */
+  .legenda .z--spanek, .legenda .z--protekla { stroke: var(--ink-2); opacity: 1; }
+  .legenda .z--skola { fill: var(--ink-2); }
+  .legenda .z--ja { stroke: none; }
+  .legenda .z--jiny { fill: var(--ink-3); stroke: var(--ink-2); }
 
   .horni { fill: var(--k-svetlo); fill-opacity: 0.6; opacity: 0; }
 
@@ -168,11 +176,11 @@
     to { opacity: 0; }
   }
 
-  .den { margin: var(--s-3) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); }
+  .den { margin: 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); }
   .den__pokyn { margin: 0 0 var(--s-1); font-weight: 600; color: var(--ink); }
   .den__radek { display: grid; grid-template-columns: 8.5em 1fr 2.5em; align-items: center; column-gap: var(--s-2); }
   .den__radek label { color: var(--ink); }
-  .den__radek input { width: 100%; height: 44px; margin: 0; accent-color: var(--pc, var(--ink)); cursor: pointer; }
+  .den__radek input { width: 100%; height: 44px; margin: 0; accent-color: var(--p, var(--ink)); cursor: pointer; }
   .den__radek output { color: var(--ink-2); text-align: right; font-variant-numeric: lining-nums tabular-nums; }
   .den__zbytek { margin: var(--s-1) 0 0; color: var(--ink-2); }
   .den__zbytek strong { color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }

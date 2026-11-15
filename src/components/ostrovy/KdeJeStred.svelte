@@ -8,6 +8,8 @@
   // Podklad: docs/podklady/celek-5-staci-vedet.md › Kresba s pohybem: „Kde je střed?“ (Etika Nikomachova 1106a26–b7, 1109a1–12).
   // Použití v MDX: <KdeJeStred id="kde-je-stred" />
   import Kresba from './Kresba.svelte';
+  import KresbaListek from './KresbaListek.svelte';
+  import { natrzenyPruh } from '../../lib/kresby';
   import { KRAJE, LIDE_NA_BREHU, PULKA, VODY, VYCHOZI_STRED, popisStredu, stred, type StavStredu } from '../../lib/stred';
 
   interface Props {
@@ -32,21 +34,23 @@
   let rozvodnena = $derived(stav.voda === 'rozvodnena');
   /** Výška hladiny: rozvodněná řeka stojí výš. */
   let hladina = $derived(rozvodnena ? 124 : 138);
+  // Koláž (K7b): voda je pruh tmavého papíru s vlnami, břeh natržený šedý papír, lidé výstřižky z listu, směr a hlas
+  // tužkou. Barva období nese jen bod „střed“ na čáře pod scénou.
+  const BREH = 'M0,112 L6,110 L13,113 L20,111 L27,113 L34,110 L41,112 L48,110 L55,113 L62,111 L69,112 L76,110 L83,112 L92,112 Q108,112 114,126 L128,182 H0 Z';
+  const PAS = natrzenyPruh(0, 340, 182, 240, { zub: 2, semeno: 6 });
   let jmeno = $derived(LIDE_NA_BREHU.find((c) => c.id === stav.kdo)!.nazev);
 </script>
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.KdeJeStred} nazev={NAZEV} pohledy={POHLEDY} bind:pohled popis={popisStredu(stav)}>
   {#snippet kresba()}
-    <rect class="k-stin" width="340" height="240" />
-
     <!-- Řeka: klidná a rozvodněná leží na sobě, vidět je ta, která platí. -->
     <g class="voda" class:je={!rozvodnena}>
-      <rect class="k-tma hloubka" y="138" width="340" height="44" />
+      <rect class="hloubka" y="138" width="340" height="44" />
       <path class="vlna vlna--klidna k-hybe" d={vlna(138, 3)} />
       <path class="vlna vlna--klidna vlna--druha k-hybe" d={vlna(158, 2.5)} />
     </g>
     <g class="voda" class:je={rozvodnena}>
-      <rect class="k-tma hloubka" y="124" width="340" height="58" />
+      <rect class="hloubka" y="124" width="340" height="58" />
       <path class="vlna vlna--divoka k-hybe" d={vlna(124, 7)} />
       <path class="vlna vlna--divoka vlna--druha k-hybe" d={vlna(144, 6)} />
       <path class="vlna vlna--divoka vlna--druha k-hybe" d={vlna(164, 5)} />
@@ -55,14 +59,14 @@
 
     <!-- Ten, kdo volá o pomoc: hlava nad hladinou a ruka, která mává. -->
     <g class="tonouci" style="transform: translateY({hladina - 138}px)">
-      <circle class="k-svetlo" cx="258" cy="134" r="6.5" />
+      <circle class="k-svetlo k-vystrih" cx="258" cy="134" r="6.5" />
       <g transform="translate(264 136)"><path class="telo ruka k-hybe" d="M0,0 L8,-20" /></g>
       <path class="kruhy" d="M244,141 q14,-6 28,0 M238,147 q20,-8 40,0" />
-      <text class="k-popisek" x="292" y="112" text-anchor="middle">„Pomoc!“</text>
+      <KresbaListek x={294} y={106} natoceni={3} text="„Pomoc!“" semeno={5} />
     </g>
 
     <!-- Břeh. -->
-    <path class="k-tma" d="M0,112 H92 Q108,112 114,126 L128,182 H0 Z" />
+    <path class="k-stin k-vystrih" d={BREH} />
 
     <!-- Plavčík má u sebe záchranný kruh na kůlu. -->
     <g class="poza" class:je={stav.kdo === 'plavcik'}>
@@ -98,10 +102,10 @@
       <path class="hlas" d="M46,58 q-5,-6 -1,-12 M39,62 q-8,-10 -2,-20 M32,66 q-11,-14 -3,-28" />
     </g>
 
-    <text class="k-popisek" x="56" y="152" text-anchor="middle">{jmeno}</text>
+    <text class="k-popisek k-popisek--svetly" x="56" y="152" text-anchor="middle">{jmeno}</text>
 
     <!-- Čára od „nic neudělat“ po „skočit za každou cenu“. Značka v půli stojí, bod se posouvá. -->
-    <rect class="k-tma" y="182" width="340" height="58" />
+    <path class="k-listek-papir k-vystrih" d={PAS} />
     <path class="osa" d="M{OSA.od},{OSA.y} H{OSA.do} M{OSA.od},{OSA.y - 5} v10 M{OSA.do},{OSA.y - 5} v10" />
     <path class="pulka" d="M{naOse(PULKA)},{OSA.y - 6} v12" />
     <text class="k-popisek kraj" x="14" y="230">{KRAJE.malo}</text>
@@ -140,31 +144,35 @@
 </Kresba>
 
 <style>
-  .hloubka { opacity: 0.5; }
-  .vlna { fill: none; stroke: var(--k-svetlo); stroke-width: 1.6; stroke-linecap: round; opacity: 0.75; }
-  .vlna--druha { opacity: 0.4; }
-  .klada { fill: var(--k-svetlo); opacity: 0.55; transform-box: fill-box; transform-origin: center; }
+  /* Řeka: pruh tmavého papíru, vlny tahy světlé tužky (v noci je řeka vidět podle vln); břeh šedý papír. */
+  .hloubka { fill: var(--k-tma); }
+  .vlna { fill: none; stroke: var(--k-svetlo); stroke-width: 1.6; stroke-linecap: round; opacity: 0.85; }
+  .vlna--druha { opacity: 0.5; }
+  .klada { fill: var(--listek); transform-box: fill-box; transform-origin: center; }
 
+  /* Lidé: výstřižky z listu bez obrysu; stín výstřižku je dá od vody i od papíru. */
+  .poza { filter: var(--k-vystrih); }
   .telo { fill: none; stroke: var(--k-svetlo); stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
-  .hlava { fill: var(--k-svetlo); stroke: var(--k-stin); stroke-width: 1.5; }
+  .hlava { fill: var(--k-svetlo); }
   .ruka { transform-box: fill-box; transform-origin: 0% 100%; }
-  .kruhy { fill: none; stroke: var(--k-svetlo); stroke-width: 1.4; stroke-linecap: round; opacity: 0.6; }
-  .kruh { fill: none; stroke: var(--k-svetlo); stroke-width: 4; }
+  .kruhy { fill: none; stroke: var(--k-svetlo); stroke-width: 1.4; stroke-linecap: round; opacity: 0.7; }
+  .kruh { fill: none; stroke: var(--listek); stroke-width: 4; }
   .kruh--maly { stroke-width: 2.5; }
-  .lano { fill: none; stroke: var(--k-svetlo); stroke-width: 1.8; stroke-linecap: round; }
-  .smer, .hlas { fill: none; stroke: var(--k-svetlo); stroke-width: 1.6; stroke-linecap: round; opacity: 0.7; }
+  .lano { fill: none; stroke: var(--ink-2); stroke-width: 1.6; stroke-linecap: round; }
+  /* Směr skoku a hlas: tužkou. */
+  .smer, .hlas { fill: none; stroke: var(--tuzka); stroke-width: 1.6; stroke-linecap: round; }
 
   /* Vody a pózy leží na sobě; vidět je ta, která platí. */
-  .voda, .poza { opacity: 0; transition: opacity var(--pohyb); }
+  .voda, .poza { opacity: 0; transition: opacity var(--d-listek); }
   .voda.je, .poza.je { opacity: 1; }
-  .tonouci { transition: transform var(--pohyb-kamera); }
+  .tonouci { transition: transform var(--d-kamera) var(--k-papir); }
 
-  .osa { fill: none; stroke: var(--k-svetlo); stroke-width: 2; stroke-linecap: round; opacity: 0.85; }
-  .pulka { fill: none; stroke: var(--k-svetlo); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 0.6; }
+  .osa { fill: none; stroke: var(--ink-2); stroke-width: 1.8; stroke-linecap: round; }
+  .pulka { fill: none; stroke: var(--tuzka); stroke-width: 1.5; stroke-dasharray: 3 3; }
   .kraj { font-weight: 500; }
-  .pulka-text { opacity: 0.75; }
-  .bod { transition: transform var(--pohyb-kamera); }
-  .bod__kruh { fill: var(--k-svetlo); stroke: var(--k-tma); stroke-width: 2; }
+  .pulka-text { fill: var(--ink-3); }
+  .bod { transition: transform var(--d-kamera) var(--k-papir); }
+  .bod__kruh { fill: var(--p); filter: var(--k-vystrih); }
 
   /* Pohyb jen tam, kde ho student nemá omezený; zastavení řídí rám (třída k-hybe, global.css). */
   :global(.kresba--pohyb) .vlna--klidna { animation: proud 5s linear infinite; }

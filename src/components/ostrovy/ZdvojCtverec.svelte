@@ -45,8 +45,9 @@
     <defs>
       <clipPath id="{id}-klip"><polygon points={bodyNaPlatno(p.body)} /></clipPath>
     </defs>
-    <rect class="k-tma" width="340" height="240" />
-
+    <!-- Koláž (K7b): mřížka tužkou na tečkovaném papíře, původní čtverec lístkový papír, pokus výstřižek z papíru
+         období (jediný nositel barvy), spočítané čtverečky světlé výstřižky na něm. -->
+    <rect class="puvodni-vypln" x={X0} y={Y0} width={PUVODNI * JEDNOTKA} height={PUVODNI * JEDNOTKA} />
     {#each POKUSY as q (q.id)}
       <polygon class="plocha" class:aktivni={q.id === p.id} points={bodyNaPlatno(q.body)} />
     {/each}
@@ -69,7 +70,6 @@
       <line class="mrizka" x1={X0} y1={Y0 + i * JEDNOTKA} x2={KRAJ} y2={Y0 + i * JEDNOTKA} />
     {/each}
 
-    <rect class="puvodni-vypln" x={X0} y={Y0} width={PUVODNI * JEDNOTKA} height={PUVODNI * JEDNOTKA} />
     {#each CTVERCE as c (`${c.x}-${c.y}`)}
       <rect class="puvodni" x={X0 + c.x * JEDNOTKA} y={Y0 + c.y * JEDNOTKA} width={PUVODNI * JEDNOTKA} height={PUVODNI * JEDNOTKA} />
     {/each}
@@ -104,16 +104,15 @@
 
 <style>
   /* Plocha pokusu zůstává v kresbě, jen se mění, která je vidět; přechod hlídá token pohybu. */
-  .plocha { fill: var(--k-stin); opacity: 0; transition: opacity var(--pohyb); }
-  .plocha.aktivni { opacity: 1; }
-  .okraj { fill: none; stroke: var(--k-svetlo); stroke-width: 3; stroke-linejoin: round; }
-  .mrizka { stroke: var(--k-svetlo); stroke-width: 1; opacity: 0.32; }
-  .puvodni-vypln { fill: var(--k-svetlo); opacity: 0.2; }
-  .puvodni { fill: none; stroke: var(--k-svetlo); stroke-width: 1.75; opacity: 0.8; }
-  .cislo { fill: var(--k-tma); font-size: 14px; }
-  .pulka-cislo { fill: var(--k-svetlo); paint-order: stroke; stroke: var(--k-tma); stroke-width: 3px; stroke-linejoin: round; }
-  /* Štítek původního čtverce zůstane čitelný na světlé i tmavé ploše. */
-  .puvodni-popisek { paint-order: stroke; stroke: var(--k-tma); stroke-width: 3px; stroke-linejoin: round; }
-  .cele { fill: var(--k-svetlo); opacity: 0.5; }
-  .pulka { fill: var(--k-svetlo); opacity: 0.24; }
+  .plocha { fill: var(--p); opacity: 0; filter: var(--k-vystrih); transition: opacity var(--d-listek); }
+  .plocha.aktivni { opacity: 0.82; }
+  /* Hrana pokusu: tah tužky po okraji výstřižku. */
+  .okraj { fill: none; stroke: var(--ink-2); stroke-width: 1.6; stroke-linejoin: round; }
+  .mrizka { stroke: var(--tuzka); stroke-width: 1; opacity: 0.7; }
+  .puvodni-vypln { fill: var(--listek); filter: var(--k-vystrih); }
+  .puvodni { fill: none; stroke: var(--ink-2); stroke-width: 1.4; stroke-dasharray: 4 3; opacity: 0.75; }
+  /* Čísla mají okraj popisku (k-popisek): čtou se na výstřižku i na papíře, ve dne i v noci. */
+  .cislo { font-size: 14px; }
+  .cele { fill: var(--k-svetlo); opacity: 0.8; }
+  .pulka { fill: var(--k-svetlo); opacity: 0.45; }
 </style>

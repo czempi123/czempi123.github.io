@@ -4,6 +4,18 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 15. 11. 2026: Kresby jako koláž (design-v2 K7b)
+
+Odpovědi po K7a a po K6 dodatku byly prázdné, tedy souhlas s doporučeními. Pravidla koláže jsou z plátna (Po D4 › Kresby jako koláž); tohle jsou volby, které plátno nechalo otevřené.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Rám kresby: ležící list s malou páskou, plátno z tečkovaného papíru, pod ním vtlačená drážka s přepínačem pohledů, ovládáním a Zastavit pohyb, popis pod drážkou | Zadání K7b; pořadí tabulátoru (pohled, ovládání, pohyb) zůstalo, jak ho drží testy |
+| Světlo a tma mají dál tři tóny `k-svetlo`, `k-stin`, `k-tma`, ale z tužky a listu, ne z desky období; drží pořadí světlý > střední > tmavý i v noci | Jeskyně, noc venku a tma před narozením stojí na rozdílu světla a tmy; list je v noci tmavý, takže samotné „tytéž tokeny“ by stěnu a stíny v noci slily |
+| Nositel barvy období (`k-pp`) je ve dne papír období a v noci inkoust období | Papír období má na nočním papíře 2,1 až 2,8 : 1; inkoust je zesvětlený pro noc už od D2 |
+| Postavy, které musí být vidět i v noci (vítr, břeh, tvář pod maskou, pohár), jsou ze světlého tónu, ne z listu; černý papír na tečkovaném papíře má hranu tužkou | Výstřižek z listu je v noci skoro stejně tmavý jako papír pod ním |
+| Obraz ke kapitole tam, kde ho nese kresba: Prótagorás 01 pravítko (atribut, Měřítko všech věcí), Platón 02 nová ikona čtverce na úhlopříčce | Bod 9 z Vizuálních zlepšení; jen kapitoly, ve kterých kresba stojí |
+
 ## 15. 11. 2026: Kapitoly v Můj deník po obdobích
 
 Připomínka autora 15. 11. 2026 (deník bude dlouhá stránka, potřebuje jedno další členění); odpověď 5 po K7a prázdná, tedy souhlas s doporučením. Postaveno v kroku K6 dodatek větve `design-v2`.

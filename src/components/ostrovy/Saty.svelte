@@ -46,10 +46,13 @@
     <rect class="vec vec-bila" y="192" width="340" height="6" style:fill={b.bila} />
     <rect class="vec podlaha" y="198" width="340" height="42" style:fill={b.podlaha} />
 
-    <!-- Obraz: zlatý rám a bílý okraj. V chladném světle mají barvy šatů. -->
+    <!-- Obraz: zlatý rám a bílý okraj. V chladném světle mají barvy šatů. Koláž (K7b): věci jsou výstřižky se stínem,
+         barvy mají vlastní (kresba je o barvě). -->
+    <g class="k-vystrih">
     <rect class="vec vec-zlata" x="26" y="44" width="78" height="98" style:fill={b.zlata} />
     <rect class="vec vec-bila" x="34" y="52" width="62" height="82" style:fill={b.bila} />
     <rect class="vec" x="45" y="63" width="40" height="60" style:fill={b.obraz} />
+    </g>
 
     <!-- Lampa: svítí jen v teplém světle. -->
     <circle class="zare" cx="272" cy="52" r="46" fill="url(#{id}-zare)" style:opacity={s.lampa} />
@@ -57,11 +60,14 @@
     <path class="vec vec-bila" d="M256,44 L263,24 L281,24 L288,44 Z" style:fill={b.bila} />
 
     <!-- Černá kočka a modrá váza. V teplém světle mají barvy šatů. -->
+    <g class="k-vystrih">
     <path class="vec vec-cerna" d={KOCKA} stroke-width="3" stroke-linecap="round" style:fill={b.cerna} style:stroke={b.cerna} />
     <path class="vec" d={LISTY} style:fill={b.list} />
     <path class="vec vec-modra" d="M258,218 C250,196 254,170 264,150 L284,150 C294,170 298,196 290,218 Z" style:fill={b.modra} />
 
+    </g>
     <!-- Postava: pleť, černé vlasy a boty. -->
+    <g class="k-vystrih">
     <path class="vec" d="M153,66 L142,128 M187,66 L198,128 M161,204 V226 M179,204 V226" fill="none" stroke-width="7" stroke-linecap="round" style:stroke={b.plet} />
     <ellipse class="vec" cx="159" cy="230" rx="8" ry="4" style:fill={b.cerna} />
     <ellipse class="vec" cx="181" cy="230" rx="8" ry="4" style:fill={b.cerna} />
@@ -69,6 +75,7 @@
     <circle class="vec" cx="170" cy="34" r="15" style:fill={b.cerna} />
     <circle class="vec" cx="170" cy="39" r="11.5" style:fill={b.plet} />
 
+    </g>
     <!-- Šaty. Jejich barvy jsou pořád tytéž. -->
     <g class="saty" clip-path="url(#{id}-strih)">
       <rect class="saty-modra" x="110" y="50" width="120" height="170" fill={BARVY_SATU.modra} />
@@ -93,17 +100,17 @@
 </Kresba>
 
 <style>
-  .vec { transition: fill var(--pohyb-kamera), stroke var(--pohyb-kamera); }
-  .zare { transition: opacity var(--pohyb-kamera); }
+  .vec { transition: fill var(--d-kamera), stroke var(--d-kamera); }
+  .zare { transition: opacity var(--d-kamera); }
 
   .vzorky {
     display: flex;
     align-items: center;
     gap: var(--s-2);
-    margin: var(--s-3) 0 0;
+    margin: 0;
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
     color: var(--ink-2);
   }
-  .vzorek { flex: none; width: 24px; height: 24px; border-radius: var(--r-sm); }
+  .vzorek { flex: none; width: 24px; height: 24px; border-radius: var(--r-razitko); box-shadow: var(--lezi-tlak); }
 </style>
