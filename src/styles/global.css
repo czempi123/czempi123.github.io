@@ -98,7 +98,9 @@ a:hover { text-decoration-thickness: 2px; }
 .t-letopocet { font-family: var(--font-sans); font-variant-numeric: tabular-nums lining-nums; }
 
 em, i { font-style: italic; }
-h1 em, h2 em, .t-display-1 em, .t-display-2 em { font-style: italic; }
+/* Nadpisy kurzívou nic nezvýrazňují (autor 15. 11. 2026: barevná kurzíva v nadpisu působí jako text od stroje).
+   Hvězdičky v nadpisech příběhů a stránek zůstávají v obsahu, nadpis je jednolitý. */
+:is(h1, h2, h3, h4, .t-display-1, .t-display-2, .t-h1, .t-h2, .t-h3) em { font-style: inherit; color: inherit; }
 
 /* Rozvržení */
 .stranka {

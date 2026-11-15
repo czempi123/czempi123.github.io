@@ -90,7 +90,8 @@
 <style>
   .kresba {
     max-width: 520px;
-    margin: var(--s-6) 0;
+    /* Na střed sloupce jako text kolem (autor 15. 11. 2026: kresby stály u levého kraje). */
+    margin: var(--s-6) auto;
     padding: var(--s-3);
     border: 1px solid var(--rule);
     border-radius: var(--r-md);

@@ -52,7 +52,7 @@ const prvni = casti[0]?.druh === 'text' ? casti.shift()!.html : '';
   }
   .kapitola__cislo b { font-family: var(--font-ruka); font-size: 22px; font-weight: 700; color: var(--p); }
   .kapitola__titulek { margin-bottom: var(--s-6); max-width: 16ch; }
-  .kapitola__titulek :global(em) { color: var(--ink-2); }
+  .kapitola__titulek :global(em) { font-style: inherit; color: inherit; }
   @media (min-width: 900px) { .kapitola__titulek { max-width: 20ch; } }
   /* Obraz ke kapitole: vybledlé razítko v inkoustu období vpravo u nadpisu, pod textem (z-index v izolovaném listu). */
   .kapitola__predmet {

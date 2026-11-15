@@ -21,6 +21,15 @@ import { prvniVeta, otazkaPokusu, pohledniceZObdobi, vyberDne } from '../lib/stu
 // První cesta atlasu: tlačítko vede rovnou na její krok 1, údaj pod ním se skládá z dat cesty.
 const PRVNI = 'kdy-mam-dobry-duvod-verit';
 const vsechnyCesty = await getCollection('cesty');
+// Dvě úvodní stránky (Co je filozofie?, Co je náboženství?) jako lístky pod vstupy: název a první věta perexu.
+const uvody = await getCollection('uvody');
+const naZacatek = [
+  { id: 'co-je-filozofie', href: '/co-je-filozofie/' },
+  { id: 'co-je-nabozenstvi', href: '/nabozenstvi/' },
+].flatMap(({ id, href }) => {
+  const u = uvody.find((x) => x.id === id);
+  return u ? [{ href, nazev: u.data.nazev, veta: nezlomitelne(prvniVeta(u.data.perex)) }] : [];
+});
 const kroky = await getCollection('kroky');
 const cesty: Record<string, CestaDomu> = Object.fromEntries(
   vsechnyCesty.map((c) => [c.id, { cislo: c.data.cislo, nazev: c.data.nazev, pocet: kroky.filter((k) => k.data.cesta === c.id).length, minut: c.data.minut }]),
@@ -199,11 +208,18 @@ const vstupy = [
         </li>
       ))}
     </ul>
-    <p class="na-zacatek t-ovladani">
-      <span class="na-zacatek__nad">na začátek</span>
-      <a href="/co-je-filozofie/">Co je filozofie?</a>
-      <a href="/nabozenstvi/">Co je náboženství?</a>
-    </p>
+    <ul class="na-zacatek" aria-label="Na začátek">
+      {naZacatek.map((u) => (
+        <li>
+          <a class="listek-zacatku" href={u.href}>
+            <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+            <span class="listek-zacatku__nad">na začátek</span>
+            <span class="listek-zacatku__nazev">{u.nazev}</span>
+            <span class="listek-zacatku__veta">{u.veta}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </section>
 </Zakladni>
 
@@ -283,10 +299,16 @@ const vstupy = [
   .karta-vstupu:hover { rotate: 0deg; transform: translateY(-3px); box-shadow: var(--lezi-zved); }
   .karta-vstupu:active { transform: none; box-shadow: var(--lezi-tlak); }
   .karta-vstupu:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-  /* Dvě vstupní stránky nad otázkami a náboženstvím: tichý řádek odkazů pod třemi vstupy, ať nesoupeří se začátkem. */
-  .na-zacatek { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-5); margin: var(--s-6) 0 0; }
-  .na-zacatek__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--ink-2); }
-  .na-zacatek a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); text-decoration-color: var(--tuzka); text-underline-offset: 0.2em; }
+  /* Dvě vstupní stránky nad otázkami a náboženstvím (autor 15. 11. 2026: řádek odkazů nesedl): menší lístky
+     s páskou pod třemi vstupy, ať nesoupeří se začátkem; název a první věta perexu. */
+  .rozcestnik .na-zacatek { display: grid; gap: var(--s-6); margin: var(--s-8) 0 0; padding: 0; list-style: none; }
+  .listek-zacatku { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 22px 22px 16px; background: var(--listek); box-shadow: var(--lezi); color: var(--ink); text-decoration: none; rotate: .5deg; transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk); }
+  .na-zacatek li:nth-child(2) .listek-zacatku { rotate: -.6deg; }
+  .listek-zacatku__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--ruka); }
+  .listek-zacatku__nazev { font-size: 21px; line-height: 1.2; }
+  .listek-zacatku__veta { font: 15px/1.5 var(--font-sans); color: var(--ink-2); }
+  @media (hover: hover) { .listek-zacatku:hover { rotate: 0deg; transform: translateY(-3px); box-shadow: var(--lezi-zved); } }
+  .listek-zacatku:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
   @media (min-width: 900px) {
     .uvod { padding-top: var(--s-7); }
     .uvod__dole { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); column-gap: var(--s-8); align-items: start; }
@@ -294,6 +316,7 @@ const vstupy = [
     .stul__veci { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
     .stul__vec--zapisnik { grid-column: 1 / -1; }
     .rozcestnik ul { grid-template-columns: repeat(3, 1fr); }
+    .rozcestnik .na-zacatek { grid-template-columns: repeat(2, minmax(0, 380px)); }
   }
   @media (max-width: 699px) {
     .zacatek :global(.tlacitko--hlavni) { width: 100%; justify-content: center; }

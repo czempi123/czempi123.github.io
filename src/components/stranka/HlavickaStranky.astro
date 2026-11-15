@@ -57,7 +57,7 @@ const nazev = /[.?!…]\**$/.test(titulek.trim()) ? titulek : `${titulek}.`;
   .hlavicka-stranky { position: relative; padding: var(--s-6) 0 var(--s-5); }
   .hlavicka-stranky__text { max-width: 960px; margin-inline: auto; }
   .hlavicka-stranky__nad { margin: 0 0 var(--s-4); color: var(--p); }
-  .hlavicka-stranky__titulek :global(em) { color: var(--p); }
+  .hlavicka-stranky__titulek :global(em) { font-style: inherit; color: inherit; }
   .hlavicka-stranky__razitka { display: flex; gap: var(--s-3); margin: var(--s-5) 0 0; }
   .hlavicka-stranky__perex { max-width: var(--ctenarsky-sloupec); margin: var(--s-5) 0 0; }
   /* Odtržený lístek období: týž papír, ornament a perforace jako lístek v pásu na Domů, pootočený nad titulkem. */

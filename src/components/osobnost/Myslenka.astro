@@ -21,7 +21,7 @@ const { cislo, disciplina } = Astro.props;
   .myslenka__nad b { font-family: var(--font-ruka); font-size: 22px; font-weight: 700; line-height: 1; color: var(--p); }
   .myslenka__nad .t-nadtitulek { color: var(--ink-3); }
   .myslenka__titulek { margin-bottom: var(--s-4); }
-  .myslenka__titulek :global(em) { color: var(--ink-2); }
+  .myslenka__titulek :global(em) { font-style: inherit; color: inherit; }
   .myslenka :global(p:last-of-type) { margin-bottom: 0; }
   @media (max-width: 699px) { .myslenka { padding: var(--s-5) var(--s-4) var(--s-4); } }
 </style>
