@@ -35,6 +35,7 @@ await kontext.addInitScript(() => {
   });
 });
 const strana = await kontext.newPage();
+if (process.env.PODROBNE) strana.on('console', (m) => console.log('KONZOLE', m.type(), m.text().slice(0, 300)));
 const pockej = (ms) => strana.waitForTimeout(ms);
 const log = async () => strana.evaluate(() => { const l = sessionStorage.getItem('__log'); sessionStorage.removeItem('__log'); return JSON.parse(l || '[]'); });
 
@@ -46,6 +47,22 @@ async function klikni(selektor) {
 }
 
 const vysledky = {};
+// K7a: Otázky → Lidé a zpět z hlavní navigace (test ram.spec.ts:85), OPAKOVANI-krát; vrací typy přechodu nové stránky.
+const opakovani = Number(process.env.OPAKOVANI || 0);
+if (opakovani) {
+  vysledky.otazkyLide = [];
+  for (let i = 0; i < opakovani; i++) {
+    await strana.goto(`${ZAKLAD}/otazky/`); await pockej(2000); await log();
+    await klikni('header nav a[href$="/lide/"]'); await pockej(2000);
+    const zaznamy = await log();
+    if (process.env.PODROBNE) console.log(JSON.stringify(zaznamy));
+    const tam = zaznamy.filter((z) => z.ud === 'pagereveal').map((z) => (z.vt ? (z.typy || []).join(',') : 'zadny'));
+    await strana.goBack(); await pockej(2000);
+    const zpet = (await log()).filter((z) => z.ud === 'pagereveal').map((z) => (z.vt ? (z.typy || []).join(',') : 'zadny'));
+    vysledky.otazkyLide.push({ tam: tam.join('|'), zpet: zpet.join('|') });
+  }
+  if (process.env.JEN_OTAZKY) { console.log(JSON.stringify(vysledky)); await prohlizec.close(); process.exit(0); }
+}
 await strana.goto(`${ZAKLAD}/osobnost/sokrates/`); await pockej(3000); await log();
 await klikni('a.lezi-odkaz[href*="/osobnost/platon/"]');
 await pockej(3000);

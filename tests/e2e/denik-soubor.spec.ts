@@ -73,3 +73,21 @@ test('cizí soubor deník nezmění; tlačítka jdou klávesnicí a stránka pro
     expect(axe.violations, rezim).toEqual([]);
   }
 });
+
+test('odkaz s deníkem jde ukázat jako kód QR (K7a); knihovna se načte až po klepnutí', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const nacteno: string[] = [];
+  page.on('request', (r) => { if (/qrcode/i.test(r.url())) nacteno.push(r.url()); });
+  await otevri(page, denik([{ id: 'qr', otazka: 'Kolik je dost?', odpoved: 'Dost je, když nic nechybí.' }]));
+  await page.getByRole('button', { name: 'Poslat deník odkazem' }).click();
+  await expect(page.locator('#odkaz-prenosu')).toHaveValue(/#/);
+  expect(nacteno).toEqual([]);
+  await page.getByRole('button', { name: 'Ukázat kód QR' }).click();
+  const kod = page.getByRole('img', { name: 'Kód QR s odkazem na tvůj deník' });
+  await expect(kod).toBeVisible();
+  expect((await kod.locator('path').getAttribute('d'))!.length).toBeGreaterThan(200);
+  await expect(page.getByRole('button', { name: 'Ukázat kód QR' })).toHaveCount(0);
+  const box = await kod.boundingBox();
+  expect(box!.width).toBeGreaterThanOrEqual(200);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(390);
+});

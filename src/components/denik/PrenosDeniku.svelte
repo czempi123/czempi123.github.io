@@ -2,10 +2,12 @@
   // Záloha a přenos deníku (design-v2, K6): soubor ke stažení a nahrání (revize antiky, O) a odkaz, který celý
   // deník přenese do jiného prohlížeče (src/lib/prenos.ts; deník je v kotvě adresy, na server nejde nic).
   // Kdo otevře odkaz s deníkem, dostane nahoře lístek s nabídkou přidat ho ke svému: nic se nesmaže (spojDeniky).
+  // Kód QR (K7a): po klepnutí na „Ukázat kód QR“ se načte knihovna a list ukáže kód téhož odkazu (src/lib/qr.ts).
   // <PrenosDeniku cast="prichozi" />  nahoře v deníku (nabídka z odkazu), <PrenosDeniku cast="zaloha" /> dole
   import { onMount, tick } from 'svelte';
   import { nacti, uloz, exportuj, nahrajDenik, spojDeniky, oznacZalohu, type Denik } from '../../lib/denik';
   import { zakodujDenik, dekodujDenik, kodZKotvy, odkazPrenosu } from '../../lib/prenos';
+  import { kodQrOdkazu, type KodQr } from '../../lib/qr';
 
   interface Props {
     /** prichozi: lístek s deníkem z odkazu (nahoře); zaloha: soubor a odkaz (dole) */
@@ -22,6 +24,8 @@
   let zpravaPrichozi = $state('');
   let umiSdilet = $state(false);
   let lzePrenest = $state(true);
+  let qr = $state<KodQr | null>(null);
+  let zpravaQr = $state('');
 
   onMount(async () => {
     umiSdilet = typeof navigator.share === 'function';
@@ -45,6 +49,8 @@
   }
 
   async function vytvorOdkaz() {
+    qr = null;
+    zpravaQr = '';
     odkaz = odkazPrenosu(location.origin, await zakodujDenik(nacti()));
     oznacZalohu();
     zpravaOdkazu = 'Otevři tenhle odkaz v prohlížeči, kam chceš deník přenést.';
@@ -60,6 +66,11 @@
       poleOdkazu?.select();
       zpravaOdkazu = 'Zkopírovat se nepovedlo. Odkaz je označený, zkopíruj si ho sám.';
     }
+  }
+
+  async function ukazQr() {
+    try { qr = await kodQrOdkazu(odkaz); } catch { qr = null; }
+    zpravaQr = qr ? 'Namiř na kód fotoaparát telefonu a otevři odkaz.' : 'Deník je na kód QR moc velký. Pošli si odkaz.';
   }
 
   async function sdilej() {
@@ -112,7 +123,14 @@
       <div class="blok__akce">
         <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={zkopiruj}>Zkopírovat odkaz</button>
         {#if umiSdilet}<button class="blok__tl blok__tl--tiche" type="button" onclick={sdilej}>Sdílet</button>{/if}
+        {#if !qr}<button class="blok__tl blok__tl--tiche" type="button" onclick={ukazQr}>Ukázat kód QR</button>{/if}
       </div>
+      {#if qr}
+        <figure class="qr papirovy-list">
+          <svg viewBox="-4 -4 {qr.strana + 8} {qr.strana + 8}" role="img" aria-label="Kód QR s odkazem na tvůj deník" shape-rendering="crispEdges"><path d={qr.d} /></svg>
+        </figure>
+      {/if}
+      {#if zpravaQr}<p class="t-popisek odkaz__zprava" role="status">{zpravaQr}</p>{/if}
       <p class="t-popisek odkaz__zprava" aria-live="polite">{zpravaOdkazu}</p>
     </div>
   {/if}
@@ -143,4 +161,8 @@
   }
   .odkaz__pole:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .odkaz__zprava { margin: var(--s-2) 0 0; color: var(--ink-2); }
+  /* Kód QR na ležícím listu: moduly v inkoustu, okraj čtyř modulů z listu; v noci je list tmavý, proto bílé pole. */
+  .qr { display: inline-block; margin: var(--s-4) 0 0; padding: 10px; rotate: -.8deg; background: #fff; }
+  .qr svg { display: block; width: min(240px, 70vw); height: auto; }
+  .qr path { fill: #1d1b18; }
 </style>
