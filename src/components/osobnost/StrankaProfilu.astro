@@ -3,6 +3,7 @@
 // Šablona osobnosti (portrét, profil): hlavička s deskou, atributem a vstupy do cest a otázek → obsah stránky →
 // příběh v kapitolách → doba a lidé (z dat) → velké myšlenky → zkus to žít → kam dál → prameny.
 // Obsah stránky (ObsahProfilu) se skládá z oddílů, které jsou na stránce; v hlavičce se při návratu nabídne „Pokračovat ve čtení“.
+import { tvaryJmena } from '../../lib/pojmy';
 import { getEntry, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import Deska from '../../components/ui/Deska.astro';
@@ -57,7 +58,7 @@ const obrazkyNaStrance = [
 ];
 const dev = import.meta.env.DEV;
 ---
-<Zakladni obdobi={osoba.obdobi} strankaOsoby ocekavat={dvojice ? [] : ['otazky-za-uvodem']}
+<Zakladni obdobi={osoba.obdobi} strankaOsoby tvary={osoby.flatMap((o) => tvaryJmena(o.jmeno, o.jmeno2))} ocekavat={dvojice ? [] : ['otazky-za-uvodem']}
   titulek={nazevStranky}
   popis={dvojice
     ? `${nazevStranky}: ${osoby.map((o) => `${o.jmeno} (${zivot(o)}), ${o.kdo.charAt(0).toLowerCase()}${o.kdo.slice(1).replace(/\.$/, '')}`).join('; ')}.`

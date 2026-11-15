@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 15. 11. 2026: Pojmy (design-v2 P)
+
+Odpovědi po K7b byly prázdné, tedy souhlas s doporučeními (trasy v mini mapě ne teď, zapsané v `docs/navraty.md`). Podklady `docs/podklady/pojmy-antika.md`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pojmy nesou česká slova, která student v textu opravdu čte (klid, štěstí, neovládnutí, protipříklad, rozum); řecké slovo (ataraxia, eudaimonia, akrasia, elenchos, logos) je v původu a v tvarech pro hledání | Řecké termíny v textech antiky nestojí ani jednou; hotové texty se teď nemění (12. 11. 2026) |
+| 26 pojmů, vyznačených 57krát na 31 stránce; jen první výskyt na stránce, nejvýš jeden pojem v odstavci, ne v nadpisu, odkazu, citátu, bloku ani v obsahu ostrovu; kde stránka slovo vykládá sama, nevyznačuje se | Zadání P; lístek vedle výkladu by ho jen opakoval |
+| Pojem je tlačítko s popisem (aria-describedby), ne odkaz; na stránku pojmu vede „Celý pojem“ ve vysvětlení | Čtečka slyší slovo a vysvětlení hned, bez odchodu ze stránky |
+| Poznámka na okraji stojí od 1100 px tam, kde vedle listu zbývá aspoň 190 px; překážky jsou všechno, co do okraje zasahuje (citát rukou na okraji, širší blok, další kapitola); co se vedle svého odstavce nevejde, zůstane lístkem po klepnutí | Plátno a bod 6 (okraj žije); poznámka smí pokračovat podél aktivity pod listem, protože ta do okraje nesahá |
+| Komponenta je Astro se sdíleným skriptem (`src/scripts/pojmy.ts`), ne ostrov ve Svelte | Pojem stojí uprostřed věty v MDX; ostrov by na každé stránce přidal hydrataci kvůli jednomu tlačítku |
+| Stránka pojmu je šablona z dat (oddíly Odkud je slovo, U koho co, Ze života, Kde v atlasu stojí, Prameny); seznam `/pojmy/` vede z patičky každé stránky | Zadání P; patička je na všech stránkách, Otázky by vedly jen odtud |
+| Pagefind dostal české tvary v neviditelném odstavci uvnitř `main` (`hidden`, `aria-hidden`, váha 3): u osob 2., 3. a 7. pád ze `jmeno2`, u pojmů tvary z dat | Pagefind češtinu neskloňuje; meta pole se neprohledávají |
+
 ## 15. 11. 2026: Kresby jako koláž (design-v2 K7b)
 
 Odpovědi po K7a a po K6 dodatku byly prázdné, tedy souhlas s doporučeními. Pravidla koláže jsou z plátna (Po D4 › Kresby jako koláž); tohle jsou volby, které plátno nechalo otevřené.

@@ -869,3 +869,11 @@ Podklady: `docs/podklady/nabozenstvi-uvod.md`. Do studentského textu jen to, co
 | Met 254966, 633650, 239512, 192064, 403379: co obrázek ukazuje | T2 zhlédl 254966 (hostina héróa, uctívači menší; popiska muzea), 633650 (vyšívaný pás 368 × 19 cm, na desku 4 : 3 se nevejde) a 239512 (koruna na Tóru, Benátky, popiska muzea) | Staženy 254966 a 239512 (CC0); 633650 nepoužit; 192064 a 403379 nezhlédnuty, nepoužity |
 | Fotografie reliéfu na Titově oblouku | Jen na Wikimedia Commons | Autor najde a licenci potvrdí sám |
 | Schéma `Citat.osoba` pro verše bez osoby v datech | Zjištěno v `src/lib/schema.ts` | K1 rozhodne (návrh v podkladech, Návrh dat) |
+
+## Pojmy z antiky (design-v2 P, 15. 11. 2026)
+
+Podklady: `docs/podklady/pojmy-antika.md`.
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Řecký termín stoiků pro osud (heimarmenē) | V LSJ na Perseu heslo nenalezeno, SEP ho neuvádí | Pojem osud zatím bez původu; doplnit po ověření (LSJ pod jiným heslem, SEP Freedom ancient) |

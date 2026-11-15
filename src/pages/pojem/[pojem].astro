@@ -1,0 +1,134 @@
+---
+// Stránka pojmu /pojem/<id>/ (design-v2, krok P): šablona stránek z dat (docs/design.md › Stránky období, směru,
+// pokusu, úvodu a tradice). Hlavička s vysvětlením jako perexem, pak oddíly z dat (ODDILY_POJMU): odkud je slovo,
+// u koho co (jen kde se filozofové liší), příklad ze života, kde v atlasu stojí (odkazy) a Prameny.
+// Data: src/content/pojmy/<id>.md (schéma Pojem v src/lib/pojmy.ts), podklady docs/podklady/pojmy-antika.md.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import Oddil from '../../components/stranka/Oddil.astro';
+import Prameny from '../../components/osobnost/Prameny.astro';
+import { obdobiPodleId } from '../../lib/data';
+import { nezlomitelne } from '../../lib/sazba.js';
+import { adresaVyskytu, nazevPojmu, oddilyPojmu, ODDILY_POJMU } from '../../lib/pojmy';
+
+export async function getStaticPaths() {
+  const vse = await getCollection('pojmy');
+  return vse.map((zaznam) => ({ params: { pojem: zaznam.id }, props: { zaznam } }));
+}
+interface Props { zaznam: CollectionEntry<'pojmy'> }
+const { zaznam } = Astro.props;
+const p = zaznam.data;
+const nazev = nazevPojmu(p.pojem);
+const obdobi = obdobiPodleId.get(p.obdobi[0])!;
+
+// Názvy stránek, na kterých pojem stojí: profil, krok cesty, směr, otázka, úvod, tradice.
+const [osobnosti, cesty, kroky, smery, otazky, uvody, nabozenstvi, pokusy] = await Promise.all([
+  getCollection('osobnosti'), getCollection('cesty'), getCollection('kroky'), getCollection('smery'),
+  getCollection('otazky'), getCollection('uvody'), getCollection('nabozenstvi'), getCollection('pokusy'),
+]);
+function popis(klic: string): { text: string; druh: string } {
+  const [druh, id, krok] = klic.split('/');
+  const najdi = <T extends { id: string }>(sada: T[]) => {
+    const z = sada.find((x) => x.id === id);
+    if (!z) throw new Error(`Pojem „${zaznam.id}“: výskyt ${klic} nevede na stránku.`);
+    return z;
+  };
+  if (druh === 'osobnost') return { text: najdi(osobnosti).data.titulek, druh: 'Profil' };
+  if (druh === 'cesta') {
+    const c = najdi(cesty);
+    if (!krok) return { text: c.data.nazev, druh: 'Cesta' };
+    const k = kroky.find((x) => x.data.cesta === id && x.data.krok === Number(krok));
+    if (!k) throw new Error(`Pojem „${zaznam.id}“: krok ${klic} není.`);
+    return { text: k.data.nazev, druh: `Cesta ${c.data.nazev} · krok ${krok}` };
+  }
+  if (druh === 'smer') return { text: najdi(smery).data.nazev, druh: 'Směr' };
+  if (druh === 'otazka') return { text: najdi(otazky).data.otazka, druh: 'Velká otázka' };
+  if (druh === 'uvod') return { text: najdi(uvody).data.nazev, druh: 'Na začátek' };
+  if (druh === 'nabozenstvi') return { text: najdi(nabozenstvi).data.nazev, druh: 'Náboženství' };
+  if (druh === 'pokus') return { text: najdi(pokusy).data.nazev, druh: 'Myšlenkový pokus' };
+  throw new Error(`Pojem „${zaznam.id}“: neznámý výskyt ${klic}.`);
+}
+const vyskyty = p.vyskyty.map((v) => ({ href: adresaVyskytu(v), ...popis(v) }));
+const oddily = new Set(oddilyPojmu(p).map((o) => o.kotva));
+const stranka = `/pojem/${zaznam.id}/`;
+---
+<Zakladni obdobi={obdobi.id}
+  titulek={`${nazev} · pojem`}
+  popis={`${nazev}: ${p.vysvetleni}`}
+  tvary={[p.pojem, ...p.tvary]}
+  zpet={{ href: '/pojmy/', text: 'Pojmy' }}
+  drobecky={[{ text: 'Pojmy', href: '/pojmy/' }, { text: nazev }]}
+>
+  <article class={`pojem-stranka stranka obdobi-${obdobi.id}`} data-navsteva={stranka} data-nazev={nazev}>
+    <HlavickaStranky obdobi={obdobi.id} nadtitulek={`Pojem · ${obdobi.nazev}`} titulek={nazev} perex={p.vysvetleni} />
+
+    {oddily.has(ODDILY_POJMU.puvod.kotva) && (
+      <Oddil kotva={ODDILY_POJMU.puvod.kotva} nazev={ODDILY_POJMU.puvod.nazev}>
+        <p>{nezlomitelne(p.puvod!)}</p>
+      </Oddil>
+    )}
+
+    {oddily.has(ODDILY_POJMU.uKoho.kotva) && (
+      <Oddil kotva={ODDILY_POJMU.uKoho.kotva} nazev={ODDILY_POJMU.uKoho.nazev}>
+        <ul class="pojem-stranka__u-koho">
+          {p.uKoho.map((u) => <li><b>{u.kdo}</b> <span>{nezlomitelne(u.co)}</span></li>)}
+        </ul>
+      </Oddil>
+    )}
+
+    <Oddil kotva={ODDILY_POJMU.priklad.kotva} nazev={ODDILY_POJMU.priklad.nazev}>
+      <p class="pojem-stranka__priklad">{nezlomitelne(p.priklad)}</p>
+    </Oddil>
+
+    <Oddil kotva={ODDILY_POJMU.kde.kotva} nazev={ODDILY_POJMU.kde.nazev}>
+      <ul class="pojem-stranka__kde">
+        {vyskyty.map((v) => (
+          <li><span class="t-popisek">{v.druh}</span> <a href={v.href}>{v.text}</a></li>
+        ))}
+      </ul>
+    </Oddil>
+
+    <div class="ctenarsky">
+      <Prameny prameny={p.prameny} />
+    </div>
+  </article>
+</Zakladni>
+
+<script>
+  import { zaznamenejNavstevu } from '../../lib/denik';
+  const a = document.querySelector<HTMLElement>('[data-navsteva]');
+  if (a) zaznamenejNavstevu(a.dataset.navsteva!, a.dataset.nazev!);
+</script>
+
+<style>
+  .pojem-stranka { padding-bottom: var(--s-8); }
+  .pojem-stranka :global(.ctenarsky) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
+  .pojem-stranka p,
+  .pojem-stranka li { margin: 0; font-size: var(--fs-text); line-height: var(--lh-text); }
+  .pojem-stranka__u-koho,
+  .pojem-stranka__kde { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--s-4); }
+  .pojem-stranka__u-koho b { display: block; font-weight: 600; }
+  .pojem-stranka__kde li { display: flex; flex-direction: column; gap: 0; }
+  .pojem-stranka__kde a {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration-color: var(--tuzka);
+    text-underline-offset: 4px;
+  }
+  .pojem-stranka__kde a:hover { text-decoration-color: var(--ink); }
+  .pojem-stranka__kde .t-popisek { color: var(--ink-3); }
+  /* Příklad rukou na lístku: poznámka o dvou třech větách (Pravidlo střídmosti), nenatočený. */
+  .pojem-stranka .pojem-stranka__priklad {
+    padding: 16px 20px;
+    background: var(--listek);
+    box-shadow: var(--lezi);
+    font-family: var(--font-ruka);
+    font-size: var(--fs-ruka);
+    line-height: var(--lh-ruka);
+    color: var(--ink-2);
+  }
+</style>

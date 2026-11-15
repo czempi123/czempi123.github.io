@@ -130,4 +130,13 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
   it.each([1, 2, 3, 4, 5, 6, 7, 8])('kresby: nositel barvy období %i na tečkovaném papíře má 3 : 1', (n) => {
     expect(kontrast(t[`p-${n}`], t.papir)).toBeGreaterThanOrEqual(3);
   });
+  // Krok P, pojem (Pojem.astro): poznámka rukou na okraji leží na tečkovaném papíře (text přes tečku --tecka),
+  // po najetí na lístku; nadpis pojmu a „Celý pojem“ inkoustem, text lístku --ink-2; vlnovka tužkou je hranice
+  // na listu i na lístku (3 : 1), po najetí inkoustem.
+  it('pojem: poznámka na okraji, lístek a vlnovka', () => {
+    for (const [popredi, pozadi] of [['ruka', 'papir'], ['ruka', 'tecka'], ['ink', 'papir'], ['ink', 'listek'], ['ink-2', 'listek'], ['ink', 'list']]) {
+      expect(kontrast(t[popredi], t[pozadi]), `${popredi} na ${pozadi}`).toBeGreaterThanOrEqual(4.5);
+    }
+    for (const pozadi of ['list', 'listek', 'papir']) expect(kontrast(t.tuzka, t[pozadi]), `tužka na ${pozadi}`).toBeGreaterThanOrEqual(3);
+  });
 });

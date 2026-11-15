@@ -35,10 +35,12 @@ interface Props {
   /** id prvků, na které čeká první vykreslení (<link rel="expect" blocking="render">): přesun záložek otázek
       na telefonu za úvod (ListyProfilu.astro) se tak stane dřív, než stránku student uvidí */
   ocekavat?: string[];
+  /** české tvary pro hledání (Pagefind neskloňuje): jména osob, tvary pojmu; jen pro index, ne pro čtečku */
+  tvary?: string[];
 }
 // Název webu je Agora (design-v2, otázka 11 po D4); „atlas“ zůstává v textech o tom, jak se v něm pohybovat.
 const NAZEV_WEBU = 'Agora';
-const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby, ocekavat = [] } = Astro.props;
+const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby, ocekavat = [], tvary = [] } = Astro.props;
 const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WEBU}`;
 ---
 <!doctype html>
@@ -186,11 +188,12 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
     {drobecky && <Drobecky cesta={drobecky} />}
     <main id="obsah" tabindex="-1" data-pagefind-body={hledat ? '' : undefined} class:list={{ aplikace }}>
       <slot />
+      {hledat && tvary.length > 0 && <p class="tvary-hledani" hidden aria-hidden="true" data-pagefind-weight="3">{tvary.join(' · ')}</p>}
     </main>
     {!aplikace && (
       <footer class:list={['paticka', 'stranka', 't-popisek', { 'paticka--lista': Astro.slots.has('lista') }]} data-pagefind-ignore>
         <p>{NAZEV_WEBU} · Vojtěch Czempka · texty a data CC BY-NC-SA 4.0, kód MIT</p>
-        <p><a class="paticka__ucitel" href="/hodina/nova/">Pro učitele: připravit hodinu</a></p>
+        <p><a class="paticka__pojmy" href="/pojmy/">Pojmy</a> · <a class="paticka__ucitel" href="/hodina/nova/">Pro učitele: připravit hodinu</a></p>
       </footer>
     )}
     {Astro.slots.has('lista') ? <slot name="lista" /> : <SpodniLista sekce={sekce} />}

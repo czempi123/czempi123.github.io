@@ -31,12 +31,13 @@ import MojeStanovisko from '../../components/ostrovy/MojeStanovisko.svelte';
 import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
 import { KdoZilDriv, Pribeh, Volba, Odkryj } from '../../components/bloky';
+import Pojem from '../../components/ui/Pojem.astro';
 
 <div class="uvod ctenarsky">
 
 Diogenův otec byl směnárník v Sinópě na břehu Černého moře. Pak ve městě vypukla aféra s penězi: někdo znehodnocoval mince. Podle jedněch to byl otec, podle jiných Diogenés sám. Z města musel pryč.
 
-Vypráví se, že se předtím ptal věštírny a dostal radu, ať změní ražbu. Nepochopil ji a pustil se do mincí. Řecké slovo pro minci, nomisma, je přitom příbuzné se slovem nomos: zvyk, zákon.
+Vypráví se, že se předtím ptal <Pojem id="vestirna">věštírny</Pojem> a dostal radu, ať změní ražbu. Nepochopil ji a pustil se do mincí. Řecké slovo pro minci, nomisma, je přitom příbuzné se slovem nomos: zvyk, zákon.
 
 Diogenés pak opravdu celý život přerážel ražbu. Ne na mincích, ale na zvycích: nedával jim takovou váhu jako přírodě. Do Athén přišel jako vyhnanec. Později prý říkal, že filozofa z něj udělalo právě vyhnanství.
 
@@ -194,7 +195,7 @@ Diogenés rozlišoval, co žádá příroda a co jen zvyk. Že se něco dělá, 
   <Myslenka cislo={2} disciplina="Politika">
     <Fragment slot="titulek">Domov je celý <em>svět.</em></Fragment>
 
-Řek se tehdy představoval nejdřív jménem své obce. Říkal tím, kam patří a komu je zavázán. Diogenés o svou obec přišel.
+Řek se tehdy představoval nejdřív jménem své <Pojem id="obec">obce</Pojem>. Říkal tím, kam patří a komu je zavázán. Diogenés o svou obec přišel.
 
 Když se ho ptali, odkud je, neřekl jméno města: je prý občan světa. Dával tím najevo, že Sinópě není zavázán víc než komukoli jinému. A kdo je doma všude, toho nesvazují zvyky jediného města.
 

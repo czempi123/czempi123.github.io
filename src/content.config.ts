@@ -7,6 +7,7 @@ import { z } from 'astro/zod';
 import { Blok } from './lib/bloky-schema';
 import { Tyden } from './lib/tydny-schema';
 import { ObdobiStranka, Smer, Pokus, Uvod, Nabozenstvi, OdkazKamDal } from './lib/stranky-schema';
+import { Pojem } from './lib/pojmy';
 
 const id = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const obdobi = z.number().int().min(1).max(8);
@@ -133,10 +134,8 @@ const pokusy = defineCollection({ loader: vsechny('pokusy'), schema: Pokus });
 /** Úvodní stránky oddílů: Co je filozofie? (/co-je-filozofie/) a Co je náboženství? (/nabozenstvi/). */
 const uvody = defineCollection({ loader: vsechny('uvody'), schema: Uvod });
 
-const pojmy = defineCollection({
-  loader: vsechny('pojmy'),
-  schema: z.object({ pojem: z.string(), puvod: z.string().optional(), kratce: z.string() }),
-});
+/** Pojmy /pojem/<id>/ (design-v2, krok P): schéma a adresy v src/lib/pojmy.ts, vyznačení v textu Pojem.astro. */
+const pojmy = defineCollection({ loader: vsechny('pojmy'), schema: Pojem });
 
 const pribehy = defineCollection({
   loader: vsechny('pribehy'),

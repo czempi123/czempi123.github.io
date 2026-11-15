@@ -121,6 +121,26 @@ test('klávesnice: odkaz Přeskočit na obsah a hledání klávesou /', async ({
   await expect(dialog).toBeHidden();
 });
 
+// Pagefind neskloňuje (design-v2, krok P): profily nesou české tvary jména, pojmy tvary slova (Zakladni.astro › tvary).
+test('hledání v jiném pádě: „Sókrata“ najde profil Sókrata, „ctnosti“ pojem ctnost, „ataraxie“ pojem klid', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/lide/');
+  await page.waitForSelector('astro-island[component-url*="Hledani"]:not([ssr])', { state: 'attached' });
+  const dialog = page.getByRole('dialog', { name: 'Hledání v atlasu' });
+  for (const [dotaz, adresa] of [['Sókrata', '/osobnost/sokrates/'], ['Sókratovi', '/osobnost/sokrates/'], ['ctnosti', '/pojem/ctnost/'], ['ataraxie', '/pojem/klid/']]) {
+    await page.keyboard.press('/');
+    await expect(dialog).toBeVisible();
+    await dialog.locator('input').fill(dotaz);
+    await expect(dialog.locator(`.pagefind-ui__result-link[href^="${adresa}"]`).first(), dotaz).toBeVisible({ timeout: 15_000 });
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  }
+  // Tvary jsou jen pro index: čtečka ani oko je na stránce nenajdou.
+  await page.goto('/osobnost/sokrates/');
+  await expect(page.locator('.tvary-hledani')).toBeHidden();
+  await expect(page.locator('.tvary-hledani')).toHaveAttribute('aria-hidden', 'true');
+});
+
 test('Nejdřív sám: odpověď se odkryje až po pokusu a uloží do deníku', async ({ page }) => {
   await page.goto('/osobnost/sokrates/');
   const blok = page.locator('#sokrates-kdo-je-moudry');

@@ -169,6 +169,7 @@ export const TYPY_STRANEK: Record<NonNullable<Zastaveni['typStranky']>, string> 
   smer: 'Směr',
   pokus: 'Myšlenkový pokus',
   nabozenstvi: 'Náboženství',
+  pojem: 'Pojem',
 };
 
 /** Přesune položku o jedno místo nahoru (−1) nebo dolů (+1); na kraji vrátí seznam beze změny. */

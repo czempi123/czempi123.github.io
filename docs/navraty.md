@@ -55,6 +55,7 @@ Zdroje: **A** = `docs/revize/audit-2026-11-12.md`, **R** = `docs/revize/recenze-
 | Kratés a Hipparchia | pole místo hry | Přepiš heslo a najdi chybu v důkazu jsou dnes pole na psaní; převést na Napiš s formou a Najdi slabé místo. | R |
 | Sókratés, Diogenés, Epikúros | obraz ke kapitole | Vzor má jen jedna kapitola každého (Sókratés 01 trojnožka, Diogenés 02 lucerna, Epikúros 01 výhonek; pole `predmet` u `Kapitola`); ostatním kapitolám předmět vybrat při revizi obsahu: Sókratés 05 kalich, Diogenés 01 pohárek a 03 pes, Epikúros 02 a 03 chtějí nové ikony ve spritu `atributy.svg` (K7b). | K3 dodatek, 13. 11. 2026 |
 | ostatní profily (9) | obraz ke kapitole | Od K7b mají předmět Prótagorás 01 (pravítko) a Platón 02 (čtverec na úhlopříčce), kde ho nese kresba. Ostatní kapitoly zatím předmět nemají; vybrat jen tam, kde kapitola opravdu stojí na jedné věci (loď, svitek, přesýpací hodiny), ne ke každé. | K3 dodatek, 13. 11. 2026 |
+| mini mapa v Době a lidech | trasy | Oblouky se šipkou a rokem mezi místy (plátno D4) v kódu nejsou; patří k Životu na mapě a výpravám, větev `herna-v1` (odpověď 5 po K7b). | design-v2 |
 
 ## Ostatní stránky
 

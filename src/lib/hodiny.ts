@@ -24,7 +24,7 @@ import { OSA_HLASU } from './osa-hlasu';
 export type DruhZastaveni = 'cesta' | 'krok' | 'profil' | 'kapitola' | 'oddil' | 'otazka' | 'hlas' | 'blok' | 'pribeh' | 'tyden' | 'stranka';
 
 /** Typ stránky druhu `stranka`: období, směr, myšlenkový pokus, úvod oddílu (Co je filozofie?, Co je náboženství?), tradice. */
-export type TypStranky = 'obdobi' | 'smer' | 'pokus' | 'uvod' | 'nabozenstvi';
+export type TypStranky = 'obdobi' | 'smer' | 'pokus' | 'uvod' | 'nabozenstvi' | 'pojem';
 
 export interface Zastaveni {
   id: string;
@@ -314,7 +314,7 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   // Stránky období, směrů, pokusů, úvodů a tradic: celá stránka, oddíly šablony a z MDX, bloky, kresby a příběhy.
   // Blok nebo kresba, které už stojí jinde (Gýgův prsten u Platóna, Zrcadlo v cestě 8), zastavením znovu nejsou:
   // mají jedno id a jeden stav v deníku, v hodině je zastavení tam, kde stojí poprvé.
-  const POR_TYPU: TypStranky[] = ['uvod', 'obdobi', 'smer', 'pokus', 'nabozenstvi'];
+  const POR_TYPU: TypStranky[] = ['uvod', 'obdobi', 'smer', 'pokus', 'nabozenstvi', 'pojem'];
   const uzMa = new Set(vse.map((z) => z.id));
   for (const st of [...(v.stranky ?? [])].sort((a, b) => POR_TYPU.indexOf(a.typ) - POR_TYPU.indexOf(b.typ) || (a.obdobi ?? 0) - (b.obdobi ?? 0) || a.id.localeCompare(b.id))) {
     const idStranky = `s:${st.id}`;

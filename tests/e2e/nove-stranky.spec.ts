@@ -16,6 +16,9 @@ const STRANKY = [
   { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
   { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus.', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
+  // Pojmy (design-v2, krok P): stránka pojmu se všemi oddíly a seznam pojmů bez Pramenů (prameny má každý pojem).
+  { adresa: '/pojem/ctnost/', h1: 'Ctnost.', oddily: ['Odkud je slovo', 'U koho co', 'Ze života', 'Kde v atlasu stojí'] },
+  { adresa: '/pojmy/', h1: 'Slova, která unesou víc.', oddily: [], bezPramenu: true },
 ];
 
 async function axe(page: Page) {
@@ -43,7 +46,7 @@ for (const s of STRANKY) {
         for (const n of s.oddily) await expect(page.getByRole('heading', { level: 2, name: n, exact: true })).toBeVisible();
         // Drobečky a Prameny jsou na každé stránce.
         await expect(page.getByRole('navigation', { name: 'Kde jsem' })).toBeVisible();
-        await expect(page.locator('#prameny')).toBeAttached();
+        if (!('bezPramenu' in s)) await expect(page.locator('#prameny')).toBeAttached();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
         await axe(page);
       });

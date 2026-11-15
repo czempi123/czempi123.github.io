@@ -1,0 +1,133 @@
+---
+// Pojem v textu (design-v2, krok P; plátno ProfilSokrates.dc.html › „Delfy“; Po D2 › Stavy prvků: Pojem).
+// Použití v MDX, jen u prvního výskytu na stránce a nejvýš jeden pojem v odstavci:
+//   Z hledání <Pojem id="protipriklad">protipříkladu</Pojem> se stalo jeho celoživotní řemeslo.
+// Slovo je podtržené vlnovkou tužkou. Čtečka slyší slovo jako tlačítko a vysvětlení jako jeho popis
+// (aria-describedby), ne jako odkaz. Skript src/scripts/pojmy.ts přesune vysvětlení za odstavec a rozhodne:
+// na notebooku, kde vedle listu je místo, stojí rukou (Kalam) na okraji vedle odstavce; kde místo není
+// (telefon, promítání, překryv s jinou poznámkou), rozloží se po klepnutí jako lístek pod odstavcem.
+// Enter otevře, Esc zavře a vrátí fokus na slovo; „Celý pojem“ vede na /pojem/<id>/.
+import { getEntry } from 'astro:content';
+import { nezlomitelne } from '../../lib/sazba.js';
+import { adresaPojmu } from '../../lib/pojmy';
+
+interface Props { id: string }
+const { id } = Astro.props;
+const zaznam = await getEntry('pojmy', id);
+if (!zaznam) throw new Error(`Pojem „${id}“ není v src/content/pojmy/`);
+const { pojem, vysvetleni } = zaznam.data;
+const nadpis = pojem.charAt(0).toLocaleUpperCase('cs') + pojem.slice(1);
+const kotva = `pojem-${id}`;
+---
+<button type="button" class="pojem" data-pojem={id} aria-expanded="false" aria-controls={kotva} aria-describedby={`${kotva}-popis`}><slot /></button><span class="pojem-pozn" id={kotva} data-pojem-pozn={id} hidden><svg class="pojem-pozn__sipka" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M28 5C20 3 11 6 3 15" /><path d="M3 15l6-.5M3 15l1.5-6" /></svg><span class="pojem-pozn__text" id={`${kotva}-popis`}><b>{nadpis}:</b> {nezlomitelne(vysvetleni)}</span><span class="pojem-pozn__akce"><a class="pojem-pozn__odkaz" href={adresaPojmu(id)} tabindex="-1">Celý pojem</a><button class="pojem-pozn__zavrit" type="button" tabindex="-1">Zavřít</button></span></span>
+
+<script>
+  import '../../scripts/pojmy';
+</script>
+
+<style is:global>
+  /* Slovo: vlnovka tužkou; najetí, fokus a otevřený lístek ji obtáhnou inkoustem. Dotykový cíl přesahuje slovo. */
+  button.pojem {
+    position: relative;
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    text-decoration: underline wavy var(--tuzka) 1.5px;
+    text-underline-offset: 6px;
+    text-decoration-skip-ink: none;
+    cursor: help;
+    transition: text-decoration-color var(--d-stisk) var(--k-stisk);
+  }
+  button.pojem::after { content: ""; position: absolute; inset: -10px -3px; }
+  button.pojem:hover,
+  button.pojem:focus-visible,
+  button.pojem[aria-expanded='true'] { text-decoration-color: var(--ink); }
+
+  /* Vysvětlení bez skriptu nikde nestojí: popis slova je pro čtečku, stránka pojmu přes Pojmy. */
+  .pojem-pozn[hidden] { display: none; }
+  .pojem-pozn {
+    position: relative;
+    display: block;
+    isolation: isolate;
+    font-family: var(--font-ruka);
+    color: var(--ruka);
+  }
+  .pojem-pozn__text b { font-weight: 700; color: var(--ink); }
+  .pojem-pozn__akce { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; column-gap: var(--s-3); }
+  .pojem-pozn__odkaz,
+  .pojem-pozn__zavrit {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--tuzka);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .pojem-pozn__odkaz:hover,
+  .pojem-pozn__zavrit:hover { text-decoration-color: var(--ink); text-decoration-thickness: 2px; }
+  .pojem-pozn__sipka { display: none; }
+
+  /* Lístek pod odstavcem (telefon, a kde se poznámka na okraj nevejde): rozloží se ze slova. */
+  .pojem-pozn--listek {
+    margin: var(--s-3) 0 var(--s-5);
+    padding: 14px 16px 2px;
+    max-width: 560px;
+    background: var(--listek);
+    box-shadow: var(--lezi);
+    font-size: var(--fs-ruka);
+    line-height: var(--lh-ruka);
+    color: var(--ink-2);
+    rotate: -1deg;
+    transform-origin: 30% 0;
+    animation: pojem-rozloz var(--d-listek) var(--k-papir) both;
+  }
+  .pojem-pozn--listek .pojem-pozn__odkaz { margin-inline-start: -2px; }
+  /* Omezený pohyb: lístek je rozložený hned, ne až po snímku s průhledností 0 (Pravidla pohybu: klidový stav = konec). */
+  @media (prefers-reduced-motion: reduce) { .pojem-pozn--listek { animation: none; } }
+  @keyframes pojem-rozloz {
+    from { opacity: 0; transform: translateY(-8px) scale(.6); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Poznámka na okraji (notebook): rukou vedle odstavce na tečkovaném papíru; najetí na slovo ji podloží lístkem. */
+  .pojem-pozn--okraj {
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    padding: 10px 14px 0;
+    font-size: 18px;
+    line-height: 1.35;
+    rotate: 1.5deg;
+    transition: transform var(--d-stisk) var(--k-stisk);
+  }
+  .pojem-pozn--okraj::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--listek);
+    box-shadow: var(--lezi);
+    opacity: 0;
+    transition: opacity var(--d-stisk) var(--k-stisk);
+  }
+  .pojem-pozn--okraj .pojem-pozn__sipka { display: block; position: absolute; left: -32px; top: 8px; color: var(--ruka); }
+  .pojem-pozn--okraj .pojem-pozn__zavrit { display: none; }
+  .pojem-pozn--okraj.pojem-pozn--aktivni { transform: translateY(-2px); }
+  .pojem-pozn--okraj.pojem-pozn--aktivni::before { opacity: 1; }
+  .pojem-pozn--okraj.pojem-pozn--aktivni .pojem-pozn__text { color: var(--ink-2); }
+
+  @media print { .pojem-pozn { display: none !important; } button.pojem { text-decoration: none; } }
+</style>

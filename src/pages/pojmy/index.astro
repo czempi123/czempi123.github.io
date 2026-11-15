@@ -1,0 +1,47 @@
+---
+// Seznam pojmů /pojmy/ (design-v2, krok P): všechny pojmy podle abecedy, u každého vysvětlení na dvě věty.
+// Vede sem patička každé stránky a „Pojmy“ v drobečcích stránky pojmu.
+import { getCollection } from 'astro:content';
+import Zakladni from '../../layouts/Zakladni.astro';
+import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
+import { nezlomitelne } from '../../lib/sazba.js';
+import { adresaPojmu, nazevPojmu } from '../../lib/pojmy';
+
+const pojmy = (await getCollection('pojmy')).sort((a, b) => a.data.pojem.localeCompare(b.data.pojem, 'cs'));
+---
+<Zakladni titulek="Pojmy"
+  popis="Slova, která v textech atlasu potkáš a která u řeckých filozofů znamenala víc než v běžné řeči."
+  drobecky={[{ text: 'Pojmy' }]}
+>
+  <article class="pojmy-stranka stranka obdobi-1">
+    <HlavickaStranky obdobi={1}
+      nadtitulek="Pojmy · antika"
+      titulek="Slova, která *unesou víc*"
+      perex="Ctnost, obec nebo klid znáš z běžné řeči. U řeckých filozofů ale znamenaly víc, a někdy něco jiného. Tady je máš pohromadě, i s tím, odkud jsou a kde v atlasu stojí." />
+    <ul class="pojmy-seznam ctenarsky">
+      {pojmy.map((p) => (
+        <li>
+          <h2 class="t-h3"><a href={adresaPojmu(p.id)}>{nazevPojmu(p.data.pojem)}</a></h2>
+          <p>{nezlomitelne(p.data.vysvetleni)}</p>
+        </li>
+      ))}
+    </ul>
+  </article>
+</Zakladni>
+
+<style>
+  .pojmy-stranka { padding-bottom: var(--s-8); }
+  .pojmy-seznam { max-width: var(--ctenarsky-sloupec); margin: var(--s-8) auto 0; padding: 0; list-style: none; display: grid; gap: var(--s-6); }
+  .pojmy-seznam h2 { margin: 0 0 var(--s-1); }
+  .pojmy-seznam a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: underline wavy var(--tuzka) 1.5px;
+    text-underline-offset: 7px;
+    text-decoration-skip-ink: none;
+  }
+  .pojmy-seznam a:hover { text-decoration-color: var(--ink); }
+  .pojmy-seznam p { margin: 0; font-size: var(--fs-text); line-height: var(--lh-text); color: var(--ink-2); }
+</style>

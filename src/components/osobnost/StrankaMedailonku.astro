@@ -4,6 +4,7 @@
 // Doba a lidé (vztahy, mini osa, mini mapa) → Kam dál (lidé se stránkou, Mapa a čas, Lidé a směry) → Prameny.
 // Je to profil v malém: stejné komponenty a tokeny jako StrankaProfilu.astro, jen bez kapitol, myšlenek a Zkus to žít.
 // Kritéria, kdy smí osoba medailonek dostat, hlídá tests/data/medailonky.test.ts (chybiMedailonku v src/lib/medailonek.ts).
+import { tvaryJmena } from '../../lib/pojmy';
 import { getCollection } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import Deska from '../ui/Deska.astro';
@@ -71,7 +72,7 @@ const adresaStranky = `/osobnost/${osoba.id}/`;
 const deska = !!(osoba.obrazek || osoba.atribut);
 const druhy = (await kdoZilNaMedailonku())(osoba.id);
 ---
-<Zakladni obdobi={osoba.obdobi} strankaOsoby deskaOsoby={deska}
+<Zakladni obdobi={osoba.obdobi} strankaOsoby deskaOsoby={deska} tvary={tvaryJmena(osoba.jmeno, osoba.jmeno2)}
   titulek={osoba.jmeno}
   popis={`${osoba.jmeno} (${zivot(osoba)}): ${osoba.kdo}`}
   sekce="lide"
