@@ -4,10 +4,15 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Úplná mapa (řeka životů, navazující, všichni žijící) jako po „Víc“; první návštěvu hlídá mapa-k7a.spec.ts.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem('atlas-mapa-vic', '1'); } catch {} });
+});
+
 async function pripravit(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
-  await page.waitForSelector('.mapa svg.podklad path.sit', { state: 'attached' });
+  await page.waitForSelector('.mapa svg.podklad .pevnina', { state: 'attached' });
   await page.waitForTimeout(250);
 }
 /** Přehrávání zkrácené pro testy (celý život za `delka` ms, na zastávce `zastaveni` ms). */
@@ -95,8 +100,11 @@ test('život na mapě: klávesnice v seznamu zastávek, Další přes přelom le
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '18');
-  // Ovládání stojí nad seznamem: Shift+Tab vede ze seznamu na Další, pak na Předchozí.
-  await page.keyboard.press('Shift+Tab');
+  // Ovládání stojí pod seznamem (K7a, plátno MapaCas): Tab vede ze seznamu na Předchozí, pak na Další
+  // (Přehrát při omezeném pohybu chybí); Shift+Tab zpět na Předchozí.
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Předchozí zastávka' })).toBeFocused();
+  await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: 'Další zastávka' })).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(page.getByRole('button', { name: 'Předchozí zastávka' })).toBeFocused();
@@ -238,7 +246,8 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
       const tl = await zivot(page).locator('.zivot__ovladani button').evaluateAll((b) => b.map((e) => e.getBoundingClientRect()).map((x) => ({ h: x.height, top: x.top, right: x.right })));
       expect(tl).toHaveLength(3);
       for (const b of tl) expect(b.h).toBeGreaterThanOrEqual(44);
-      expect(new Set(tl.map((b) => Math.round(b.top))).size).toBe(1);
+      // Karta je list natočený o 0,4° (K7a): jeden řádek znamená horní hrany do 6 px od sebe.
+      expect(Math.max(...tl.map((b) => b.top)) - Math.min(...tl.map((b) => b.top))).toBeLessThanOrEqual(6);
       const karta = (await page.locator('.mac__karta').boundingBox())!;
       for (const b of tl) expect(b.right).toBeLessThanOrEqual(karta.x + karta.width + 1);
       for (const z of await zastavky(page).all()) {

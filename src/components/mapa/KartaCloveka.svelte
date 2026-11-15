@@ -3,13 +3,17 @@
   // vztahy s poznámkou vůči zvolenému roku a Změř vzdálenost mezi dvěma lidmi.
   // Život na mapě (u lidí s aspoň dvěma místy): zastávky života, Předchozí a Další zastávka a Přehrát;
   // přehrávání samo běží v MapaACas.svelte, karta jen ukazuje, kde člověk právě je.
+  // Vzhled (design-v2, K7a): list s páskou, poštovní razítko člověka, rámeček „V roce…“ vtlačený do papíru;
+  // při výběru jiného člověka se list vymění (--d-listek). Bez vybraného člověka ukáže, co se ten rok dělo,
+  // a všechny žijící (razítko mají ti, které student už potkal).
   import { onMount } from 'svelte';
   import type { OsobaV, MistoV, UdalostV, ObdobiV, VstupMapy } from '../../lib/mapa-vstup';
   import { kdeVRoce, odkudPrisla, vetaOVeku, poznamkaVRoce, vzdalenost, zijeVRoce, ROLE_MISTA } from '../../lib/cas-mapy';
   import { rok as rokText, rozpeti } from '../../lib/casy';
   import { sporNaDalku } from '../../lib/vztahy';
   import { type Zastavka, zastavkaVRoce, predchoziZastavka, dalsiZastavka, radekZastavky, oznameniZastavky, ZIVOT_NA_MAPE as T } from '../../lib/zivot-na-mape';
-  import Mince from './Mince.svelte';
+  import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
+  import { razitkoOsoby } from '../../lib/mapa-listky';
 
   interface Props {
     osoba?: OsobaV;
@@ -32,10 +36,12 @@
     onprehrat?: () => void;
     onzastavit?: () => void;
     onzastavka?: (rok: number) => void;
+    /** koho student už potkal (deník): u nich razítko */
+    potkani?: Set<string>;
   }
   let {
     osoba, rok, lide, podleId, vztahy, mista, udalosti, obdobi, zijici, srovnat, onvyber, onsrovnat, onzavrit,
-    zastavky = [], prehrava = false, mohuPrehrat = true, onprehrat, onzastavit, onzastavka,
+    zastavky = [], prehrava = false, mohuPrehrat = true, onprehrat, onzastavit, onzastavka, potkani = new Set(),
   }: Props = $props();
 
   // ── Život na mapě ──────────────────────────────────────────────────────────
@@ -122,16 +128,30 @@
   let srovnavany = $derived(srovnat ? podleId.get(srovnat) : undefined);
   let vysledek = $derived(osoba && srovnavany ? vzdalenost(osoba, srovnavany) : null);
   let skupiny = $derived(obdobi.filter((ob) => lide.some((o) => o.obdobi === ob.id)).map((ob) => ({ ob, lide: lide.filter((o) => o.obdobi === ob.id && o.id !== osoba?.id).sort((a, b) => a.jmeno.localeCompare(b.jmeno, 'cs')) })));
-  let rychle = $derived(zijici.filter((o) => o.hloubka !== 'medailonek').slice(0, 8));
+  // Bez vybraného člověka: co se ten rok dělo a všichni žijící (nejdřív portréty, pak abecedně).
+  const PRIORITA = { portret: 0, profil: 1, medailonek: 2 } as const;
+  let zijiciRazene = $derived([...zijici].sort((a, b) => PRIORITA[a.hloubka] - PRIORITA[b.hloubka] || a.jmeno.localeCompare(b.jmeno, 'cs')));
+  let coSeDelo = $derived(udalosti.filter((u) => rok >= u.od && rok <= (u.do ?? u.od)).sort((a, b) => Number(a.druh !== 'kotva') - Number(b.druh !== 'kotva') || a.od - b.od).slice(0, 6));
+  const lidi = (n: number) => (n === 1 ? 'člověk' : n < 5 ? 'lidé' : 'lidí');
+  const kdeJe = (o: OsobaV) => {
+    const p = kdeVRoce(o, rok);
+    return p ? mista.get(p.misto)?.nazev : undefined;
+  };
+  // Výměna listu při výběru jiného člověka; při omezeném pohybu je nový list tam hned.
+  function vymena(_uzel: Element) {
+    return { duration: mohuPrehrat ? 240 : 0, css: (t: number) => `opacity:${t};transform:translateY(${(1 - t) * -8}px) rotate(${(t - 1) * 1.9}deg)` };
+  }
 </script>
 
 {#if osoba}
-  <article class="karta obdobi-{osoba.obdobi}" aria-labelledby="karta-jmeno">
+  {#key osoba.id}
+  <article class="karta papirovy-list obdobi-{osoba.obdobi}" aria-labelledby="karta-jmeno" in:vymena>
+    <span class="paska paska--nahore" aria-hidden="true"></span>
     <header class="karta__hlava">
-      <Mince ikona={osoba.atribut?.ikona} obdobi={osoba.obdobi} varianta="tint" velikost={48} />
+      <RazitkoCloveka razitko={razitkoOsoby(osoba, mista)} obdobi={osoba.obdobi} velikost={78} />
       <div class="karta__titul">
         <h2 id="karta-jmeno" class="karta__jmeno">{osoba.jmeno}</h2>
-        <p class="karta__zivot">{osoba.zivot} · {nazevObdobi}</p>
+        <p class="karta__zivot">{osoba.zivot} · {nazevObdobi}{potkani.has(osoba.id) ? ' · razítko ve sbírce' : ''}</p>
       </div>
       <button type="button" class="zavrit" onclick={onzavrit} aria-label="Zavřít kartu">
         <svg width="20" height="20" aria-hidden="true"><use href="/ikony/ui.svg#zavrit" /></svg>
@@ -142,12 +162,10 @@
     <p class="karta__proc">{osoba.proc}</p>
 
     {#if osoba.atribut}
-      {#key osoba.id}
-        <details class="atribut" open={prvniSetkani}>
-          <summary>Proč {osoba.atribut.nazev}?</summary>
-          <p>{osoba.atribut.proc}</p>
-        </details>
-      {/key}
+      <details class="atribut" open={prvniSetkani}>
+        <summary>Proč {osoba.atribut.nazev}?</summary>
+        <p>{osoba.atribut.proc}</p>
+      </details>
     {/if}
 
     <section class="box" aria-label="V roce {rokText(rok)}">
@@ -170,40 +188,6 @@
     {#if zastavky.length}
       <section class="zivot" aria-labelledby="zivot-nadpis">
         <h3 id="zivot-nadpis" class="nadtitulek">{T.nadpis}</h3>
-        <div class="zivot__ovladani">
-          <button
-            type="button"
-            id="zivot-predchozi"
-            class="zivot__tl"
-            aria-label={T.predchoziCelkem}
-            aria-disabled={predchozi === null}
-            onclick={() => naRok(predchozi)}
-          >
-            <svg width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>{T.predchozi}
-          </button>
-          {#if mohuPrehrat}
-            <button
-              type="button"
-              id="zivot-prehrat"
-              class="zivot__tl zivot__tl--hlavni"
-              onclick={() => (prehrava ? onzastavit?.() : onprehrat?.())}
-            >
-              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                {#if prehrava}<rect x="2" y="2" width="10" height="10" rx="1.5" />{:else}<path d="M3 1.5v11l9.5-5.5z" />{/if}
-              </svg>{prehrava ? T.zastavit : T.prehrat}
-            </button>
-          {/if}
-          <button
-            type="button"
-            id="zivot-dalsi"
-            class="zivot__tl"
-            aria-label={T.dalsiCelkem}
-            aria-disabled={dalsi === null}
-            onclick={() => naRok(dalsi)}
-          >
-            {T.dalsi}<svg class="zivot__vpravo" width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>
-          </button>
-        </div>
         <ol class="zastavky" aria-label={T.seznam} bind:this={seznamZastavek} onkeydown={sipkyZastavek}>
           {#each zastavky as z, i (i)}
             <li class="zastavka" class:zastavka--ted={i === aktualni} class:zastavka--byla={i < aktualni}>
@@ -223,6 +207,40 @@
             </li>
           {/each}
         </ol>
+        <div class="zivot__ovladani">
+          <button
+            type="button"
+            id="zivot-predchozi"
+            class="blok__tl blok__tl--vedlejsi zivot__tl"
+            aria-label={T.predchoziCelkem}
+            aria-disabled={predchozi === null}
+            onclick={() => naRok(predchozi)}
+          >
+            <svg width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>{T.predchozi}
+          </button>
+          {#if mohuPrehrat}
+            <button
+              type="button"
+              id="zivot-prehrat"
+              class="blok__tl blok__tl--hlavni zivot__tl zivot__tl--hlavni"
+              onclick={() => (prehrava ? onzastavit?.() : onprehrat?.())}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                {#if prehrava}<rect x="2" y="2" width="10" height="10" rx="1.5" />{:else}<path d="M3 1.5v11l9.5-5.5z" />{/if}
+              </svg>{prehrava ? T.zastavit : T.prehrat}
+            </button>
+          {/if}
+          <button
+            type="button"
+            id="zivot-dalsi"
+            class="blok__tl blok__tl--vedlejsi zivot__tl"
+            aria-label={T.dalsiCelkem}
+            aria-disabled={dalsi === null}
+            onclick={() => naRok(dalsi)}
+          >
+            {T.dalsi}<svg class="zivot__vpravo" width="18" height="18" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>
+          </button>
+        </div>
         <p class="vizualne-skryte" aria-live="polite">{oznameni}</p>
       </section>
     {/if}
@@ -272,81 +290,96 @@
 
     <div class="tlacitka">
       {#if osoba.stranka}
-        <a class="tlacitko tlacitko--hlavni" href={osoba.stranka}>Otevřít stránku</a>
+        <a class="blok__tl blok__tl--hlavni" href={osoba.stranka}>Otevřít stránku</a>
       {:else}
-        <a class="tlacitko" href="/lide/#{osoba.id}">Najít v Lidech a směrech</a>
+        <a class="blok__tl blok__tl--vedlejsi" href="/lide/#{osoba.id}">Najít v Lidech a směrech</a>
       {/if}
     </div>
   </article>
+  {/key}
 {:else}
   <div class="karta karta--prazdna">
-    <h2 class="karta__jmeno">Kdo tu žije?</h2>
-    <p>V roce {rokText(rok)} žije {zijici.length} {zijici.length === 1 ? 'člověk' : zijici.length < 5 ? 'lidé' : 'lidí'} z atlasu. Klepni na minci na mapě nebo na pruh v řece životů.</p>
-    {#if rychle.length}
-      <ul class="rychle">
-        {#each rychle as o (o.id)}
+    <h2 class="karta__jmeno">Rok {rokText(rok)}</h2>
+    {#if coSeDelo.length}
+      <section aria-labelledby="delo-nadpis">
+        <h3 id="delo-nadpis" class="nadtitulek">Co se ten rok dělo</h3>
+        <ul class="delo">
+          {#each coSeDelo as u (u.id)}
+            <li>{u.nazev}{u.do ? ` (${rozpeti(u.od, u.do)})` : ''}</li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
+    <section aria-labelledby="zijici-nadpis">
+      <h3 id="zijici-nadpis" class="nadtitulek">{zijici.length > 1 && zijici.length < 5 ? 'Žijí' : 'Žije'} {zijici.length} {lidi(zijici.length)} z atlasu</h3>
+      <p class="prazdna__pokyn">Klepni na jméno, nebo otevři lísteček na mapě. Razítko mají ti, které jsi už potkal v cestách a na stránkách.</p>
+      <ul class="zijici">
+        {#each zijiciRazene as o (o.id)}
           <li class="obdobi-{o.obdobi}">
             <button type="button" onclick={() => onvyber(o.id)}>
-              <Mince ikona={o.atribut?.ikona} obdobi={o.obdobi} varianta="tint" velikost={32} />
-              <span>{o.jmeno}</span>
+              {#if potkani.has(o.id)}
+                <RazitkoCloveka razitko={razitkoOsoby(o, mista)} obdobi={o.obdobi} velikost={36} />
+              {:else}
+                <span class="zijici__prazdne" aria-hidden="true"></span>
+              {/if}
+              <span class="zijici__jmeno">{o.jmeno}</span>
+              <span class="zijici__kde">{kdeJe(o) ?? ''}</span>
             </button>
           </li>
         {/each}
       </ul>
-    {/if}
+    </section>
   </div>
 {/if}
 
 <style>
-  .karta { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-4) var(--s-5) var(--s-5); font-family: var(--font-sans); font-size: 15px; line-height: 1.45; }
-  .karta__hlava { display: flex; align-items: center; gap: var(--s-3); }
+  .karta { position: relative; display: flex; flex-direction: column; gap: var(--s-3); margin: var(--s-5) var(--s-3) var(--s-5) var(--s-2); padding: var(--s-5) 20px var(--s-5); font-family: var(--font-sans); font-size: 15px; line-height: 1.45; rotate: .4deg; }
+  .karta--prazdna { rotate: none; margin-top: var(--s-3); }
+  .karta__hlava { display: flex; align-items: center; gap: var(--s-4); }
   .karta__titul { flex: 1; min-width: 0; }
-  .karta__jmeno { font-family: var(--font-serif); font-size: 32px; line-height: 1.05; letter-spacing: -0.01em; }
-  .karta__zivot { margin: 2px 0 0; font-size: 13px; color: var(--muted); font-variant-numeric: lining-nums; }
-  .zavrit { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border: 0; border-radius: 999px; background: none; color: var(--ink-2); cursor: pointer; }
-  .zavrit:hover { background: var(--sunk); }
-  .karta__kdo { margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.4; }
-  .karta__proc { margin: 0; color: var(--ink-2); }
-  .atribut { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: var(--s-2) 0; }
-  .atribut summary { font-weight: 600; cursor: pointer; color: var(--pc); }
-  .atribut summary:hover { text-decoration: underline; }
+  .karta__jmeno { font-family: var(--font-serif); font-size: 34px; font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; }
+  .karta--prazdna .karta__jmeno { font-size: 28px; }
+  .karta__zivot { margin: 4px 0 0; font-size: 13px; color: var(--ink-3); font-variant-numeric: lining-nums; }
+  .zavrit { display: grid; place-items: center; width: 44px; height: 44px; flex: none; align-self: flex-start; border: 0; border-radius: var(--r-plne); background: none; color: var(--ink-2); cursor: pointer; }
+  @media (hover: hover) { .zavrit:hover { background: var(--papir); box-shadow: var(--vtla-mele); } }
+  .karta__kdo { margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.5; }
+  .karta__proc { margin: 0; font-family: var(--font-serif); font-size: 17px; line-height: 1.5; color: var(--ink-2); }
+  .atribut { border-top: 1px dashed var(--tuzka); border-bottom: 1px dashed var(--tuzka); padding: var(--s-2) 0; }
+  .atribut summary { min-height: 32px; font-weight: 600; cursor: pointer; color: var(--p); }
+  @media (hover: hover) { .atribut summary:hover { text-decoration: underline; } }
   .atribut p { margin: var(--s-1) 0 0; }
-  .box { padding: var(--s-3) var(--s-4); border-radius: var(--r-sm); background: var(--pc-tint); }
+  /* „V roce…“ vtlačené do papíru (plátno .k-box). */
+  .box { padding: var(--s-3) var(--s-4); border-radius: var(--r-ovladani); background: var(--papir); box-shadow: var(--vtla); }
   .box p { margin: 0; }
-  .box__vek { font-family: var(--font-serif); font-size: 19px; line-height: 1.3; }
+  .box__vek { font-family: var(--font-serif); font-size: 18px; line-height: 1.4; }
   .box__misto { margin-top: 4px !important; }
   .box__misto span, .box__cesta { color: var(--ink-2); font-size: 14px; }
   .box__udalost { margin-top: 4px !important; font-size: 14px; font-weight: 600; }
-  .nadtitulek { margin: 0 0 var(--s-1); font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .nadtitulek { margin: var(--s-2) 0 var(--s-1); font-family: var(--font-sans); font-size: var(--fs-nadtitulek); font-weight: 600; letter-spacing: var(--ls-nadtitulek); text-transform: uppercase; color: var(--ink-2); }
   .vztahy ul { margin: 0; padding: 0; list-style: none; }
-  .vztahy li { display: flex; gap: var(--s-2); align-items: flex-start; padding: 5px 0; border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent); }
+  .vztahy li { display: flex; gap: var(--s-2); align-items: flex-start; padding: 5px 0; border-bottom: 1px dashed color-mix(in srgb, var(--tuzka) 60%, transparent); }
   .vztahy li:last-child { border-bottom: 0; }
-  .cara { flex: none; margin-top: 5px; fill: none; stroke: var(--pc); stroke-width: 1.8; }
+  .cara { flex: none; margin-top: 5px; fill: none; stroke: var(--p); stroke-width: 1.8; }
   .cara--znali-se { stroke-dasharray: 1.5 3.5; stroke-linecap: round; }
   .cara--vliv-textem { stroke-dasharray: 6 4; }
   .vztah { display: flex; flex-wrap: wrap; column-gap: 6px; }
-  .vztah__role { font-size: 13px; color: var(--muted); }
-  .vztah__jmeno { padding: 0; border: 0; background: none; font-weight: 600; text-decoration: underline; text-decoration-color: var(--pc); text-underline-offset: 3px; cursor: pointer; }
+  .vztah__role { font-size: 13px; color: var(--ink-3); }
+  .vztah__jmeno { padding: 0; border: 0; background: none; font-weight: 600; text-decoration: underline; text-decoration-color: var(--p); text-underline-offset: 3px; cursor: pointer; }
   .vztah__pozn { flex-basis: 100%; font-size: 13px; color: var(--ink-2); }
   .zmer__pole { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .zmer select { flex: 1; min-width: 160px; min-height: 40px; padding: 0 8px; border: 1px solid var(--rule); border-radius: var(--r-xs); background: var(--surface); }
+  .zmer select { flex: 1; min-width: 160px; min-height: 44px; padding: 0 10px; border: 0; border-radius: var(--r-ovladani); background: var(--papir); box-shadow: var(--vtla-mele); color: var(--ink); }
   .zmer__vysledek { margin: var(--s-2) 0 0; font-family: var(--font-serif); font-size: 19px; line-height: 1.3; }
-  .zmer__data { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
-  .tlacitka { display: flex; gap: var(--s-2); }
-  /* Život na mapě: svislá linka zastávek, prošlé plné, aktuální větší s prstencem, budoucí prázdné.
+  .zmer__data { margin: 2px 0 0; font-size: 12.5px; color: var(--ink-3); }
+  .tlacitka { display: flex; gap: var(--s-2); margin-top: var(--s-2); }
+  /* Život na mapě (plátno .zastavky): prošlé zastávky plné tužkou, aktuální v inkoustu období, budoucí prázdné.
      Oddíl je umístěný, aby skrytá oblast aria-live (vizualne-skryte, absolutní) zůstala v posuvné kartě;
      jinak ji prohlížeč umístí vůči stránce a ta na telefonu dostane svislý posuvník. */
   .zivot { position: relative; }
   .zastavky { margin: 0; padding: 0; list-style: none; }
   .zastavka { position: relative; }
-  .zastavka::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--rule); }
+  .zastavka::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 0; border-left: 1.5px dotted var(--tuzka); }
   .zastavka:first-child::before { top: 50%; }
   .zastavka:last-child::before { bottom: 50%; }
-  .zastavka { --cara-byla: color-mix(in srgb, var(--pc) 60%, var(--rule)); }
-  .zastavka--byla::before { background: var(--cara-byla); }
-  .zastavka--ted::before { background: linear-gradient(to bottom, var(--cara-byla) 50%, var(--rule) 50%); }
-  .zastavka--ted:first-child::before { background: var(--rule); }
-  .zastavka--ted:last-child::before { background: var(--cara-byla); }
   .zastavka button {
     position: relative;
     display: grid;
@@ -357,54 +390,49 @@
     min-height: 44px;
     padding: 3px 4px 3px 0;
     border: 0;
-    border-radius: var(--r-xs);
+    border-radius: var(--r-razitko);
     background: none;
     text-align: left;
     cursor: pointer;
   }
-  .zastavka button:hover .zastavka__misto { text-decoration: underline; text-decoration-color: var(--pc); text-underline-offset: 3px; }
-  .zastavka__bod { grid-row: 1 / span 2; justify-self: center; width: 10px; height: 10px; border: 2px solid var(--muted); border-radius: 999px; background: var(--surface); }
-  .zastavka--byla .zastavka__bod { border-color: var(--pc); background: var(--pc); }
-  .zastavka--ted .zastavka__bod { width: 14px; height: 14px; border-color: var(--pc); background: var(--pc); box-shadow: 0 0 0 3px var(--pc-tint); }
-  .zastavka__misto { font-weight: 600; line-height: 1.25; }
-  .zastavka--ted .zastavka__misto { color: var(--pc); }
+  @media (hover: hover) { .zastavka button:hover .zastavka__misto { text-decoration: underline; text-decoration-color: var(--p); text-underline-offset: 3px; } }
+  .zastavka__bod { grid-row: 1 / span 2; justify-self: center; width: 10px; height: 10px; border: 1.5px solid var(--tuzka); border-radius: 999px; background: var(--list); }
+  .zastavka--byla .zastavka__bod { background: var(--tuzka); }
+  .zastavka--ted .zastavka__bod { width: 14px; height: 14px; border: 0; background: var(--p); }
+  .zastavka__misto { font-weight: 600; line-height: 1.25; color: var(--ink-2); }
+  .zastavka--ted .zastavka__misto { color: var(--ink); }
   .zastavka__radek { grid-column: 2; font-size: 13px; line-height: 1.3; color: var(--ink-2); }
-  .zivot__ovladani { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-2); }
-  .zivot__tl {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 44px;
-    padding: 0 var(--s-3);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-xs);
-    background: var(--surface);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .zivot__tl:hover { border-color: var(--muted); }
-  .zivot__tl[aria-disabled='true'] { cursor: not-allowed; border-style: dashed; color: var(--muted); }
-  .zivot__tl--hlavni { flex: 1; justify-content: center; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); }
-  .zivot__tl--hlavni:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  /* Předchozí, Přehrát a Další v jedné řadě: krajní podle textu, Přehrát vyplní zbytek. */
+  .zivot__ovladani { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px; margin-top: var(--s-2); }
+  .zivot__ovladani:not(:has(.zivot__tl--hlavni)) { grid-template-columns: auto auto; justify-content: space-between; }
+  .zivot__tl { gap: 6px; min-width: 0; min-height: 44px; padding: 10px 10px; font-size: 14px; white-space: nowrap; }
+  .zivot__tl--hlavni { overflow: hidden; text-overflow: ellipsis; }
   .zivot__tl--hlavni svg { fill: currentColor; }
   .zivot__vpravo { transform: scaleX(-1); }
-  .tlacitko {
-    display: inline-flex;
+  .karta--prazdna section { margin-top: var(--s-2); }
+  .delo { margin: 0; padding: 0 0 0 18px; font-family: var(--font-serif); font-size: 17px; line-height: 1.45; }
+  .prazdna__pokyn { margin: 0 0 var(--s-2); font-size: 14px; color: var(--ink-2); }
+  .zijici { display: grid; grid-template-columns: 1fr; gap: 2px; margin: 0; padding: 0; list-style: none; }
+  .zijici button {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
     align-items: center;
+    gap: 10px;
+    width: 100%;
     min-height: 44px;
-    padding: 0 var(--s-4);
-    border: 1.5px solid var(--ink);
-    border-radius: var(--r-xs);
-    color: var(--ink);
-    font-weight: 600;
-    text-decoration: none;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: var(--r-ovladani);
+    background: none;
+    text-align: left;
+    cursor: pointer;
   }
-  .tlacitko--hlavni { background: var(--ink); color: var(--paper); }
-  .karta--prazdna p { margin: 0; color: var(--ink-2); }
-  .rychle { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0; padding: 0; list-style: none; }
-  .rychle button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: var(--r-sm); background: var(--surface); text-align: left; font-weight: 500; cursor: pointer; }
-  .rychle button:hover { border-color: var(--pc); }
+  @media (hover: hover) { .zijici button:hover { background: var(--papir); box-shadow: var(--vtla-mele); } }
+  .zijici__prazdne { width: 30px; height: 30px; margin: 3px; border: 1.5px dashed var(--tuzka); border-radius: 50%; }
+  .zijici__jmeno { font-family: var(--font-serif); font-size: 17px; }
+  .zijici__kde { font-size: 13px; color: var(--ink-3); }
+  @media (max-width: 899px) {
+    .karta { margin: var(--s-4) var(--s-3); padding: var(--s-5) var(--s-4) var(--s-4); rotate: none; }
+    .karta__jmeno { font-size: 28px; }
+  }
 </style>

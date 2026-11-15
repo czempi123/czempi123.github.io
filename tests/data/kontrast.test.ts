@@ -34,11 +34,8 @@ const TEXT: [string, string][] = [
   ['ink', 'plocha-m'],
   ['ink-2', 'plocha-m'],
   ['na-inkoustu', 'ink-2'],
-  // Popisky na mapě: názvy krajin a „dnes“ (--ink-3 na pevnině), názvy moří a měřítko (--ink-2 na moři).
-  ['ink-3', 'map-land'],
-  ['ink-2', 'map-land'],
-  ['ink-2', 'map-sea'],
-  ['ink', 'map-sea'],
+  // Popisky na mapě (K7a: mapa jako výstřižek): kraje (--ink-3) na pevnině z lístkového papíru, moře a měřítko
+  // (--ink-2) na listu; pevnina a moře jsou plochy listek a list, takže je kryjí dvojice PLOCHY výš.
   ...[1, 2, 3, 4, 5, 6, 7, 8].flatMap((n): [string, string][] => [
     [`p-${n}`, 'papir'],
     [`p-${n}`, 'list'],
@@ -109,5 +106,13 @@ describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => 
   // K6: záložky oddílů na okraji stránky období a záložka otázky v deníku mají nahoře odlesk 4 % bílé.
   it.each([1, 2, 3, 4, 5, 6, 7, 8])('text na záložce v papíru období %i splňuje AA i v odlesku', (n) => {
     expect(kontrast(t['na-papiru'], smichat('#ffffff', t[`pp-${n}`], 0.04))).toBeGreaterThanOrEqual(4.5);
+  });
+  // K7a, Mapa a čas: název moře (--ink-2) i na čáře šrafování (tužka 38 % na listu); štítek malého pásu období
+  // (text pro papír období na plném papíru) aspoň 5 : 1, jak hlídá i test v prohlížeči.
+  it('název moře na šrafě tužkou splňuje AA', () => {
+    expect(kontrast(t['ink-2'], smichat(t.tuzka, t.list, 0.38))).toBeGreaterThanOrEqual(4.5);
+  });
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])('štítek malého pásu období %i má aspoň 5 : 1', (n) => {
+    expect(kontrast(t['na-papiru'], t[`pp-${n}`])).toBeGreaterThanOrEqual(5);
   });
 });

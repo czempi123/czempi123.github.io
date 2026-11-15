@@ -68,7 +68,20 @@ for (const sirka of SIRKY) {
       // Překryvy dvou ovládacích prvků (bez předků a potomků).
       window.scrollTo(0, 0);
       const prekryvy = [];
-      const boxy = prvky.map((e) => [e, e.getBoundingClientRect()]);
+      // Obdélník oříznutý rodiči s overflow (posuvná řeka, otevřený lísteček na mapě): co je odscrollované pryč,
+      // není vidět a nepřekrývá nic (K7a). Úplně oříznutý prvek se vynechá.
+      const orez = (e) => {
+        const r = e.getBoundingClientRect();
+        let [l, t, p, d] = [r.left, r.top, r.right, r.bottom];
+        for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) {
+          const s = getComputedStyle(a);
+          if (s.overflowX === 'visible' && s.overflowY === 'visible' && s.contain !== 'strict' && s.contain !== 'paint') continue;
+          const ar = a.getBoundingClientRect();
+          [l, t, p, d] = [Math.max(l, ar.left), Math.max(t, ar.top), Math.min(p, ar.right), Math.min(d, ar.bottom)];
+        }
+        return p - l > 1 && d - t > 1 ? { left: l, top: t, right: p, bottom: d } : null;
+      };
+      const boxy = prvky.map((e) => [e, orez(e)]).filter(([, r]) => r);
       for (let i = 0; i < boxy.length; i++) {
         for (let j = i + 1; j < boxy.length; j++) {
           const [a, ra] = boxy[i];
