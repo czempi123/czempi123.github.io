@@ -23,7 +23,7 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | K5 | Cesta: hlavička s postupem jako lístek, který se štípe (bod 4), spodní lišta, přehled cesty, karta cesty. **Další krok je tichý, dokud student neodpoví** nebo krok výslovně nepřeskočí; hlavní je tlačítko bloku. Přechod mezi kroky krátký (posun listu), otočení listu zůstává mezi stránkami; snímky pro autora | totéž | hotovo 14. 11. 2026 (oddíl Po K5); kontrolní bod se snímky |
 | K6 | Stránky z dat a deník: Domů jako stůl s věcmi k vzetí (bod 10), období a pás období, papírnictví období (bod 5, tokeny `.obdobi-N`), živý okraj (bod 6), směr, otázka s osou hlasů, pokus, úvody, náboženství, Lidé, Otázky, **Můj deník jako opravdový zápisník** (Moje filozofie, sbírka, záznam jako lístek, přenos a záloha, tichá tečka u ikony Deník, když čeká Návrat; oddíl Mapa a deník: funkce), Tvoje antika, Stoický týden, příprava hodiny a promítání | totéž | hotovo 14. 11. 2026 (oddíl Po K6); kontrolní bod se snímky |
 | K7a | Mapa a čas: podklad mapy jako výstřižek, karta člověka, řeka životů, posuvník, mince, Přehrát život a funkce z oddílu Mapa a deník: funkce; kontrolní snímky | totéž | hotovo 15. 11. 2026 (oddíl Po K7a); kontrolní bod se snímky |
-| K6 dodatek | Kapitoly v deníku (připomínka autora 15. 11. 2026, otázka 5 po K7a): jedno další členění, doporučeně podle období | totéž | čeká |
+| K6 dodatek | Kapitoly v deníku (připomínka autora 15. 11. 2026, otázka 5 po K7a): jedno další členění, doporučeně podle období | totéž | hotovo 15. 11. 2026 (oddíl Po K6 dodatku); kontrolní bod se snímky |
 | K7b | Třináct kreseb jako koláž na rámu `Kresba.svelte` v novém papíru a v tmavém režimu (pravidla v Po D4); obraz ke kapitole (bod 9) tam, kde ho nese kresba; kontrolní snímky | totéž | čeká |
 | P | Pojmy: kolekce `pojmy`, komponenta Pojem (poznámka na okraji na notebooku, lístek po klepnutí na telefonu, fokus z klávesnice), stránka `/pojem/<id>/`, první vlna pojmů z antiky s podklady, vyznačení v textech; české tvary jmen pro hledání (Pagefind neskloňuje) | podklady Opus 5.5 · high (`atlas-overeni`), komponenta Opus 5.5 · high (`atlas-komponenta`), texty `atlas-psani` | čeká |
 | R | Revize celé větve: všechny typy stránek na 390 a 1440 px ve světlém i tmavém režimu, kontrast, klávesnice, čtečka, omezený pohyb, výkon na autorově telefonu a na jednom levném se systémem Android (když otočení listu trhá, přepne se samo na krátký přechod), váha HTML stránek osob, Zod v ostrovu `SlozArgument` | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design (`design:accessibility-review`, `design:design-critique`) | čeká |
@@ -1359,6 +1359,59 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 5. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
+
+## Po K6 dodatku (15. 11. 2026)
+
+Odpovědi po K7a byly prázdné v repozitáři i v Projektu Claude, takže platí všech šest doporučení: kapitoly v deníku **po obdobích**. Snímky jsou v `Claude outputs/snimky/design-v2-k6-dodatek/`.
+
+### Co se v deníku změnilo
+
+- **Nahoře beze změny:** titulek, Návrat, připomenutí zálohy a Moje filozofie po velkých otázkách.
+- **Kapitoly** pod Moje filozofie (nadpis Kapitoly): jedna na období, které má stránku a v deníku něco. Kapitola je rozbalovací lístek s páskou v papíru období: rukou „období 2“, název období, léta a „naposledy 14. listopadu 2026“, vpravo vystouplý knoflík se šipkou. Rozbalená pokračuje listem s čárkovaným okrajem v inkoustu období.
+- **V kapitole:** Rozpracované (lístky cest a oranžové záložky bloků toho období), Moje odpovědi a stanoviska seřazené podle cest a stránek, Sbírka období (koho jsem potkal, prošlé cesty, vystřižené citáty) a na konci poslední antické kapitoly odkaz Tvoje antika. Nadpis cesty je řádek („cesta · Kolik je dost?“ s odkazem), ne další rozbalování; profil, směr nebo pokus má stejný řádek se „stránka“. Přepínač Podle cest / Podle data je v každé kapitole a platí pro všechny.
+- **Napříč obdobími** je poslední kapitola: zápisy ze stránek velkých otázek (první názor, Změnil se?) a z období, které ještě nemá stránku. Úvody Co je filozofie? a Co je náboženství? mají v datech období 1, takže jsou v kapitole Řecko.
+- **Která je otevřená:** ta, kde student naposledy byl (zápis, krok cesty, návštěva stránky, kterou atlas zná; deník, Domů a mapa se nepočítají), a k ní ty, které si nechal otevřené. Stav kapitol a řazení si deník pamatuje v `localStorage` pod `atlas-denik-kapitoly` (ne v exportu deníku). Kapitola, kde student byl až po poslední změně stavu, se otevře znovu; zavřená zůstane zavřená, dokud tam student nebude.
+- **Prázdná kapitola** se neukazuje; prázdný deník nemá ani nadpis Kapitoly.
+- **Dole jednou pro celý deník:** Zkus to žít, přijaté výzvy, hodiny, pero, Záloha a přenos.
+- **Kód:** logika `kapitolyDeniku`, `otevreneKapitoly`, `rozeberStavKapitol` a `adresaStranky` v `src/lib/zapisnik.ts` (`zaznamyPodleCest` teď stojí na společném výpisu záznamů); mapa stránek s obdobím a seznam období v `src/components/denik/_zapisnik-data.ts`; ostrov `Denik.svelte`; `SbirkaDeniku.svelte` umí úroveň nadpisu a id kapitoly (v kapitole je oddíl bez oblasti, ať se oblasti nejmenují osmkrát stejně). Popis v `docs/design.md` › Můj deník jako zápisník, rozhodnutí v `docs/rozhodnuti.md`.
+
+### Testy a kontrola
+
+- `npm run build` prošel. Vitest celý (1 397 testů); nový `tests/data/zapisnik-kapitoly.test.ts`: deník prázdný, s jedním a se dvěma obdobími, kapitola Napříč obdobími, kapitola bez záznamů, otevřená kapitola a zapamatovaný stav.
+- Playwright: nový `tests/e2e/denik-kapitoly.spec.ts` (prázdný, jedno a dvě období, přepínač podle data po obnovení, klávesnice, zapamatované kapitoly, axe a přetečení na 390 a 1440 px ve dne i v noci se všemi kapitolami otevřenými). Starší testy, které čtou zápisy v deníku (13 souborů), přepnou výpis podle data pomůckou `tests/e2e/denik.ts`; `tvoje-antika` hledá odkaz na konci kapitoly. Dotčené soubory: 202 testů prošlo.
+- **Klávesnice:** lístek kapitoly se otevře a zavře Enterem i mezerníkem, Esc nic nezmění a fokus zůstane na lístku, tabulátor jde z lístku dovnitř kapitoly; stav vydrží obnovení (v testu).
+- `scripts/kontrola-fokus.mjs` (nově umí `ULOZISTE`) na `/denik/` s prázdným deníkem (19 prvků), plným (52) a plným se všemi kapitolami otevřenými (70), na 390 a 1440 px: bez nálezu.
+- **Celé `npm test`** před commitem jednou: kontrola typů bez chyb, Vitest 1 397, Playwright 758 ze 758 (8,8 min; i `ram.spec.ts:85`, který po K6 vypadával).
+- **Snímky** (`scripts/snimky-listy.mjs`, plný deník z `tests/e2e/data/denik-kapitoly.json`): `denik-kapitoly-*` na 390 a 1440 px ve dne i v noci (otevřená poslední kapitola), `denik-kapitoly-vse-390-light-1` a `denik-kapitoly-vse-1440-dark-1` se všemi kapitolami otevřenými.
+
+### Nad čím jsem váhal a co by šlo jinak
+
+- **Kam dát zápisy z otázek.** Stránka velké otázky nepatří jednomu období; jejich zápisy jsou v kapitole Napříč obdobími a zároveň (jako dosud) v Moje filozofie. Jinak: kapitolu Napříč obdobími vynechat a nechat je jen v Moje filozofie; zmizel by ale jejich výpis podle data.
+- **Rozpracované bloky** (oranžové záložky) jsou v kapitole svého období, ne nahoře. Rozpracovaný blok na stránce otázky je v Napříč obdobími.
+- **Přepínač je jeden pro celý deník**, i když stojí v každé kapitole: kdo chce výpis podle data, chce ho všude. Výchozí je podle cest, jak říká zadání.
+- **Stav kapitol není v exportu deníku**: je to nastavení pohledu, ne studentova práce. Na novém zařízení se otevře kapitola, kde student naposledy byl.
+- **Tvoje antika** stojí na konci kapitoly Helenismus a Řím (poslední kapitola antiky); když ji student nemá, na konci kapitol. Dál vede na ni i odkaz pod Moje filozofie.
+- **Nadpis kapitoly je v lístku** (`<h3>` v `<summary>`, HTML to dovoluje), aby šlo v deníku skákat po nadpisech. Jak to čte VoiceOver, ověří revize R.
+- **Profily, směry a pokusy** dostaly v kapitole vlastní řádek vedle cest („stránka · Epikúros“), řazený podle poslední návštěvy. Jinak: všechno mimo cesty pod jeden řádek „Stránky období“.
+
+## Co rozhodnout po K6 dodatku
+
+Kontrolní bod se snímky (`Claude outputs/snimky/design-v2-k6-dodatek/`). Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Kapitoly po obdobích jako rozbalovací lístky** (snímky `denik-kapitoly-*`): lístek s páskou, období rukou, léta a „naposledy“, knoflík se šipkou, rozbalená kapitola s čárkovaným okrajem. Doporučuji ano.
+   Odpověď:
+
+2. **Kapitola Napříč obdobími** na konci pro zápisy ze stránek otázek (snímek `denik-kapitoly-vse-390-light-1`). Doporučuji ano.
+   Odpověď:
+
+3. **Výpis podle cest jako výchozí, jeden zapamatovaný přepínač pro všechny kapitoly.** Doporučuji ano.
+   Odpověď:
+
+4. **Výzvy, Stoický týden a hodiny zůstávají pod kapitolami pro celý deník** (je jich málo). Jinak: přijaté výzvy do kapitol podle stránky, odkud jsou. Doporučuji nechat.
+   Odpověď:
+
+5. **Chceš něco změnit na snímcích po K6 dodatku?** Napiš kde a co. Bez odpovědi zůstává, jak je.
+   Odpověď:
 
 ## Zadání K7b: kresby jako koláž
 

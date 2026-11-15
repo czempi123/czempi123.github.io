@@ -5,6 +5,10 @@
 import { test, expect, type Page } from '@playwright/test';
 import { pripravitStranku, dalsiVListe } from './strany';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA = '/cesta/kdy-mam-dobry-duvod-verit/';
 const KROKY = ['Odpověď z Delf', 'Jak bys to zjišťoval ty?', 'Politik, básníci, řemeslníci', 'Podle čeho to poznáš?', 'Člověk je měřítkem', 'Bílozlaté, nebo modročerné?', 'Tvoje pravidlo'];
@@ -116,7 +120,7 @@ test('cesta: průchod, Kam dál z bloku, lišta Další, Pokračuj na Domů a v 
   await page.goto('/denik/');
   await expect(page.locator('.seznam--rozpracovane')).toContainText('Kdy mám dobrý důvod věřit?');
   await expect(page.locator('.seznam--rozpracovane')).toContainText('krok 3 z 7');
-  await expect(page.locator('.seznam--zapisy')).toContainText('B · Najdu lidi, kteří mají pověst moudrých, a vyzkouším je.');
+  await expect(page.locator('.kapitoly')).toContainText('B · Najdu lidi, kteří mají pověst moudrých, a vyzkouším je.');
 
   // Projít zbytek a dokončit.
   for (const n of [4, 5, 6, 7]) {
@@ -230,7 +234,7 @@ test('cesta: pravidlo v kroku 7 je vidět hned a uloží se samo, i když studen
   await page.getByRole('link', { name: 'Dokončit cestu' }).click();
   await expect(page).toHaveURL(`${CESTA}#hotovo`);
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy')).toContainText('Když tvrzení obstojí, i když hledám, co by ho vyvrátilo.');
+  await expect(page.locator('.kapitoly')).toContainText('Když tvrzení obstojí, i když hledám, co by ho vyvrátilo.');
   // Návrat do kroku 7: text je v poli a ví se, že je uložený.
   await page.goto(`${CESTA}7/`);
   await pripravit(page);
@@ -424,7 +428,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Dost je, když mi nic nechybí, i když nic nepřibývá.');
   await expect(zapisy).toContainText('Potřebuju: Vyspat se po probdělé noci; Někdo, komu řeknu, co mě trápí.');
   await expect(zapisy).toContainText('Na začátku: spíš kynici. Po argumentech: spíš Epikúros. Co mě posunulo: přátelé.');

@@ -3,6 +3,10 @@
 // argument, který autor později změnil, a snímky na 390 a 1440 px ve světlém i tmavém režimu.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const KROK = '/cesta/kolik-je-dost/4/';
 const DILNA = '/dilna/bloky/';
@@ -139,7 +143,7 @@ test('Spor: výběr argumentu druhé strany jen klávesnicí (telefon), vydrží
   await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
 
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy')).toContainText(text);
+  await expect(page.locator('.kapitoly')).toContainText(text);
 });
 
 test('Spor uprostřed: výběr z obou stran, Jiný argument s vlastním textem a Začít znovu', async ({ page }) => {

@@ -3,6 +3,10 @@
 // Hlídá i tón celku: student sedí mezi vězni, nikdo se neosvobodí sám, vypravěč si není jistý a zpátky se jde z povinnosti.
 import { test, expect, type Page } from '@playwright/test';
 import { pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA3 = '/cesta/je-to-co-vidim-cela-skutecnost/';
 const KROKY3 = ['Jeskyně', 'Odkud to vím?', 'Ven', 'Čtverec sám', 'Učitel a žák', 'Vyměnit stíny', 'Zpátky dolů', 'Tvoje pravidlo'];
@@ -227,7 +231,7 @@ test('cesta 3: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Skutečné je to, co obstojí, i když se podívám odjinud.');
   await expect(zapisy).toContainText('Na začátku: spíš Platón. Po argumentech: spíš Aristotelés. Co mě posunulo: lékař a pacient.');
   await expect(zapisy).toContainText('O čtverci, který si jen myslíme.');

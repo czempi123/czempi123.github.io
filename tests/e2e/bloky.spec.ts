@@ -3,6 +3,10 @@
 // Navíc: ovládání dotykem, zápisy v deníku, odkaz do Mapy a času, noindex dílny a Sókratův profil.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const STRANKA = '/dilna/bloky/';
 const SIRKY = [

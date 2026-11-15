@@ -2,6 +2,10 @@
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 import { test, expect, type Page } from '@playwright/test';
 import { pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA5 = '/cesta/co-mam-ve-svych-rukou/';
 const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Záleží na tom, co mě potká?', 'Snímek z chatu', 'Kamenná tvář', 'Tvoje pravidlo'];
@@ -232,7 +236,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('V rukou mám to, co udělám. Na zbytku mi záleží, ale nestojím na něm.');
   await expect(zapisy).toContainText('Zčásti: Známka ze čtvrtletky; Jestli budu v sobotu zdravý na zápas; Že se leknu, když mě vyvolají.');
   await expect(zapisy).toContainText('Na začátku: spíš Epiktétos. Po argumentech: spíš Aristotelés. Co mě posunulo: švec a kůže.');

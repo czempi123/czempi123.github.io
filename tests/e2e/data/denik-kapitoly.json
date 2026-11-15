@@ -1,0 +1,38 @@
+{
+  "atlas-denik": {
+    "verze": 1,
+    "zapisy": [
+      { "id": "epikuros/co-staci", "otazka": "Co ti opravdu stačí ke klidu?", "odpoved": "Kamarádi a čas na procházku. Víc ne.", "odkaz": "/osobnost/epikuros/#myslenky", "kdy": "2026-11-14T18:20:00.000Z", "druh": "stanovisko" },
+      { "id": "cesta6-moje-pravidlo", "otazka": "Kolik je dost?", "odpoved": "Dost je, když chci věc kvůli sobě, ne kvůli tomu, co si o mně myslí ostatní.", "odkaz": "/cesta/kolik-je-dost/7/", "kdy": "2026-11-14T18:05:00.000Z", "druh": "stanovisko" },
+      { "id": "cesta6-tri-kose", "otazka": "Co z toho opravdu potřebuješ?", "odpoved": "Telefon potřebuju, nový ne.", "odkaz": "/cesta/kolik-je-dost/3/#cesta6-tri-kose", "kdy": "2026-11-14T17:40:00.000Z", "druh": "roztrid" },
+      { "id": "cesta8-dopis", "otazka": "Čeho se na smrti bojíš nejvíc?", "odpoved": "Že nestihnu, co chci.", "odkaz": "/cesta/proc-se-bat-smrti/2/#cesta8-dopis", "kdy": "2026-11-12T16:10:00.000Z", "druh": "volba" },
+      { "id": "sokrates/nikdo-nedela-zlo", "otazka": "Dělá někdo zlo dobrovolně?", "odpoved": "Myslím, že občas ano. Vím, že je to špatně, a stejně to udělám.", "odkaz": "/osobnost/sokrates/#nikdo-nedela-zlo", "kdy": "2026-11-08T15:00:00.000Z", "druh": "stanovisko" },
+      { "id": "cesta1-moje-pravidlo", "otazka": "Kdy mám dobrý důvod věřit?", "odpoved": "Když tvrzení obstojí, i když hledám, co by ho vyvrátilo.", "odkaz": "/cesta/kdy-mam-dobry-duvod-verit/7/", "kdy": "2026-11-07T14:30:00.000Z", "druh": "stanovisko" },
+      { "id": "cesta1-jak-zjistit", "otazka": "Jak bys to na jeho místě zjišťoval ty?", "odpoved": "B · Najdu lidi, kteří mají pověst moudrých, a vyzkouším je. Proč: Kdo je opravdu moudrý, obstojí i v otázkách.", "odkaz": "/cesta/kdy-mam-dobry-duvod-verit/1/#cesta1-jak-zjistit", "kdy": "2026-11-06T14:00:00.000Z", "druh": "volba" },
+      { "id": "otazka-jak-poznam-pravdu-prvni", "otazka": "Jak poznám, co je pravda?", "odpoved": "Když to řekne víc lidí, kterým věřím.", "odkaz": "/otazka/jak-poznam-pravdu/#prvni-nazor", "kdy": "2026-11-05T13:00:00.000Z", "druh": "stanovisko" }
+    ],
+    "vyzvy": [],
+    "navstivene": [
+      { "odkaz": "/osobnost/epikuros/", "nazev": "Epikúros", "kdy": "2026-11-14T18:20:00.000Z" },
+      { "odkaz": "/osobnost/seneca/", "nazev": "Seneca", "kdy": "2026-11-12T16:30:00.000Z" },
+      { "odkaz": "/osobnost/platon/", "nazev": "Platón", "kdy": "2026-11-09T10:00:00.000Z" },
+      { "odkaz": "/osobnost/sokrates/", "nazev": "Sókratés", "kdy": "2026-11-08T15:00:00.000Z" }
+    ],
+    "bloky": {},
+    "aktivita": [
+      { "id": "cesta6-kynici-spor", "odkaz": "/cesta/kolik-je-dost/4/#cesta6-kynici-spor", "otazka": "Komu dáš za pravdu: Diogenovi, nebo Epikúrovi?", "druh": "spor", "hotovo": false, "kdy": "2026-11-14T17:55:00.000Z" }
+    ],
+    "cesty": {
+      "kolik-je-dost": { "nazev": "Kolik je dost?", "pocet": 7, "krok": 7, "navstivene": [1, 2, 3, 4, 5, 7], "kdy": "2026-11-14T18:05:00.000Z" },
+      "proc-se-bat-smrti": { "nazev": "Proč se bát smrti?", "pocet": 9, "krok": 2, "navstivene": [1, 2], "kdy": "2026-11-12T16:10:00.000Z" },
+      "co-mam-ve-svych-rukou": { "nazev": "Co mám ve svých rukou?", "pocet": 8, "krok": 8, "navstivene": [1, 2, 3, 4, 5, 6, 7, 8], "kdy": "2026-11-11T19:00:00.000Z", "dokonceno": "2026-11-11T19:00:00.000Z", "pahyl": "2026-11-11T19:01:00.000Z" },
+      "je-to-co-vidim-cela-skutecnost": { "nazev": "Je to, co vidím, celá skutečnost?", "pocet": 8, "krok": 3, "navstivene": [1, 2, 3], "kdy": "2026-11-09T10:20:00.000Z" },
+      "kdy-mam-dobry-duvod-verit": { "nazev": "Kdy mám dobrý důvod věřit?", "pocet": 7, "krok": 7, "navstivene": [1, 2, 3, 4, 5, 6, 7], "kdy": "2026-11-07T14:30:00.000Z", "dokonceno": "2026-11-07T14:30:00.000Z", "pahyl": "2026-11-07T14:31:00.000Z" }
+    },
+    "citaty": [
+      { "id": "seneca-dopis-1", "text": "Všechno ostatní je cizí, jen čas je náš.", "kde": "Seneca, Dopisy Luciliovi 1, 3", "odkaz": "/osobnost/seneca/", "kdy": "2026-11-12T16:35:00.000Z" },
+      { "id": "platon-apologie", "text": "Život bez zkoumání nestojí člověku za to, aby ho žil.", "kde": "Platón, Obrana Sókratova 38a", "odkaz": "/osobnost/platon/", "kdy": "2026-11-09T10:05:00.000Z" }
+    ],
+    "zaloha": "2026-11-14T19:00:00.000Z"
+  }
+}

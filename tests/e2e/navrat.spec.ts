@@ -3,6 +3,10 @@
 // čas dokončení cesty, starý deník bez něj, blok v dílně a snímky na 390 a 1440 px ve světlém i tmavém režimu.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const DEN = 24 * 60 * 60 * 1000;
 const CESTY = {
@@ -144,8 +148,8 @@ test('Návrat po třech dnech jen klávesnicí (telefon): pravidlo ke čtení, n
     odkaz: '/cesta/kdy-mam-dobry-duvod-verit/7/',
     druh: 'navrat',
   });
-  await expect(page.locator('.seznam--zapisy')).toContainText('Upravím ho. Proč: neříká, co dělat, když ověřit nejde.');
-  await expect(page.locator('.seznam--zapisy')).toContainText(CESTY.c1.text);
+  await expect(page.locator('.kapitoly')).toContainText('Upravím ho. Proč: neříká, co dělat, když ověřit nejde.');
+  await expect(page.locator('.kapitoly')).toContainText(CESTY.c1.text);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
 
   // Po obnovení: zodpovězený návrat se už nenabízí, zápis i pravidlo zůstávají.
@@ -247,7 +251,7 @@ test('čas dokončení cesty: zapíše se při posledním kroku a pozdější ot
   await page.getByRole('textbox', { name: /Napiš svoje pravidlo/ }).blur();
   await page.goto('/denik/');
   await pripravit(page);
-  await expect(page.locator('.seznam--zapisy')).toContainText('Moje pravidlo.');
+  await expect(page.locator('.kapitoly')).toContainText('Moje pravidlo.');
   await expect(nabidka(page)).toHaveCount(0);
 
   // Cesta dokončená před pěti dny: návštěva kroku posune jen čas posledního kroku.

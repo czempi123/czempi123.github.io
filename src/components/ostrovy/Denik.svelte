@@ -1,14 +1,18 @@
 <script lang="ts">
   // Můj deník jako opravdový zápisník (design-v2, K6; plán větve › Mapa a deník: funkce). Nahoře nejvýš jedna tichá
   // nabídka Návratu (nový případ ke zkoušce vlastního pravidla, nejdřív tři dny po dokončení cesty), připomenutí zálohy
-  // po dokončené cestě a rozpracované cesty a otázky. Hlavní pohled je Moje filozofie po velkých otázkách; pod ním
-  // záznamy jako lístky podle data, nebo podle cest. Pak sbírka (razítka, pahýly, vystřižené citáty), výzvy, hodiny,
-  // pero a záloha s přenosem. Vše jen v tomto prohlížeči; nic se nehodnotí.
+  // po dokončené cestě a Moje filozofie po velkých otázkách. Pod ní kapitoly po obdobích (K6 dodatek, logika
+  // kapitolyDeniku v src/lib/zapisnik.ts): rozpracované cesty a otázky, záznamy jako lístky podle cest (nebo podle data)
+  // a sbírka období (razítka, pahýly, vystřižené citáty). Pak výzvy, hodiny, pero a záloha s přenosem jednou pro celý
+  // deník. Vše jen v tomto prohlížeči; nic se nehodnotí.
   import { onMount, tick } from 'svelte';
   import { nacti, exportuj, stavBloku, ulozStavBloku, type Denik } from '../../lib/denik';
   import { nabidkaNavratu, platnyStavNavratu, type NavratDeniku } from '../../lib/navrat';
   import { prehledObdobi, type KatalogObdobi, type OtazkaPrehledu } from '../../lib/tvoje-obdobi';
-  import { zaznamyPodleCest, pahylyCest, potkaniFilozofove, pripomenutiZalohy, type MapaPotkanych } from '../../lib/zapisnik';
+  import {
+    potkaniFilozofove, pripomenutiZalohy, kapitolyDeniku, otevreneKapitoly, rozeberStavKapitol, KLIC_KAPITOL,
+    type MapaPotkanych, type MapaStranek, type ObdobiZapisniku, type SkupinaZaznamu,
+  } from '../../lib/zapisnik';
   import type { UdajeRazitka } from './bloky-typy';
   import Navrat from './Navrat.svelte';
   import VolbaPera from './VolbaPera.svelte';
@@ -24,7 +28,7 @@
     /** týdny cvičení (Stoický týden): přijatý se ukáže mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz */
     tydny?: { id: string; nazev: string; odkaz: string; vstup: string; pocet: number }[];
     /** deník na konci období (Tvoje antika): tichý odkaz, jakmile v deníku něco je */
-    konecObdobi?: { adresa: string; nazev: string; odkaz: string };
+    konecObdobi?: { adresa: string; nazev: string; odkaz: string; obdobi?: number[] };
     /** katalog otázek, cest a zastánců (Moje filozofie, volby v záznamech) */
     katalog?: KatalogObdobi;
     razitka?: Record<string, UdajeRazitka>;
@@ -32,8 +36,11 @@
     potkani?: MapaPotkanych;
     obdobiCest?: Record<string, number>;
     prvniCesta?: { nazev: string; adresa: string };
+    /** stránky atlasu s obdobím (kapitoly) a období se stránkou */
+    stranky?: MapaStranek;
+    obdobi?: ObdobiZapisniku[];
   }
-  let { navraty = [], tydny = [], konecObdobi, katalog, razitka = {}, osoby = {}, potkani = { stranky: {}, cesty: {} }, obdobiCest = {}, prvniCesta }: Props = $props();
+  let { navraty = [], tydny = [], konecObdobi, katalog, razitka = {}, osoby = {}, potkani = { stranky: {}, cesty: {} }, obdobiCest = {}, prvniCesta, stranky = {}, obdobi = [] }: Props = $props();
 
   let denik = $state<Denik | null>(null);
   // Nabídka se určí jednou při otevření deníku: po odložení nebo skrytí se hned nenabídne další.
@@ -42,16 +49,20 @@
   let prehled = $state<OtazkaPrehledu[]>([]);
   let otevreny = $state(false);
   let zprava = $state('');
-  let pohled = $state<'data' | 'cesty'>('data');
+  // Jak řadit záznamy v kapitolách: platí pro všechny kapitoly a deník si to pamatuje (KLIC_KAPITOL).
+  let pohled = $state<'data' | 'cesty'>('cesty');
+  // Otevřené kapitoly; určí se jednou při otevření deníku (otevreneKapitoly), pak je mění jen student.
+  let otevrene = $state<Record<string, boolean>>({});
   let obalNavratu = $state<HTMLElement>();
   let zpravaPrvek = $state<HTMLElement>();
   let cesty = $derived(denik ? Object.entries(denik.cesty).sort((a, b) => b[1].kdy.localeCompare(a[1].kdy)) : []);
   let rozpracovane = $derived(denik ? denik.aktivita.filter((a) => !a.hotovo) : []);
   let hodiny = $derived(denik?.hodiny ?? []);
   let nabidkaTydnu = $derived(denik ? tydny.filter((t) => !denik!.vyzvy.some((v) => v.id === idVyzvyTydne(t.id))) : []);
-  let podleCest = $derived(denik ? zaznamyPodleCest(denik, katalog) : []);
-  let pahyly = $derived(denik ? pahylyCest(denik) : []);
-  let potkaniLide = $derived(denik ? potkaniFilozofove(denik, potkani) : []);
+  let kapitoly = $derived(denik ? kapitolyDeniku(denik, { obdobi, stranky, katalog, potkani: potkaniFilozofove(denik, potkani), osoby }) : []);
+  // Tvoje antika stojí na konci poslední kapitoly svých období; bez takové kapitoly pod kapitolami.
+  let klicKonce = $derived([...kapitoly].reverse().find((k) => k.obdobi !== null && konecObdobi?.obdobi?.includes(k.obdobi))?.klic);
+  const DRUH_SKUPINY: Record<SkupinaZaznamu['druh'], string> = { cesta: 'cesta', otazka: 'otázka', stranka: 'stránka' };
   let zaloha = $derived(denik ? pripomenutiZalohy(denik) : null);
   let prazdny = $derived(!!denik && denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0 && !denik.citaty?.length);
   const tydenVyzvy = (id: string) => tydny.find((t) => idVyzvyTydne(t.id) === id);
@@ -62,10 +73,38 @@
     denik = nacti();
     nabidka = nabidkaNavratu(denik, navraty, Date.now());
     if (katalog) prehled = prehledObdobi(denik, katalog);
+    const stav = nactiStav();
+    if (stav?.pohled) pohled = stav.pohled;
+    otevrene = Object.fromEntries(otevreneKapitoly(kapitoly, stav).map((k) => [k, true]));
     const obnov = () => (denik = nacti());
     window.addEventListener('atlas-denik', obnov);
     return () => window.removeEventListener('atlas-denik', obnov);
   });
+
+  function nactiStav() {
+    try {
+      return rozeberStavKapitol(JSON.parse(localStorage.getItem(KLIC_KAPITOL) ?? 'null'));
+    } catch {
+      return null;
+    }
+  }
+  function ulozStav() {
+    try {
+      localStorage.setItem(KLIC_KAPITOL, JSON.stringify({ otevrene: Object.keys(otevrene).filter((k) => otevrene[k]), kdy: new Date().toISOString(), pohled }));
+    } catch {
+      /* bez úložiště si deník stav pamatuje jen do zavření stránky */
+    }
+  }
+  /** Student kapitolu otevřel nebo zavřel (toggle přijde i při prvním vykreslení: tehdy se nic neukládá). */
+  function prepni(klic: string, otevrena: boolean) {
+    if ((otevrene[klic] ?? false) === otevrena) return;
+    otevrene[klic] = otevrena;
+    ulozStav();
+  }
+  function zmenPohled(p: 'cesty' | 'data') {
+    pohled = p;
+    ulozStav();
+  }
 
   async function zkusit() {
     otevreny = true;
@@ -123,90 +162,116 @@
       </div>
     {/if}
 
-    {#if cesty.length || rozpracovane.length}
-      <h2 class="t-h3 nadpis">Rozpracované</h2>
-      <div class="seznam--rozpracovane">
-      {#if cesty.some(([, c]) => c.navstivene.length < c.pocet || !c.pahyl)}
-      <ul class="rozpr">
-        {#each cesty.filter(([, c]) => c.navstivene.length < c.pocet || !c.pahyl) as [slug, c] (slug)}
-          {@const hotova = c.navstivene.length >= c.pocet}
-          <li class={trida(slug)}>
-            <a class="rozpr__listek" href={hotova ? `/cesta/${slug}/` : `/cesta/${slug}/${c.krok}/`}>
-              <span class="rozpr__hl">
-                <span class="t-popisek rozpr__co">cesta · {hotova ? 'prošel jsi celou' : `krok ${c.krok} z ${c.pocet}`}</span>
-                <span class="rozpr__nazev">{c.nazev}</span>
-                <span class="rozpr__mista" aria-hidden="true">{#each Array.from({ length: c.pocet }, (_, i) => i + 1) as n (n)}<i class:hotovo={c.navstivene.includes(n)}></i>{/each}</span>
-              </span>
-              <span class="rozpr__pahyl" aria-hidden="true"><span class="rozpr__trh"></span><b>{c.navstivene.length}</b>ze {c.pocet}</span>
-            </a>
-          </li>
-        {/each}
-      </ul>
-      {/if}
-      {#if rozpracovane.length}
-        <!-- Otázky jako záložky zastrčené v listu zápisníku: všechny stejně vysoké, spodkem pod okrajem listu. -->
-        <ul class="rozpr-zalozky">
-          {#each rozpracovane as a (a.id)}
-            <li>
-              <a class="rozpr__zalozka" href={a.odkaz}><span class="rozpr__zal-c">otázka, ke které ses ještě nevrátil</span><span class="rozpr__zal-t">{a.otazka}</span></a>
-            </li>
-          {/each}
-        </ul>
-      {/if}
-      </div>
-    {/if}
-
     {#if katalog}<MojeFilozofie {prehled} {razitka} upravit={konecObdobi?.adresa} {prvniCesta} />{/if}
 
-    {#if denik.zapisy.length}
-      <section class="zaznamy" aria-labelledby="zaznamy-n">
-        <div class="zaznamy__hlava">
-          <h2 class="t-h2 zaznamy__nadpis" id="zaznamy-n">Moje odpovědi a stanoviska</h2>
-          <div class="pohled" role="group" aria-label="Jak záznamy seřadit">
-            <button type="button" class="pohled__tl" aria-pressed={pohled === 'data'} onclick={() => (pohled = 'data')}>Podle data</button>
-            <button type="button" class="pohled__tl" aria-pressed={pohled === 'cesty'} onclick={() => (pohled = 'cesty')}>Podle cest</button>
-          </div>
-        </div>
-        {#if pohled === 'data'}
-          <ul class="seznam--zapisy listky">
-            {#each denik.zapisy as z (z.id)}
-              <li class="listek-zaznamu">
-                <p class="t-popisek zaznam__kde">{datum(z.kdy)} · <a href={z.odkaz}>zpět ke stránce</a></p>
-                <p class="otazka">{z.otazka}</p>
-                <p class="odpoved">{z.odpoved}</p>
-              </li>
-            {/each}
-          </ul>
-        {:else}
-          {#each podleCest as c (c.slug)}
-            <section class={['cesta-zaznamu', trida(c.slug)]} aria-labelledby={`zc-${c.slug}`}>
-              <h3 class="t-h3 cesta-zaznamu__nazev" id={`zc-${c.slug}`}><a href={`/cesta/${c.slug}/`}>{c.nazev}</a></h3>
-              <ul class="listky">
-                {#each c.zaznamy as z (z.id)}
-                  <li class="listek-zaznamu">
-                    <p class="t-popisek zaznam__kde"><a href={z.adresa}>krok {z.krok}</a>{#if z.otazka} · {z.otazka}{/if}</p>
-                    {#if z.volba}<p class="zaznam__volba"><span class="vizualne-skryte">{'Tvoje volba: '}</span>{z.volba}</p>{/if}
-                    {#if z.odpoved}<p class="odpoved">{z.odpoved}</p>{/if}
-                  </li>
-                {/each}
-              </ul>
-            </section>
-          {:else}
-            <p class="t-popisek">Záznamy z cest se tu seřadí po krocích, jakmile v nějaké cestě odpovíš.</p>
-          {/each}
-        {/if}
+    <!-- Kapitoly (K6 dodatek): jedno další členění, kapitola na období. Rozbalovací lístek; otevřená je kapitola, kde
+         student naposledy byl, a ty, které si nechal otevřené. -->
+    {#if kapitoly.length}
+      <section class="kapitoly" aria-labelledby="kapitoly-n">
+        <h2 class="t-h2 kapitoly__nadpis" id="kapitoly-n">Kapitoly</h2>
+        {#each kapitoly as k (k.klic)}
+          <details class={['kapitola', k.obdobi ? `obdobi-${k.obdobi}` : 'bez-obdobi']} open={otevrene[k.klic] ?? false} ontoggle={(e) => prepni(k.klic, e.currentTarget.open)}>
+            <summary class="kapitola__listek">
+              <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+              <span class="kapitola__hl">
+                <span class="kapitola__nad">{k.obdobi ? `období ${k.obdobi}` : 'velké otázky'}</span>
+                <h3 class="kapitola__nazev">{k.nazev}</h3>
+                {#if k.leta || k.naposledy}
+                  <span class="t-popisek kapitola__pod">{#if k.leta}<span class="t-letopocet">{k.leta}</span>{/if}{#if k.leta && k.naposledy}{' · '}{/if}{#if k.naposledy}naposledy {datum(k.naposledy)}{/if}</span>
+                {/if}
+              </span>
+              <span class="kapitola__znak" aria-hidden="true"></span>
+            </summary>
+            <div class="kapitola__obsah">
+              {#if k.cesty.length || k.otazky.length}
+                <h4 class="t-h3 kapitola__cast">Rozpracované</h4>
+                <div class="seznam--rozpracovane">
+                  {#if k.cesty.length}
+                    <ul class="rozpr">
+                      {#each k.cesty as slug (slug)}
+                        {@const c = denik.cesty[slug]}
+                        {@const hotova = c.navstivene.length >= c.pocet}
+                        <li class={trida(slug)}>
+                          <a class="rozpr__listek" href={hotova ? `/cesta/${slug}/` : `/cesta/${slug}/${c.krok}/`}>
+                            <span class="rozpr__hl">
+                              <span class="t-popisek rozpr__co">cesta · {hotova ? 'prošel jsi celou' : `krok ${c.krok} z ${c.pocet}`}</span>
+                              <span class="rozpr__nazev">{c.nazev}</span>
+                              <span class="rozpr__mista" aria-hidden="true">{#each Array.from({ length: c.pocet }, (_, i) => i + 1) as n (n)}<i class:hotovo={c.navstivene.includes(n)}></i>{/each}</span>
+                            </span>
+                            <span class="rozpr__pahyl" aria-hidden="true"><span class="rozpr__trh"></span><b>{c.navstivene.length}</b>ze {c.pocet}</span>
+                          </a>
+                        </li>
+                      {/each}
+                    </ul>
+                  {/if}
+                  {#if k.otazky.length}
+                    <!-- Otázky jako záložky zastrčené v listu zápisníku: všechny stejně vysoké, spodkem pod okrajem listu. -->
+                    <ul class="rozpr-zalozky">
+                      {#each k.otazky as a (a.id)}
+                        <li>
+                          <a class="rozpr__zalozka" href={a.odkaz}><span class="rozpr__zal-c">otázka, ke které ses ještě nevrátil</span><span class="rozpr__zal-t">{a.otazka}</span></a>
+                        </li>
+                      {/each}
+                    </ul>
+                  {/if}
+                </div>
+              {/if}
+
+              {#if k.skupiny.length}
+                <div class="zaznamy">
+                  <div class="zaznamy__hlava">
+                    <h4 class="t-h3 zaznamy__nadpis" id={`zaznamy-${k.klic}`}>Moje odpovědi a stanoviska</h4>
+                    <div class="pohled" role="group" aria-label="Jak záznamy seřadit">
+                      <button type="button" class="pohled__tl" aria-pressed={pohled === 'cesty'} onclick={() => zmenPohled('cesty')}>{k.obdobi ? 'Podle cest' : 'Podle otázek'}</button>
+                      <button type="button" class="pohled__tl" aria-pressed={pohled === 'data'} onclick={() => zmenPohled('data')}>Podle data</button>
+                    </div>
+                  </div>
+                  {#if pohled === 'cesty'}
+                    {#each k.skupiny as s, i (s.adresa)}
+                      <section class="skupina" aria-labelledby={`sk-${k.klic}-${i}`}>
+                        <!-- Nadpis cesty je řádek, ne další rozbalování. -->
+                        <h5 class="skupina__radek" id={`sk-${k.klic}-${i}`}><span class="skupina__co">{DRUH_SKUPINY[s.druh]}</span>{' '}<a href={s.adresa}>{s.nazev}</a></h5>
+                        <ul class="listky">
+                          {#each s.zaznamy as z (z.id)}
+                            <li class="listek-zaznamu">
+                              {#if s.druh === 'cesta'}
+                                <p class="t-popisek zaznam__kde"><a href={z.adresa}>krok {z.krok}</a>{#if z.otazka} · {z.otazka}{/if}</p>
+                              {:else}
+                                <p class="t-popisek zaznam__kde">{#if z.kdy}{datum(z.kdy)} · {/if}<a href={z.adresa}>zpět ke stránce</a></p>
+                                {#if z.otazka}<p class="otazka">{z.otazka}</p>{/if}
+                              {/if}
+                              {#if z.volba}<p class="zaznam__volba"><span class="vizualne-skryte">{'Tvoje volba: '}</span>{z.volba}</p>{/if}
+                              {#if z.odpoved}<p class="odpoved">{z.odpoved}</p>{/if}
+                            </li>
+                          {/each}
+                        </ul>
+                      </section>
+                    {/each}
+                  {:else if k.podleData.length}
+                    <ul class="seznam--zapisy listky">
+                      {#each k.podleData as z (z.id)}
+                        <li class="listek-zaznamu">
+                          <p class="t-popisek zaznam__kde">{datum(z.kdy)} · <a href={z.odkaz}>zpět ke stránce</a></p>
+                          <p class="otazka">{z.otazka}</p>
+                          <p class="odpoved">{z.odpoved}</p>
+                        </li>
+                      {/each}
+                    </ul>
+                  {:else}
+                    <p class="t-popisek">Podle data se tu seřadí, co v tomhle období napíšeš.</p>
+                  {/if}
+                </div>
+              {/if}
+
+              <SbirkaDeniku uroven={4} klic={k.klic} potkani={k.potkani} {razitka} {osoby} pahyly={k.pahyly} citaty={k.citaty} {obdobiCest} />
+
+              {#if konecObdobi && k.klic === klicKonce}{@render konec_obdobi()}{/if}
+            </div>
+          </details>
+        {/each}
       </section>
     {/if}
-
-    <SbirkaDeniku potkani={potkaniLide} {razitka} {osoby} {pahyly} citaty={denik.citaty ?? []} {obdobiCest} />
-
-    {#if konecObdobi}
-      <a class="konec obdobi-2" href={konecObdobi.adresa}>
-        <span class="konec__nad">na konci období</span>
-        <span class="konec__nazev">{konecObdobi.nazev}</span>
-        <span class="t-popisek konec__popis">{konecObdobi.odkaz}</span>
-      </a>
-    {/if}
+    {#if konecObdobi && !klicKonce}{@render konec_obdobi()}{/if}
 
     {#if hodiny.length}
       <h2 class="t-h3 nadpis" id="denik-hodiny">Hodiny</h2>
@@ -244,6 +309,14 @@
   <VolbaPera />
   <PrenosDeniku cast="zaloha" />
 {/if}
+
+{#snippet konec_obdobi()}
+  <a class="konec obdobi-2" href={konecObdobi!.adresa}>
+    <span class="konec__nad">na konci období</span>
+    <span class="konec__nazev">{konecObdobi!.nazev}</span>
+    <span class="t-popisek konec__popis">{konecObdobi!.odkaz}</span>
+  </a>
+{/snippet}
 
 {#snippet nabidka_tydnu()}
   {#if nabidkaTydnu.length}
@@ -375,13 +448,63 @@
   .zaznam__kde { color: var(--ink-2); }
   .zaznam__kde a { color: inherit; }
   .zaznam__volba { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--pero); }
-  .cesta-zaznamu { margin-top: var(--s-5); }
-  .cesta-zaznamu__nazev { margin: 0 0 var(--s-3); }
-  .cesta-zaznamu__nazev a { color: inherit; text-decoration-color: var(--p); text-underline-offset: .18em; }
   .otazka { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani); }
   .otazka a { display: inline-block; min-height: 24px; }
   /* Co student napsal, jeho perem (bod 3). */
   .odpoved { font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
+  /* Kapitoly (K6 dodatek): lístek s páskou v papíru období; rozbalený pokračuje listem zápisníku s čárkovaným okrajem
+     v inkoustu období. Znak rozbalení je vystouplý knoflík se šipkou, po otevření otočenou. */
+  .kapitoly { margin-top: var(--s-8); }
+  .kapitoly__nadpis { margin: 0 0 var(--s-2); }
+  .kapitola { margin-top: var(--s-6); }
+  .kapitola__listek {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    min-height: var(--dotyk);
+    padding: 22px 18px 16px 22px;
+    background: var(--listek);
+    box-shadow: var(--lezi);
+    color: var(--ink);
+    list-style: none;
+    cursor: pointer;
+    rotate: -.4deg;
+    transition: translate var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
+  }
+  .kapitola:nth-of-type(2n) .kapitola__listek { rotate: .3deg; }
+  .kapitola__listek::-webkit-details-marker { display: none; }
+  .kapitola__listek::marker { content: ''; }
+  .kapitola[open] .kapitola__listek { rotate: 0deg; }
+  @media (hover: hover) { .kapitola__listek:hover { translate: 0 -2px; } }
+  .kapitola__listek:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .kapitola__hl { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
+  .kapitola__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: 1.1; color: var(--p); }
+  .kapitola__nazev { margin: 0; font-family: var(--font-serif); font-weight: 500; font-size: 26px; line-height: 1.15; }
+  .kapitola__pod { color: var(--ink-2); }
+  .kapitola__znak { flex: none; position: relative; width: 40px; height: 40px; border-radius: 50%; background: var(--plocha); box-shadow: var(--vyst-m); }
+  .kapitola__znak::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--ink-2);
+    border-bottom: 2px solid var(--ink-2);
+    translate: -50% -70%;
+    rotate: 45deg;
+    transition: rotate var(--d-stisk) var(--k-stisk), translate var(--d-stisk) var(--k-stisk);
+  }
+  .kapitola[open] .kapitola__znak::before { translate: -50% -30%; rotate: 225deg; }
+  .kapitola__obsah { margin: 0 0 0 var(--s-3); padding: var(--s-2) 0 var(--s-4) var(--s-5); border-left: 2px dashed color-mix(in srgb, var(--p) 40%, transparent); }
+  .kapitola__cast { margin: var(--s-6) 0 var(--s-4); }
+  .kapitola .zaznamy { margin-top: var(--s-6); }
+  /* Nadpis cesty nebo stránky v kapitole je řádek zápisníku, ne další rozbalování. */
+  .skupina { margin-top: var(--s-5); }
+  .skupina__radek { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--s-3); margin: 0 0 var(--s-3); padding-bottom: var(--s-1); border-bottom: 1px dashed var(--tuzka); font: 500 19px/1.3 var(--font-serif); }
+  .skupina__co { font: 400 var(--fs-popisek) / 1.3 var(--font-sans); color: var(--ink-2); }
+  .skupina__radek a { color: inherit; text-decoration-color: var(--p); text-underline-offset: .18em; }
   .konec { display: grid; gap: 2px; width: fit-content; max-width: 100%; margin-top: var(--s-7); padding: 18px 22px 16px; background: var(--listek); box-shadow: var(--lezi); rotate: -.5deg; color: var(--ink); text-decoration: none; }
   .konec:hover .konec__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 4px; }
   .konec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -396,5 +519,7 @@
   .vyzva p { margin: 0 0 var(--s-1); }
   @media (max-width: 699px) {
     .listek-zaznamu, .vyzva { rotate: 0deg; }
+    .kapitola__obsah { margin-left: 2px; padding-left: var(--s-3); }
+    .kapitola__nazev { font-size: 22px; }
   }
 </style>

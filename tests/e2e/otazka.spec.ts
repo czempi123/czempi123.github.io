@@ -2,6 +2,10 @@
 // Klávesnicí, po obnovení, s přeskočením a bez JavaScriptu; snímky na 390 a 1440 px ve světlém i tmavém režimu.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const ADRESA = '/otazka/jak-poznam-pravdu/';
 const PO = '#jak-poznam-pravdu-po';
@@ -77,8 +81,8 @@ test('otázka: první názor klávesnicí, hlasy v pořadí, návrat na konci a 
   await expect(page.locator('#jak-poznam-pravdu-prvni-pole')).toBeDisabled();
 
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy').getByText('Když si to můžu ověřit sám.')).toBeVisible();
-  await expect(page.locator('.seznam--zapisy').getByText('Když tvrzení obstojí, i když se na něj ptám dál.')).toBeVisible();
+  await expect(page.locator('.kapitoly').getByText('Když si to můžu ověřit sám.')).toBeVisible();
+  await expect(page.locator('.kapitoly').getByText('Když tvrzení obstojí, i když se na něj ptám dál.')).toBeVisible();
 });
 
 test('otázka: Přeskočit ukáže filozofy bez zápisu a návrat se zeptá bez první odpovědi', async ({ page }) => {

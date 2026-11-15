@@ -3,6 +3,10 @@
 // a snímky všech tří cest na 390 a 1440 px ve světlém i tmavém režimu.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const C1 = '/cesta/kdy-mam-dobry-duvod-verit/';
 const C6 = '/cesta/kolik-je-dost/';
@@ -92,8 +96,8 @@ test('závěr cesty 1: tah z kroku 2 vedle pravidla, otázka pod srovnáním a n
   expect(await zapisy(page, 'cesta1-moje-pravidlo')).toHaveLength(0);
   await expect(zmena).toBeVisible();
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy')).toContainText('Kdy mám dobrý důvod věřit? Co se změnilo, nebo proč si myslíš totéž?');
-  await expect(page.locator('.seznam--zapisy')).toContainText('Myslím si totéž, jen už vím proč.');
+  await expect(page.locator('.kapitoly')).toContainText('Kdy mám dobrý důvod věřit? Co se změnilo, nebo proč si myslíš totéž?');
+  await expect(page.locator('.kapitoly')).toContainText('Myslím si totéž, jen už vím proč.');
 });
 
 test('závěr cesty bez počáteční odpovědi: žádný panel, pravidlo funguje jako dřív', async ({ page }) => {

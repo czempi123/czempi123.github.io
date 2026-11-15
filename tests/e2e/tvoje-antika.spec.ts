@@ -156,7 +156,8 @@ test('vstup z deníku a ze stránky období 2', async ({ page }) => {
   await page.evaluate((t) => localStorage.setItem('atlas-denik', t), PLNY);
   await page.reload();
   await page.waitForSelector('astro-island[component-url*="Denik"]:not([ssr])', { state: 'attached' });
-  await expect(page.getByRole('link', { name: /Tvoje antika/ })).toHaveAttribute('href', '/denik/antika/');
+  // Odkaz stojí na konci kapitoly Helenismus a Řím (K6 dodatek), i když je kapitola zavřená.
+  await expect(page.locator('a.konec')).toHaveAttribute('href', '/denik/antika/');
   // Prázdný deník odkaz nemá: není k čemu vést.
   await page.evaluate(() => localStorage.removeItem('atlas-denik'));
   await page.reload();

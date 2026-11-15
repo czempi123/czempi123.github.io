@@ -4,8 +4,12 @@
 // node scripts/kontrola-fokus.mjs <cesta> [<cesta> …]
 //   node scripts/kontrola-fokus.mjs /osobnost/platon/ /cesta/je-to-co-vidim-cela-skutecnost/1/
 // Proměnné: HODINA (adresa stránky hodiny; stránky pak mají lištu hodiny), ZAKLAD (běžící web; výchozí náhled sestaveného webu: npx astro preview --port 4323),
-// SIRKY (výchozí „390,1440“).
+// SIRKY (výchozí „390,1440“), ULOZISTE (soubor .json { "klíč": hodnota } pro localStorage, třeba plný deník:
+// ULOZISTE=tests/e2e/data/denik-kapitoly.json node scripts/kontrola-fokus.mjs /denik/).
 import { chromium } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const ULOZISTE = process.env.ULOZISTE ? JSON.parse(readFileSync(process.env.ULOZISTE, 'utf8')) : null;
 
 const cesty = process.argv.slice(2);
 const ZAKLAD = process.env.ZAKLAD ?? 'http://localhost:4323';
@@ -20,6 +24,11 @@ for (const sirka of SIRKY) {
     const chyby = [];
     page.on('console', (m) => m.type() === 'error' && chyby.push(m.text()));
     page.on('pageerror', (e) => chyby.push(String(e)));
+    if (ULOZISTE) {
+      await page.addInitScript((z) => {
+        for (const [k, v] of Object.entries(z)) localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
+      }, ULOZISTE);
+    }
     // HODINA=<adresa stránky hodiny>: nejdřív ji otevře, aby byla hodina v kartě aktivní a stránka měla lištu hodiny.
     if (process.env.HODINA) { await page.goto(process.env.HODINA.startsWith('http') ? process.env.HODINA : ZAKLAD + process.env.HODINA); await page.waitForTimeout(500); }
     await page.goto(ZAKLAD + cesta);

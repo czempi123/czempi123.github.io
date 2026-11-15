@@ -4,6 +4,10 @@
 // Sókratés mluví Platónovými ústy, zvyk není dril, střed není půlka a student, který nesouhlasí, má spojence.
 import { test, expect, type Page } from '@playwright/test';
 import { pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA4 = '/cesta/staci-vedet-co-je-spravne/';
 const KROKY4 = ['Háj a hostina', 'Co ti tehdy chybělo?', 'Kdo ví, udělá to', 'Stavitelem se stáváš stavěním', 'Věděl to doopravdy?', 'Kde je střed?', 'Jak dlouho to trvá?', 'Tvoje pravidlo'];
@@ -294,7 +298,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Vědět nestačí. Potřebuju to párkrát udělat, než to budu umět.');
   await expect(zapisy).toContainText('Na začátku: spíš Sókratés. Po argumentech: spíš Aristotelés. Co mě posunulo: srůst chce čas.');
   await expect(zapisy).toContainText('Nevěděl, co dělá.');

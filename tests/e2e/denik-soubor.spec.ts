@@ -6,11 +6,13 @@ import AxeBuilder from '@axe-core/playwright';
 import { writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { denikPodleData } from './denik';
 
 const denik = (zapisy: { id: string; otazka: string; odpoved: string }[], cesty: Record<string, unknown> = {}) =>
   JSON.stringify({ verze: 1, zapisy: zapisy.map((z) => ({ ...z, odkaz: '/cesta/kolik-je-dost/7/', kdy: '2026-10-20T10:00:00Z' })), vyzvy: [], navstivene: [], bloky: {}, aktivita: [], cesty });
 
 async function otevri(page: Page, obsah: string) {
+  await denikPodleData(page);
   await page.goto('/denik/');
   await page.evaluate((t) => localStorage.setItem('atlas-denik', t), obsah);
   await page.reload();
@@ -37,7 +39,7 @@ test('deník stažený na jednom zařízení jde nahrát na druhém a přidá se
   await expect(b.getByText('Nahraný deník se přidá k tomu, co máš tady. Nic se nesmaže.')).toBeVisible();
   await nahraj(b, soubor);
   await expect(b.getByRole('status')).toHaveText('Deník ze souboru je přidaný k tomuto. Nic se nesmazalo.');
-  const zapisy = b.locator('.seznam--zapisy');
+  const zapisy = b.locator('.kapitoly');
   await expect(zapisy).toContainText('Dost je, když nic nechybí.');
   await expect(zapisy).toContainText('Co si myslím.');
   await expect(b.locator('.seznam--rozpracovane')).toContainText('Kolik je dost?');

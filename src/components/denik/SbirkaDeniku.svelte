@@ -16,17 +16,23 @@
     citaty: CitatVDeniku[];
     /** období cesty podle slugu (barva čísla na pahýlu) */
     obdobiCest?: Record<string, number>;
+    /** úroveň nadpisu Sbírka (v kapitole deníku 4, části o jednu níž) */
+    uroven?: 2 | 3 | 4;
+    /** kapitola deníku, ve které sbírka stojí (jedinečné id nadpisu) */
+    klic?: string;
   }
-  let { potkani, razitka, osoby, pahyly, citaty, obdobiCest = {} }: Props = $props();
+  let { potkani, razitka, osoby, pahyly, citaty, obdobiCest = {}, uroven = 2, klic = '' }: Props = $props();
+  const idNadpisu = $derived(klic ? `sbirka-${klic}` : 'sbirka-n');
   const lide = $derived(potkani.filter((id) => razitka[id] && osoby[id]));
   const datum = (iso: string) => new Date(iso).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' });
 </script>
 
 {#if lide.length || pahyly.length || citaty.length}
-  <section class="sbirka" aria-labelledby="sbirka-n">
-    <h2 class="t-h2 sbirka__nadpis" id="sbirka-n">Sbírka</h2>
+  <!-- V kapitole deníku je sbírka obyčejný oddíl pod nadpisem: oblast se stejným názvem by tam byla v každé kapitole. -->
+  <svelte:element this={klic ? 'div' : 'section'} class={['sbirka', { 'sbirka--kapitola': uroven > 2 }]} aria-labelledby={klic ? undefined : idNadpisu}>
+    <svelte:element this={`h${uroven}`} class={uroven > 2 ? 't-h3 sbirka__nadpis' : 't-h2 sbirka__nadpis'} id={idNadpisu}>Sbírka</svelte:element>
     {#if lide.length}
-      <h3 class="t-ovladani-l sbirka__cast">Koho jsem potkal</h3>
+      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Koho jsem potkal</svelte:element>
       <ul class="sb-razitka">
         {#each lide as id (id)}
           <li>
@@ -37,7 +43,7 @@
       </ul>
     {/if}
     {#if pahyly.length}
-      <h3 class="t-ovladani-l sbirka__cast">Prošlé cesty</h3>
+      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Prošlé cesty</svelte:element>
       <ul class="sb-pahyly">
         {#each pahyly as p (p.slug)}
           <li class={obdobiCest[p.slug] ? `obdobi-${obdobiCest[p.slug]}` : 'bez-obdobi'}>
@@ -52,7 +58,7 @@
       </ul>
     {/if}
     {#if citaty.length}
-      <h3 class="t-ovladani-l sbirka__cast">Vystřižené citáty</h3>
+      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Vystřižené citáty</svelte:element>
       <ul class="sb-citaty">
         {#each citaty as c (c.id)}
           <li class="sb-citat">
@@ -63,11 +69,12 @@
         {/each}
       </ul>
     {/if}
-  </section>
+  </svelte:element>
 {/if}
 
 <style>
   .sbirka { margin-top: var(--s-8); }
+  .sbirka--kapitola { margin-top: var(--s-6); }
   .sbirka__nadpis { margin: 0 0 var(--s-3); }
   .sbirka__cast { margin: var(--s-5) 0 var(--s-3); }
   /* Razítka leží přímo na tečkovaném papíře, každé natočené jinak (natočení podle id). */

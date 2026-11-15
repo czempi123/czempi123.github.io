@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 15. 11. 2026: Kapitoly v Můj deník po obdobích
+
+Připomínka autora 15. 11. 2026 (deník bude dlouhá stránka, potřebuje jedno další členění); odpověď 5 po K7a prázdná, tedy souhlas s doporučením. Postaveno v kroku K6 dodatek větve `design-v2`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pod Moje filozofie stojí kapitoly po obdobích jako rozbalovací lístky; Návrat, připomenutí zálohy a Moje filozofie nahoře, výzvy, týdny, pero a záloha s přenosem dole jednou pro celý deník | Období je osm, odpovídají pásu období a Tvoje antika; podle cest by kapitol bylo časem desítky |
+| Záznamy ze stránek velkých otázek (a z období, které ještě nemá stránku) jsou v kapitole Napříč obdobími na konci | Otázka nepatří jednomu období; nic ze zápisů nesmí zmizet |
+| Otevřená je kapitola, kde student naposledy byl, a ty, které si nechal otevřené; stav a řazení záznamů jsou v `localStorage` pod `atlas-denik-kapitoly`, ne v exportu deníku | Je to nastavení pohledu, ne studentova práce |
+| V kapitole se záznamy řadí podle cest (nadpis cesty je řádek), výpis podle data je přepínač, který platí pro všechny kapitoly | Zadání autora; jeden přepínač se pamatuje snáz než osm |
+
 ## 14. 11. 2026: Kurikulum: odpovědi autora a dělení souborů
 
 Autor 14. 11. 2026: „Se vším v co rozhodnout souhlasím.“ Otázky jsou v `docs/plany/kurikulum.md` › Co rozhodnout.

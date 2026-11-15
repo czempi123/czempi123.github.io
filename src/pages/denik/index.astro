@@ -30,12 +30,14 @@ const zapisnik = await dataZapisniku(Object.keys(katalog.osoby));
       client:load
       navraty={navraty}
       tydny={tydny}
-      konecObdobi={{ adresa: TVOJE_ANTIKA.adresa, nazev: TVOJE_ANTIKA.nazev, odkaz: nezlomitelne(TVOJE_ANTIKA.odkaz) }}
+      konecObdobi={{ adresa: TVOJE_ANTIKA.adresa, nazev: TVOJE_ANTIKA.nazev, odkaz: nezlomitelne(TVOJE_ANTIKA.odkaz), obdobi: [1, 2] }}
       katalog={katalog}
       razitka={zapisnik.razitka}
       osoby={zapisnik.osoby}
       potkani={zapisnik.potkani}
       obdobiCest={zapisnik.obdobiCest}
+      stranky={zapisnik.stranky}
+      obdobi={zapisnik.obdobi}
       prvniCesta={prvniCesta}
     />
   </div>
