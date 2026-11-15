@@ -9,6 +9,7 @@ import { KLIC_AKTIVNI } from '../lib/pruchod-hodiny';
 import { TEXT_DENIKU_SKRIPT } from '../lib/denik';
 import { skriptPera } from '../lib/pero';
 import { typPrechoduKroku, KLIC_ODKUD } from '../lib/postup';
+import { zapsatMereni, kratkyPrechod, platneMereni, KLIC_PLYNULOSTI } from '../scripts/plynulost-prechodu';
 import Hlavicka, { type Sekce } from '../components/rozvrzeni/Hlavicka.astro';
 import SpodniLista from '../components/rozvrzeni/SpodniLista.astro';
 import Drobecky from '../components/rozvrzeni/Drobecky.astro';
@@ -100,6 +101,9 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
       // Mezi sousedními kroky téže cesty se list jen posune (typ krok-dal nebo krok-zpet, K5): pozná se z adres
       // (navigation.activation, jinak adresa uložená při odchodu ze stránky), ne z odkazu.
       var typKroku = ${typPrechoduKroku.toString()};
+      var zapsatMereni = ${zapsatMereni.toString()};
+      var kratkyPrechod = ${kratkyPrechod.toString()};
+      var platneMereni = ${platneMereni.toString()};
       addEventListener('pageswap', function () { try { sessionStorage.setItem('${KLIC_ODKUD}', location.pathname); } catch (x) {} });
       addEventListener('pagereveal', function (e) {
         if (!e.viewTransition) return;
@@ -110,6 +114,10 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         } catch (x) {}
         var krok = typKroku(odkud, location.pathname);
         if (krok) { e.viewTransition.types.add(krok); return; }
+        // Kde otočení listu trhalo (src/scripts/plynulost-prechodu.ts), krátké prolnutí místo otočení.
+        var ulozeno = null;
+        try { ulozeno = localStorage.getItem('${KLIC_PLYNULOSTI}'); } catch (x) {}
+        if (kratkyPrechod(ulozeno)) { e.viewTransition.types.add('kratky'); return; }
         var zpet = false;
         try {
           var a = window.navigation && navigation.activation;
@@ -120,7 +128,16 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         var t = document.documentElement.classList;
         t.add('otaci-se');
         if (zpet) t.add('otaci-se--zpet');
-        e.viewTransition.finished.finally(function () { t.remove('otaci-se', 'otaci-se--zpet'); });
+        var snimku = 0, start = performance.now(), bezi = true;
+        var tik = function () { snimku++; if (bezi) requestAnimationFrame(tik); };
+        requestAnimationFrame(tik);
+        e.viewTransition.finished.finally(function () {
+          t.remove('otaci-se', 'otaci-se--zpet');
+          bezi = false;
+          var ms = performance.now() - start;
+          if (!platneMereni(ms, snimku, !document.hidden)) return;
+          try { localStorage.setItem('${KLIC_PLYNULOSTI}', zapsatMereni(localStorage.getItem('${KLIC_PLYNULOSTI}'), (snimku * 1000) / ms)); } catch (x) {}
+        });
       });
     `} />
     <script is:inline>

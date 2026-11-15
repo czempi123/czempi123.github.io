@@ -27,7 +27,7 @@ test('logo na telefonu: bez Zpět je vidět, se Zpět ustoupí', async ({ page }
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Agora, domů' })).toBeVisible();
   await page.goto('/osobnost/sokrates/');
-  await expect(page.getByRole('link', { name: 'Zpět na Lidé a směry' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Zpět na Lidi a směry' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Agora, domů' })).toBeHidden();
 });
 
@@ -108,4 +108,31 @@ test('přechod mezi stránkami: typ dalsi, při omezeném pohybu žádný', asyn
   await page.getByRole('navigation', { name: 'Hlavní navigace' }).first().getByRole('link', { name: 'Domů' }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect.poll(prechod).toBe('zadny');
+});
+
+test('kde otočení listu trhalo, je přechod krátký a bez rubu listu', async ({ page }) => {
+  // Revize R (src/scripts/plynulost-prechodu.ts): záznam s krátkým přechodem dá příchodu typ kratky, ne dalsi, a bez rubu listu.
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.addInitScript(() => {
+    addEventListener('pagereveal', (e: Event & { viewTransition?: object }) => {
+      (window as unknown as { prechodVt: object | null }).prechodVt = e.viewTransition ?? null;
+      // Třídu nastaví skript v hlavičce až po tomhle posluchači: čte se v dalším snímku.
+      requestAnimationFrame(() => { (window as unknown as { otaciSe: boolean }).otaciSe = document.documentElement.classList.contains('otaci-se'); });
+    });
+  });
+  const prechod = () => page.evaluate(() => {
+    const vt = (window as unknown as { prechodVt?: { types: Set<string> } | null }).prechodVt;
+    return vt === undefined ? undefined : vt === null ? 'zadny' : [...vt.types].join(',');
+  });
+  await page.goto('/otazky/');
+  await page.evaluate(() => localStorage.setItem('atlas-plynulost', JSON.stringify({ mereni: [22, 25], kratky: true })));
+  await page.getByRole('navigation', { name: 'Hlavní navigace' }).first().getByRole('link', { name: 'Lidé a směry' }).click();
+  await expect(page).toHaveURL(/\/lide\/$/);
+  // Headless Chromium přechod mezi dokumenty občas vynechá (docs/pouceni.md); typ se ověří, jen když přechod nastal.
+  await expect.poll(prechod).not.toBeUndefined();
+  if ((await prechod()) !== 'zadny') {
+    expect(await prechod()).toBe('kratky');
+    expect(await page.evaluate(() => (window as unknown as { otaciSe: boolean }).otaciSe)).toBe(false);
+  }
+  await expect(page.locator('.otoceni-ohyb')).toBeHidden();
 });

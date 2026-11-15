@@ -12,6 +12,11 @@ for (const cesta of process.argv.slice(2)) {
     for (const rezim of ['light', 'dark']) {
       const context = await browser.newContext({ viewport: { width: sirka, height: 900 }, colorScheme: rezim, reducedMotion: 'reduce' });
       const page = await context.newPage();
+      // ULOZISTE=<soubor.json> { "klíč": hodnota } zapíše hodnoty do localStorage před načtením (plný deník; revize design-v2).
+      if (process.env.ULOZISTE) {
+        const z = JSON.parse((await import('node:fs')).readFileSync(process.env.ULOZISTE, 'utf8'));
+        await page.addInitScript((zz) => { for (const [k, v] of Object.entries(zz)) localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); }, z);
+      }
       // HODINA=<adresa stránky hodiny>: nejdřív ji otevře, aby byla hodina v kartě aktivní a stránka měla lištu hodiny.
       if (process.env.HODINA) { await page.goto(process.env.HODINA.startsWith('http') ? process.env.HODINA : ZAKLAD + process.env.HODINA); await page.waitForTimeout(500); }
       await page.goto(ZAKLAD + cesta);

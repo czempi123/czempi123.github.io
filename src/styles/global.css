@@ -841,6 +841,11 @@ html:active-view-transition-type(krok-dal)::view-transition-old(root) { animatio
 html:active-view-transition-type(krok-dal)::view-transition-new(root) { animation-name: krok-prijet-zprava; }
 html:active-view-transition-type(krok-zpet)::view-transition-old(root) { animation-name: krok-odjet-vpravo; }
 html:active-view-transition-type(krok-zpet)::view-transition-new(root) { animation-name: krok-prijet-zleva; }
+/* Krátký přechod (revize R): kde otočení listu na zařízení opakovaně trhalo (src/scripts/plynulost-prechodu.ts),
+   stará stránka jen krátce zmizí nad novou. Jen opacity; rub listu se neukáže (otaci-se se nenastaví). */
+@keyframes kratky-zmizet { to { opacity: 0; } }
+html:active-view-transition-type(kratky)::view-transition-old(root) { z-index: 1; animation: kratky-zmizet var(--d-listek) var(--k-papir) both; }
+html:active-view-transition-type(kratky)::view-transition-new(root) { z-index: 0; animation-name: none; opacity: 1; }
 ::view-transition-group(list-ohyb),
 ::view-transition-old(list-ohyb),
 ::view-transition-new(list-ohyb) { animation-name: none; }

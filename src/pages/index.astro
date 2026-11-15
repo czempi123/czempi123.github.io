@@ -68,7 +68,7 @@ const pokusy = (await getCollection('pokusy'))
 const pohlednice = (await getCollection('obdobi'))
   .flatMap((o) => pohledniceZObdobi(o.body ?? '', data.obdobi.find((x) => x.id === o.data.obdobi)!, `/obdobi/${o.id}/#uvod`))
   .sort((a, b) => a.obdobi - b.obdobi)
-  .map((p) => ({ ...p, text: nezlomitelne(p.text), titulek: nezlomitelne(p.titulek), razitko: p.osoba ? osoba(p.osoba) : undefined }));
+  .map((p) => ({ ...p, kde: nezlomitelne(p.kde), text: nezlomitelne(p.text), titulek: nezlomitelne(p.titulek), razitko: p.osoba ? osoba(p.osoba) : undefined }));
 const vyberSkript = `(function () {
   try {
     document.querySelectorAll('[data-stridani]').forEach(function (s) {
@@ -166,7 +166,7 @@ const vstupy = [
             <svg viewBox="0 0 240 120" focusable="false"><path class="slozena-mapa__cesta" d="M24 92c22-10 30-34 58-38s44 22 70 12 30-36 62-40" /><circle cx="24" cy="92" r="4" /><circle cx="152" cy="66" r="4" /><circle cx="214" cy="26" r="4" /></svg>
           </span>
           <span class="slozena-mapa__text">
-            <span class="slozena-mapa__nad">složená mapa · 399 př. n. l.</span>
+            <span class="slozena-mapa__nad">složená mapa · 399&nbsp;př.&nbsp;n.&nbsp;l.</span>
             <span class="slozena-mapa__nazev">Rok, kdy Athény soudily Sókrata</span>
             <span class="slozena-mapa__veta">Kdo z filozofů tehdy žil, kde byl a kdo z nich se znal?</span>
             <span class="slozena-mapa__dal">Rozložit mapu <Ikona id="dal" velikost={18} /></span>
@@ -255,7 +255,7 @@ const vstupy = [
   .karticka__nazev { margin-top: var(--s-1); font-size: 26px; line-height: 1.15; }
   .karticka__text { font-size: 17px; line-height: 28px; color: var(--ink-2); background: repeating-linear-gradient(transparent 0 27px, color-mix(in srgb, var(--tuzka) 30%, transparent) 27px 28px); }
   /* Pohlednice: text vlevo, vpravo adresní řádky tužkou a razítko člověka jako poštovní razítko. */
-  .pohlednice { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s-4); min-height: 200px; padding: 22px 22px 18px; background: var(--listek); box-shadow: var(--lezi); rotate: .8deg; transition: transform var(--d-stisk) var(--k-stisk); }
+  .pohlednice { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s-4); min-height: 200px; padding: 22px 22px 18px; background: var(--listek); box-shadow: var(--lezi); rotate: 0deg; transition: transform var(--d-stisk) var(--k-stisk); }
   .pohlednice__text { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; padding-right: var(--s-4); border-right: 1px solid color-mix(in srgb, var(--tuzka) 50%, transparent); }
   .pohlednice__kde { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--p); }
   .pohlednice__nazev { font-size: 24px; line-height: 1.15; }

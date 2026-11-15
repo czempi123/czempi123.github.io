@@ -17,6 +17,8 @@ interface Props {
   obdobi?: number;
 }
 const { sekce, zpet, obdobi } = Astro.props;
+// „Zpět na …“ chce 4. pád názvu oddílu: „Zpět na Lidi a směry“ (revize design-v2 R); ostatní názvy ho mají stejný.
+const AKUZATIV: Record<string, string> = { 'Lidé a směry': 'Lidi a směry' };
 const vstupy = [
   { id: 'domu', href: '/', text: 'Domů' },
   { id: 'mapa', href: '/mapa/', text: 'Mapa a čas' },
@@ -32,7 +34,7 @@ const navraty = JSON.stringify(await g.__navratyTecky);
 <header class="hlavicka" data-pagefind-ignore data-navraty={navraty}>
   <div class="hlavicka__vnitrek stranka">
     {zpet && (
-      <a class="zpet t-ovladani" href={zpet.href}><Ikona id="zpet" velikost={20} /><span>Zpět na {zpet.text}</span></a>
+      <a class="zpet t-ovladani" href={zpet.href}><Ikona id="zpet" velikost={20} /><span>Zpět na {AKUZATIV[zpet.text] ?? zpet.text}</span></a>
     )}
     <a class:list={['logo', obdobi ? `obdobi-${obdobi}` : 'bez-obdobi', { 'logo--se-zpet': zpet }]} href="/" aria-label="Agora, domů" data-logo>
       <span class="logo__kolaz" aria-hidden="true">

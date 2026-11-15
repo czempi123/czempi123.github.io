@@ -55,7 +55,11 @@ const TEXT: [string, string][] = [
   // Červená tužka (D5, Najdi slabé místo): tah a věta na listu argumentu.
   ['cervena-tuzka', 'list'],
 ];
-const HRANICE: [string, string][] = PLOCHY.map((p) => ['tuzka', p]);
+// Revize R: úplná matice. Každý inkoust, kterým se píše (tisk, ruka, pero, červená tužka, inkousty období),
+// na každé ploše, na které text v atlasu stojí, i na malé vystouplé ploše (kolečka, čipy, klávesa /).
+const POPREDI = ['ink', 'ink-2', 'ink-3', 'ruka', 'muted', 'pero-modra', 'pero-fialova', 'pero-sepiova', 'cervena-tuzka', ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `p-${n}`)];
+TEXT.push(...POPREDI.flatMap((t) => [...PLOCHY, 'plocha-m'].map((p): [string, string] => [t, p])).filter(([a, b]) => !TEXT.some(([x, y]) => x === a && y === b)));
+const HRANICE: [string, string][] = [...PLOCHY, 'plocha-m'].map((p) => ['tuzka', p]);
 
 describe.each([['den', den], ['noc', noc]])('kontrast tokenů · %s', (_, t) => {
   it.each(TEXT)('%s na %s splňuje AA pro text', (popredi, pozadi) => {

@@ -7,6 +7,7 @@
 import type { TOsoba } from '../../lib/schema';
 import { data } from '../../lib/data';
 import RazitkoCloveka from './RazitkoCloveka.astro';
+import { ornamenty } from '../../lib/ornamenty.js';
 
 interface Props {
   /** osoba: dává barvu období, razítko s atributem a výchozí obraz */
@@ -28,6 +29,8 @@ const idObrazku = obrazekId ?? (obrazOsoby ? osoba?.obrazek : undefined);
 const obrazek = idObrazku ? data.zdroje.obrazky.find((o) => o.id === idObrazku) : undefined;
 if (idObrazku && !obrazek) throw new Error(`Obrázek „${idObrazku}“ není v zdroje.yaml`);
 // Střed výřezu jde do proměnných: --vyrez platí všude, --vyrez-sirka pro desku na šířku (hlavička osobnosti na telefonu).
+// Bez obrazu i bez osoby (scéna v Příběhu): ornament období z pásu na Domů, ne prázdný papír (revize R).
+const orn = !obrazek && !osoba ? ornamenty.orn(obdobi - 1) : undefined;
 const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezNaSirku && `--vyrez-sirka:${obrazek.vyrezNaSirku}`].filter(Boolean).join(';') || undefined;
 ---
 <figure class:list={['deska', `obdobi-${obdobi}`, trida]} id={osobni ? 'deska-osoby' : undefined} data-deska-osoby={osobni ? '' : undefined}>
@@ -38,7 +41,12 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
       {obrazek ? (
         <img src={`/${obrazek.soubor}`} alt={obrazek.popisek} loading={osobni ? 'eager' : 'lazy'} style={vyrezStyl} />
       ) : (
-        osoba && <RazitkoCloveka osoba={osoba} velikost={104} popis class="deska__razitko" />
+        osoba ? <RazitkoCloveka osoba={osoba} velikost={104} popis class="deska__razitko" /> : (
+          <svg class="deska__orn" viewBox="0 0 160 128" focusable="false" aria-hidden="true" data-ornament-obdobi={obdobi}>
+            <path class="deska__orn-s" d={orn!.solid} />
+            <path class="deska__orn-l" d={orn!.line} />
+          </svg>
+        )
       )}
     </div>
   </div>
@@ -75,6 +83,10 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
   }
   /* Bez obrazu: tečkovaný papír a razítko člověka uprostřed. */
   .deska__plocha.papir { box-shadow: var(--vtla-mele); }
+  /* Scéna bez obrazu i osoby: ornament období tužkou v barvě období, jako vybledlý tisk (ozdoba, nic nenese). */
+  .deska__orn { width: 62%; height: auto; color: var(--p); opacity: .5; }
+  .deska__orn-s { fill: currentColor; fill-opacity: .14; }
+  .deska__orn-l { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
   figcaption { margin: var(--s-4) var(--s-1) 0; color: var(--ink-3); }
   @media (max-width: 699px) {
     .deska__list { padding: 8px 8px 12px; rotate: 1deg; }

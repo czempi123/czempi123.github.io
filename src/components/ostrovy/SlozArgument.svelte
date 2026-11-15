@@ -18,7 +18,8 @@
     moznostiNapadeni, napadnutelne, zapisArgumentu, platnyStavArgumentu, radekKarty, ZAVER, OTAZKA_NAPADENI, otazkaZapisu,
     type Rozlozeni, type Karta,
   } from '../../lib/argument';
-  import { ID_SKRYTY, type TBlokArgument } from '../../lib/bloky-schema';
+  import { ID_SKRYTY } from '../../lib/argument-id';
+  import type { TBlokArgument } from '../../lib/bloky-schema';
   import { odstavce, radek } from '../../lib/bloky';
   import { odkryti, omezenyPohyb, delkaTokenu } from '../../lib/pohyb';
   import RamAktivity from './RamAktivity.svelte';
