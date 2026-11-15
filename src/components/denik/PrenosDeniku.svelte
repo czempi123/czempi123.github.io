@@ -162,7 +162,7 @@
   .odkaz__pole:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .odkaz__zprava { margin: var(--s-2) 0 0; color: var(--ink-2); }
   /* Kód QR na ležícím listu: moduly v inkoustu, okraj čtyř modulů z listu; v noci je list tmavý, proto bílé pole. */
-  .qr { display: inline-block; margin: var(--s-4) 0 0; padding: 10px; rotate: -.8deg; background: #fff; }
+  .qr { display: inline-block; margin: var(--s-4) 0 0; padding: 10px; rotate: calc(-.8deg * var(--natoceni)); background: #fff; }
   .qr svg { display: block; width: min(240px, 70vw); height: auto; }
   .qr path { fill: #1d1b18; }
 </style>

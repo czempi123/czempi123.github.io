@@ -8,6 +8,8 @@ const executablePath = process.env.PW_CHROMIUM_PATH || undefined;
 
 export default defineConfig({
   testDir: 'tests/e2e',
+  // Referenční snímky (tests/e2e/snimky.spec.ts): jeden soubor pro Mac i Linux, bez jména systému v cestě.
+  snapshotPathTemplate: '{testDir}/snimky/{arg}{ext}',
   timeout: 60_000,
   fullyParallel: true,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list']],

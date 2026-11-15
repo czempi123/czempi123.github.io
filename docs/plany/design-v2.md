@@ -27,8 +27,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | K7b | Třináct kreseb jako koláž na rámu `Kresba.svelte` v novém papíru a v tmavém režimu (pravidla v Po D4); obraz ke kapitole (bod 9) tam, kde ho nese kresba; kontrolní snímky | totéž | hotovo 15. 11. 2026 (oddíl Po K7b); kontrolní bod se snímky |
 | P | Pojmy: kolekce `pojmy`, komponenta Pojem (poznámka na okraji na notebooku, lístek po klepnutí na telefonu, fokus z klávesnice), stránka `/pojem/<id>/`, první vlna pojmů z antiky s podklady, vyznačení v textech; české tvary jmen pro hledání (Pagefind neskloňuje) | podklady Opus 5.5 · high (`atlas-overeni`), komponenta Opus 5.5 · high (`atlas-komponenta`), texty `atlas-psani` | hotovo 15. 11. 2026 (oddíl Po P); kontrolní bod se snímky |
 | R | Revize celé větve: všechny typy stránek na 390 a 1440 px ve světlém i tmavém režimu, kontrast, klávesnice, čtečka, omezený pohyb, výkon na autorově telefonu a na jednom levném se systémem Android (když otočení listu trhá, přepne se samo na krátký přechod), váha HTML stránek osob, Zod v ostrovu `SlozArgument` | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design (`design:accessibility-review`, `design:design-critique`) | hotovo 15. 11. 2026 (oddíl Po R, záznam `docs/revize/design-v2.md`); kontrolní bod se snímky |
-| O | Opravy po revizi, **přepínač Klidný režim** v záhlaví (krátké přechody i bez nastavení systému, čistý papír; bod 12), `docs/design.md` napsat znovu a krátce (dnes 144 kB), do testů dvanáct referenčních snímků klíčových obrazovek, skill `atlas-komponenta` s oddíly Papír a Pohyb, `docs/pouceni.md` | Opus 5.5 · high | čeká |
-| Uzavření | Sloučení, GitHub, kontrola nasazeného webu | Opus 5.5 · medium | čeká |
+| O | Opravy po revizi, **přepínač Klidný režim** v záhlaví (krátké přechody i bez nastavení systému, čistý papír; bod 12), `docs/design.md` napsat znovu a krátce (dnes 144 kB), do testů dvanáct referenčních snímků klíčových obrazovek, skill `atlas-komponenta` s oddíly Papír a Pohyb, `docs/pouceni.md` | Opus 5.5 · high | hotovo 15. 11. 2026 (oddíl Po O); VoiceOver neověřený (otázka 2 po O); kontrolní bod se snímky |
+| Uzavření | Podle odpovědí po O: VoiceOver s autorem u Macu (otázka 2), smazání nepoužívaných Mincí a zbylých přezdívek (otázka 3); pak sloučení, GitHub, kontrola nasazeného webu a prvního běhu kontrol (referenční snímky na Linuxu) | Opus 5.5 · medium | čeká na schválení (otázka 1 po O) |
 
 **Proč v tomhle pořadí**
 
@@ -137,93 +137,57 @@ Plán se 15. 11. 2026 rozdělil (pravidlo z `CLAUDE.md`: soubor pro Projekt Clau
 - `docs/plany/design-v2-9-k6d-k7b.md` (deník po obdobích a zadání kreseb): Po K6 dodatku (15. 11. 2026), Co rozhodnout po K6 dodatku, Zadání K7b: kresby jako koláž
 - `docs/plany/design-v2-10-k7b-p.md` (kresby jako koláž a zadání pojmů): Po K7b (15. 11. 2026), Co rozhodnout po K7b, Zadání P: pojmy
 - `docs/plany/design-v2-11-p-r.md` (pojmy a zadání revize): Po P (15. 11. 2026), Co rozhodnout po P, Zadání R: revize celé větve
+- `docs/plany/design-v2-12-r-o.md` (revize a zadání oprav): Po R (15. 11. 2026), Co rozhodnout po R, Zadání O: opravy po revizi
 
-## Po R (15. 11. 2026)
+## Po O (15. 11. 2026)
 
-Odpovědi po P byly prázdné v repozitáři i v Projektu Claude, takže platí všech šest doporučení a na pojmech se nic neměnilo. Záznam revize s inventurou, měřeními a nálezy ve formátu `atlas-revize` je v `docs/revize/design-v2.md`; snímky v `Claude outputs/snimky/design-v2-r/`.
+Odpovědi po R byly prázdné v repozitáři i v Projektu Claude, takže platí všech devět doporučení (otázka 9 bez změn). Snímky pro kontrolu v `Claude outputs/snimky/design-v2-o/` (`o-01` až `o-16`, jedno okno každý; `scripts/snimky-o.mjs`).
 
-### Co revize našla
+### Co se změnilo
 
-- **Strojově čisté:** axe na všech 24 typech stránek (390 a 1440 px, den a noc, plný deník) bez nálezu; kontrast úplné matice inkoustů na plochách ve dne i v noci v pořádku (doplněno do `kontrast.test.ts`); skutečný tabulátor na čtyřech velikostech okna nikde pod lištou; omezený pohyb vypne všechno; sám od sebe se hýbe jen příchod na stránku a kresby s pohybem.
-- **Výkon** (Chrome, procesor 6× pomalejší, Fast 3G, 390 px): otočení listu 45 až 57 snímků za sekundu, ale první snímek 117 až 201 ms; posun mezi kroky 57 až 64; Mapa a čas 57; kresby 60. Stránky osob 230 až 269 kB (mini mapa s obrysem pobřeží 50 kB, Dva životy 23 kB).
-- **Zásadní nálezy k rozhodnutí** (otázky níž): víc pásek na obrazovce (Mapa a čas, Domů, deník), popisky a lístečky přes sebe v Mapě a čase na telefonu, Stoický týden ve starém vzhledu, těžké stránky osob, kapitoly deníku neověřené VoiceOverem, ruční písmo poznámek pojmů, čtyři vysvětlení pojmů se stejnou stavbou.
+- **Jedna páska na obrazovku (1):** Výprava v Mapě a čase bez pásky; druhý lístek „na začátek“ na Domů drží sponka; kapitoly deníku mají místo pásky ohyb dole v inkoustu období (jako záložky rozpracovaných otázek), páska v deníku zůstala jen Návratu; první kapitola profilu pod deskou se dvěma páskami pásku nemá.
+- **Mapa a čas (2):** popisky krajů a moří, které by ležely pod lístečkem, lístečkem člověka mimo výřez, měřítkem s kreditem, růžicí nebo špendlíkem, se schovají celé (šířka se měří písmem názvu, dřív odhad podle počtu písmen a jen ztlumení). Lísteček, který by zakryl cizí špendlík (celé tlačítko 44 px, `rozmistiListky(…, cilSpendliku)`), hledá jiný roh, jinak zůstane jen špendlík: Kyzikos a Chalkédón mají v roce 360 př. n. l. na telefonu oba špendlík. Na ose na notebooku je pruh s bitvou uvnitř (Řecko-perské války s Marathónem a Salamínou) tlačítkem jen svým názvem nad osou, tečky bitev na pruhu jsou vlastní tlačítka.
+- **Stoický týden ve Spojení (3):** hlavička stránek z dat (titulek s pruhem „Sedm dní, sedm cvičení“, ve stupni h1, aby se vešel do sloupce), námitka a pravidla na čistém listu, dny jako lístky, otevřený den jako čistý list, „Kdy přestat“ jako lepicí lístek s proužkem lepidla, hotový den má číslo přeškrtnuté tužkou. Texty beze změny.
+- **Lehčí stránky osob (4):** obrys pobřeží mini mapy je sdílený soubor `/podklad/<klíč>.svg` (33 výřezů; `src/lib/podklad-sdileny.ts`), Dva životy nesou jen osobu, výchozí dvojici a id lidí v nabídce, jména a roky si stáhnou ze sdíleného `/dva-zivoty.json`. Aristotelés 269 → 207 kB, Platón 265 → 217 kB, Sókratés 237 → 180 kB.
+- **Otočení listu (5):** beze změny, 900 ms s pojistkou plynulosti.
+- **Texty (8):** obec a soud bez úvodního „Ne…, ale“, perex deníku bez věty, kterou říká pruh.
+- **Letopočty:** 80 míst v `dist/` s obyčejnou mezerou (popisky a kredity obrázků, Prameny, Kde jsme, nadtitulky Příběhu, Mapa a čas v přehledu cesty, poznámky vztahů, osa Dvou životů a Kdo žil dřív?, karta v Mapě a čase) je na nule; test `tests/e2e/letopocty-dist.spec.ts` hledá v celém sestaveném webu i ve vlastnostech ostrovů, výpis `scripts/letopocty-dist.py`.
+- **Klidný režim (bod 12, otázka 7):** přepínač s lístkem v záhlaví vedle dne a noci (`KlidnyRezim.astro`, `aria-pressed`), stav `atlas-klidny` v `localStorage`, nastavený skriptem v hlavičce před vykreslením. Zapnutý dá každému příchodu krátké prolnutí (typ `kratky` jako pojistka plynulosti, i mezi kroky cesty), vypne příchod na profil a let fotky, papír je bez teček (`--tecka`) a bez natočení (nový token `--natoceni`, 47 natočení v komponentách ho teď násobí) a poznámky pojmů na okraji jsou tiskem (Newsreader 15 px). Test `klidny-rezim.spec.ts`: 390 a 1440 px ve dne i v noci, z klávesnice, axe, bez probliknutí, krátký přechod, poznámky tiskem.
+- **VoiceOver (6): neověřený.** Spustit VoiceOver a povolit jeho ovládání AppleScriptem je nastavení přístupnosti, které mi systém neprovedl (zaškrtnutí v Utilitě VoiceOver odmítl, klávesy do Safari computer use nepouští). Kapitoly deníku jsou proto beze změny; ověření je otázka 2 níž.
+- **Referenční snímky:** `tests/e2e/snimky.spec.ts`, dvanáct obrazovek (Domů na telefonu ve dne a na notebooku v noci, profil obojí, krok cesty se Sporem, přehled cesty, velká otázka, období, Mapa a čas, kapitoly deníku, pojem, kresba Jeskyně), jen Chromium, jeden snímek pro Mac i Linux v `tests/e2e/snimky/` (`snapshotPathTemplate` v `playwright.config.ts`), tolerance `threshold 0,3`, `maxDiffPixelRatio 0,04`, pevné datum a omezený pohyb. Třikrát po sobě stabilní.
+- **`zivot-na-mape.spec.ts:117`:** roky se čtou z historie přehrávání, kterou si Mapa a čas vede sama (`rokyMeziSnimky`: i zastávka, kterou snímek při zátěži přeskočil), ne vzorkováním posuvníku; test ve Vitestu.
+- **`docs/design.md`** napsaný znovu: 163 kB → 21 kB (tokeny, Papír se Spojením, Pravidlem střídmosti a stavy prvků, Pohyb s přechody, pojistkou a Klidným režimem, bloky, komponenty jako mapa souborů). Stará verze beze změny v `docs/archiv/design-2026-11-15.md`; odkazy v kódu na zrušené oddíly vedou tam. Výpis API komponent `scripts/komponenty-api.py`.
+- **Skill `atlas-komponenta`** má oddíly Papír a Pohyb (i kopie ve `skills/`, včetně `references/vzor-komponenty.md` s novými tokeny); `docs/pouceni.md` má sedm vět z R a O.
+- **Úklid:** smazané přezdívky tokenů, které nikdo nepoužíval (`--sunk`, `--rule`, `--map-*`, `--fs-display-*` s třídami, `--r-xs` až `--r-lg`, `--stin-*`, `--pohyb*`) a pravidla `html[data-sloupec]` ze snímků K4a. Odkaz Přeskočit na obsah je pevný vůči oknu (po Tabu z konce stránky byl mimo obrazovku).
 
-### Co revize opravila
+### Testy a kontrola
 
-- **Prázdná deska:** Příběh bez obrazu a bez osoby (sedm kroků cest, Co je filozofie?, Judaismus) ukazoval prázdný rámeček; teď na desce leží ornament období tužkou (`Deska.astro`).
-- **Letopočty:** `nezlomitelne()` váže i „423 př. n. l.“ (test v `sazba.test.ts`); pohlednice na Domů stojí rovně (text o pěti větách se nenatáčí); „Zpět na Lidi a směry“.
-- **Zod v ostrovu Slož argument:** konstanty v `src/lib/argument-id.ts`, balíček ze 114 kB na 17 kB; validace zůstává při sestavení.
-- **Pojistka plynulosti:** `src/scripts/plynulost-prechodu.ts` měří každé otočení listu; po dvou ze tří pod 30 snímků za sekundu dostane zařízení krátké prolnutí (typ přechodu `kratky`, `global.css`). Testy `plynulost-prechodu.test.ts` a `ram.spec.ts`.
-- **Nástroje pro další revize:** `scripts/revize-tabulator.mjs` (skutečný Tab na více velikostech okna), `revize-design-v2-pohyb.mjs` (co se hýbe bez činu studenta a při omezeném pohybu), `revize-ctecka.mjs` (strom přístupnosti), `revize-vykon.mjs` (snímky za sekundu při zpomalení), `revize-design-v2-snimky.sh` (listy všech typů); `revize-axe.mjs` umí plný deník (`ULOZISTE`).
-
-### Testy
-
-`npm run build` prošel; celé `npm test` před commitem: kontrola typů bez chyb, Vitest 1 485 z 1 485, Playwright 775 ze 776 (10,3 min). Spadl `zivot-na-mape.spec.ts:117` (Přehrát: test vzorkuje roky za běhu a při zátěži stroje jeden rok přeskočí); samostatně prošel třikrát ze tří, oprav se netýká. Krok O ho má zpevnit (číst rok z historie přehrávání, ne vzorkovat). `denik-kapitoly.spec.ts:101`, který po P spadl, tentokrát prošel.
+`npm run build` prošel. Dotčené testy (týden, Klidný režim, letopočty, snímky, Mapa a čas, Život na mapě, Dva životy, mini mapa, deník, Domů, pojem, rám, stránky osob, nové stránky, Doba a lidé, cesty): 252 z 252. Axe (`revize-axe.mjs`) na 12 dotčených stránkách a v plném deníku: 0 nálezů. Skutečný tabulátor (`revize-tabulator.mjs`) na Domů, Mapě a čase, týdnu, profilu, přehledu cesty a plném deníku: po opravě tlačítka války a odkazu Přeskočit na obsah bez potíží. Celé `npm test` před commitem: kontrola typů bez chyb, Vitest 1 486 z 1 486, Playwright 796 z 796 (9,2 min); po něm jen menší titulek Stoického týdne, `tyden.spec.ts` znovu 16 z 16.
 
 ### Nad čím jsem váhal
 
-- **Ornament, ne prázdná deska ani žádná deska.** Šlo by desku bez obrazu vynechat a dát textu celou šířku; Příběh by ale v kroku cesty ztratil rozvržení scény a obraz, podle kterého si student krok pamatuje. Ornament je ozdoba, která nic netvrdí, a komentář Příběhu ho sliboval.
-- **Pojistka, i když emulace pod 30 snímků nespadla.** Zadání chtělo přepnutí jen tam, kde otočení trhá; skutečný levný telefon může být pomalejší než šestkrát zpomalený Mac, a měření na zařízení samo rozhodne. Na plynulém zařízení se nic nemění.
-- **VoiceOver jsem nepouštěl:** mluví nahlas a ovládá celý Mac, kdežto ty jsi u počítače nebyl. Strom přístupnosti v Chromiu ukazuje jména a pořadí; co s nadpisem v rozbalovacím lístku udělá Safari, ověří O.
-- **Pásky a Stoický týden jen navrhuji:** obrazovky s páskami jsi na kontrolních bodech viděl a schválil; pravidlo střídmosti mluví jinak, tak rozhodni ty.
+- **Válka na ose bez popisku pod osou.** Doporučení mluvilo o popisku kratší události pod osou; pod osou je ale hned drážka posuvníku a nový řádek by osu rozšířil. Bitvy uvnitř války jsou tečky s názvem po najetí a fokusu (tak to bylo), válka se vybírá svým názvem. Jinak: řádek pod drážkou jen pro takové bitvy.
+- **Dva malé lístečky vedle sebe dají dva špendlíky.** Kyzikos i Chalkédón mají po jednom člověku; menší místo nemá žádné, a tak lísteček nedostal ani jeden. Jinak: lísteček dostane to, které je v pořadí dřív, i za cenu, že zakryje polovinu cizího špendlíku.
+- **Klidný režim zkracuje i posun mezi kroky cesty** a vypíná příchod na profil; kresby s pohybem a pohyb po činu studenta (lístek, kroužek) zůstávají, protože je spouští student. Ikona je lístek ze stromu, ne list papíru, aby se nepletla s Deníkem.
+- **Tolerance snímků jsem na Linuxu neověřil.** Písma jsou lokální, takže zalomení je stejné; jestli vyhlazení hran na GitHubu nepřekročí 4 % pixelů, ukáže první běh kontrol po sloučení. Kdyby ano, stačí zvednout `maxDiffPixelRatio` v `snimky.spec.ts`.
+- **Zbylé přezdívky** (`--paper`, `--surface`, `--pc*`, `--r-full`, `--muted`) drží jen nepoužívané `ui/Mince.astro` a `mapa/Mince.svelte` a `.t-popisek`. Smazat je znamená smazat soubory, proto otázka 3.
 
-## Co rozhodnout po R
+## Co rozhodnout po O
 
-Kontrolní bod se snímky (`Claude outputs/snimky/design-v2-r/`; záznam `docs/revize/design-v2.md`). Prázdná odpověď znamená souhlas s doporučením.
+Prázdná odpověď znamená souhlas s doporučením, kromě otázky 1.
 
-1. **Jedna páska na obrazovku** (snímky `r-mapa-390-dark-*`, `r-domu-390-light-*`, `r-denik-390-light-*`): Výprava v Mapě a čase bez pásky, druhý lístek „na začátek“ na Domů se sponkou, kapitoly deníku bez pásky (lístek s ohybem), páska jen u Návratu. Doporučuji ano.
+1. **Schvaluješ větev design-v2 ke sloučení do hlavní větve a poslání na GitHub?** Tuhle otázku zodpovídáš jen ty; bez odpovědi se nic neslučuje.
    Odpověď:
 
-2. **Mapa a čas na telefonu** (`r-mapa-390-*`, `r-mapa-1440-light-*`): popisky krajů a moří, které by ležely pod lístečkem, měřítkem nebo kreditem, se schovají; ze dvou překrytých lístečků zůstane u menšího místa špendlík; kratší událost na ose dostane popisek pod osou. Doporučuji ano.
+2. **VoiceOver:** chceš kapitoly deníku a čtyři další místa ověřit VoiceOverem před sloučením? Potřebuju, abys sám zapnul v Utilitě VoiceOver „Povolit ovládání funkce VoiceOver pomocí AppleScriptu“ (a pak ho zase vypnul). Doporučuji ano, na začátku kroku Uzavření; když nadpis kapitoly zmizí, předělám ji na nadpis s tlačítkem.
    Odpověď:
 
-3. **Stoický týden ve vzhledu Spojení** (`r-tyden-*`): titulek s pruhem, dny jako lístky, otevřený den jako čistý list; texty beze změny. Doporučuji ano.
+3. **Smazat nepoužívané `ui/Mince.astro` a `mapa/Mince.svelte`** i se zbylými přezdívkami tokenů a `.t-popisek` přepnout na `--ink-3`? Doporučuji ano, v kroku Uzavření.
    Odpověď:
 
-4. **Lehčí stránky osob:** obrys pobřeží mini mapy jako jeden sdílený soubor a Dva životy jen s nabídkou jmen a roků; asi o 70 kB méně na každé stránce osoby, vzhled beze změny. Doporučuji ano.
+4. **Chceš něco změnit na snímcích po O?** Hlavně `o-01` (Mapa a čas na telefonu), `o-03` (osa), `o-05` a `o-06` (deník), `o-07` až `o-09` (Stoický týden), `o-11` až `o-14` (Klidný režim). Bez odpovědi zůstává, jak je.
    Odpověď:
-
-5. **Otočení listu:** ponechat 900 ms s pojistkou (krátké prolnutí jen na zařízení, kde trhá), nebo otočení zkrátit pro všechny? Doporučuji ponechat; krátký přechod na přání dá Klidný režim v O.
-   Odpověď:
-
-6. **Kapitoly deníku a VoiceOver:** v kroku O je ověřím VoiceOverem v Safari na tvém Macu (ovládání počítače; VoiceOver bude mluvit nahlas) a jen když nadpis zmizí nebo jméno kapitoly je nesrozumitelné, předělám kapitolu na nadpis s tlačítkem a datum dám do popisu. Doporučuji ano; napiš, kdy u Macu nebudeš potřebovat zvuk.
-   Odpověď:
-
-7. **Poznámky pojmů v Klidném režimu tiskem** (`r-okraj-sokrates-1440-*`): na okraji Newsreader místo Kalamu, jen když je Klidný režim zapnutý. Doporučuji ano.
-   Odpověď:
-
-8. **Texty:** obec a soud bez úvodního „Ne…, ale“ (znění v záznamu revize), štěstí a vědění beze změny; perex deníku bez věty, kterou už říká pruh. Doporučuji ano.
-   Odpověď:
-
-9. **Chceš něco změnit na snímcích po R** (hlavně `r-opravy-montaz.jpg`: ornament na desce a rovná pohlednice)? Napiš kde a co. Bez odpovědi zůstává, jak je.
-   Odpověď:
-
-## Zadání O: opravy po revizi
-
-Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`; texty se skillem `atlas-psani`. Pusť v novém chatu v Projektu Atlas filozofie, až odpovíš na otázky po R. Když se krok nevejde do jednoho sezení, udělej nejdřív body 1 až 3 a commitni, `docs/design.md` a skill nech na další sezení.
-
-```text
-Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve design-v2, opravy po revizi. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
-
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/design-v2.md tabulku kroků, oddíl Po R, Co rozhodnout po R s mými odpověďmi a toto zadání, a záznam docs/revize/design-v2.md; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z docs/design.md jen oddíly, které měníš. Načti skilly atlas-komponenta a atlas-psani (a computer-use, když v otázce 6 souhlasím s VoiceOverem).
-
-1. Opravy podle odpovědí po R: pásky (otázka 1), popisky a lístečky v Mapě a čase (2), Stoický týden ve vzhledu Spojení (3), lehčí stránky osob (4: obrys pobřeží mini mapy jako sdílený soubor, Dva životy jen s nabídkou), otočení listu (5), texty pojmů a deníku (8). K tomu zbylé letopočty mimo sazbu (84 míst v dist/: popisky obrázků, Kde jsme, kredity, nadtitulky Příběhu, popisky osy Dvou životů) přes nezlomitelne() a test, který v dist/ hledá „př. n. l.“ s obyčejnou mezerou.
-
-2. Přepínač Klidný režim v záhlaví (bod 12 Vizuálních zlepšení): krátké přechody i bez nastavení systému (týž typ kratky jako pojistka plynulosti), čistý papír bez teček a bez natočení, poznámky pojmů na okraji tiskem (otázka 7). Stav v localStorage, nastavený skriptem v hlavičce před vykreslením (bez probliknutí), dostupný z klávesnice, s testem na 390 a 1440 px ve dne i v noci a s axe.
-
-3. VoiceOver (otázka 6): v Safari na mém Macu projdi profil s pojmem, krok cesty s blokem, kresbu, deník s kapitolami a Mapu a čas; zapiš, co hlásí a v jakém pořadí. Kapitolu deníku předělej jen, když nadpis zmizí nebo jméno kapitoly nedává smysl.
-
-4. Do testů dvanáct referenčních snímků klíčových obrazovek (Domů, profil, krok cesty s blokem, přehled cesty, velká otázka, období, Mapa a čas, deník s kapitolami, pojem, kresba, telefon a notebook, den a noc podle rozumu) s tolerancí, která snese rozdíl písma mezi Macem a Linuxem na GitHubu; snímky jen pro Chromium. Zpevni i zivot-na-mape.spec.ts:117 (rok z historie přehrávání, ne vzorkování).
-
-5. docs/design.md napiš znovu a krátce (dnes 144 kB): tokeny, Papír (Spojení, Pravidlo střídmosti, stavy prvků), Pohyb (pravidla, přechody, pojistka plynulosti, Klidný režim), komponenty jen API a odkaz na soubor; co je ve skillu, neopakuj. Starou verzi beze změny do docs/archiv/. Skill atlas-komponenta dostane oddíly Papír a Pohyb (i kopie ve skills/) a docs/pouceni.md poučení z R a O jednou větou každé.
-
-6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro dotčené stránky a ty, které spadnou), axe a scripts/revize-tabulator.mjs na stránkách, kterých se oprava dotkla, celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
-
-7. Do plánu větve zapiš oddíl Po O (co se změnilo, snímky v Claude outputs/snimky/design-v2-o/, nad čím jsi váhal) a otázku na schválení větve, kterou zodpovím jen já. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md a části plánu, které se změnily.
-
-8. Pak se zastav a napiš mi, na které snímky se mám podívat.
-```
 
 ## Uzavření
 
-Po revizi a opravách otázka na schválení, kterou zodpoví jen autor. Po ní sloučení do hlavní větve, GitHub, plán a zadání do `docs/archiv/`, řádek v `docs/plan.md` a na řadě větev `herna-v1` (`docs/plan.md` › Další větve v pořadí).
+Po revizi a opravách otázka na schválení, kterou zodpoví jen autor (Co rozhodnout po O, otázka 1). Před sloučením podle odpovědí 2 a 3 ověření VoiceOverem s autorem a smazání nepoužívaných Mincí. Po ní sloučení do hlavní větve, GitHub, plán a zadání do `docs/archiv/`, řádek v `docs/plan.md` a na řadě větev `herna-v1` (`docs/plan.md` › Další větve v pořadí).

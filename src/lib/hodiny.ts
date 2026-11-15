@@ -374,7 +374,7 @@ const PODOBA_ZE_ZNACKY: Record<string, Podoba> = Object.fromEntries(Object.entri
 
 const VSECHNY_PODOBY: readonly Podoba[] = ['cely', 'moznosti', 'otevrena', 'kresba'];
 const S_OTAZKOU: Podoba[] = ['cely', 'moznosti', 'otevrena'];
-/** Podoby podle komponenty bloku (docs/design.md › Podoba na plátně). Kresby mají celou a jen kresbu. */
+/** Podoby podle komponenty bloku (docs/archiv/design-2026-11-15.md › Podoba na plátně). Kresby mají celou a jen kresbu. */
 const PODOBY_BLOKU: Record<string, Podoba[]> = {
   Volba: S_OTAZKOU,
   Odkryj: S_OTAZKOU,

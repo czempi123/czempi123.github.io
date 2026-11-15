@@ -90,7 +90,7 @@ const naMape = oddily.find((o) => o.kotva === 'na-mape') ?? oddily[oddily.length
       box-shadow: var(--lezi);
       color: var(--ink);
       text-decoration: none;
-      rotate: 2deg;
+      rotate: calc(2deg * var(--natoceni));
     }
     .okraj__kde { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--p); }
     .okraj__mista { font: 13px/1.45 var(--font-sans); color: var(--ink-2); }

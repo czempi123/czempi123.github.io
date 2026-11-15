@@ -45,10 +45,10 @@ const naVysku = pw < ph;
 <section class:list={['pribeh', `obdobi-${obdobi}`, { 'pribeh--na-vysku': naVysku }]} id={id}>
   <div class="pribeh__mrizka">
     <div class="pribeh__deska">
-      <Deska osoba={osoba} obdobi={obdobi} obrazek={obrazek} obrazOsoby={false} pomer={pomer}>{nezlomitelne(popisek)}{kredit && <span class="pribeh__kredit">{kredit.autor}. Licence <a href={kredit.url} rel="noopener">{kredit.licence}</a>.</span>}</Deska>
+      <Deska osoba={osoba} obdobi={obdobi} obrazek={obrazek} obrazOsoby={false} pomer={pomer}>{nezlomitelne(popisek)}{kredit && <span class="pribeh__kredit">{nezlomitelne(kredit.autor)}. Licence <a href={kredit.url} rel="noopener">{kredit.licence}</a>.</span>}</Deska>
     </div>
     <div class="pribeh__text cisty-list">
-      {nadtitulek && <p class="t-nadtitulek pribeh__nadtitulek">{nadtitulek}</p>}
+      {nadtitulek && <p class="t-nadtitulek pribeh__nadtitulek">{nezlomitelne(nadtitulek)}</p>}
       {titulek && <h3 class="t-h2 pribeh__titulek" set:html={radek(titulek)} />}
       <div class="pribeh__scena"><slot /></div>
     </div>

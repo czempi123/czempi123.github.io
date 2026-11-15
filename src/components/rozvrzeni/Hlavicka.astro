@@ -6,6 +6,7 @@
 // Mapa a čas mění období loga podle roku (src/lib/logo.ts, atribut data-logo).
 import Ikona from '../ui/Ikona.astro';
 import PrepinacRezimu from './PrepinacRezimu.astro';
+import KlidnyRezim from './KlidnyRezim.astro';
 import Hledani from '../ostrovy/Hledani.svelte';
 import { nactiNavraty } from '../bloky/_navraty';
 
@@ -53,6 +54,7 @@ const navraty = JSON.stringify(await g.__navratyTecky);
       <a class="denik vystouple vystouple--m t-ovladani" href="/denik/" aria-current={sekce === 'denik' ? 'page' : undefined}>
         <Ikona id="denik" velikost={20} /><span>Můj deník</span><span class="tecka-navratu" data-tecka-navratu hidden><span class="vizualne-skryte">čeká tě návrat ke cestě</span></span>
       </a>
+      <KlidnyRezim />
       <PrepinacRezimu />
     </div>
   </div>

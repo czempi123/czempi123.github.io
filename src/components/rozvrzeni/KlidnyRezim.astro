@@ -1,0 +1,48 @@
+---
+// Přepínač Klidný režim v záhlaví (design-v2, O; bod 12 Vizuálních zlepšení): krátké prolnutí místo otočení listu
+// i bez nastavení systému, čistý papír bez teček a bez natočení, poznámky pojmů na okraji tiskem (global.css ›
+// Klidný režim). Stav v localStorage (klíč atlas-klidny), atribut data-klidny na <html> nastaví skript v hlavičce
+// Zakladni.astro ještě před vykreslením, takže stránka neproblikne. Omezený pohyb systému platí dál navíc.
+import Ikona from '../ui/Ikona.astro';
+---
+<button class="klidny vystouple vystouple--m" type="button" data-prepinac-klidu aria-pressed="false" aria-label="Klidný režim" title="Klidný režim: bez otáčení listů, teček a natočení">
+  <Ikona id="klid" velikost={20} />
+</button>
+
+<script>
+  const KLIC = 'atlas-klidny';
+  const koren = document.documentElement;
+  const tlacitka = document.querySelectorAll<HTMLButtonElement>('[data-prepinac-klidu]');
+  const popis = () => {
+    for (const b of tlacitka) b.setAttribute('aria-pressed', String(koren.hasAttribute('data-klidny')));
+  };
+  for (const b of tlacitka) {
+    b.addEventListener('click', () => {
+      const zapnout = !koren.hasAttribute('data-klidny');
+      koren.toggleAttribute('data-klidny', zapnout);
+      try {
+        if (zapnout) localStorage.setItem(KLIC, '1');
+        else localStorage.removeItem(KLIC);
+      } catch { /* soukromé okno: volba platí jen do zavření */ }
+      popis();
+      // Poznámky pojmů na okraji mají tiskem jinou výšku: skript pojmů je rozmístí znovu (src/scripts/pojmy.ts).
+      dispatchEvent(new Event('resize'));
+    });
+  }
+  popis();
+</script>
+
+<style>
+  /* Malé vystouplé tlačítko jako přepínač režimu; zapnuté je vtlačené do papíru. */
+  .klidny {
+    display: grid;
+    place-items: center;
+    width: var(--dotyk);
+    height: var(--dotyk);
+    padding: 0;
+    border-radius: var(--r-plne);
+    color: var(--ink-2);
+  }
+  .klidny:hover { color: var(--ink); }
+  .klidny[aria-pressed='true'] { color: var(--ink); background: var(--papir); box-shadow: var(--vtla-mele); }
+</style>

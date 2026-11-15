@@ -39,7 +39,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     padding: 28px 32px 22px;
     background: var(--list);
     box-shadow: var(--lezi);
-    rotate: -.6deg;
+    rotate: calc(-.6deg * var(--natoceni));
   }
   blockquote { margin: 0; }
   blockquote p {
@@ -70,7 +70,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
       linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
       color-mix(in srgb, var(--pp) 16%, var(--listek));
     box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
-    rotate: .8deg;
+    rotate: calc(.8deg * var(--natoceni));
   }
   :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) .paska { display: none; }
   :global(:is(.papirovy-list, .listek-paska, .blok)) .citat:not(.citat--kompaktni) figcaption { color: var(--ink-2); }
@@ -99,7 +99,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     filter: drop-shadow(1px 2px 1px rgb(60 50 40 / .25));
   }
   /* Špendlík: hlavička v inkoustu období s odleskem a stínem. */
-  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--spendlik { rotate: .7deg; }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--spendlik { rotate: calc(.7deg * var(--natoceni)); }
   :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--spendlik::before {
     content: "";
     position: absolute;
@@ -112,7 +112,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     box-shadow: 2px 4px 4px -1px rgb(60 50 40 / .45);
   }
   /* Zastrčený roh: list zasunutý do dvou rohových kapsiček v inkoustu období (levý horní a pravý dolní). */
-  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh { rotate: .4deg; }
+  :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh { rotate: calc(.4deg * var(--natoceni)); }
   :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::before,
   :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--roh::after {
     content: "";
@@ -133,7 +133,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     background: none;
     box-shadow: none;
     border-left: 2px solid var(--tuzka);
-    rotate: -.8deg;
+    rotate: calc(-.8deg * var(--natoceni));
   }
   :global(:is(.cisty-list, .obsah > .ctenarsky)) > .citat--okraj blockquote p {
     font-family: var(--font-ruka);
@@ -150,7 +150,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
       left: calc(100% + var(--s-6));
       width: min(220px, calc((100vw - 100%) / 2 - var(--s-6) - var(--okraj)));
       margin: 0;
-      rotate: -2deg;
+      rotate: calc(-2deg * var(--natoceni));
     }
   }
   @media (max-width: 699px) { .citat:not(.citat--kompaktni) { padding: 24px 18px 18px; } }

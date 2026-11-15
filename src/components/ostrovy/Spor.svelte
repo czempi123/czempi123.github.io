@@ -375,11 +375,11 @@
     padding: 22px var(--s-4) var(--s-3);
     background: var(--list);
     box-shadow: var(--lezi);
-    rotate: -1deg;
+    rotate: calc(-1deg * var(--natoceni));
     font-size: calc(var(--meritko) * 19px);
     line-height: 1.35;
   }
-  .postoj + .postoj { rotate: .8deg; }
+  .postoj + .postoj { rotate: calc(.8deg * var(--natoceni)); }
   .postoj__jmeno { display: block; margin-bottom: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; line-height: 1.3; color: var(--p); }
   .spendlik {
     position: absolute;

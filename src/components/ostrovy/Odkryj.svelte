@@ -212,7 +212,7 @@
     box-shadow: var(--lezi);
     transform-origin: 50% 0;
     backface-visibility: hidden;
-    rotate: -.4deg;
+    rotate: calc(-.4deg * var(--natoceni));
     transition: transform var(--d-odkryti) var(--k-papir);
   }
   .odkryj__kryt p { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }

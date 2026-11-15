@@ -1,11 +1,12 @@
 ---
 // Dva životy v Době a lidech: dva pruhy na jedné ose, osoba stránky a druhý člověk, kterého student vybere.
-// Výchozí dvojice a nabídka se skládají z dat (src/lib/dvojice.ts), takže je dostane každá stránka osoby najednou.
+// Výchozí dvojice a nabídka se skládají z dat (src/lib/dvojice.ts). Stránka nese jen osobu, výchozího druhého
+// člověka a id lidí v nabídce; jména a roky ostatních si ostrov stáhne ze sdíleného /dva-zivoty.json (revize R, otázka 4).
 // Použití: <DvaZivoty osoba={osoba} dalsi={dalsi} /> (jen v DobaALide.astro)
 import Ostrov from '../ostrovy/DvaZivoty.svelte';
 import type { TOsoba } from '../../lib/schema';
 import { data, vztahyOsoby } from '../../lib/data';
-import { zivot } from '../../lib/casy';
+import { vytahZivota } from '../../lib/dva-zivoty-data';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { soucasniciNaOse, vychoziDvojice, vyberDruhehoZivota } from '../../lib/dvojice';
 
@@ -20,10 +21,7 @@ const zDoby = new Set([
   ...osoby.flatMap((o) => vztahyOsoby(o.id).map((v) => v.druhy.id)),
   ...soucasniciNaOse(osoby, data.lide, data.vztahy).map((o) => o.id),
 ]);
-const vytah = (o: TOsoba) => ({
-  id: o.id, jmeno: o.jmeno, jmeno2: o.jmeno2, zena: o.zena, obdobi: o.obdobi,
-  narozen: o.narozen, zemrel: o.zemrel, aktivni: o.aktivni, mista: [], zivotText: zivot(o),
-});
-const skupiny = vyberDruhehoZivota(naStrance, zDoby, data.lide, data.obdobi).map((s) => ({ nazev: s.nazev, lide: s.lide.map(vytah) }));
+const skupiny = vyberDruhehoZivota(naStrance, zDoby, data.lide, data.obdobi).map((s) => ({ nazev: s.nazev, lide: s.lide.map((o) => o.id) }));
+const b = vychozi ? data.lide.find((o) => o.id === vychozi.id) : undefined;
 ---
-{vychozi && <Ostrov client:idle id="dva-zivoty" a={vytah(osoba)} vychozi={vychozi.id} skupiny={skupiny} />}
+{b && <Ostrov client:idle id="dva-zivoty" a={vytahZivota(osoba)} b={vytahZivota(b)} skupiny={skupiny} />}

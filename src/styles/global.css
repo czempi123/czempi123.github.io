@@ -78,8 +78,6 @@ a:hover { text-decoration-thickness: 2px; }
 ::selection { background: var(--listek); color: var(--ink); }
 
 /* Typografické třídy podle tokenů */
-.t-display-1 { font-size: var(--fs-display-1); line-height: var(--lh-display-1); letter-spacing: var(--ls-display-1); }
-.t-display-2 { font-size: var(--fs-display-2); line-height: var(--lh-display-2); letter-spacing: var(--ls-display-2); }
 .t-h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
 .t-h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--ls-h2); }
 .t-h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
@@ -100,7 +98,7 @@ a:hover { text-decoration-thickness: 2px; }
 em, i { font-style: italic; }
 /* Nadpisy kurzívou nic nezvýrazňují (autor 15. 11. 2026: barevná kurzíva v nadpisu působí jako text od stroje).
    Hvězdičky v nadpisech příběhů a stránek zůstávají v obsahu, nadpis je jednolitý. */
-:is(h1, h2, h3, h4, .t-display-1, .t-display-2, .t-h1, .t-h2, .t-h3) em { font-style: inherit; color: inherit; }
+:is(h1, h2, h3, h4, .t-h1, .t-h2, .t-h3) em { font-style: inherit; color: inherit; }
 
 /* Rozvržení */
 .stranka {
@@ -121,8 +119,9 @@ em, i { font-style: italic; }
   border: 0;
 }
 
+/* Pevně vůči oknu: po Tabu z konce stránky zpátky na začátek je vidět i u posunuté stránky (revize O). */
 .preskocit {
-  position: absolute;
+  position: fixed;
   left: var(--s-4);
   top: -100px;
   z-index: 100;
@@ -169,7 +168,7 @@ em, i { font-style: italic; }
   .rozlozit, .dopad { animation: none !important; }
 }
 
-/* ─── Rám aktivity (design-v2, K4a; plátno Herna.dc.html › Rám aktivity, docs/design.md › Bloky › Rám aktivity) ────
+/* ─── Rám aktivity (design-v2, K4a; plátno Herna.dc.html › Rám aktivity, docs/design.md › Bloky a aktivity) ────
    Každý blok i hra leží v jednom rámu: pole přímo na tečkovaném papíře, vymezené čtyřmi rohovými značkami tužkou
    (ne list: list patří čtení, bod 1). Hlava (rodina aktivit v inkoustu období, případně název), zadání (scéna
    a otázka), plocha (předmět hry), zpětná vazba jako lístek s páskou, pata (Začít znovu vlevo, hlavní čin vpravo).
@@ -292,7 +291,7 @@ em, i { font-style: italic; }
     linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
     color-mix(in srgb, var(--pp) 12%, var(--listek));
   box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
-  rotate: .8deg;
+  rotate: calc(.8deg * var(--natoceni));
 }
 :is(.papirovy-list, .listek-paska, .cisty-list) .blok .blok__vazba > .paska { display: none; }
 .blok__zpetna-titulek { margin: 0 0 var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 600; line-height: var(--lh-ovladani-l); color: var(--ink); }
@@ -333,7 +332,7 @@ em, i { font-style: italic; }
   .blok:has(> .blok__pata > .blok__pata-hlavni > button) :is(input, textarea, select, label, button, [tabindex]) { scroll-margin-bottom: 84px; }
 }
 
-/* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Komponenty) ───── */
+/* ─── Kresba s pohybem (src/components/ostrovy/Kresba.svelte, docs/design.md › Bloky a aktivity) ── */
 /* Koláž (design-v2 K7b, plátno project/KresbaVitr.dc.html; pravidla Po D4 › Kresby jako koláž).
    Materiály: výstřižky z listu, lístku a papíru období se stínem výstřižku (filtr z rámu, --k-vystrih).
    Světlo a tma: tři tóny, které drží pořadí světlé > střední > tmavé ve dne i v noci (jeskyně, noc venku,
@@ -444,18 +443,6 @@ em, i { font-style: italic; }
   .cisty-list { margin-inline: calc(8px - var(--okraj)); padding: 30px calc(var(--okraj) + 2px) 18px; }
   .cisty-list > .paska { left: 24px; }
 }
-/* Tři varianty čtenářského sloupce jen ke snímkům K4a (otázka 1 po K4a, scripts/snimky-sloupec.mjs): data-sloupec na <html>
-   „tecky“ = text přímo na tečkách jako před K3 dodatkem, „ztlumene“ = tečky pod textem na 35 %, bez atributu čistý list.
-   Po rozhodnutí autora krok O pravidla smaže. */
-html[data-sloupec] .cisty-list { margin-inline: 0; padding-inline: 0; box-shadow: none; }
-html[data-sloupec] .cisty-list > .paska { display: none; }
-html[data-sloupec='tecky'] .cisty-list { background: none; }
-html[data-sloupec='ztlumene'] .cisty-list {
-  background-color: var(--papir);
-  background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--tecka) 35%, var(--papir)) 1.1px, transparent 1.4px);
-  background-size: var(--tecky-krok) var(--tecky-krok);
-  box-shadow: 0 0 0 14px var(--papir);
-}
 :root {
   /* Sponka u citátu (Citat.astro › citat--sponka): obrys drátku jako maska, barvu dává --tuzka. */
   --sponka: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 56'%3E%3Cpath d='M5 16v26a4 4 0 0 0 8 0V9A6 6 0 0 0 1 9v35a8 8 0 0 0 16 0V16' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -501,7 +488,7 @@ html[data-sloupec='ztlumene'] .cisty-list {
 
 /* Titulek s pruhem: jméno na vytrženém listu a pod ním pruh rukou v papíru období
    (bez období v inkoustu: .bez-obdobi). Na telefonu jméno 56 px a pruh 26 px. */
-.titulek { display: inline-block; max-width: 100%; rotate: -1.2deg; filter: var(--odlep); }
+.titulek { display: inline-block; max-width: 100%; rotate: calc(-1.2deg * var(--natoceni)); filter: var(--odlep); }
 .titulek__list { padding: 24px 40px 30px; background: var(--list); clip-path: var(--trh); }
 .titulek__jmeno {
   margin: 0;
@@ -513,7 +500,7 @@ html[data-sloupec='ztlumene'] .cisty-list {
   color: var(--ink);
   text-wrap: balance;
 }
-.titulek-pruh { display: inline-block; max-width: 100%; margin: -16px 0 0 60px; rotate: 1.8deg; filter: var(--odlep); }
+.titulek-pruh { display: inline-block; max-width: 100%; margin: -16px 0 0 60px; rotate: calc(1.8deg * var(--natoceni)); filter: var(--odlep); }
 .titulek-pruh__papir {
   padding: 8px 26px 10px;
   background: var(--pp);
@@ -636,7 +623,7 @@ html[data-sloupec='ztlumene'] .cisty-list {
   background: var(--listek);
   box-shadow: var(--lezi);
   color: var(--ink);
-  rotate: -.6deg;
+  rotate: calc(-.6deg * var(--natoceni));
 }
 .listek-paska > :last-child { margin-bottom: 0; }
 
@@ -846,6 +833,15 @@ html:active-view-transition-type(krok-zpet)::view-transition-new(root) { animati
 @keyframes kratky-zmizet { to { opacity: 0; } }
 html:active-view-transition-type(kratky)::view-transition-old(root) { z-index: 1; animation: kratky-zmizet var(--d-listek) var(--k-papir) both; }
 html:active-view-transition-type(kratky)::view-transition-new(root) { z-index: 0; animation-name: none; opacity: 1; }
+
+/* ─── Klidný režim (design-v2, O; bod 12 Vizuálních zlepšení) ─────────────────────────────────────────────────
+   Přepínač v záhlaví (src/components/rozvrzeni/KlidnyRezim.astro), stav v localStorage (atlas-klidny), atribut
+   data-klidny na <html> dá skript v hlavičce Zakladni.astro před vykreslením. Krátké prolnutí místo otočení listu
+   i posunu mezi kroky (týž typ kratky jako pojistka plynulosti, nastaví ho pagereveal), bez příchodu na profil
+   a letu fotky; čistý papír bez teček (--tecka) a bez natočení (--natoceni násobí malá natočení v komponentách);
+   poznámky pojmů na okraji tiskem (Pojem.astro). Kresby s pohybem a vlastní pohyb bloků zůstávají: spouští je
+   student. Omezený pohyb systému (výš) vypíná všechno navíc. Dvojitý atribut drží váhu nad tmavým režimem. */
+:root[data-klidny][data-klidny] { --tecka: transparent; --natoceni: 0; }
 ::view-transition-group(list-ohyb),
 ::view-transition-old(list-ohyb),
 ::view-transition-new(list-ohyb) { animation-name: none; }

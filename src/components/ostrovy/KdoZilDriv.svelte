@@ -103,7 +103,7 @@
   // ── Tažení života B po ose ──
   const pct = (r: number) => naProcenta(tahOsa, r);
   const znacky = znackyOsy(tahOsa);
-  const krajniEra = zAstro(tahOsa.do) < 0 ? 'př. n. l.' : zAstro(tahOsa.od) > 0 ? 'n. l.' : '';
+  const krajniEra = zAstro(tahOsa.do) < 0 ? 'př.\u00a0n.\u00a0l.' : zAstro(tahOsa.od) > 0 ? 'n.\u00a0l.' : '';
   const popisZnacky = (r: number) => {
     const x = zAstro(r);
     return krajniEra ? String(Math.abs(x)) : rokText(x);

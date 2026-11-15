@@ -145,7 +145,7 @@
       linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
       color-mix(in srgb, var(--pp) 12%, var(--listek));
     box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
-    rotate: -.6deg;
+    rotate: calc(-.6deg * var(--natoceni));
   }
   .zacatek__text { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
   .ted .blok__zpetna-titulek { margin-bottom: var(--s-3); }

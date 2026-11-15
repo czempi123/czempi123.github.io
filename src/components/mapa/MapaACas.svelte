@@ -15,7 +15,7 @@
   } from '../../lib/cas-mapy';
   import { rok as rokText } from '../../lib/casy';
   import { prectiAdresu, zapisAdresu } from '../../lib/adresa-mapy';
-  import { zastavkyZivota, maZastavky, planPrehravani, rokVCase, casProRok, PREHRAVANI, type NastaveniPrehravani } from '../../lib/zivot-na-mape';
+  import { zastavkyZivota, maZastavky, planPrehravani, rokVCase, rokyMeziSnimky, casProRok, PREHRAVANI, type NastaveniPrehravani } from '../../lib/zivot-na-mape';
   import Mapa from './Mapa.svelte';
   import Posuvnik from './Posuvnik.svelte';
   import Reka from './Reka.svelte';
@@ -256,9 +256,17 @@
     prehrava = true;
     prvniPosun = true;
     if (casProRok(plan, rok) === 0 && rok !== plan.od) posunPrehravani(plan.od, o);
+    // Historie přehrávání: roky, kterými prošlo, i zastávky, které snímek při zátěži přeskočil (rokyMeziSnimky).
+    // Testy ji čtou z háčku window.atlasPrehravani.historie, když háček existuje (jinak se nikam neukládá).
+    const hacek = (globalThis as { atlasPrehravani?: { historie?: number[] } }).atlasPrehravani;
+    const historie: number[] = [rok];
+    if (hacek) hacek.historie = historie;
+    let predtim = casProRok(plan, rok) - 1;
     const krok = (ted: number) => {
       if (!prehrava) return;
       const t = ted - zacatek;
+      for (const h of rokyMeziSnimky(plan, predtim, t)) if (historie[historie.length - 1] !== h) historie.push(h);
+      predtim = t;
       const r = rokVCase(plan, t);
       if (r !== rok) posunPrehravani(r, o);
       if (t >= plan.celkem) {
@@ -412,7 +420,6 @@
   <aside class="mac__karta" id="panel-karta" role={telefon && vic ? 'tabpanel' : undefined} aria-labelledby={telefon && vic ? 'tab-clovek' : undefined} aria-label={telefon && vic ? undefined : 'Karta člověka'}>
     {#if !vic}
       <div class="vyprava listek-paska" class:vyprava--splnena={vypravaSplnena} aria-labelledby="vyprava-otazka">
-        <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
         <p class="vyprava__nad">Výprava</p>
         <h2 class="vyprava__otazka" id="vyprava-otazka">{PRVNI_VYPRAVA.otazka}</h2>
         {#if vypravaSplnena}
@@ -492,7 +499,7 @@
     background: var(--listek);
     box-shadow: var(--lezi);
     font-family: var(--font-sans);
-    rotate: .8deg;
+    rotate: calc(.8deg * var(--natoceni));
   }
   .mezitim__nadpis { margin: 0 0 4px; font-size: var(--fs-nadtitulek); font-weight: 600; letter-spacing: var(--ls-nadtitulek); text-transform: uppercase; color: var(--ink-3); }
   .mezitim ul { margin: 0; padding: 0; list-style: none; }

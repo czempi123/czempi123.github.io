@@ -179,15 +179,19 @@
   .prijeti { margin: 0 0 var(--s-6); }
   .prijeti__stav { margin: 0; color: var(--ink); }
   .dny { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
-  /* Den jako list zápisníku (K6, týž papír jako deník): ležící list, otevřený den má okraj v inkoustu období. */
+  /* Den jako lístek (revize R, otázka 3): zavřený leží mírně natočený na tečkách, otevřený den je čistý list,
+     který stojí rovně. Hotový den má číslo přeškrtnuté tužkou jako odškrtnutý řádek v zápisníku. */
   .den {
-    border-left: 3px solid transparent;
-    background: var(--list);
+    position: relative;
+    background: var(--listek);
     box-shadow: var(--lezi);
+    rotate: calc(-.35deg * var(--natoceni));
+    transition: rotate var(--d-stisk) var(--k-stisk);
     scroll-margin-top: calc(var(--hlavicka) + var(--hodina) + var(--s-4));
   }
-  .den--hotovy { border-left-color: var(--tuzka); }
-  .den--otevreny { border-left-color: var(--p); }
+  .den:nth-child(2n) { rotate: calc(.3deg * var(--natoceni)); }
+  .den--otevreny { rotate: 0deg; background: var(--list); margin-block: var(--s-3); }
+  .den--hotovy .den__cislo { text-decoration: line-through; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; }
   .den__hlava { margin: 0; font: inherit; }
   .den__tl {
     position: relative;
@@ -218,7 +222,15 @@
   .den__citat blockquote p { margin: 0 0 var(--s-2); font-size: var(--fs-text); line-height: 1.5; }
   .den__citat figcaption { color: var(--ink-3); }
   .den__citat cite { font-style: italic; }
-  .den__mez { margin: var(--s-4) 0 0; padding: var(--s-3) var(--s-4); border-radius: var(--r-ovladani); background: var(--listek); color: var(--ink); }
+  /* Kdy přestat: lepicí lístek na listu dne, s proužkem lepidla nahoře v papíru období. */
+  .den__mez {
+    margin: var(--s-5) 0 0;
+    padding: var(--s-4) var(--s-4) var(--s-3);
+    background: linear-gradient(color-mix(in srgb, var(--pp) 45%, transparent) 0 8px, transparent 8px), var(--listek);
+    box-shadow: var(--lezi);
+    color: var(--ink);
+    rotate: calc(-.6deg * var(--natoceni));
+  }
   .den__mez-nadpis { display: block; margin-bottom: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; }
   .psani { margin-top: var(--s-5); }
   .psani__stav { margin: 0; color: var(--ink-2); }

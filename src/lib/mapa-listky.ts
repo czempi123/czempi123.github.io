@@ -48,11 +48,16 @@ export function boxListku(b: BodMapy, roh: Roh, posun = 0): Obdelnik {
  * pak lístečky posunuté nahoru nebo dolů (s nití k místu). Lísteček nesmí přesáhnout mapu, zakrýt jiný lísteček
  * ani špendlík jiného místa, ani překážku (lístečky lidí mimo výřez, přepínač, růžici s měřítkem).
  * Když nic z toho nejde, dostane polohu s nejmenším překryvem.
+ * `cilSpendliku` (px) je velikost tlačítka samotného špendlíku. Výchozích 14 px je jen kresba: zakrýt ji je levné.
+ * Když se počítá s celým tlačítkem (44 px na mapě), lísteček, který by cizí špendlík zakryl, není volný a hledá jiný
+ * roh; větší místo (dřív v pořadí) si tak lísteček nechá a menšímu zůstane špendlík, který nic nepřekrývá (revize R).
  */
-export function rozmistiListky(body: BodMapy[], sirka: number, vyska: number, okraj = 6, mezera = 4, prekazky: Obdelnik[] = [], nejvicKroku = 3): Map<string, Umisteni> {
+export function rozmistiListky(body: BodMapy[], sirka: number, vyska: number, okraj = 6, mezera = 4, prekazky: Obdelnik[] = [], nejvicKroku = 3, cilSpendliku = 14): Map<string, Umisteni> {
   const out = new Map<string, Umisteni>();
   const obsazeno: Obdelnik[] = [...prekazky];
-  const spendliky: Obdelnik[] = body.map((b) => [b.x - 7, b.y - 7, b.x + 7, b.y + 7]);
+  const pul = cilSpendliku / 2;
+  const tvrde = cilSpendliku > 14;
+  const spendliky: Obdelnik[] = body.map((b) => [b.x - pul, b.y - pul, b.x + pul, b.y + pul]);
   const rohy: Roh[] = ['pd', 'ln', 'pn', 'ld'];
   for (const [i, b] of body.entries()) {
     const kandidati: Umisteni[] = [];
@@ -75,9 +80,14 @@ export function rozmistiListky(body: BodMapy[], sirka: number, vyska: number, ok
       const roz: Obdelnik = [x1 - mezera / 2, y1 - mezera / 2, x2 + mezera / 2, y2 + mezera / 2];
       let cena = venku * 1000;
       for (const o of obsazeno) cena += prekryv(roz, o) * 10;
-      const volny = cena === 0;
+      let volny = cena === 0;
       // Zakrytý cizí špendlík schová místo: dražší než lísteček o krok dál s nití, levnější než překryv lístečků.
-      for (const [j, s] of spendliky.entries()) if (j !== i) cena += prekryv(k.box, s) * 0.06;
+      for (const [j, s] of spendliky.entries()) {
+        if (j === i) continue;
+        const p = prekryv(k.box, s);
+        cena += p * 0.06;
+        if (tvrde && p > 0) volny = false;
+      }
       // Posunutý lísteček je až poslední možnost: přirážka podle vzdálenosti od místa.
       cena += Math.abs(k.posun) * 0.2;
       if (cena === 0) { nej = k; nejVolny = true; break; }

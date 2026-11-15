@@ -120,13 +120,6 @@ test('život na mapě: Přehrát projede život, na konci stojí rok smrti a př
   await page.goto('/mapa/?rok=-384&osoba=aristoteles');
   await pripravit(page);
   const delkaHistorie = await page.evaluate(() => history.length);
-  // Zaznamená roky, kterými přehrávání projde.
-  await page.evaluate(() => {
-    const w = window as unknown as { roky: string[] };
-    w.roky = [];
-    const s = document.querySelector('[role="slider"][aria-label="Rok"]')!;
-    new MutationObserver(() => w.roky.push(s.getAttribute('aria-valuenow')!)).observe(s, { attributes: true, attributeFilter: ['aria-valuenow'] });
-  });
   await prehrat(page).click();
   await expect(prehrat(page)).toHaveText('Zastavit');
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '-322', { timeout: 8000 });
@@ -135,7 +128,11 @@ test('život na mapě: Přehrát projede život, na konci stojí rok smrti a př
   await expect.poll(() => text(zivot(page).locator('[aria-live]'))).toBe('Chalkis, 322 př. n. l., 62 let, zemřel tu.');
   await expect(page).toHaveURL(/rok=-322&osoba=aristoteles$/);
   expect(await page.evaluate(() => history.length)).toBe(delkaHistorie + 1);
-  const roky = (await page.evaluate(() => (window as unknown as { roky: string[] }).roky)).map(Number);
+  // Roky z historie přehrávání (MapaACas.svelte › rokyMeziSnimky), ne vzorkované z posuvníku: při zátěži stroje
+  // snímek přeskočí i celé zastavení a test pak spadl (revize R).
+  const roky = await page.evaluate(() => (window as unknown as { atlasPrehravani: { historie: number[] } }).atlasPrehravani.historie);
+  expect(roky[0]).toBe(-384);
+  expect(roky[roky.length - 1]).toBe(-322);
   // Rok jen roste a projde všemi zastávkami.
   for (let i = 1; i < roky.length; i++) expect(roky[i]).toBeGreaterThanOrEqual(roky[i - 1]);
   for (const r of [-367, -347, -345, -343, -340, -335]) expect(roky).toContain(r);

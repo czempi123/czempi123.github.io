@@ -14,9 +14,9 @@ const { cislo, disciplina } = Astro.props;
     display: flex;
     flex-direction: column;
     padding: var(--s-6) var(--s-5) var(--s-5);
-    rotate: -.4deg;
+    rotate: calc(-.4deg * var(--natoceni));
   }
-  .myslenka:nth-child(2n) { rotate: .5deg; }
+  .myslenka:nth-child(2n) { rotate: calc(.5deg * var(--natoceni)); }
   .myslenka__nad { display: flex; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-2); }
   .myslenka__nad b { font-family: var(--font-ruka); font-size: 22px; font-weight: 700; line-height: 1; color: var(--p); }
   .myslenka__nad .t-nadtitulek { color: var(--ink-3); }

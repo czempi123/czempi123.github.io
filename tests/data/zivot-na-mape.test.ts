@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { nactiData } from '../../src/lib/kontroly';
 import type { OsobaMapy } from '../../src/lib/cas-mapy';
 import {
-  zastavkyZivota, maZastavky, zastavkaVRoce, predchoziZastavka, dalsiZastavka, planPrehravani, rokVCase,
+  zastavkyZivota, maZastavky, zastavkaVRoce, predchoziZastavka, dalsiZastavka, planPrehravani, rokVCase, rokyMeziSnimky,
   radekZastavky, oznameniZastavky, rokZastavky, vekZastavky, casProRok, PREHRAVANI,
 } from '../../src/lib/zivot-na-mape';
 import { prectiAdresu, zapisAdresu } from '../../src/lib/adresa-mapy';
@@ -231,5 +231,17 @@ describe('adresa s příznakem Přehrát život', () => {
     expect(prectiAdresu('?rok=-384&osoba=aristoteles&zivot=1', vychozi).zivot).toBe(true);
     expect(prectiAdresu('?rok=-384&zivot=1', vychozi).zivot).toBe(false);
     expect(prectiAdresu('?rok=-384&osoba=nikdo&zivot=1', vychozi).zivot).toBe(false);
+  });
+});
+
+describe('historie přehrávání', () => {
+  it('zastávka, jejíž zastavení snímek přeskočil, v historii zůstane', () => {
+    const o: OsobaMapy = { id: 'x', jmeno: 'X', narozen: { rok: -400 }, zemrel: { rok: -300 }, mista: [] } as unknown as OsobaMapy;
+    const plan = planPrehravani(o, [{ rok: -350 } as never], { delka: 1000, zastaveni: 100 })!;
+    // Zastavení roku 350 př. n. l. začne v 500 ms a trvá 100 ms; jeden snímek od 400 do 700 ms ho přeskočí.
+    expect(rokVCase(plan, 400)).toBeLessThan(-350);
+    expect(rokVCase(plan, 700)).toBeGreaterThan(-350);
+    expect(rokyMeziSnimky(plan, 400, 700)).toEqual([-350, rokVCase(plan, 700)]);
+    expect(rokyMeziSnimky(plan, 410, 420)).toEqual([rokVCase(plan, 420)]);
   });
 });

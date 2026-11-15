@@ -39,18 +39,18 @@
 </section>
 
 <style>
-  .blok { padding: var(--s-5); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--surface); }
-  .nadtitulek { color: var(--pc, var(--ink)); }
+  /* Rám a tlačítka dává RamAktivity.svelte a global.css (.blok, .blok__tl--*); vlastní styl jen pro plochu hry. */
+  .nadtitulek { color: var(--p, var(--ink)); }
 </style>
 ```
 
 ## Tokeny a vzhled
 
-- Barvy jen přes proměnné z `src/styles/tokens.css`: `--paper`, `--surface`, `--sunk`, `--rule`, `--muted`, `--ink-2`, `--ink`; barva období přes třídu `obdobi-N` na předkovi (`--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate`).
+- Barvy jen přes proměnné z `src/styles/tokens.css`: plochy `--papir`, `--list`, `--plocha`, `--listek`, linky `--linka` a `--tuzka`, inkousty `--ink`, `--ink-2`, `--ink-3`, `--ruka`; barva období přes třídu `obdobi-N` na předkovi (`--p` inkoust, `--pp` papír). Pravidla papíru a pohybu: SKILL.md › Papír a Pohyb.
 - Písma: `--font-serif` (Newsreader) pro čtení a otázky, `--font-sans` (Instrument Sans) pro ovládání; velikosti třídami `t-h3`, `t-ovladani`, `t-popisek`…
-- Mezery `--s-1` až `--s-10`, zaoblení `--r-*`, pohyb `--pohyb*` (při omezeném pohybu nulový).
-- Tlačítka podle design.md: hlavní (`--ink`, text `--paper`, výška 48–56), vedlejší (obrys `--ink`), tiché (obrys `--rule`).
-- Volba s důvodem: karty A–D aspoň 60 px, vybraná s okrajem 2 px a tintem období, zpětná vazba v tintu s titulkem „Tvůj tah: …“ a oddílem „Co udělal …“.
+- Mezery `--s-1` až `--s-10`, zaoblení `--r-papir`, `--r-razitko`, `--r-ovladani`, `--r-plne`, pohyb `--d-*` a `--k-*` (při omezeném pohybu nulový), natočení přes `--natoceni`.
+- Tlačítka třídami `.blok__tl--hlavni` (plný inkoust), `--vedlejsi` (vystouplé), `--tiche` (podtržené tužkou); `Tlacitko.astro` dává tytéž třídy.
+- Volba s důvodem: vystouplé možnosti A–D, zvolená vtlačená s kroužkem tužkou v barvě období, zpětná vazba jako lístek s páskou (`.listek-paska`) tiskem.
 
 ## Přístupnost
 

@@ -3,7 +3,7 @@
   // Rám dává list s páskou, název, plátno (tečkovaný papír přilepený na list), drážku s ovládáním (přepínač pohledů,
   // ovládání kresby, Zastavit pohyb) a text pod kresbou. Scéna (obsah <svg>) a případné další ovládání (posuvník)
   // přicházejí jako snippety z ostrovu konkrétní kresby.
-  // Pravidla (docs/design.md › Komponenty › Kresba s pohybem): pohyb běží jen tam, kde ho student nemá omezený,
+  // Pravidla (docs/design.md › Bloky a aktivity): pohyb běží jen tam, kde ho student nemá omezený,
   // jde zastavit a zastavená kresba ukáže obsah; text pod kresbou říká totéž slovy a je popisem obrázku pro čtečky;
   // kresba nic neukládá a nenabízí Kam dál.
   // Koláž (design-v2 K7b, plátno project/KresbaVitr.dc.html): výstřižky z papíru (k-list, k-listek, k-pp) se stínem

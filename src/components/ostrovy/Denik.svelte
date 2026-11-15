@@ -172,7 +172,6 @@
         {#each kapitoly as k (k.klic)}
           <details class={['kapitola', k.obdobi ? `obdobi-${k.obdobi}` : 'bez-obdobi']} open={otevrene[k.klic] ?? false} ontoggle={(e) => prepni(k.klic, e.currentTarget.open)}>
             <summary class="kapitola__listek">
-              <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
               <span class="kapitola__hl">
                 <span class="kapitola__nad">{k.obdobi ? `období ${k.obdobi}` : 'velké otázky'}</span>
                 <h3 class="kapitola__nazev">{k.nazev}</h3>
@@ -361,7 +360,7 @@
   .rozpr__trh { left: -7px; z-index: 1; clip-path: polygon(100% 0, 40% 0, 0 6%, 70% 13%, 15% 20%, 80% 28%, 25% 35%, 65% 43%, 5% 50%, 75% 58%, 20% 66%, 70% 73%, 10% 80%, 80% 88%, 30% 94%, 60% 100%, 100% 100%); }
   @media (hover: hover) {
     .rozpr__listek:hover .rozpr__hl { transform: translateY(-2px); }
-    .rozpr__listek:hover .rozpr__pahyl { transform: translate(14px, 4px); rotate: 2deg; border-left-color: transparent; }
+    .rozpr__listek:hover .rozpr__pahyl { transform: translate(14px, 4px); rotate: calc(2deg * var(--natoceni)); border-left-color: transparent; }
     .rozpr__listek:hover .rozpr__hl::after,
     .rozpr__listek:hover .rozpr__trh { opacity: 1; }
   }
@@ -442,8 +441,8 @@
   .pohled__tl:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .listky { display: grid; gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
   .listek-zaznamu { padding: 18px 20px 14px; background: var(--list); box-shadow: var(--lezi); }
-  .listek-zaznamu:nth-child(3n + 2) { rotate: .3deg; }
-  .listek-zaznamu:nth-child(3n) { rotate: -.25deg; }
+  .listek-zaznamu:nth-child(3n + 2) { rotate: calc(.3deg * var(--natoceni)); }
+  .listek-zaznamu:nth-child(3n) { rotate: calc(-.25deg * var(--natoceni)); }
   .listek-zaznamu p { margin: 0 0 var(--s-1); }
   .zaznam__kde { color: var(--ink-2); }
   .zaznam__kde a { color: inherit; }
@@ -452,7 +451,8 @@
   .otazka a { display: inline-block; min-height: 24px; }
   /* Co student napsal, jeho perem (bod 3). */
   .odpoved { font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
-  /* Kapitoly (K6 dodatek): lístek s páskou v papíru období; rozbalený pokračuje listem zápisníku s čárkovaným okrajem
+  /* Kapitoly (K6 dodatek): lístek s ohybem dole v inkoustu období jako záložky rozpracovaných otázek; páska na
+     obrazovce deníku patří jen Návratu (revize R, otázka 1). Rozbalený pokračuje listem zápisníku s čárkovaným okrajem
      v inkoustu období. Znak rozbalení je vystouplý knoflík se šipkou, po otevření otočenou. */
   .kapitoly { margin-top: var(--s-8); }
   .kapitoly__nadpis { margin: 0 0 var(--s-2); }
@@ -463,16 +463,18 @@
     align-items: center;
     gap: var(--s-4);
     min-height: var(--dotyk);
-    padding: 22px 18px 16px 22px;
+    padding: 16px 18px 12px 22px;
+    border-bottom: 6px solid color-mix(in srgb, var(--p) 34%, var(--listek));
+    border-radius: 2px 2px 3px 3px;
     background: var(--listek);
     box-shadow: var(--lezi);
     color: var(--ink);
     list-style: none;
     cursor: pointer;
-    rotate: -.4deg;
+    rotate: calc(-.4deg * var(--natoceni));
     transition: translate var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
   }
-  .kapitola:nth-of-type(2n) .kapitola__listek { rotate: .3deg; }
+  .kapitola:nth-of-type(2n) .kapitola__listek { rotate: calc(.3deg * var(--natoceni)); }
   .kapitola__listek::-webkit-details-marker { display: none; }
   .kapitola__listek::marker { content: ''; }
   .kapitola[open] .kapitola__listek { rotate: 0deg; }
@@ -505,7 +507,7 @@
   .skupina__radek { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--s-3); margin: 0 0 var(--s-3); padding-bottom: var(--s-1); border-bottom: 1px dashed var(--tuzka); font: 500 19px/1.3 var(--font-serif); }
   .skupina__co { font: 400 var(--fs-popisek) / 1.3 var(--font-sans); color: var(--ink-2); }
   .skupina__radek a { color: inherit; text-decoration-color: var(--p); text-underline-offset: .18em; }
-  .konec { display: grid; gap: 2px; width: fit-content; max-width: 100%; margin-top: var(--s-7); padding: 18px 22px 16px; background: var(--listek); box-shadow: var(--lezi); rotate: -.5deg; color: var(--ink); text-decoration: none; }
+  .konec { display: grid; gap: 2px; width: fit-content; max-width: 100%; margin-top: var(--s-7); padding: 18px 22px 16px; background: var(--listek); box-shadow: var(--lezi); rotate: calc(-.5deg * var(--natoceni)); color: var(--ink); text-decoration: none; }
   .konec:hover .konec__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 4px; }
   .konec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .konec__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--p); }

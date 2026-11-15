@@ -50,7 +50,8 @@ for (const sirka of SIRKY) {
       const popis = (e) => `${e.tagName.toLowerCase()}${e.id ? '#' + e.id : ''} „${(e.getAttribute('aria-label') || e.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 50)}“`;
       const pevne = [...document.querySelectorAll('body *')].filter((e) => {
         const p = getComputedStyle(e).position;
-        return (p === 'fixed' || p === 'sticky') && viditelny(e);
+        // Přeskočit na obsah je pevný odkaz nad hlavičkou (od O): lištou není, s fokusem leží záměrně navrchu.
+        return (p === 'fixed' || p === 'sticky') && viditelny(e) && !e.matches('.preskocit');
       });
       const prvky = [...document.querySelectorAll(sel)].filter(viditelny);
       const podListou = [];

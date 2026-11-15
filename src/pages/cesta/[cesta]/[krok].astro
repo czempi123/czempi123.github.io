@@ -11,6 +11,7 @@ import TydenKarta from '../../../components/tyden/TydenKarta.astro';
 import ListyKroku from '../../../components/cesta/ListyKroku.astro';
 import { krokyCesty, adresaKroku, adresaCesty, zacatekCesty } from '../../../lib/cesty';
 import { blokKroku } from '../../../lib/postup';
+import { nezlomitelne } from '../../../lib/sazba.js';
 
 export async function getStaticPaths() {
   const cesty = await getCollection('cesty');
@@ -44,7 +45,7 @@ const ceka = blokKroku(zaznam.body ?? '');
     <header class="krok__hlava">
       <p class="t-nadtitulek nadtitulek">Krok {k.krok} · {c.nazev}</p>
       <h1 class="t-h2">{k.nazev}</h1>
-      {k.kdeJsme && <p class="kde t-ovladani"><span class="t-popisek">Kde jsme:</span> {k.kdeJsme}</p>}
+      {k.kdeJsme && <p class="kde t-ovladani"><span class="t-popisek">Kde jsme:</span> {nezlomitelne(k.kdeJsme)}</p>}
     </header>
     <div class="krok__obsah"><ListyKroku><Content /></ListyKroku></div>
     {tydny.map((t) => <TydenKarta tyden={t} />)}

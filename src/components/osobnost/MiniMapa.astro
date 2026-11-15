@@ -2,35 +2,15 @@
 // Výřez mapy s místy, kde osoba žila, bojovala a zemřela. Podklad se počítá při sestavení z Natural Earth.
 // Výřez: výchozí egejský, dokud se do něj vejdou všechna místa osoby; jinak podle míst (src/lib/mapa.ts, vyrezMiniMapy).
 import type { TOsoba } from '../../lib/schema';
-import { mistaPodleId } from '../../lib/data';
 import { podklad, umisteniPopisku, vyrezMiniMapy, type MistoMiniMapy, type Vyrez } from '../../lib/mapa';
-import { rok as fmtRok } from '../../lib/casy';
-import { ROLE_UDALOSTI } from '../../lib/cas-mapy';
+import { klicVyrezu, mistaMiniMapy, sdileneVyrezy } from '../../lib/podklad-sdileny';
 
 // Společný profil (`dalsi`): místa všech osob stránky; u role stojí, čí je („narození Hipparchie“).
 // Stránka období a tradice (od K1 větve antika-doplnky) předá místo osoby hotová místa (`mista`) a období.
 interface Props { osoba?: TOsoba; dalsi?: TOsoba[]; vyrez?: Vyrez; mista?: MistoMiniMapy[]; obdobi?: number }
-// Role ze společného slovníku (src/lib/cas-mapy.ts): u místa s rokem událost („narození 384 př. n. l.“, „smrt“),
-// ostatní stejně jako karta člověka a Život na mapě („studium“, „vojenské tažení“).
-const ROLE = ROLE_UDALOSTI;
 const osobyMapy = Astro.props.osoba ? [Astro.props.osoba, ...(Astro.props.dalsi ?? [])] : [];
-// Místa sloučená podle id, s rolemi a roky.
-const mista = new Map<string, MistoMiniMapy>();
-for (const [o, m] of osobyMapy.flatMap((o) => o.mista.map((m) => [o, m] as const))) {
-  const misto = mistaPodleId.get(m.misto)!;
-  const rok = m.rok ?? m.od;
-  const koho = osobyMapy.length > 1 ? ` ${o.jmeno2 ?? o.jmeno}` : '';
-  // Přibližný rok (priblizne v datech) nese „asi“, stejně jako letopočty života.
-  const popis = `${ROLE[m.role]}${koho}${rok !== undefined ? ` ${m.priblizne ? 'asi ' : ''}${fmtRok(rok)}` : ''}`;
-  const b = mista.get(m.misto) ?? { nazev: misto.nazev, souradnice: misto.souradnice as [number, number], radky: [] };
-  b.radky.push(popis);
-  mista.set(m.misto, b);
-}
-// Dva pobyty na jednom místě, z nichž první nemá rok začátku (Seneca v Římě do roku 41 a znovu od roku 49),
-// by daly „působení“ a pod ním „působení 49 n. l.“: holý řádek vedle téhož s rokem nic neříká, proto vypadne.
-for (const b of mista.values()) {
-  b.radky = b.radky.filter((r) => !b.radky.some((jiny) => jiny !== r && jiny.startsWith(`${r} `)));
-}
+// Místa sloučená podle id, s rolemi a roky (src/lib/podklad-sdileny.ts).
+const mista = mistaMiniMapy(osobyMapy);
 for (const [i, m] of (Astro.props.mista ?? []).entries()) mista.set(`hotove-${i}`, m);
 const { vyrez = vyrezMiniMapy([...mista.values()]) } = Astro.props;
 const obdobi = Astro.props.osoba?.obdobi ?? Astro.props.obdobi ?? 1;
@@ -42,19 +22,22 @@ const vidimne = body.filter((b) => b.xy[0] > 0 && b.xy[0] < vyrez.sirka && b.xy[
 const k = vyrez.sirka / 600;
 const ram = (x: number) => ({ x: x * k, y: x * k, width: vyrez.sirka - 2 * x * k, height: vyrez.vyska - 2 * x * k });
 const pevninaId = `minimapa-pevnina-${obdobi}-${Math.round(vyrez.sirka)}-${Math.round(vyrez.vyska)}-${body.length}`;
+// Obrys pobřeží: sdílený soubor, když výřez mají i jiné stránky (revize R, otázka 4); jinak v stránce.
+const klic = klicVyrezu(vyrez);
+const pevnina = sdileneVyrezy().has(klic) ? `/podklad/${klic}.svg#p` : `#${pevninaId}`;
 const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis })), vyrez.sirka);
 ---
 <figure class={`minimapa obdobi-${obdobi}`} style={`--k:${k}`}>
   <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}`}>
-    <defs><path id={pevninaId} d={p.pevnina} /></defs>
+    {pevnina.startsWith('#') && <defs><path id={pevninaId} d={p.pevnina} /></defs>}
     {/* Moře šrafované tužkou (pozadí SVG), tři vodní linky podél pobřeží, pevnina na lístkovém papíře. */}
-    <use href={`#${pevninaId}`} class="linka linka--1" />
-    <use href={`#${pevninaId}`} class="mezera mezera--1" />
-    <use href={`#${pevninaId}`} class="linka linka--2" />
-    <use href={`#${pevninaId}`} class="mezera mezera--2" />
-    <use href={`#${pevninaId}`} class="linka linka--3" />
-    <use href={`#${pevninaId}`} class="mezera mezera--3" />
-    <use href={`#${pevninaId}`} class="pevnina" />
+    <use href={pevnina} class="linka linka--1" />
+    <use href={pevnina} class="mezera mezera--1" />
+    <use href={pevnina} class="linka linka--2" />
+    <use href={pevnina} class="mezera mezera--2" />
+    <use href={pevnina} class="linka linka--3" />
+    <use href={pevnina} class="mezera mezera--3" />
+    <use href={pevnina} class="pevnina" />
     {vidimne.map((b, i) => {
       const vlevo = umisteni[i].strana === 'vlevo';
       return (

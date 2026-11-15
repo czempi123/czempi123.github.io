@@ -263,7 +263,7 @@
     font-family: var(--font-ruka);
     font-size: var(--fs-ruka);
     line-height: 1.3;
-    rotate: -2deg;
+    rotate: calc(-2deg * var(--natoceni));
   }
   .znovu-otazka { margin: var(--s-4) 0 var(--s-3); }
   .napoveda { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }

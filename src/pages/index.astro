@@ -209,10 +209,12 @@ const vstupy = [
       ))}
     </ul>
     <ul class="na-zacatek" aria-label="Na začátek">
-      {naZacatek.map((u) => (
+      {naZacatek.map((u, i) => (
         <li>
           <a class="listek-zacatku" href={u.href}>
-            <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+            {i === 0
+              ? <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+              : <span class="listek-zacatku__sponka" aria-hidden="true"></span>}
             <span class="listek-zacatku__nad">na začátek</span>
             <span class="listek-zacatku__nazev">{u.nazev}</span>
             <span class="listek-zacatku__veta">{u.veta}</span>
@@ -249,7 +251,7 @@ const vstupy = [
   .stul a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
   .stul :is(.karticka__dal, .pohlednice__dal, .slozena-mapa__dal, .pruh-zapisniku__dal) { display: inline-flex; align-items: center; gap: var(--s-1); margin-top: auto; padding-top: var(--s-2); font: 600 var(--fs-ovladani) / 1.2 var(--font-sans); }
   /* Kartička s pokusem: linkovaná kartotéční karta, linka nahoře v inkoustu období. */
-  .karticka { position: relative; display: flex; flex-direction: column; gap: var(--s-2); min-height: 200px; padding: 22px 22px 18px; background: var(--list); box-shadow: var(--lezi); rotate: -1deg; transition: transform var(--d-stisk) var(--k-stisk); }
+  .karticka { position: relative; display: flex; flex-direction: column; gap: var(--s-2); min-height: 200px; padding: 22px 22px 18px; background: var(--list); box-shadow: var(--lezi); rotate: calc(-1deg * var(--natoceni)); transition: transform var(--d-stisk) var(--k-stisk); }
   /* Kartotéční karta: nadpis karty nad linkou v inkoustu období, text na linkách tužkou. */
   .karticka__nad { padding-bottom: 6px; border-bottom: 1.5px solid color-mix(in srgb, var(--p) 70%, transparent); font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--p); }
   .karticka__nazev { margin-top: var(--s-1); font-size: 26px; line-height: 1.15; }
@@ -266,7 +268,7 @@ const vstupy = [
   .pohlednice__adresa i { display: block; width: 100%; border-bottom: 1px solid color-mix(in srgb, var(--tuzka) 60%, transparent); }
   /* Složená mapa: papír přeložený na třetiny (stíny přehybů), tečkovaný, cesta tužkou a tři špendlíky. */
   .slozena-mapa { display: flex; flex-direction: column; gap: var(--s-3); height: 100%; transition: transform var(--d-stisk) var(--k-stisk); }
-  .slozena-mapa__papir { position: relative; display: block; aspect-ratio: 2 / 1; background-color: var(--list); background-image: linear-gradient(90deg, transparent 32.8%, rgb(0 0 0 / .07) 33.3%, transparent 36%, transparent 64.5%, rgb(0 0 0 / .07) 66.6%, transparent 69%), radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px); background-size: 100% 100%, var(--tecky-krok) var(--tecky-krok); box-shadow: var(--lezi); rotate: -.6deg; }
+  .slozena-mapa__papir { position: relative; display: block; aspect-ratio: 2 / 1; background-color: var(--list); background-image: linear-gradient(90deg, transparent 32.8%, rgb(0 0 0 / .07) 33.3%, transparent 36%, transparent 64.5%, rgb(0 0 0 / .07) 66.6%, transparent 69%), radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px); background-size: 100% 100%, var(--tecky-krok) var(--tecky-krok); box-shadow: var(--lezi); rotate: calc(-.6deg * var(--natoceni)); }
   .slozena-mapa__papir svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .slozena-mapa__cesta { fill: none; stroke: var(--tuzka); stroke-width: 1.6; stroke-dasharray: 4 5; stroke-linecap: round; }
   .slozena-mapa__papir circle { fill: var(--p); }
@@ -275,7 +277,7 @@ const vstupy = [
   .slozena-mapa__nazev { font-size: 24px; line-height: 1.15; }
   .slozena-mapa__veta { font-size: 16px; line-height: 1.5; color: var(--ink-2); }
   /* Pruh z zápisníku: proužek linkovaného papíru s posledním zápisem studentovým perem. */
-  .pruh-zapisniku { display: flex; flex-direction: column; gap: var(--s-1); padding: 18px 22px 14px; background: var(--list); box-shadow: var(--lezi); rotate: -.4deg; transition: transform var(--d-stisk) var(--k-stisk); }
+  .pruh-zapisniku { display: flex; flex-direction: column; gap: var(--s-1); padding: 18px 22px 14px; background: var(--list); box-shadow: var(--lezi); rotate: calc(-.4deg * var(--natoceni)); transition: transform var(--d-stisk) var(--k-stisk); }
   .pruh-zapisniku__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--ink-2); }
   .pruh-zapisniku__otazka { font: 600 var(--fs-ovladani) / 1.4 var(--font-sans); }
   .pruh-zapisniku__text { font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: 30px; color: var(--pero); background: repeating-linear-gradient(transparent 0 29px, var(--linka) 29px 30px); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -285,7 +287,7 @@ const vstupy = [
 
   .sekce-hlavicka { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-7); margin-bottom: var(--s-5); }
   .sekce-hlavicka h2 { margin: 0; }
-  .poznamka { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); rotate: -.8deg; }
+  .poznamka { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); rotate: calc(-.8deg * var(--natoceni)); }
   .obdobi { margin-bottom: var(--s-8); }
   /* Tři vstupy jako karty: ležící listy, každý jinak natočený, po najetí se narovnají a zvednou. */
   .rozcestnik ul { display: grid; gap: var(--s-5); margin: 0; padding: 0; list-style: none; }
@@ -302,8 +304,21 @@ const vstupy = [
   /* Dvě vstupní stránky nad otázkami a náboženstvím (autor 15. 11. 2026: řádek odkazů nesedl): menší lístky
      s páskou pod třemi vstupy, ať nesoupeří se začátkem; název a první věta perexu. */
   .rozcestnik .na-zacatek { display: grid; gap: var(--s-6); margin: var(--s-8) 0 0; padding: 0; list-style: none; }
-  .listek-zacatku { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 22px 22px 16px; background: var(--listek); box-shadow: var(--lezi); color: var(--ink); text-decoration: none; rotate: .5deg; transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk); }
-  .na-zacatek li:nth-child(2) .listek-zacatku { rotate: -.6deg; }
+  .listek-zacatku { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 22px 22px 16px; background: var(--listek); box-shadow: var(--lezi); color: var(--ink); text-decoration: none; rotate: calc(.5deg * var(--natoceni)); transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk); }
+  .na-zacatek li:nth-child(2) .listek-zacatku { rotate: calc(-.6deg * var(--natoceni)); }
+  /* Jedna páska na obrazovku (revize R, otázka 1): druhý lístek drží sponka jako citát na stránce osoby. */
+  .listek-zacatku__sponka {
+    position: absolute;
+    top: -20px;
+    right: 28px;
+    width: 15px;
+    height: 44px;
+    rotate: -8deg;
+    background: var(--tuzka);
+    -webkit-mask: var(--sponka) center / contain no-repeat;
+    mask: var(--sponka) center / contain no-repeat;
+    filter: drop-shadow(1px 2px 1px rgb(60 50 40 / .25));
+  }
   .listek-zacatku__nad { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--ruka); }
   .listek-zacatku__nazev { font-size: 21px; line-height: 1.2; }
   .listek-zacatku__veta { font: 15px/1.5 var(--font-sans); color: var(--ink-2); }

@@ -120,7 +120,7 @@
   .sb-citaty { display: grid; gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
   @media (min-width: 700px) { .sb-citaty { grid-template-columns: 1fr 1fr; } }
   .sb-citat { padding: 20px 20px 10px; background: var(--listek); box-shadow: var(--lezi); }
-  .sb-citat:nth-child(2n) { rotate: .5deg; }
+  .sb-citat:nth-child(2n) { rotate: calc(.5deg * var(--natoceni)); }
   .sb-citat blockquote { margin: 0; }
   .sb-citat blockquote p { margin: 0 0 var(--s-2); font-size: 19px; line-height: 1.45; }
   .sb-citat__kde { margin: 0; color: var(--ink-2); }

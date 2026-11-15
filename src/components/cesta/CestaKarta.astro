@@ -130,7 +130,7 @@ const lide = c.data.filozofove.map(osoba);
   .cesta-karta__trh { left: -7px; z-index: 1; clip-path: polygon(100% 0, 40% 0, 0 6%, 70% 13%, 15% 20%, 80% 28%, 25% 35%, 65% 43%, 5% 50%, 75% 58%, 20% 66%, 70% 73%, 10% 80%, 80% 88%, 30% 94%, 60% 100%, 100% 100%); }
   @media (hover: hover) {
     .cesta-karta:hover .cesta-karta__hl { transform: translateY(-2px); }
-    .cesta-karta:hover .cesta-karta__pahyl { transform: translate(14px, 4px); rotate: 2deg; border-left-color: transparent; }
+    .cesta-karta:hover .cesta-karta__pahyl { transform: translate(14px, 4px); rotate: calc(2deg * var(--natoceni)); border-left-color: transparent; }
     .cesta-karta:hover .cesta-karta__hl::after,
     .cesta-karta:hover .cesta-karta__trh { opacity: 1; }
     .cesta-karta:hover .cesta-karta__nazev,

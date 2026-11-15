@@ -22,6 +22,7 @@ import { maZastavky, ZIVOT_NA_MAPE } from '../../lib/zivot-na-mape';
 import { zivotOsoby, obdobiProRok } from '../../lib/cas-mapy';
 import { zapisAdresu } from '../../lib/adresa-mapy';
 import { data } from '../../lib/data';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 interface Props { osoba: TOsoba; dalsi?: TOsoba[] }
 const { osoba, dalsi = [] } = Astro.props;
@@ -97,7 +98,7 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
                 <span class="lide__jmeno">{odkaz(v.druhy.id) ? <a class="jmeno-odkaz" href={odkaz(v.druhy.id)}>{v.druhy.jmeno}</a> : v.druhy.jmeno}</span>
                 <span class="t-popisek">
                   <span class={`cara cara--${TYP_CARY[v.vztah.typ]}`} aria-hidden="true"></span>
-                  {role(v)}{v.vztah.poznamka ? ` · ${v.vztah.poznamka}` : ''} · {zivot(v.druhy)}
+                  {role(v)}{v.vztah.poznamka ? ` · ${nezlomitelne(v.vztah.poznamka)}` : ''} · {zivot(v.druhy)}
                 </span>
               </span>
             </li>
@@ -128,7 +129,7 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
   h3 { margin: 0 0 var(--s-3); }
   /* Současníci a Dva životy na jednom listu, mini mapa na vystřiženém listu vedle. */
   .doba__osa { padding: 22px 22px 18px; }
-  .doba__vystrizek { padding: 10px; rotate: .6deg; }
+  .doba__vystrizek { padding: 10px; rotate: calc(.6deg * var(--natoceni)); }
   .doba__dva { margin-top: var(--s-7); }
   .doba__vztahy { display: grid; gap: var(--s-6); margin-top: var(--s-8); }
   .lide { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }

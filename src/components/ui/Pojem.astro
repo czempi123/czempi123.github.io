@@ -90,7 +90,7 @@ const kotva = `pojem-${id}`;
     font-size: var(--fs-ruka);
     line-height: var(--lh-ruka);
     color: var(--ink-2);
-    rotate: -1deg;
+    rotate: calc(-1deg * var(--natoceni));
     transform-origin: 30% 0;
     animation: pojem-rozloz var(--d-listek) var(--k-papir) both;
   }
@@ -110,7 +110,7 @@ const kotva = `pojem-${id}`;
     padding: 10px 14px 0;
     font-size: 18px;
     line-height: 1.35;
-    rotate: 1.5deg;
+    rotate: calc(1.5deg * var(--natoceni));
     transition: transform var(--d-stisk) var(--k-stisk);
   }
   .pojem-pozn--okraj::before {
@@ -128,6 +128,8 @@ const kotva = `pojem-${id}`;
   .pojem-pozn--okraj.pojem-pozn--aktivni { transform: translateY(-2px); }
   .pojem-pozn--okraj.pojem-pozn--aktivni::before { opacity: 1; }
   .pojem-pozn--okraj.pojem-pozn--aktivni .pojem-pozn__text { color: var(--ink-2); }
+  /* Klidný režim (revize R, otázka 7): poznámka na okraji tiskem, ne rukou. Lístek pod odstavcem zůstává rukou. */
+  :root[data-klidny] .pojem-pozn--okraj { font-family: var(--font-serif); font-size: 15px; line-height: 1.45; color: var(--ink-2); }
 
   @media print { .pojem-pozn { display: none !important; } button.pojem { text-decoration: none; } }
 </style>

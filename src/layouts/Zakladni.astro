@@ -63,9 +63,11 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
       // Ruční volba režimu (atlas-rezim) má přednost před nastavením systému; nastaví se před vykreslením.
+      // Klidný režim (atlas-klidny, KlidnyRezim.astro) taky, ať papír neproblikne s tečkami a natočením.
       try {
         const r = localStorage.getItem('atlas-rezim');
         if (r === 'light' || r === 'dark') document.documentElement.dataset.theme = r;
+        if (localStorage.getItem('atlas-klidny') === '1') document.documentElement.setAttribute('data-klidny', '');
       } catch (e) {}
     </script>
     {/* Studentovo pero z deníku (src/lib/pero.ts), před vykreslením, ať barva pera neproblikne. */}
@@ -107,6 +109,8 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
       addEventListener('pageswap', function () { try { sessionStorage.setItem('${KLIC_ODKUD}', location.pathname); } catch (x) {} });
       addEventListener('pagereveal', function (e) {
         if (!e.viewTransition) return;
+        // Klidný režim (global.css › Klidný režim): každý přechod je krátké prolnutí, týž typ jako pojistka plynulosti.
+        if (document.documentElement.hasAttribute('data-klidny')) { e.viewTransition.types.add('kratky'); return; }
         var odkud = '';
         try {
           var a0 = window.navigation && navigation.activation;
@@ -148,7 +152,7 @@ const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WE
         var t = document.documentElement.classList;
         var KLIC = 'atlas-let-desky';
         var pohyb = false;
-        try { pohyb = 'onpagereveal' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+        try { pohyb = 'onpagereveal' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.documentElement.hasAttribute('data-klidny'); } catch (e) {}
         if (!pohyb) return;
         var typ = '';
         try {

@@ -1,6 +1,7 @@
 ---
 // Rozbalovací Prameny na konci stránky: odkud je každé tvrzení, citát a údaj.
 import { pramenyPodleId, citatyPodleId, data } from '../../lib/data';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 interface Props { prameny: string[]; citaty?: string[]; obrazky?: string[] }
 const { prameny, citaty = [], obrazky = [] } = Astro.props;
@@ -19,7 +20,7 @@ const obr = [...new Set(obrazky)].map((id) => data.zdroje.obrazky.find((o) => o.
         <h3 class="t-ovladani">Citáty a překlady</h3>
         <ul>
           {cit.map((c) => (
-            <li>{c.autor}, <cite>{c.dilo}</cite> {c.misto}: {c.preklad.druh === 'vlastni' ? `vlastní převod. Podklad: ${c.preklad.podle}` : `přeložil ${c.preklad.prekladatel}`}.</li>
+            <li>{c.autor}, <cite>{c.dilo}</cite> {c.misto}: {nezlomitelne(c.preklad.druh === 'vlastni' ? `vlastní převod. Podklad: ${c.preklad.podle}` : `přeložil ${c.preklad.prekladatel}`)}.</li>
           ))}
         </ul>
       </>
@@ -29,7 +30,7 @@ const obr = [...new Set(obrazky)].map((id) => data.zdroje.obrazky.find((o) => o.
         <h3 class="t-ovladani">Obrázky</h3>
         <ul>
           {obr.map((o) => (
-            <li>{o.popisek} Foto: {o.autor}{o.instituce && `, ${o.instituce}`}. Licence <a href={o.url} rel="noopener">{o.licence}</a>.</li>
+            <li>{nezlomitelne(`${o.popisek} Foto: ${o.autor}${o.instituce ? `, ${o.instituce}` : ''}`)}. Licence <a href={o.url} rel="noopener">{o.licence}</a>.</li>
           ))}
         </ul>
       </>

@@ -77,7 +77,7 @@ const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.
       <ul>
         {dalsi[0] && <li data-dalsi-cesta={JSON.stringify(dalsi)}><a href={`/cesta/${dalsi[0].slug}/`}>Další cesta: <span data-dalsi-nazev>{dalsi[0].nazev}</span></a></li>}
         {profilyCesty.map((p) => <li><a href={p.href}>{p.jmena}: {p.medailonek ? 'medailonek' : 'celý příběh'}</a></li>)}
-        {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {c.mapa.text}</a></li>}
+        {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {nezlomitelne(c.mapa.text)}</a></li>}
         {otazka && <li><a href={odkazOtazky}>Velká otázka {otazka.data.cislo}: {otazka.data.otazka}</a></li>}
       </ul>
       {tydny.map((t) => <TydenKarta tyden={t} uroven={3} />)}

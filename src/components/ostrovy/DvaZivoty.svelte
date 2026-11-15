@@ -8,27 +8,37 @@
   import { naAstro, vzdalenost, zAstro, zivotOsoby, type OsobaMapy } from '../../lib/cas-mapy';
   import { naProcenta, osaDvou, znackyOsy } from '../../lib/bloky';
   import { rok as rokText } from '../../lib/casy';
+  import { ADRESA_DVA_ZIVOTY } from '../../lib/dva-zivoty-data';
 
   type Clovek = OsobaMapy & { obdobi: number; zivotText: string };
   interface Props {
     id: string;
     /** osoba stránky (u společného profilu hlavní osoba) */
     a: Clovek;
-    /** id výchozího druhého člověka (vychoziDvojice) */
-    vychozi: string;
-    /** nabídka: nejdřív Doba a lidé, pak období */
-    skupiny: { nazev: string; lide: Clovek[] }[];
+    /** výchozí druhý člověk (vychoziDvojice) */
+    b: Clovek;
+    /** nabídka: nejdřív Doba a lidé, pak období; jen id, jména a roky jsou v /dva-zivoty.json */
+    skupiny: { nazev: string; lide: string[] }[];
   }
-  let { id, a, vychozi, skupiny }: Props = $props();
+  let { id, a, b: vychozi, skupiny }: Props = $props();
 
-  const podleId = new Map(skupiny.flatMap((s) => s.lide).map((o) => [o.id, o]));
-  let vybrany = $state(vychozi);
+  // Jména a roky lidí v nabídce: sdílený soubor, který prohlížeč stáhne jednou (revize R, otázka 4). Než přijde,
+  // nebo když nepřijde, stojí výchozí dvojice bez nabídky, stejně jako bez JavaScriptu.
+  let podleId = $state(new Map<string, Clovek>([[vychozi.id, vychozi]]));
+  let vybrany = $state(vychozi.id);
   let pripraveno = $state(false);
   onMount(() => {
-    pripraveno = true;
+    fetch(ADRESA_DVA_ZIVOTY)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((lide: Record<string, Clovek>) => {
+        podleId = new Map([...Object.entries(lide), [vychozi.id, vychozi]]);
+        pripraveno = true;
+      })
+      .catch(() => {});
   });
+  let nabidka = $derived(skupiny.map((s) => ({ nazev: s.nazev, lide: s.lide.map((i) => podleId.get(i)).filter((o): o is Clovek => !!o) })));
 
-  let b = $derived(podleId.get(vybrany) ?? podleId.get(vychozi)!);
+  let b = $derived(podleId.get(vybrany) ?? vychozi);
   let osa = $derived(osaDvou(a, b)!);
   let veta = $derived(vzdalenost(a, b)!.text);
   const pct = (r: number) => naProcenta(osa, r);
@@ -56,7 +66,7 @@
   };
 
   let znacky = $derived(znackyOsy(osa));
-  let krajniEra = $derived(zAstro(osa.do) < 0 ? 'př. n. l.' : zAstro(osa.od) > 0 ? 'n. l.' : '');
+  let krajniEra = $derived(zAstro(osa.do) < 0 ? 'př.\u00a0n.\u00a0l.' : zAstro(osa.od) > 0 ? 'n.\u00a0l.' : '');
   const popisZnacky = (r: number) => (krajniEra ? String(Math.abs(zAstro(r))) : rokText(zAstro(r)));
 </script>
 
@@ -94,7 +104,7 @@
     <div class="dva__volba">
       <label class="t-ovladani dva__popisek" for={`${id}-vyber`}>Druhý život</label>
       <select id={`${id}-vyber`} class="dva__vyber" bind:value={vybrany}>
-        {#each skupiny as s (s.nazev)}
+        {#each nabidka as s (s.nazev)}
           <optgroup label={s.nazev}>
             {#each s.lide as o (o.id)}<option value={o.id}>{o.jmeno} · {o.zivotText}</option>{/each}
           </optgroup>

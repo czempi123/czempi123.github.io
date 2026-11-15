@@ -92,7 +92,7 @@
     .ted { padding-top: var(--s-4); }
   }
   /* Na začátku: lepicí lístek (ležící, mírně natočený), co tehdy student zapsal, jeho perem. */
-  .zacatek { padding: var(--s-4) var(--s-5); background: var(--listek); box-shadow: var(--lezi); rotate: -.6deg; }
+  .zacatek { padding: var(--s-4) var(--s-5); background: var(--listek); box-shadow: var(--lezi); rotate: calc(-.6deg * var(--natoceni)); }
   .odkud { margin: 0 0 var(--s-3); color: var(--ink-2); }
   .cast + .cast { margin-top: var(--s-3); }
   .cast__nadpis { margin: 0 0 var(--s-1); color: var(--ink); }

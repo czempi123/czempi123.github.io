@@ -139,7 +139,7 @@ const popisek = dalsi.length
   /* Odtržení: pahýl odjede od perforace a lehce se stočí, mezi díly zubatá mezera; hlavní díl se nadzvedne. */
   @media (hover: hover) {
     .vstup--cesta:hover .vstup__text { transform: translateY(-2px); }
-    .vstup--cesta:hover .vstup__pahyl { transform: translate(14px, 4px); rotate: 2deg; border-left-color: transparent; }
+    .vstup--cesta:hover .vstup__pahyl { transform: translate(14px, 4px); rotate: calc(2deg * var(--natoceni)); border-left-color: transparent; }
     .vstup--cesta:hover .vstup__text::after,
     .vstup--cesta:hover .vstup__trh { opacity: 1; }
   }

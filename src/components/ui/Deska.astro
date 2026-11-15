@@ -8,6 +8,7 @@ import type { TOsoba } from '../../lib/schema';
 import { data } from '../../lib/data';
 import RazitkoCloveka from './RazitkoCloveka.astro';
 import { ornamenty } from '../../lib/ornamenty.js';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 interface Props {
   /** osoba: dává barvu období, razítko s atributem a výchozí obraz */
@@ -50,7 +51,7 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
       )}
     </div>
   </div>
-  <figcaption class="t-popisek"><slot>{obrazek?.popisek}</slot></figcaption>
+  <figcaption class="t-popisek"><slot>{obrazek?.popisek && nezlomitelne(obrazek.popisek)}</slot></figcaption>
 </figure>
 
 <style>
@@ -61,7 +62,7 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
     padding: 12px 12px 16px;
     background: var(--list);
     box-shadow: var(--deska);
-    rotate: 2deg;
+    rotate: calc(2deg * var(--natoceni));
   }
   .deska__list .paska { z-index: 3; }
   .deska__plocha {
@@ -89,7 +90,7 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
   .deska__orn-l { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
   figcaption { margin: var(--s-4) var(--s-1) 0; color: var(--ink-3); }
   @media (max-width: 699px) {
-    .deska__list { padding: 8px 8px 12px; rotate: 1deg; }
+    .deska__list { padding: 8px 8px 12px; rotate: calc(1deg * var(--natoceni)); }
     .deska__list .paska { width: 90px; height: 24px; }
     /* Pásky nesmějí přes okraj stránky (16 px) ani při příchodu, kdy dopadají zvětšené (scale 1,2):
        jinak by stránka na telefonu ujížděla do strany. */

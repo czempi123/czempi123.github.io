@@ -333,7 +333,7 @@
 {/if}
 
 <style>
-  .karta { position: relative; display: flex; flex-direction: column; gap: var(--s-3); margin: var(--s-5) var(--s-3) var(--s-5) var(--s-2); padding: var(--s-5) 20px var(--s-5); font-family: var(--font-sans); font-size: 15px; line-height: 1.45; rotate: .4deg; }
+  .karta { position: relative; display: flex; flex-direction: column; gap: var(--s-3); margin: var(--s-5) var(--s-3) var(--s-5) var(--s-2); padding: var(--s-5) 20px var(--s-5); font-family: var(--font-sans); font-size: 15px; line-height: 1.45; rotate: calc(.4deg * var(--natoceni)); }
   .karta--prazdna { rotate: none; margin-top: var(--s-3); }
   .karta__hlava { display: flex; align-items: center; gap: var(--s-4); }
   .karta__titul { flex: 1; min-width: 0; }

@@ -1,7 +1,7 @@
 ---
 pojem: "obec"
 puvod: "Řecky polis: město i se svými občany, městský stát."
-vysvetleni: "Ne vesnice ani úřad, ale řecký městský stát: město s okolím, které si samo vládne a má vlastní zákony, bohy a vojsko. Řek se představoval jménem své obce."
+vysvetleni: "Řecký městský stát: město s okolím, které si samo vládne a má vlastní zákony, bohy a vojsko. Řek se představoval jménem své obce, ne vesnice."
 priklad: "Kdyby si tvůj kraj sám psal zákony, měl vlastní armádu a vlastní svátky, byl by obcí v řeckém smyslu."
 vyskyty:
   - osobnost/sokrates

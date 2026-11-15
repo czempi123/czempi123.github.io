@@ -7,7 +7,7 @@
  *    a atribut data-promitane-predek na předcích úseku); obsah je skrytý, dokud skript úsek neoznačí a nenastaví polohu.
  *  · data-podoba na úseku bloku nebo kresby (krok H4, src/lib/hodiny.ts › Podoba na plátně): které části bloku
  *    se ukážou, podle značek data-cast v komponentách (hlava, scena, otazka, moznosti, akce, duvod, zpetna, dal,
- *    ulozeno, platno, popis, u Slož argument napadnout). Tabulka podob je v docs/design.md › Podoba na plátně.
+ *    ulozeno, platno, popis, u Slož argument napadnout). Tabulka podob je v docs/archiv/design-2026-11-15.md › Podoba na plátně.
  */
 html.s-hodinou { --hodina: 48px; }
 

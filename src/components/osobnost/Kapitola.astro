@@ -3,7 +3,8 @@
 // Atributy data-oddil hlásí kapitolu obsahu stránky (ObsahProfilu.astro).
 // Čtení a dělání vypadají jinak (K3 dodatek, bod 1): nadpis a souvislý text leží na čistém listu s jednou páskou,
 // aktivity (bloky, kresby, ostrovy) mezi listy zůstávají na tečkách; dělí je useky() ze src/lib/listy.ts.
-// Pokračovací list za aktivitou pásku nemá: páska patří kapitole, na obrazovce je nejvýš jedna.
+// Pokračovací list za aktivitou pásku nemá: páska patří kapitole, na obrazovce je nejvýš jedna; první kapitola
+// ji nemá, protože nad ní leží deska osoby se dvěma páskami (revize R, otázka 1).
 // Obraz ke kapitole (bod 9): `predmet` je id ze spritu public/ikony/atributy.svg; vytiskne se jako velké vybledlé
 // razítko u nadpisu. Výchozí nic.
 // <Kapitola cislo="01" kotva="delfy" nazev="Věštba z Delf" predmet="tripod">…</Kapitola>
@@ -38,6 +39,8 @@ const prvni = casti[0]?.druh === 'text' ? casti.shift()!.html : '';
 
 <style>
   .kapitola { margin: var(--s-9) 0 var(--s-7); }
+  /* Pod deskou osoby se dvěma páskami je první list kapitoly bez pásky: jedna páska na obrazovku (revize R, otázka 1). */
+  .kapitola:first-of-type .kapitola__list > .paska { display: none; }
   .kapitola__list { isolation: isolate; }
   .kapitola__cislo {
     display: flex;

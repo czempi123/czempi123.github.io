@@ -95,7 +95,7 @@ test('přesýpací hodiny: pohyb běží a jde zastavit; zastavené ukážou vý
   expect(await jmeno()).toContain('presypani-pad');
   expect(await kresba.locator('.pad').first().evaluate((e) => getComputedStyle(e).animationPlayState)).toBe('running');
 
-  // Zastaveno hned po načtení: písek leží dole po vrstvách a horní baňka je prázdná (docs/design.md › Přesýpací hodiny).
+  // Zastaveno hned po načtení: písek leží dole po vrstvách a horní baňka je prázdná (docs/archiv/design-2026-11-15.md › Přesýpací hodiny).
   await kresba.getByRole('button', { name: 'Zastavit pohyb' }).click();
   await expect(kresba.getByRole('button', { name: 'Pustit pohyb' })).toBeVisible();
   expect(await jmeno()).toBe('none');

@@ -198,19 +198,38 @@
       sVybranym(b) - sVybranym(a) || b.lide.length - a.lide.length || priorita(a.lide[0]) - priorita(b.lide[0]));
     return rozmistiListky(
       serazene.map((z) => ({ id: z.misto, x: z.x * sirka, y: z.y * vyska, w: sirkaZavreneho(mista.get(z.misto)?.nazev ?? '', z.lide.length), h: vyskaZavreneho })),
-      sirka, vyska, 16, 4, prekazky, telefon ? 2 : 3,
+      sirka, vyska, 16, 4, prekazky, telefon ? 2 : 3, 44,
     );
   });
-  // Názvy krajin, které by lísteček zakryl, se ztlumí.
+  // Názvy krajů a moří, které by ležely pod lístečkem, pod lístečkem člověka mimo výřez, pod měřítkem s kreditem
+  // nebo pod růžicí, se schovají celé (revize R, otázka 2): přes sebe nejdou přečíst. Šířka se měří písmem názvu.
+  let sirkaMeritka = $state(0);
+  let vyskaMeritka = $state(0);
+  function sirkaNazvu(text: string, more: boolean, dnes = false) {
+    void pismoPripraveno;
+    const px = more && !dnes ? 16 : 11;
+    const prostrkani = (dnes ? 0.02 : more ? 0.08 : 0.18) * px * text.length;
+    if (!mereni) return text.length * (more ? 7.5 : 9.5);
+    mereni.font = more && !dnes ? `italic 400 16px Newsreader, serif` : `500 11px 'Instrument Sans', sans-serif`;
+    return mereni.measureText(text).width + prostrkani;
+  }
   let zakryteKrajiny = $derived.by(() => {
     const out = new Set<string>();
     if (!zobrazeny || !sirka) return out;
-    const boxy = [...umisteni.values()].map((u) => u.box);
+    const boxy: [number, number, number, number][] = [...umisteni.values()].map((u) => u.box);
+    boxy.push(...prekazky);
+    // Špendlíky míst (i ty bez lístečku): název kraje přes ně nejde přečíst a zakrýval by, kam se klepe.
+    for (const z of uvnitr) boxy.push([z.x * sirka - 9, z.y * vyska - 9, z.x * sirka + 9, z.y * vyska + 9]);
+    // Měřítko s kreditem a růžice vlevo dole (Mapa.svelte › .meritko, .ruzice; na telefonu menší).
+    const [mx, mb, rx, rb, rw] = telefon ? [60, 18, 16, 16, 36] : [92, 26, 22, 22, 56];
+    if (sirkaMeritka) boxy.push([mx - 4, vyska - mb - vyskaMeritka - 4, mx + sirkaMeritka + 4, vyska - mb + 4]);
+    boxy.push([rx - 2, vyska - rb - rw - 2, rx + rw + 2, vyska - rb + 2]);
     for (const k of zobrazeny.krajiny) {
       const x = ((k.xy[0] - vb.x) / vb.w) * sirka;
       const y = ((k.xy[1] - vb.y) / vb.h) * vyska;
-      const w = (k.nazev.length * (k.druh === 'more' ? 7.5 : 9.5)) / 2;
-      const box = [x - w, y - 12, x + w, y + (k.dnes ? 14 : 3)];
+      const nazev = k.druh === 'more' ? k.nazev : k.nazev.toLocaleUpperCase('cs');
+      const w = Math.max(sirkaNazvu(nazev, k.druh === 'more'), k.dnes ? sirkaNazvu(`(${k.dnes})`, k.druh === 'more', true) : 0) / 2;
+      const box = [x - w, y - (k.druh === 'more' ? 13 : 10), x + w, y + (k.dnes ? 16 : 4)];
       if (boxy.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) out.add(k.id);
     }
     return out;
@@ -329,7 +348,7 @@
     const d = omezitPohyb ? 0 : 240;
     return {
       duration: d,
-      css: (t: number) => `opacity:${t};transform:translateY(${(1 - t) * -6}px) rotate(var(--r)) scale(${0.92 + 0.08 * t})`,
+      css: (t: number) => `opacity:${t};transform:translateY(${(1 - t) * -6}px) rotate(calc(var(--r) * var(--natoceni))) scale(${0.92 + 0.08 * t})`,
     };
   }
   function listekOdchod(_uzel: Element) {
@@ -368,7 +387,7 @@
       <span class="ruzice" aria-hidden="true">
         <svg viewBox="0 0 56 56"><circle cx="28" cy="30" r="17" fill="none" stroke="currentColor" stroke-width="1" /><path d="M28 9 32 30 28 51 24 30Z" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M28 9 32 30H24Z" fill="currentColor" /><path d="M7 30 28 26 49 30 28 34Z" fill="none" stroke="currentColor" stroke-width="1" /><text x="28" y="7" text-anchor="middle" font-size="9" font-weight="600" fill="currentColor">S</text></svg>
       </span>
-      <div class="meritko" aria-hidden="true">
+      <div class="meritko" aria-hidden="true" bind:clientWidth={sirkaMeritka} bind:clientHeight={vyskaMeritka}>
         <span class="meritko__cara" style:width="{zobrazeny.meritko.px / meritkoObrazovky}px"></span>
         <span>{zobrazeny.meritko.km} km · Natural Earth</span>
       </div>
@@ -604,7 +623,8 @@
   .pevnina { fill: var(--listek); stroke: var(--ink-2); stroke-width: calc(1.2px * var(--k)); stroke-linejoin: round; }
   .krajina { font-family: var(--font-sans); font-size: calc(11px * var(--k)); font-weight: 500; letter-spacing: 0.18em; fill: var(--ink-3); }
   .krajina--more { font-family: var(--font-serif); font-style: italic; font-size: calc(16px * var(--k)); font-weight: 400; letter-spacing: 0.08em; fill: var(--ink-2); }
-  .krajina--zakryta { opacity: 0.3; }
+  .krajina { transition: opacity var(--d-listek); }
+  .krajina--zakryta { opacity: 0; }
   .krajina__dnes { font-family: var(--font-sans); font-style: normal; font-size: calc(11px * var(--k)); font-weight: 500; letter-spacing: 0.02em; text-transform: none; }
   .cesta { fill: none; stroke: var(--p); stroke-width: calc(2px * var(--k)); stroke-dasharray: calc(1px * var(--k)) calc(5px * var(--k)); stroke-linecap: round; }
 
@@ -646,7 +666,7 @@
     background: linear-gradient(180deg, color-mix(in srgb, var(--ink) 5%, var(--listek)) 0 9px, var(--listek) 9px);
     box-shadow: var(--lezi);
     border-radius: 1px 1px 6px 1px;
-    transform: rotate(var(--r));
+    transform: rotate(calc(var(--r) * var(--natoceni)));
     transform-origin: 13px 11px;
     transition: box-shadow var(--d-stisk) var(--k-stisk);
   }

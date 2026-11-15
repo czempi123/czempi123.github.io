@@ -336,7 +336,7 @@
     padding: var(--s-3) var(--s-4);
     background: var(--list);
     box-shadow: var(--lezi);
-    rotate: -1deg;
+    rotate: calc(-1deg * var(--natoceni));
     font-size: var(--fs-perex);
     line-height: 1.3;
     color: var(--ink);

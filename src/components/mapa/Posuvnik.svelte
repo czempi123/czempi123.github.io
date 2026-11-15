@@ -61,7 +61,10 @@
       const o = naOse[i];
       const levy = o.x2 === null ? o.x1 - CIL / 2 : Math.max(0, o.x1);
       const nazev = mista.get(k.id);
-      return { k, popisek: nazev !== undefined, posun: Math.round((nazev ?? mistoStitku(o, sirkaStopy)) - levy) };
+      // Pruh, na kterém leží událost jednoho roku (Salamína ve válkách s Peršany): na notebooku se na válku klepe
+      // jejím názvem, na pruhu jsou jen tečky bitev, aby se tlačítka nepřekrývala (revize R, otázka 2).
+      const sBody = !!k.do && v.some((j) => !j.do && j.od >= k.od && j.od <= k.do!);
+      return { k, popisek: nazev !== undefined, sBody, posun: Math.round((nazev ?? mistoStitku(o, sirkaStopy)) - levy) };
     });
   });
 
@@ -156,10 +159,10 @@
 
   <div class="posuvnik__cas">
     <ul class="kotvy" aria-label="Dějinné události" bind:this={kotvyEl} bind:clientWidth={sirkaStopy}>
-      {#each viditelneKotvy as { k, popisek, posun } (k.id)}
+      {#each viditelneKotvy as { k, popisek, sBody, posun } (k.id)}
         {@const l = Math.max(0, podil(k.od))}
         {@const p = Math.min(1, podil(k.do ?? k.od))}
-        <li class:kotva--pruh={!!k.do} class:kotva--bez-popisku={!popisek} style:left="{l * 100}%" style:width={k.do ? `${(p - l) * 100}%` : undefined}>
+        <li class:kotva--pruh={!!k.do} class:kotva--bez-popisku={!popisek} class:kotva--nazvem={sBody && popisek} style:left="{l * 100}%" style:width={k.do ? `${(p - l) * 100}%` : undefined}>
           <button type="button" class="kotva" title={kotvaText(k)} aria-label="{kotvaText(k)}: přejít" onclick={() => onzmena(k.od, 'tlacitko')}>
             <span class="kotva__znak" aria-hidden="true"></span>
             <span class="kotva__text" aria-hidden="true" style:left="{posun}px">{k.nazev}</span>
@@ -288,6 +291,13 @@
   .kotva:hover .kotva__text, .kotva:focus-visible .kotva__text { color: var(--ink); text-decoration: underline; }
   .kotva:hover .kotva__znak, .kotva:focus-visible .kotva__znak { background: var(--ink); }
   .kotva--pruh .kotva:hover .kotva__znak, .kotva--pruh .kotva:focus-visible .kotva__znak { background: color-mix(in srgb, var(--ink-2) 60%, transparent); }
+  /* Pruh s bitvou uvnitř (sBody): tlačítko pruhu je jen jeho název nad osou, pruh pod ním je kresba; tečky bitev
+     na něm jsou vlastní tlačítka. Na telefonu (názvy schované) zůstává tlačítkem celý pruh. */
+  @media (min-width: 900px) {
+    .kotva--nazvem .kotva { top: -16px; height: 16px; }
+    .kotva--nazvem .kotva__text { top: 0; }
+    .kotva--nazvem .kotva__znak { top: 19px; pointer-events: none; }
+  }
   /* Událost bez místa na název: název je schovaný a ukáže se po najetí nebo při fokusu jako štítek nad ostatními. */
   .kotva--bez-popisku .kotva__text { display: none; }
   .kotva--bez-popisku .kotva:hover .kotva__text,

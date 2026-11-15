@@ -17,7 +17,8 @@ async function otevri(page: Page, adresa = ADRESA) {
 test('stránka: námitka, pravidla, sedm dnů, první otevřený; žádné série, procenta ani pořadí', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await otevri(page);
-  await expect(page.locator('h1')).toHaveText('Stoický týden');
+  await expect(page.locator('h1')).toHaveText('Stoický týden.');
+  await expect(page.locator('.titulek-pruh')).toHaveText('Sedm dní, sedm cvičení');
   await expect(page.locator('.namitka')).toContainText('Česky se „stoicky“ říká tomu, co člověk snese bez hnutí');
   // Epiktétos klid chtěl; odmítal jen necitelnost sochy (revize R, nález 1).
   await expect(page.locator('.namitka')).toContainText('Epiktétos chtěl po svých žácích klid');

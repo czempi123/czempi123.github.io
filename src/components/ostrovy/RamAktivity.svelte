@@ -2,7 +2,7 @@
   // Společný rám aktivity (design-v2, K4a; plátno Herna.dc.html › Rám aktivity): jeden pro všechny bloky a hry.
   // Hlava (rodina aktivit v inkoustu období, nepovinný název, mince lidí), zadání a plocha (children),
   // zpětná vazba jako lístek s páskou, který se po činu studenta rozloží, pata: Začít znovu vlevo, hlavní čin vpravo.
-  // Nová hra = jen vnitřek plochy. Vzhled je v global.css › Rám aktivity, popis v docs/design.md › Bloky › Rám aktivity.
+  // Nová hra = jen vnitřek plochy. Vzhled je v global.css › Rám aktivity, popis v docs/design.md › Bloky a aktivity.
   //
   // <RamAktivity id={id} obdobi={1} nadtitulek="Tvůj tah" labelledby={`${id}-otazka`} lide={[filozof]}
   //   vazba={zpetna ? vazbaVolby : undefined} cerstve={cerstve} bind:vazbaPrvek={oblast}
