@@ -19,8 +19,8 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
-| P6 | Podklady pro formáty: citáty pro Kdo to řekl? a Doplň citát, podvržené citáty s doloženým původem, věty pro Kdo by to řekl?, situace pro Páry, čísla pro Tipni si, otázky pro Výpravy, látka stránky Argumentační klamy a manipulace | Opus 5.5 · high se skillem `atlas-overeni` | čeká na odpovědi (Co rozhodnout před P6) |
-| K1 | Herní jádro a první dva formáty: sdílená logika v `src/lib/herna/`, herní pohyb (zamíchání, otočení karty, razítko), **Seřaď na ose** a **Kdo to řekl?** | Opus 5.5 · high se skillem `atlas-komponenta` | čeká na P6 |
+| P6 | Podklady pro formáty: citáty pro Kdo to řekl? a Doplň citát, podvržené citáty s doloženým původem, věty pro Kdo by to řekl?, situace pro Páry, čísla pro Tipni si, otázky pro Výpravy, látka stránky Argumentační klamy a manipulace | Opus 5.5 · high se skillem `atlas-overeni` | hotovo 17. 11. 2026 (Po P6) |
+| K1 | Herní jádro a první dva formáty: sdílená logika v `src/lib/herna/`, herní pohyb (zamíchání, otočení karty, razítko), **Seřaď na ose** a **Kdo to řekl?** | Opus 5.5 · high se skillem `atlas-komponenta` | na řadě |
 | K2 | **Tipni si**, **Kde to bylo?** (slepá mapa), **Doplň citát** | totéž | čeká na K1 |
 | K3 | **Páry**, **Pravý, nebo podvržený?**, **Najdi slabé místo**, **Kdo by to řekl?** | totéž | čeká na K2 |
 | K4 | Stránky osob a mapa: **střídání malých aktivit** na medailoncích a profilech, **Výpravy** pro období 1 a 2, **Přehrát období**, trasy na mini mapě | totéž | čeká na K3 |
@@ -151,6 +151,35 @@ Prázdná odpověď znamená souhlas s doporučením.
 
 7. **Stránka Argumentační klamy a manipulace** jako stránka úvodu oddílu (šablona jako Co je filozofie?, adresa `/argumentacni-klamy/`), odkaz z Otázek a z Kam dál cesty 1. Doporučuji tak.
    Odpověď:
+
+## Po P6 (17. 11. 2026)
+
+Odpovědi v Co rozhodnout před P6 zůstaly prázdné: platí všech sedm doporučení. Podklady jsou v `docs/podklady/herna.md`, nejisté body v `docs/podklady/k-overeni.md` (oddíl Větev herna-v1).
+
+**Co je ověřené**
+
+- **Kdo to řekl? a Doplň citát:** patnáct vět, které už v datech jsou, každá se třemi až čtyřmi lidmi a slovem se dvěma záměnami. U tří vět jsem vyřadil z možností člověka, kterému prameny podobnou větu dávají taky: Sókratés u „občana světa“ (Cicero, Tuskulské hovory V, 108) a u změny mysli (Seneca, Dopisy 28, 2), Aristotelés u údivu (Metafyzika 982b).
+- **Pravý, nebo podvržený?:** osm vět, šest „neřekl to“ a dvě „řekl to“ (Marcus VI, 6; Seneca 13, 4). U každé doklad, kde koluje, i původ. Věta o nádobě a ohni je Plútarchova (O poslouchání 48C, čteno řecky i anglicky), ale o mysli posluchače, ne o vzdělání; Sókratovi ani Yeatsovi nepatří. Hlasovací kotoučky (Athénská ústava 68, čteno řecky) sedí jako popis soudů 30. a 20. let 4. století, ne Sókratova procesu.
+- **Kdo by to řekl?:** osm dnešních vět, u každé jeden až dva podepisující a jeden odmítající s důvodem z citátu v datech.
+- **Páry:** dvanáct pojmů, situace, která pojem ukazuje, a situace, kde jde jen o stejné slovo.
+- **Tipni si a Seřaď na ose:** sedm čísel a pět pětic, spočítané skriptem `scripts/herna-cisla.ts` z dat (Isokratés 98 let, Diogenés a Aristotelés zemřeli rok po sobě, Démokritos přežil Sókrata asi o 29 let, Konfucius narozený před Parmenidem).
+- **Výpravy:** čtyři a čtyři otázky „Kde byl…?“, odpověď vždy z pobytu s časem.
+- **Argumentační klamy a manipulace:** deset klamů, každý s antickým místem (Obrana 23d, 19c a 34c–35c, Euthydémos 275e, Gorgiás 471e, Kritón 47b, Ústava 564a, Prótagorás 339c, O sofistických důkazech 5, 22 a 27, Cicero O povaze bohů I, 10, Plútarchos Proti Kólótovi, dopisy Seneky a Pavla) a dnešním případem ze sítí; české názvy podle příručky MELIA pro střední školy.
+- **Data:** třináct nových citátů a dvacet jedna pramenů v `zdroje.yaml`; nový druh záznamu `pripsani` (osm vět) se schématem `Pripsani` v `src/lib/schema.ts`, kontrolami odkazů v `src/lib/kontroly.ts` a testy v `tests/data/data.test.ts`. `npx vitest run` prošel.
+
+**Co vypadlo a proč**
+
+- Věty o smrti ze hry s otáčením karet (Kdo to řekl?) a situace s jídlem u Párů: pouceni, Student, kterého se téma bolestně týká.
+- „Jen mrtví viděli konec války“ (Santayana) a „Člověk je měřítkem všech věcí“ zůstaly jako záloha: první má doložený původ jen z výtahů, druhá by byla třetí „řekl to“.
+- Sorités u Chrýsippa ke klamu šikmá plocha: Lucullus v PerseusDL není; místo něj Ústava VIII, 564a, kde Platón řetěz sám podává jako pravděpodobný.
+- „Bez kamarádů nejsi nic“ u Kdo by to řekl?: Seneca (Dopisy 9, 13) by ji odmítl jen napůl; ověřeno, ale do dat nepřidáno.
+- Musonius Rufus do výprav: má vyhnanství od 65 bez konce, mapa ho nechá na Gyaru až do smrti. Zapsáno do `docs/navraty.md`.
+
+**Nad čím jsem váhal:** u Dionýsodóra v Euthydémovi jsem citát zapsal s `bezOsoby: true` (v datech není a nemá být); pod citátem pak stojí „Platón, Euthydémos 275e“ a jméno mluvčího musí říct text. Druh `prepsany` u Hérakleitovy řeky by šel vést i jako `neznamy` (dodatek o člověku); zvolil jsem přepsaný, protože první půlka je jeho myšlenka.
+
+**Otázky jen pro autora:** žádné nové osoby. Jen jedna věc k rozhodnutí: kde plátno D5 kotoučky použilo; pokud u Sókratova procesu, doporučuji je přesunout k obecnému popisu athénského soudu. Prázdná odpověď znamená souhlas.
+
+Další krok: K1 (herní jádro, Seřaď na ose, Kdo to řekl?) v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`.
 
 ## Co zůstává na později
 

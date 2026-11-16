@@ -49,6 +49,7 @@ Zdroje: **A** = `docs/revize/audit-2026-11-12.md`, **R** = `docs/revize/recenze-
 | Sókratés | dlouhé čtení, nápad | Nejdelší čtení bez činu (241 slov) a žádná hračka; návrat: soud jako Porota. | R |
 | Seneca | žádná hračka | Nejdelší text (2 058 slov) bez hračky je nejslabší poměr; návrat: přidat jednu. | R |
 | Epiktétos | rozhodnutí splývají | Čtyři rozhodnutí za sebou splývají; aspoň jedno dát jinou formou. | R |
+| Musonius Rufus | místo bez konce | Vyhnanství na Gyaru má v datech jen „od 65“, takže ho Mapa a čas i Život na mapě nechávají na ostrově až do smrti (101); doplnit „do“ podle pramene. | herna-v1, P6 |
 | Marcus Aurelius | zárodek příběhu | Vládneš místo něj (pokladna, spiknutí) je zárodek rozhodovacího příběhu; při revizi rozvinout. | R |
 | Diogenés | hádanka bez hry | Definice člověka a oškubané kuře chce odhalení jako hra. | R |
 | Hérakleitos | pole místo hry | „Kterou z vět napsal Hérakleitos?“ je hotový Pravý, nebo podvržený?; převést na formát z herny. | R |

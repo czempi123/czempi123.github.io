@@ -253,11 +253,67 @@ export const Obrazek = z
   })
   .strict();
 
+/**
+ * Věta, která koluje pod jménem filozofa (formát Pravý, nebo podvržený?, herna-v1). Do atlasu jde jen s dokladem,
+ * kde koluje (`koluje`), i s původem (`puvod`). Podklady: docs/podklady/herna.md.
+ */
+export const DruhPripsani = z.enum([
+  /** skutečný citát: řekl to */
+  'pravy',
+  /** myšlenka je jeho, slova ne (Vím, že nic nevím) */
+  'prepsany',
+  /** napsal opak (Neučíme se pro školu, ale pro život) */
+  'obraceny',
+  /** řekl to někdo jiný (Durant, Maclaren, Plútarchos) */
+  'cizi',
+  /** původ neznáme */
+  'neznamy',
+]);
+export const Pripsani = z
+  .object({
+    id: Id,
+    /** věta, jak koluje */
+    cesky: z.string(),
+    /** komu ji internet připisuje */
+    osoba: Id,
+    /** komu dalšímu se připisuje */
+    tez: z.array(Id).optional(),
+    /** razítko: řekl to, nebo neřekl */
+    verdikt: z.enum(['rekl', 'nerekl']),
+    druh: DruhPripsani,
+    /** co ten člověk opravdu řekl (citát v datech) */
+    skutecne: Id.optional(),
+    /** doklad, že a kde věta koluje */
+    koluje: z.object({ kde: z.string(), zdroj: Id }).strict(),
+    /** odkud věta doopravdy je */
+    puvod: z
+      .object({
+        citat: Id.optional(),
+        autor: z.string().optional(),
+        dilo: z.string().optional(),
+        misto: z.string().optional(),
+        rok: Rok.optional(),
+        popis: z.string(),
+        zdroj: Id,
+      })
+      .strict(),
+  })
+  .strict()
+  .superRefine((p, ctx) => {
+    if ((p.verdikt === 'rekl') !== (p.druh === 'pravy'))
+      ctx.addIssue({ code: 'custom', message: 'Razítko „řekl to“ patří právě k pravému citátu (druh pravy).' });
+    if (['pravy', 'prepsany', 'obraceny'].includes(p.druh) && !p.skutecne)
+      ctx.addIssue({ code: 'custom', message: `Připsání druhu ${p.druh} potřebuje skutecne: citát, co ten člověk opravdu řekl.` });
+    if (p.druh === 'cizi' && !p.puvod.autor && !p.puvod.citat)
+      ctx.addIssue({ code: 'custom', message: 'Cizí věta potřebuje v původu autora nebo citát.' });
+  });
+
 export const Zdroje = z
   .object({
     prameny: z.array(Pramen),
     citaty: z.array(Citat).default([]),
     obrazky: z.array(Obrazek).default([]),
+    pripsani: z.array(Pripsani).default([]),
   })
   .strict();
 
@@ -269,4 +325,5 @@ export type TUdalost = z.infer<typeof Udalost>;
 export type TObdobi = z.infer<typeof Obdobi>;
 export type TZdroje = z.infer<typeof Zdroje>;
 export type TCitat = z.infer<typeof Citat>;
+export type TPripsani = z.infer<typeof Pripsani>;
 export type TDatum = z.infer<typeof Datum>;
