@@ -1,6 +1,6 @@
 # Větev design-v2, část: kresby jako koláž a zadání pojmů
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Text oddílů je beze změny.
 
 ## Po K7b (15. 11. 2026)
 
@@ -78,7 +78,7 @@ Podklady Opus 5.5 · high se skillem `atlas-overeni`, komponenta Opus 5.5 · hig
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok P větve design-v2, pojmy. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíl Obsah větve › Pojmy (krok P), Co rozhodnout po K7b s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z částí plánu jen Po D2 (Stavy prvků: řádek Pojem; Písma: ruka), Po D3 (Tokeny pohybu: lístek pojmu; Pravidla pohybu) a Po auditu (Pravidlo střídmosti, Vizuální zlepšení bod 6). docs/design.md nečti celý, jen oddíly, které zadání jmenuje. Načti skilly atlas-overeni, atlas-komponenta a atlas-psani. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/ProfilSokrates.dc.html jen styly a značky pojmu („Delfy“: poznámka na okraji a lístek), ne pult náhledu a skript. Když odpovědi po K7b něco mění na kresbách, mini mapě nebo mini ose, oprav to nejdřív.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíl Obsah větve › Pojmy (krok P), Co rozhodnout po K7b s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z částí plánu jen Po D2 (Stavy prvků: řádek Pojem; Písma: ruka), Po D3 (Tokeny pohybu: lístek pojmu; Pravidla pohybu) a Po auditu (Pravidlo střídmosti, Vizuální zlepšení bod 6). docs/design.md nečti celý, jen oddíly, které zadání jmenuje. Načti skilly atlas-overeni, atlas-komponenta a atlas-psani. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/ProfilSokrates.dc.html jen styly a značky pojmu („Delfy“: poznámka na okraji a lístek), ne pult náhledu a skript. Když odpovědi po K7b něco mění na kresbách, mini mapě nebo mini ose, oprav to nejdřív.
 
 1. Výběr pojmů: výpisem z textů antiky (src/content: osobnosti, cesty, otázky, období, směry, pokusy, úvody, náboženství) najdi slova, která student potká a která potřebují vysvětlení (ataraxia, apatheia, ctnost, logos, idea, elenchos, eudaimonia, akrasia a další); asi 25. U každého zapiš, kde všude stojí (první výskyt na stránce). Jména lidí a míst pojmy nejsou.
 
@@ -96,7 +96,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 8. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro pojem, stránky s pojmy, nove-stranky, hledani, prohlidka a ty, které spadnou), node scripts/kontrola-fokus.mjs na profilu Sókrata, kroku cesty s pojmem a stránce pojmu, klávesnicí na dvou výškách okna, axe ve dne i v noci, kontrast nových dvojic výpočtem (trvalé do tests/data/kontrast.test.ts), node scripts/snimky-listy.mjs na profilu Sókrata a jedné stránce pojmu ve dne i v noci na 390 a 1440 px a node scripts/snimky-prvek.mjs na lístku pojmu otevřeném na telefonu. Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-9. Do plánu větve zapiš oddíl Po P: co vzniklo, které pojmy a kde, nad čím jsi váhal, otázky Co rozhodnout po P a zadání kroku R v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md a části plánu, které se změnily.
+9. Do plánu větve zapiš oddíl Po P: co vzniklo, které pojmy a kde, nad čím jsi váhal, otázky Co rozhodnout po P a zadání kroku R v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md a části plánu, které se změnily.
 
 10. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```

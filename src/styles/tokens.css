@@ -1,7 +1,7 @@
 /*
  * Design tokeny Atlasu myšlení: papír, inkoust a páska (větev design-v2, krok K1).
  * Zdroj hodnot: plátno design-v2, project/DesignSystem.dc.html a project/Domu.dc.html (<helmet>),
- * pravidla v docs/plany/design-v2.md (Po D2, Po D3, Po D4).
+ * pravidla v docs/archiv/plany/design-v2.md (Po D2, Po D3, Po D4).
  * Den je výchozí; noční zápisník podle nastavení systému, nebo ručně přes data-theme na <html>
  * (volba uložená v localStorage, viz src/components/rozvrzeni/PrepinacRezimu.astro).
  * Velikosti písma plynule rostou mezi šířkou 390 px (telefon) a 1440 px (notebook).

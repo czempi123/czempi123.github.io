@@ -1,4 +1,4 @@
-// Kontrast tokenů (docs/design.md, Přístupnost; docs/plany/design-v2.md › Po K1): WCAG AA 4,5 : 1 pro text
+// Kontrast tokenů (docs/design.md, Přístupnost; docs/archiv/plany/design-v2.md › Po K1): WCAG AA 4,5 : 1 pro text
 // a 3 : 1 pro hranice tužkou, ve dne i v nočním zápisníku. Stránky navíc kontroluje axe v Playwrightu
 // (tests/e2e/prohlidka.spec.ts).
 import { readFileSync } from 'node:fs';

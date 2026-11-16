@@ -1,6 +1,6 @@
 # Větev design-v2, část: revize a zadání oprav
 
-Část plánu větve `docs/plany/design-v2.md` (rozdělení podle pravidla z `CLAUDE.md`, soubor pro Projekt Claude pod 35 kB). Text oddílů je beze změny; odpovědi po R byly prázdné, takže platí doporučení.
+Část plánu větve `docs/archiv/plany/design-v2.md` (rozdělení podle pravidla z `CLAUDE.md`, soubor pro Projekt Claude pod 35 kB). Text oddílů je beze změny; odpovědi po R byly prázdné, takže platí doporučení.
 
 ## Po R (15. 11. 2026)
 
@@ -69,7 +69,7 @@ Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`; texty se
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok O větve design-v2, opravy po revizi. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/plany/design-v2.md tabulku kroků, oddíl Po R, Co rozhodnout po R s mými odpověďmi a toto zadání, a záznam docs/revize/design-v2.md; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z docs/design.md jen oddíly, které měníš. Načti skilly atlas-komponenta a atlas-psani (a computer-use, když v otázce 6 souhlasím s VoiceOverem).
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíl Po R, Co rozhodnout po R s mými odpověďmi a toto zadání, a záznam docs/revize/design-v2.md; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z docs/design.md jen oddíly, které měníš. Načti skilly atlas-komponenta a atlas-psani (a computer-use, když v otázce 6 souhlasím s VoiceOverem).
 
 1. Opravy podle odpovědí po R: pásky (otázka 1), popisky a lístečky v Mapě a čase (2), Stoický týden ve vzhledu Spojení (3), lehčí stránky osob (4: obrys pobřeží mini mapy jako sdílený soubor, Dva životy jen s nabídkou), otočení listu (5), texty pojmů a deníku (8). K tomu zbylé letopočty mimo sazbu (84 míst v dist/: popisky obrázků, Kde jsme, kredity, nadtitulky Příběhu, popisky osy Dvou životů) přes nezlomitelne() a test, který v dist/ hledá „př. n. l.“ s obyčejnou mezerou.
 
@@ -83,7 +83,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro dotčené stránky a ty, které spadnou), axe a scripts/revize-tabulator.mjs na stránkách, kterých se oprava dotkla, celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-7. Do plánu větve zapiš oddíl Po O (co se změnilo, snímky v Claude outputs/snimky/design-v2-o/, nad čím jsi váhal) a otázku na schválení větve, kterou zodpovím jen já. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md a části plánu, které se změnily.
+7. Do plánu větve zapiš oddíl Po O (co se změnilo, snímky v Claude outputs/snimky/design-v2-o/, nad čím jsi váhal) a otázku na schválení větve, kterou zodpovím jen já. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md a části plánu, které se změnily.
 
 8. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```

@@ -1,6 +1,6 @@
 # Větev design-v2, část: po auditu a herní prvky na plátně
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
 
 ## Po auditu (12. 11. 2026)
 
@@ -162,7 +162,7 @@ Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas 
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K3 dodatek větve design-v2, stránky osob po auditu. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po K3 (Co se na stránkách osob změnilo, Vnořený papír s páskou), Po auditu (body 1, 7, 8 a 9 z Vizuálních zlepšení, Pravidlo střídmosti), Po D5 a Co rozhodnout po D5 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/Zlepseni.dc.html jen styly a tělo bodu 1 (třídy ct, kap, paska). Když odpovědi po D5 něco mění, zapiš to do Po K3 dodatku a drž se jich.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíly Po K3 (Co se na stránkách osob změnilo, Vnořený papír s páskou), Po auditu (body 1, 7, 8 a 9 z Vizuálních zlepšení, Pravidlo střídmosti), Po D5 a Co rozhodnout po D5 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/Zlepseni.dc.html jen styly a tělo bodu 1 (třídy ct, kap, paska). Když odpovědi po D5 něco mění, zapiš to do Po K3 dodatku a drž se jich.
 
 1. Když je odpověď 10 po D5 ano (nebo prázdná): přesuň z plánu větve do docs/archiv/plany/design-v2-d1-k3.md provedená zadání (D2, D3, D4, K1, K2, K3, D5) a zodpovězené otázky (Co rozhodnout před D2, po D2, po D3, po K1, po K2) beze změny textu; v plánu po nich nech jeden řádek s odkazem. Oddíly Po D3, Po D4, Po K1, Po K3, Po auditu a Po D5 zůstávají. Samostatný commit.
 
@@ -180,7 +180,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 8. Ověř: npm run build, npx vitest run, PW_BEZ_BUILDU=1 npx playwright test pro stranky-osob, prohlidka, obsah, platon, seneca, aristoteles, celek7-profily, krates-hipparchia, medailonky, doba-odkazy, otazka, ram a odkazy; node scripts/kontrola-fokus.mjs na profilu Sókrata a Thaléta na 390 a 1440 px; kontrast nových dvojic výpočtem (skript v scripts/, po výpisu smaž; trvalé dvojice do tests/data/kontrast.test.ts). Snímky node scripts/snimky-listy.mjs pro Sókrata, Seneku a Thaléta na 390 a 1440 px ve dne i v noci do Claude outputs/snimky/design-v2-k3d/. Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-9. Do plánu větve zapiš oddíl Po K3 dodatku: co se změnilo, výsledek ověření přechodu, nad čím jsi váhal, otázky Co rozhodnout po K3 dodatku; zadání K4a nech, jak je, jen když něco z tohoto kroku mění jeho předpoklady, uprav ho. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+9. Do plánu větve zapiš oddíl Po K3 dodatku: co se změnilo, výsledek ověření přechodu, nad čím jsi váhal, otázky Co rozhodnout po K3 dodatku; zadání K4a nech, jak je, jen když něco z tohoto kroku mění jeho předpoklady, uprav ho. Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md.
 
 10. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```

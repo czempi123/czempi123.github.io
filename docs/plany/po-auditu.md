@@ -1,6 +1,6 @@
 # Plán dalšího postupu (po auditu, verze 2)
 
-12. 11. 2026 · Fable 5.2 · nahrazuje verzi 1 z téhož dne. Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`, `docs/revize/recenze-mapa-denik-2026-11-12.md` a odpovědi autora z 12. 11. Krok A0 plán 12. 11. 2026 zapsal do `docs/plany/design-v2.md` (fáze 1), `docs/plany/stredovek.md` (fáze 4), `docs/plan.md` (Další větve v pořadí, větve, modely), `docs/rozhodnuti.md` a `docs/navraty.md`; kde se tyhle soubory s tímto plánem liší, platí ony. Tady zůstává zdůvodnění, katalog aktivit a fáze 2, 3 a 5, dokud je nepřevezmou jejich větve.
+12. 11. 2026 · Fable 5.2 · nahrazuje verzi 1 z téhož dne. Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`, `docs/revize/recenze-mapa-denik-2026-11-12.md` a odpovědi autora z 12. 11. Krok A0 plán 12. 11. 2026 zapsal do `docs/archiv/plany/design-v2.md` (fáze 1), `docs/plany/stredovek.md` (fáze 4), `docs/plan.md` (Další větve v pořadí, větve, modely), `docs/rozhodnuti.md` a `docs/navraty.md`; kde se tyhle soubory s tímto plánem liší, platí ony. Tady zůstává zdůvodnění, katalog aktivit a fáze 2, 3 a 5, dokud je nepřevezmou jejich větve.
 
 ## Co platí (autor, 12. 11. 2026)
 
@@ -22,7 +22,7 @@
 
 ## Fáze 1: design dotáhnout
 
-Zapsáno v `docs/plany/design-v2.md` (tabulka kroků, oddíly Po auditu, Vizuální zlepšení, Mapa a deník: funkce, zadání D5, K4a a K4b). Rozsah zůstává celý včetně mapy jako výstřižku, kreseb jako koláže a pojmů. Návrh z verze 1 zmenšit K7 beru zpět: kresby jsou to, co má atlas nejzábavnějšího, a mají vypadat nejlíp.
+Zapsáno v `docs/archiv/plany/design-v2.md` (tabulka kroků, oddíly Po auditu, Vizuální zlepšení, Mapa a deník: funkce, zadání D5, K4a a K4b). Rozsah zůstává celý včetně mapy jako výstřižku, kreseb jako koláže a pojmů. Návrh z verze 1 zmenšit K7 beru zpět: kresby jsou to, co má atlas nejzábavnějšího, a mají vypadat nejlíp.
 
 ## Fáze 2: herna
 

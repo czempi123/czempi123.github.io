@@ -1,6 +1,6 @@
 # Větev design-v2, část: Mapa a čas
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
 
 ## Zadání K7a: Mapa a čas
 
@@ -9,7 +9,7 @@ Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas 
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K7a větve design-v2, Mapa a čas. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Mapa a čas; Co se proti design systému změnilo), Po K1 (přezdívky), Po auditu (Pravidlo střídmosti, Mapa a deník: funkce, řádky K7a), Po K6 a Co rozhodnout po K6 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíly o Mapě a čase (mapa, řeka životů, karta člověka, posuvník, Přehrát život). Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/MapaCas.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript). Když odpovědi po K6 něco mění, oprav to nejdřív (kód QR v deníku jen s mým souhlasem z otázky 3). Podle otázky 6 po K6 nejdřív ověř přechod mezi stránkami v opravdovém Chromu (scripts/overeni-prechodu.mjs; Otázky → Lidé a zpět, Lidé → profil) a test ram.spec.ts:85 (--repeat-each=6, srovnej s commitem před K6); když přechod vypadává i v opravdovém Chromu, najdi příčinu (podezřelé je záhlaví a spodní lišta po K6: data-navraty a tečka u Deníku) a oprav ji.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Mapa a čas; Co se proti design systému změnilo), Po K1 (přezdívky), Po auditu (Pravidlo střídmosti, Mapa a deník: funkce, řádky K7a), Po K6 a Co rozhodnout po K6 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíly o Mapě a čase (mapa, řeka životů, karta člověka, posuvník, Přehrát život). Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/MapaCas.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript). Když odpovědi po K6 něco mění, oprav to nejdřív (kód QR v deníku jen s mým souhlasem z otázky 3). Podle otázky 6 po K6 nejdřív ověř přechod mezi stránkami v opravdovém Chromu (scripts/overeni-prechodu.mjs; Otázky → Lidé a zpět, Lidé → profil) a test ram.spec.ts:85 (--repeat-each=6, srovnej s commitem před K6); když přechod vypadává i v opravdovém Chromu, najdi příčinu (podezřelé je záhlaví a spodní lišta po K6: data-navraty a tečka u Deníku) a oprav ji.
 
 1. Podklad mapy jako výstřižek staré mapy přilepený páskou (Po D4, MapaCas): moře šrafované tužkou, vodní linky podél pobřeží, pevnina na lístkovém papíře, rámeček se stupnicí, názvy moří kurzívou a krajů prostrkaně, větrná růžice, měřítko; v tmavém režimu týž výstřižek v noci. Barvy mapy (--map-*) převeď na papír a inkousty z tokens.css. Malý pás období nad mapou jako v K6 (zvolené období vtlačené, na telefonu vodorovně posuvný).
 
@@ -23,7 +23,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro mapa, mini-mapa, zivot-na-mape, dva-zivoty, doba-odkazy, ram, domu a ty, které spadnou), node scripts/kontrola-fokus.mjs na Mapě a čase (bez vybraného člověka, s vybraným člověkem, s řekou životů) a na Domů, klávesnicí na dvou výškách okna (posuvník, lístečky, karta, řeka), jednou se zpomaleným procesorem při tažení posuvníku a tažení prstem skutečnými dotykovými událostmi (CDP), node scripts/snimky-listy.mjs na Mapě a čase (rok 424 př. n. l. s vybraným Sókratem, řeka životů, první návštěva) na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-7. Do plánu větve zapiš oddíl Po K7a: co se na mapě změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K7a a zadání K7b v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+7. Do plánu větve zapiš oddíl Po K7a: co se na mapě změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K7a a zadání K7b v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md.
 
 8. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
@@ -129,7 +129,7 @@ Opus 5.5 · high se skillem `atlas-komponenta`. Pusť v novém chatu v Projektu 
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K6 dodatek větve design-v2, kapitoly v deníku. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po K6 (Můj deník jako zápisník), Po K7a (Připomínky autora mimo mapu) a Co rozhodnout po K7a s mými odpověďmi; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z docs/design.md jen oddíl o Mém deníku. Načti skill atlas-komponenta.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíly Po K6 (Můj deník jako zápisník), Po K7a (Připomínky autora mimo mapu) a Co rozhodnout po K7a s mými odpověďmi; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z docs/design.md jen oddíl o Mém deníku. Načti skill atlas-komponenta.
 
 1. Deník dostane jedno další členění podle odpovědi 5 po K7a (doporučení: období). Moje filozofie a Návrat zůstanou nahoře. Pod nimi kapitoly jako rozbalovací lístky (otevřená je kapitola, kde student naposledy byl; stav kapitol si deník pamatuje), v kapitole rozpracované cesty, odpovědi a stanoviska seřazené podle cest (nadpis cesty je řádek, ne další rozbalování) a sbírka té kapitoly. Prázdná kapitola (období bez stránky nebo bez záznamů) se neukazuje. Výpis podle data zůstane jako přepínač uvnitř kapitoly. Záloha a přenos zůstanou dole jednou pro celý deník.
 
@@ -137,7 +137,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 3. Ověř: npm run build, npx vitest run, PW_BEZ_BUILDU=1 npx playwright test pro denik, navrat, tvoje-antika, denik-soubor a ty, které spadnou; node scripts/kontrola-fokus.mjs na /denik/ s prázdným a plným deníkem; klávesnicí (rozbalení kapitoly, Esc nic nerozbije); node scripts/snimky-listy.mjs na /denik/ s plným deníkem (ULOZISTE) na 390 a 1440 px ve dne i v noci. Celé npm test jednou před commitem. Restartuj náhled npm run dev.
 
-4. Do plánu větve zapiš oddíl Po K6 dodatku (co se změnilo, nad čím jsi váhal, otázky). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+4. Do plánu větve zapiš oddíl Po K6 dodatku (co se změnilo, nad čím jsi váhal, otázky). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md.
 
 5. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```

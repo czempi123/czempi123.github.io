@@ -27,8 +27,8 @@ Nový vzhled atlasu ve stylu scrapbooku s prvky neumorfismu, přechody a animace
 | K7b | Třináct kreseb jako koláž na rámu `Kresba.svelte` v novém papíru a v tmavém režimu (pravidla v Po D4); obraz ke kapitole (bod 9) tam, kde ho nese kresba; kontrolní snímky | totéž | hotovo 15. 11. 2026 (oddíl Po K7b); kontrolní bod se snímky |
 | P | Pojmy: kolekce `pojmy`, komponenta Pojem (poznámka na okraji na notebooku, lístek po klepnutí na telefonu, fokus z klávesnice), stránka `/pojem/<id>/`, první vlna pojmů z antiky s podklady, vyznačení v textech; české tvary jmen pro hledání (Pagefind neskloňuje) | podklady Opus 5.5 · high (`atlas-overeni`), komponenta Opus 5.5 · high (`atlas-komponenta`), texty `atlas-psani` | hotovo 15. 11. 2026 (oddíl Po P); kontrolní bod se snímky |
 | R | Revize celé větve: všechny typy stránek na 390 a 1440 px ve světlém i tmavém režimu, kontrast, klávesnice, čtečka, omezený pohyb, výkon na autorově telefonu a na jednom levném se systémem Android (když otočení listu trhá, přepne se samo na krátký přechod), váha HTML stránek osob, Zod v ostrovu `SlozArgument` | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design (`design:accessibility-review`, `design:design-critique`) | hotovo 15. 11. 2026 (oddíl Po R, záznam `docs/revize/design-v2.md`); kontrolní bod se snímky |
-| O | Opravy po revizi, **přepínač Klidný režim** v záhlaví (krátké přechody i bez nastavení systému, čistý papír; bod 12), `docs/design.md` napsat znovu a krátce (dnes 144 kB), do testů dvanáct referenčních snímků klíčových obrazovek, skill `atlas-komponenta` s oddíly Papír a Pohyb, `docs/pouceni.md` | Opus 5.5 · high | hotovo 15. 11. 2026 (oddíl Po O); VoiceOver neověřený (otázka 2 po O); kontrolní bod se snímky |
-| Uzavření | Podle odpovědí po O: VoiceOver s autorem u Macu (otázka 2), smazání nepoužívaných Mincí a zbylých přezdívek (otázka 3); pak sloučení, GitHub, kontrola nasazeného webu a prvního běhu kontrol (referenční snímky na Linuxu) | Opus 5.5 · medium | čeká na schválení (otázka 1 po O) |
+| O | Opravy po revizi, **přepínač Klidný režim** v záhlaví (krátké přechody i bez nastavení systému, čistý papír; bod 12), `docs/design.md` napsat znovu a krátce (dnes 144 kB), do testů dvanáct referenčních snímků klíčových obrazovek, skill `atlas-komponenta` s oddíly Papír a Pohyb, `docs/pouceni.md` | Opus 5.5 · high | hotovo 15. 11. 2026 (oddíl Po O); VoiceOver neověřený, odložený (Co zůstává na později); kontrolní bod se snímky |
+| Uzavření | Podle odpovědí po O: VoiceOver s autorem u Macu (otázka 2), smazání nepoužívaných Mincí a zbylých přezdívek (otázka 3); pak sloučení, GitHub, kontrola nasazeného webu a prvního běhu kontrol (referenční snímky na Linuxu) | Opus 5.5 · medium | hotovo 16. 11. 2026 (oddíl Uzavření): Mince a přezdívky smazané, VoiceOver odložený, větev sloučená do hlavní větve a na GitHubu |
 
 **Proč v tomhle pořadí**
 
@@ -119,6 +119,7 @@ Schválené 7. 11. 2026 („tohle se mi hodně líbí“):
 
 - Režim třídy v novém vzhledu (navazuje na přípravu hodiny; samostatně).
 - Kartičky ke sdílení (obsahová vrstva F5).
+- Kontrola VoiceOverem (odložená autorem 16. 11. 2026; axe a klávesnice jsou čisté): kapitoly deníku (nadpis s tlačítkem, nesmí zmizet z přehledu nadpisů), pojem na okraji, krok cesty s blokem, kresba, Mapa a čas. Nejjednodušší je zapnout VoiceOver na iPhonu a deník poslechnout; když nadpis kapitoly zmizí, předělat ho na `h3` s tlačítkem uvnitř a datem v `aria-describedby`.
 
 Provedená zadání D2 až K3 a D5 a zodpovězené otázky před D2, po D2, po D3, po K1 a po K2 jsou beze změny textu v `docs/archiv/plany/design-v2-d1-k3.md` (přesunuto v K3 dodatku 13. 11. 2026).
 
@@ -126,18 +127,18 @@ Provedená zadání D2 až K3 a D5 a zodpovězené otázky před D2, po D2, po D
 
 Plán se 15. 11. 2026 rozdělil (pravidlo z `CLAUDE.md`: soubor pro Projekt Claude pod 35 kB). V tomhle souboru je stav, tabulka kroků, obsah větve a oddíly běžícího kroku; hotové oddíly jsou beze změny textu v částech níž. Když zadání jmenuje oddíl („Po D3“, „Po K1 › přezdívky“), najdeš ho podle tohoto seznamu. Když hlavní soubor přeroste 35 kB, hotové oddíly „Po …“, „Co rozhodnout po …“ a provedená zadání se přesunou do nové části a přibude řádek sem; tabulku přezdívek (Po K1) a odškrtávání v ní dál upravuj v části 2.
 
-- `docs/plany/design-v2-1-d2-d3.md` (plátno: design systém a pohyb): Po D2 (8. 11. 2026), Po D3 (8. 11. 2026)
-- `docs/plany/design-v2-2-d4-k1.md` (plátno: obrazovky, a základ kódu (tokeny, přezdívky)): Po D4 (8. 11. 2026), Co rozhodnout po D4, Po K1 (8. 11. 2026)
-- `docs/plany/design-v2-3-k2-k3.md` (rám webu a stránky osob): Po K2 (8. 11. 2026), Po K3 (9. 11. 2026), Co rozhodnout po K3
-- `docs/plany/design-v2-4-audit-d5.md` (po auditu a herní prvky na plátně): Po auditu (12. 11. 2026), Po D5 (13. 11. 2026), Co rozhodnout po D5, Zadání K3 dodatek: stránky osob po auditu
-- `docs/plany/design-v2-5-k3d-k4a.md` (stránky osob po auditu, rám aktivity a první bloky): Po K3 dodatku (13. 11. 2026), Co rozhodnout po K3 dodatku, Zadání K4a: společný rám aktivity a první bloky, Po K4a (13. 11. 2026), Co rozhodnout po K4a
-- `docs/plany/design-v2-6-k4b.md` (zbylé bloky): Zadání K4b: zbylé bloky, Po K4b (13. 11. 2026), Co rozhodnout po K4b, Zadání K5: cesta
-- `docs/plany/design-v2-7-k5-k6.md` (cesta, stránky z dat a deník): Po K5 (14. 11. 2026), Co rozhodnout po K5, Zadání K6: stránky z dat a deník, Po K6 (14. 11. 2026), Co rozhodnout po K6
-- `docs/plany/design-v2-8-k7a.md` (Mapa a čas): Zadání K7a: Mapa a čas, Po K7a (15. 11. 2026), Co rozhodnout po K7a, Zadání K6 dodatek: kapitoly v deníku
-- `docs/plany/design-v2-9-k6d-k7b.md` (deník po obdobích a zadání kreseb): Po K6 dodatku (15. 11. 2026), Co rozhodnout po K6 dodatku, Zadání K7b: kresby jako koláž
-- `docs/plany/design-v2-10-k7b-p.md` (kresby jako koláž a zadání pojmů): Po K7b (15. 11. 2026), Co rozhodnout po K7b, Zadání P: pojmy
-- `docs/plany/design-v2-11-p-r.md` (pojmy a zadání revize): Po P (15. 11. 2026), Co rozhodnout po P, Zadání R: revize celé větve
-- `docs/plany/design-v2-12-r-o.md` (revize a zadání oprav): Po R (15. 11. 2026), Co rozhodnout po R, Zadání O: opravy po revizi
+- `docs/archiv/plany/design-v2-1-d2-d3.md` (plátno: design systém a pohyb): Po D2 (8. 11. 2026), Po D3 (8. 11. 2026)
+- `docs/archiv/plany/design-v2-2-d4-k1.md` (plátno: obrazovky, a základ kódu (tokeny, přezdívky)): Po D4 (8. 11. 2026), Co rozhodnout po D4, Po K1 (8. 11. 2026)
+- `docs/archiv/plany/design-v2-3-k2-k3.md` (rám webu a stránky osob): Po K2 (8. 11. 2026), Po K3 (9. 11. 2026), Co rozhodnout po K3
+- `docs/archiv/plany/design-v2-4-audit-d5.md` (po auditu a herní prvky na plátně): Po auditu (12. 11. 2026), Po D5 (13. 11. 2026), Co rozhodnout po D5, Zadání K3 dodatek: stránky osob po auditu
+- `docs/archiv/plany/design-v2-5-k3d-k4a.md` (stránky osob po auditu, rám aktivity a první bloky): Po K3 dodatku (13. 11. 2026), Co rozhodnout po K3 dodatku, Zadání K4a: společný rám aktivity a první bloky, Po K4a (13. 11. 2026), Co rozhodnout po K4a
+- `docs/archiv/plany/design-v2-6-k4b.md` (zbylé bloky): Zadání K4b: zbylé bloky, Po K4b (13. 11. 2026), Co rozhodnout po K4b, Zadání K5: cesta
+- `docs/archiv/plany/design-v2-7-k5-k6.md` (cesta, stránky z dat a deník): Po K5 (14. 11. 2026), Co rozhodnout po K5, Zadání K6: stránky z dat a deník, Po K6 (14. 11. 2026), Co rozhodnout po K6
+- `docs/archiv/plany/design-v2-8-k7a.md` (Mapa a čas): Zadání K7a: Mapa a čas, Po K7a (15. 11. 2026), Co rozhodnout po K7a, Zadání K6 dodatek: kapitoly v deníku
+- `docs/archiv/plany/design-v2-9-k6d-k7b.md` (deník po obdobích a zadání kreseb): Po K6 dodatku (15. 11. 2026), Co rozhodnout po K6 dodatku, Zadání K7b: kresby jako koláž
+- `docs/archiv/plany/design-v2-10-k7b-p.md` (kresby jako koláž a zadání pojmů): Po K7b (15. 11. 2026), Co rozhodnout po K7b, Zadání P: pojmy
+- `docs/archiv/plany/design-v2-11-p-r.md` (pojmy a zadání revize): Po P (15. 11. 2026), Co rozhodnout po P, Zadání R: revize celé větve
+- `docs/archiv/plany/design-v2-12-r-o.md` (revize a zadání oprav): Po R (15. 11. 2026), Co rozhodnout po R, Zadání O: opravy po revizi
 
 ## Po O (15. 11. 2026)
 
@@ -190,4 +191,6 @@ Prázdná odpověď znamená souhlas s doporučením, kromě otázky 1.
 
 ## Uzavření
 
-Po revizi a opravách otázka na schválení, kterou zodpoví jen autor (Co rozhodnout po O, otázka 1). Před sloučením podle odpovědí 2 a 3 ověření VoiceOverem s autorem a smazání nepoužívaných Mincí. Po ní sloučení do hlavní větve, GitHub, plán a zadání do `docs/archiv/`, řádek v `docs/plan.md` a na řadě větev `herna-v1` (`docs/plan.md` › Další větve v pořadí).
+Po revizi a opravách otázka na schválení, kterou zodpoví jen autor (Co rozhodnout po O, otázka 1). Před sloučením podle odpovědí 2 a 3 ověření VoiceOverem s autorem a smazání nepoužívaných Mincí. Po ní sloučení do hlavní větve, GitHub, plán a zadání do `docs/archiv/`, řádek v `docs/plan.md` a na řadě větev `herna-v1` (`docs/plan-vetve.md` › Další větve v pořadí).
+
+**Hotovo 16. 11. 2026.** Autor schválil všechny čtyři odpovědi po O. Smazané nepoužívané `ui/Mince.astro` a `mapa/Mince.svelte` i se zbylými přezdívkami tokenů (tinty a desky období, `--muted`, `--paper`, `--surface`, `--period-N`, `--r-full`); `.t-popisek` je v `--ink-3`, barva období v `obdobi.yaml` je `--p-N`. Ovládání VoiceOveru přes AppleScript se na Macu nezapnulo a autor kontrolu odložil (Co zůstává na později). Celé `npm test` prošlo (Vitest 1412, Playwright 796). Větev je sloučená do hlavní větve a na GitHubu; plán je v `docs/archiv/plany/`.

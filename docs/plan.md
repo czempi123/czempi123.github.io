@@ -172,6 +172,8 @@ Základem bude časopisecký styl, který už má profil Marca Aurelia, dotažen
 
 Postup: nejdřív vizuální návrh čtyř klíčových obrazovek (Domů, Mapa a čas, Osobnost, krok cesty) na notebooku i telefonu, společná iterace a schválení. Teprve potom se návrh převede do design tokenů a komponent. Barvy období a konkrétní písmo jsou návrh k odsouhlasení, ne hotová volba.
 
+Od 16. 11. 2026 platí vzhled z větve `design-v2` (zápisník z papíru, pohyb, Klidný režim, pojmy na okraji): pravidla jsou v `docs/design.md`, plán větve v `docs/archiv/plany/design-v2.md`.
+
 ## Obsahový model a struktura repozitáře
 
 Každý kus obsahu je jeden soubor s pevným ID a schématem; stránky se z nich skládají automaticky. Díky tomu se například současníci, učitelé a žáci na profilu nikdy nepíšou ručně.

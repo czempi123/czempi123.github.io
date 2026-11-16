@@ -1,6 +1,6 @@
 # Větev design-v2, část: pojmy a zadání revize
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Text oddílů je beze změny.
 
 ## Po P (15. 11. 2026)
 
@@ -70,7 +70,7 @@ Opus 5.5 · high se skillem `atlas-revize` a pluginem Design (`design:accessibil
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok R větve design-v2, revize celé větve. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíl Obsah větve, Co rozhodnout po P s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z částí plánu jen Po D2 (Stavy prvků, Kontrola kontrastu), Po D3 (Pravidla pohybu), Po auditu (Vizuální zlepšení, Pravidlo střídmosti) a oddíly „Nad čím jsem váhal“ kroků K1 až P (podle seznamu Části plánu) jako seznam míst, kde hledat nejdřív. docs/design.md nečti celý. Načti skilly atlas-revize, atlas-komponenta a atlas-psani a z pluginu Design design:accessibility-review a design:design-critique. Když odpovědi po P něco mění na pojmech, oprav to nejdřív.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíl Obsah větve, Co rozhodnout po P s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. Z částí plánu jen Po D2 (Stavy prvků, Kontrola kontrastu), Po D3 (Pravidla pohybu), Po auditu (Vizuální zlepšení, Pravidlo střídmosti) a oddíly „Nad čím jsem váhal“ kroků K1 až P (podle seznamu Části plánu) jako seznam míst, kde hledat nejdřív. docs/design.md nečti celý. Načti skilly atlas-revize, atlas-komponenta a atlas-psani a z pluginu Design design:accessibility-review a design:design-critique. Když odpovědi po P něco mění na pojmech, oprav to nejdřív.
 
 1. Inventura: vypiš všechny typy stránek (Domů, Lidé a směry, Otázky, Mapa a čas, profil, společný profil, medailonek, přehled a krok cesty, velká otázka, období, směr, myšlenkový pokus, úvody, tradice, pojem a Pojmy, Můj deník s kapitolami, Tvoje antika, Stoický týden, příprava hodiny, hodina a promítání, dílna, 404) a ke každému jednu adresu.
 
@@ -84,7 +84,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Ověř opravy: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro dotčené stránky a ty, které spadnou), celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-7. Do plánu větve zapiš oddíl Po R: co revize našla a co opravila, snímky, otázky Co rozhodnout po R (každý zásadní nález jako otázka s doporučením; prázdná odpověď znamená souhlas) a zadání kroku O v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md a části plánu, které se změnily.
+7. Do plánu větve zapiš oddíl Po R: co revize našla a co opravila, snímky, otázky Co rozhodnout po R (každý zásadní nález jako otázka s doporučením; prázdná odpověď znamená souhlas) a zadání kroku O v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md a části plánu, které se změnily.
 
 8. Pak se zastav a napiš mi, na které snímky a nálezy se mám podívat.
 ```

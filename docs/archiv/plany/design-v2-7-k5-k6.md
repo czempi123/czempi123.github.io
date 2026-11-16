@@ -1,6 +1,6 @@
 # Větev design-v2, část: cesta, stránky z dat a deník
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Plán se 15. 11. 2026 rozdělil, aby každý soubor pro Projekt Claude měl pod 35 kB; text oddílů je beze změny.
 
 ## Po K5 (14. 11. 2026)
 
@@ -80,7 +80,7 @@ Opus 5.5 · high (xhigh při zaseknutí). Pusť v novém chatu v Projektu Atlas 
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K6 větve design-v2, stránky z dat a deník. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Domů, Velká otázka 1, Období 2, Můj deník; Co se proti design systému změnilo), Po K1 (přezdívky), Po auditu (body 5, 6 a 10 z Vizuálních zlepšení, Pravidlo střídmosti, Mapa a deník: funkce), Po D5 (papírnictví období), Po K4b, Po K5 a Co rozhodnout po K5 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíly Stránky období, směru, pokusu, úvodu a tradice, Velká otázka a Tvoje antika. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/Domu.dc.html, project/VelkaOtazka.dc.html, project/ObdobiHelenismus.dc.html a project/MujDenik.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript), ze Zlepseni.dc.html jen bod 5. Když odpovědi po K5 něco mění, oprav nejdřív cestu.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků, oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Domů, Velká otázka 1, Období 2, Můj deník; Co se proti design systému změnilo), Po K1 (přezdívky), Po auditu (body 5, 6 a 10 z Vizuálních zlepšení, Pravidlo střídmosti, Mapa a deník: funkce), Po D5 (papírnictví období), Po K4b, Po K5 a Co rozhodnout po K5 s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen nadpisy a oddíly Stránky období, směru, pokusu, úvodu a tradice, Velká otázka a Tvoje antika. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/Domu.dc.html, project/VelkaOtazka.dc.html, project/ObdobiHelenismus.dc.html a project/MujDenik.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript), ze Zlepseni.dc.html jen bod 5. Když odpovědi po K5 něco mění, oprav nejdřív cestu.
 
 1. Domů jako stůl s věcmi k vzetí (bod 10): první lístek cesty (ListekCesty z K5), dnešní pokus na pět minut, pohlednice s příběhem, složená mapa, a když už student něco má, pruh z jeho zápisníku; titulek s pruhem, pás období jako odtrhávací lístky s ornamenty (Po D4), tři vstupy jako karty. Pravidlo střídmosti: na obrazovce nejvýš jedna ozdoba, která nic nenese.
 
@@ -94,7 +94,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro domu, denik, navrat, tyden, otazka, nove-stranky, obdobi, lide, otazky, hodina-podoby, hodina-student, prohlidka, medailonky a ty, které spadnou), node scripts/kontrola-fokus.mjs na Domů, Můj deník, stránce období 1, otázce 1 a Lidech, klávesnicí na dvou výškách okna, node scripts/snimky-listy.mjs na Domů, deníku (prázdném i plném), období 1, otázce 1 a Lidech na 390 a 1440 px ve dne i v noci. Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-7. Do plánu větve zapiš oddíl Po K6: co se na stránkách změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K6 a zadání K7a v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md.
+7. Do plánu větve zapiš oddíl Po K6: co se na stránkách změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K6 a zadání K7a v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md.
 
 8. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```

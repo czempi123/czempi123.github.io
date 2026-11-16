@@ -1,6 +1,6 @@
 # Větev design-v2, část: Deník po obdobích a zadání kreseb
 
-Část plánu větve `docs/plany/design-v2.md` (oddíl Části plánu). Přesunuto po K7b 15. 11. 2026, aby hlavní soubor zůstal pod 35 kB; text oddílů je beze změny.
+Část plánu větve `docs/archiv/plany/design-v2.md` (oddíl Části plánu). Přesunuto po K7b 15. 11. 2026, aby hlavní soubor zůstal pod 35 kB; text oddílů je beze změny.
 
 ## Po K6 dodatku (15. 11. 2026)
 
@@ -62,7 +62,7 @@ Opus 5.5 · high (xhigh při zaseknutí) se skillem `atlas-komponenta`. Pusť v 
 ```text
 Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Terminál máš přes Desktop Commander: pracuj přímo v repozitáři, ne v kopii. Úkol: krok K7b větve design-v2, kresby jako koláž. Čti jen to, co krok potřebuje (CLAUDE.md › Co číst a jak šetřit). Archiv nečti.
 
-0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/plany/design-v2.md tabulku kroků a oddíl Části plánu, podle něj z částí oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Kresba; Co se proti design systému změnilo: Kresby jako koláž), Po K1 (přezdívky), Po auditu (Pravidlo střídmosti, Vizuální zlepšení bod 9), Po K7a (Přezdívky), Co rozhodnout po K7a a Co rozhodnout po K6 dodatku s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen oddíl Kresba s pohybem. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/KresbaVitr.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript). Když odpovědi po K7a něco mění na mapě nebo odpovědi po K6 dodatku na deníku (Denik.svelte, src/lib/zapisnik.ts), oprav to nejdřív.
+0. git switch design-v2, git status bez necommitnutých změn (nesledované „Atlas myšlení — kritika…md“ a „Claude outputs/“ nech být). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v plánu větve docs/archiv/plany/design-v2.md tabulku kroků a oddíl Části plánu, podle něj z částí oddíly Po D3 (Tokeny pohybu, Pravidla pohybu), Po D4 (Co je na kterých obrazovkách: Kresba; Co se proti design systému změnilo: Kresby jako koláž), Po K1 (přezdívky), Po auditu (Pravidlo střídmosti, Vizuální zlepšení bod 9), Po K7a (Přezdívky), Co rozhodnout po K7a a Co rozhodnout po K6 dodatku s mými odpověďmi a toto zadání; když odpovědi v repozitáři nejsou, vezmi je z Projektu Claude. docs/design.md nečti celý, jen oddíl Kresba s pohybem. Načti skill atlas-komponenta. Na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ přečti z project/KresbaVitr.dc.html jen styly a tělo obrazovky (ne pult náhledu a skript). Když odpovědi po K7a něco mění na mapě nebo odpovědi po K6 dodatku na deníku (Denik.svelte, src/lib/zapisnik.ts), oprav to nejdřív.
 
 1. Rám Kresba.svelte v novém papíru: plátno je tečkovaný papír přilepený na list, ovládání (přepínače, posuvník, Zastavit pohyb) ve vtlačené drážce, popisek pod kresbou. Pravidla kreseb v global.css (k-svetlo, k-stin, k-tma a další) převeď z desky období (--pc-plate, --pc-on-plate) na koláž: výstřižky (--list, --listek, papír období --pp) se stínem výstřižku bez obrysových čar, zem a horizont natržený pruh papíru, směr, pohyb a síly tužkou (--tuzka, čárkovaně), barva období jen na jednom nositeli významu, text v kresbě na lístečku s páskou Kalamem, popisky Instrument Sans; v noci tytéž tokeny (pravidla v Po D4).
 
@@ -76,7 +76,7 @@ Pracuješ v repozitáři atlas na mém Macu (/Users/vojtechczempka/Atlas). Termi
 
 6. Ověř: npm run build, dotčené testy (npx vitest run; PW_BEZ_BUILDU=1 npx playwright test pro kresby, cesty s kresbami, mini-mapa, stranky-osob, dilna a ty, které spadnou), node scripts/kontrola-fokus.mjs na stránkách s kresbami (cesta 3 krok 1, dílna Kresby) a na profilu Sókrata, klávesnicí na dvou výškách okna (ovládání kreseb), jednou se zpomaleným procesorem u kresby s pohybem a posuvníkem, node scripts/snimky-prvek.mjs na každé kresbě ve dne i v noci na 390 a 1440 px a node scripts/snimky-listy.mjs na profilu Sókrata (mini mapa, mini osa). Kontrast nových dvojic výpočtem (krátký skript v scripts/, po výpisu ho smaž; trvalé dvojice přidej do tests/data/kontrast.test.ts). Celé npm test jednou před posledním commitem. Restartuj náhled npm run dev.
 
-7. Do plánu větve zapiš oddíl Po K7b: co se na kresbách změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K7b a zadání kroku P v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/plany/design-v2.md a části plánu, které se změnily.
+7. Do plánu větve zapiš oddíl Po K7b: co se na kresbách změnilo, přezdívky odškrtnuté a zbylé, nad čím jsi váhal, otázky Co rozhodnout po K7b a zadání kroku P v plném znění (podle tabulky kroků). Commit v design-v2, na GitHub nic. V Projektu Claude aktualizuj docs/archiv/plany/design-v2.md a části plánu, které se změnily.
 
 8. Pak se zastav a napiš mi, na které snímky se mám podívat.
 ```
