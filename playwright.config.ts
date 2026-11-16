@@ -11,6 +11,9 @@ export default defineConfig({
   // Referenční snímky (tests/e2e/snimky.spec.ts): jeden soubor pro Mac i Linux, bez jména systému v cestě.
   snapshotPathTemplate: '{testDir}/snimky/{arg}{ext}',
   timeout: 60_000,
+  // Na GitHubu jeden opakovaný pokus: prohlídka profilu na 390 px tam asi jednou za běh uvázne v projedStranku
+  // (60 s, pokaždé jiný profil), na Macu ani v Linuxu s CI=1 se to nestalo. Opakovaný test zpráva ukáže jako flaky.
+  retries: process.env.CI ? 1 : 0,
   fullyParallel: true,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list']],
   use: {
