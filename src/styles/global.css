@@ -84,7 +84,7 @@ a:hover { text-decoration-thickness: 2px; }
 .t-perex { font-size: var(--fs-perex); line-height: var(--lh-perex); color: var(--ink-2); }
 .t-ovladani-l { font-family: var(--font-sans); font-size: var(--fs-ovladani-l); line-height: var(--lh-ovladani-l); font-weight: 600; }
 .t-ovladani { font-family: var(--font-sans); font-size: var(--fs-ovladani); line-height: var(--lh-ovladani); font-weight: 500; }
-.t-popisek { font-family: var(--font-sans); font-size: var(--fs-popisek); line-height: var(--lh-popisek); color: var(--muted); }
+.t-popisek { font-family: var(--font-sans); font-size: var(--fs-popisek); line-height: var(--lh-popisek); color: var(--ink-3); }
 .t-nadtitulek {
   font-family: var(--font-sans);
   font-size: var(--fs-nadtitulek);
@@ -135,7 +135,7 @@ em, i { font-style: italic; }
 .preskocit:focus { top: var(--s-2); }
 
 /* Barva období pro podstrom: třída .obdobi-N nastaví inkoust --p, papír --pp a text na papíru --na-pp.
-   Bez třídy (velká otázka, deník) je pruh i páska v inkoustu. Staré --pc* zůstávají do přepisu komponent. */
+   Bez třídy (velká otázka, deník) je pruh i páska v inkoustu. */
 :root { --p: var(--ink); --pp: var(--ink); --na-pp: var(--na-inkoustu); }
 .bez-obdobi { --p: var(--ink); --pp: var(--ink); --na-pp: var(--na-inkoustu); }
 .obdobi-1 { --p: var(--p-1); --pp: var(--pp-1); --na-pp: var(--na-papiru); }
@@ -146,14 +146,6 @@ em, i { font-style: italic; }
 .obdobi-6 { --p: var(--p-6); --pp: var(--pp-6); --na-pp: var(--na-papiru); }
 .obdobi-7 { --p: var(--p-7); --pp: var(--pp-7); --na-pp: var(--na-papiru); }
 .obdobi-8 { --p: var(--p-8); --pp: var(--pp-8); --na-pp: var(--na-papiru); }
-.obdobi-1 { --pc: var(--period-1); --pc-tint: var(--period-1-tint); --pc-soft: var(--period-1-soft); --pc-plate: var(--period-1-plate); --pc-on-plate: var(--period-1-on-plate); }
-.obdobi-2 { --pc: var(--period-2); --pc-tint: var(--period-2-tint); --pc-soft: var(--period-2-soft); --pc-plate: var(--period-2-plate); --pc-on-plate: var(--period-2-on-plate); }
-.obdobi-3 { --pc: var(--period-3); --pc-tint: var(--period-3-tint); --pc-soft: var(--period-3-soft); --pc-plate: var(--period-3-plate); --pc-on-plate: var(--period-3-on-plate); }
-.obdobi-4 { --pc: var(--period-4); --pc-tint: var(--period-4-tint); --pc-soft: var(--period-4-soft); --pc-plate: var(--period-4-plate); --pc-on-plate: var(--period-4-on-plate); }
-.obdobi-5 { --pc: var(--period-5); --pc-tint: var(--period-5-tint); --pc-soft: var(--period-5-soft); --pc-plate: var(--period-5-plate); --pc-on-plate: var(--period-5-on-plate); }
-.obdobi-6 { --pc: var(--period-6); --pc-tint: var(--period-6-tint); --pc-soft: var(--period-6-soft); --pc-plate: var(--period-6-plate); --pc-on-plate: var(--period-6-on-plate); }
-.obdobi-7 { --pc: var(--period-7); --pc-tint: var(--period-7-tint); --pc-soft: var(--period-7-soft); --pc-plate: var(--period-7-plate); --pc-on-plate: var(--period-7-on-plate); }
-.obdobi-8 { --pc: var(--period-8); --pc-tint: var(--period-8-tint); --pc-soft: var(--period-8-soft); --pc-plate: var(--period-8-plate); --pc-on-plate: var(--period-8-on-plate); }
 
 /* Omezený pohyb: nic se nehýbe a každý stav je hned na konci. Délky jsou 0,01 ms (ne none), aby animace
    skončila ve svém konečném snímku a události transitionend a animationend přišly jako jindy; zpoždění

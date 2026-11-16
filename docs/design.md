@@ -29,7 +29,7 @@ Všechno v `src/styles/tokens.css`; komponenta bere barvy, stíny, písma i dél
 | Zaoblení | `--r-papir` 0, `--r-razitko` 3 px, `--r-ovladani` 10 px, `--r-plne` | papír se nezaobluje |
 | Pohyb | délky `--d-*` a křivky `--k-*` (oddíl Pohyb) | při omezeném pohybu všechny délky 0 |
 
-Na konci `tokens.css` zbylo pár přezdívek starých jmen (`--paper`, `--surface`, `--pc*`, `--muted`, `--r-full`). Drží je jen nepoužívané `ui/Mince.astro` a `mapa/Mince.svelte` a třída `.t-popisek`; nová komponenta je nebere.
+Přezdívky starých jmen (`--paper`, `--surface`, `--pc*`, `--period-N`, tinty a desky období, `--muted`, `--r-full`) už v `tokens.css` nejsou. Kdo je najde ve starém vzoru nebo v archivu, vezme nové jméno. Barva období v `obdobi.yaml` je `--p-N`.
 
 ## Papír
 

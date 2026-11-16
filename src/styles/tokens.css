@@ -6,8 +6,8 @@
  * (volba uložená v localStorage, viz src/components/rozvrzeni/PrepinacRezimu.astro).
  * Velikosti písma plynule rostou mezi šířkou 390 px (telefon) a 1440 px (notebook).
  *
- * Přehled a pravidla: docs/design.md › Tokeny. Na konci souboru zbylo pár přezdívek starých jmen,
- * které drží jen nepoužívané Mince a .t-popisek; nové komponenty je nepoužívají.
+ * Přehled a pravidla: docs/design.md › Tokeny. Přezdívky starých jmen (--paper, --pc*, tinty období)
+ * smazalo uzavření větve design-v2.
  */
 
 :root {
@@ -36,19 +36,6 @@
      Papír je ve dne i v noci stejný, inkoust se v noci zesvětlí. Pro podstrom je nastaví třída .obdobi-N (global.css). */
   --p-1: #A34329; --p-2: #7B3565; --p-3: #2D4E9B; --p-4: #865B0F; --p-5: #1C5B6B; --p-6: #3D6B38; --p-7: #A12538; --p-8: #5A4A9C;
   --pp-1: #A34329; --pp-2: #7B3565; --pp-3: #2D4E9B; --pp-4: #865B0F; --pp-5: #1C5B6B; --pp-6: #3D6B38; --pp-7: #A12538; --pp-8: #5A4A9C;
-  /* Tinty, soft a desky období (dnešní hodnoty; D2 je nemění). Tinty nahradí lístek s páskou v K3 až K6,
-     desky a kresby přejdou na papír v K3 a K7; krok O je smaže. */
-  /* Přezdívka --muted (dnešní popisky) má do zmizení tint (K3 až K7) starou hodnotu: nový --ink-3 je o odstín
-     světlejší a na tintě období 2 by měl 4,47 : 1. Kde tinta není, ber --ink-3. */
-  --muted: #6B6154;
-  --period-1-tint: #ECDED3; --period-1-soft: #E2C9BC; --period-1-plate: #A34329; --period-1-on-plate: #ECDED3;
-  --period-2-tint: #E8DCD9; --period-2-soft: #D9C6CA; --period-2-plate: #7B3565; --period-2-on-plate: #E8DCD9;
-  --period-3-tint: #E0DFDE; --period-3-soft: #C8CCD6; --period-3-plate: #2D4E9B; --period-3-on-plate: #E0DFDE;
-  --period-4-tint: #E9E0D0; --period-4-soft: #DCCEB7; --period-4-plate: #865B0F; --period-4-on-plate: #E9E0D0;
-  --period-5-tint: #DEE0DA; --period-5-soft: #C4CECB; --period-5-plate: #1C5B6B; --period-5-on-plate: #DEE0DA;
-  --period-6-tint: #E2E2D5; --period-6-soft: #CCD2C0; --period-6-plate: #3D6B38; --period-6-on-plate: #E2E2D5;
-  --period-7-tint: #ECDBD5; --period-7-soft: #E2C3C0; --period-7-plate: #A12538; --period-7-on-plate: #ECDBD5;
-  --period-8-tint: #E5DEDF; --period-8-soft: #D2CBD6; --period-8-plate: #5A4A9C; --period-8-on-plate: #E5DEDF;
 
   /* Stíny: vystouplé jde zmáčknout, vtlačené je zvolené, ležící papír se čte. */
   --vyst: -5px -5px 12px rgb(255 255 255 / .95), 5px 6px 13px rgb(150 140 124 / .4);
@@ -164,17 +151,9 @@
   :root:not([data-theme='light']) {
     --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
     --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
-    --na-inkoustu: #1D1B18; --muted: #A69B8A;
+    --na-inkoustu: #1D1B18;
     --pero-modra: #9DB7F5; --pero-fialova: #D2A6EE; --pero-sepiova: #E0AE7C; --cervena-tuzka: #F08A7E;
     --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
-    --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
-    --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
-    --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
-    --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
-    --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
-    --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
-    --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
-    --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
     --vyst: -4px -4px 10px rgb(255 236 210 / .045), 5px 6px 14px rgb(0 0 0 / .6);
     --vyst-m: -3px -3px 7px rgb(255 236 210 / .045), 3px 4px 9px rgb(0 0 0 / .55);
     --zved: -5px -5px 12px rgb(255 236 210 / .06), 8px 11px 22px rgb(0 0 0 / .66);
@@ -202,17 +181,9 @@
 :root[data-theme='dark'] {
   --papir: #1D1B18; --tecka: #36322C; --list: #2A2723; --plocha: #27241F; --plocha-m: #23211D; --listek: #3A3426;
   --linka: #3D3832; --tuzka: #8C8476; --ink: #EEE8DD; --ink-2: #D3CBBE; --ruka: #C6BDAE; --ink-3: #A89F90;
-  --na-inkoustu: #1D1B18; --muted: #A69B8A;
+  --na-inkoustu: #1D1B18;
   --pero-modra: #9DB7F5; --pero-fialova: #D2A6EE; --pero-sepiova: #E0AE7C; --cervena-tuzka: #F08A7E;
   --p-1: #E48B68; --p-2: #D48DBF; --p-3: #95ACEE; --p-4: #E0B359; --p-5: #6DBFCE; --p-6: #93C486; --p-7: #F0848F; --p-8: #B5A8F0;
-  --period-1-tint: #34251B; --period-1-soft: #483023; --period-1-plate: #483023; --period-1-on-plate: #E48B68;
-  --period-2-tint: #312528; --period-2-soft: #44303A; --period-2-plate: #44303A; --period-2-on-plate: #D48DBF;
-  --period-3-tint: #29292E; --period-3-soft: #393C4C; --period-3-plate: #393C4C; --period-3-on-plate: #95ACEE;
-  --period-4-tint: #332A19; --period-4-soft: #534425; --period-4-plate: #534425; --period-4-on-plate: #E0B359;
-  --period-5-tint: #232C2A; --period-5-soft: #314748; --period-5-plate: #314748; --period-5-on-plate: #6DBFCE;
-  --period-6-tint: #282D20; --period-6-soft: #3C4933; --period-6-plate: #3C4933; --period-6-on-plate: #93C486;
-  --period-7-tint: #352421; --period-7-soft: #4B2E2D; --period-7-plate: #4B2E2D; --period-7-on-plate: #F0848F;
-  --period-8-tint: #2D292E; --period-8-soft: #433D4F; --period-8-plate: #433D4F; --period-8-on-plate: #B5A8F0;
   --vyst: -4px -4px 10px rgb(255 236 210 / .045), 5px 6px 14px rgb(0 0 0 / .6);
   --vyst-m: -3px -3px 7px rgb(255 236 210 / .045), 3px 4px 9px rgb(0 0 0 / .55);
   --zved: -5px -5px 12px rgb(255 236 210 / .06), 8px 11px 22px rgb(0 0 0 / .66);
@@ -242,29 +213,13 @@
   html:root, html:root:not([data-theme="light"]), html:root[data-theme="dark"] {
     --papir: #FFFFFF; --tecka: transparent; --list: #FFFFFF; --plocha: #FFFFFF; --plocha-m: #FFFFFF; --listek: #FFFFFF;
     --linka: #CFC5B4; --tuzka: #8A8277; --ink-3: #5E554A; --ruka: #3F3830; --ink-2: #3F3830; --ink: #14110D;
-    --na-inkoustu: #FFFFFF; --muted: #5E554A;
+    --na-inkoustu: #FFFFFF;
     --vyst: none; --vyst-m: none; --zved: none; --vtla: none; --vtla-mele: none; --vtla-hl: none;
     --vyst-ink: none; --zved-ink: none; --vtla-ink: none; --lezi: none; --lezi-zved: none; --lezi-tlak: none; --deska: none;
     --odlep: none; --odlep-m: none; --pas-stin: none; --lista-stin: none; --hlavicka-stin: none;
     --pero-modra: #1F4AA8; --pero-fialova: #6B2D8C; --pero-sepiova: #7B4420; --cervena-tuzka: #B3261E;
     color-scheme: light;
   }
-}
-
-/* ─── Přezdívky ────────────────────────────────────────────────────────────────────────────
-   Krok O smazal přezdívky, které už nikdo nepoužíval. Zbylé drží jen nepoužívané ui/Mince.astro
-   a mapa/Mince.svelte (--paper, --surface, --pc*, --r-full) a .t-popisek (--muted, kvůli kontrastu na
-   tintách období). Smazat se mají i s těmi soubory; nové komponenty berou jen nová jména. */
-:root {
-  --paper: var(--papir);
-  --surface: var(--list);
-
-  /* Inkousty období: stejné hodnoty jako dřív, jen pod novým jménem. */
-  --period-1: var(--p-1); --period-2: var(--p-2); --period-3: var(--p-3); --period-4: var(--p-4);
-  --period-5: var(--p-5); --period-6: var(--p-6); --period-7: var(--p-7); --period-8: var(--p-8);
-
-  /* Zaoblení (jen nepoužívané Mince, viz výš). */
-  --r-full: var(--r-plne);
 }
 
 /* Omezený pohyb: všechny délky na nulu, takže se nic nehýbe a každý stav je tam hned

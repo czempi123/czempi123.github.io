@@ -9,7 +9,7 @@
   kratce: Řecko
   okno: { od: -650, do: -300 }
   pigment: terakota
-  barva: --period-1
+  barva: --p-1
   ornament: { index: 0, nazev: meandr a amfora }
   mapa: { popis: "Egejské moře, Iónie, Velké Řecko", stred: [21.6, 38.2], meritko: 3050, rovnobezky: [35, 41], stav: schvaleny }
 
@@ -19,7 +19,7 @@
   kratce: Helenismus a Řím
   okno: { od: -350, do: 550 }
   pigment: tyrský purpur
-  barva: --period-2
+  barva: --p-2
   ornament: { index: 1, nazev: mozaika a oblouk }
   mapa: { popis: Středomoří, stred: [15, 38.5], meritko: 900, rovnobezky: [30, 45], stav: navrh }
 
@@ -29,7 +29,7 @@
   kratce: Středověk
   okno: { od: 400, do: 1450 }
   pigment: lapis lazuli
-  barva: --period-3
+  barva: --p-3
   ornament: { index: 2, nazev: gotická okna a rozeta }
   mapa: { popis: "Evropa, Blízký východ, severní Afrika, Al-Andalus", stred: [16, 40], meritko: 720, rovnobezky: [30, 55], stav: navrh }
 
@@ -39,7 +39,7 @@
   kratce: Renesance
   okno: { od: 1400, do: 1700 }
   pigment: olovnato-cínová žluť
-  barva: --period-4
+  barva: --p-4
   ornament: { index: 3, nazev: perspektivní mřížka }
   mapa: { popis: "Itálie, Francie, Nizozemí, Anglie", stred: [6, 47], meritko: 1300, rovnobezky: [40, 55], stav: navrh }
 
@@ -49,7 +49,7 @@
   kratce: Osvícenství
   okno: { od: 1680, do: 1800 }
   pigment: pruská modř
-  barva: --period-5
+  barva: --p-5
   ornament: { index: 4, nazev: paprsky světla }
   mapa: { popis: "Západní a střední Evropa, Severní Amerika", stred: [5, 49], meritko: 1300, rovnobezky: [42, 56], stav: navrh }
 
@@ -59,7 +59,7 @@
   kratce: 19. století
   okno: { od: 1780, do: 1900 }
   pigment: smaragdová zeleň
-  barva: --period-6
+  barva: --p-6
   ornament: { index: 5, nazev: ozubená kola a koleje }
   mapa: { popis: "Evropa a Nová Anglie", stred: [2, 49], meritko: 950, rovnobezky: [40, 56], stav: navrh }
 
@@ -69,7 +69,7 @@
   kratce: 20. století
   okno: { od: 1880, do: 1960 }
   pigment: kadmiová červeň
-  barva: --period-7
+  barva: --p-7
   ornament: { index: 6, nazev: konstruktivistické tvary }
   mapa: { popis: "Evropa a Severní Amerika", stred: [-30, 45], meritko: 460, rovnobezky: [35, 55], stav: navrh }
 
@@ -79,6 +79,6 @@
   kratce: Dnes
   okno: { od: 1945, do: 2026 }
   pigment: dioxazinová fialová
-  barva: --period-8
+  barva: --p-8
   ornament: { index: 7, nazev: síť bodů a uzlů }
   mapa: { popis: Celý svět, stred: [10, 30], meritko: 190, rovnobezky: [20, 50], stav: navrh }

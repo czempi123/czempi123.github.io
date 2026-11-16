@@ -43,13 +43,7 @@ const TEXT: [string, string][] = [
     // Stránky osob (K3): počet kroků v pahýlu lístku cesty na vystouplé ploše.
     [`p-${n}`, 'plocha'],
     ['na-papiru', `pp-${n}`],
-    // Desky a tinty období zůstávají do K3 až K7 (přezdívky v tokens.css).
-    [`period-${n}-on-plate`, `period-${n}-plate`],
-    ['ink', `period-${n}-tint`],
-    ['ink-2', `period-${n}-tint`],
-    ['muted', `period-${n}-tint`],
   ]),
-  ...['muted'].flatMap((t) => PLOCHY.map((p): [string, string] => [t, p])),
   // Studentova ruka (K4a, bod 3): text v poli, zvolené písmeno a kroužek, pera v deníku, na všech plochách.
   ...['pero-modra', 'pero-fialova', 'pero-sepiova'].flatMap((t) => PLOCHY.map((p): [string, string] => [t, p])),
   // Červená tužka (D5, Najdi slabé místo): tah a věta na listu argumentu.
@@ -57,7 +51,7 @@ const TEXT: [string, string][] = [
 ];
 // Revize R: úplná matice. Každý inkoust, kterým se píše (tisk, ruka, pero, červená tužka, inkousty období),
 // na každé ploše, na které text v atlasu stojí, i na malé vystouplé ploše (kolečka, čipy, klávesa /).
-const POPREDI = ['ink', 'ink-2', 'ink-3', 'ruka', 'muted', 'pero-modra', 'pero-fialova', 'pero-sepiova', 'cervena-tuzka', ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `p-${n}`)];
+const POPREDI = ['ink', 'ink-2', 'ink-3', 'ruka', 'pero-modra', 'pero-fialova', 'pero-sepiova', 'cervena-tuzka', ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `p-${n}`)];
 TEXT.push(...POPREDI.flatMap((t) => [...PLOCHY, 'plocha-m'].map((p): [string, string] => [t, p])).filter(([a, b]) => !TEXT.some(([x, y]) => x === a && y === b)));
 const HRANICE: [string, string][] = [...PLOCHY, 'plocha-m'].map((p) => ['tuzka', p]);
 

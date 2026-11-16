@@ -9,7 +9,7 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 
 ## Postup
 
-1. **Přečti** `docs/design.md` (Tokeny, Papír, Pohyb, Komponenty, Přístupnost) a oddíly Papír a Pohyb níž, `docs/plan.md` (tabulka bloků v oddílu Mechanismy učení), podobné hotové ostrovy v `src/components/` a sdílenou logiku v `src/lib/`. Nejdřív hledej, co už existuje (Mince, deník, letopočty, časová logika mapy); nic nepiš dvakrát.
+1. **Přečti** `docs/design.md` (Tokeny, Papír, Pohyb, Komponenty, Přístupnost) a oddíly Papír a Pohyb níž, `docs/plan.md` (tabulka bloků v oddílu Mechanismy učení), podobné hotové ostrovy v `src/components/` a sdílenou logiku v `src/lib/`. Nejdřív hledej, co už existuje (deník, letopočty, časová logika mapy); nic nepiš dvakrát.
 2. **Navrhni rozhraní** dřív než kód: props, sloty/snippety pro MDX, co blok ukládá (deník, localStorage) a jak vypadá stav po obnovení stránky. Jednu ukázku použití v MDX napiš hned na začátek souboru komponenty jako komentář.
 3. **Logiku odděl do `src/lib/`** jako čisté funkce bez DOM a Astra (vyhodnocení, převody, formátování). Ty dostanou jednotkové testy ve Vitestu.
 4. **Postav ostrov** podle `references/vzor-komponenty.md`: Svelte 5 (runes), jen tokeny, barva období přes třídu `obdobi-N`, fokus jen při klávesnici, dotykové cíle aspoň 44 px, pohyb vypnutý při omezeném pohybu.
@@ -25,14 +25,14 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 - **„Začít znovu“ ve všech blocích.** Tlačítko, které smaže stav bloku i zápis v deníku, se jmenuje všude stejně (tiché tlačítko v `blok__akce`); „Zkusit znovu“ zní jako druhý pokus u zkoušky. Výjimkou je jen odhad Kdo žil dřív?, kde tlačítko dává nový odhad a nic nemaže.
 - **Žádná redakce v rozhraní.** Popisky tlačítek a nápovědy jsou krátké pokyny („Porovnat se Sókratem“), ne vysvětlování, jak je blok udělaný.
 - **Soukromí.** Odpovědi zůstávají v prohlížeči (`src/lib/denik.ts`), nikam se neodesílají; komponenta musí fungovat i bez localStorage.
-- **Bez externích závislostí za běhu.** Žádné CDN, písma a ikony lokálně (`public/ikony/*.svg`, komponenta Mince).
+- **Bez externích závislostí za běhu.** Žádné CDN, písma a ikony lokálně (`public/ikony/*.svg`).
 - **Data z `src/data`, ne ručně.** Jména, roky a vztahy ber z dat přes `src/lib/data.ts` nebo z výtahu předaného ostrovu; text v komponentě nesmí odporovat datům.
 
 ## Papír
 
 Vzhled Spojení (`docs/design.md` › Papír). Komponenta se staví z tříd a tokenů, které už jsou; vlastní barvu, stín ani písmo nezakládá.
 
-- **Co vystupuje, jde zmáčknout; co je vtlačené, je zvolené; co leží, se čte.** Tlačítka třídami `.blok__tl--hlavni` (plný `--ink`, `--vyst-ink`), `--vedlejsi` (vystouplé, `.vystouple`), `--tiche` (podtržené `--tuzka`); karta `.lezi-odkaz`; zpětná vazba `.listek-paska`; souvislý text `.cisty-list`; aktivita v rámu na tečkách (`RamAktivity.svelte`). Starší jména (`--paper`, `--surface`, `--rule`, `--pc*`, tinty období) jsou přezdívky na odchodu, i kdyby je ukazoval starší vzor: nepoužívej je.
+- **Co vystupuje, jde zmáčknout; co je vtlačené, je zvolené; co leží, se čte.** Tlačítka třídami `.blok__tl--hlavni` (plný `--ink`, `--vyst-ink`), `--vedlejsi` (vystouplé, `.vystouple`), `--tiche` (podtržené `--tuzka`); karta `.lezi-odkaz`; zpětná vazba `.listek-paska`; souvislý text `.cisty-list`; aktivita v rámu na tečkách (`RamAktivity.svelte`). Starší jména (`--paper`, `--surface`, `--rule`, `--pc*`, tinty období) už v tokenech nejsou; když je ukazuje starší vzor, vezmi nové jméno.
 - **Barvy:** plochy `--papir`, `--list`, `--plocha`, `--listek`; inkousty `--ink`, `--ink-2`, `--ink-3`, `--ruka`; období přes třídu `.obdobi-N` na předkovi (`--p` inkoust, `--pp` papír, text na papíru období `--na-papiru`); co student napíše nebo zvolí, je v `--pero` Kalamem.
 - **Pravidlo střídmosti:** na obrazovce nejvýš jedna ozdoba, která nic nenese, a nejvýš jedna páska; další papír drží sponka (`--sponka`), ohyb nebo nic. Text delší než dvě věty se nenatáčí. Kalamem nic delšího než poznámka; zpětná vazba a vysvětlení jsou tiskem.
 - **Natočení vždy přes `--natoceni`:** `rotate: calc(-.6deg * var(--natoceni))`, ne holé `rotate: -.6deg`. Klidný režim dá `--natoceni` na 0; holé natočení by v něm zůstalo. Natočení, které nese význam (šipka, otočený znak rozbalení), násobit nesmí.

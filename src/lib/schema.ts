@@ -170,7 +170,7 @@ export const Obdobi = z
     okno: z.object({ od: Rok, do: Rok }).strict(),
     pigment: z.string(),
     /** CSS proměnná barvy období */
-    barva: z.string().regex(/^--period-[1-8]$/),
+    barva: z.string().regex(/^--p-[1-8]$/),
     ornament: z.object({ index: z.number().int().min(0).max(7), nazev: z.string() }).strict(),
     mapa: z
       .object({

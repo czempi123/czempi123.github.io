@@ -177,16 +177,16 @@ Odpovědi po R byly prázdné v repozitáři i v Projektu Claude, takže platí 
 Prázdná odpověď znamená souhlas s doporučením, kromě otázky 1.
 
 1. **Schvaluješ větev design-v2 ke sloučení do hlavní větve a poslání na GitHub?** Tuhle otázku zodpovídáš jen ty; bez odpovědi se nic neslučuje.
-   Odpověď:
+   Odpověď: ano (16. 11. 2026, „Vše schvaluji“).
 
 2. **VoiceOver:** chceš kapitoly deníku a čtyři další místa ověřit VoiceOverem před sloučením? Potřebuju, abys sám zapnul v Utilitě VoiceOver „Povolit ovládání funkce VoiceOver pomocí AppleScriptu“ (a pak ho zase vypnul). Doporučuji ano, na začátku kroku Uzavření; když nadpis kapitoly zmizí, předělám ji na nadpis s tlačítkem.
-   Odpověď:
+   Odpověď: ano; nastavení v Utilitě VoiceOver zapíná a vypíná autor.
 
 3. **Smazat nepoužívané `ui/Mince.astro` a `mapa/Mince.svelte`** i se zbylými přezdívkami tokenů a `.t-popisek` přepnout na `--ink-3`? Doporučuji ano, v kroku Uzavření.
-   Odpověď:
+   Odpověď: ano; hotovo v kroku Uzavření (barva období v `obdobi.yaml` je teď `--p-N`).
 
 4. **Chceš něco změnit na snímcích po O?** Hlavně `o-01` (Mapa a čas na telefonu), `o-03` (osa), `o-05` a `o-06` (deník), `o-07` až `o-09` (Stoický týden), `o-11` až `o-14` (Klidný režim). Bez odpovědi zůstává, jak je.
-   Odpověď:
+   Odpověď: snímky zůstávají, jak jsou.
 
 ## Uzavření
 
