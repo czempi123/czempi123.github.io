@@ -6,17 +6,27 @@ import Zakladni from '../../layouts/Zakladni.astro';
 import MapaACas from '../../components/mapa/MapaACas.svelte';
 import { vstupMapy } from '../../lib/mapa-vstup-build';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { obdobiProRok } from '../../lib/cas-mapy';
+import { dataZapisniku } from '../../components/denik/_zapisnik-data';
+import { KLIC_MAPA_VIC } from '../../lib/mapa-listky';
 
 const vstup = vstupMapy(await adresaStranekOsob());
+// Logo dostane období výchozího roku mapy už při sestavení; po načtení ho ostrov drží podle roku.
+const obdobiMapy = obdobiProRok(vstup.obdobi, -360);
+// Koho student potkal (razítko u jména): adresy stránek osob a filozofové cest; deník čte až prohlížeč.
+const { potkani } = await dataZapisniku();
+// První návštěva (K7a): bez řeky a s výpravou. Pozná se před vykreslením, aby rozvržení po hydrataci neuskočilo.
+const skriptPrvni = `(function(){try{var q=new URLSearchParams(location.search);if(localStorage.getItem(${JSON.stringify(KLIC_MAPA_VIC)})!=='1'&&!q.get('osoba')&&!q.get('srovnat')&&q.get('stin')!=='1'&&q.get('zivot')!=='1')document.documentElement.setAttribute('data-mapa-prvni','');}catch(e){}})();`;
 ---
 <Zakladni
   titulek="Mapa a čas"
   popis="Kdo žil s kým, kdo po kom a jak daleko od sebe: mapa myslitelů, posuvník roku a řeka životů."
   sekce="mapa"
-  kratkyTitulek="Mapa a čas"
+  obdobi={obdobiMapy}
   hledat={false}
   aplikace
 >
   <h1 class="vizualne-skryte">Mapa a čas</h1>
-  <MapaACas client:load {vstup} />
+  <script is:inline set:html={skriptPrvni} />
+  <MapaACas client:load {vstup} potkaniMapa={potkani} />
 </Zakladni>

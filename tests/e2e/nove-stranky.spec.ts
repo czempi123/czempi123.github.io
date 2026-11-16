@@ -5,17 +5,20 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const STRANKY = [
-  { adresa: '/obdobi/pocatky-a-klasicke-recko/', h1: 'Počátky a klasické Řecko', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
-  { adresa: '/obdobi/helenismus-a-rim/', h1: 'Helenismus a Řím', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
-  { adresa: '/smer/stoicismus/', h1: 'Stoicismus', oddily: ['Ztroskotání a knihkupectví', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/epikureismus/', h1: 'Epikureismus', oddily: ['Škola za plotem', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/kynismus/', h1: 'Kynismus', oddily: ['Hůl a hlava', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/smer/akademie/', h1: 'Platónova Akademie', oddily: ['Žák, který nesouhlasil', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
-  { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten', oddily: ['Co řekli filozofové'] },
-  { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času', oddily: ['Co řekli filozofové'] },
+  { adresa: '/obdobi/pocatky-a-klasicke-recko/', h1: 'Počátky a klasické Řecko.', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
+  { adresa: '/obdobi/helenismus-a-rim/', h1: 'Helenismus a Řím.', oddily: ['Co se dělo', 'Otázky doby', 'Lidé a směry', 'Cesty', 'Na mapě'] },
+  { adresa: '/smer/stoicismus/', h1: 'Stoicismus.', oddily: ['Ztroskotání a knihkupectví', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/epikureismus/', h1: 'Epikureismus.', oddily: ['Škola za plotem', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/kynismus/', h1: 'Kynismus.', oddily: ['Hůl a hlava', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/smer/akademie/', h1: 'Platónova Akademie.', oddily: ['Žák, který nesouhlasil', 'Tři myšlenky', 'Kdo u koho se učil', 'S kým se přeli'] },
+  { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten.', oddily: ['Co řekli filozofové'] },
+  { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času.', oddily: ['Co řekli filozofové'] },
   { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
-  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
+  { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus.', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
+  // Pojmy (design-v2, krok P): stránka pojmu se všemi oddíly a seznam pojmů bez Pramenů (prameny má každý pojem).
+  { adresa: '/pojem/ctnost/', h1: 'Ctnost.', oddily: ['Odkud je slovo', 'U koho co', 'Ze života', 'Kde v atlasu stojí'] },
+  { adresa: '/pojmy/', h1: 'Slova, která unesou víc.', oddily: [], bezPramenu: true },
 ];
 
 async function axe(page: Page) {
@@ -43,7 +46,7 @@ for (const s of STRANKY) {
         for (const n of s.oddily) await expect(page.getByRole('heading', { level: 2, name: n, exact: true })).toBeVisible();
         // Drobečky a Prameny jsou na každé stránce.
         await expect(page.getByRole('navigation', { name: 'Kde jsem' })).toBeVisible();
-        await expect(page.locator('#prameny')).toBeAttached();
+        if (!('bezPramenu' in s)) await expect(page.locator('#prameny')).toBeAttached();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
         await axe(page);
       });
@@ -70,9 +73,10 @@ test('klávesnice: na každé nové stránce jde první odkaz v obsahu tabuláto
       return { ok: r.top >= 0 && r.bottom <= dolni + 1, top: r.top, bottom: r.bottom, dolni, co: document.activeElement!.outerHTML.slice(0, 120) };
     });
     expect(poloha.ok, `${s.adresa} ${JSON.stringify(poloha)}`).toBe(true);
-    // Viditelný rámeček fokusu: na prvku, nebo na obalu, který je větší (koš kolem „Dát sem“ v Roztřiď).
+    // Viditelný rámeček fokusu: na prvku, nebo na obalu, který je větší (celá kapsa kolem „Dát sem“ v Roztřiď).
     const fokus = await page.evaluate(() => {
-      const prvky = [document.activeElement!, document.activeElement!.parentElement!, document.activeElement!.parentElement!.parentElement!];
+      const a = document.activeElement!;
+      const prvky = [a, a.parentElement!, a.parentElement!.parentElement!, ...(a.closest('.kos') ? [a.closest('.kos')!] : [])];
       return { vidi: prvky.some((p) => getComputedStyle(p).outlineStyle !== 'none'), co: document.activeElement!.outerHTML.slice(0, 100) };
     });
     expect(fokus.vidi, `${s.adresa} ${fokus.co}`).toBe(true);
@@ -154,6 +158,8 @@ test('Gýgův prsten: blok na stránce pokusu sdílí stav s portrétem Platóna
   await prsten.getByRole('radio', { name: 'Nepoužiju ho.' }).check({ force: true });
   await prsten.getByRole('button', { name: 'Rozhodnuto' }).click();
   await prsten.getByRole('radio', { name: 'Nikdo se to nikdy nedozví' }).check({ force: true });
+  // Změněná scéna se při přepnutí podmínky rozloží (K4b): počkat, až leží.
+  await prsten.locator('.zmenena').evaluate((e) => Promise.all(e.getAnimations().map((a) => a.finished)));
   await prsten.locator('.zmenena').getByRole('radio', { name: 'Nepoužiju ho.' }).check({ force: true });
   await prsten.locator('.zmenena').getByRole('button').click();
   await expect(prsten.getByRole('link', { name: 'Myšlenkový pokus Gýgův prsten' })).toHaveAttribute('href', '/pokus/gyguv-prsten/');

@@ -1,5 +1,5 @@
 ---
-// Zkus to žít: karta v tintu období s jednou týdenní výzvou a tlačítkem „Přijmout výzvu“.
+// Zkus to žít: ležící list s páskou (design-v2, K3) s jednou týdenní výzvou a tlačítkem „Přijmout výzvu“.
 import ZkusToZit from '../ostrovy/ZkusToZit.svelte';
 import { ODDILY } from '../../lib/oddily';
 
@@ -8,7 +8,8 @@ const { id, nazev, delka = 'jeden týden', odkaz } = Astro.props;
 // Název oddílu: nadtitulek na stránce i položka v obsahu stránky (ObsahProfilu.astro).
 const NAZEV = ODDILY.zkus.nazev;
 ---
-<section class="zkus" id={ODDILY.zkus.kotva} aria-labelledby="zkus-titulek" data-oddil={NAZEV}>
+<section class="zkus papirovy-list" id={ODDILY.zkus.kotva} aria-labelledby="zkus-titulek" data-oddil={NAZEV}>
+  <span class="paska" aria-hidden="true"></span>
   <p class="t-nadtitulek zkus__nad">{NAZEV} · {delka}</p>
   <h2 class="t-h2" id="zkus-titulek">{nazev}</h2>
   <div class="ctenarsky zkus__text"><slot /></div>
@@ -17,12 +18,12 @@ const NAZEV = ODDILY.zkus.nazev;
 
 <style>
   .zkus {
-    margin: var(--s-9) 0;
-    padding: var(--s-6) var(--s-5);
-    border-radius: var(--r-md);
-    background: var(--pc-tint);
+    margin: var(--s-10) 0 var(--s-9);
+    padding: var(--s-7) var(--s-5) var(--s-6);
   }
-  .zkus__nad { margin: 0 0 var(--s-2); color: var(--ink-2); }
+  .zkus > .paska { top: -14px; left: 56px; rotate: -3deg; }
+  .zkus__nad { margin: 0 0 var(--s-2); color: var(--p); }
   .zkus__text { margin: var(--s-4) 0 var(--s-5); }
-  @media (min-width: 900px) { .zkus { padding: var(--s-7) var(--s-8); } }
+  @media (min-width: 900px) { .zkus { padding: 40px 40px 36px; } }
+  @media (max-width: 699px) { .zkus { margin-top: var(--s-9); padding: 30px 16px 22px; } .zkus > .paska { left: 32px; } }
 </style>

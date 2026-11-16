@@ -3,12 +3,14 @@
 // Hlavička profilu je skládá ze dvou částí: cesty stojí hned pod jménem, otázky pod deskou (na telefonu)
 // nebo pod cestou vlevo od desky (od 900 px). Tak cesta nezapadne a otázky neodsunou desku a první
 // odstavec z první obrazovky telefonu (revize celku 7, nález 6: Aristotelés a Epikúros měli sedm tlačítek).
-// Na telefonu (pod 600 px) jsou cesty jen řádek odkazů s názvy: karty by u Seneky (tři cesty) odsunuly desku
-// pod první obrazovku (revize antiky, nález 6). Od 600 px plné karty.
+// Design-v2 (K3): cesta je vystouplý lístek s pahýlem (počet kroků a minuty za perforací); po najetí se u perforace
+// odtrhne: pahýl odjede a mezi díly je zubatý natržený okraj. Lístky stojí v jedné řadě a zúží se (tři u Seneky), aby neodsunuly záložky. Otázky jsou papírové
+// záložky v papíru období zastrčené pod okrajem listu; po najetí se povytáhnou. Na telefonu vyčnívají zleva pod sebou.
+// Na telefonu (pod 600 px) jsou cesty jen řádek odkazů s názvy: lístky by u Seneky (tři cesty) odsunuly desku
+// pod první obrazovku (revize antiky, nález 6). Od 600 px plné lístky.
 // Vše se bere z dat (filozofove v přehledu cesty, hlasy na stránce otázky); nic se nepíše ručně.
 // Použití: <VstupyOsoby osoba={osoba} cast="cesty" /> a <VstupyOsoby osoba={osoba} cast="otazky" />
 import { getCollection } from 'astro:content';
-import Ikona from '../ui/Ikona.astro';
 import { maStranku } from '../../lib/otazky';
 import { vstupyOsoby } from '../../lib/vstupy';
 import type { TOsoba } from '../../lib/schema';
@@ -38,10 +40,11 @@ const popisek = dalsi.length
         <li>
           <a class="vstup vstup--cesta" href={`/cesta/${c.slug}/`}>
             <span class="vstup__text">
+              {/* Délka cesty: čtečka ji slyší za slovem Cesta, oko ji vidí v pahýlu. */}
               <span class="t-nadtitulek vstup__nad">Cesta<span class="vstup__meta"> · {c.kroku} kroků{c.minut && ` · asi ${c.minut} minut`}</span></span>
               <span class="vstup__nazev">{c.nazev}</span>
             </span>
-            <Ikona id="dal" velikost={22} />
+            <span class="vstup__pahyl" aria-hidden="true"><span class="vstup__trh"></span><b>{c.kroku}</b>kroků{c.minut && <span>asi {c.minut} min</span>}</span>
           </a>
         </li>
       ))}
@@ -49,10 +52,9 @@ const popisek = dalsi.length
         <li>
           <a class="vstup vstup--otazka" href={`/otazka/${o.slug}/`}>
             <span class="vstup__text">
-              <span class="t-nadtitulek vstup__nad">Velká otázka {o.cislo}</span>
+              <span class="vstup__nad"><span class="vizualne-skryte">Velká </span>otázka {o.cislo}</span>
               <span class="vstup__nazev">{o.otazka}</span>
             </span>
-            <Ikona id="dal" velikost={22} />
           </a>
         </li>
       ))}
@@ -61,59 +63,183 @@ const popisek = dalsi.length
 )}
 
 <style>
-  .vstupy-osoby--cesty { margin-top: var(--s-5); }
-  ul { display: flex; flex-wrap: wrap; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
-  li { display: flex; flex: 1 1 100%; min-width: 0; }
-  .vstup {
+  .vstupy-osoby--cesty { margin-top: var(--s-6); }
+  ul { display: flex; flex-wrap: wrap; gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
+  li { display: flex; min-width: 0; }
+  .vstup { text-decoration: none; color: var(--ink); }
+  .vstup__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .vstup:hover .vstup__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 0.14em; }
+
+  /* Lístek cesty: dva kusy vystouplého papíru, hlavní díl a za perforací pahýl s počtem kroků a minutami.
+     Po najetí se lístek u perforace odtrhne (autor 9. 11.: pootočení vypadalo jako ohnutí): pahýl odjede
+     o kus doprava a dolů, mezi díly se otevře mezera a oba okraje u perforace jsou zubaté (proužky papíru
+     s ořezem, jen průhlednost a transform, --d-stisk). Lístky stojí v jedné řadě a zúží se, nikdy pod sebou:
+     tři lístky u Seneky by jinak odsunuly záložky otázek dolů (připomínka autora 9. 11. 2026). */
+  .vstupy-osoby--cesty { container: listky / inline-size; }
+  .vstupy-osoby--cesty ul { flex-wrap: nowrap; gap: var(--s-4); }
+  .vstupy-osoby--cesty li { flex: 0 1 320px; min-width: 0; }
+  .vstup--cesta { position: relative; display: flex; flex: 1; align-items: stretch; min-width: 0; border-radius: var(--r-ovladani); }
+  .vstup--cesta .vstup__text,
+  .vstup__pahyl {
+    background: var(--plocha);
+    box-shadow: var(--vyst);
+    transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
+  }
+  .vstup--cesta .vstup__text { position: relative; flex: 1 1 auto; min-width: 0; padding: 15px 20px 16px; border-radius: var(--r-ovladani) 0 0 var(--r-ovladani); }
+  /* Natržené okraje: proužky papíru se zubatým ořezem, vidět jen po odtržení. Zuby obou dílů do sebe zapadají. */
+  .vstup--cesta .vstup__text::after,
+  .vstup__trh {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var(--plocha);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--d-stisk) var(--k-stisk);
+  }
+  .vstup--cesta .vstup__text::after {
+    right: -7px;
+    clip-path: polygon(0 0, 60% 0, 100% 6%, 30% 13%, 85% 20%, 20% 28%, 75% 35%, 35% 43%, 95% 50%, 25% 58%, 80% 66%, 30% 73%, 90% 80%, 20% 88%, 70% 94%, 40% 100%, 0 100%);
+  }
+  .vstup__trh {
+    left: -7px;
+    z-index: 1;
+    clip-path: polygon(100% 0, 40% 0, 0 6%, 70% 13%, 15% 20%, 80% 28%, 25% 35%, 65% 43%, 5% 50%, 75% 58%, 20% 66%, 70% 73%, 10% 80%, 80% 88%, 30% 94%, 60% 100%, 100% 100%);
+  }
+  .vstup--cesta .vstup__nad { color: var(--ink-3); }
+  .vstup--cesta .vstup__meta { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .vstup--cesta .vstup__nazev { font-size: 21px; line-height: 1.2; }
+  .vstup__pahyl {
+    position: relative;
+    flex: none;
+    width: 92px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 6px;
+    border-left: 2px dashed var(--linka);
+    border-radius: 0 var(--r-ovladani) var(--r-ovladani) 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--ink-2);
+    text-align: center;
+    transform-origin: 0 0;
+  }
+  .vstup__pahyl b { font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--p); }
+  /* Výseky perforace nahoře a dole: papír stránky prosvítá. */
+  .vstup__pahyl::before,
+  .vstup__pahyl::after { content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--papir); }
+  .vstup__pahyl::before { top: -10px; }
+  .vstup__pahyl::after { bottom: -10px; }
+  /* Odtržení: pahýl odjede od perforace a lehce se stočí, mezi díly zubatá mezera; hlavní díl se nadzvedne. */
+  @media (hover: hover) {
+    .vstup--cesta:hover .vstup__text { transform: translateY(-2px); }
+    .vstup--cesta:hover .vstup__pahyl { transform: translate(14px, 4px); rotate: calc(2deg * var(--natoceni)); border-left-color: transparent; }
+    .vstup--cesta:hover .vstup__text::after,
+    .vstup--cesta:hover .vstup__trh { opacity: 1; }
+  }
+  .vstup--cesta:active .vstup__text { transform: translateY(1px); }
+  .vstup--cesta:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  /* Úzká řada (tři lístky vedle sebe): menší název a užší pahýl. */
+  @container listky (max-width: 980px) {
+    .vstupy-osoby--cesty ul:has(> li:nth-child(3)) .vstup__text { padding: 12px 14px 13px; }
+    .vstupy-osoby--cesty ul:has(> li:nth-child(3)) .vstup__nazev { font-size: 18px; }
+    .vstupy-osoby--cesty ul:has(> li:nth-child(3)) .vstup__pahyl { width: 74px; font-size: 12px; }
+  }
+  @container listky (max-width: 620px) {
+    .vstupy-osoby--cesty ul:has(> li:nth-child(2)) .vstup__text { padding: 12px 14px 13px; }
+    .vstupy-osoby--cesty ul:has(> li:nth-child(2)) .vstup__nazev { font-size: 17px; }
+    .vstupy-osoby--cesty ul:has(> li:nth-child(2)) .vstup__pahyl { width: 66px; font-size: 12px; }
+  }
+
+  /* Záložky velkých otázek: papír období zastrčený pod jedním okrajem listu (ul::after), každá trochu jinak.
+     Výchozí jsou pod sebou a vyčnívají zleva z okraje listu vpravo (telefon, úzký sloupec, mnoho otázek).
+     Do jedné řady se postaví, jen když se vejdou: do čtyř od 520 px šířky navigace, pět a víc od 860 px
+     (Aristotelés a Epikúros: osm a sedm). Dvě řady pod sebou by nechaly horní viset ve vzduchu. */
+  .vstupy-osoby--otazky { container: zalozky / inline-size; }
+  .vstupy-osoby--otazky ul { position: relative; flex-direction: column; flex-wrap: nowrap; gap: 6px; max-width: 460px; padding: 0 22px 0 0; }
+  .vstupy-osoby--otazky ul::after {
+    content: "";
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    right: 0;
+    width: 28px;
+    z-index: 1;
+    background: var(--list);
+    box-shadow: var(--lezi);
+    pointer-events: none;
+  }
+  .vstupy-osoby--otazky li:nth-child(3n + 2) { margin-left: 12px; }
+  .vstupy-osoby--otazky li:nth-child(3n) { margin-left: 24px; }
+  .vstup--otazka {
+    position: relative;
     display: flex;
     flex: 1;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-4);
-    min-height: 64px;
-    padding: var(--s-3) var(--s-4);
-    border-radius: var(--r-sm);
-    text-decoration: none;
-    transition: background var(--pohyb-rychle), border-color var(--pohyb-rychle);
+    min-height: 56px;
+    padding: 9px 30px 10px 14px;
+    border-radius: var(--r-ovladani) 0 0 var(--r-ovladani);
+    background: linear-gradient(170deg, transparent, rgb(0 0 0 / .08)), var(--pp);
+    color: var(--na-pp);
+    box-shadow: inset 1.5px 1.5px 0 rgb(255 255 255 / .16), 2px 0 4px rgb(0 0 0 / .12);
+    transition: transform var(--d-stisk) var(--k-stisk);
   }
-  .vstup__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .vstup__nazev { font-size: var(--fs-perex); line-height: 1.2; }
-  .vstup :global(svg) { flex: none; }
-  /* Cesta je hlavní vstup: plná deska v barvě období. Otázka je vedlejší: obrys. */
-  .vstup--cesta { border: 1.5px solid var(--pc-plate); background: var(--pc-plate); color: var(--pc-on-plate); }
-  .vstup--cesta .vstup__nad { color: var(--pc-on-plate); }
-  .vstup--cesta:hover { border-color: var(--ink); }
-  /* Otázka je nižší než cesta, ať tři vstupy na telefonu neodsunou portrét z první obrazovky.
-     Na telefonu stojí nadtitulek nad názvem u každé otázky stejně (delší otázka by se jinak zalomila a kratší ne);
-     od 700 px je otázka na jednom řádku. */
-  .vstup--otazka { min-height: 48px; padding-block: var(--s-2); border: 1.5px solid var(--ink); background: transparent; color: var(--ink); }
-  .vstup--otazka .vstup__nad { color: var(--ink-2); white-space: nowrap; }
-  .vstup--otazka .vstup__nazev { font-size: var(--fs-text); }
-  .vstup--otazka:hover { background: var(--sunk); }
-  .vstup:hover .vstup__nazev { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
-  /* Telefon: cesty jako řádek odkazů (nadtitulek a název, bez desky, kroků a minut), deska a první odstavec
+  .vstup--otazka .vstup__nad { font-family: var(--font-ruka); font-size: 15px; line-height: 1.1; }
+  .vstup--otazka .vstup__nazev { font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .vstup--otazka:hover .vstup__nazev { text-decoration-color: currentColor; }
+  /* Fokus z klávesnice: záložka vyleze nad okraj listu, aby byl rámeček vidět celý. */
+  .vstup--otazka:focus-visible { z-index: 2; }
+  @media (hover: hover) { .vstup--otazka:hover { transform: translateX(-6px); } }
+  .vstup--otazka:active { transform: translateX(-1px); }
+
+  /* V jedné řadě: okraj listu leží pod záložkami přes celou šířku, záložky stojí každá trochu jinak vysoko. */
+  @container zalozky (min-width: 520px) {
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) { flex-direction: row; align-items: flex-end; width: fit-content; max-width: 100%; padding: 0 var(--s-4) 10px; }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5)))::after { top: auto; left: 0; bottom: 0; width: auto; height: 24px; clip-path: var(--trh); }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) li { flex: 0 1 230px; min-width: 0; margin-left: 0; }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) .vstup--otazka { min-height: 64px; padding: 9px 14px 22px; border-radius: var(--r-ovladani) var(--r-ovladani) 0 0; }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) li:nth-child(3n + 2) .vstup--otazka { margin-bottom: 6px; }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) li:nth-child(3n) .vstup--otazka { margin-bottom: -4px; }
+    @media (hover: hover) { .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) .vstup--otazka:hover { transform: translateY(-6px); } }
+    .vstupy-osoby--otazky ul:not(:has(> li:nth-child(5))) .vstup--otazka:active { transform: translateY(-1px); }
+  }
+  @container zalozky (min-width: 860px) {
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) { flex-direction: row; align-items: flex-end; gap: 5px; max-width: none; padding: 0 var(--s-3) 10px; }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5))::after { top: auto; left: 0; bottom: 0; width: auto; height: 24px; clip-path: var(--trh); }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) li { flex: 1 1 0; min-width: 0; margin-left: 0; }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) .vstup--otazka { min-height: 64px; padding: 8px 10px 22px; border-radius: var(--r-ovladani) var(--r-ovladani) 0 0; }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) .vstup__nazev { font-size: 13px; hyphens: auto; }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) li:nth-child(3n + 2) .vstup--otazka { margin-bottom: 6px; }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) li:nth-child(3n) .vstup--otazka { margin-bottom: -4px; }
+    @media (hover: hover) { .vstupy-osoby--otazky ul:has(> li:nth-child(5)) .vstup--otazka:hover { transform: translateY(-6px); } }
+    .vstupy-osoby--otazky ul:has(> li:nth-child(5)) .vstup--otazka:active { transform: translateY(-1px); }
+  }
+
+  /* Telefon: cesty jako řádek odkazů (nadtitulek a název, bez lístku, kroků a minut), deska a první odstavec
      zůstanou na první obrazovce. Společný profil má vlastní malé karty vedle otázky (StrankaProfilu). */
   @media (max-width: 599.98px) {
+    .vstupy-osoby--cesty { margin-top: var(--s-5); }
     .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) ul { gap: var(--s-2) var(--s-5); }
     .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) li { flex: 0 1 auto; }
-    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--ink); }
-    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__nad { color: var(--pc); }
-    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__meta,
-    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta :global(svg) { display: none; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) ul { flex-wrap: wrap; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta { min-height: 44px; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__text { padding: 4px 0; justify-content: center; gap: 0; background: none; box-shadow: none; transform: none; }
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__nad { color: var(--p); }
+    .vstup--cesta .vstup__meta,
+    .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup__pahyl { display: none; }
     .vstupy-osoby--cesty:not(.vstupy-osoby--dvojice) .vstup--cesta .vstup__nazev {
       font-family: var(--font-sans);
       font-size: var(--fs-ovladani-l);
       font-weight: 600;
       text-decoration: underline;
-      text-decoration-color: var(--pc);
+      text-decoration-color: var(--p);
       text-decoration-thickness: 2px;
       text-underline-offset: 0.2em;
     }
-  }
-  @media (min-width: 700px) {
-    ul { align-items: center; }
-    li { flex: 0 1 auto; }
-    .vstup--otazka .vstup__text { flex-flow: row wrap; align-items: baseline; gap: 0 var(--s-3); }
-    .vstup--cesta { min-width: 300px; }
   }
 </style>

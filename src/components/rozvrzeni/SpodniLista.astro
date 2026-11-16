@@ -1,5 +1,6 @@
 ---
-// Spodní lišta na telefonu: pět vstupů s ikonami a popisky.
+// Spodní lišta na telefonu: pět plochých vstupů s ikonami a popisky, aktivní vtlačený do papíru,
+// nad stránkou se stínem --lista-stin (design-v2, K2).
 import Ikona from '../ui/Ikona.astro';
 import type { Sekce } from './Hlavicka.astro';
 
@@ -19,7 +20,7 @@ const vstupy = [
       <li>
         <a href={v.href} aria-current={sekce === v.id ? 'page' : undefined}>
           <Ikona id={v.ikona} velikost={24} />
-          <span>{v.text}</span>
+          <span>{v.text}</span>{v.id === 'denik' && <span class="tecka-navratu" data-tecka-navratu hidden><span class="vizualne-skryte">čeká tě návrat ke cestě</span></span>}
         </a>
       </li>
     ))}
@@ -32,26 +33,34 @@ const vstupy = [
     inset: auto 0 0 0;
     z-index: 40;
     height: calc(var(--spodni-lista) + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-    background: var(--surface);
-    border-top: 1px solid var(--rule);
+    padding: var(--s-2) 10px calc(var(--s-2) + env(safe-area-inset-bottom));
+    background-color: var(--papir);
+    background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+    background-size: var(--tecky-krok) var(--tecky-krok);
+    box-shadow: var(--lista-stin);
+    /* Při přechodu mezi stránkami lišta stojí (global.css › Přechody). */
+    view-transition-name: spodni-lista;
   }
-  ul { display: grid; grid-template-columns: repeat(5, 1fr); height: 100%; margin: 0; padding: 0; list-style: none; }
+  ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-1); height: 100%; margin: 0; padding: 0; list-style: none; }
   a {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
     height: 100%;
     min-width: var(--dotyk);
-    color: var(--muted);
+    padding: 6px 2px;
+    border-radius: var(--r-ovladani);
+    color: var(--ink-2);
     font-family: var(--font-sans);
     font-size: 12px;
     font-weight: 500;
+    line-height: 1.2;
     text-decoration: none;
   }
-  a[aria-current='page'] { color: var(--ink); font-weight: 600; }
-  a[aria-current='page'] span { text-decoration: underline; text-underline-offset: 3px; }
+  .tecka-navratu { left: calc(50% + 8px); right: auto; top: 7px; }
+  a[aria-current='page'] { background: var(--papir); box-shadow: var(--vtla); color: var(--ink); font-weight: 600; }
   @media (min-width: 900px) { .lista { display: none; } }
 </style>

@@ -1,6 +1,7 @@
 // Katalog zastavení pro přípravu hodiny: /hodina/katalog.json. Skládá se při sestavení z obsahu a dat
 // (katalogZastaveni v src/lib/hodiny.ts); skladatel hodiny i stránka hodiny si ho stáhnou.
 // Po sestavení ověří kotvy proti dist/ skript scripts/hodiny-katalog.mjs.
+import { adresaPojmu, nazevPojmu, oddilyPojmu } from '../../lib/pojmy';
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { osoby } from '../../lib/data';
@@ -30,12 +31,13 @@ export const GET: APIRoute = async () => {
   const medailonkyKatalogu = medailonky.map((osoba) => ({ osoba, kdoZil: kdoZil(osoba) }));
   // Stránky období, směrů, pokusů, úvodů a tradic (K1 větve antika-doplnky): oddíly šablony a text MDX.
   const s = await strankyAtlasu();
-  const [obdobi, smery, pokusy, uvody, nabozenstvi] = await Promise.all([
+  const [obdobi, smery, pokusy, uvody, nabozenstvi, pojmy] = await Promise.all([
     getCollection('obdobi'),
     getCollection('smery'),
     getCollection('pokusy'),
     getCollection('uvody'),
     getCollection('nabozenstvi'),
+    getCollection('pojmy'),
   ]);
   const stranky: StrankaKatalogu[] = [
     ...(await Promise.all(obdobi.map(async (z) => {
@@ -49,6 +51,9 @@ export const GET: APIRoute = async () => {
     // Úvody: Co je filozofie? má vlastní adresu, Co je náboženství? stojí na /nabozenstvi/.
     ...uvody.map((z) => ({ id: z.id, typ: 'uvod' as const, nazev: z.data.nazev, stranka: z.id === 'co-je-nabozenstvi' ? '/nabozenstvi/' : `/${z.id}/`, obdobi: null, body: z.body })),
     ...nabozenstvi.map((z) => ({ id: `nabozenstvi-${z.id}`, typ: 'nabozenstvi' as const, nazev: z.data.nazev, stranka: `/nabozenstvi/${z.id}/`, obdobi: null, body: z.body })),
+    // Pojmy (design-v2, krok P): celá stránka a její oddíly; text není v MDX, oddíly skládá šablona.
+    ...pojmy.map((z) => ({ id: `pojem-${z.id}`, typ: 'pojem' as const, nazev: nazevPojmu(z.data.pojem), stranka: adresaPojmu(z.id), obdobi: z.data.obdobi[0],
+      zaTextem: oddilyPojmu(z.data) })),
   ];
   const zastaveni = katalogZastaveni({ cesty, kroky, osobnosti, otazky, bloky: otazkyBloku, tydny, medailonky: medailonkyKatalogu, stranky, osoby });
   return new Response(JSON.stringify({ verze: VERZE_HODINY, zastaveni }), { headers: { 'Content-Type': 'application/json' } });

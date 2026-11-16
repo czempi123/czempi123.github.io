@@ -18,7 +18,7 @@ async function mapa(nazev, sirka, rezim, pohyb, adresa, akce) {
   await page.goto(ZAKLAD + adresa);
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
-  await page.waitForSelector('.mapa svg.podklad path.sit', { state: 'attached' });
+  await page.waitForSelector('.mapa svg.podklad .pevnina', { state: 'attached' });
   await page.waitForTimeout(400);
   if (akce) await akce(page);
   // Karta se posune tak, aby oddíl začínal nahoře v panelu.

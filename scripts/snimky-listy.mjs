@@ -47,7 +47,7 @@ await page.evaluate(async () => {
 });
 await page.waitForTimeout(400);
 // Pevné lišty by na výřezech visely uprostřed stránky.
-await page.addStyleTag({ content: 'nav.lista { position: static !important; } header.hlavicka { position: static !important; } .obsah-lista { display: none !important; } .skladatel .hodina, .skladatel .pocitadlo { position: static !important; max-height: none !important; }' });
+await page.addStyleTag({ content: 'nav.lista, .cesta-lista, .cesta-hlavicka, .blok__pata { position: static !important; } header.hlavicka { position: static !important; } .obsah-lista { display: none !important; } .skladatel .hodina, .skladatel .pocitadlo { position: static !important; max-height: none !important; }' });
 const celkem = await page.evaluate(() => document.documentElement.scrollHeight);
 const naList = sloupcu * vyska;
 const od = Number(process.env.OD ?? 0);

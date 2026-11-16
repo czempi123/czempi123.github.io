@@ -3,6 +3,10 @@
 // argument, který autor později změnil, a snímky na 390 a 1440 px ve světlém i tmavém režimu.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const KROK = '/cesta/kolik-je-dost/4/';
 const DILNA = '/dilna/bloky/';
@@ -61,7 +65,7 @@ test('Spor bez reflexe: zůstává zavřená, Další krok je vidět a zápis ji
   await expect(r.locator('summary')).toHaveText(/^Který argument druhé strany byl nejsilnější\?\s*Nepovinné$/);
   await expect(r.getByRole('radio')).toHaveCount(0);
   await expect(r.getByRole('textbox')).toHaveCount(0);
-  await expect(spor.getByRole('link', { name: 'Další krok: Měsíc na minimum' })).toBeVisible();
+  await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
   expect(await zapis(page, KYNICI)).toBe('Na začátku: spíš kynici. Po argumentech: spíš kynici.');
   // Obnovení bez reflexe ji neotevře.
   await page.reload();
@@ -131,11 +135,15 @@ test('Spor: výběr argumentu druhé strany jen klávesnicí (telefon), vydrží
   await page.keyboard.press('Escape');
   await expect(r).toHaveJSProperty('open', false);
   await expect(r.locator('summary')).toBeFocused();
+  // Pata rámu aktivity (K4a): Začít znovu vlevo, hlavní čin vpravo.
   await page.keyboard.press('Tab');
-  await expect(spor.getByRole('link', { name: 'Další krok: Měsíc na minimum' })).toBeFocused();
+  await expect(spor.getByRole('button', { name: 'Začít znovu' })).toBeFocused();
+  // Další krok nabízí rozsvícená lišta kroku (K5); blok ho neopakuje.
+  await expect(spor.getByRole('link', { name: /Další krok/ })).toHaveCount(0);
+  await expect(page.locator('.cesta-lista [data-dalsi-krok]')).toHaveClass(/blok__tl--hlavni/);
 
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy')).toContainText(text);
+  await expect(page.locator('.kapitoly')).toContainText(text);
 });
 
 test('Spor uprostřed: výběr z obou stran, Jiný argument s vlastním textem a Začít znovu', async ({ page }) => {

@@ -3,7 +3,11 @@
 // Hlídá i tón celku: první obrazovka je Mieza, opilost má jednu větu, text netvrdí, čemu Aristotelés Alexandra učil,
 // Sókratés mluví Platónovými ústy, zvyk není dril, střed není půlka a student, který nesouhlasí, má spojence.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA4 = '/cesta/staci-vedet-co-je-spravne/';
 const KROKY4 = ['Háj a hostina', 'Co ti tehdy chybělo?', 'Kdo ví, udělá to', 'Stavitelem se stáváš stavěním', 'Věděl to doopravdy?', 'Kde je střed?', 'Jak dlouho to trvá?', 'Tvoje pravidlo'];
@@ -14,7 +18,7 @@ const NEPATRI = /lagun|delfín|zub[yů]|ježov|Hermei|závě[ťt]|Lesb|vlaštov|
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
@@ -68,7 +72,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text1).toContainText('K dobru mu Arriános přičetl, že hned poznal, co udělal, a nehájil to.');
   await expect(text1).not.toContainText(/proti sobě|chtěl se|vrah/i);
   // Hned po scéně otázka pro studenta.
-  await expect(text1.locator(':scope > p').last()).toHaveText('Co bys řekl ty: věděl to i ve chvíli, kdy sahal po kopí?');
+  await expect(text1.locator(':scope > .cisty-list > p').last()).toHaveText('Co bys řekl ty: věděl to i ve chvíli, kdy sahal po kopí?');
   // Jména střídmě: Filip jménem jen jednou. Kleitos dvakrát: podruhé tam, kde by zájmeno „ho“ šlo číst
   // jako Alexandra (revize celku 5: vyvedli Kleita, ne krále).
   expect((await page.locator('.krok__obsah').innerText()).match(/Filip/g)).toHaveLength(1);
@@ -110,7 +114,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text3.locator('.citat').nth(1)).toContainText('zblízka větší a zdálky menší');
   await expect(text3.locator('.citat').nth(2)).toContainText('Nikdo nejde dobrovolně za zlem');
   await expect(page.locator('.krok__obsah')).not.toContainText(/slast|rozkoš|bolest/i);
-  await expect(text3.locator(':scope > p').last()).toContainText('omyl se nenapravuje větším přemáháním, ale lepším poznáním');
+  await expect(text3.locator(':scope > .cisty-list > p').last()).toContainText('omyl se nenapravuje větším přemáháním, ale lepším poznáním');
   const alexandr = page.locator('#cesta4-sokrates-alexandr');
   await alexandr.getByRole('textbox').focus();
   await page.keyboard.type('Nevěděl, co dělá.');
@@ -136,7 +140,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text4).toContainText('Nerodíme se podle něj dobří ani špatní.');
   await expect(text4).toContainText('kdo staví špatně, stane se stavěním špatným stavitelem');
   // Poslední slovo před blokem nikomu nestraní.
-  await expect(text4.locator(':scope > p').last()).toHaveText('Než si přečteš, jak si odpověděl, zkus jeden případ.');
+  await expect(text4.locator(':scope > .cisty-list > p').last()).toHaveText('Než si přečteš, jak si odpověděl, zkus jeden případ.');
   const jeho = page.locator('#cesta4-kdy-je-to-jeho');
   await jeho.getByRole('radio', { name: 'Ano.' }).focus();
   await page.keyboard.press('Space');
@@ -161,7 +165,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
 
   // Krok 5: text drží Aristotelovu odpověď i pro toho, kdo blok neodkryl. Neovládnutí není špatnost a nemoc není selhání.
   const text5 = page.locator('.krok__obsah > .ctenarsky');
-  await expect(text5.locator(':scope > p').first()).toContainText('správný čin ještě nedělá správného člověka');
+  await expect(text5.locator(':scope > .cisty-list > p').first()).toContainText('správný čin ještě nedělá správného člověka');
   await expect(text5).toContainText('vědění z těch tří věcí váží podle něj nejmíň');
   await expect(text5.locator('.citat')).toHaveCount(2);
   await expect(text5.locator('.citat').first()).toContainText('ve zjevném rozporu s tím, co vidíme');
@@ -294,7 +298,7 @@ test('cesta 4: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Vědět nestačí. Potřebuju to párkrát udělat, než to budu umět.');
   await expect(zapisy).toContainText('Na začátku: spíš Sókratés. Po argumentech: spíš Aristotelés. Co mě posunulo: srůst chce čas.');
   await expect(zapisy).toContainText('Nevěděl, co dělá.');

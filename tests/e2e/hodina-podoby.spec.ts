@@ -310,9 +310,10 @@ for (const [w, h] of [[1280, 720], [1920, 1080]] as const) {
       const nazev = (await kos.locator('.kos__nazev').boundingBox())!;
       const popis = (await kos.locator('.kos__popis').boundingBox())!;
       const sem = (await kos.locator('.kos__sem').boundingBox())!;
-      const hlava = (await kos.locator('.kos__hlava').boundingBox())!;
+      // Šířka hlavy bez vnitřního okraje (čelo kapsy má odsazení od hrany papíru, K4b).
+      const hlava = await kos.locator('.kos__hlava').evaluate((el) => { const c = getComputedStyle(el); return el.getBoundingClientRect().width - parseFloat(c.paddingLeft) - parseFloat(c.paddingRight); });
       expect(sem.y).toBeGreaterThanOrEqual(popis.y + popis.height - 1);
-      expect(Math.abs(sem.width - hlava.width)).toBeLessThanOrEqual(1);
+      expect(Math.abs(sem.width - hlava)).toBeLessThanOrEqual(1);
       // Název koše („Na to, o co přijde“) se neláme: jeden řádek.
       const radek = await kos.locator('.kos__nazev').evaluate((el) => parseFloat(getComputedStyle(el).lineHeight));
       expect(nazev.height).toBeLessThan(radek * 1.5);

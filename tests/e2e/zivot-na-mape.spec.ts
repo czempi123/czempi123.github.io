@@ -4,10 +4,15 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Úplná mapa (řeka životů, navazující, všichni žijící) jako po „Víc“; první návštěvu hlídá mapa-k7a.spec.ts.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem('atlas-mapa-vic', '1'); } catch {} });
+});
+
 async function pripravit(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
-  await page.waitForSelector('.mapa svg.podklad path.sit', { state: 'attached' });
+  await page.waitForSelector('.mapa svg.podklad .pevnina', { state: 'attached' });
   await page.waitForTimeout(250);
 }
 /** Přehrávání zkrácené pro testy (celý život za `delka` ms, na zastávce `zastaveni` ms). */
@@ -95,8 +100,11 @@ test('život na mapě: klávesnice v seznamu zastávek, Další přes přelom le
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '18');
-  // Ovládání stojí nad seznamem: Shift+Tab vede ze seznamu na Další, pak na Předchozí.
-  await page.keyboard.press('Shift+Tab');
+  // Ovládání stojí pod seznamem (K7a, plátno MapaCas): Tab vede ze seznamu na Předchozí, pak na Další
+  // (Přehrát při omezeném pohybu chybí); Shift+Tab zpět na Předchozí.
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Předchozí zastávka' })).toBeFocused();
+  await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: 'Další zastávka' })).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(page.getByRole('button', { name: 'Předchozí zastávka' })).toBeFocused();
@@ -112,13 +120,6 @@ test('život na mapě: Přehrát projede život, na konci stojí rok smrti a př
   await page.goto('/mapa/?rok=-384&osoba=aristoteles');
   await pripravit(page);
   const delkaHistorie = await page.evaluate(() => history.length);
-  // Zaznamená roky, kterými přehrávání projde.
-  await page.evaluate(() => {
-    const w = window as unknown as { roky: string[] };
-    w.roky = [];
-    const s = document.querySelector('[role="slider"][aria-label="Rok"]')!;
-    new MutationObserver(() => w.roky.push(s.getAttribute('aria-valuenow')!)).observe(s, { attributes: true, attributeFilter: ['aria-valuenow'] });
-  });
   await prehrat(page).click();
   await expect(prehrat(page)).toHaveText('Zastavit');
   await expect(rok(page)).toHaveAttribute('aria-valuenow', '-322', { timeout: 8000 });
@@ -127,7 +128,11 @@ test('život na mapě: Přehrát projede život, na konci stojí rok smrti a př
   await expect.poll(() => text(zivot(page).locator('[aria-live]'))).toBe('Chalkis, 322 př. n. l., 62 let, zemřel tu.');
   await expect(page).toHaveURL(/rok=-322&osoba=aristoteles$/);
   expect(await page.evaluate(() => history.length)).toBe(delkaHistorie + 1);
-  const roky = (await page.evaluate(() => (window as unknown as { roky: string[] }).roky)).map(Number);
+  // Roky z historie přehrávání (MapaACas.svelte › rokyMeziSnimky), ne vzorkované z posuvníku: při zátěži stroje
+  // snímek přeskočí i celé zastavení a test pak spadl (revize R).
+  const roky = await page.evaluate(() => (window as unknown as { atlasPrehravani: { historie: number[] } }).atlasPrehravani.historie);
+  expect(roky[0]).toBe(-384);
+  expect(roky[roky.length - 1]).toBe(-322);
   // Rok jen roste a projde všemi zastávkami.
   for (let i = 1; i < roky.length; i++) expect(roky[i]).toBeGreaterThanOrEqual(roky[i - 1]);
   for (const r of [-367, -347, -345, -343, -340, -335]) expect(roky).toContain(r);
@@ -238,7 +243,8 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
       const tl = await zivot(page).locator('.zivot__ovladani button').evaluateAll((b) => b.map((e) => e.getBoundingClientRect()).map((x) => ({ h: x.height, top: x.top, right: x.right })));
       expect(tl).toHaveLength(3);
       for (const b of tl) expect(b.h).toBeGreaterThanOrEqual(44);
-      expect(new Set(tl.map((b) => Math.round(b.top))).size).toBe(1);
+      // Karta je list natočený o 0,4° (K7a): jeden řádek znamená horní hrany do 6 px od sebe.
+      expect(Math.max(...tl.map((b) => b.top)) - Math.min(...tl.map((b) => b.top))).toBeLessThanOrEqual(6);
       const karta = (await page.locator('.mac__karta').boundingBox())!;
       for (const b of tl) expect(b.right).toBeLessThanOrEqual(karta.x + karta.width + 1);
       for (const z of await zastavky(page).all()) {

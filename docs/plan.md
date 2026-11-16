@@ -14,69 +14,13 @@ Pět hlavních rozhodnutí, která navrhuji:
 4. **Deník „Moje filozofie“** jako hodnotové těžiště: student si soukromě ukládá svá stanoviska k velkým otázkám a postupně vidí vlastní myšlenkový autoportrét.
 5. **Menší a lepší sada nástrojů pro vývoj:** stálá pravidla projektu v `CLAUDE.md`, osm skillů pro opakovanou práci, prompty jen pro jednorázové kroky. Starý čtyřkrokový cyklus (scénář → interakce → implementace → revize) zkrátit na dva kroky (napsat přímo do komponent → zrevidovat).
 
-## Kritika současného stavu
+## Kritika prototypu a volba techniky
 
-Největší problém není technika, ale tón: atlas zatím učí hlavně argumentační hygienu na vymyšlených školních případech, a příběh, krása a životní váha filozofie se z něj vytrácejí.
-
-### Technika souboru
-
-- **3 MB v jednom souboru, 21 tisíc řádků.** Z toho 2,2 MB tvoří dva obrázky vložené jako base64 a 0,6 MB celá knihovna ikon Lucide, i když se používá pár ikon. Vlastní logika aplikace má kolem 60 kB.
-- **Data, texty, styly a kód jsou promíchané.** 27 myslitelů je jeden řádek JSONu uvnitř skriptu, texty lekcí jsou v řetězcích JavaScriptu. Každá obsahová změna znamená zásah do kódu a v gitu je nečitelný rozdíl.
-- **Není to ani skutečně samostatné:** písmo Manrope se načítá z Google Fonts, offline se tedy vzhled rozpadne (a v EU je vkládání Google Fonts i právně sporné).
-- **Odpovědi po obnovení stránky mizí.** Pro domácí studium a „vrať se za pár dní“ je to zásadní nedostatek; aplikace to navíc musí studentovi vysvětlovat.
-- Pro atlas s desítkami období a stovkami osobností by soubor rostl do desítek MB a práce s ním by byla pro člověka i pro AI čím dál pomalejší a chybovější.
-
-### UI
-
-- **Dva vizuální jazyky vedle sebe.** Profil Marca je hezký „časopisecký“ (velká patičková typografie, portrét, kapitoly). Profil Sókrata je generická karta s nadpisem „Ukázkový profil“, jiným písmem a zdvojeným nadpisem.
-- **Viditelná chyba na každé stránce:** hlavní nadpis dostává programově fokus a kolem něj se kreslí silný černý rámeček.
-- **Navigace se mění podle stránky:** jednou „Zpět na mapu“ v hlavičce, jinde kulaté tlačítko zpět plus drobečková navigace, jinde spodní lišta. Student nemá stálý pocit, kde je.
-- **Mapa je šedá a prázdná:** moře a pevnina skoro splývají, města jsou velké bubliny, lidé se vybírají z rozbalovacího seznamu v bočním panelu. Na telefonu zabírá polovinu obrazovky prázdná plocha.
-- **Osa je jen posuvník.** Životy nejsou vidět přímo pod mapou (jsou schované v bočním panelu), takže právě to, co má atlas nejlépe ukazovat (kdo žil s kým a jak daleko od sebe), není na první pohled vidět.
-- **Lekce vypadají jako formulář:** textové pole, přepínače A/B/C, stránkování 1–6. Chybí obraz, scéna, atmosféra.
-
-### Obsah a příklady
-
-- **Příklady jsou býrokratické:** smazaný plakát ve sdílené složce, placená studijní aplikace, prodloužené přestávky, pochvala za školní projekt, sluchátka. Jsou bezpečné, ale nikoho nechytí a působí jako cvičení z kritického myšlení, ne jako filozofie.
-- **Chybí skutečné příběhy, které má filozofie po ruce.** Cesta „Kdy mám dobrý důvod věřit?“ může začít věštírnou v Delfách („nikdo není moudřejší než Sókratés“), které Sókratés nevěří a jde ji prověřit. Lachétův argument o odvaze při ústupu má skvělý osobní protějšek: Alkibiadés v Symposiu líčí, jak Sókratés klidně ustupoval od Délia. Epiktétos byl otrok s chromou nohou, Diogenés řekl Alexandrovi, ať mu nestíní. To jsou vstupy, které si student zapamatuje.
-- **Profily jsou tenké a nesourodé.** Marcus má 11 kapitol, Sókratés tři odstavce, Prótagorás je jen bod na mapě.
-- **Hodnotový záměr (smysl života, autenticita, být lepším člověkem) se v aplikaci skoro neprojevuje.** Osobní rovina je zredukovaná na nepovinnou větu na konci.
-
-### Plánovací dokumenty a prompty
-
-- **Je jich příliš a jsou předělané na bezpečnost:** H01–H10, R1–R4, X1, stavy „implementováno, čeká na revizi“, desítky zákazů typu „nevytvářej“, „netvrd“, „neprezentuj“. Tahle obranná řeč pak prosakuje i do studentských textů, které se následně musí čistit (H01).
-- **Čeština je kostrbatá a zhuštěná** („Neanimovat domyšlené cesty“, „Studentský text nech plynout“), místy obtížně srozumitelná i pro autora.
-- **Prompty jsou psané pro jiný nástroj** (skilly v ChatGPT, modely Astra/Sol/Luna). Pro Clauda je potřeba je přepsat; samotné skilly navíc v repozitáři nejsou.
-- **Workflow má zbytečné předávky:** scénář v Markdownu → specifikace interakcí → ruční přepsání do JavaScriptu → revize. Když se lekce píše rovnou z hotových komponent, dvě z těchto fází odpadají.
-
-### README
-
-- **Popisuje soubory, které v repozitáři nejsou:** `skills/`, `Plány hodin/`, `overeni/`, `docs/`, `AGENTS.md`. Ve skutečnosti je tam 6 souborů.
-- **Místo pozvání je to provozní zápis** (import, kontrolní součty, „fiktivní git historie“). Chybí, proč projekt existuje, pro koho je, jak vypadá (snímek) a kde se dá vyzkoušet.
-- **Chybí licence**, ačkoli projekt používá cizí fotografie pod CC BY. Zvolena nekomerční licence: CC BY-NC-SA 4.0 pro texty, MIT pro kód.
-
-## Je jeden .html soubor správná volba?
-
-Pro prototyp ano, pro atlas celé filozofie ne. Doporučuji statický web v Astru: výsledek jsou pořád obyčejné HTML stránky bez serveru, ale obsah, data a kód žijí odděleně.
-
-| Varianta | Co získáme | Co ztratíme | Verdikt |
-| --- | --- | --- | --- |
-| Zůstat u jednoho HTML | Otevře se dvojklikem, jde poslat e-mailem | Roste do desítek MB, obsah zamčený v kódu, žádná kontrola dat, nečitelná historie změn | Jen pro prototyp |
-| Více souborů bez sestavení (HTML + JS moduly + JSON) | Žádné nástroje | Nefunguje z disku (prohlížeč blokuje načítání JSON přes file://), žádné šablony stránek, vše ručně | Polovičaté |
-| **Astro, statický web** | Obsah v Markdownu/MDX, data v YAML se schématem, každá stránka má vlastní adresu, interaktivní prvky jen tam, kde jsou potřeba, rychlé na telefonu | Je potřeba `npm run build` (udělá za tebe GitHub automaticky) | **Doporučuji** |
-| Webová aplikace se serverem a účty | Synchronizace mezi zařízeními, třídy | Provoz, náklady, GDPR u nezletilých, údržba | Zatím ne |
-
-Proč právě Astro:
-
-- **Obsah jako text.** Profil Sókrata je soubor `socrates.mdx`, který se čte jako článek. Do něj se vkládají komponenty jako `<Volba>`, `<Odkryj>`, `<Pribeh>`. Lekci tak lze napsat rovnou v konečné podobě.
-- **Obsahový kontrakt hlídá stroj.** Každý typ obsahu (osobnost, směr, pojem…) má schéma; chybějící rok úmrtí nebo odkaz na neexistující osobu zastaví sestavení dřív, než se dostane ke studentům.
-- **Rychlost a dostupnost:** stránky jsou předpočítané, JavaScript se načítá jen pro mapu a cvičení. Offline režim (PWA) umožní atlas „nainstalovat“ na telefon.
-- **Dobře se s ním pracuje v Claude Code:** malé soubory, jasná struktura, čitelné rozdíly v gitu.
-- **Lokálně i veřejně:** zatím se spouští na tvém počítači příkazem `npm run dev`; zveřejnění na GitHub Pages je později jedno nastavení.
-
-Další technické volby: interaktivní prvky ve Svelte (malé a čitelné komponenty), mapa přes d3-geo nad daty Natural Earth, vyhledávání Pagefind (statické, bez serveru), obrázky přes obrazovou pipeline Astra (automaticky zmenšené AVIF/WebP), písma uložená lokálně, ikony jen ty použité. Postup studenta a deník v prohlížeči (localStorage) s exportem do souboru, aby si je mohl přenést bez registrace.
+Kritika prototypu v9 (technika souboru, UI, obsah, plánovací dokumenty, README) a úvaha, proč statický web v Astru místo jednoho souboru HTML, jsou od 14. 11. 2026 v `docs/plan-vychodiska.md`. Pro další práci je není potřeba číst.
 
 ## Pedagogické pilíře
+
+**Nosný pilíř** (autor, 14. 11. 2026), nadřazený všem ostatním i požadavkům státu a školy: student si má z atlasu odnést něco do života. Pod ním platí Strategie 2030+, RVP G a ŠVP Gymnázia Třinec, v tomto pořadí (`docs/plany/kurikulum.md`).
 
 Atlas má studenta nejdřív zaujmout člověkem a otázkou, pak ho nechat myslet sám a teprve potom mu dát filozofovu odpověď. Z dosavadní koncepce přebírám logiku „vlastní pokus → setkání → náraz → nový pokus → návrat“; přidávám příběh, praxi a osobní deník.
 
@@ -228,6 +172,8 @@ Základem bude časopisecký styl, který už má profil Marca Aurelia, dotažen
 
 Postup: nejdřív vizuální návrh čtyř klíčových obrazovek (Domů, Mapa a čas, Osobnost, krok cesty) na notebooku i telefonu, společná iterace a schválení. Teprve potom se návrh převede do design tokenů a komponent. Barvy období a konkrétní písmo jsou návrh k odsouhlasení, ne hotová volba.
 
+Od 16. 11. 2026 platí vzhled z větve `design-v2` (zápisník z papíru, pohyb, Klidný režim, pojmy na okraji): pravidla jsou v `docs/design.md`, plán větve v `docs/archiv/plany/design-v2.md`.
+
 ## Obsahový model a struktura repozitáře
 
 Každý kus obsahu je jeden soubor s pevným ID a schématem; stránky se z nich skládají automaticky. Díky tomu se například současníci, učitelé a žáci na profilu nikdy nepíšou ručně.
@@ -340,71 +286,9 @@ Proti dosavadní pětici: `atlas-koncepce` nahrazuje CLAUDE.md a skill `atlas-ob
 
 Každý skill má krátký `SKILL.md` (postup a kritéria hotového) a 1–3 referenční soubory s ukázkami. Ukázky budou skutečné hotové stránky z atlasu, proto skilly vlny 2 vznikají až po prvním hotovém kusu. Po dokončení každé fáze se skilly upraví podle toho, co se opakovaně nepovedlo.
 
-## Katalog promptů s modelem a úsilím
+## Katalog zadání, plány větví a pořadí
 
-Výchozí volba je Claude Opus 5.5 s vysokým úsilím; Fable 5.1 jen pro dvě nejtěžší syntézy, Sonnet 5.5 pro dobře zadanou rutinu a Haiku 4.5 jen pro mechanické úpravy. Plné znění promptů je v plánech větví (`docs/plany/`), rozcestník je pod tabulkou.
-
-| Model | Silná stránka | Kdy ho použít v atlasu |
-| --- | --- | --- |
-| Fable 5.1 | Nejhlubší uvažování, dlouhé složité úlohy | Architektura celé filozofie, souhrnná revize období |
-| Opus 5.5 | Dlouhá samostatná práce v kódu i textu, kvalitní čeština | Většina práce: design, kód, příběhy, cesty, revize |
-| Sonnet 5.5 | Rychlost a spolehlivost u jasně zadaných úkolů | Hromadná data, medailonky podle vzoru, ověřování faktů, CI |
-| Haiku 4.5 | Nejrychlejší; znalosti jen do února 2025, slabší stylistika v češtině | Překlepy, formátování, přejmenování; nikdy fakta ani nový text |
-
-Úsilí má pět stupňů: low, medium, high, xhigh, max. U Opusu 5.5 je výchozí medium, proto ho pro atlas většinou zvedni na high; xhigh použij na dlouhou implementaci nebo zaseknutý problém, max jen výjimečně. Práci v repozitáři spúuštěj v Claude Code nebo v Coworku s připojenou složkou; debatu nad koncepcí klidně v běžném chatu.
-
-| Prompt | Krok | Model · úsilí | Proč tento model | Stav |
-| --- | --- | --- | --- | --- |
-| P0 | Základ: archiv, README, CLAUDE.md, styl, skilly vlny 1 | Opus 5.5 · high | Pravidla projektu ovlivní vše další | Hotovo 29. 9. 2026 |
-| P1 | Vizuální návrh čtyř obrazovek | Opus 5.5 · high | Vkus, konzistence a práce s českou typografií | Hotovo 29. 9. 2026, `docs/design.md` |
-| P2 | Založení projektu v Astru a přenos dat | Opus 5.5 · high (xhigh při zaseknutí) | Dlouhá souvislá implementace s ověřením | Hotovo 29. 9. 2026, schváleno 30. 9. 2026 (brána F1) |
-| P3 | Architektura celé filozofie: období, velké otázky, klíčové osobnosti | Fable 5.1 · high | Jednorázová syntéza 2 600 let s dopadem na celou navigaci | Hotovo 29. 9. 2026, `docs/architektura.md` |
-| P4 | Mapa a čas v2 | Opus 5.5 · high (xhigh při zaseknutí) | Hraniční případy času, výkon a mobilní rozvržení | Hotovo a schváleno 30. 9. 2026 |
-| P5 | Knihovna bloků, prvních šest | Opus 5.5 · high (xhigh při zaseknutí) | Základ všech cest, musí být přístupný a testovaný | Hotovo a schváleno 1. 10. 2026 (s ukázkovou cestou 1) |
-| P6 | Podklady k celku | Sonnet 5.5 · high s vyhledáváním; Opus 5.5 · high u sporných pramenů | Systematická rešerše, ověření každého tvrzení | Celky 1 až 9 hotovo a schváleno |
-| P7 | Portrét nebo profil osobnosti | Opus 5.5 · medium, high u portrétu | Příběh a živá čeština | Celky 1 až 8 hotovo a schváleno; skill `atlas-osobnost` |
-| P8 | Cesta, velká otázka, myšlenkový pokus | Opus 5.5 · high | Spojení filozofie, didaktiky a příběhu | Celky 1 až 9 hotovo a schváleno; skill `atlas-cesta` |
-| P9 | Medailonky a data hromadně | Sonnet 5.5 · medium; sporné prameny Opus 5.5 · high se skillem `atlas-overeni` | Vyplňování podle vzoru a schématu | Hotovo, schváleno a sloučeno 17. 10. 2026 (větev `medailonky`, `docs/archiv/plany/medailonky.md`): 34 medailonků ve třech vlnách; bez stránky zůstali Lucretius (žádné místo v pramenech), Konfucius a Pýthagorás (žádný vztah). Postup drží skill `atlas-data` (`skills/atlas-data/SKILL.md`) |
-| P10 | Revize celku | Opus 5.5 · high | Najde slabou námitku i nefunkční krok | Celek 1 hotovo a schváleno 1. 10. 2026; celek 2 hotovo a schváleno 2. 10. 2026 (`docs/archiv/plany/celek-2.md`); celek 3 hotovo a schváleno 3. 10. 2026 (`docs/archiv/plany/celek-3.md`); celek 4 hotovo a schváleno 4. 10. 2026 (`docs/archiv/plany/celek-4.md`); celek 5 hotovo a schváleno 8. 10. 2026 (`docs/archiv/plany/celek-5.md`); celek 6 hotovo a schváleno 9. 10. 2026 (`docs/archiv/plany/celek-6.md`); celek 7 hotovo a schváleno 15. 10. 2026 (`docs/archiv/plany/celek-7.md`); celek 8 hotovo a schváleno 17. 10. 2026 (`docs/archiv/plany/celek-8.md`); celek 9 hotovo a schváleno 23. 10. 2026 (`docs/archiv/plany/celek-9.md`); celek 10 hotovo a schváleno 25. 10. 2026 (`docs/archiv/plany/celek-10.md`) |
-| P11 | Souhrnná revize období | Fable 5.1 · high | Souvislosti napříč desítkami stránek | Na konci každé fáze; antika: větev `revize-antiky`, krok S hotový 25. 10. 2026 s verdiktem „po opravách“ (`docs/revize/antika-2026-10-25.md`), opravy O hotové 26. 10. 2026 |
-| P12 | Plán nového období | Opus 5.5 · high | Výběr a pořadí podle hotové architektury | Se skillem `atlas-obdobi`; středověk: plán 6. 11. 2026 (`docs/plany/stredovek.md`), čeká na odpovědi autora |
-| P13 | Úprava skillů po fázi | Opus 5.5 · high | Zobecnění opakovaných chyb | Na konci každé fáze; antika hotová 26. 10. 2026 (větev `revize-antiky`; poznámky pro `atlas-obdobi` zapracované do skillu 6. 11. 2026) |
-| P14 | Drobné úpravy | Haiku 4.5 nebo Sonnet 5.5 · low | Mechanický zásah | Kdykoli |
-
-Doporučení modelů platí pro nabídku k 29. 9. 2026 ([přehled modelů](https://platform.claude.com/docs/en/models/overview), [úrovně úsilí](https://platform.claude.com/docs/en/build-with-claude/effort)); při výrazné změně nabídky je projdu znovu.
-
-### Plány větví
-
-Plné znění promptů, stav kroků a „co zůstalo na později“ jsou v souboru větve ve složce `docs/plany/`. Plány hotových větví jsou v `docs/archiv/plany/`, provedená zadání běžící větve v `docs/archiv/zadani/`; archiv se bez pokynu nečte (`CLAUDE.md` › Co číst a jak šetřit). Každý celek má jeden soubor od podkladů po závěrečnou revizi; tady zůstává jen strategie, katalog a tento rozcestník. Nový celek znamená novou větev a nový soubor `docs/plany/<větev>.md`.
-
-| Větev | Co obsahuje | Soubor | Stav |
-| --- | --- | --- | --- |
-| `restart`, `mapa-v2`, `bloky-v1` | Základ a kostra: P0 až P5 | `docs/archiv/plany/zaklad.md` | hotovo a schváleno |
-| `celek-1` | „Jak poznám, co je pravda?“: Sókratés, Prótagorás, cesta 1, otázka 7 | `docs/archiv/plany/celek-1.md` | hotovo, sloučeno 1. 10. 2026 |
-| `celek-2` | „Jak mám žít?“: Epikúros, Diogenés, cesta 6, otázka 1 | `docs/archiv/plany/celek-2.md` | hotovo, schváleno a sloučeno 2. 10. 2026; hlavní větev je na GitHubu |
-| `celek-3` | „Co mám ve svých rukou?“: Epiktétos, Marcus Aurelius, cesta 5, otázka 4 | `docs/archiv/plany/celek-3.md` | hotovo, schváleno a sloučeno 3. 10. 2026; hlavní větev je na GitHubu |
-| `celek-4` | „Je to, co vidím, celá skutečnost?“: Platón, cesta 3, otázka 6 | `docs/archiv/plany/celek-4.md` | podklady (P6), portrét Platóna (P7), cesta 3 a stránka otázky 6 (P8) hotové 4. 10. 2026; revize celku (P10) hotová 4. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-4-2026-10-04.md`); opravy všech osmi nálezů zapracované a celek **uzavřený a schválený autorem 4. 10. 2026**, sloučený do hlavní větve a poslaný na GitHub (spolu s `rozhrani-v2`) |
-| `celek-5` | „Stačí vědět, co je správné?“: Aristotelés, cesta 4, doplnění otázky 1 | `docs/archiv/plany/celek-5.md` | podklady (P6) a portrét Aristotela (P7) hotové 5. 10. 2026, cesta 4 (P8) a revize celku (P10) hotové 8. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-5-2026-10-08.md`); opravy všech deseti nálezů zapracované a celek **uzavřený a schválený autorem 8. 10. 2026**, sloučený do hlavní větve a poslaný na GitHub |
-| `celek-6` | „Proč se bát smrti?“: Seneca, cesta 8, stránka otázky 3 | `docs/archiv/plany/celek-6.md` | podklady (P6), portrét Seneky (P7), cesta 8 a stránka otázky 3 (P8) hotové 8. 10. 2026, revize celku (P10) hotová 9. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-6-2026-10-09.md`); opravy všech deseti nálezů zapracované a celek **uzavřený a schválený autorem 9. 10. 2026**, sloučený do hlavní větve a poslaný na GitHub |
-| `celek-7` | „Jsem pořád tentýž, když se měním?“: Hérakleitos, Parmenidés, cesta 2, stránka otázky 5 | `docs/archiv/plany/celek-7.md` | podklady (P6) a profily Hérakleita a Parmenida (P7) hotové 9. 10. 2026, cesta 2 s kresbou Loď po prknech a stránka otázky 5 (P8) 10. 10. 2026, revize celku (P10) hotová 10. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-7-2026-10-10.md`); opravy všech deseti nálezů zapracované 15. 10. 2026 (cesta má osm kroků) a celek **uzavřený a schválený autorem 15. 10. 2026**, sloučený do hlavní větve a poslaný na GitHub |
-| `celek-8` | „Čí život vlastně žiju?“: Kratés a Hipparchia (společný profil), cesta 7, doplnění otázky 1 | `docs/archiv/plany/celek-8.md` | podklady (P6) 15. 10. 2026, společný profil (P7), cesta 7 s kresbou Třetí čára a hlas Hipparchie (P8) a revize celku (P10) 16. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-8-2026-10-16.md`); opravy všech devíti nálezů 16. 10. 2026; schváleno, sloučeno a na GitHubu 17. 10. 2026 |
-| `doba-odkazy` | Jména v Době a lidech jako odkazy na stránky osob (doporučení revize celku 8) | `docs/archiv/plany/doba-odkazy.md` | krok O1 (odkazy, testy, snímky) hotový 17. 10. 2026; schváleno, sloučeno a na GitHubu 17. 10. 2026 |
-| `medailonky` | P9: stránky medailonků generované z dat (`/osobnost/<id>/` pro osobu s `medailonek: true`) a doplnění dat osob bez stránky ve třech vlnách | `docs/archiv/plany/medailonky.md` | M0 až M3 (34 medailonků), revize R s verdiktem „po opravách“ (`docs/revize/medailonky-2026-10-17.md`) a opravy O hotové 17. 10. 2026; schváleno, sloučeno a na GitHubu 17. 10. 2026 |
-| `hodiny-v1` | Příprava hodiny: učitel složí hodinu ze zastavení v atlasu (kroky cest, bloky, kapitoly, hlasy), studenti ji projdou podle odkazu a doma zbytek | `docs/archiv/plany/hodiny-v1.md` | H1 až H4 hotové 17. a 18. 10. 2026; revize R 18. 10. 2026 s verdiktem „po opravách“ (`docs/revize/hodiny-v1-2026-10-18.md`); opravy O hotové 23. 10. 2026; schváleno, sloučeno a na GitHubu 23. 10. 2026 |
-| `celek-9` | „Kam mi mizí čas?“: Seneca a Marcus Aurelius, cesta 34, doplnění otázky 1 | `docs/archiv/plany/celek-9.md` | podklady (P6) 18. 10. 2026; cesta 34 s kresbou Přesýpací hodiny (P8) 23. 10. 2026; revize celku (P10) 23. 10. 2026 s verdiktem „po opravách“ (`docs/revize/celek-9-2026-10-23.md`); opravy (O) všech deseti nálezů 23. 10. 2026; schváleno, sloučeno a na GitHubu 23. 10. 2026 |
-| `celek-10` | „Co když přijde to nejhorší?“: Seneca a Epiktétos, Stockdale jen v textu cesty, cesta 33, karta na stránce otázky 3 | `docs/archiv/plany/celek-10.md` | plán 24. 10. 2026; podklady (P6), cesta 33 s kresbou Maska a Návratem (P8), revize celku (P10) s verdiktem „po opravách“ (`docs/revize/celek-10-2026-10-25.md`) a opravy (O) všech sedmi nálezů 25. 10. 2026; schváleno, sloučeno a na GitHubu 25. 10. 2026 |
-| `revize-antiky` | P11: souhrnná revize antiky napříč celky, odložené úkoly z celků 9 a 10, inventura mezer vůči F3, připravenost na zkoušku se studenty, čtivost podle `atlas-psani` a inventura interaktivity na všech typech stránek | `docs/archiv/plany/revize-antiky.md` | revize S 25. 10. 2026 s verdiktem „po opravách“ (`docs/revize/antika-2026-10-25.md`, deset nálezů, žádný blokující); opravy O a úprava skillů P13 26. 10. 2026; uzavření 26. 10. 2026: schváleno, sloučeno, na GitHubu a zveřejněno na GitHub Pages `https://czempi123.github.io/` s `noindex` do konce zkoušky se studenty |
-| `stoicky-tyden` | Stoický týden: sedm cvičení, jedno na den, na vlastní stránce s deníkem; vstupy z cest 5, 33, 34 a portrétů; týden pro třídu v přípravě hodiny | `docs/archiv/plany/stoicky-tyden.md` | podklady (P6), stránka a deník (K), texty a list pro učitele (T), revize R s verdiktem „po opravách“ (`docs/revize/stoicky-tyden-2026-10-26.md`) a opravy O všech pěti nálezů 26. 10. 2026; schváleno, sloučeno a na GitHubu 26. 10. 2026 |
-| `interaktivita-v1` | Interaktivita z revize antiky: blok Kdo je na tvé straně v posledních krocích cest 2, 7, 8, 33 a 34, Slož argument v cestě 8, Dva životy a Kdo žil dřív? z dat u medailonků; na začátku oprava kontroly typů | `docs/archiv/plany/interaktivita-v1.md` | K0 až T2 29. a 30. 10. 2026; revize R s verdiktem „po opravách“ a opravy O 31. 10. 2026; schváleno, sloučeno a na GitHubu 31. 10. 2026, kontroly na GitHubu poprvé zelené včetně sestavení a Playwrightu |
-| `antika-doplnky` | Co antice chybělo před středověkem: Co je filozofie?, stránky období 1 a 2, čtyři směry (stoicismus, epikureismus, kynismus, Akademie), stránky otázek 2 a 8, pokusy Gýgův prsten a Zrcadlo času, Co je náboženství? a judaismus, deník na konci období Tvoje antika, výměna citátu v cestě 6 a dva vztahy v datech | `docs/archiv/plany/antika-doplnky.md` | podklady P6 a P6N, šablony K1, texty T1 a T2, Tvoje antika K2 1. 11. 2026; revize R s verdiktem „po opravách“ (`docs/revize/antika-doplnky-2026-11-03.md`) a opravy O všech deseti nálezů 3. 11. 2026; schváleno, sloučeno a na GitHubu 3. 11. 2026 |
-| `interaktivita-v2` | Zbytek interaktivity z revize antiky před středověkem: osa hlasů na stránkách otázek (volba hlasu, který je studentovi nejblíž, do deníku a Tvoje antika), Přehrát život v kartě člověka na mapě, skill `atlas-obdobi` | `docs/archiv/plany/interaktivita-v2.md` | plán 5. 11. 2026; osa hlasů (K1) a Přehrát život (K2) 5. 11. 2026, skill `atlas-obdobi` (S), revize R s verdiktem „po opravách“ (`docs/archiv/revize/interaktivita-v2-2026-11-06.md`) a opravy O 6. 11. 2026; uzavření 6. 11. 2026: schváleno, sloučeno a na GitHubu |
-| `design-v2` | Úprava designu před středověkem: styl scrapbooku s prvky neumorfismu, krátké vysvětlení pojmu po najetí na slovo | `docs/plany/design-v2.md` | D1 (tři směry na plátně https://claude.ai/artifact/LFhmRMNnjzfSfq5xvt7dNQ) 7. 11. 2026; čeká na volbu směru |
-| `stredovek` (plán období, P12) | Plán 3. období se skillem `atlas-obdobi`: celky 11 až 15 (Augustin, Boëthius, Anselm, víra a rozum, Hus), dluh antiky, úprava designu, medailonky středověku, okno do Asie, souhrnná revize | `docs/plany/stredovek.md` | plán 6. 11. 2026; čeká na odpovědi autora (krok Z); celky začnou po `design-v2` |
-| `rozhrani-v2` | Rozhraní mimo celky: jeden začátek na Domů, obsah profilu, ovládání mapy, reflexe ve Sporu, Na začátku × Teď, blok Návrat | `docs/archiv/plany/rozhrani-v2.md` | hotovo: R1 a R2 schválené, větev sloučená do hlavní větve a od 4. 10. 2026 na GitHubu spolu s celkem 4; autor ji uzavřel 5. 10. 2026 |
-
-**Další větve v pořadí** (7. 11. 2026): souhrnná revize antiky (P11) je uzavřená a atlas je zveřejněný na `https://czempi123.github.io/` s `noindex`. Zkouška se studenty počká, až autor studenty bude mít (rozhodnutí 26. 10. 2026); `noindex` do té doby zůstává. Běží úprava designu (větev `design-v2`, `docs/plany/design-v2.md`; podle rozhodnutí autora ze 7. 11. 2026 před středověkem): D1 dal na plátno tři směry a čeká se na volbu autora. Plán středověku (P12) je hotový (`docs/plany/stredovek.md`, 6. 11. 2026) a čeká na odpovědi autora: dluh antiky, 21 nových osob, nová cesta 36 „Co když si víra a rozum odporují?“, stránka otázky 10, výřez mapy, směry a spory. Po designu krok Z zapíše odpovědi a založí větev a plán celku 11 „Proč dělám, co nechci?“ (Augustin, cesta 10). Plán každé další větve vznikne, až na ni přijde řada.
-
-Po závěrečné revizi a schválení celku se větev sloučí do hlavní větve a hlavní větev se pošle na GitHub. Mezi tím se na GitHub nic neposílá.
+Katalog promptů s modelem a úsilím, rozcestník Plány větví a odstavec Další větve v pořadí jsou od 14. 11. 2026 v `docs/plan-vetve.md`. Soubor byl na jedno nahrání do Projektu Claude moc velký, proto je rozdělený (pokyn autora). Odkazy na `docs/plan.md` › Katalog promptů, Plány větví nebo Další větve v pořadí míří tam.
 
 ## Plán etap
 

@@ -6,6 +6,7 @@
   // Podklad: Ústava VII, 514a–515b (docs/podklady/celek-4-co-je-skutecne.md › Vstupní scéna, řádky 1–6).
   // Použití v MDX: <Jeskyne id="jeskyne-pohledy" />
   import Kresba from './Kresba.svelte';
+  import { natrzenyList, natrzenyPruh } from '../../lib/kresby';
   import { POHLEDY, POPISY, PRUVOD, ROZESTUP, delkaPruvodu, stinNaStene, type Pohled } from '../../lib/jeskyne';
 
   interface Props {
@@ -28,6 +29,11 @@
   const vec = { nahore: stinNaStene(OHEN, { x: 116, y: 115 }, STENA)!, dole: stinNaStene(OHEN, { x: 116, y: 140 }, STENA)! };
   const hlava = stinNaStene(OHEN, { x: 242, y: 179 }, STENA)!;
   const zidka = stinNaStene(OHEN, { x: 131, y: 150 }, STENA)!;
+
+  // Koláž (K7b): stěna je světlý list, stín zídky natržený pruh, vězni výstřižky z černého papíru.
+  // Barva období nese jen oheň: jeho záře na stěně (pohled vězňů) a plamen (pohled z boku).
+  const STENA_LIST = natrzenyList(4, 4, 332, 232, { zub: 1.4, semeno: 4 });
+  const ZIDKA_PRUH = natrzenyPruh(0, 340, 178, 240, { zub: 2.2, semeno: 7 });
 </script>
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.Jeskyne} nazev={NAZVY_KRESEB.Jeskyne} pohledy={POHLEDY} bind:pohled popis={POPISY[pohled as Pohled]}>
@@ -41,9 +47,9 @@
 
     {#if pohled === 'vezni'}
       <g class="pohled-vezni" style="--j-posun: -{posun}px">
-        <rect class="k-svetlo" width="340" height="240" />
-        <rect width="340" height="240" fill="url(#{id}-sero)" />
-        <rect class="mihot k-hybe" width="340" height="240" />
+        <path class="k-svetlo k-vystrih" d={STENA_LIST} />
+        <path d={STENA_LIST} fill="url(#{id}-sero)" />
+        <path class="mihot k-hybe" d={STENA_LIST} />
         <g class="pruvod k-hybe">
           {#each veci as v, i (i)}
             <g class="k-stin" transform="translate({v.x} 150)">
@@ -85,14 +91,14 @@
           {/each}
         </g>
         <!-- Stín zídky a nad ním stíny hlav vězňů. -->
-        <rect class="k-stin" y="178" width="340" height="62" />
+        <path class="k-stin" d={ZIDKA_PRUH} />
         {#each [44, 170, 296] as x (x)}
           <circle class="k-stin" cx={x} cy="170" r="11" />
           <ellipse class="k-stin" cx={x} cy="184" rx="22" ry="9" />
         {/each}
         <!-- Vězni zezadu: student sedí mezi nimi. -->
         {#each [44, 170, 296] as x (x)}
-          <g class="k-tma">
+          <g class="k-tma k-vystrih">
             <circle cx={x} cy="216" r="23" />
             <ellipse cx={x} cy="254" rx="54" ry="26" />
           </g>
@@ -102,8 +108,8 @@
       <g class="pohled-bok">
         <rect class="k-stin" width="340" height="240" />
         <path class="svetlo" d="M{OHEN.x},{OHEN.y} L{STENA},44 L{STENA},{zidka} Z" />
-        <path class="k-tma" d="M0,0 H340 V24 C316,34 300,20 276,30 C246,42 222,22 190,32 C160,42 140,26 108,34 C76,42 44,30 0,40 Z" />
-        <path class="k-tma" d="M0,140 H64 L80,198 H150 L184,218 H340 V240 H0 Z" />
+        <path class="k-tma k-vystrih" d="M0,0 H340 V24 C316,34 300,20 276,30 C246,42 222,22 190,32 C160,42 140,26 108,34 C76,42 44,30 0,40 Z" />
+        <path class="k-tma k-vystrih" d="M0,140 L5,138 L11,141 L17,139 L24,142 L31,139 L38,141 L45,138 L52,141 L58,139 L64,140 L80,198 H150 L184,218 H340 V240 H0 Z" />
         <rect class="k-tma" x={STENA + 8} y="24" width="12" height="216" />
         <line class="paprsek" x1={OHEN.x} y1={OHEN.y} x2={STENA} y2={vec.nahore} />
         <line class="paprsek" x1={OHEN.x} y1={OHEN.y} x2={STENA} y2={vec.dole} />
@@ -112,12 +118,12 @@
         <!-- Oheň na vyvýšeném místě za zády vězňů. -->
         <circle class="zare k-hybe" cx={OHEN.x} cy={OHEN.y} r="32" />
         <g transform="translate({OHEN.x} 139)">
-          <path class="plamen k-svetlo k-hybe" d="M0,0 C-13,-5 -14,-19 -5,-31 C-3,-22 3,-21 4,-36 C12,-26 15,-12 9,-4 C7,-1 3,0 0,0 Z" />
+          <path class="plamen k-pp k-hybe" d="M0,0 C-13,-5 -14,-19 -5,-31 C-3,-22 3,-21 4,-36 C12,-26 15,-12 9,-4 C7,-1 3,0 0,0 Z" />
           <path class="poleno" d="M-12,3 L12,-1 M-12,-1 L12,3" />
         </g>
 
         <!-- Nosiči na cestě za zídkou; nad zídku přečnívá jen to, co nesou. -->
-        <g class="k-svetlo">
+        <g class="k-svetlo k-vystrih">
           <circle cx="89" cy="163" r="6" />
           <path d="M83,170 h12 l1.5,28 h-15 z" />
           <circle cx="108" cy="161" r="6.5" />
@@ -128,11 +134,11 @@
           <line class="tyc" x1="115" y1="167" x2="116" y2="140" />
           <path class="k-svetlo" transform="translate(116 140) scale(0.5)" d="M-9,0 C-20,-10 -20,-30 -9,-38 L-7,-46 L-11,-50 L11,-50 L7,-46 L9,-38 C20,-30 20,-10 9,0 Z" />
         </g>
-        <rect class="k-svetlo" x="128" y="150" width="7" height="48" />
+        <rect class="k-svetlo k-vystrih" x="128" y="150" width="7" height="48" />
 
         <!-- Vězni: sedí zády k ohni, pouta na krku a na nohou. -->
         {#each [242, 284] as x (x)}
-          <g class="k-svetlo">
+          <g class="k-svetlo k-vystrih">
             <circle cx={x} cy="186" r="7" />
             <path d="M{x - 6},194 h12 l2,20 h-16 z" />
             <rect x={x + 4} y="208" width="24" height="6" rx="2.5" />
@@ -142,14 +148,14 @@
         {/each}
 
         <!-- Stěna a stíny na ní: věc nad zídkou, hlavy vězňů a dole stín zídky. -->
-        <rect class="k-svetlo" x={STENA} y="40" width="8" height="178" />
+        <rect class="k-svetlo k-vystrih" x={STENA} y="40" width="8" height="178" />
         <rect class="k-tma stin-veci k-hybe" x={STENA} y={vec.nahore} width="8" height={vec.dole - vec.nahore} />
         <rect class="k-tma" x={STENA} y={hlava} width="8" height={218 - hlava} />
 
-        <text class="k-popisek" x="36" y="233" text-anchor="middle">oheň</text>
-        <text class="k-popisek" x="112" y="233" text-anchor="middle">nosiči za zídkou</text>
-        <text class="k-popisek" x="266" y="233" text-anchor="middle">vězni</text>
-        <text class="k-popisek" x="336" y="233" text-anchor="end">stěna</text>
+        <text class="k-popisek k-popisek--svetly" x="36" y="233" text-anchor="middle">oheň</text>
+        <text class="k-popisek k-popisek--svetly" x="112" y="233" text-anchor="middle">nosiči za zídkou</text>
+        <text class="k-popisek k-popisek--svetly" x="266" y="233" text-anchor="middle">vězni</text>
+        <text class="k-popisek k-popisek--svetly" x="336" y="233" text-anchor="end">stěna</text>
       </g>
     {/if}
   {/snippet}
@@ -158,13 +164,15 @@
 <style>
   .sero0 { stop-color: var(--k-stin); stop-opacity: 0; }
   .sero1 { stop-color: var(--k-stin); stop-opacity: 0.5; }
-  .mihot { fill: var(--k-stin); opacity: 0; }
+  /* Záře ohně na stěně: jediné místo, kde je v pohledu vězňů barva období. */
+  .mihot { fill: var(--pp); opacity: 0.07; }
   .ucho { fill: none; stroke: var(--k-stin); stroke-width: 3.5; stroke-linecap: round; }
   .ozvena path { fill: none; stroke: var(--k-stin); stroke-width: 2; stroke-linecap: round; }
 
-  .svetlo { fill: var(--k-svetlo); opacity: 0.1; }
-  .paprsek { stroke: var(--k-svetlo); stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.6; }
-  .zare { fill: var(--k-svetlo); opacity: 0.14; }
+  .svetlo { fill: var(--k-svetlo); opacity: 0.16; }
+  /* Paprsky od ohně ke stěně: směr tužkou. */
+  .paprsek { stroke: var(--k-svetlo); stroke-width: 1.2; stroke-dasharray: 3 4; stroke-linecap: round; opacity: 0.85; }
+  .zare { fill: var(--pp); opacity: 0.2; }
   .plamen { transform-box: fill-box; transform-origin: 50% 100%; }
   .poleno { fill: none; stroke: var(--k-svetlo); stroke-width: 3; stroke-linecap: round; }
   .paze { fill: none; stroke: var(--k-svetlo); stroke-width: 2.4; stroke-linecap: round; }
@@ -183,10 +191,10 @@
   :global(.kresba--pohyb) .stin-veci { animation: stin-veci 1.8s ease-in-out infinite alternate; }
 
   @keyframes pruvod { to { transform: translateX(var(--j-posun)); } }
-  @keyframes mihot { 0%, 100% { opacity: 0; } 22% { opacity: 0.09; } 38% { opacity: 0.02; } 61% { opacity: 0.11; } 78% { opacity: 0.03; } }
+  @keyframes mihot { 0%, 100% { opacity: 0.07; } 22% { opacity: 0.15; } 38% { opacity: 0.05; } 61% { opacity: 0.17; } 78% { opacity: 0.06; } }
   @keyframes ozvena { 0% { opacity: 0; } 25% { opacity: 1; } 70%, 100% { opacity: 0; } }
   @keyframes plamen { from { transform: scale(1, 1); } to { transform: scale(0.92, 1.14); } }
-  @keyframes zare { from { opacity: 0.1; } to { opacity: 0.2; } }
+  @keyframes zare { from { opacity: 0.16; } to { opacity: 0.3; } }
   @keyframes nese { to { transform: translateY(-3px); } }
   @keyframes stin-veci { to { transform: translateY(-8px); } }
 </style>

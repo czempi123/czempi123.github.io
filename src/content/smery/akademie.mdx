@@ -15,11 +15,12 @@ import Myslenky from '../../components/osobnost/Myslenky.astro';
 import Myslenka from '../../components/osobnost/Myslenka.astro';
 import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
+import Pojem from '../../components/ui/Pojem.astro';
 
 <Oddil kotva="zalozeni" nazev="Založení">
   <Fragment slot="titulek">Žák, který <em>nesouhlasil</em></Fragment>
 
-Do Platónovy školy v Athénách přišel jako sedmnáctiletý mladík ze Stageiry Aristotelés. Zůstal dvacet let, až do Platónovy smrti. Patřil k nejlepším, a přesto s učitelem v tom nejdůležitějším nesouhlasil. Platón učil, že za věcmi, které vidíme, jsou ideje. Aristotelés v nich viděl prázdná slova a básnické obrazy.
+Do Platónovy školy v Athénách přišel jako sedmnáctiletý mladík ze Stageiry Aristotelés. Zůstal dvacet let, až do Platónovy smrti. Patřil k nejlepším, a přesto s učitelem v tom nejdůležitějším nesouhlasil. Platón učil, že za věcmi, které vidíme, jsou <Pojem id="idea">ideje</Pojem>. Aristotelés v nich viděl prázdná slova a básnické obrazy.
 
 Když pak sám psal o tom, co je dobro, musel se s idejemi vypořádat. Přišly přece od přátel. Napsal k tomu:
 
@@ -33,7 +34,7 @@ Když pak sám psal o tom, co je dobro, musel se s idejemi vypořádat. Přišly
   <Myslenka cislo={1} disciplina="Metafyzika">
     <Fragment slot="titulek">Za tím, co vidíme, jsou <em>ideje.</em></Fragment>
 
-Nakreslený čtverec má křivé strany a dá se smazat. Čtverec, o kterém mluví geometrie, je dokonalý a trvá. Podle Platóna je takových věcí víc: spravedlnost, krása, dobro. Vidíme je jen rozumem, a přece jsou skutečnější než všechno, co vidíme očima. Jak na to přišel, sleduje cesta [Je to, co vidím, celá skutečnost?](/cesta/je-to-co-vidim-cela-skutecnost/)
+Nakreslený čtverec má křivé strany a dá se smazat. Čtverec, o kterém mluví geometrie, je dokonalý a trvá. Podle Platóna je takových věcí víc: spravedlnost, krása, dobro. Vidíme je jen <Pojem id="rozum">rozumem</Pojem>, a přece jsou skutečnější než všechno, co vidíme očima. Jak na to přišel, sleduje cesta [Je to, co vidím, celá skutečnost?](/cesta/je-to-co-vidim-cela-skutecnost/)
 
   </Myslenka>
   <Myslenka cislo={2} disciplina="Etika">

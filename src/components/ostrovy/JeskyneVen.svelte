@@ -6,6 +6,7 @@
   // Podklad: Ústava VII, 515c–516b (docs/podklady/celek-4-co-je-skutecne.md › Vstupní scéna, řádky 8–13).
   // Použití v MDX: <JeskyneVen id="jeskyne-ven" />
   import Kresba from './Kresba.svelte';
+  import { natrzenyPruh } from '../../lib/kresby';
   import { POHLEDY_VEN, POPIS_CESTY, STUPNE, vrstvyVenku } from '../../lib/jeskyne';
 
   interface Props {
@@ -22,6 +23,9 @@
 
   const HVEZDY = [[24, 22], [52, 70], [108, 30], [140, 84], [168, 18], [206, 58], [238, 26], [276, 80], [306, 34], [322, 104], [88, 108], [190, 112]];
   const PAPRSKY = [0, 45, 90, 135, 180, 225, 270, 315];
+  // Koláž (K7b): skála je natržený černý papír, zem venku natržený pruh. Barva období nese jen slunce: cíl cesty ven.
+  const SKALA = natrzenyPruh(0, 340, 60, 240, { zub: 2.4, semeno: 5 });
+  const ZEM_VENKU = natrzenyPruh(0, 340, 150, 240, { zub: 2.4, semeno: 8 });
 </script>
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.JeskyneVen} nazev={NAZVY_KRESEB.JeskyneVen} pohledy={POHLEDY_VEN} bind:pohled {popis}>
@@ -29,11 +33,10 @@
     {#if pohled === 'cesta'}
       <g class="pohled-cesta">
         <!-- Nahoře svět venku, pod ním skála s jeskyní a strmou cestou. -->
-        <rect class="k-svetlo" width="340" height="60" />
+        <rect class="k-svetlo" width="340" height="62" />
         <circle class="slunce-kotouc" cx="292" cy="26" r="11" />
-        <rect class="k-stin" x="24" y="44" width="4" height="16" />
-        <circle class="k-stin" cx="26" cy="38" r="11" />
-        <rect class="k-tma" y="60" width="340" height="180" />
+        <g class="k-stin k-vystrih"><rect x="24" y="44" width="4" height="16" /><circle cx="26" cy="38" r="11" /></g>
+        <path class="k-tma k-vystrih" d={SKALA} />
         <path class="k-stin" d="M60,60 L100,60 L184,150 L140,216 Z" />
         <path class="k-stin" d="M140,216 L140,176 C150,146 200,132 250,132 C300,132 332,144 332,172 L332,216 Z" />
         <path class="denni-svetlo" d="M60,60 L100,60 L96,88 L72,84 Z" />
@@ -70,10 +73,10 @@
           <path d="M1.5,-10 h7 l0.8,10 h-8.6 z" />
         </g>
 
-        <text class="k-popisek k-popisek--tmavy" x="160" y="36" text-anchor="middle">venku</text>
-        <text class="k-popisek" x="8" y="150">strmá cesta</text>
-        <text class="k-popisek" x="203" y="232" text-anchor="middle">oheň</text>
-        <text class="k-popisek" x="302" y="232" text-anchor="middle">vězni</text>
+        <text class="k-popisek" x="160" y="36" text-anchor="middle">venku</text>
+        <text class="k-popisek k-popisek--svetly" x="8" y="150">strmá cesta</text>
+        <text class="k-popisek k-popisek--svetly" x="203" y="232" text-anchor="middle">oheň</text>
+        <text class="k-popisek k-popisek--svetly" x="302" y="232" text-anchor="middle">vězni</text>
       </g>
     {:else}
       <g class="pohled-venku">
@@ -84,13 +87,13 @@
             <stop offset="1" class="oslneni1" />
           </radialGradient>
         </defs>
-        <rect class="k-svetlo" width="340" height="150" />
-        <rect class="k-stin" y="150" width="340" height="90" />
+        <rect class="k-svetlo" width="340" height="240" />
+        <path class="k-stin k-vystrih" d={ZEM_VENKU} />
 
         <!-- Noc: nebe s hvězdami a měsícem snese dřív než slunce. -->
         <g class="vrstva noc" style="opacity: {v.noc}">
-          <rect class="k-stin" width="340" height="150" />
-          <rect class="k-tma zem-v-noci" y="150" width="340" height="90" />
+          <rect class="k-stin" width="340" height="155" />
+          <path class="k-tma zem-v-noci" d={ZEM_VENKU} />
           {#each HVEZDY as [x, y], i (i)}
             <circle class="k-svetlo hvezda k-hybe" cx={x} cy={y} r={i % 3 === 0 ? 1.9 : 1.3} style="animation-delay: {(i % 5) * 0.4}s" />
           {/each}
@@ -130,7 +133,7 @@
         </g>
 
         <!-- Věci samé: strom a člověk. -->
-        <g class="vrstva veci k-tma" style="opacity: {v.veci}">
+        <g class="vrstva veci k-tma k-vystrih" style="opacity: {v.veci}">
           <rect x="82" y="138" width="8" height="40" />
           <circle cx="86" cy="124" r="22" />
           <circle cx="68" cy="136" r="14" />
@@ -160,19 +163,21 @@
 </Kresba>
 
 <style>
-  .slunce-kotouc { fill: var(--k-svetlo); stroke: var(--k-stin); stroke-width: 2.5; }
-  .paprsek { stroke: var(--k-stin); stroke-width: 2.5; stroke-linecap: round; }
+  /* Slunce: výstřižek z papíru období, paprsky tužkou. */
+  .slunce-kotouc { fill: var(--p); filter: var(--k-vystrih); }
+  .paprsek { stroke: var(--tuzka); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 3 2.5; }
   .paprsky { transform-origin: 286px 40px; }
   .denni-svetlo { fill: var(--k-svetlo); opacity: 0.35; }
   .zare { fill: var(--k-svetlo); opacity: 0.16; }
   .plamen { transform-box: fill-box; transform-origin: 50% 100%; }
   .tyc { stroke: var(--k-svetlo); stroke-width: 1.2; stroke-linecap: round; }
-  .stopa { fill: none; stroke: var(--k-svetlo); stroke-width: 1.4; stroke-dasharray: 2 4; stroke-linecap: round; opacity: 0.75; }
+  /* Cesta: směr tužkou, čárkovaně (na černé skále světlá tužka). */
+  .stopa { fill: none; stroke: var(--k-svetlo); stroke-width: 1.4; stroke-dasharray: 2 4; stroke-linecap: round; opacity: 0.8; }
   /* Dvojice má světlou výplň a tmavý obrys, aby byla vidět v jeskyni i venku na světle. */
   .dvojice { fill: var(--k-svetlo); stroke: var(--k-tma); stroke-width: 1.2; paint-order: stroke; transform: translate(104px, 144px); }
   .dvojice .paze { fill: none; stroke: var(--k-svetlo); stroke-width: 1.8; stroke-linecap: round; }
 
-  .vrstva { transition: opacity var(--pohyb-kamera) ease; }
+  .vrstva { transition: opacity var(--d-kamera) var(--k-papir); }
   .zem-v-noci { opacity: 0.45; }
   .oslneni0 { stop-color: var(--k-stin); stop-opacity: 0; }
   .oslneni1 { stop-color: var(--k-stin); stop-opacity: 0.3; }

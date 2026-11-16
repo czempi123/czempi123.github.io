@@ -6,11 +6,13 @@ import AxeBuilder from '@axe-core/playwright';
 import { writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { denikPodleData } from './denik';
 
 const denik = (zapisy: { id: string; otazka: string; odpoved: string }[], cesty: Record<string, unknown> = {}) =>
   JSON.stringify({ verze: 1, zapisy: zapisy.map((z) => ({ ...z, odkaz: '/cesta/kolik-je-dost/7/', kdy: '2026-10-20T10:00:00Z' })), vyzvy: [], navstivene: [], bloky: {}, aktivita: [], cesty });
 
 async function otevri(page: Page, obsah: string) {
+  await denikPodleData(page);
   await page.goto('/denik/');
   await page.evaluate((t) => localStorage.setItem('atlas-denik', t), obsah);
   await page.reload();
@@ -37,7 +39,7 @@ test('deník stažený na jednom zařízení jde nahrát na druhém a přidá se
   await expect(b.getByText('Nahraný deník se přidá k tomu, co máš tady. Nic se nesmaže.')).toBeVisible();
   await nahraj(b, soubor);
   await expect(b.getByRole('status')).toHaveText('Deník ze souboru je přidaný k tomuto. Nic se nesmazalo.');
-  const zapisy = b.locator('.seznam--zapisy');
+  const zapisy = b.locator('.kapitoly');
   await expect(zapisy).toContainText('Dost je, když nic nechybí.');
   await expect(zapisy).toContainText('Co si myslím.');
   await expect(b.locator('.seznam--rozpracovane')).toContainText('Kolik je dost?');
@@ -72,4 +74,22 @@ test('cizí soubor deník nezmění; tlačítka jdou klávesnicí a stránka pro
     const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     expect(axe.violations, rezim).toEqual([]);
   }
+});
+
+test('odkaz s deníkem jde ukázat jako kód QR (K7a); knihovna se načte až po klepnutí', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const nacteno: string[] = [];
+  page.on('request', (r) => { if (/qrcode/i.test(r.url())) nacteno.push(r.url()); });
+  await otevri(page, denik([{ id: 'qr', otazka: 'Kolik je dost?', odpoved: 'Dost je, když nic nechybí.' }]));
+  await page.getByRole('button', { name: 'Poslat deník odkazem' }).click();
+  await expect(page.locator('#odkaz-prenosu')).toHaveValue(/#/);
+  expect(nacteno).toEqual([]);
+  await page.getByRole('button', { name: 'Ukázat kód QR' }).click();
+  const kod = page.getByRole('img', { name: 'Kód QR s odkazem na tvůj deník' });
+  await expect(kod).toBeVisible();
+  expect((await kod.locator('path').getAttribute('d'))!.length).toBeGreaterThan(200);
+  await expect(page.getByRole('button', { name: 'Ukázat kód QR' })).toHaveCount(0);
+  const box = await kod.boundingBox();
+  expect(box!.width).toBeGreaterThanOrEqual(200);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(390);
 });

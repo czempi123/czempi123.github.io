@@ -81,7 +81,11 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
       await luk.getByRole('radio', { name: 'Pošle ho daleko.' }).check({ force: true });
       await luk.getByRole('button', { name: 'Rozhodnuto' }).click();
       await luk.getByRole('radio', { name: 'Povol tětivu' }).check({ force: true });
-      await luk.locator('.zmenena').getByRole('radio', { name: 'Nepošle ho nikam.' }).check({ force: true });
+      // Skrytý přepínač (1 px) může po posunu ležet přesně na spodní hraně okna (K3: vyšší list citátu nad blokem);
+      // Playwright ho pak hlásí jako mimo okno. Možnost se nejdřív posune doprostřed.
+      const nikam = luk.locator('.zmenena').getByRole('radio', { name: 'Nepošle ho nikam.' });
+      await nikam.evaluate((e) => (e.closest('label') ?? e).scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await nikam.check({ force: true });
       await luk.locator('.zmenena').getByRole('button').click();
       const posun = luk.getByRole('region', { name: 'Posun odpovědi' });
       await expect(posun).toContainText('Tvoje odpověď se posunula.');
@@ -151,7 +155,7 @@ test('Hérakleitos: text drží pravidla celku (zlomek × svědectví, válka uv
 
   // „Napsal“ u zlomku, „podle Platóna“ u svědectví; žádná nauka, žádné heslo mimo Odkryj, žádné legendy.
   expect(text).not.toMatch(/učil, že|učení, že|nikdy (to )?neřekl|Simplik|panta|Darei|hnůj|hnoj|vodnatel|nenávid|pyšn|melanchol|plač|uplakan/i);
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('Hérakleitos jako plačící filozof, jak si ho kolem roku 1630 představil španělský malíř. Uplakaného z něj udělali až Římané');
+  await expect(page.locator('.obraz-popisek')).toContainText('Hérakleitos jako plačící filozof, jak si ho kolem roku 1630 představil španělský malíř. Uplakaného z něj udělali až Římané');
   for (const veta of ['Aristotelés vypráví o jednom z nich, Kratylovi.', 'Platón nechává Sókrata říct, kam taková nauka vede.', 'Míří ta odpověď na Hérakleita, nebo na Kratyla?']) expect(text).toContain(veta);
 
   // Zlomek o válce: doslova, celý, uvnitř výkladu o protikladech (za lukem a lyrou), s výkladem jako výkladem a s otázkou.
@@ -247,8 +251,8 @@ test('Hérakleitos a Parmenidés: deska, licence obrazu a karty v Mapě a čase'
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(HERAKLEITOS);
   // Věta atributu je zlomek B12 (znění A), ne Platónovo „dvakrát“.
-  await expect(page.locator('.osobnost__deska')).toContainText('Do týchž řek vstupujeme, a pořád na nás tečou jiné vody.');
-  await expect(page.locator('.osobnost__deska')).not.toContainText('dvakrát');
+  await expect(page.locator('.osobnost .proc')).toContainText('Do týchž řek vstupujeme, a pořád na nás tečou jiné vody.');
+  await expect(page.locator('.osobnost .proc')).not.toContainText('dvakrát');
   await expect(page.locator('.osobnost__deska img')).toHaveAttribute('src', /herakleitos-aic\.jpg$/);
   const licence = page.locator('a[href="https://www.artic.edu/artworks/111428/heraclitus-the-weeping-philosopher"]');
   await expect(licence).toHaveText('CC0 (Public Domain Designation)');
@@ -257,8 +261,8 @@ test('Hérakleitos a Parmenidés: deska, licence obrazu a karty v Mapě a čase'
   // Parmenidés je bez obrazu: deska nese minci atributu.
   await page.goto(PARMENIDES);
   await expect(page.locator('.osobnost__deska img')).toHaveCount(0);
-  await expect(page.locator('.osobnost__deska')).toContainText('Proč brána?');
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toHaveCount(0);
+  await expect(page.locator('.osobnost .proc')).toContainText('Proč brána?');
+  await expect(page.locator('.obraz-popisek')).toHaveCount(0);
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });

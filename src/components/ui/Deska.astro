@@ -1,62 +1,76 @@
 ---
-// Deska: duotónová plocha pro obraz (busta, freska, rukopis) v barvách období.
-// Světlý režim: pozadí --period-N, kresba --period-N-tint; tmavý: pozadí soft, kresba barva.
-// Dokud obraz chybí, ukazuje minci s atributem (nikdy generickou siluetu). Pod deskou vždy popisek.
+// Deska: obraz (busta, freska, rytina) na ležícím listu se dvěma páskami v papíru období (design-v2, K3).
+// Fotka je ve filtru --foto (šedá s nádechem sépie, v noci ztlumená), ne v duotónu období.
+// Dokud obraz chybí, je na tečkovaném papíru razítko člověka s atributem (nikdy generická silueta). Pod deskou vždy popisek.
+// `osobni` (hlavička osoby): pásky se přilepí při příchodu na stránku a deska je cílem letu fotky z karty
+// (Zakladni.astro, global.css › Příchod na profil a Let fotky).
 import type { TOsoba } from '../../lib/schema';
 import { data } from '../../lib/data';
+import RazitkoCloveka from './RazitkoCloveka.astro';
 import { ornamenty } from '../../lib/ornamenty.js';
-import Mince from './Mince.astro';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 interface Props {
-  /** osoba: dává barvu období, minci s atributem a výchozí obraz */
+  /** osoba: dává barvu období, razítko s atributem a výchozí obraz */
   osoba?: TOsoba;
   /** období, když deska nepatří k osobě (např. scéna v Příběhu) */
   obdobi?: number;
   /** id obrázku v zdroje.yaml; přebije obraz osoby */
   obrazek?: string;
-  /** false = nepoužít portrét osoby (scéna v Příběhu ukazuje místo, ne podobu); mince zůstává */
+  /** false = nepoužít portrét osoby (scéna v Příběhu ukazuje místo, ne podobu); razítko zůstává */
   obrazOsoby?: boolean;
   pomer?: string;
+  /** deska v hlavičce stránky osoby: příchod pásek a cíl letu fotky */
+  osobni?: boolean;
   class?: string;
 }
-const { osoba, obdobi: obdobiProp, obrazek: obrazekId, obrazOsoby = true, pomer = '4 / 5', class: trida } = Astro.props;
+const { osoba, obdobi: obdobiProp, obrazek: obrazekId, obrazOsoby = true, pomer = '4 / 5', osobni = false, class: trida } = Astro.props;
 const obdobi = osoba?.obdobi ?? obdobiProp ?? 1;
 const idObrazku = obrazekId ?? (obrazOsoby ? osoba?.obrazek : undefined);
 const obrazek = idObrazku ? data.zdroje.obrazky.find((o) => o.id === idObrazku) : undefined;
 if (idObrazku && !obrazek) throw new Error(`Obrázek „${idObrazku}“ není v zdroje.yaml`);
-const orn = ornamenty.orn(obdobi - 1);
 // Střed výřezu jde do proměnných: --vyrez platí všude, --vyrez-sirka pro desku na šířku (hlavička osobnosti na telefonu).
+// Bez obrazu i bez osoby (scéna v Příběhu): ornament období z pásu na Domů, ne prázdný papír (revize R).
+const orn = !obrazek && !osoba ? ornamenty.orn(obdobi - 1) : undefined;
 const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezNaSirku && `--vyrez-sirka:${obrazek.vyrezNaSirku}`].filter(Boolean).join(';') || undefined;
 ---
-<figure class:list={['deska', `obdobi-${obdobi}`, trida]}>
-  <div class="deska__plocha" style={`aspect-ratio:${pomer}`}>
-    {obrazek ? (
-      <img src={`/${obrazek.soubor}`} alt={obrazek.popisek} loading="lazy" style={vyrezStyl} />
-    ) : (
-      <>
-        <svg class="deska__ornament" viewBox="0 0 160 128" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <path d={orn.solid} fill="currentColor" opacity="0.14" />
-          <path d={orn.line} fill="none" stroke="currentColor" stroke-width="1" opacity="0.35" />
-        </svg>
-        {osoba && <Mince osoba={osoba} varianta="ring" velikost={88} class="deska__mince" />}
-      </>
-    )}
+<figure class:list={['deska', `obdobi-${obdobi}`, trida]} id={osobni ? 'deska-osoby' : undefined} data-deska-osoby={osobni ? '' : undefined}>
+  <div class="deska__list">
+    <span class:list={['paska', 'paska--vlevo', { 'prichod-paska-l': osobni }]} aria-hidden="true"></span>
+    <span class:list={['paska', 'paska--vpravo', { 'prichod-paska-p': osobni }]} aria-hidden="true"></span>
+    <div class:list={['deska__plocha', { papir: !obrazek }]} style={`aspect-ratio:${pomer}`}>
+      {obrazek ? (
+        <img src={`/${obrazek.soubor}`} alt={obrazek.popisek} loading={osobni ? 'eager' : 'lazy'} style={vyrezStyl} />
+      ) : (
+        osoba ? <RazitkoCloveka osoba={osoba} velikost={104} popis class="deska__razitko" /> : (
+          <svg class="deska__orn" viewBox="0 0 160 128" focusable="false" aria-hidden="true" data-ornament-obdobi={obdobi}>
+            <path class="deska__orn-s" d={orn!.solid} />
+            <path class="deska__orn-l" d={orn!.line} />
+          </svg>
+        )
+      )}
+    </div>
   </div>
-  <figcaption class="t-popisek"><slot>{obrazek?.popisek}</slot></figcaption>
+  <figcaption class="t-popisek"><slot>{obrazek?.popisek && nezlomitelne(obrazek.popisek)}</slot></figcaption>
 </figure>
 
 <style>
   .deska { margin: 0; }
+  /* Fotka na listu: bílý okraj kolem obrazu, mírně natočený, dvě pásky přes horní rohy. */
+  .deska__list {
+    position: relative;
+    padding: 12px 12px 16px;
+    background: var(--list);
+    box-shadow: var(--deska);
+    rotate: calc(2deg * var(--natoceni));
+  }
+  .deska__list .paska { z-index: 3; }
   .deska__plocha {
     position: relative;
     display: grid;
     place-items: center;
     overflow: hidden;
-    border-radius: var(--r-xs);
-    background: var(--pc-plate);
-    color: var(--pc-on-plate);
   }
-  /* Duotón: šedotónový obraz násobený barvou desky, světla v barvě kresby. */
   .deska__plocha img {
     position: absolute;
     inset: 0;
@@ -66,17 +80,21 @@ const vyrezStyl = [obrazek?.vyrez && `--vyrez:${obrazek.vyrez}`, obrazek?.vyrezN
     /* Busty a portréty: tvář bývá v horní třetině; při úzkém výřezu (telefon) se nesmí useknout.
        Obrázek s vlastním středem výřezu (`vyrez` v zdroje.yaml) ho přebije proměnnou na prvku. */
     object-position: var(--vyrez, 50% 25%);
-    filter: grayscale(1) contrast(1.1);
-    mix-blend-mode: luminosity;
+    filter: var(--foto);
   }
-  .deska__ornament {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent);
-    mask-image: radial-gradient(closest-side, #000 30%, transparent);
+  /* Bez obrazu: tečkovaný papír a razítko člověka uprostřed. */
+  .deska__plocha.papir { box-shadow: var(--vtla-mele); }
+  /* Scéna bez obrazu i osoby: ornament období tužkou v barvě období, jako vybledlý tisk (ozdoba, nic nenese). */
+  .deska__orn { width: 62%; height: auto; color: var(--p); opacity: .5; }
+  .deska__orn-s { fill: currentColor; fill-opacity: .14; }
+  .deska__orn-l { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  figcaption { margin: var(--s-4) var(--s-1) 0; color: var(--ink-3); }
+  @media (max-width: 699px) {
+    .deska__list { padding: 8px 8px 12px; rotate: calc(1deg * var(--natoceni)); }
+    .deska__list .paska { width: 90px; height: 24px; }
+    /* Pásky nesmějí přes okraj stránky (16 px) ani při příchodu, kdy dopadají zvětšené (scale 1,2):
+       jinak by stránka na telefonu ujížděla do strany. */
+    .deska__list .paska--vlevo { left: -4px; }
+    .deska__list .paska--vpravo { right: -4px; }
   }
-  :global(.deska__mince) { position: relative; }
-  figcaption { margin-top: var(--s-3); }
 </style>

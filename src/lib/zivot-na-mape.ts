@@ -177,6 +177,19 @@ export function rokVCase(plan: PlanPrehravani, t: number): number {
   return zAstro(Math.floor(u.a0 + f * (u.a1 - u.a0) + 1e-6));
 }
 
+/**
+ * Roky, kterými přehrávání prošlo mezi dvěma snímky (čas od < t ≤ do): rok v čase do a před ním každá zastávka,
+ * jejíž zastavení v tom úseku začalo. Při zátěži stroje snímek přeskočí i celé zastavení; historie přehrávání
+ * ho přesto zná (MapaACas.svelte, test zivot-na-mape.spec.ts), takže nic neleží jen na vzorkování snímků.
+ */
+export function rokyMeziSnimky(plan: PlanPrehravani, od: number, doCasu: number): number[] {
+  const out: number[] = [];
+  for (const u of plan.useky) if (u.a0 === u.a1 && u.t0 > od && u.t0 <= doCasu) out.push(zAstro(u.a0));
+  const r = rokVCase(plan, doCasu);
+  if (out[out.length - 1] !== r) out.push(r);
+  return out;
+}
+
 // ─── Texty ───────────────────────────────────────────────────────────────────
 
 /** Role zastávky ze slovníku rolí míst (ROLE_MISTA); návrat do rodiště je „zpátky doma“. */

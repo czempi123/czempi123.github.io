@@ -9,13 +9,13 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 
 ## Postup
 
-1. **Přečti** `docs/design.md` (Barvy, Typografie, Komponenty, Přístupnost), `docs/plan.md` (tabulka bloků v oddílu Mechanismy učení), podobné hotové ostrovy v `src/components/` a sdílenou logiku v `src/lib/`. Nejdřív hledej, co už existuje (Mince, deník, letopočty, časová logika mapy); nic nepiš dvakrát.
+1. **Přečti** `docs/design.md` (Tokeny, Papír, Pohyb, Komponenty, Přístupnost) a oddíly Papír a Pohyb níž, `docs/plan.md` (tabulka bloků v oddílu Mechanismy učení), podobné hotové ostrovy v `src/components/` a sdílenou logiku v `src/lib/`. Nejdřív hledej, co už existuje (deník, letopočty, časová logika mapy); nic nepiš dvakrát.
 2. **Navrhni rozhraní** dřív než kód: props, sloty/snippety pro MDX, co blok ukládá (deník, localStorage) a jak vypadá stav po obnovení stránky. Jednu ukázku použití v MDX napiš hned na začátek souboru komponenty jako komentář.
 3. **Logiku odděl do `src/lib/`** jako čisté funkce bez DOM a Astra (vyhodnocení, převody, formátování). Ty dostanou jednotkové testy ve Vitestu.
 4. **Postav ostrov** podle `references/vzor-komponenty.md`: Svelte 5 (runes), jen tokeny, barva období přes třídu `obdobi-N`, fokus jen při klávesnici, dotykové cíle aspoň 44 px, pohyb vypnutý při omezeném pohybu.
 5. **Vyzkoušej v prohlížeči** na 390 a 1440 px, světlý i tmavý režim, jen klávesnicí, a jednou se zpomaleným procesorem, pokud komponenta reaguje na tažení nebo psaní. Snímky si prohlédni; obrázek v testu nestačí, musíš ho vidět.
 6. **Napiš testy** podle `references/kontrolni-seznam.md` a spusť celé `npm test` (ne jen nové testy).
-7. **Zapiš** do `docs/design.md` (oddíl Komponenty) krátký popis bloku a jeho API, zásadní volbu do `docs/rozhodnuti.md`. Commituj česky po ucelených krocích ve vlastní větvi.
+7. **Zapiš** API a ukázku použití do úvodního komentáře souboru komponenty, do `docs/design.md` (oddíl Komponenty) jen řádek, co komponenta dělá a kde je, zásadní volbu do `docs/rozhodnuti.md`. Commituj česky po ucelených krocích ve vlastní větvi.
 8. **Předej** snímky obou šířek v obou režimech, seznam odchylek od `docs/design.md` s důvodem a co zůstalo na později.
 
 ## Zásady
@@ -25,8 +25,34 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 - **„Začít znovu“ ve všech blocích.** Tlačítko, které smaže stav bloku i zápis v deníku, se jmenuje všude stejně (tiché tlačítko v `blok__akce`); „Zkusit znovu“ zní jako druhý pokus u zkoušky. Výjimkou je jen odhad Kdo žil dřív?, kde tlačítko dává nový odhad a nic nemaže.
 - **Žádná redakce v rozhraní.** Popisky tlačítek a nápovědy jsou krátké pokyny („Porovnat se Sókratem“), ne vysvětlování, jak je blok udělaný.
 - **Soukromí.** Odpovědi zůstávají v prohlížeči (`src/lib/denik.ts`), nikam se neodesílají; komponenta musí fungovat i bez localStorage.
-- **Bez externích závislostí za běhu.** Žádné CDN, písma a ikony lokálně (`public/ikony/*.svg`, komponenta Mince).
+- **Bez externích závislostí za běhu.** Žádné CDN, písma a ikony lokálně (`public/ikony/*.svg`).
 - **Data z `src/data`, ne ručně.** Jména, roky a vztahy ber z dat přes `src/lib/data.ts` nebo z výtahu předaného ostrovu; text v komponentě nesmí odporovat datům.
+
+## Papír
+
+Vzhled Spojení (`docs/design.md` › Papír). Komponenta se staví z tříd a tokenů, které už jsou; vlastní barvu, stín ani písmo nezakládá.
+
+- **Co vystupuje, jde zmáčknout; co je vtlačené, je zvolené; co leží, se čte.** Tlačítka třídami `.blok__tl--hlavni` (plný `--ink`, `--vyst-ink`), `--vedlejsi` (vystouplé, `.vystouple`), `--tiche` (podtržené `--tuzka`); karta `.lezi-odkaz`; zpětná vazba `.listek-paska`; souvislý text `.cisty-list`; aktivita v rámu na tečkách (`RamAktivity.svelte`). Starší jména (`--paper`, `--surface`, `--rule`, `--pc*`, tinty období) už v tokenech nejsou; když je ukazuje starší vzor, vezmi nové jméno.
+- **Barvy:** plochy `--papir`, `--list`, `--plocha`, `--listek`; inkousty `--ink`, `--ink-2`, `--ink-3`, `--ruka`; období přes třídu `.obdobi-N` na předkovi (`--p` inkoust, `--pp` papír, text na papíru období `--na-papiru`); co student napíše nebo zvolí, je v `--pero` Kalamem.
+- **Pravidlo střídmosti:** na obrazovce nejvýš jedna ozdoba, která nic nenese, a nejvýš jedna páska; další papír drží sponka (`--sponka`), ohyb nebo nic. Text delší než dvě věty se nenatáčí. Kalamem nic delšího než poznámka; zpětná vazba a vysvětlení jsou tiskem.
+- **Natočení vždy přes `--natoceni`:** `rotate: calc(-.6deg * var(--natoceni))`, ne holé `rotate: -.6deg`. Klidný režim dá `--natoceni` na 0; holé natočení by v něm zůstalo. Natočení, které nese význam (šipka, otočený znak rozbalení), násobit nesmí.
+- **Tečky jen přes `--tecka`** (`radial-gradient(circle at 1px 1px, var(--tecka) …)`), aby je Klidný režim i tisk mohly vypnout jedním tokenem.
+- **Stav nestojí jen na stínu:** zvolené má kroužek, tečku, ✓ nebo tučný řez, zakázané čárkovaný okraj tužkou (tabulka Stavy prvků v `docs/design.md`). Najetí mění průhlednost vrstev stínu (`::before`, `::after`) a `transform`, ne `box-shadow`.
+- **Deska bez obrazu a bez osoby** nese ornament období, nikdy prázdný rámeček. Popisky a kredity z dat projdou `nezlomitelne()` (letopočty hlídá `tests/e2e/letopocty-dist.spec.ts`).
+- **Data, která se opakují na mnoha stránkách** (obrys pobřeží, jména a roky všech lidí), patří do jednoho sdíleného souboru (`/podklad/<klíč>.svg`, `/dva-zivoty.json`), ne do vlastností ostrovu na každé stránce.
+- **Po záměrné změně vzhledu** obnov referenční snímky (`tests/e2e/snimky.spec.ts --update-snapshots`) a prohlédni si je.
+
+## Pohyb
+
+Tokeny a přechody v `docs/design.md` › Pohyb. Pro komponentu platí:
+
+- **Pohyb jen po činu studenta** (stisk, volba, odkrytí, pojem, posun) a v kresbách, které ho mají v sobě. Nic se samo nehýbe, nebliká ani nevyjíždí při posouvání.
+- **Délky a křivky jen z tokenů:** `--d-stisk` s `--k-stisk` pro stavy, `--d-listek` s `--k-papir` pro lístek, `--d-presun` pro přesun karty nebo mince, `--k-dopad` pro razítko a pásku. Žádné vlastní milisekundy.
+- **Jen `transform` a `opacity`;** výjimka je tah tužky v malém SVG.
+- **Omezený pohyb:** klidový stav je konec pohybu. Animace, která začíná průhledností 0, dostane v `prefers-reduced-motion` `animation: none`; skryté do připravení skrývej přes `display`.
+- **Klidný režim** (`data-klidny` na `<html>`, `KlidnyRezim.astro`): přechody mezi stránkami jsou krátké samy (typ `kratky`) a papír je čistý přes tokeny výš. Komponenta s vlastním dlouhým pohybem, který student nespustil (příchod, samovolná animace), se pod `:root[data-klidny]` vypne stejně jako při omezeném pohybu.
+- **Přechody mezi stránkami** řeší skript v hlavičce `Zakladni.astro` a `global.css` › Přechody; komponenta do nich nesahá. Nový typ přechodu potřebuje i pojistku plynulosti (`src/scripts/plynulost-prechodu.ts`) a výjimku pro Klidný režim.
+- **Testy pohybu:** měř až pár snímků po činu (při omezeném pohybu se poloha změní o snímek později) a počítej jen animace delší než 1 ms.
 
 ## Časté pasti
 
@@ -55,7 +81,7 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 - CSS `transform` na prvku SVG přepíše jeho atribut `transform`. Co se má hýbat a zároveň stát posunuté, zabal do `<g transform="…">` a animuj vnitřní prvek; střed otáčení nebo zvětšení nastav přes `transform-box: fill-box` a `transform-origin`.
 - Zkratka `animation` ve stylu ostrovu přebije `animation-play-state` z `global.css`, když mají obě pravidla stejnou váhu. Zastavení kresby proto řeší rám pravidlem s `!important` nad třídou `k-hybe`.
 - **Zastavená kresba kreslí obsah, ne začátek smyčky.** Rám animaci zastaví tam, kde je; kdo pohyb zastaví hned po načtení, uvidí první okamžik (jedna rozsvícená bublina, vězeň mezi ostatními) a obsah nikdy. Pod `.kresba--pohyb:not(.kresba--bezi)` proto vypni jméno animace a kresli totéž co při omezeném pohybu (Třetí čára, Cesta ven, Přesýpací hodiny, Maska); Pustit pohyb začne smyčku znovu. Každá kresba s pohybem má test: načíst, hned Zastavit pohyb a ověřit stav jako při omezeném pohybu.
-- Kresba s pohybem mimo vzor jeskyně: ovládání pod plátnem jde do snippetu `ovladani` (posuvník `k-posuvnik`, přepínač `k-prepinac` v obalu `k-volba`, tlačítka `blok__tl` v řádku `blok__akce`); kresba, ve které nic neběží samo, předá rámu `maPohyb={false}`; vlastní barvy mimo tři tóny smí mít jen kresba, jejímž tématem je barva (šaty), a má je v `src/lib/<tema>.ts` s testem; kresba smí stát i pod blokem, který k ní vede vlastním Kam dál. Podrobně `references/vzor-komponenty.md` a `docs/design.md` › Kresba s pohybem.
+- Kresba s pohybem mimo vzor jeskyně: ovládání pod plátnem jde do snippetu `ovladani` (posuvník `k-posuvnik`, přepínač `k-prepinac` v obalu `k-volba`, tlačítka `blok__tl` v řádku `blok__akce`); kresba, ve které nic neběží samo, předá rámu `maPohyb={false}`; vlastní barvy mimo tři tóny smí mít jen kresba, jejímž tématem je barva (šaty), a má je v `src/lib/<tema>.ts` s testem; kresba smí stát i pod blokem, který k ní vede vlastním Kam dál. Podrobně `references/vzor-komponenty.md` a `docs/archiv/design-2026-11-15.md` › Kresba s pohybem.
 - Průhledný `<input>` roztažený přes popisek (přepínač pohledů) zachytí klepnutí: v testu zaškrtni přepínač (`getByRole('radio').check({ force: true })`), neklepej na text.
 - **Přeskládání po hydrataci na první obrazovce problikne.** Sestavená stránka je celá a ostrov ji přeskládá až po načtení skriptů; na telefonu student mezitím čte odstavec, který mu pak zmizí, a text uskočí o stovky pixelů. Co má být skryté hned, skryje skript před vykreslením hned za obalem (`<script is:inline set:html={…} />`; najde obal přes `document.currentScript.previousElementSibling`). Pravidlo zůstane jedna funkce: vlož ji do skriptu jako text (`fn.toString()`), ne opis; funkce smí sahat jen na své parametry, pomůcky z jiného modulu dostane parametrem (vzor `skriptStranPredem` v `src/lib/strany.ts`, hlavní tlačítko na Domů). Ostrov po hydrataci skryté ukáže a značku sundá; pojistka (`load` + pár sekund) ukáže vše, kdyby se ostrov nehydratoval. Test: co je vidět při `DOMContentLoaded` (`addInitScript`), a stránka se zablokovanými moduly; blokuj celé `/_astro/*.js`, jeden soubor ostrova přijde i přes přednačtení. Skript ověř v `dist/`, ne jen ve Vitestu (sestavení může přejmenovat proměnné).
 - **`figcaption` je první, nebo poslední potomek `figure`.** Ovládání k obrázku (nabídka, posuvník) dej za `</figure>` do společného obalu s `id`, na který míří kotva a testy; jinak čtečka čte popisek jako součást obrázku a ovládání za ním jako jeho pokračování.
@@ -66,7 +92,7 @@ Komponenta je hotová, když ji autor vloží do MDX jedním řádkem, student j
 
 ## Stránky skládané z dat
 
-Pět typů stránek nad hotovou látkou (období, směr, myšlenkový pokus, úvod oddílu, náboženská tradice) a přehled období v deníku (Tvoje antika) vznikly ve větvi `antika-doplnky`. Šablony a API popisuje `docs/design.md` › Stránky období, směru, pokusu, úvodu a tradice; schémata jsou v `src/lib/stranky-schema.ts`, adresy a oddíly v `src/lib/stranky.ts`, seznam existujících stránek v `src/lib/stranky-typu.ts`.
+Pět typů stránek nad hotovou látkou (období, směr, myšlenkový pokus, úvod oddílu, náboženská tradice) a přehled období v deníku (Tvoje antika) vznikly ve větvi `antika-doplnky`. Šablony a API popisuje `docs/archiv/design-2026-11-15.md` › Stránky období, směru, pokusu, úvodu a tradice; schémata jsou v `src/lib/stranky-schema.ts`, adresy a oddíly v `src/lib/stranky.ts`, seznam existujících stránek v `src/lib/stranky-typu.ts`.
 
 - **Odkaz na novou stránku se objeví sám**, jakmile stránka existuje (`adresaObdobi`, `adresaSmeru`, `adresaOtazky`): do té doby vede tam, kam dosud. Ručně psaný odkaz na stránku, která ještě není, je slepá ulička (karta „Je Bůh?“ vedla na řádek přehledu bez odkazu).
 - **Vazba stránky na lidi patří do dat**, ne do konstanty v komponentě: tradice zná své osoby polem `tradice` (judaismus má `tradice: zidovska`) a medailonek z něj skládá kartu Kam dál (`kamDalMedailonku`).

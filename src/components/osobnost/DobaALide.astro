@@ -1,6 +1,8 @@
 ---
 // Blok „Doba a lidé“: generuje se z dat (lide, vztahy, mista), takže se nikdy nerozejde s mapou.
 // Mini osa se současníky, výřez mapy, učitelé a žáci, známí, vliv přes texty a kdo navazoval.
+// Design-v2 (K3): osa a mapa leží na listech papíru, u každého člověka razítko (RazitkoCloveka); mini mapa a osa
+// samy zůstávají do K7.
 // Společný profil předá další osoby (`dalsi`): vztahy obou se sloučí, vztah mezi nimi se nevypíše
 // (řekne ho úvodní věta) a u každého člověka stojí, ke komu ze dvojice vztah patří („učitel Kratéta“).
 // Jméno člověka, který má vlastní stránku, je odkaz na ni (adresaStranekOsob: Hipparchia vede na společný profil, medailonek na /osobnost/<id>/);
@@ -12,7 +14,7 @@ import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { vztahyOsoby, kdoNavazoval } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { roleVztahu, skupinyVztahu, LEGENDA_TRADOVANY } from '../../lib/vztahy';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import MiniOsa from './MiniOsa.astro';
 import DvaZivoty from './DvaZivoty.astro';
 import MiniMapa from './MiniMapa.astro';
@@ -20,6 +22,7 @@ import { maZastavky, ZIVOT_NA_MAPE } from '../../lib/zivot-na-mape';
 import { zivotOsoby, obdobiProRok } from '../../lib/cas-mapy';
 import { zapisAdresu } from '../../lib/adresa-mapy';
 import { data } from '../../lib/data';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 interface Props { osoba: TOsoba; dalsi?: TOsoba[] }
 const { osoba, dalsi = [] } = Astro.props;
@@ -63,7 +66,7 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
   {Astro.slots.has('default') && <div class="doba__uvod ctenarsky"><slot /></div>}
 
   <div class="doba__mrizka">
-    <div class="doba__osa">
+    <div class="doba__osa papirovy-list">
       <h3 class="t-ovladani-l">Současníci</h3>
       <MiniOsa osoba={osoba} dalsi={dalsi} />
       <div class="doba__dva">
@@ -73,9 +76,9 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
     </div>
     <div class="doba__mapa">
       <h3 class="t-ovladani-l">{dvojice ? 'Kde žili' : osoba.zena ? 'Kde žila' : 'Kde žil'}</h3>
-      <MiniMapa osoba={osoba} dalsi={dalsi} />
+      <div class="doba__vystrizek papirovy-list"><MiniMapa osoba={osoba} dalsi={dalsi} /></div>
       {prehratZivot && (
-        <a class="prehrat-zivot" href={prehratZivot}>
+        <a class="prehrat-zivot vystouple vystouple--m" href={prehratZivot}>
           <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" /></svg>
           {ZIVOT_NA_MAPE.odkaz}
         </a>
@@ -90,12 +93,12 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
         <ul class="lide">
           {s.lide.map((v) => (
             <li>
-              <Mince osoba={v.druhy} varianta="tint" velikost={40} />
+              <RazitkoCloveka osoba={v.druhy} velikost={72} />
               <span class="lide__text">
                 <span class="lide__jmeno">{odkaz(v.druhy.id) ? <a class="jmeno-odkaz" href={odkaz(v.druhy.id)}>{v.druhy.jmeno}</a> : v.druhy.jmeno}</span>
                 <span class="t-popisek">
                   <span class={`cara cara--${TYP_CARY[v.vztah.typ]}`} aria-hidden="true"></span>
-                  {role(v)}{v.vztah.poznamka ? ` · ${v.vztah.poznamka}` : ''} · {zivot(v.druhy)}
+                  {role(v)}{v.vztah.poznamka ? ` · ${nezlomitelne(v.vztah.poznamka)}` : ''} · {zivot(v.druhy)}
                 </span>
               </span>
             </li>
@@ -119,29 +122,29 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
 </section>
 
 <style>
-  .doba {
-    margin: var(--s-9) 0;
-    padding: var(--s-7) 0 var(--s-6);
-    border-top: 1px solid var(--ink);
-  }
-  .nadtitulek { margin: 0 0 var(--s-2); color: var(--pc); }
+  .doba { margin: var(--s-10) 0 var(--s-9); }
+  .nadtitulek { margin: 0 0 var(--s-2); color: var(--p); }
   .doba__uvod { margin: var(--s-4) 0 var(--s-6); }
-  .doba__mrizka { display: grid; gap: var(--s-6); }
+  .doba__mrizka { display: grid; gap: var(--s-6); margin-top: var(--s-6); }
   h3 { margin: 0 0 var(--s-3); }
+  /* Současníci a Dva životy na jednom listu, mini mapa na vystřiženém listu vedle. */
+  .doba__osa { padding: 22px 22px 18px; }
+  .doba__vystrizek { padding: 10px; rotate: calc(.6deg * var(--natoceni)); }
   .doba__dva { margin-top: var(--s-7); }
-  .doba__vztahy { display: grid; gap: var(--s-6); margin-top: var(--s-7); }
-  .lide { margin: 0; padding: 0; list-style: none; }
-  .lide li { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: 1px solid var(--rule); }
+  .doba__vztahy { display: grid; gap: var(--s-6); margin-top: var(--s-8); }
+  .lide { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .lide li { display: flex; align-items: center; gap: var(--s-4); }
   .lide__text { display: flex; flex-direction: column; }
   .lide__jmeno { font-size: 19px; line-height: 1.3; }
-  .cara { display: inline-block; width: 22px; margin-right: 6px; vertical-align: middle; border-top: 2px solid var(--pc); }
+  .lide__text .t-popisek { color: var(--ink-2); }
+  .cara { display: inline-block; width: 22px; margin-right: 6px; vertical-align: middle; border-top: 2px solid var(--ink-2); }
   .cara--teckovana { border-top-style: dotted; }
   .cara--carkovana { border-top-style: dashed; }
   .cara--vlnovka { border-top-style: double; border-top-width: 3px; }
   .navazovali { margin-top: var(--s-7); }
   .navazovali ul { margin: 0; padding: 0; list-style: none; }
-  .navazovali li { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: var(--s-1); padding: var(--s-2) 0; border-bottom: 1px solid var(--rule); font-size: 19px; }
-  .sipka { margin: 0 var(--s-2); color: var(--pc); font-family: var(--font-sans); }
+  .navazovali li { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: var(--s-1); padding: var(--s-2) 0; border-bottom: 1px solid var(--linka); font-size: 19px; }
+  .sipka { margin: 0 var(--s-2); color: var(--p); font-family: var(--font-sans); }
   .ja { font-weight: 600; }
   /* Odkaz na stránku člověka: tenké podtržení v barvě období, text zůstává inkoustový, takže je tišší
      než nadpis. Inline-block s 2px nahoře a dole dá cíl dotyku aspoň 24 px (19 px × 1,3). */
@@ -149,31 +152,33 @@ const TYP_CARY: Record<TVztah['typ'], string> = { ucitel: 'plna', 'znali-se': 't
     display: inline-block;
     padding-block: 2px;
     text-decoration-line: underline;
-    text-decoration-color: var(--pc);
+    text-decoration-color: var(--p);
     text-decoration-thickness: 1px;
     text-underline-offset: 0.18em;
   }
   .jmeno-odkaz:hover { text-decoration-thickness: 2px; }
-  .legenda { margin-top: var(--s-2); }
+  .legenda { margin-top: var(--s-2); color: var(--ink-3); }
   .prehrat-zivot {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
     min-height: 44px;
-    margin-top: var(--s-3);
+    margin-top: var(--s-4);
     padding: 0 var(--s-4);
-    border: 1.5px solid var(--ink);
-    border-radius: var(--r-xs);
+    border-radius: var(--r-plne);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
     font-weight: 600;
     text-decoration: none;
   }
-  .prehrat-zivot svg { fill: var(--pc); }
-  .prehrat-zivot:hover { background: var(--sunk); }
+  .prehrat-zivot svg { fill: var(--p); }
+  @media (max-width: 699px) {
+    .doba__osa { padding: 16px 14px; }
+    .doba__vystrizek { padding: 8px; rotate: 0deg; }
+  }
   @media (min-width: 900px) {
-    .doba__mrizka { grid-template-columns: 7fr 5fr; align-items: start; }
-    .doba__vztahy { grid-template-columns: repeat(3, 1fr); }
+    .doba__mrizka { grid-template-columns: 7fr 5fr; align-items: start; gap: var(--s-7); }
+    .doba__vztahy { grid-template-columns: repeat(3, 1fr); gap: var(--s-6) var(--s-7); }
   }
 </style>

@@ -4,7 +4,7 @@
 // Telefon: svislá linka vlevo s mincemi, letopočty nad jménem. Notebook: letopočty v levém okraji vedle mince.
 // Štítek „Tobě nejblíž“ stojí skrytý u každého hlasu; ukáže ho osa hlasů nad seznamem podle volby studenta (OsaHlasu.svelte).
 import type { TOsoba } from '../../lib/schema';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import Citat from '../ui/Citat.astro';
 import { OSA_HLASU } from '../../lib/osa-hlasu';
 import { zivot } from '../../lib/casy';
@@ -20,7 +20,7 @@ const { hlasy, adresa } = Astro.props;
 <ol class="osa">
   {hlasy.map((h) => (
     <li class={`hlas obdobi-${h.osoba.obdobi}`} id={`hlas-${h.osoba.id}`}>
-      <span class="hlas__mince" aria-hidden="true"><Mince osoba={h.osoba} varianta="tint" velikost={44} /></span>
+      <span class="hlas__mince" aria-hidden="true"><RazitkoCloveka osoba={h.osoba} velikost={56} /></span>
       <div class="hlas__text">
         <p class="hlas__roky t-popisek t-letopocet">{zivot(h.osoba)}</p>
         <h3 class="hlas__jmeno t-h3">
@@ -40,32 +40,32 @@ const { hlasy, adresa } = Astro.props;
   .osa::before {
     content: '';
     position: absolute;
-    top: 22px;
-    bottom: 22px;
-    left: 21px;
-    width: 2px;
-    background: var(--rule);
+    top: 28px;
+    bottom: 28px;
+    left: 27px;
+    width: 0;
+    border-left: 2px dashed var(--tuzka);
   }
   .hlas {
     position: relative;
     display: grid;
-    grid-template-columns: 44px 1fr;
+    grid-template-columns: 56px 1fr;
     gap: var(--s-4);
     padding-bottom: var(--s-7);
   }
   .hlas:last-child { padding-bottom: 0; }
-  .hlas__mince { position: relative; z-index: 1; display: block; height: 44px; border-radius: var(--r-full); background: var(--paper); }
+  .hlas__mince { position: relative; z-index: 1; display: block; height: 56px; border-radius: var(--r-plne); background: var(--papir); }
   .hlas__text { min-width: 0; }
-  .hlas__roky { margin: 0 0 var(--s-1); color: var(--pc); font-weight: 600; }
+  .hlas__roky { margin: 0 0 var(--s-1); color: var(--p); font-weight: 600; }
   .hlas__jmeno { margin: 0 0 var(--s-2); }
-  .hlas__jmeno a { text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .hlas__jmeno a { text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
   .hlas__stitek {
     display: inline-block;
     margin: 0 0 var(--s-2);
     padding: 2px var(--s-3);
-    border-radius: var(--r-full);
-    background: var(--pc);
-    color: var(--paper);
+    border-radius: var(--r-plne);
+    background: var(--ink);
+    color: var(--na-inkoustu);
     font-weight: 600;
   }
   .hlas__stitek[hidden] { display: none; }
@@ -74,7 +74,7 @@ const { hlasy, adresa } = Astro.props;
   @media (min-width: 1100px) {
     .hlas__roky {
       position: absolute;
-      top: 12px;
+      top: 18px;
       right: calc(100% + var(--s-5));
       width: 10rem;
       margin: 0;

@@ -1,0 +1,67 @@
+---
+// Obal obsahu profilu (MDX) v StrankaProfilu.astro. Vykreslí obsah do řetězce a:
+// 1) doplní citátům uchycení podle pořadí na stránce (K3 dodatek, bod 7; uchytCitaty v src/lib/listy.ts);
+// 2) před první kapitolu vloží skript, který na telefonu a v užším okně (do 899 px) přesune záložky velkých otázek
+//    z hlavičky až za úvod, aby deska a první odstavec zůstaly na první obrazovce. Skript běží při čtení stránky,
+//    takže se nic nepřeskládá před očima; vykreslení do té doby drží <link rel="expect"> v hlavičce (Zakladni.astro,
+//    pole ocekavat). Týž skript dá na telefonu první odstavec úvodu nad lištu Obsah (odpověď 6 b po K4a).
+//    Při změně šířky okna se záložky i odstavec vrátí. Společný profil (dvojice) má záložky vedle cesty a nemění se.
+import { uchytCitaty } from '../../lib/listy';
+
+// Stejné id čeká <link rel="expect"> ze StrankaProfilu.astro.
+const ID_ZA_UVODEM = 'otazky-za-uvodem';
+const PRESUN = `(function () {
+  var s = document.currentScript;
+  var o = document.querySelector('.osobnost:not(.osobnost--dvojice) .osobnost__hlavicka > .vstupy-osoby--otazky');
+  if (!s) return;
+  var doma = document.createComment(' otázky v hlavičce ');
+  if (o) o.before(doma);
+  var m = matchMedia('(max-width: 899px)');
+  // „Proč kalich?“ a popisek obrazu pod deskou jdou na telefonu až za první odstavec úvodu (odpověď 4 po K3 dodatku):
+  // deska a první odstavec se tak vejdou na první obrazovku. Obsah popisku se přesune, obraz má popisek i v alt.
+  var f = document.querySelector('.osobnost:not(.osobnost--dvojice) .osobnost__deska figcaption');
+  var p = document.querySelector('.obsah .uvod > p');
+  var za = null;
+  if (f && p) {
+    za = document.createElement('div');
+    za.className = 'deska-za-uvodem t-popisek';
+    p.after(za);
+  }
+  // Lišta Obsah stojí na telefonu až pod prvním odstavcem úvodu (odpověď 6 b po K4a): první odstavec jde i s popiskem
+  // desky nad lištu, do mělkých kopií obalů .obsah a .uvod (se stejnými atributy, takže platí tytéž styly).
+  // Lišta zůstává sourozencem obsahu stránky, aby při čtení držela pod horní lištou až do konce.
+  var lista = document.querySelector('[data-obsah-lista]');
+  var uvod = p && p.parentElement;
+  var obsah = uvod && uvod.closest('.obsah');
+  var nad = null;
+  if (lista && obsah && p.matches(':first-child') && !obsah.closest('.osobnost--dvojice')) {
+    nad = obsah.cloneNode(false);
+    nad.classList.add('obsah--nad-listou');
+    nad.appendChild(uvod.cloneNode(false));
+  }
+  function presun() {
+    if (nad) {
+      if (m.matches) { nad.firstChild.appendChild(p); if (za) nad.firstChild.appendChild(za); lista.before(nad); }
+      else if (nad.isConnected) { uvod.prepend(p); if (za) p.after(za); nad.remove(); }
+    }
+    if (o) {
+      if (m.matches) s.before(o); else doma.after(o);
+      o.classList.toggle('vstupy-osoby--za-uvodem', m.matches);
+    }
+    if (za) {
+      var z = m.matches ? f : za, c = m.matches ? za : f;
+      while (z.firstChild) c.appendChild(z.firstChild);
+      za.hidden = !m.matches;
+      f.hidden = m.matches;
+    }
+  }
+  presun();
+  if (m.addEventListener) m.addEventListener('change', presun);
+})();`;
+
+let html = uchytCitaty(await Astro.slots.render('default'));
+const prvniKapitola = html.indexOf('<section class="kapitola');
+const skript = `<script id="${ID_ZA_UVODEM}">${PRESUN}</script>`;
+html = prvniKapitola < 0 ? html + skript : html.slice(0, prvniKapitola) + skript + html.slice(prvniKapitola);
+---
+<Fragment set:html={html} />

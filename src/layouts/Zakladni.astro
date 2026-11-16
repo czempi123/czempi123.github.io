@@ -6,6 +6,10 @@ import '../styles/promitani.css';
 import Pisma from '../components/rozvrzeni/Pisma.astro';
 import ListaHodiny from '../components/rozvrzeni/ListaHodiny.astro';
 import { KLIC_AKTIVNI } from '../lib/pruchod-hodiny';
+import { TEXT_DENIKU_SKRIPT } from '../lib/denik';
+import { skriptPera } from '../lib/pero';
+import { typPrechoduKroku, KLIC_ODKUD } from '../lib/postup';
+import { zapsatMereni, kratkyPrechod, platneMereni, KLIC_PLYNULOSTI } from '../scripts/plynulost-prechodu';
 import Hlavicka, { type Sekce } from '../components/rozvrzeni/Hlavicka.astro';
 import SpodniLista from '../components/rozvrzeni/SpodniLista.astro';
 import Drobecky from '../components/rozvrzeni/Drobecky.astro';
@@ -16,17 +20,29 @@ interface Props {
   sekce?: Sekce;
   drobecky?: { text: string; href?: string }[];
   zpet?: { href: string; text: string };
-  /** telefonní titulek v horní liště (výchozí: Atlas myšlení) */
-  kratkyTitulek?: string;
+  /** období stránky (1 až 8): velké A v logu nese jeho papír; bez období je v inkoustu */
+  obdobi?: number;
   /** stránka, kterou má Pagefind indexovat */
   hledat?: boolean;
   /** celoobrazovkový nástroj (Mapa a čas): bez drobečků a patičky, obsah vyplní okno */
   aplikace?: boolean;
   /** stránka pro autora (dílna): vyhledávače ji neindexují */
   noindex?: boolean;
+  /** stránka osoby (profil, medailonek): Kalam 700 přednačtený (pruh se jménem je na první obrazovce)
+      a deska #deska-osoby musí být v DOM před prvním vykreslením (cíl letu fotky z karty) */
+  strankaOsoby?: boolean;
+  /** stránka má desku osoby (#deska-osoby); medailonek bez obrazu a atributu ji nemá */
+  deskaOsoby?: boolean;
+  /** id prvků, na které čeká první vykreslení (<link rel="expect" blocking="render">): přesun záložek otázek
+      na telefonu za úvod (ListyProfilu.astro) se tak stane dřív, než stránku student uvidí */
+  ocekavat?: string[];
+  /** české tvary pro hledání (Pagefind neskloňuje): jména osob, tvary pojmu; jen pro index, ne pro čtečku */
+  tvary?: string[];
 }
-const { titulek, popis = 'Interaktivní atlas filozofie pro střední školy: lidé, otázky, mapa a čas.', sekce, drobecky, zpet, kratkyTitulek, hledat = true, aplikace = false, noindex = false } = Astro.props;
-const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atlas myšlení`;
+// Název webu je Agora (design-v2, otázka 11 po D4); „atlas“ zůstává v textech o tom, jak se v něm pohybovat.
+const NAZEV_WEBU = 'Agora';
+const { titulek, popis = 'Agora: interaktivní atlas filozofie pro střední školy. Lidé, otázky, mapa a čas.', sekce, drobecky, zpet, obdobi, hledat = true, aplikace = false, noindex = false, strankaOsoby = false, deskaOsoby = strankaOsoby, ocekavat = [], tvary = [] } = Astro.props;
+const plnyTitulek = titulek === NAZEV_WEBU ? titulek : `${titulek} · ${NAZEV_WEBU}`;
 ---
 <!doctype html>
 <html lang="cs">
@@ -35,19 +51,27 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{plnyTitulek}</title>
     <meta name="description" content={popis} />
+    <meta property="og:site_name" content={NAZEV_WEBU} />
+    <meta property="og:title" content={plnyTitulek} />
+    <meta property="og:description" content={popis} />
+    <meta property="og:locale" content="cs_CZ" />
     {/* Do konce zkoušky se studenty: celý zveřejněný atlas mimo vyhledávače. Po zkoušce smaž tento řádek a vrať původní podmínku `noindex &&` (dílna zůstane mimo vyhledávače). */}
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#EFEDE6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1D1B18" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>
       // Ruční volba režimu (atlas-rezim) má přednost před nastavením systému; nastaví se před vykreslením.
+      // Klidný režim (atlas-klidny, KlidnyRezim.astro) taky, ať papír neproblikne s tečkami a natočením.
       try {
         const r = localStorage.getItem('atlas-rezim');
         if (r === 'light' || r === 'dark') document.documentElement.dataset.theme = r;
+        if (localStorage.getItem('atlas-klidny') === '1') document.documentElement.setAttribute('data-klidny', '');
       } catch (e) {}
     </script>
+    {/* Studentovo pero z deníku (src/lib/pero.ts), před vykreslením, ať barva pera neproblikne. */}
+    <script is:inline set:html={skriptPera(TEXT_DENIKU_SKRIPT)} />
     <script is:inline define:vars={{ klic: KLIC_AKTIVNI }}>
       // Hodina otevřená v této kartě (src/lib/pruchod-hodiny.ts): když na stránce stojí některé její zastavení,
       // drží se místo pro lištu hodiny a při promítání se stránka vykreslí rovnou bez hlavičky a patičky.
@@ -73,20 +97,124 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
         }
       } catch (e) {}
     </script>
-    <Pisma />
+    <script is:inline set:html={`
+      // Přechod mezi stránkami (global.css › Přechody): list se otočí kolem levé hrany. Návrat v historii
+      // dostane typ zpet (list se přiklopí zpátky), ostatní příchody typ dalsi. Firefox a omezený pohyb přechod nemají.
+      // Mezi sousedními kroky téže cesty se list jen posune (typ krok-dal nebo krok-zpet, K5): pozná se z adres
+      // (navigation.activation, jinak adresa uložená při odchodu ze stránky), ne z odkazu.
+      var typKroku = ${typPrechoduKroku.toString()};
+      var zapsatMereni = ${zapsatMereni.toString()};
+      var kratkyPrechod = ${kratkyPrechod.toString()};
+      var platneMereni = ${platneMereni.toString()};
+      addEventListener('pageswap', function () { try { sessionStorage.setItem('${KLIC_ODKUD}', location.pathname); } catch (x) {} });
+      addEventListener('pagereveal', function (e) {
+        if (!e.viewTransition) return;
+        // Klidný režim (global.css › Klidný režim): každý přechod je krátké prolnutí, týž typ jako pojistka plynulosti.
+        if (document.documentElement.hasAttribute('data-klidny')) { e.viewTransition.types.add('kratky'); return; }
+        var odkud = '';
+        try {
+          var a0 = window.navigation && navigation.activation;
+          odkud = a0 && a0.from && a0.from.url ? new URL(a0.from.url).pathname : (sessionStorage.getItem('${KLIC_ODKUD}') || '');
+        } catch (x) {}
+        var krok = typKroku(odkud, location.pathname);
+        if (krok) { e.viewTransition.types.add(krok); return; }
+        // Kde otočení listu trhalo (src/scripts/plynulost-prechodu.ts), krátké prolnutí místo otočení.
+        var ulozeno = null;
+        try { ulozeno = localStorage.getItem('${KLIC_PLYNULOSTI}'); } catch (x) {}
+        if (kratkyPrechod(ulozeno)) { e.viewTransition.types.add('kratky'); return; }
+        var zpet = false;
+        try {
+          var a = window.navigation && navigation.activation;
+          zpet = !!(a && a.navigationType === 'traverse' && a.from && a.entry && a.entry.index < a.from.index);
+        } catch (chyba) {}
+        e.viewTransition.types.add(zpet ? 'zpet' : 'dalsi');
+        // Rub zahnutého listu během otočení (.otoceni-ohyb, global.css › Přechody).
+        var t = document.documentElement.classList;
+        t.add('otaci-se');
+        if (zpet) t.add('otaci-se--zpet');
+        var snimku = 0, start = performance.now(), bezi = true;
+        var tik = function () { snimku++; if (bezi) requestAnimationFrame(tik); };
+        requestAnimationFrame(tik);
+        e.viewTransition.finished.finally(function () {
+          t.remove('otaci-se', 'otaci-se--zpet');
+          bezi = false;
+          var ms = performance.now() - start;
+          if (!platneMereni(ms, snimku, !document.hidden)) return;
+          try { localStorage.setItem('${KLIC_PLYNULOSTI}', zapsatMereni(localStorage.getItem('${KLIC_PLYNULOSTI}'), (snimku * 1000) / ms)); } catch (x) {}
+        });
+      });
+    `} />
+    <script is:inline>
+      // Příchod na profil (global.css › Příchod na profil): titulek, pruh a pásky po sobě, jen při nové návštěvě.
+      // Po Zpět (traverse), při omezeném pohybu a ve Firefoxu (bez pagereveal) je stránka hned celá.
+      // Let fotky z karty na desku (global.css › Let fotky): jméno přechodu jen na kliknuté kartě a cílové desce.
+      (function () {
+        var t = document.documentElement.classList;
+        var KLIC = 'atlas-let-desky';
+        var pohyb = false;
+        try { pohyb = 'onpagereveal' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.documentElement.hasAttribute('data-klidny'); } catch (e) {}
+        if (!pohyb) return;
+        var typ = '';
+        try {
+          var a = window.navigation && navigation.activation;
+          typ = a ? a.navigationType : (performance.getEntriesByType('navigation')[0] || {}).type;
+        } catch (e) {}
+        if (typ !== 'traverse' && typ !== 'back_forward') {
+          t.add('prichod');
+          setTimeout(function () { t.remove('prichod', 'prichod--po-listu'); }, 2500);
+        }
+        var posledni = null;
+        addEventListener('click', function (e) { posledni = e.target instanceof Element ? e.target.closest('a[href]') : null; }, true);
+        addEventListener('pageswap', function (e) {
+          if (!e.viewTransition || !posledni) return;
+          try {
+            var akt = e.activation;
+            if (!akt || akt.navigationType === 'traverse' || !akt.entry) return;
+            var cil = new URL(akt.entry.url);
+            var odkaz = new URL(posledni.href, location.href);
+            if (odkaz.pathname !== cil.pathname || !/^\/osobnost\/[^/]+\/$/.test(cil.pathname) || cil.pathname === location.pathname) return;
+            var r = posledni.getBoundingClientRect();
+            // Jen karta (ležící papír, karta člověka), ne jméno v řádku textu, a jen když je vidět.
+            if (r.height < 40 || r.bottom < 0 || r.top > innerHeight) return;
+            posledni.style.viewTransitionName = 'deska-osoby';
+            sessionStorage.setItem(KLIC, cil.pathname);
+            var k = posledni;
+            e.viewTransition.finished.finally(function () { k.style.viewTransitionName = ''; });
+          } catch (x) {}
+        });
+        addEventListener('pagereveal', function (e) {
+          if (e.viewTransition && t.contains('prichod')) t.add('prichod--po-listu');
+          var p = null;
+          try { p = sessionStorage.getItem(KLIC); sessionStorage.removeItem(KLIC); } catch (x) {}
+          if (!e.viewTransition || p !== location.pathname) return;
+          var d = document.getElementById('deska-osoby');
+          if (!d) return;
+          d.style.viewTransitionName = 'deska-osoby';
+          e.viewTransition.finished.finally(function () { d.style.viewTransitionName = ''; });
+        });
+      })();
+    </script>
+    {deskaOsoby && <link rel="expect" href="#deska-osoby" blocking="render" />}
+    {ocekavat.map((id) => <link rel="expect" href={`#${id}`} blocking="render" />)}
+    <Pisma ruka={strankaOsoby} />
   </head>
   <body>
     <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
-    {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} titulek={kratkyTitulek} />}
+    {/* Rub zahnutého listu při přechodu mezi stránkami (global.css › Přechody); před hlavičkou, aby ležel pod ní. */}
+    <div class="otoceni-ohyb" aria-hidden="true"><div class="otoceni-ohyb__papir"></div></div>
+    {Astro.slots.has('hlavicka') ? <slot name="hlavicka" /> : <Hlavicka sekce={sekce} zpet={zpet} obdobi={obdobi} />}
+    {/* Lišta pod záhlavím webu (krok cesty, K5): na notebooku pod hlavičkou, na telefonu místo ní. */}
+    <slot name="pod-hlavickou" />
     <ListaHodiny />
     {drobecky && <Drobecky cesta={drobecky} />}
     <main id="obsah" tabindex="-1" data-pagefind-body={hledat ? '' : undefined} class:list={{ aplikace }}>
       <slot />
+      {hledat && tvary.length > 0 && <p class="tvary-hledani" hidden aria-hidden="true" data-pagefind-weight="3">{tvary.join(' · ')}</p>}
     </main>
     {!aplikace && (
       <footer class:list={['paticka', 'stranka', 't-popisek', { 'paticka--lista': Astro.slots.has('lista') }]} data-pagefind-ignore>
-        <p>Atlas myšlení · Vojtěch Czempka · texty a data CC BY-NC-SA 4.0, kód MIT</p>
-        <p><a class="paticka__ucitel" href="/hodina/nova/">Pro učitele: připravit hodinu</a></p>
+        <p>{NAZEV_WEBU} · Vojtěch Czempka · texty a data CC BY-NC-SA 4.0, kód MIT</p>
+        <p><a class="paticka__pojmy" href="/pojmy/">Pojmy</a> · <a class="paticka__ucitel" href="/hodina/nova/">Pro učitele: připravit hodinu</a></p>
       </footer>
     )}
     {Astro.slots.has('lista') ? <slot name="lista" /> : <SpodniLista sekce={sekce} />}
@@ -112,13 +240,21 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
           const lista = [...document.querySelectorAll('.cesta-lista, nav.lista')].find(
             (l) => getComputedStyle(l).position === 'fixed' && l.getBoundingClientRect().height > 0,
           );
-          if (!lista || lista.contains(prvek)) return;
+          // Pata rámu aktivity drží na telefonu u spodní hrany (position: sticky, global.css › Rám aktivity):
+          // prvek v rámu nad ní musí zůstat nad patou, ne jen nad lištou.
+          const pata = prvek.closest('.blok')?.querySelector(':scope > .blok__pata');
+          const drziPata = pata && !pata.contains(prvek) && getComputedStyle(pata).position === 'sticky';
+          if (lista && lista.contains(prvek)) return;
+          // Bez lišty i bez paty hlídá spodní hranu okna: pole na psaní (textarea) Chromium po tabulátoru
+          // posune jen tak, aby byl vidět kurzor, a spodek pole zůstane pod oknem (K4a, Odkryj u Sókrata).
           requestAnimationFrame(() => {
             const r = prvek.getBoundingClientRect();
-            const hrana = lista.getBoundingClientRect().top;
+            let hrana = lista && !lista.contains(prvek) ? lista.getBoundingClientRect().top : innerHeight;
+            if (drziPata) hrana = Math.min(hrana, pata.getBoundingClientRect().top);
             const presah = r.bottom + 16 - hrana;
-            // Prvek vyšší než volné místo neposouvej nad horní okraj.
-            if (presah > 0 && r.top < hrana) scrollBy({ top: Math.min(presah, Math.max(0, r.top - 96)), behavior: 'instant' });
+            // Prvek vyšší než volné místo neposouvej nad horní okraj. Prvek celý pod patou prohlížeč za skrytý
+            // nepovažuje (pata nemá scroll-padding), proto se posune i tehdy.
+            if (presah > 0 && (r.top < hrana || drziPata)) scrollBy({ top: Math.min(presah, Math.max(0, r.top - 96)), behavior: 'instant' });
           });
         });
       })();
@@ -126,6 +262,12 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     <script>
       // Lišta hodiny a promítání (src/scripts/hodina-lista.ts); bez aktivní hodiny v kartě nedělá nic.
       import { spustListuHodiny } from '../scripts/hodina-lista';
+      // Tichá tečka u Deníku v záhlaví a spodní liště (K6). Patří sem, ne do skriptu hlavičky: s importem by hlavička
+      // dostala vlastní modul navíc a přechod mezi stránkami (pagereveal) by v Chromiu často vypadl (ram.spec).
+      import '../scripts/tecka-deniku';
+      // Nůžky u citátů (K6). Ne ve skriptu Citat.astro: Astro vloží značku <script> k prvnímu citátu na stránce
+      // a ta pak rozdělí text kroku do dalšího čistého listu (ram-aktivity) a stane se posledním prvkem scény příběhu.
+      import '../scripts/vystrihnout';
       spustListuHodiny();
     </script>
   </body>
@@ -138,7 +280,8 @@ const plnyTitulek = titulek === 'Atlas myšlení' ? titulek : `${titulek} · Atl
     margin-top: var(--s-9);
     padding-top: var(--s-5);
     padding-bottom: calc(var(--spodni-lista) + var(--s-6));
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--linka);
+    color: var(--ink-3);
   }
   .paticka p { margin: 0; }
   .paticka__ucitel { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-2); }

@@ -56,7 +56,7 @@ const popisZnacky = (r: number) => (r === 0 ? '' : smisena && r < 0 ? `${Math.ab
     position: relative;
     height: 20px;
     margin-left: var(--jmena);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--tuzka);
   }
   .osa__znacka {
     position: absolute;
@@ -64,7 +64,7 @@ const popisZnacky = (r: number) => (r === 0 ? '' : smisena && r < 0 ? `${Math.ab
     transform: translateX(-50%);
     white-space: nowrap;
     font-size: 12px;
-    color: var(--muted);
+    color: var(--ink-3);
   }
   .osa__radky { margin: 0; padding: 0; list-style: none; }
   .osa__radek {
@@ -72,9 +72,10 @@ const popisZnacky = (r: number) => (r === 0 ? '' : smisena && r < 0 ? `${Math.ab
     grid-template-columns: var(--jmena) 1fr;
     align-items: center;
     min-height: 34px;
-    border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+    border-bottom: 1px dashed var(--linka);
   }
-  .osa__radek--ja { background: var(--pc-tint); }
+  /* Řádek osoby stránky je lísteček přiložený přes osu (design-v2 K7b): papír lístku se stínem výstřižku. */
+  .osa__radek--ja { position: relative; z-index: 1; border-bottom-color: transparent; background: var(--listek); box-shadow: var(--lezi-tlak); }
   .osa__jmeno { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--s-2); padding: var(--s-1) var(--s-2) var(--s-1) 0; }
   .osa__radek--ja .osa__jmeno { padding-left: var(--s-2); }
   .jmeno { font-size: 16px; line-height: 1.25; }
@@ -84,10 +85,11 @@ const popisZnacky = (r: number) => (r === 0 ? '' : smisena && r < 0 ? `${Math.ab
     position: absolute;
     top: 2px;
     height: 6px;
-    border-radius: 3px;
-    background: var(--pc);
+    border-radius: var(--r-papir);
+    /* Pruhy současníků tužkou; život osoby stránky proužek papíru období se stínem výstřižku. */
+    background: var(--tuzka);
   }
-  .osa__radek--ja .osa__pruh { top: 0; height: 10px; box-shadow: 0 0 0 2px var(--pc-tint), 0 0 0 3px var(--pc); }
+  .osa__radek--ja .osa__pruh { top: 0; height: 10px; background: var(--pp); box-shadow: var(--lezi-tlak); }
   figcaption { margin-top: var(--s-3); }
   @media (min-width: 700px) { .osa { --jmena: 30%; } }
 </style>

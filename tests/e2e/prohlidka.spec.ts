@@ -64,9 +64,9 @@ for (const s of STRANKY) {
         await pripravit(page);
 
         await expect(page.locator('h1')).toContainText(s.nadpis);
-        // Režim odpovídá nastavení systému.
+        // Režim odpovídá nastavení systému (papír --papir ve dne a v nočním zápisníku).
         const pozadi = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-        expect(pozadi).toBe(rezim === 'light' ? 'rgb(244, 239, 230)' : 'rgb(23, 20, 15)');
+        expect(pozadi).toBe(rezim === 'light' ? 'rgb(239, 237, 230)' : 'rgb(29, 27, 24)');
         // Žádné vodorovné posouvání stránky.
         const presah = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         expect(presah).toBeLessThanOrEqual(0);
@@ -100,7 +100,7 @@ test('ruční přepínač režimu přebije systém a zapamatuje si volbu', async
   expect(await page.evaluate(() => localStorage.getItem('atlas-rezim'))).toBe('dark');
   await page.goto('/lide/');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(23, 20, 15)');
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(29, 27, 24)');
   await page.locator('[data-prepinac-rezimu]').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
@@ -119,6 +119,26 @@ test('klávesnice: odkaz Přeskočit na obsah a hledání klávesou /', async ({
   await expect(dialog.locator('.pagefind-ui__result-link').first()).toContainText('Chairefón');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
+});
+
+// Pagefind neskloňuje (design-v2, krok P): profily nesou české tvary jména, pojmy tvary slova (Zakladni.astro › tvary).
+test('hledání v jiném pádě: „Sókrata“ najde profil Sókrata, „ctnosti“ pojem ctnost, „ataraxie“ pojem klid', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/lide/');
+  await page.waitForSelector('astro-island[component-url*="Hledani"]:not([ssr])', { state: 'attached' });
+  const dialog = page.getByRole('dialog', { name: 'Hledání v atlasu' });
+  for (const [dotaz, adresa] of [['Sókrata', '/osobnost/sokrates/'], ['Sókratovi', '/osobnost/sokrates/'], ['ctnosti', '/pojem/ctnost/'], ['ataraxie', '/pojem/klid/']]) {
+    await page.keyboard.press('/');
+    await expect(dialog).toBeVisible();
+    await dialog.locator('input').fill(dotaz);
+    await expect(dialog.locator(`.pagefind-ui__result-link[href^="${adresa}"]`).first(), dotaz).toBeVisible({ timeout: 15_000 });
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  }
+  // Tvary jsou jen pro index: čtečka ani oko je na stránce nenajdou.
+  await page.goto('/osobnost/sokrates/');
+  await expect(page.locator('.tvary-hledani')).toBeHidden();
+  await expect(page.locator('.tvary-hledani')).toHaveAttribute('aria-hidden', 'true');
 });
 
 test('Nejdřív sám: odpověď se odkryje až po pokusu a uloží do deníku', async ({ page }) => {
@@ -147,9 +167,9 @@ test('deska osobnosti: rytina má na telefonu vlastní střed výřezu', async (
     expect(await stred(), `${id} · 1440 px`).toBe(siroky);
   }
   // Pod deskou stojí vedle atributu i popisek obrázku: u rytiny říká, čí je to představa (revize P10).
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('Marcus Aurelius na koni.');
+  await expect(page.locator('.obraz-popisek')).toContainText('Marcus Aurelius na koni.');
   await page.goto('/osobnost/epiktetos/');
-  await expect(page.locator('.osobnost__deska .obraz-popisek')).toContainText('jak si ho představil rytec roku 1715');
+  await expect(page.locator('.obraz-popisek')).toContainText('jak si ho představil rytec roku 1715');
   // Obrázek bez vlastního výřezu na šířku drží svůj běžný střed i na telefonu.
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/osobnost/diogenes/');

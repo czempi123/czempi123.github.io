@@ -38,11 +38,13 @@ const tradice = (await getCollection('nabozenstvi')).sort((a, b) => a.data.porad
   .karta {
     position: relative; display: flex; flex-direction: column; gap: var(--s-2); height: 100%;
     padding: var(--s-5) var(--s-8) var(--s-5) var(--s-5);
-    border: 1px solid var(--pc); border-left-width: 6px; border-radius: var(--r-md); background: var(--surface); text-decoration: none;
+    background: var(--list); box-shadow: var(--lezi); color: var(--ink); text-decoration: none;
+    transition: transform var(--d-stisk) var(--k-stisk);
   }
-  .karta:hover { background: var(--pc-tint); }
-  .karta__nad { color: var(--pc); }
+  .karta:hover { transform: translateY(-3px); box-shadow: var(--lezi-zved); }
+  .karta:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .karta__nad { color: var(--p); }
   .karta__perex { color: var(--ink-2); font-size: 17px; line-height: 1.5; }
-  .karta :global(.karta__sipka) { position: absolute; right: var(--s-5); top: 50%; translate: 0 -50%; color: var(--pc); }
+  .karta :global(.karta__sipka) { position: absolute; right: var(--s-5); top: 50%; translate: 0 -50%; color: var(--p); }
   @media (min-width: 900px) { ul { grid-template-columns: repeat(2, 1fr); } }
 </style>

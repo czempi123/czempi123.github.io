@@ -404,7 +404,7 @@
 
 <!-- Přehled hodiny pro učitele: jen na papíře (Vytisknout přehled), na obrazovce skrytý. -->
 <div class="tisk">
-  <p class="tisk__nad">Přehled hodiny · Atlas myšlení</p>
+  <p class="tisk__nad">Přehled hodiny · Agora</p>
   <p class="tisk__nazev">{nazev || 'Hodina bez názvu'}</p>
   <p class="tisk__odkaz">Odkaz pro studenty: {odkazNaPapir}</p>
   {#if poznamka.trim()}<p class="tisk__poznamka">{poznamka}</p>{/if}
@@ -461,8 +461,8 @@
     min-height: 48px;
     margin: 0 calc(-1 * var(--okraj)) var(--s-4);
     padding: 0 var(--okraj);
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper);
+    border-bottom: 1px solid var(--linka);
+    background: var(--papir);
   }
   .pocitadlo a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; }
   @media (max-width: 899px) {
@@ -474,14 +474,15 @@
     width: 100%;
     min-height: 44px;
     padding: var(--s-2) var(--s-3);
-    border: 1px solid var(--muted);
-    border-radius: var(--r-sm);
-    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-ovladani);
+    background: var(--papir);
+    box-shadow: var(--vtla);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani-l);
   }
-  .vstup::placeholder { color: var(--muted); opacity: 1; }
+  .vstup::placeholder { color: var(--ink-3); opacity: 1; }
   .vstup:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   select.vstup { cursor: pointer; }
 
@@ -495,9 +496,9 @@
   .nic { padding: var(--s-4) 0; }
   .nic p { margin: 0 0 var(--s-3); }
 
-  .oddil { margin: var(--s-6) 0 var(--s-3); color: var(--muted); }
-  .skupiny { border-bottom: 1px solid var(--rule); }
-  .skupina { border-top: 1px solid var(--rule); }
+  .oddil { margin: var(--s-6) 0 var(--s-3); color: var(--ink-3); }
+  .skupiny { border-bottom: 1px solid var(--linka); }
+  .skupina { border-top: 1px solid var(--linka); }
   .skupina__hlava {
     display: grid;
     grid-template-columns: 12px minmax(0, 1fr);
@@ -505,7 +506,7 @@
     align-items: baseline;
     min-height: 56px;
     padding: var(--s-3) 0 var(--s-3) var(--s-3);
-    border-left: 4px solid var(--pc, var(--rule));
+    border-left: 3px solid var(--p, var(--tuzka));
     cursor: pointer;
     list-style: none;
   }
@@ -520,51 +521,53 @@
     border-right: 2px solid var(--ink-2);
     border-bottom: 2px solid var(--ink-2);
     transform: rotate(-45deg);
-    transition: transform var(--pohyb-rychle);
+    transition: transform var(--d-stisk);
   }
   .skupina[open] > .skupina__hlava::before { transform: rotate(45deg); }
   .skupina__hlava:hover .skupina__nazev { text-decoration: underline; }
   .skupina__hlava:focus { outline: none; }
   .skupina__hlava:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .skupina__druh { grid-column: 2; font-family: var(--font-sans); font-size: var(--fs-nadtitulek); font-weight: 600; color: var(--pc, var(--muted)); text-transform: uppercase; letter-spacing: 0.14em; }
+  .skupina__druh { grid-column: 2; font-family: var(--font-sans); font-size: var(--fs-nadtitulek); font-weight: 600; color: var(--p, var(--ink-3)); text-transform: uppercase; letter-spacing: 0.14em; }
   .skupina__nazev { grid-column: 2; font-size: var(--fs-perex); line-height: 1.3; color: var(--ink); }
-  .skupina__pocet { grid-column: 2; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--muted); }
+  .skupina__pocet { grid-column: 2; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-3); }
 
   .polozky { margin: 0; padding: 0; list-style: none; }
   .polozky--koren { padding: 0 0 var(--s-4) var(--s-4); }
-  .polozky .polozky { margin-left: var(--s-2); padding-left: var(--s-4); border-left: 1px solid var(--rule); }
+  .polozky .polozky { margin-left: var(--s-2); padding-left: var(--s-4); border-left: 1px solid var(--linka); }
   .polozka__radek { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-2) 0; }
   .polozka__text { display: grid; min-width: 0; }
-  .polozka__druh { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--muted); }
+  .polozka__druh { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-3); }
   .polozka__nazev { display: inline-block; min-height: 24px; color: var(--ink); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
   .polozka__nazev:hover { text-decoration: underline; }
   .polozka--souvislost > .polozka__radek .polozka__nazev { font-weight: 400; color: var(--ink-2); }
-  .sipka { margin-left: 0.25em; color: var(--muted); font-weight: 400; }
+  .sipka { margin-left: 0.25em; color: var(--ink-3); font-weight: 400; }
   .tl-maly { flex: none; min-width: 88px; padding: 0 var(--s-3); font-size: var(--fs-ovladani); }
 
   .stav { margin: calc(-1 * var(--s-3)) 0 var(--s-4); }
   .popis-poznamka { display: flex; flex-wrap: wrap; column-gap: var(--s-2); margin-top: var(--s-4); }
-  .nepovinne { color: var(--muted); font-weight: 400; }
-  .prazdna { margin: var(--s-4) 0; padding: var(--s-4); border: 1px dashed var(--rule); border-radius: var(--r-sm); color: var(--ink-2); }
+  .nepovinne { color: var(--ink-3); font-weight: 400; }
+  .prazdna { margin: var(--s-4) 0; padding: var(--s-4); border: 1px dashed var(--linka); border-radius: var(--r-ovladani); color: var(--ink-2); }
 
   .zvolena { margin: var(--s-4) 0 0; padding: 0; list-style: none; }
-  .zvolene { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-3); padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
-  .zvolene:last-child { border-bottom: 1px solid var(--rule); }
+  .zvolene { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-3); padding: var(--s-4) 0; border-top: 1px solid var(--linka); }
+  .zvolene:last-child { border-bottom: 1px solid var(--linka); }
   .zvolene__cislo {
     display: grid;
     place-items: center;
     width: 32px;
     height: 32px;
-    border-radius: var(--r-full);
-    background: var(--pc-tint, var(--sunk));
-    color: var(--pc, var(--ink));
+    border-radius: var(--r-plne);
+    /* Číslo zastavení v kroužku inkoustem období jako razítko (K6: bez tinty). */
+    background: var(--list);
+    box-shadow: inset 0 0 0 1.5px var(--p, var(--ink));
+    color: var(--p, var(--ink));
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
   .zvolene__obsah { min-width: 0; }
-  .zvolene__kde { margin: 0; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--muted); overflow-wrap: anywhere; }
+  .zvolene__kde { margin: 0; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-3); overflow-wrap: anywhere; }
   .zvolene__nazev { display: inline-block; margin: 0 0 var(--s-2); color: var(--ink); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
   .zvolene__nazev:hover { text-decoration: underline; }
   .zvolene__nazev--chybi { color: var(--ink-2); font-style: italic; font-weight: 500; }
@@ -578,7 +581,7 @@
   .akce { margin-top: var(--s-5); }
   .zprava { min-height: 1.45em; margin: var(--s-3) 0 0; color: var(--ink-2); }
   .zprava:empty { margin: 0; min-height: 0; }
-  .odkaz { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--rule); }
+  .odkaz { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--linka); }
   .odkaz .blok__popis { margin-bottom: 0; }
   .odkaz__pozn { margin: 0 0 var(--s-2); }
   .odkaz__radek { display: flex; gap: var(--s-2); }
@@ -600,7 +603,7 @@
     .tisk__odkaz { margin-bottom: 8pt !important; font-family: var(--font-sans); font-size: 9pt; color: var(--ink-2); overflow-wrap: anywhere; }
     .tisk__poznamka { margin-bottom: 10pt !important; white-space: pre-line; }
     .tisk__seznam { margin: 10pt 0 0; padding: 0; list-style: none; border-top: 0.75pt solid var(--ink-2); }
-    .tisk__zastaveni { display: grid; grid-template-columns: 22pt 1fr; gap: 4pt; padding: 7pt 0; border-bottom: 0.5pt solid var(--rule); break-inside: avoid; }
+    .tisk__zastaveni { display: grid; grid-template-columns: 22pt 1fr; gap: 4pt; padding: 7pt 0; border-bottom: 0.5pt solid var(--linka); break-inside: avoid; }
     .tisk__cislo { font-family: var(--font-sans); font-weight: 600; }
     .tisk__kde { font-family: var(--font-sans); font-size: 9pt; color: var(--ink-2); }
     .tisk__nazev-zastaveni { font-size: 12.5pt; font-weight: 600; }

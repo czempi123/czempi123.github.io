@@ -1,6 +1,6 @@
-# Atlas myšlení
+# Agora
 
-Interaktivní atlas filozofie pro střední školy. Od Thaléta, který spadl do studny, protože se díval na hvězdy, až po filozofy dneška.
+Interaktivní atlas filozofie pro střední školy, pojmenovaný po athénském tržišti, kde se Sókratés ptal lidí. Od Thaléta, který spadl do studny, protože se díval na hvězdy, až po filozofy dneška.
 
 Atlas vzniká jako závěrečná práce pedagogického minima a jako pomůcka, kterou si studenti mohou projít ve třídě i doma. Nechce jen předat učivo. Chce ukázat, že lidé před námi řešili stejné otázky jako my: čemu věřit, co je v mé moci, kolik je dost, jak žít s druhými. A dát studentovi prostor, aby si na ně začal odpovídat sám.
 
@@ -40,7 +40,9 @@ Testy v prohlížeči potřebují jednou `npx playwright install chromium`. Ve v
 
 ```text
 CLAUDE.md            pravidla projektu (pro lidi i pro Clauda)
-docs/plan.md         kritika prototypu, technika, strategie a rozcestník plánů
+docs/plan.md         strategie, pilíře a stavba webu
+docs/plan-vychodiska.md  kritika prototypu a volba techniky
+docs/plan-vetve.md   katalog zadání, rozcestník plánů větví a pořadí
 docs/plany/          plány větví: zadání kroků a stav každého celku
 docs/architektura.md období, velké otázky, cesty a osobnosti
 docs/design.md       design systém (barvy, písma, komponenty) a podklady v docs/design/

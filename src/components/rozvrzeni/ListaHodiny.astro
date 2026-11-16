@@ -45,8 +45,8 @@ import Ikona from '../ui/Ikona.astro';
     top: var(--hlavicka-skutecna, var(--hlavicka));
     z-index: 39;
     height: var(--hodina);
-    background: var(--surface);
-    border-bottom: 1px solid var(--rule);
+    background: var(--list);
+    border-bottom: 1px solid var(--linka);
   }
   /* Dokud skript lištu nevyplní, drží jen místo (nic neproblikne). Display, ne visibility: při omezeném pohybu
      global.css zkracuje přechody všech vlastností a visibility by se objevila až po několika snímcích. */
@@ -79,7 +79,7 @@ import Ikona from '../ui/Ikona.astro';
     min-height: var(--dotyk);
     padding: 0 var(--s-2);
     border: 0;
-    border-radius: var(--r-sm);
+    border-radius: var(--r-ovladani);
     background: transparent;
     color: var(--ink);
     font-family: var(--font-sans);
@@ -90,17 +90,17 @@ import Ikona from '../ui/Ikona.astro';
     cursor: pointer;
   }
   .hl-tl svg { flex: none; }
-  .hl-tl:hover { background: var(--sunk); }
+  .hl-tl:hover { background: var(--papir); box-shadow: var(--vtla-mele); }
   .hl-tl--dalsi { border: 1.5px solid var(--ink); }
   /* Na kraji hodiny: odkaz bez adresy, čárkovaný a tlumený (ne jen barvou). */
-  .hl-tl[aria-disabled='true'] { color: var(--muted); cursor: not-allowed; }
-  .hl-tl--dalsi[aria-disabled='true'] { border-style: dashed; border-color: var(--rule); }
-  .hl-tl[aria-disabled='true']:hover { background: transparent; }
+  .hl-tl[aria-disabled='true'] { color: var(--ink-3); cursor: not-allowed; }
+  .hl-tl--dalsi[aria-disabled='true'] { border-style: dashed; border-color: var(--tuzka); }
+  .hl-tl[aria-disabled='true']:hover { background: transparent; box-shadow: none; }
   .hl-promitani,
   .hl-moznosti { display: none; }
   /* Ukázané možnosti: tlačítko vypadá stisknuté (plné), ne jen jinou barvou textu. */
-  .hl-moznosti[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
-  .hl-moznosti[aria-pressed='true']:hover { background: var(--ink-2); }
+  .hl-moznosti[aria-pressed='true'] { background: var(--ink); color: var(--na-inkoustu); }
+  .hl-moznosti[aria-pressed='true']:hover { background: var(--ink-2); box-shadow: none; }
   /* Telefon: ikony; text zůstává čtečkám (stejně jako .vizualne-skryte). */
   @media (max-width: 699px) {
     .hl-text { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

@@ -1,7 +1,11 @@
 // Cesta 5 „Co mám ve svých rukou?“: celý průchod jen klávesnicí na telefonu a jednou bez odkrytí bloků.
 // Přehled a kroky na obou šířkách v obou režimech (axe, přesah, snímky) hlídá cesta.spec.ts.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA5 = '/cesta/co-mam-ve-svych-rukou/';
 const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Záleží na tom, co mě potká?', 'Snímek z chatu', 'Kamenná tvář', 'Tvoje pravidlo'];
@@ -10,7 +14,7 @@ const KROKY5 = ['Noha', 'Tři koše', 'Dvě půlky', 'Otrok a císař', 'Zálež
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
@@ -129,7 +133,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text5).toContainText('První věta byla Epiktétova, druhá Marcova.');
   await expect(text5.locator('.citat')).toHaveCount(4);
   // Poslední slovo před hlasováním nemá žádná strana.
-  await expect(text5.locator(':scope > p').last()).toContainText('Oba tedy chtějí, aby člověk rány unesl.');
+  await expect(text5.locator(':scope > .cisty-list > p').last()).toContainText('Oba tedy chtějí, aby člověk rány unesl.');
   const spor = page.locator('#cesta5-aristoteles-spor');
   await expect(spor).toContainText('Aristotelés zemřel dřív, než stoická škola vznikla.');
   await expect(spor).toContainText('Kdo z nich má pravdu, rozhodni sám.');
@@ -165,7 +169,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text6).toContainText('Co dělat, když tě někdo urazí?');
   await expect(text6.locator('.citat').first()).toContainText('Když tě někdo podráždí, věz, že tě podráždil tvůj vlastní soud.');
   await expect(page.locator('.krok__obsah')).not.toContainText(/tě bije|ublíží|trapas/);
-  await expect(text6.locator(':scope > p').last()).toContainText('Vyzkoušej je na jednom případu.');
+  await expect(text6.locator(':scope > .cisty-list > p').last()).toContainText('Vyzkoušej je na jednom případu.');
   const chat = page.locator('#cesta5-snimek-z-chatu');
   await chat.getByRole('radio', { name: 'Nechám to být, ať to vyšumí.' }).focus();
   await page.keyboard.press('Space');
@@ -197,7 +201,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text7).toContainText('aby nic necítili');
   await expect(text7).not.toContainText('ukázal');
   await expect(text7).not.toContainText(/Gross|sympatick|laboratoři|zrada/);
-  await expect(text7.locator(':scope > p').last()).toContainText('pracovalo tělo naopak víc');
+  await expect(text7.locator(':scope > .cisty-list > p').last()).toContainText('pracovalo tělo naopak víc');
   const pokus = page.locator('#cesta5-pokus');
   await pokus.getByRole('radio', { name: /Nedá se říct/ }).focus();
   await page.keyboard.press('Space');
@@ -232,7 +236,7 @@ test('cesta 5: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('V rukou mám to, co udělám. Na zbytku mi záleží, ale nestojím na něm.');
   await expect(zapisy).toContainText('Zčásti: Známka ze čtvrtletky; Jestli budu v sobotu zdravý na zápas; Že se leknu, když mě vyvolají.');
   await expect(zapisy).toContainText('Na začátku: spíš Epiktétos. Po argumentech: spíš Aristotelés. Co mě posunulo: švec a kůže.');

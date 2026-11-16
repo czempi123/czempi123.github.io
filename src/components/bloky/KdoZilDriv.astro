@@ -6,7 +6,7 @@ import Ostrov from '../ostrovy/KdoZilDriv.svelte';
 import { osoba } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { faktaDvojice } from '../../lib/bloky';
-import { odkazNaBlok, kamDal } from './_kontrola';
+import { odkazNaBlok, kamDal, clovek } from './_kontrola';
 import type { Dal } from '../ostrovy/bloky-typy';
 
 interface Props {
@@ -26,6 +26,7 @@ const vytah = (x: string) => {
   return {
     id: o.id, jmeno: o.jmeno, jmeno2: o.jmeno2, zena: o.zena, obdobi: o.obdobi,
     narozen: o.narozen, zemrel: o.zemrel, aktivni: o.aktivni, mista: [], zivotText: zivot(o), ikona: o.atribut?.ikona,
+    razitko: clovek(x).razitko,
   };
 };
 const A = vytah(a);

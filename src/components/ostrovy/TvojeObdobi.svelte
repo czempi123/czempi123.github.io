@@ -9,7 +9,7 @@
   import { klicOtazky } from '../../lib/otazky';
   import { prehledObdobi, NEJBLIZ, TVOJE_ANTIKA, type Blizky, type KatalogObdobi, type OtazkaPrehledu } from '../../lib/tvoje-obdobi';
   import MojeStanovisko from './MojeStanovisko.svelte';
-  import Mince from '../mapa/Mince.svelte';
+  import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
   import { nezlomitelne } from '../../lib/sazba.js';
 
   const PRAZDNY = nezlomitelne('Zatím tu nic není. Až v některé cestě antiky zvolíš odpověď nebo napíšeš svoje pravidlo, objeví se tady i s filozofy, kteří to viděli podobně.');
@@ -77,8 +77,9 @@
 
         {#if o.nejbliz}
           <!-- Volba na ose hlasů stránky otázky stojí nad mysliteli z cest: student ji udělal sám a výslovně. -->
-          <div class="blizky nejbliz">
-            <Mince ikona={o.nejbliz.osoba.ikona} obdobi={o.nejbliz.osoba.obdobi} varianta="sel" velikost={40} />
+          <div class="blizky nejbliz listek-paska">
+            <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
+            <RazitkoCloveka razitko={o.nejbliz.osoba.razitko} obdobi={o.nejbliz.osoba.obdobi} velikost={56} />
             <div class="blizky__text">
               <p class="nejbliz__veta">{TVOJE_ANTIKA.nejbliz.pred}<a href={o.nejbliz.adresa}>{TVOJE_ANTIKA.nejbliz.odkaz}</a>{TVOJE_ANTIKA.nejbliz.po}{#if o.nejbliz.osoba.adresa}<a class="jmeno-odkaz" href={o.nejbliz.osoba.adresa}>{o.nejbliz.osoba.jmeno}</a>{:else}<strong>{o.nejbliz.osoba.jmeno}</strong>{/if}.</p>
               {#if o.nejbliz.duvod}<p class="duvod">{o.nejbliz.duvod}</p>{/if}
@@ -107,7 +108,7 @@
 
 {#snippet blizky(b: Blizky)}
   <li class="blizky">
-    <Mince ikona={b.osoba.ikona} obdobi={b.osoba.obdobi} varianta="tint" velikost={40} />
+    <RazitkoCloveka razitko={b.osoba.razitko} obdobi={b.osoba.obdobi} velikost={56} />
     <div class="blizky__text">
       <p class="jmeno">{#if b.osoba.adresa}<a href={b.osoba.adresa}>{b.osoba.jmeno}</a>{:else}{b.osoba.jmeno}{/if}</p>
       <!-- Cesta a odpověď nad důvodem: důvod začíná větou kroku („Jestli nemáš…“) a bez ní je hádanka (revize R, nález 7). -->
@@ -122,42 +123,52 @@
 {/snippet}
 
 <style>
-  .prazdny { margin-top: var(--s-6); padding: var(--s-5); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--surface); }
+  /* V témže papíru jako Můj deník (K6): každá otázka je list zápisníku, první odpověď lepicí lístek,
+     volba na ose hlasů lístek s páskou; razítka lidí místo mincí. */
+  .prazdny { margin-top: var(--s-6); padding: 26px 24px 20px; background: var(--list); box-shadow: var(--lezi); }
   .prazdny p { margin: 0; }
   .prazdny p + p { margin-top: var(--s-4); }
-  .otazka { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 2px solid var(--pc); }
+  .otazka { margin-top: var(--s-7); padding: 28px 32px 24px; background: var(--list); box-shadow: var(--lezi); }
   .otazka:first-child { margin-top: var(--s-6); }
-  .nadtitulek { margin: 0 0 var(--s-2); color: var(--pc); }
+  .nadtitulek { margin: 0 0 var(--s-2); color: var(--p); }
   .otazka__nadpis { margin: 0 0 var(--s-5); }
-  .otazka__nadpis a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .otazka__nadpis a { color: inherit; text-decoration-color: var(--tuzka); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
   .odpoved { display: grid; gap: var(--s-5); }
   /* Na telefonu pod sebou, od 700 px vedle sebe (stejně jako závěr cesty a Změnil se?). */
   @media (min-width: 700px) {
     .odpoved--dve { grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: start; }
     .odpoved--dve .ted { padding-top: var(--s-4); }
   }
-  .zacatek { padding: var(--s-4) var(--s-5); border-radius: var(--r-sm); background: var(--pc-tint, var(--sunk)); }
-  .zacatek__text { margin: 0; font-size: var(--fs-ovladani-l); line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere; }
+  .zacatek {
+    padding: 22px var(--s-5) var(--s-4);
+    background:
+      linear-gradient(to bottom, color-mix(in srgb, var(--pp) 14%, transparent) 0 14px, transparent 14px),
+      color-mix(in srgb, var(--pp) 12%, var(--listek));
+    box-shadow: 0 1px 1px rgb(0 0 0 / .08), 8px 12px 14px -12px rgb(60 50 40 / .5);
+    rotate: calc(-.6deg * var(--natoceni));
+  }
+  .zacatek__text { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
   .ted .blok__zpetna-titulek { margin-bottom: var(--s-3); }
   .ted :global(.stanovisko) { margin-top: 0; }
   .podnadpis { margin: var(--s-6) 0 var(--s-3); }
   .seznam { margin: 0; padding: 0; list-style: none; }
-  .seznam > li { padding: var(--s-4) 0; border-top: 1px solid var(--rule); }
+  .seznam > li { padding: var(--s-4) 0; border-top: 1px dashed var(--tuzka); }
   .kde { margin: 0 0 var(--s-1); }
-  .pravidlo { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
-  .blizky { display: grid; grid-template-columns: 40px 1fr; gap: var(--s-4); align-items: start; }
+  .pravidlo { margin: 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
+  .blizky { display: grid; grid-template-columns: 56px 1fr; gap: var(--s-4); align-items: start; }
   .blizky__text { min-width: 0; }
   .jmeno { margin: var(--s-2) 0 var(--s-2); font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani-l); }
   .jmeno a { display: inline-block; min-height: 24px; }
   .duvod { margin: var(--s-2) 0 0; }
-  .nejbliz { margin-top: var(--s-6); padding: var(--s-4) var(--s-5); border-radius: var(--r-sm); background: var(--pc-tint, var(--sunk)); }
+  .nejbliz { margin-top: var(--s-6); }
   .nejbliz__veta { margin: var(--s-2) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani-l); }
   .nejbliz__veta a { display: inline-block; min-height: 24px; }
   .jmeno-odkaz { font-weight: 600; }
   .stopy { margin: 0; padding: 0; list-style: none; color: var(--ink-2); }
   .stopy li + li { margin-top: var(--s-1); }
   .stopy a { display: inline-block; min-height: 24px; }
-  .dalsi { margin-top: var(--s-2); border-top: 1px solid var(--rule); }
+  .dalsi { margin-top: var(--s-2); border-top: 1px dashed var(--tuzka); }
   .dalsi summary { display: flex; align-items: center; min-height: 48px; cursor: pointer; font-weight: 600; }
   .dalsi summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 699px) { .otazka { padding: 22px 18px 18px; } }
 </style>

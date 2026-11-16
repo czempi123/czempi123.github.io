@@ -1,24 +1,29 @@
 ---
-// Soustředěná hlavička kroku cesty (docs/design.md › Navigace): vlevo zpět na přehled cesty,
-// uprostřed postup po krocích, vpravo Uložit a odejít (postup se ukládá sám).
+// Lišta cesty v kroku (design-v2, K5; plátno KrokCesty.dc.html › c-lista a c-horni): vlevo zpět na přehled cesty,
+// uprostřed lístek cesty, který se štípe (ListekCesty.astro), vpravo Odejít (postup se ukládá sám).
+// Notebook: lišta pod záhlavím webu (slot pod-hlavickou v Zakladni.astro), s názvem cesty v lístku.
+// Telefon (pod 900 px): horní lišta místo záhlaví webu: zpět ikonou, lístek a Odejít; drží nahoře při čtení.
 import Ikona from '../ui/Ikona.astro';
-import PostupCesty from './PostupCesty.svelte';
+import ListekCesty from './ListekCesty.astro';
 
 interface Props {
   slug: string;
   nazev: string;
+  obdobi: number;
   kroky: { n: number; nazev: string; href: string }[];
   aktualni: number;
+  minut?: number;
+  ceka?: string;
 }
-const { slug, nazev, kroky, aktualni } = Astro.props;
+const { slug, nazev, obdobi, kroky, aktualni, minut, ceka } = Astro.props;
 ---
-<header class="cesta-hlavicka" data-pagefind-ignore>
+<header class={`cesta-hlavicka obdobi-${obdobi}`} data-pagefind-ignore>
   <div class="cesta-hlavicka__vnitrek stranka">
     <a class="zpet t-ovladani" href={`/cesta/${slug}/`}>
       <Ikona id="zpet" velikost={20} />
-      <span><span class="vizualne-skryte">Zpět na přehled cesty </span><span class="zpet__nazev">{nazev}</span></span>
+      <span><span class="vizualne-skryte">Zpět na přehled cesty </span><span class="zpet__text" aria-hidden="true">Přehled cesty</span></span>
     </a>
-    <PostupCesty client:load varianta="hlavicka" slug={slug} nazev={nazev} kroky={kroky} aktualni={aktualni} />
+    <ListekCesty slug={slug} nazev={nazev} kroky={kroky} minut={minut} aktualni={aktualni} ceka={ceka} />
     <a class="odejit t-ovladani" href="/"><span class="kratce">Odejít</span><span class="dlouze">Uložit a odejít</span></a>
   </div>
 </header>
@@ -28,30 +33,59 @@ const { slug, nazev, kroky, aktualni } = Astro.props;
     position: sticky;
     top: 0;
     z-index: 40;
-    background: var(--surface);
-    border-bottom: 1px solid var(--rule);
+    background-color: var(--papir);
+    background-image: radial-gradient(circle at 1px 1px, var(--tecka) 1.1px, transparent 1.4px);
+    background-size: var(--tecky-krok) var(--tecky-krok);
+    box-shadow: var(--hlavicka-stin);
+    /* Při posunu listu mezi kroky lišta stojí (global.css › Přechody). */
+    view-transition-name: hlavicka-cesty;
   }
   .cesta-hlavicka__vnitrek {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
-    gap: var(--s-3);
+    justify-content: space-between;
+    gap: var(--s-2);
     min-height: var(--hlavicka);
-    padding-block: var(--s-1);
+    padding-block: 6px;
   }
   .zpet, .odejit {
     display: inline-flex;
+    flex: none;
     align-items: center;
+    justify-content: center;
     gap: var(--s-2);
+    min-width: var(--dotyk);
     min-height: var(--dotyk);
     color: var(--ink);
     text-decoration: none;
+    border-radius: var(--r-ovladani);
   }
-  .zpet:hover .zpet__nazev, .odejit:hover { text-decoration: underline; }
-  .zpet__nazev, .dlouze { display: none; }
-  .odejit { justify-self: end; }
+  .zpet { margin-left: -6px; }
+  .zpet__text, .dlouze { display: none; }
+  .odejit { padding: 0 4px; text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+  @media (hover: hover) {
+    .odejit:hover { text-decoration-color: var(--ink); text-decoration-thickness: 2px; }
+    .zpet:hover .zpet__text { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 5px; }
+  }
+  .cesta-hlavicka :global(.listek-cesty) { flex: 0 1 auto; }
+
+  /* Na telefonu stojí lišta cesty místo záhlaví webu. */
+  @media (max-width: 899px) {
+    :global(body:has(.cesta-hlavicka) header.hlavicka) { display: none; }
+  }
+  /* Notebook: lišta cesty pod záhlavím webu, nedrží (drží záhlaví), mezi dvěma linkami jako na plátně. */
   @media (min-width: 900px) {
-    .zpet__nazev, .dlouze { display: inline; }
+    .cesta-hlavicka {
+      position: static;
+      background: none;
+      box-shadow: none;
+      border-block: 1px solid var(--linka);
+    }
+    .cesta-hlavicka__vnitrek { gap: var(--s-5); padding-block: 10px; }
+    .zpet { margin-left: 0; padding: 0 var(--s-2); }
+    .zpet__text, .dlouze { display: inline; }
     .kratce { display: none; }
+    .cesta-hlavicka :global(.listek-cesty) { flex: 0 1 560px; }
+    .cesta-hlavicka :global(.listek-cesty__hl) { flex: 1 1 auto; }
   }
 </style>

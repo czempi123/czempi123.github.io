@@ -35,7 +35,7 @@ describe('data atlasu', () => {
   it('mají osm období s navazujícími barvami a ornamenty', () => {
     expect(data.obdobi.map((o) => o.id)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     data.obdobi.forEach((o, i) => {
-      expect(o.barva).toBe(`--period-${i + 1}`);
+      expect(o.barva).toBe(`--p-${i + 1}`);
       expect(o.ornament.index).toBe(i);
     });
   });

@@ -4,6 +4,11 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Úplná mapa (řeka životů, navazující, všichni žijící) jako po „Víc“; první návštěvu hlídá mapa-k7a.spec.ts.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem('atlas-mapa-vic', '1'); } catch {} });
+});
+
 const ROKY = [
   { rok: -399, osoba: 'sokrates', zije: ['Sókratés', 'Platón', 'Démokritos'], nezije: ['Aristotelés'] },
   { rok: -360, osoba: 'platon', zije: ['Platón', 'Diogenés', 'Aristotelés'], nezije: ['Sókratés', 'Démokritos', 'Epikúros', 'Zénón z Kitia'] },
@@ -19,7 +24,7 @@ const REZIMY = ['light', 'dark'] as const;
 async function pripravit(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
-  await page.waitForSelector('.mapa svg.podklad path.sit', { state: 'attached' });
+  await page.waitForSelector('.mapa svg.podklad .pevnina', { state: 'attached' });
   await page.waitForTimeout(250);
 }
 
@@ -112,15 +117,15 @@ test('mapa · adresa nese stav, Zpět ho vrátí a vybraný člověk zemře se z
   await expect(page).toHaveURL(/rok=-348/);
 });
 
-test('mapa · shluk se rozbalí, klik vybere člověka a Změř vzdálenost počítá přes rok nula', async ({ page }) => {
+test('mapa · lísteček místa se rozvine, klik vybere člověka a Změř vzdálenost počítá přes rok nula', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/mapa/?rok=-360');
   await pripravit(page);
-  const shluk = page.locator('[data-shluk="athenes"]');
-  await shluk.click();
-  await expect(shluk).toHaveAttribute('aria-expanded', 'true');
-  await page.getByRole('group', { name: 'Lidé v místě Athény' }).getByRole('button', { name: /Platón/ }).click();
+  const listek = page.locator('[data-listek="athenes"] .listek__hlava');
+  await listek.click();
+  await expect(listek).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('list', { name: 'Lidé v místě Athény' }).getByRole('button', { name: /Platón/ }).click();
   await expect(page.locator('#karta-jmeno')).toHaveText('Platón');
   await expect(page).toHaveURL(/osoba=platon/);
   await expect(page.locator('.vztahy')).toContainText('zemřel před 39 lety');
@@ -171,18 +176,22 @@ test('mapa · klávesnice: posuvník, řeka a přepnutí období', async ({ page
 
 // ── Srozumitelnější ovládání (větev rozhrani-v2): vysvětlení stínu, legenda čar, připravovaná období ──────────
 
-const VYSVETLENI = 'Kdo zemřel, z mapy zmizí. Se stínem odkazu tam vybledle zůstane, dokud žije někdo, kdo ho znal, četl, učil se u něj nebo se s ním přel.';
+const VYSVETLENI = 'Kdo zemřel, z mapy zmizí. Takhle tam vybledle zůstane, dokud žije někdo, kdo ho znal, četl, učil se u něj nebo se s ním přel.';
 const LEGENDA = ['učitel a žák', 'osobně se znali', 'vliv přes texty', 'polemika', 'slabší čára: vypráví se'];
+// Výchozí řeka (K7a) ukazuje jen učitele a žáky; ostatní čáry přidá Všechny čáry.
+const LEGENDA_VYCHOZI = ['učitel a žák', 'slabší čára: vypráví se'];
+const OTAZKA_STINU = 'Koho to ukáže?';
+const PREPINAC_STINU = 'Ukázat i ty, na které někdo navazuje';
 const prekryv = (a: { x: number; y: number; width: number; height: number }, b: { x: number; y: number; width: number; height: number }) =>
   a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
 
-test('mapa · stín odkazu: vysvětlení jen klávesnicí, Esc ho zavře a přepínač zůstává vidět a ovladatelný', async ({ page }) => {
+test('mapa · navazující: vysvětlení jen klávesnicí, Esc ho zavře a přepínač zůstává vidět a ovladatelný', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/mapa/?rok=-360');
   await pripravit(page);
-  const otazka = page.getByRole('button', { name: 'Co je stín odkazu?' });
-  const prepinac = page.getByRole('checkbox', { name: 'Stín odkazu' });
+  const otazka = page.getByRole('button', { name: OTAZKA_STINU });
+  const prepinac = page.getByRole('checkbox', { name: PREPINAC_STINU });
   const text = page.locator('#stin-vysvetleni');
   await expect(otazka).toHaveAttribute('aria-expanded', 'false');
   await expect(text).toHaveText('');
@@ -239,7 +248,7 @@ for (const rezim of REZIMY) {
     const r = rezim === 'light' ? 'svetly' : 'tmavy';
 
     // Vysvětlení stínu: klepnutí otevře, nezakryje přepínač, klepnutí vedle zavře.
-    const otazka = page.getByRole('button', { name: 'Co je stín odkazu?' });
+    const otazka = page.getByRole('button', { name: OTAZKA_STINU });
     const text = page.locator('#stin-vysvetleni');
     await otazka.click();
     await expect(text).toHaveText(VYSVETLENI);
@@ -250,7 +259,7 @@ for (const rezim of REZIMY) {
     expect(b!.y + b!.height).toBeLessThanOrEqual(mapa!.y + mapa!.height);
     // Dotykový cíl otazníku je aspoň 44 px: klepnutí těsně vedle kroužku pořád patří jemu.
     const o = (await otazka.boundingBox())!;
-    expect(await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('button')?.getAttribute('aria-label'), [o.x + o.width / 2, o.y + o.height + 4])).toBe('Co je stín odkazu?');
+    expect(await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('button')?.getAttribute('aria-label'), [o.x + o.width / 2, o.y + o.height + 4])).toBe(OTAZKA_STINU);
     await page.screenshot({ path: `test-results/snimky/mapa-stin-vysvetleni-390-${r}.png` });
     await page.locator('.mac__posuvnik .letopocet').click();
     await expect(text).toHaveText('');
@@ -279,6 +288,7 @@ for (const rezim of REZIMY) {
 
     // Legenda čar v záložce Řeka životů: tlačítko vedle Seznamu, vzorek čáry a text.
     await page.getByRole('tab', { name: 'Řeka životů' }).click();
+    await page.locator('.reka').getByRole('button', { name: 'Všechny čáry' }).click();
     const tl = page.locator('.reka').getByRole('button', { name: 'Legenda' });
     await expect(tl).toHaveAttribute('aria-expanded', 'false');
     await tl.click();
@@ -336,6 +346,11 @@ test('mapa · legenda čar na notebooku: stále viditelná pod řekou, čtyři t
     await pripravit(page);
     const legenda = page.getByRole('list', { name: 'Čáry mezi životy' });
     await expect(legenda).toBeVisible();
+    await expect(legenda.getByRole('listitem')).toHaveText(LEGENDA_VYCHOZI);
+    const vsechny = page.locator('.reka').getByRole('button', { name: 'Všechny čáry' });
+    await expect(vsechny).toHaveAttribute('aria-pressed', 'false');
+    await vsechny.click();
+    await expect(vsechny).toHaveAttribute('aria-pressed', 'true');
     await expect(legenda.getByRole('listitem')).toHaveText(LEGENDA);
     // Vzorek čáry u každé položky a čtyři typy se liší kresbou, ne barvou.
     const vzorky = await legenda.locator('li svg.cara path').evaluateAll((c) => c.map((p) => `${p.getAttribute('d')} | ${getComputedStyle(p).strokeDasharray} | ${getComputedStyle(p).stroke}`));
@@ -347,8 +362,10 @@ test('mapa · legenda čar na notebooku: stále viditelná pod řekou, čtyři t
     expect(await page.evaluate(() => document.documentElement.scrollHeight - innerHeight)).toBeLessThanOrEqual(0);
     const l = (await page.locator('.reka__legenda').boundingBox())!;
     expect(l.y + l.height).toBeLessThanOrEqual(vyska);
-    expect(l.height).toBeLessThanOrEqual(26);
-    expect((await page.locator('.reka__telo').boundingBox())!.height).toBeGreaterThanOrEqual(140);
+    // Se všemi čárami a barvami období smí řádek legendy přejít na dva řádky (K7a).
+    expect(l.height).toBeLessThanOrEqual(50);
+    // K7a: řádek legendy nese i barvy období a smí mít dva řádky; řece zůstane aspoň pět řádků po 22 px.
+    expect((await page.locator('.reka__telo').boundingBox())!.height).toBeGreaterThanOrEqual(120);
     expect((await page.locator('.mac__mapa').boundingBox())!.height).toBeGreaterThanOrEqual(240);
     // Pojmenování sedí s kartou člověka: tradovaný vztah je i tam „vypráví se“.
     await page.goto('/mapa/?rok=-430&osoba=sokrates');
@@ -377,6 +394,7 @@ test('mapa · výběr člověka zvýrazní jeho vztahy v řece a ostatní potla�
   // Bez výběru jsou všechny čáry stejně tlumené.
   await page.goto('/mapa/?rok=-360');
   await pripravit(page);
+  await page.locator('.reka').getByRole('button', { name: 'Všechny čáry' }).click();
   const bez = await oblouky();
   expect(bez.length).toBeGreaterThan(5);
   expect(bez.filter((o) => o.vybrany)).toEqual([]);

@@ -1,8 +1,11 @@
 ---
-// Můj deník: soukromý prostor studenta, uložený jen v tomto prohlížeči.
+// Můj deník: soukromý zápisník studenta, uložený jen v tomto prohlížeči (design-v2, K6).
+// Titulek s pruhem bez období; obsah skládá ostrov Denik.svelte z deníku a z dat zápisníku.
 import Zakladni from '../../layouts/Zakladni.astro';
 import Denik from '../../components/ostrovy/Denik.svelte';
 import { nactiNavraty } from '../../components/bloky/_navraty';
+import { katalogObdobi } from '../../components/denik/_katalog-obdobi';
+import { dataZapisniku } from '../../components/denik/_zapisnik-data';
 import { getCollection } from 'astro:content';
 import { adresaTydne } from '../../lib/tydny';
 import { TVOJE_ANTIKA } from '../../lib/tvoje-obdobi';
@@ -12,18 +15,36 @@ import { nezlomitelne } from '../../lib/sazba.js';
 const navraty = await nactiNavraty();
 // Týdny cvičení: deník ukáže přijatý týden mezi výzvami s počtem hotových dnů, nepřijatý jako tichý odkaz.
 const tydny = (await getCollection('tydny')).map((t) => ({ id: t.id, nazev: t.data.nazev, odkaz: adresaTydne(t.id), vstup: t.data.vstup, pocet: t.data.dny.length }));
+// Moje filozofie stojí na katalogu Tvoje antika (otázky, cesty, zastánci odpovědí); další období ho rozšíří.
+const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
+const zapisnik = await dataZapisniku(Object.keys(katalog.osoby));
 ---
-<Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} kratkyTitulek="Můj deník" hledat={false}>
-  <div class="stranka ctenarsky">
+<Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} hledat={false}>
+  <div class="stranka ctenarsky bez-obdobi">
     <header class="hlava">
-      <h1 class="t-h1">Můj deník</h1>
-      <p class="t-perex">Tvoje odpovědi, stanoviska a výzvy. Zůstávají jen v tomto prohlížeči; nikdo jiný je nevidí a nic se nehodnotí.</p>
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">Můj deník.</h1></div></div>
+      <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">Jen tvůj, jen v tomhle prohlížeči.</span></p></div></div>
+      <p class="t-perex perex">Tvoje odpovědi, stanoviska a výzvy. Nikdo jiný je nevidí a nic se nehodnotí.</p>
     </header>
-    <Denik client:load navraty={navraty} tydny={tydny} konecObdobi={{ adresa: TVOJE_ANTIKA.adresa, nazev: TVOJE_ANTIKA.nazev, odkaz: nezlomitelne(TVOJE_ANTIKA.odkaz) }} />
+    <Denik
+      client:load
+      navraty={navraty}
+      tydny={tydny}
+      konecObdobi={{ adresa: TVOJE_ANTIKA.adresa, nazev: TVOJE_ANTIKA.nazev, odkaz: nezlomitelne(TVOJE_ANTIKA.odkaz), obdobi: [1, 2] }}
+      katalog={katalog}
+      razitka={zapisnik.razitka}
+      osoby={zapisnik.osoby}
+      potkani={zapisnik.potkani}
+      obdobiCest={zapisnik.obdobiCest}
+      stranky={zapisnik.stranky}
+      obdobi={zapisnik.obdobi}
+      prvniCesta={prvniCesta}
+    />
   </div>
 </Zakladni>
 
 <style>
-  .hlava { padding: var(--s-6) 0 var(--s-4); }
-  h1 { margin-bottom: var(--s-4); }
+  .stranka { padding-bottom: var(--s-8); }
+  .hlava { padding: var(--s-6) 0 var(--s-2); }
+  .perex { margin: var(--s-5) 0 0; }
 </style>

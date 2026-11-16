@@ -1,5 +1,6 @@
 // Sestaví VstupMapy z ověřených dat (běží jen při sestavení stránky /mapa).
 import { data } from './data';
+import { nezlomitelne } from './sazba.js';
 import { rozpeti, zivot } from './casy';
 import { ornamenty } from './ornamenty.js';
 import { zijeVRoce } from './cas-mapy';
@@ -19,8 +20,8 @@ export function vstupMapy(adresa: (osoba: string) => string | undefined): VstupM
     hloubka: o.hloubka,
     tradice: o.tradice,
     mista: o.mista,
-    kdo: o.kdo,
-    proc: o.proc,
+    kdo: o.kdo && nezlomitelne(o.kdo),
+    proc: o.proc && nezlomitelne(o.proc),
     atribut: o.atribut ? { ikona: o.atribut.ikona, nazev: o.atribut.nazev, proc: o.atribut.proc } : undefined,
     stranka: adresa(o.id),
     zivot: zivot(o),
@@ -47,7 +48,7 @@ export function vstupMapy(adresa: (osoba: string) => string | undefined): VstupM
   return {
     lide,
     mista: data.mista.map((m) => ({ id: m.id, nazev: m.nazev, dnes: m.dnes, oblast: m.oblast })),
-    vztahy: data.vztahy.map((v) => ({ od: v.od, k: v.k, typ: v.typ, tradovany: v.tradovany, poznamka: v.poznamka })),
+    vztahy: data.vztahy.map((v) => ({ od: v.od, k: v.k, typ: v.typ, tradovany: v.tradovany, poznamka: v.poznamka && nezlomitelne(v.poznamka) })),
     udalosti: data.udalosti.map((u) => ({ id: u.id, nazev: u.nazev, od: u.od, do: u.do, druh: u.druh, osoby: u.osoby, misto: u.misto, obdobi: u.obdobi })),
     obdobi,
     rozsah,

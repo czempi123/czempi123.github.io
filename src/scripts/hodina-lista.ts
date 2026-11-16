@@ -49,10 +49,14 @@ export function spustListuHodiny(): void {
   let ukazane = false;
 
   const promitani = () => !!hodina && hodina.promitani && aktualni !== null;
-  const hlavicka = document.querySelector<HTMLElement>('.hlavicka, .cesta-hlavicka');
-  /** Lišta drží těsně pod hlavičkou: hlavička kroku cesty je o pár pixelů vyšší než token --hlavicka. */
+  /** Lišta drží těsně pod hlavičkou, která drží nahoře: v kroku cesty je to na telefonu lišta cesty (záhlaví webu
+   *  je tam skryté), na notebooku záhlaví webu (lišta cesty pod ním nedrží; K5). */
   function zmerHlavicku() {
-    const h = hlavicka && getComputedStyle(hlavicka).display !== 'none' ? hlavicka.getBoundingClientRect().height : 0;
+    const hlavicka = [...document.querySelectorAll<HTMLElement>('.hlavicka, .cesta-hlavicka')].find((e) => {
+      const s = getComputedStyle(e);
+      return s.display !== 'none' && s.position === 'sticky';
+    });
+    const h = hlavicka ? hlavicka.getBoundingClientRect().height : 0;
     html.style.setProperty('--hlavicka-skutecna', `${h}px`);
   }
   addEventListener('resize', zmerHlavicku);

@@ -48,15 +48,15 @@ const klic = klicOtazky(slug);
   popis={`Velká otázka ${o.cislo}: ${o.otazka} Odpověz sám a pak se podívej, jak odpovídali filozofové.`}
   sekce="otazky"
   zpet={{ href: '/otazky/', text: 'Otázky' }}
-  kratkyTitulek={`Otázka ${o.cislo}`}
   drobecky={[{ text: 'Otázky', href: '/otazky/' }, { text: `Otázka ${o.cislo}` }]}
 >
   <article class="otazka stranka" data-navsteva={adresa} data-nazev={o.otazka}>
-    <header class="otazka__hlava ctenarsky">
-      <p class="t-nadtitulek nadtitulek">Velká otázka {o.cislo} · {o.disciplina}</p>
-      <h1 class="t-h1">{o.otazka}</h1>
+    <header class="otazka__hlava bez-obdobi">
+      <p class="t-nadtitulek nadtitulek">Velká otázka {o.cislo}</p>
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">{o.otazka}</h1></div></div>
+      <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">{o.disciplina}</span></p></div></div>
     </header>
-    <div class="ctenarsky uvod"><Content /></div>
+    <div class="ctenarsky"><div class="cisty-list uvod bez-obdobi"><span class="paska paska--mala" aria-hidden="true"></span><Content /></div></div>
 
     <script is:inline define:vars={{ prvni: klic.prvni, stav: klic.stav, klicPromitani: KLIC_PROMITANI, klicDeniku: KLIC_DENIKU }}>
       // Než student odpoví nebo přeskočí, zbytek stránky skryjeme (bez JavaScriptu zůstane vidět).
@@ -119,10 +119,9 @@ const klic = klicOtazky(slug);
 <style>
   .otazka { padding-bottom: var(--s-8); }
   .otazka :global(.ctenarsky) { margin-inline: auto; }
-  .otazka__hlava { padding: var(--s-6) 0 var(--s-4); }
-  .nadtitulek { margin: 0 0 var(--s-3); color: var(--ink-2); }
-  h1 { margin: 0; text-wrap: balance; }
-  .uvod { margin-bottom: var(--s-6); font-size: var(--fs-perex); line-height: var(--lh-perex); }
+  .otazka__hlava { max-width: 960px; margin-inline: auto; padding: var(--s-6) 0 var(--s-4); }
+  .nadtitulek { margin: 0 0 var(--s-4); color: var(--ink-2); }
+  .uvod { margin: var(--s-6) 0; font-size: var(--fs-perex); line-height: var(--lh-perex); }
   .uvod :global(p:last-child) { margin-bottom: 0; }
   .prvni { margin-bottom: var(--s-8); }
   .oddil { margin-top: var(--s-8); }

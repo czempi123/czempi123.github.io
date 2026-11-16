@@ -18,7 +18,13 @@ const NA_KONCI = new RegExp(`(^|[\\s(„‚«])([${PISMENA}]) $`);
  */
 export function nezlomitelne(text) {
   // Dvakrát kvůli dvojicím za sebou („a v lese“): první průchod spotřebuje mezeru před druhým písmenem.
-  return text.replace(UVNITR, `$1$2${NBSP}`).replace(UVNITR, `$1$2${NBSP}`);
+  return text
+    .replace(UVNITR, `$1$2${NBSP}`)
+    .replace(UVNITR, `$1$2${NBSP}`)
+    // Letopočet se nedělí: „423 př. n. l.“, „121 n. l.“ (CLAUDE.md › České konvence; revize design-v2 R).
+    .replace(/(\d) (?=př\.|n\.[ \u00a0]l\.)/g, `$1${NBSP}`)
+    .replace(/př\. n\./g, `př.${NBSP}n.`)
+    .replace(/n\. l\./g, `n.${NBSP}l.`);
 }
 
 /**

@@ -7,7 +7,7 @@
  *    a atribut data-promitane-predek na předcích úseku); obsah je skrytý, dokud skript úsek neoznačí a nenastaví polohu.
  *  · data-podoba na úseku bloku nebo kresby (krok H4, src/lib/hodiny.ts › Podoba na plátně): které části bloku
  *    se ukážou, podle značek data-cast v komponentách (hlava, scena, otazka, moznosti, akce, duvod, zpetna, dal,
- *    ulozeno, platno, popis, u Slož argument napadnout). Tabulka podob je v docs/design.md › Podoba na plátně.
+ *    ulozeno, platno, popis, u Slož argument napadnout). Tabulka podob je v docs/archiv/design-2026-11-15.md › Podoba na plátně.
  */
 html.s-hodinou { --hodina: 48px; }
 
@@ -40,6 +40,7 @@ html.promitani [data-promitane] { margin-top: var(--s-5); scroll-margin-top: cal
 /* Roztřiď: Dát sem pod popisem koše přes jeho šířku. Vedle názvu by název a popis ve čtyřech koších vedle sebe
    lámal po dvou slovech; tlačítko pokrývá celý koš dál (Roztrid.svelte), mění se jen jeho místo v hlavě koše. */
 html.promitani .kos { display: flex; flex-direction: column; }
+html.promitani .kos__celo { flex: 1 0 auto; display: flex; flex-direction: column; }
 html.promitani .kos__hlava { flex: 1 0 auto; flex-direction: column; align-items: stretch; gap: var(--s-2); }
 /* Koše vedle sebe mají tlačítko ve stejné výšce, i když je popis v jednom kratší. */
 html.promitani .kos__sem { margin-top: auto; }
@@ -76,6 +77,9 @@ html.promitani [data-podoba="kresba"] {
   height: calc(100dvh - var(--hodina) - var(--s-3) - var(--s-4));
 }
 html.promitani [data-podoba="kresba"] > * { flex: none; }
+/* Na plátně kresba nemá list s páskou (K7b): plocha patří plátnu kresby, ovládání zůstává v drážce. */
+html.promitani [data-podoba="kresba"].kresba { padding: 0; background: none; box-shadow: none; }
+html.promitani [data-podoba="kresba"].kresba > .paska { display: none; }
 html.promitani [data-podoba="kresba"] [data-cast="hlava"] { align-self: stretch; margin-bottom: 0; }
 html.promitani [data-podoba="kresba"] [data-cast="platno"] { flex: 1 1 0; min-height: 0; width: 100%; height: auto; }
 /* Široké plátno (projektor 4 : 3 až 16 : 9): kresba vlevo přes celou výšku, přepínač a ovládání vpravo.

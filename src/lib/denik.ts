@@ -1,5 +1,6 @@
 // Soukromý deník studenta v localStorage (klíč atlas-denik). Nic se neodesílá; export do souboru.
 // Když úložiště není dostupné (soukromé okno, zablokovaná data), deník funguje jen do zavření stránky.
+import { jePero, type Pero } from './pero';
 
 export interface Zapis {
   /** kde vznikl, např. „sokrates/nikdo-nedela-zlo“ */
@@ -51,6 +52,30 @@ export interface Denik {
    * s psaním. Nepovinné (starší deníky ho nemají), součást exportu. Přijetí týdne a poznámka jsou výzva (`vyzvy`).
    */
   tydny?: Record<string, StavTydne>;
+  /**
+   * Studentovo pero (src/lib/pero.ts): barva, kterou píše a volí. Nepovinné (bez volby modré), součást exportu.
+   * Zapíše se při první odpovědi v bloku (nabídka pera v rámu aktivity) nebo volbou v deníku.
+   */
+  pero?: Pero;
+  /**
+   * Vystřižené citáty (design-v2, K6): co si student z citátu na stránce vystřihl do sbírky v deníku.
+   * Znění a údaje se ukládají s citátem, aby sbírka stála i bez stránky. Nejnovější první; nepovinné, součást exportu.
+   */
+  citaty?: CitatVDeniku[];
+  /** Kdy si student deník naposledy zazálohoval (stáhl soubor, poslal odkazem); podle toho deník připomene zálohu. */
+  zaloha?: string;
+}
+
+/** Vystřižený citát ve sbírce deníku. */
+export interface CitatVDeniku {
+  /** id citátu ze zdroje.yaml */
+  id: string;
+  text: string;
+  /** autor, dílo a místo, jak stojí pod citátem */
+  kde: string;
+  /** stránka, odkud ho student vystřihl */
+  odkaz: string;
+  kdy: string;
 }
 
 /** Stav týdne cvičení v deníku. Žádná data dnů a žádné série: jen které dny jsou hotové. */
@@ -98,6 +123,11 @@ export interface PostupCesty {
    * počítá se od něj Návrat (src/lib/navrat.ts). Nepovinné: starší deníky ho nemají.
    */
   dokonceno?: string;
+  /**
+   * Čas, kdy se po posledním kroku odtrhl pahýl lístku cesty (design-v2, K5, bod 4). Pahýl tím „přistane v deníku“:
+   * sbírku odtržených pahýlů ukáže Můj deník (K6). Zapíše se jednou; nepovinné.
+   */
+  pahyl?: string;
 }
 
 export const KLIC_DENIKU = 'atlas-denik';
@@ -201,10 +231,16 @@ function rozeber(t: string | null): Denik | null {
           if (!objekt(plny.tydny)) delete plny.tydny;
           else plny.tydny = cisteTydny(plny.tydny);
         }
+        if (plny.pero !== undefined && !jePero(plny.pero)) delete plny.pero;
         if (plny.hodiny !== undefined) {
           if (!Array.isArray(plny.hodiny)) delete plny.hodiny;
           else plny.hodiny = plny.hodiny.filter((h: Partial<HodinaVDeniku> | null) => !!h && typeof h.adresa === 'string' && typeof h.nazev === 'string' && typeof h.kdy === 'string');
         }
+        if (plny.citaty !== undefined) {
+          if (!Array.isArray(plny.citaty)) delete plny.citaty;
+          else plny.citaty = plny.citaty.filter(jeCitat);
+        }
+        if (plny.zaloha !== undefined && typeof plny.zaloha !== 'string') delete plny.zaloha;
         return plny;
       }
     }
@@ -281,14 +317,41 @@ export function zaznamenejKrok(slug: string, krok: number, nazev: string, pocet:
   const navstivene = [...new Set([...(p?.navstivene ?? []), krok])].sort((a, b) => a - b);
   const ted = new Date().toISOString();
   const dokonceno = dokonceniCesty(p, navstivene, pocet, ted);
-  d.cesty = { ...d.cesty, [slug]: { nazev, pocet, krok, navstivene, kdy: ted, ...(dokonceno ? { dokonceno } : {}) } };
+  const pahyl = typeof p?.pahyl === 'string' ? { pahyl: p.pahyl } : {};
+  d.cesty = { ...d.cesty, [slug]: { nazev, pocet, krok, navstivene, kdy: ted, ...(dokonceno ? { dokonceno } : {}), ...pahyl } };
   uloz(d);
+}
+
+/**
+ * Po posledním kroku se pahýl lístku cesty odtrhne a přistane v deníku (K5, bod 4). Zapíše čas jednou;
+ * vrací true, když se pahýl odtrhl teď (pohyb se přehraje), false, když už byl v deníku nebo cesta záznam nemá.
+ */
+export function odtrhniPahyl(slug: string): boolean {
+  if (tichaStranka()) return false;
+  const d = nacti();
+  const p = d.cesty[slug];
+  if (!p || typeof p.pahyl === 'string') return false;
+  d.cesty = { ...d.cesty, [slug]: { ...p, pahyl: new Date().toISOString() } };
+  uloz(d);
+  return true;
 }
 
 /** Nejvýš tolik profilů si deník pamatuje pro „Pokračovat ve čtení“; nejdéle nečtený vypadne. */
 const CTENI_NEJVYS = 30;
 
 /** Zapamatuje naposledy čtený oddíl stránky (jen kotvu). Volá se při změně oddílu, ne při každém posunu. */
+/** Zvolené pero, nebo undefined, když student ještě nevolil. */
+export function peroDeniku(): Pero | undefined {
+  const p = nacti().pero;
+  return jePero(p) ? p : undefined;
+}
+
+export function ulozPero(p: Pero): void {
+  const d = nacti();
+  if (d.pero === p) return;
+  uloz({ ...d, pero: p });
+}
+
 export function ulozCteni(odkaz: string, kotva: string): void {
   if (tichaStranka()) return;
   const d = nacti();
@@ -416,6 +479,42 @@ export function prijmiVyzvu(v: Omit<Vyzva, 'prijato'>): void {
   uloz(d);
 }
 
+// ─── Sbírka a záloha (design-v2, K6) ─────────────────────────────────────────
+
+const jeCitat = (c: unknown): c is CitatVDeniku =>
+  !!c && typeof c === 'object' && (['id', 'text', 'kde', 'odkaz', 'kdy'] as const).every((p) => typeof (c as Record<string, unknown>)[p] === 'string');
+
+/** Nejvýš tolik vystřižených citátů drží sbírka (nejstarší vypadne). */
+export const CITATY_NEJVYS = 60;
+
+/** Deník s vystřiženým citátem navrchu sbírky; tentýž citát podruhé nepřibude. */
+export function sCitatem(d: Denik, c: Omit<CitatVDeniku, 'kdy'>, kdy: string): Denik {
+  const citaty = (d.citaty ?? []).filter((x) => x.id !== c.id);
+  return { ...d, citaty: [{ ...c, kdy }, ...citaty].slice(0, CITATY_NEJVYS) };
+}
+
+export function vystrihniCitat(c: Omit<CitatVDeniku, 'kdy'>): void {
+  uloz(sCitatem(nacti(), c, new Date().toISOString()));
+}
+
+export function zrusCitat(id: string): void {
+  const d = nacti();
+  if (!d.citaty) return;
+  d.citaty = d.citaty.filter((x) => x.id !== id);
+  uloz(d);
+}
+
+export function maCitat(id: string, d: Denik = nacti()): boolean {
+  return !!d.citaty?.some((x) => x.id === id);
+}
+
+/** Zapíše čas zálohy (stažený soubor, odkaz nebo kód QR); připomenutí zálohy v deníku pak zmizí. */
+export function oznacZalohu(kdy = new Date().toISOString()): void {
+  const d = nacti();
+  d.zaloha = kdy;
+  uloz(d);
+}
+
 export function zaznamenejNavstevu(odkaz: string, nazev: string): void {
   if (tichaStranka()) return;
   const d = nacti();
@@ -430,6 +529,7 @@ export function exportuj(): void {
   a.download = `atlas-denik-${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   URL.revokeObjectURL(a.href);
+  oznacZalohu();
 }
 
 // ─── Nahrání deníku ze souboru (revize antiky, O) ───────────────────────────
@@ -494,7 +594,8 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
     const pocet = Math.max(t.pocet, n.pocet);
     const casy = [t.dokonceno, n.dokonceno].filter((x): x is string => typeof x === 'string').sort();
     const dokonceno = casy[0] ?? (navstivene.length >= pocet ? posledni.kdy : undefined);
-    cesty[slug] = { nazev: posledni.nazev, pocet, krok: posledni.krok, navstivene, kdy: posledni.kdy, ...(dokonceno ? { dokonceno } : {}) };
+    const pahyl = [t.pahyl, n.pahyl].filter((x): x is string => typeof x === 'string').sort()[0];
+    cesty[slug] = { nazev: posledni.nazev, pocet, krok: posledni.krok, navstivene, kdy: posledni.kdy, ...(dokonceno ? { dokonceno } : {}), ...(pahyl ? { pahyl } : {}) };
   }
   const prectene: Record<string, string[]> = { ...(novy.prectene ?? {}) };
   for (const [s, k] of Object.entries(ten.prectene ?? {})) prectene[s] = [...new Set([...k, ...(prectene[s] ?? [])])];
@@ -515,7 +616,16 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
     for (const [id, t] of Object.entries(ten.tydny ?? {})) if (!tydny[id] || novejsi(t.kdy, tydny[id].kdy)) tydny[id] = t;
     vysledek.tydny = tydny;
   }
+  if (!ten.pero && jePero(novy.pero)) vysledek.pero = novy.pero;
+  else if (!jePero(vysledek.pero)) delete vysledek.pero;
   if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
+  if (ten.citaty || novy.citaty) {
+    const ze = (x: unknown) => (Array.isArray(x) ? x.filter(jeCitat) : []);
+    vysledek.citaty = spojPodle(ze(ten.citaty), ze(novy.citaty), (c) => c.id, (c) => c.kdy).slice(0, CITATY_NEJVYS);
+  }
+  // Záloha: deník v prohlížeči zálohovaný není jen proto, že se do něj nahrál soubor; zůstává jeho vlastní čas.
+  if (typeof ten.zaloha === 'string') vysledek.zaloha = ten.zaloha;
+  else delete vysledek.zaloha;
   return vysledek;
 }
 

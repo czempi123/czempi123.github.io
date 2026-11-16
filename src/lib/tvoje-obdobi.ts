@@ -7,6 +7,7 @@ import type { Denik } from './denik';
 import { odpovedStudenta, kodyStrany, type PopisStran } from './strany';
 import { klicOtazky } from './otazky';
 import { volbaZeStavu, NIKDO } from './osa-hlasu';
+import type { UdajeRazitka } from '../components/ostrovy/bloky-typy';
 
 export interface OsobaKatalogu {
   id: string;
@@ -17,6 +18,8 @@ export interface OsobaKatalogu {
   ikona?: string;
   obdobi: number;
   zena?: true;
+  /** razítko člověka (jméno, roky, atribut, nebo rodné město); skládá katalog při sestavení */
+  razitko?: UdajeRazitka;
 }
 
 export interface OtazkaKatalogu {
@@ -106,6 +109,18 @@ export interface OtazkaPrehledu {
   /** koho si student na ose hlasů stránky otázky zvolil jako sobě nejbližšího; „Nikdo z nich“ tu není */
   nejbliz?: Nejbliz;
   blizci: Blizky[];
+  /** kdo by studentovi nejvíc odporoval: zastánce jiné odpovědi v blocích, kde student odpověděl (Moje filozofie, K6) */
+  odpurce?: Odpurce;
+}
+
+export interface Odpurce {
+  osoba: OsobaKatalogu;
+  /** proč to viděl jinak: z cesty, jinak z hlasu u otázky; chybí, když by se opakoval důvod výš */
+  duvod?: string;
+  /** kde se rozešli: cesta, blok a odpověď, kterou zastával on */
+  cesta: string;
+  adresa: string;
+  odpoved: string;
 }
 
 export interface Nejbliz {
@@ -153,6 +168,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
   // Stopy po otázkách: osoba → stopy a důvody z cest, v pořadí, jak přišly.
   const stopy = new Map<number, Map<string, { stopy: Stopa[]; duvody: string[]; poradi: number }>>();
   let poradi = 0;
+  const proti = new Map<number, Map<string, { pocet: number; poradi: number; duvody: string[]; cesta: string; adresa: string; odpoved: string }>>();
   for (const b of k.bloky) {
     const cesta = cestaPodleSlugu.get(b.cesta);
     if (!cesta) continue;
@@ -160,6 +176,19 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
     if (kod === null) continue;
     const odpoved = b.odpovedi.find((o) => o.kod === kod);
     if (!odpoved) continue;
+    // Zastánci ostatních odpovědí v tomtéž bloku: kdo by studentovi odporoval.
+    for (const jina of b.odpovedi) {
+      if (jina.kod === kod) continue;
+      for (const z of jina.zastanci) {
+        if (!k.osoby[z.osoba]) continue;
+        const uOtazky = proti.get(cesta.otazka) ?? new Map();
+        proti.set(cesta.otazka, uOtazky);
+        const zaznam = uOtazky.get(z.osoba) ?? { pocet: 0, poradi: poradi++, duvody: [], cesta: cesta.nazev, adresa: b.adresa, odpoved: jina.text };
+        zaznam.pocet++;
+        if (z.duvod && !zaznam.duvody.includes(z.duvod)) zaznam.duvody.push(z.duvod);
+        uOtazky.set(z.osoba, zaznam);
+      }
+    }
     for (const z of odpoved.zastanci) {
       if (!k.osoby[z.osoba]) continue;
       const uOtazky = stopy.get(cesta.otazka) ?? new Map();
@@ -203,6 +232,16 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
         return { osoba: k.osoby[id], ...(novy ? { duvod: novy } : {}), stopy: z.stopy };
       });
     if (!zacatek && !ted && !pravidla.length && !blizci.length && !nejbliz) continue;
+    // Odpůrce: kdo nejčastěji zastával jinou odpověď než student, a přitom mu nikde nebyl blízko.
+    const blizko = new Set([...blizci.map((b) => b.osoba.id), ...(nejbliz ? [nejbliz.osoba.id] : [])]);
+    const [idProti, p] = [...(proti.get(o.cislo) ?? new Map()).entries()]
+      .filter(([id]) => !blizko.has(id))
+      .sort((a, b) => b[1].pocet - a[1].pocet || a[1].poradi - b[1].poradi)[0] ?? [];
+    let odpurce: Odpurce | undefined;
+    if (idProti && p) {
+      const duvod = [...p.duvody, o.duvody[idProti]].find((x): x is string => !!x && !ukazane.has(x));
+      odpurce = { osoba: k.osoby[idProti], ...(duvod ? { duvod } : {}), cesta: p.cesta, adresa: p.adresa, odpoved: p.odpoved };
+    }
     vysledek.push({
       cislo: o.cislo,
       slug: o.slug,
@@ -213,6 +252,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
       pravidla,
       ...(nejbliz ? { nejbliz } : {}),
       blizci,
+      ...(odpurce ? { odpurce } : {}),
     });
   }
   return vysledek;

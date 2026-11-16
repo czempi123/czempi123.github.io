@@ -151,7 +151,7 @@ test('Kdo žil dřív? na medailonku: odhad, odhalení a odkaz do mapy', async (
   await expect(blok.getByRole('heading')).toHaveText('Kdo žil dřív: Anaximandros, nebo Parmenidés?');
   await blok.scrollIntoViewIfNeeded();
   await expect(page.locator('astro-island[component-url*="KdoZilDriv"]:not([ssr])')).toHaveCount(1);
-  await blok.getByText('Anaximandros', { exact: true }).click();
+  await blok.getByRole('radio', { name: 'Anaximandros', exact: true }).check({ force: true });
   await blok.getByRole('button', { name: 'Odhalit' }).click();
   expect(bezNbsp(await blok.locator('.blok__zpetna-titulek').innerText())).toBe('Dělí je asi 31 let.');
   await expect(blok.getByRole('link', { name: /Ukázat na mapě v roce/ })).toHaveAttribute('href', /osoba=anaximandros&srovnat=parmenides/);

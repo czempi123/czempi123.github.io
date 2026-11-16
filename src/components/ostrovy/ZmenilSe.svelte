@@ -1,11 +1,11 @@
 <script lang="ts">
   // Změnil se? Návrat k prvnímu názoru na konci stránky velké otázky: student vidí, co napsal na začátku,
-  // a odpoví znovu. Obě odpovědi jsou v deníku vedle sebe; nic se nehodnotí.
+  // a odpoví znovu. Obě odpovědi jsou v deníku vedle sebe; nic se nehodnotí. Srovnání leží na lístku s páskou
+  // a obě odpovědi jsou studentovým perem (K4b).
   // Použití: <ZmenilSe client:visible slug="jak-poznam-pravdu" otazka="Jak poznám, co je pravda?" odkaz="/otazka/jak-poznam-pravdu/#zmenil-se" />
   import { onMount, tick } from 'svelte';
   import { najdiZapis, ulozZapis } from '../../lib/denik';
   import { klicOtazky } from '../../lib/otazky';
-  import { odkryti } from '../../lib/pohyb';
 
   interface Props { slug: string; otazka: string; odkaz: string }
   let { slug, otazka, odkaz }: Props = $props();
@@ -16,6 +16,8 @@
   let ulozeno = $state(false);
   let upravuji = $state(false);
   let srovnani = $state<HTMLElement>();
+  /** srovnání vzniklo uložením teď: lístek se rozloží (po obnovení stránky leží) */
+  let cerstve = $state(false);
 
   function nactiPrvni() {
     prvni = najdiZapis(klic.prvni)?.odpoved ?? '';
@@ -37,6 +39,7 @@
     ulozZapis({ id: klic.ted, otazka: `${otazka} Po setkání s filozofy`, odpoved: ted.trim(), odkaz, druh: 'stanovisko' });
     ulozeno = true;
     upravuji = false;
+    cerstve = true;
     await tick();
     srovnani?.focus();
   }
@@ -46,7 +49,7 @@
   {#if !ulozeno || upravuji}
     {#if prvni}
       <p class="blok__popis">Na začátku jsi napsal:</p>
-      <p class="puvodni">„{prvni}“</p>
+      <p class="puvodni blok__ruka">„{prvni}“</p>
     {:else}
       <p class="blok__popis">Na začátku jsi neodpověděl. Teď už víš, jak odpovídali filozofové.</p>
     {/if}
@@ -56,15 +59,16 @@
       <button class="blok__tl blok__tl--hlavni" type="button" onclick={uloz} disabled={!ted.trim()}>Uložit do deníku</button>
     </div>
   {:else}
-    <div class="blok__zpetna srovnani" role="region" aria-label="Na začátku a teď" aria-live="polite" tabindex="-1" bind:this={srovnani} in:odkryti>
+    <div class={['listek-paska', 'blok__vazba', 'srovnani', cerstve && 'rozlozit']} role="region" aria-label="Na začátku a teď" aria-live="polite" tabindex="-1" bind:this={srovnani}>
+      <span class="paska paska--mala paska--nahore" aria-hidden="true"></span>
       <div class="sloupce">
         <div>
           <h3 class="blok__zpetna-titulek">Na začátku</h3>
-          <p>{prvni || 'Bez odpovědi.'}</p>
+          {#if prvni}<p class="blok__ruka">{prvni}</p>{:else}<p>Bez odpovědi.</p>{/if}
         </div>
         <div>
           <h3 class="blok__zpetna-titulek">Teď</h3>
-          <p>{ted}</p>
+          <p class="blok__ruka">{ted}</p>
         </div>
       </div>
       <p class="dal"><em>Co by tě přimělo změnit názor ještě jednou?</em></p>
@@ -78,18 +82,17 @@
 
 <style>
   .zmenil-se { margin: 0; }
+  /* Co student napsal na začátku: jeho perem, s čárkovanou linkou tužkou (K4b). */
   .puvodni {
     margin: 0 0 var(--s-5);
     padding-left: var(--s-4);
-    border-left: 2px solid var(--rule);
-    font-style: italic;
-    color: var(--ink-2);
+    border-left: 1.5px dashed var(--tuzka);
     white-space: pre-line;
   }
   .sloupce { display: grid; gap: var(--s-4); }
   .sloupce p { margin: 0; white-space: pre-line; }
-  .dal { margin: var(--s-4) 0 0; padding-top: var(--s-4); border-top: 1px solid var(--pc-soft, var(--rule)); }
-  @media (min-width: 700px) {
+  .dal { margin: var(--s-4) 0 0; padding-top: var(--s-4); border-top: 1.5px dashed var(--tuzka); }
+  @container (min-width: 600px) {
     .sloupce { grid-template-columns: 1fr 1fr; gap: var(--s-6); }
   }
 </style>

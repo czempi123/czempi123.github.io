@@ -3,6 +3,10 @@
 // nezdržují: další krok je po každém bloku hned po ruce, reflexe zůstává zavřená a deník po cestě nic nenabízí.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import { pripravitStranku } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTY = [
   { slug: 'kdy-mam-dobry-duvod-verit', kroku: 7, pravidlo: 'cesta1-moje-pravidlo', spor: 'cesta1-meritko-spor', zacatek: 'Krok 2 · Jak bys to zjišťoval ty?' },
@@ -94,15 +98,16 @@ for (const c of CESTY) {
         const blok = bloky.nth(pocet - 1);
         druhy.push(await odpovez(blok));
         const odkaz = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link');
-        if ((await odkaz.getAttribute('href'))?.startsWith('#')) {
+        if ((await odkaz.count()) && (await odkaz.getAttribute('href'))?.startsWith('#')) {
           // Pod blokem je ještě text s kresbou (šaty v cestě 1): blok vede k němu, dál vede lišta.
           await expect(odkaz).not.toHaveText(/Další krok/);
           await odkaz.click();
           await page.locator('.cesta-lista').getByRole('link', { name: /Další krok/ }).click();
         } else {
-          // Po posledním bloku je další krok hned vidět a jedním klepnutím dosažitelný.
-          const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: /^Další krok/ });
-          await expect(dal).toBeVisible();
+          // Po posledním bloku se rozsvítí Další krok v liště (K5) a je jedním klepnutím dosažitelný.
+          await expect(odkaz).toHaveCount(0);
+          const dal = page.locator('.cesta-lista [data-dalsi-krok]');
+          await expect(dal).toHaveClass(/blok__tl--hlavni/);
           await dal.click();
         }
       } else {
@@ -140,7 +145,7 @@ for (const c of CESTY) {
 
     // Deník hned po cestě nic nenabízí; zápisy z cesty v něm jsou.
     await page.goto('/denik/');
-    await expect(page.locator('.seznam--zapisy')).toContainText('Moje pravidlo po cestě.');
+    await expect(page.locator('.kapitoly')).toContainText('Moje pravidlo po cestě.');
     await expect(page.getByRole('region', { name: 'Návrat', exact: true })).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Zkusit' })).toHaveCount(0);
   });

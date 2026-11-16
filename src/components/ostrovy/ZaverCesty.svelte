@@ -3,6 +3,7 @@
   // „Na začátku“ se čte z deníku tak, jak to tehdy zapsal; nic se neukládá podruhé. Když tam zápis není
   // (student krok přeskočil nebo odpověď smazal), panel se neukáže a zůstane jen pole s pravidlem jako dřív.
   // „Teď“ je přímo pole s pravidlem. Pod srovnáním je nepovinná otázka, co se změnilo; nic se nehodnotí.
+  // K4b: „Na začátku“ leží na lepicím lístku a studentova odpověď je jeho perem (místo tónovaného rámečku).
   // Použití v MDX posledního kroku (obal src/components/bloky/ZaverCesty.astro):
   // <ZaverCesty id="cesta1-moje-pravidlo" otazka="Kdy mám dobrý důvod něčemu věřit? Napiš svoje pravidlo." />
   import { onMount } from 'svelte';
@@ -85,19 +86,20 @@
   .zaver { margin: var(--s-6) 0 0; }
   .sloupce { display: grid; gap: var(--s-5); }
   /* Na telefonu pod sebou, od 700 px vedle sebe (stejně jako Změnil se? u velké otázky). */
-  @media (min-width: 700px) {
+  @container (min-width: 640px) {
     .sloupce { grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: start; }
-    /* Nadpis „Teď“ ve stejné výšce jako „Na začátku“ uvnitř tónovaného rámečku. */
+    /* Nadpis „Teď“ ve stejné výšce jako „Na začátku“ na lístku. */
     .ted { padding-top: var(--s-4); }
   }
-  .zacatek { padding: var(--s-4) var(--s-5); border-radius: var(--r-sm); background: var(--pc-tint, var(--sunk)); }
+  /* Na začátku: lepicí lístek (ležící, mírně natočený), co tehdy student zapsal, jeho perem. */
+  .zacatek { padding: var(--s-4) var(--s-5); background: var(--listek); box-shadow: var(--lezi); rotate: calc(-.6deg * var(--natoceni)); }
   .odkud { margin: 0 0 var(--s-3); color: var(--ink-2); }
   .cast + .cast { margin-top: var(--s-3); }
   .cast__nadpis { margin: 0 0 var(--s-1); color: var(--ink); }
   .cast ul { margin: 0; padding: 0; list-style: none; }
-  .cast p:not(.cast__nadpis), .cast li { margin: 0; font-size: var(--fs-ovladani-l); line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere; }
+  .cast p:not(.cast__nadpis), .cast li { margin: 0; font-family: var(--font-ruka); font-size: calc(var(--meritko) * 19px); line-height: 1.4; color: var(--pero); white-space: pre-line; overflow-wrap: anywhere; }
   .cast li + li { margin-top: var(--s-1); }
   .ted :global(.stanovisko), .zmena :global(.stanovisko) { margin-top: 0; }
   .ted .blok__zpetna-titulek { margin-bottom: var(--s-3); }
-  .zmena { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--rule); }
+  .zmena { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1.5px dashed var(--tuzka); }
 </style>

@@ -5,7 +5,11 @@
 // student, který nesouhlasí, má spojence; nikde není způsob smrti, obhajoba dobrovolné smrti ani klid a spánek
 // jako to, co čeká.
 import { test, expect, type Page } from '@playwright/test';
-import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, pripravitStranku } from './strany';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, pripravitStranku, dalsiVListe } from './strany';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA8 = '/cesta/proc-se-bat-smrti/';
 const KROKY8 = ['Dopis', 'Čeho se vlastně bojíme', '„Netýká se nás“', 'Zrcadlo', 'Host u stolu', 'Týká se nás?', 'Ti druzí', 'Blízko', 'Tvoje pravidlo'];
@@ -16,7 +20,7 @@ const NEPATRI = /nácvik|každý den na smrt|vysvobo|úlev|\bklid|spán|usnou|o 
 const pripravit = (page: Page) => pripravitStranku(page);
 
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
@@ -91,7 +95,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   // „Šťastný den“ není měřítko: škola netvrdila, že moudrého nic nebolí.
   await expect(text1).toContainText('Epikúros nepíše, že ho nic nebolí.');
   await expect(text1).toContainText('učila, že i moudrý bude v bolestech sténat a naříkat');
-  await expect(text1.locator(':scope > p').last()).toHaveText('Přes třicet let přitom učil, že smrt se nás netýká. Jak to myslel, přijde ve třetím kroku. Nejdřív odpověz ty.');
+  await expect(text1.locator(':scope > .cisty-list > p').last()).toHaveText('Přes třicet let přitom učil, že smrt se nás netýká. Jak to myslel, přijde ve třetím kroku. Nejdřív odpověz ty.');
   // Začátek cesty: čtyři možnosti, každá se spojencem; žádná zpětná vazba nehodnotí víru ani nevíru.
   const rozumne = page.locator('#cesta8-je-rozumne');
   await expect(rozumne.getByRole('radio')).toHaveCount(4);
@@ -134,7 +138,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   // Krok 3: „netýká se nás“, ne „nic není“; Slož argument s větou, která v dopise chybí; „zvykej si“; město bez hradeb.
   const text3 = page.locator('.krok__obsah > .ctenarsky');
   await expect(text3).toHaveCount(2);
-  await expect(text3.first().locator(':scope > p').first()).toContainText('Na ten míří Epikúrova věta, a jen na ten.');
+  await expect(text3.first().locator(':scope > .cisty-list > p').first()).toContainText('Na ten míří Epikúrova věta, a jen na ten.');
   const citaty3 = page.locator('.krok__obsah > .ctenarsky .citat');
   await expect(citaty3).toHaveCount(3);
   await expect(text3.first().locator('.citat')).toHaveCount(1);
@@ -203,7 +207,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(text3b).toContainText('Epikúros neříká, že smrt nic není.');
   await expect(text3b).toContainText('Neříká ani, že to stačí jednou pochopit.');
   await expect(text3b).toContainText('Kdo věří, že po smrti něco je, toho argument nepřesvědčí.');
-  await expect(text3b.locator(':scope > p').last()).toHaveText('Než půjdeš dál, zkus Epikúrovi odpovědět.');
+  await expect(text3b.locator(':scope > .cisty-list > p').last()).toHaveText('Než půjdeš dál, zkus Epikúrovi odpovědět.');
   const namitka = page.locator('#cesta8-namitka');
   await namitka.getByRole('textbox').focus();
   await page.keyboard.type('Ale mně to vadí už teď.');
@@ -295,7 +299,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
 
   // Krok 7: argument o smrti lidí, které máme rádi, nemluví. Seneca přizná, Epikúros podle Plútarcha hájí slzy.
   const text7 = page.locator('.krok__obsah > .ctenarsky');
-  await expect(text7.locator(':scope > p').first()).toContainText('Jeden koš zůstal stranou: ti druzí.');
+  await expect(text7.locator(':scope > .cisty-list > p').first()).toContainText('Jeden koš zůstal stranou: ti druzí.');
   await expect(text7).toContainText('Kdo někoho ztratil nebo ztrácí, nemusí v té větě hledat útěchu ani výčitku: není o něm.');
   await expect(text7.locator('.citat')).toHaveCount(2);
   await expect(text7.locator('.citat').first()).toContainText('oplakával tak bez míry');
@@ -371,7 +375,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Bát se smím. Rozhoduje, co s tím strachem udělám dnes.');
   await expect(zapisy).toContainText('Na začátku: spíš Epikúros. Po argumentech: spíš Plútarchos. Co mě posunulo: ztráta je moje už dnes.');
   await expect(zapisy).toContainText('Ale mně to vadí už teď.');

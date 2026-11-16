@@ -1,5 +1,6 @@
 ---
-// Kam dál: dvě až čtyři pokračování, vždy s jasným cílem.
+// Kam dál: dvě až čtyři pokračování, vždy s jasným cílem. Karty jsou ležící papír (.lezi-odkaz, design-v2 K3):
+// po najetí se zvednou a srovnají; připravovaná karta je čárkovaná tužkou, bez šipky a bez stínu (.zakazane).
 // Položka bez `href` je stránka, která teprve vznikne (cesta celku, než ji dopíše další krok): karta ji jmenuje,
 // nikam nevede a nese slovo „připravujeme“ jako připravovaná období v Mapě a čase. Až stránka vznikne, doplň `href`.
 import Ikona from '../ui/Ikona.astro';
@@ -15,13 +16,13 @@ const NAZEV = ODDILY.kamDal.nazev;
     {odkazy.map((o) => (
       <li>
         {o.href ? (
-          <a class="polozka" href={o.href}>
+          <a class="polozka lezi-odkaz" href={o.href}>
             <span class="t-nadtitulek">{o.nadtitulek}</span>
             <span class="text">{o.text}</span>
             <Ikona id="dal" velikost={22} class="sipka" />
           </a>
         ) : (
-          <div class="polozka polozka--ceka">
+          <div class="polozka polozka--ceka zakazane">
             <span class="t-nadtitulek">{o.nadtitulek} · připravujeme</span>
             <span class="text">{o.text}</span>
           </div>
@@ -32,26 +33,29 @@ const NAZEV = ODDILY.kamDal.nazev;
 </nav>
 
 <style>
-  .kamdal { margin: var(--s-9) 0; padding-top: var(--s-7); border-top: 1px solid var(--ink); }
-  h2 { margin-bottom: var(--s-5); }
-  ul { display: grid; gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  .kamdal { margin: var(--s-10) 0 var(--s-9); }
+  h2 { margin-bottom: var(--s-6); }
+  ul { display: grid; gap: var(--s-5); margin: 0; padding: 0; list-style: none; }
+  li { display: flex; }
+  li:nth-child(2n) .polozka { --nat: .7deg; }
   .polozka {
     position: relative;
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--s-1);
-    min-height: 88px;
-    padding: var(--s-4) var(--s-8) var(--s-4) var(--s-5);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    background: var(--surface);
+    min-height: 124px;
+    padding: var(--s-5) var(--s-5) var(--s-4);
+    color: var(--ink);
     text-decoration: none;
   }
-  a.polozka:hover { border-color: var(--muted); }
+  .t-nadtitulek { color: var(--ink-3); }
+  .text { font-size: 22px; line-height: 1.2; }
+  a.polozka:hover .text { text-decoration: underline; text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 0.14em; }
+  .polozka :global(.sipka) { margin-top: auto; align-self: flex-end; color: var(--ink-2); }
   /* Stránka, která teprve vznikne: čárkovaný okraj a bez šipky, aby rozdíl nestál jen na barvě. */
-  .polozka--ceka { border-style: dashed; background: transparent; padding-right: var(--s-5); }
-  .t-nadtitulek { color: var(--muted); }
-  .text { font-size: var(--fs-perex); line-height: 1.3; }
-  .polozka :global(.sipka) { position: absolute; right: var(--s-5); top: 50%; translate: 0 -50%; }
-  @media (min-width: 900px) { ul { grid-template-columns: repeat(3, 1fr); } }
+  .polozka--ceka .t-nadtitulek { color: inherit; }
+  @media (max-width: 699px) { .polozka { min-height: 96px; } .text { font-size: 20px; } }
+  @media (min-width: 700px) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { ul { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
 </style>

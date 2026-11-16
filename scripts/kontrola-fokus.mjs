@@ -4,8 +4,12 @@
 // node scripts/kontrola-fokus.mjs <cesta> [<cesta> …]
 //   node scripts/kontrola-fokus.mjs /osobnost/platon/ /cesta/je-to-co-vidim-cela-skutecnost/1/
 // Proměnné: HODINA (adresa stránky hodiny; stránky pak mají lištu hodiny), ZAKLAD (běžící web; výchozí náhled sestaveného webu: npx astro preview --port 4323),
-// SIRKY (výchozí „390,1440“).
+// SIRKY (výchozí „390,1440“), ULOZISTE (soubor .json { "klíč": hodnota } pro localStorage, třeba plný deník:
+// ULOZISTE=tests/e2e/data/denik-kapitoly.json node scripts/kontrola-fokus.mjs /denik/).
 import { chromium } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const ULOZISTE = process.env.ULOZISTE ? JSON.parse(readFileSync(process.env.ULOZISTE, 'utf8')) : null;
 
 const cesty = process.argv.slice(2);
 const ZAKLAD = process.env.ZAKLAD ?? 'http://localhost:4323';
@@ -20,6 +24,11 @@ for (const sirka of SIRKY) {
     const chyby = [];
     page.on('console', (m) => m.type() === 'error' && chyby.push(m.text()));
     page.on('pageerror', (e) => chyby.push(String(e)));
+    if (ULOZISTE) {
+      await page.addInitScript((z) => {
+        for (const [k, v] of Object.entries(z)) localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
+      }, ULOZISTE);
+    }
     // HODINA=<adresa stránky hodiny>: nejdřív ji otevře, aby byla hodina v kartě aktivní a stránka měla lištu hodiny.
     if (process.env.HODINA) { await page.goto(process.env.HODINA.startsWith('http') ? process.env.HODINA : ZAKLAD + process.env.HODINA); await page.waitForTimeout(500); }
     await page.goto(ZAKLAD + cesta);
@@ -41,7 +50,8 @@ for (const sirka of SIRKY) {
       const popis = (e) => `${e.tagName.toLowerCase()}${e.id ? '#' + e.id : ''} „${(e.getAttribute('aria-label') || e.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 50)}“`;
       const pevne = [...document.querySelectorAll('body *')].filter((e) => {
         const p = getComputedStyle(e).position;
-        return (p === 'fixed' || p === 'sticky') && viditelny(e);
+        // Přeskočit na obsah je pevný odkaz nad hlavičkou (od O): lištou není, s fokusem leží záměrně navrchu.
+        return (p === 'fixed' || p === 'sticky') && viditelny(e) && !e.matches('.preskocit');
       });
       const prvky = [...document.querySelectorAll(sel)].filter(viditelny);
       const podListou = [];
@@ -68,7 +78,20 @@ for (const sirka of SIRKY) {
       // Překryvy dvou ovládacích prvků (bez předků a potomků).
       window.scrollTo(0, 0);
       const prekryvy = [];
-      const boxy = prvky.map((e) => [e, e.getBoundingClientRect()]);
+      // Obdélník oříznutý rodiči s overflow (posuvná řeka, otevřený lísteček na mapě): co je odscrollované pryč,
+      // není vidět a nepřekrývá nic (K7a). Úplně oříznutý prvek se vynechá.
+      const orez = (e) => {
+        const r = e.getBoundingClientRect();
+        let [l, t, p, d] = [r.left, r.top, r.right, r.bottom];
+        for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) {
+          const s = getComputedStyle(a);
+          if (s.overflowX === 'visible' && s.overflowY === 'visible' && s.contain !== 'strict' && s.contain !== 'paint') continue;
+          const ar = a.getBoundingClientRect();
+          [l, t, p, d] = [Math.max(l, ar.left), Math.max(t, ar.top), Math.min(p, ar.right), Math.min(d, ar.bottom)];
+        }
+        return p - l > 1 && d - t > 1 ? { left: l, top: t, right: p, bottom: d } : null;
+      };
+      const boxy = prvky.map((e) => [e, orez(e)]).filter(([, r]) => r);
       for (let i = 0; i < boxy.length; i++) {
         for (let j = i + 1; j < boxy.length; j++) {
           const [a, ra] = boxy[i];

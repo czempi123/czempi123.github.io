@@ -1,9 +1,10 @@
 ---
-// Přehled cesty: otázka, úvod, Začít / Pokračovat a kroky s tím, co student prošel.
+// Přehled cesty: otázka, úvod, lístek cesty s dírkami prošlých kroků (K5), Začít / Pokračovat a kroky s tím, co student prošel.
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../../layouts/Zakladni.astro';
 import PostupCesty from '../../../components/cesta/PostupCesty.svelte';
-import Mince from '../../../components/ui/Mince.astro';
+import RazitkoCloveka from '../../../components/ui/RazitkoCloveka.astro';
+import ListekCesty from '../../../components/cesta/ListekCesty.astro';
 import { osoba } from '../../../lib/data';
 import { krokyCesty, adresaKroku, poradiDalsichCest } from '../../../lib/cesty';
 import { adresaOtazky } from '../../../lib/otazky';
@@ -47,7 +48,7 @@ const seznam = kroky.map((k) => ({ n: k.krok, nazev: k.nazev, href: adresaKroku(
 // Týdny cvičení, které se po této cestě nabízejí (pole nabizet.cesty v src/content/tydny/<id>.yaml): karta v Kam dál.
 const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.includes(cesta.id));
 ---
-<Zakladni
+<Zakladni obdobi={c.obdobi}
   titulek={c.nazev}
   popis={c.vstup}
   sekce="otazky"
@@ -63,11 +64,12 @@ const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.
       <h1 class="t-h1">{c.nazev}</h1>
       <p class="t-perex">{nezlomitelne(c.vstup)}</p>
       <p class="lide t-ovladani">
-        {lide.map((o) => <span class="clovek"><Mince osoba={o} varianta="tint" velikost={36} /> {adresa(o.id) ? <a href={adresa(o.id)}>{o.jmeno}</a> : <span>{o.jmeno}</span>}</span>)}
+        {lide.map((o) => <span class="clovek"><RazitkoCloveka osoba={o} velikost={44} /> {adresa(o.id) ? <a href={adresa(o.id)}>{o.jmeno}</a> : <span>{o.jmeno}</span>}</span>)}
       </p>
     </header>
     <div class="ctenarsky uvod"><Content /></div>
     <section class="ctenarsky" aria-labelledby="kroky-nadpis">
+      <ListekCesty slug={cesta.id} nazev={c.nazev} kroky={kroky.map((k) => ({ n: k.krok, nazev: k.nazev }))} minut={c.minut} />
       <PostupCesty client:load varianta="prehled" slug={cesta.id} nazev={c.nazev} kroky={seznam} />
     </section>
     <section class="ctenarsky kam-dal" id="hotovo" aria-labelledby="kam-dal-nadpis">
@@ -75,7 +77,7 @@ const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.
       <ul>
         {dalsi[0] && <li data-dalsi-cesta={JSON.stringify(dalsi)}><a href={`/cesta/${dalsi[0].slug}/`}>Další cesta: <span data-dalsi-nazev>{dalsi[0].nazev}</span></a></li>}
         {profilyCesty.map((p) => <li><a href={p.href}>{p.jmena}: {p.medailonek ? 'medailonek' : 'celý příběh'}</a></li>)}
-        {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {c.mapa.text}</a></li>}
+        {c.mapa && <li><a href={`/mapa/?rok=${c.mapa.rok}&osoba=${c.mapa.osoba}`}>Mapa a čas: {nezlomitelne(c.mapa.text)}</a></li>}
         {otazka && <li><a href={odkazOtazky}>Velká otázka {otazka.data.cislo}: {otazka.data.otazka}</a></li>}
       </ul>
       {tydny.map((t) => <TydenKarta tyden={t} uroven={3} />)}
@@ -107,12 +109,12 @@ const tydny = (await getCollection('tydny')).filter((t) => t.data.nabizet.cesty.
   /* Středová osa jako u kroků, profilu a otázky: sloupec uprostřed, ne u levého okraje. */
   .cesta :global(.ctenarsky) { margin-inline: auto; }
   .cesta__hlava { padding: var(--s-6) 0 var(--s-4); }
-  .nadtitulek { margin: 0 0 var(--s-3); color: var(--pc); }
+  .nadtitulek { margin: 0 0 var(--s-3); color: var(--p); }
   h1 { margin-bottom: var(--s-4); }
   .lide { display: flex; flex-wrap: wrap; gap: var(--s-4); margin: 0; }
   .clovek { display: inline-flex; align-items: center; gap: var(--s-2); }
   .uvod { margin-bottom: var(--s-6); }
-  .kam-dal { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--rule); }
+  .kam-dal { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1.5px dashed var(--linka); }
   .kam-dal ul { margin: var(--s-3) 0 0; padding-left: var(--s-5); font-family: var(--font-sans); font-size: var(--fs-ovladani-l); }
   .kam-dal li { padding: var(--s-2) 0; }
 </style>

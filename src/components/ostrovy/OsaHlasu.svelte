@@ -17,7 +17,7 @@
     rozlozeniOsy, vetyPoVolbe, volbaZeStavu, stavZVolby, OSA_HLASU, NIKDO, VETA_NIKDO, VYSKA_TY,
     type HlasOsy, type SirkaOsy,
   } from '../../lib/osa-hlasu';
-  import Mince from '../mapa/Mince.svelte';
+  import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
 
   interface Props {
     slug: string;
@@ -178,7 +178,7 @@
       <div class="volba__moznosti" bind:this={skupina} role="group" aria-labelledby={`${slug}-osa-vyzva`} data-cast="moznosti">
         {#each hlasy as h (h.id)}
           <button type="button" class="moznost obdobi-{h.obdobi}" aria-pressed={volba === h.id} data-osoba={h.id} onclick={() => zvol(h.id)}>
-            <Mince ikona={h.ikona} obdobi={h.obdobi} varianta={volba === h.id ? 'sel' : 'tint'} velikost={28} />
+            <RazitkoCloveka razitko={{ id: h.id, jmeno: h.jmeno, roky: h.zivotText, ikona: h.ikona }} obdobi={h.obdobi} velikost={34} />
             <span>{h.jmeno}</span>
           </button>
         {/each}
@@ -186,7 +186,8 @@
           <span>{OSA_HLASU.nikdo}</span>
         </button>
       </div>
-      <div class="volba__vety" class:volba__vety--plne={!!volba} aria-live="polite" data-cast="zpetna">
+      <div class={['volba__vety', volba && 'volba__vety--plne listek-paska bez-obdobi']} aria-live="polite" data-cast="zpetna">
+        {#if volba}<span class="paska paska--mala paska--nahore" aria-hidden="true"></span>{/if}
         {#if vety.vzdalenost}<p>{vety.vzdalenost}</p>{/if}
         {#if vety.nejdal}<p>{vety.nejdal}</p>{/if}
         {#if vety.nikdo}<p>{VETA_NIKDO.text}<a href={VETA_NIKDO.kotva}>{VETA_NIKDO.odkaz}</a></p>{/if}
@@ -218,30 +219,31 @@
   .osa__zlom { stroke: var(--ink-2); stroke-width: 1.5; stroke-linecap: round; }
   .osa__rok { font-size: var(--pismo); fill: var(--ink-2); font-variant-numeric: lining-nums; }
   .osa__rok--dnes { font-weight: 600; fill: var(--ink); }
-  .osa__doDneska { font-size: calc(var(--pismo) - 1px); fill: var(--muted); font-variant-numeric: lining-nums; }
-  .osa__spojka { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 3; }
-  .osa__pruh { fill: var(--pc); opacity: 0.55; }
+  .osa__doDneska { font-size: calc(var(--pismo) - 1px); fill: var(--ink-3); font-variant-numeric: lining-nums; }
+  .osa__spojka { stroke: var(--tuzka); stroke-width: 1; stroke-dasharray: 2 3; }
+  .osa__pruh { fill: var(--p); opacity: 0.55; }
 
   .m { cursor: pointer; text-decoration: none; }
   .m__plocha { fill: transparent; }
   .m__fokus { fill: none; stroke: transparent; stroke-width: 2.5; }
   .m:focus { outline: none; }
   .m:focus-visible .m__fokus { stroke: var(--ink); }
-  .m__kruh { fill: var(--surface); stroke: var(--pc); stroke-width: 1.5; transition: fill var(--pohyb) ease; }
-  .m__vnitrek { fill: var(--pc-tint); stroke: var(--pc-soft); stroke-width: 1; transition: fill var(--pohyb) ease; }
-  .m__ikona { color: var(--pc); }
+  /* Razítko člověka v polovině života (Po D4): dva kruhy v inkoustu období a atribut, papír pod nimi zakryje spojku. */
+  .m__kruh { fill: var(--list); stroke: var(--p); stroke-width: 2.4; transition: stroke-width var(--d-stisk) var(--k-stisk); }
+  .m__vnitrek { fill: none; stroke: var(--p); stroke-width: 1.2; transition: fill var(--d-stisk) var(--k-stisk); }
+  .m__ikona { color: var(--p); }
   /* Obrys v barvě papíru: čára značky „Ty“ k minci v nižším řádku jde za jménem, ne přes něj. */
-  .m__jmeno { font-size: var(--pismo); fill: var(--ink); font-weight: 500; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
-  .m:hover .m__kruh { fill: var(--pc-tint); }
-  .m--zvolena .m__kruh, .m--zvolena .m__vnitrek { fill: var(--pc); }
-  .m--zvolena .m__vnitrek { stroke: color-mix(in srgb, var(--paper) 45%, transparent); }
-  .m--zvolena .m__ikona { color: var(--paper); }
+  .m__jmeno { font-size: var(--pismo); fill: var(--ink); font-weight: 500; paint-order: stroke; stroke: var(--papir); stroke-width: 5px; stroke-linejoin: round; }
+  .m:hover .m__vnitrek { fill: color-mix(in srgb, var(--p) 10%, transparent); }
+  /* Zvolené razítko je otištěné silněji a vnitřek nese stopu inkoustu (ne plnou plochu). */
+  .m--zvolena .m__kruh { stroke-width: 4; }
+  .m--zvolena .m__vnitrek { fill: color-mix(in srgb, var(--p) 16%, transparent); stroke-width: 2; }
   .m--zvolena .m__jmeno { font-weight: 700; }
 
-  .ty__znacka { transition: transform var(--pohyb-kamera) ease; }
+  .ty__znacka { transition: transform var(--d-kamera) var(--k-list); }
   .ty__cara { fill: var(--ink); }
   .ty__stitek { fill: var(--ink); }
-  .ty__text { font-size: 13px; font-weight: 700; fill: var(--paper); }
+  .ty__text { font-size: 13px; font-weight: 700; fill: var(--na-inkoustu); }
 
   .volba { margin-top: var(--s-5); }
   .volba__vyzva { margin: 0 0 var(--s-3); font-family: var(--font-serif); font-size: var(--fs-h3); line-height: var(--lh-h3); }
@@ -251,10 +253,11 @@
     align-items: center;
     gap: var(--s-2);
     min-height: 44px;
-    padding: 6px var(--s-4) 6px 8px;
-    border: 1.5px solid var(--rule);
-    border-radius: var(--r-full);
-    background: var(--surface);
+    padding: 5px var(--s-4) 5px 6px;
+    border: 0;
+    border-radius: var(--r-plne);
+    background: var(--plocha);
+    box-shadow: var(--vyst-m);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--fs-ovladani);
@@ -262,13 +265,15 @@
     cursor: pointer;
   }
   .moznost--nikdo { padding-left: var(--s-4); }
-  .moznost:hover { border-color: var(--pc, var(--muted)); }
-  .moznost[aria-pressed='true'] { border: 2px solid var(--pc, var(--ink)); background: var(--pc-tint, var(--sunk)); font-weight: 700; }
-  .moznost--nikdo[aria-pressed='true'] { border-color: var(--ink); background: var(--sunk); }
+  .moznost { transition: transform var(--d-stisk) var(--k-stisk); }
+  @media (hover: hover) { .moznost:hover { transform: translateY(-1px); box-shadow: var(--zved); } }
+  .moznost:active { transform: translateY(1px); }
+  /* Zvolená možnost je vtlačená do papíru a jméno nese studentovo pero. */
+  .moznost[aria-pressed='true'] { background: var(--papir); box-shadow: var(--vtla); color: var(--pero); font-weight: 700; transform: none; }
   .moznost:focus { outline: none; }
   .moznost:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .volba__vety { max-width: var(--ctenarsky-sloupec); }
-  .volba__vety--plne { margin-top: var(--s-4); padding: var(--s-4) var(--s-5); border-radius: var(--r-sm); background: var(--sunk); }
+  .volba__vety--plne { margin-top: var(--s-5); }
   .volba__vety p { margin: 0; }
   .volba__vety p + p { margin-top: var(--s-3); }
   .volba__akce { margin-top: var(--s-3); }

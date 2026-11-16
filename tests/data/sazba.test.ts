@@ -30,6 +30,12 @@ describe('nezlomitelne', () => {
     expect(nezlomitelne('')).toBe('');
     expect(nezlomitelne('končí na a')).toBe('končí na a');
   });
+  it('nedělí letopočet (revize design-v2 R)', () => {
+    expect(nezlomitelne('V Athénách roku 423 př. n. l. hráli')).toBe(`V${N}Athénách roku 423${N}př.${N}n.${N}l. hráli`);
+    expect(nezlomitelne('asi 620–546 př. n. l.')).toBe(`asi 620–546${N}př.${N}n.${N}l.`);
+    expect(nezlomitelne('roku 121 n. l. zemřel')).toBe(`roku 121${N}n.${N}l. zemřel`);
+    expect(nezlomitelne('Athény, 423 př. n. l.')).toBe(`Athény, 423${N}př.${N}n.${N}l.`);
+  });
   it('texty bloků ji dostanou přes radek a odstavce', () => {
     expect(radek('Do kterého koše *která* patří a proč?')).toBe(`Do kterého koše <em>která</em> patří a${N}proč?`);
     expect(odstavce('Kdo vydrží, dokáže, že nic z\ntoho nepotřebuje.')).toEqual([`Kdo vydrží, dokáže, že nic z${N}toho nepotřebuje.`]);

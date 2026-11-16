@@ -1,11 +1,13 @@
 ---
-// Hlavička stránky období, směru, pokusu, úvodu a tradice: nadtitulek, název (h1, *kurzíva* nese pointu), perex.
-// Varianta `deska` (stránka období): plocha v barvě desky období s ornamentem, jako segment pásu období na Domů.
-// Bez desky stojí hlavička ve čtenářském sloupci a barvu období nese nadtitulek a mince.
+// Hlavička stránky období, směru, pokusu, úvodu a tradice (design-v2, K6): nadtitulek v inkoustu období, název na
+// vytrženém listu (titulek s pruhem jako u osob; *kurzíva* nese pointu), nepovinný pruh rukou, razítka lidí a perex.
+// Varianta `deska` (stránka období, Po D4): místo razítka místa odtržený lístek období z pásu na Domů s ornamentem,
+// číslem a krátkým jménem; pruh nese okno období. Bez období (úvody) je pruh v inkoustu.
 // <HlavickaStranky obdobi={1} nadtitulek="Směr · období 2" titulek="Stoicismus" perex="…" mince={[osoba]} />
 import type { TOsoba } from '../../lib/schema';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import { ornamenty } from '../../lib/ornamenty.js';
+import { obdobiPodleId } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
 import { radek } from '../../lib/bloky';
 
@@ -15,24 +17,36 @@ interface Props {
   titulek: string;
   perex: string;
   deska?: boolean;
+  /** pruh rukou pod názvem (u období okno období) */
+  pruh?: string;
+  /** lidé stránky jako razítka (zakladatel směru, osoby pokusu) */
   mince?: TOsoba[];
 }
-const { obdobi, nadtitulek, titulek, perex, deska = false, mince = [] } = Astro.props;
+const { obdobi, nadtitulek, titulek, perex, deska = false, pruh, mince = [] } = Astro.props;
 const orn = ornamenty.orn(obdobi - 1);
+const o = obdobiPodleId.get(obdobi);
+// Název jako věta s tečkou (jako „Sókratés.“ v profilu); otázka si nechá otazník.
+const nazev = /[.?!…]\**$/.test(titulek.trim()) ? titulek : `${titulek}.`;
 ---
-<header class:list={['hlavicka-stranky', { 'hlavicka-stranky--deska': deska }]} style={deska ? `--na-desce: var(--period-${obdobi}-on-plate); --deska: var(--period-${obdobi}-plate)` : undefined}>
-  {deska && (
-    <svg class="hlavicka-stranky__ornament" viewBox="0 0 160 128" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <path d={orn.solid} fill="currentColor" opacity="0.26" />
-      <path d={orn.line} fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.62" />
-    </svg>
-  )}
+<header class:list={['hlavicka-stranky', `obdobi-${obdobi}`, { 'hlavicka-stranky--deska': deska }]}>
   <div class="hlavicka-stranky__text">
-    <p class="t-nadtitulek hlavicka-stranky__nad">{nadtitulek}</p>
-    <h1 class="t-h1" set:html={radek(titulek)} />
+    {deska && o ? (
+      <p class="odtrzeny" aria-hidden="true">
+        <svg class="odtrzeny__orn" viewBox="0 0 160 128" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <path class="odtrzeny__s" d={orn.solid} />
+          <path class="odtrzeny__l" d={orn.line} />
+        </svg>
+        <b>období {o.id}</b><span>{o.kratce}</span>
+      </p>
+    ) : (
+      <p class="t-nadtitulek hlavicka-stranky__nad">{nadtitulek}</p>
+    )}
+    {deska && <p class="vizualne-skryte">{nadtitulek}</p>}
+    <div class="titulek hlavicka-stranky__titulek"><div class="titulek__list"><h1 class="titulek__jmeno" set:html={radek(nazev)} /></div></div>
+    {pruh && <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">{pruh}</span></p></div></div>}
     {mince.length > 0 && (
-      <div class="hlavicka-stranky__mince">
-        {mince.map((o) => <Mince osoba={o} varianta={deska ? 'ring' : 'tint'} velikost={44} />)}
+      <div class="hlavicka-stranky__razitka">
+        {mince.map((m) => <RazitkoCloveka osoba={m} velikost={64} popis />)}
       </div>
     )}
     <p class="t-perex hlavicka-stranky__perex">{nezlomitelne(perex)}</p>
@@ -41,47 +55,45 @@ const orn = ornamenty.orn(obdobi - 1);
 
 <style>
   .hlavicka-stranky { position: relative; padding: var(--s-6) 0 var(--s-5); }
-  .hlavicka-stranky__text { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
-  .hlavicka-stranky__nad { margin: 0 0 var(--s-3); color: var(--pc); }
-  h1 { margin: 0 0 var(--s-4); text-wrap: balance; }
-  h1 :global(em) { color: var(--ink-2); }
-  .hlavicka-stranky__mince { display: flex; gap: var(--s-2); margin: 0 0 var(--s-4); }
-  .hlavicka-stranky__perex { margin: 0; }
-  /* Deska: plocha přes šířku obsahu, ornament vpravo za textem maskovaný do ztracena; text v barvě „na desce“. */
-  .hlavicka-stranky--deska {
-    margin-top: var(--s-4);
-    padding: var(--s-7) var(--s-5) var(--s-6);
-    border-radius: var(--r-md);
-    background: var(--deska);
-    color: var(--na-desce);
-    overflow: hidden;
+  .hlavicka-stranky__text { max-width: 960px; margin-inline: auto; }
+  .hlavicka-stranky__nad { margin: 0 0 var(--s-4); color: var(--p); }
+  .hlavicka-stranky__titulek :global(em) { font-style: inherit; color: inherit; }
+  .hlavicka-stranky__razitka { display: flex; gap: var(--s-3); margin: var(--s-5) 0 0; }
+  .hlavicka-stranky__perex { max-width: var(--ctenarsky-sloupec); margin: var(--s-5) 0 0; }
+  /* Odtržený lístek období: týž papír, ornament a perforace jako lístek v pásu na Domů, pootočený nad titulkem. */
+  .odtrzeny {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 220px;
+    margin: 0 0 var(--s-5);
+    padding: 10px 16px 14px;
+    color: var(--na-papiru);
+    background: linear-gradient(155deg, rgb(255 255 255 / .08) 0%, rgb(255 255 255 / 0) 40%, rgb(0 0 0 / 0) 60%, rgb(0 0 0 / .14) 100%), var(--pp);
+    border-radius: var(--r-ovladani) 0 0 var(--r-ovladani);
+    box-shadow: var(--vyst), inset 1.5px 1.5px 0 rgb(255 255 255 / .18), inset -2px -3px 6px rgb(0 0 0 / .22);
+    text-shadow: 0 1px 0 rgb(0 0 0 / .18);
+    rotate: -3deg;
+    -webkit-mask: radial-gradient(circle at 100% 0, #0000 9px, #000 9.6px), radial-gradient(circle at 100% 100%, #0000 9px, #000 9.6px);
+    -webkit-mask-composite: source-in;
+    mask: radial-gradient(circle at 100% 0, #0000 9px, #000 9.6px), radial-gradient(circle at 100% 100%, #0000 9px, #000 9.6px);
+    mask-composite: intersect;
   }
-  .hlavicka-stranky--deska .hlavicka-stranky__nad,
-  .hlavicka-stranky--deska h1,
-  .hlavicka-stranky--deska h1 :global(em),
-  .hlavicka-stranky--deska .hlavicka-stranky__perex { color: var(--na-desce); }
-  /* Telefon: ornament je pruh nad textem (jako v segmentu pásu období), text pod ním nic nepřekrývá. */
-  .hlavicka-stranky__ornament {
-    position: absolute;
-    inset: 0 0 auto 0;
-    width: 100%;
-    height: 88px;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+  /* Natržená perforace na pravé hraně (tečky v barvě papíru stránky). */
+  .odtrzeny::after { content: ""; position: absolute; right: 1px; top: 12px; bottom: 12px; width: 6px; background: radial-gradient(circle at 3px 50%, var(--papir) 0 1.9px, transparent 2.5px) 0 2px / 6px 10px repeat-y; }
+  .odtrzeny__orn {
+    display: block;
+    width: calc(100% + 32px);
+    height: 76px;
+    margin: -10px -16px 2px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 50%, transparent 96%);
+    mask-image: linear-gradient(180deg, #000 0, #000 50%, transparent 96%);
   }
-  .hlavicka-stranky--deska { padding-top: calc(88px + var(--s-3)); }
-  .hlavicka-stranky--deska .hlavicka-stranky__text { position: relative; margin-inline: 0; }
-  @media (min-width: 900px) {
-    .hlavicka-stranky { padding-top: var(--s-7); }
-    .hlavicka-stranky--deska { padding: var(--s-8) var(--s-8) var(--s-7); }
-    /* Notebook: ornament vpravo přes celou výšku desky, text vlevo v nejvýš 56 % šířky, takže se nepotkají. */
-    .hlavicka-stranky__ornament {
-      inset: 0 0 auto auto;
-      width: min(44%, 520px);
-      height: 100%;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
-      mask-image: linear-gradient(90deg, transparent, #000 40%);
-    }
-    .hlavicka-stranky--deska .hlavicka-stranky__text { max-width: min(var(--ctenarsky-sloupec), 56%); }
-  }
+  .odtrzeny__s { fill: currentColor; opacity: .26; }
+  .odtrzeny__l { fill: none; stroke: currentColor; stroke-width: 1.4; opacity: .62; }
+  .odtrzeny b { font: 600 13px var(--font-sans); }
+  .odtrzeny span { font-size: 20px; line-height: 1.15; }
+  @media (min-width: 900px) { .hlavicka-stranky { padding-top: var(--s-7); } }
+  @media (max-width: 699px) { .odtrzeny { width: 190px; } }
 </style>

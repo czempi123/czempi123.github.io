@@ -4,7 +4,7 @@
 // s názvem svého směru. Tradovaný vztah nese „vypráví se“. Nic se nepíše ručně; prázdný rodokmen se neukáže.
 // Použití v MDX: <Rodokmen smer="stoicismus" />
 import { getCollection } from 'astro:content';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import { data, osoba as najdiOsobu } from '../../lib/data';
 import { rodokmenSmeru, ODDIL_RODOKMEN } from '../../lib/stranky';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
@@ -25,7 +25,7 @@ const odkaz = (id: string) => adresa(id);
     <ol class="rodokmen__osa">
       {clanky.map((c) => (
         <li class:list={['clanek', `obdobi-${c.osoba.obdobi}`, { 'clanek--mimo': !c.clen }]}>
-          <span class="clanek__mince" aria-hidden="true"><Mince osoba={c.osoba} varianta="tint" velikost={40} /></span>
+          <span class="clanek__mince" aria-hidden="true"><RazitkoCloveka osoba={c.osoba} velikost={56} /></span>
           <div class="clanek__text">
             <p class="clanek__roky t-popisek t-letopocet">{zivot(c.osoba)}{!c.clen && c.osoba.smery.length > 0 && <> · {c.osoba.smery.map((s) => nazvySmeru.get(s) ?? s).join(', ')}</>}</p>
             <h3 class="clanek__jmeno">{odkaz(c.osoba.id) ? <a href={odkaz(c.osoba.id)}>{c.osoba.jmeno}</a> : c.osoba.jmeno}</h3>
@@ -55,15 +55,15 @@ const odkaz = (id: string) => adresa(id);
   .rodokmen__nadpis:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .rodokmen__osa { position: relative; margin: 0; padding: 0; list-style: none; }
   /* Svislá linka středem mincí. */
-  .rodokmen__osa::before { content: ''; position: absolute; left: 19px; top: 20px; bottom: 20px; width: 2px; background: var(--rule); }
-  .clanek { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-5); }
-  .clanek__mince { position: relative; }
-  .clanek__text { min-width: 0; padding-top: 2px; }
-  .clanek__roky { margin: 0; color: var(--pc); font-weight: 600; }
+  .rodokmen__osa::before { content: ''; position: absolute; left: 27px; top: 28px; bottom: 28px; width: 0; border-left: 2px dashed var(--tuzka); }
+  .clanek { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-5); }
+  .clanek__mince { position: relative; border-radius: var(--r-plne); background: var(--papir); }
+  .clanek__text { min-width: 0; padding-top: 6px; }
+  .clanek__roky { margin: 0; color: var(--p); font-weight: 600; }
   .clanek__jmeno { margin: 2px 0 var(--s-1); font-size: 21px; line-height: 1.25; font-weight: 400; }
   .clanek__vztah { margin: 0; color: var(--ink-2); }
-  .clanek__role { color: var(--muted); }
-  .clanek__vypravi { color: var(--muted); }
+  .clanek__role { color: var(--ink-3); }
+  .clanek__vypravi { color: var(--ink-3); }
   .clanek--mimo .clanek__jmeno { color: var(--ink-2); }
-  .clanek--mimo .clanek__roky { color: var(--muted); font-weight: 400; }
+  .clanek--mimo .clanek__roky { color: var(--ink-3); font-weight: 400; }
 </style>

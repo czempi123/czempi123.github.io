@@ -100,9 +100,12 @@ test('kresba jeskyně: stíny se hýbou, pohyb jde zastavit a pustit; ovládán�
   await page.keyboard.press('Tab');
   await expect(kresba.getByRole('button', { name: 'Pustit pohyb' })).toBeFocused();
   // Prvek s fokusem nezůstane pod pevnou spodní lištou kroku.
-  const dole = await kresba.getByRole('button').evaluate((e) => e.getBoundingClientRect().bottom);
-  const lista = await page.locator('.cesta-lista').evaluate((e) => e.getBoundingClientRect().top);
-  expect(dole).toBeLessThanOrEqual(lista);
+  // Stránka má plynulý posun: tlačítko pod lištu nezajede, ale měří se až po dojetí posunu.
+  await expect.poll(async () => {
+    const dole = await kresba.getByRole('button').evaluate((e) => e.getBoundingClientRect().bottom);
+    const lista = await page.locator('.cesta-lista').evaluate((e) => e.getBoundingClientRect().top);
+    return dole - lista;
+  }).toBeLessThanOrEqual(0);
   await page.keyboard.press('Space');
   await expect(kresba.getByRole('button', { name: 'Zastavit pohyb' })).toBeVisible();
   expect(await stav('.plamen')).toBe('running');
@@ -194,9 +197,12 @@ test('kresba cesty ven: dvojice jde nahoru, pohyb jde zastavit; přepínač a po
   expect(await stav('.hvezda')).toBe('paused');
   await page.keyboard.press('Tab');
   await expect(kresba.getByRole('button', { name: 'Pustit pohyb' })).toBeFocused();
-  const dole = await kresba.getByRole('button').evaluate((e) => e.getBoundingClientRect().bottom);
-  const lista = await page.locator('.cesta-lista').evaluate((e) => e.getBoundingClientRect().top);
-  expect(dole).toBeLessThanOrEqual(lista);
+  // Stránka má plynulý posun: tlačítko pod lištu nezajede, ale měří se až po dojetí posunu.
+  await expect.poll(async () => {
+    const dole = await kresba.getByRole('button').evaluate((e) => e.getBoundingClientRect().bottom);
+    const lista = await page.locator('.cesta-lista').evaluate((e) => e.getBoundingClientRect().top);
+    return dole - lista;
+  }).toBeLessThanOrEqual(0);
   await page.keyboard.press('Enter');
   expect(await stav('.hvezda')).toBe('running');
 });

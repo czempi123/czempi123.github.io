@@ -44,18 +44,20 @@
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.DvePulky} nazev={NAZVY_KRESEB.DvePulky} pohledy={POHLEDY} bind:pohled popis={popisKarty(k, roztrzena, index)} maPohyb={false}>
   {#snippet kresba()}
-    <rect class="k-tma" width="340" height="240" />
+    <!-- Koláž (K7b): karta je výstřižek z listu na tečkovaném papíře; roztržená pravá půlka ustoupí do lístkového
+         papíru a k ní patří tužka. Barva období jen na pásce: drží moji půlku. -->
     <text class="k-popisek" x="170" y="32" text-anchor="middle">{k.titulek}</text>
 
     <g class="pulka pulka-leva" class:roztrzena>
-      <path class="list" d={LEVA} />
+      <path class="list k-vystrih" d={LEVA} />
+      <rect class="paska-karty" class:je={roztrzena} x="22" y="50" width="34" height="9" transform="rotate(-24 39 54)" />
       <text class="stitek" x="100" y="76" text-anchor="middle">{NAZEV_MOJI}</text>
       {#each k.moje as radek, i (i)}
         <text class="veta" x="100" y={yRadku(k.moje.length, i)} text-anchor="middle">{radek}</text>
       {/each}
     </g>
     <g class="pulka pulka-prava" class:roztrzena>
-      <path class="list" d={PRAVA} />
+      <path class="list k-vystrih" d={PRAVA} />
       <text class="stitek" x="240" y="76" text-anchor="middle">{k.cizi}</text>
       {#each vpravo.radky as radek, i (i)}
         <text class="veta" x="240" y={yRadku(vpravo.radky.length, i)} text-anchor="middle">{radek}</text>
@@ -86,16 +88,17 @@
 
 <style>
   /* Půlky jsou z jednoho listu: dokud je karta celá, mají stejnou barvu i obrys a šev není vidět. */
-  .pulka { transform-box: fill-box; transform-origin: center; transition: transform var(--pohyb-kamera) cubic-bezier(0.22, 0.61, 0.36, 1); }
-  .list { fill: var(--k-svetlo); stroke: var(--k-svetlo); stroke-width: 1; stroke-linejoin: round; transition: fill var(--pohyb), stroke var(--pohyb); }
-  .veta { font-family: var(--font-serif); font-size: 15px; font-style: italic; fill: var(--k-tma); transition: fill var(--pohyb); }
-  .stitek { font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; fill: var(--k-stin); opacity: 0; transition: opacity var(--pohyb), fill var(--pohyb); }
+  .pulka { transform-box: fill-box; transform-origin: center; transition: transform var(--d-kamera) var(--k-papir); }
+  .list { fill: var(--list); stroke: var(--list); stroke-width: 1; stroke-linejoin: round; transition: fill var(--d-listek), stroke var(--d-listek); }
+  .veta { font-family: var(--font-serif); font-size: 15px; font-style: italic; fill: var(--ink); }
+  .stitek { font-family: var(--font-sans); font-size: 11.5px; font-weight: 600; fill: var(--ink-2); opacity: 0; transition: opacity var(--d-listek); }
+  .paska-karty { fill: color-mix(in srgb, var(--pp) 60%, transparent); opacity: 0; transition: opacity var(--d-listek); }
+  .paska-karty.je { opacity: 1; }
 
-  /* Roztržená: levá půlka zůstane světlá, pravá ustoupí do barvy desky. */
+  /* Roztržená: levá půlka zůstane bílá a přilepená páskou, pravá ustoupí do lístkového papíru. */
   .pulka-leva.roztrzena { transform: translate(-7px, -2px) rotate(-2deg); }
   .pulka-prava.roztrzena { transform: translate(7px, 3px) rotate(2deg); }
   .roztrzena .stitek { opacity: 1; }
-  .pulka-prava.roztrzena .list { fill: var(--k-stin); stroke: var(--k-stin); }
-  .pulka-prava.roztrzena .veta,
-  .pulka-prava.roztrzena .stitek { fill: var(--k-svetlo); }
+  .pulka-prava.roztrzena .list { fill: var(--listek); stroke: var(--listek); }
+  .pulka-prava.roztrzena .veta { fill: var(--ink-2); }
 </style>

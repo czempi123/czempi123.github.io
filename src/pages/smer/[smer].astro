@@ -27,12 +27,11 @@ const zakladatel = fm.zakladatel ? osoba(fm.zakladatel) : undefined;
 const prameny = await pramenyZTextu(zaznam.body, { prameny: vztahyRodokmenu(id, data.lide, data.vztahy).map((v) => v.zdroj) });
 const stranka = `/smer/${id}/`;
 ---
-<Zakladni
+<Zakladni obdobi={obdobi.id}
   titulek={fm.nazev}
   popis={`${fm.nazev}: ${fm.perex}`}
   sekce="lide"
   zpet={{ href: '/lide/', text: 'Lidé a směry' }}
-  kratkyTitulek={fm.nazev}
   drobecky={[
     { text: 'Lidé a směry', href: '/lide/' },
     { text: obdobi.nazev, href: odkazy.obdobi(obdobi.id) },

@@ -4,6 +4,9 @@
   // Přehrát život (karta člověka, oddíl Život na mapě): rok projede život vybraného člověka a na každé zastávce
   // vteřinu postojí. Adresa se během přehrávání přepisuje; do historie přibude jediný záznam (první posun roku),
   // který na konci nese rok, kde přehrávání skončilo. Zastaví ho jakýkoli zásah do času, jiný člověk i zavření karty.
+  // První návštěva (design-v2, K7a): jen mapa, rok a jedna výprava; řeka životů, navazující a přehled všech žijících
+  // jsou pod „Víc“ (zapamatuje si localStorage). Kdo přijde odkazem s člověkem nebo se srovnáním, dostane mapu celou.
+  // U lidí, které student už potkal (deník: stránky a prošlé cesty), je razítko.
   import { onMount, onDestroy, untrack, tick } from 'svelte';
   import type { PodkladObdobi } from '../../lib/mapa';
   import type { VstupMapy, OsobaV } from '../../lib/mapa-vstup';
@@ -12,19 +15,26 @@
   } from '../../lib/cas-mapy';
   import { rok as rokText } from '../../lib/casy';
   import { prectiAdresu, zapisAdresu } from '../../lib/adresa-mapy';
-  import { zastavkyZivota, maZastavky, planPrehravani, rokVCase, casProRok, PREHRAVANI, type NastaveniPrehravani } from '../../lib/zivot-na-mape';
+  import { zastavkyZivota, maZastavky, planPrehravani, rokVCase, rokyMeziSnimky, casProRok, PREHRAVANI, type NastaveniPrehravani } from '../../lib/zivot-na-mape';
   import Mapa from './Mapa.svelte';
   import Posuvnik from './Posuvnik.svelte';
   import Reka from './Reka.svelte';
   import PasObdobi from './PasObdobi.svelte';
   import KartaCloveka from './KartaCloveka.svelte';
-  import Mince from './Mince.svelte';
+  import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
+  import { razitkoOsoby, PRVNI_VYPRAVA, KLIC_MAPA_VIC } from '../../lib/mapa-listky';
+  import { potkaniFilozofove, type MapaPotkanych } from '../../lib/zapisnik';
+  import { nacti } from '../../lib/denik';
+  import { ROLE_MISTA } from '../../lib/cas-mapy';
+  import { obarviLogo } from '../../lib/logo';
 
   interface Props {
     vstup: VstupMapy;
     vychoziRok?: number;
+    /** adresy stránek osob a filozofové cest: z deníku se pozná, koho student potkal */
+    potkaniMapa?: MapaPotkanych;
   }
-  let { vstup, vychoziRok = -360 }: Props = $props();
+  let { vstup, vychoziRok = -360, potkaniMapa }: Props = $props();
 
   const podleId = new Map(vstup.lide.map((o) => [o.id, o]));
   const mista = new Map(vstup.mista.map((m) => [m.id, m]));
@@ -33,6 +43,8 @@
   // ── Stav ───────────────────────────────────────────────────────────────────
   let rok = $state(untrack(() => vychoziRok));
   let obdobi = $state(obdobiProRok(untrack(() => vstup.obdobi), untrack(() => vychoziRok)));
+  // Velké A v logu hlavičky nese papír zvoleného období (src/lib/logo.ts).
+  $effect(() => obarviLogo(obdobi));
   let osobaId: string | undefined = $state();
   let srovnatId: string | undefined = $state();
   let stin = $state(false);
@@ -43,9 +55,24 @@
   let sirkaOkna = $derived(telefon ? 160 : 240);
   let okno: [number, number] = $state(oknoReky(untrack(() => vychoziRok), 240, untrack(() => vstup.rozsah)));
   let podklad: PodkladObdobi | null = $state(null);
+  // Úplná mapa (řeka, navazující, všichni žijící) až po „Víc“; při sestavení úplná, aby nic neproblikávalo
+  // u toho, kdo ji už zná (první návštěvu pozná až prohlížeč).
+  let vic = $state(true);
+  let potkani = $state(new Set<string>());
+  function ukazVic() {
+    vic = true;
+    try { localStorage.setItem(KLIC_MAPA_VIC, '1'); } catch { /* bez úložiště jen pro tuto návštěvu */ }
+  }
 
   let osoba = $derived(osobaId ? podleId.get(osobaId) : undefined);
   let zastavky = $derived(osoba && maZastavky(osoba) ? zastavkyZivota(osoba) : []);
+  // První výprava: splněná, když je vybraný její člověk v jejím roce; odpověď skládají data.
+  let vypravaSplnena = $derived(osobaId === PRVNI_VYPRAVA.osoba && rok === PRVNI_VYPRAVA.rok);
+  let odpovedVypravy = $derived.by(() => {
+    const o = podleId.get(PRVNI_VYPRAVA.osoba);
+    const k = o ? kdeVRoce(o, PRVNI_VYPRAVA.rok) : null;
+    return k ? `${mista.get(k.misto)?.nazev ?? ''}, ${ROLE_MISTA[k.role]}.` : '';
+  });
   let zijici = $derived(vstup.lide.filter((o) => zijeVRoce(o, rok)));
   let stinLide = $derived(stin ? stinOdkazu(vstup.lide, vstup.vztahy, rok) : []);
 
@@ -229,9 +256,17 @@
     prehrava = true;
     prvniPosun = true;
     if (casProRok(plan, rok) === 0 && rok !== plan.od) posunPrehravani(plan.od, o);
+    // Historie přehrávání: roky, kterými prošlo, i zastávky, které snímek při zátěži přeskočil (rokyMeziSnimky).
+    // Testy ji čtou z háčku window.atlasPrehravani.historie, když háček existuje (jinak se nikam neukládá).
+    const hacek = (globalThis as { atlasPrehravani?: { historie?: number[] } }).atlasPrehravani;
+    const historie: number[] = [rok];
+    if (hacek) hacek.historie = historie;
+    let predtim = casProRok(plan, rok) - 1;
     const krok = (ted: number) => {
       if (!prehrava) return;
       const t = ted - zacatek;
+      for (const h of rokyMeziSnimky(plan, predtim, t)) if (historie[historie.length - 1] !== h) historie.push(h);
+      predtim = t;
       const r = rokVCase(plan, t);
       if (r !== rok) posunPrehravani(r, o);
       if (t >= plan.celkem) {
@@ -265,6 +300,14 @@
     mqTelefon.addEventListener('change', zmenaMedii);
     mqPohyb.addEventListener('change', zmenaMedii);
     const stav = prectiAdresy();
+    try {
+      const d = nacti();
+      if (potkaniMapa) potkani = new Set(potkaniFilozofove(d, potkaniMapa));
+    } catch { /* bez deníku bez razítek */ }
+    let videl = false;
+    try { videl = localStorage.getItem(KLIC_MAPA_VIC) === '1'; } catch {}
+    vic = videl || !!stav.osoba || !!stav.srovnat || stav.stin || !!stav.zivot;
+    document.documentElement.removeAttribute('data-mapa-prvni');
     // Z odkazu „Přehrát život na mapě“: karta otevřená, fokus na Přehrát (při omezeném pohybu na Další zastávka).
     if (stav.zivot && osobaId) {
       zalozka = 'clovek';
@@ -287,7 +330,7 @@
   };
 </script>
 
-<div class="mac obdobi-{obdobi}" data-zalozka={zalozka}>
+<div class="mac obdobi-{obdobi}" class:mac--prvni={!vic} data-zalozka={zalozka}>
   <div class="mac__pas">
     <PasObdobi
       obdobi={vstup.obdobi}
@@ -310,11 +353,16 @@
     <Mapa
       {podklad}
       lide={naMape}
+      vsichni={vstup.lide}
+      udalosti={vstup.udalosti}
       {stinLide}
       {mista}
       {rok}
       vybrany={osobaId}
       {stin}
+      {vic}
+      {potkani}
+      {telefon}
       {zprava}
       {omezitPohyb}
       onvyber={(id) => vyber(id, 'mapa')}
@@ -330,7 +378,7 @@
           {#each mezitim as o (o.id)}
             <li class="obdobi-{o.obdobi}">
               <button type="button" onclick={() => vyber(o.id, 'mapa')} aria-pressed={o.id === osobaId}>
-                <Mince ikona={o.atribut?.ikona} obdobi={o.obdobi} varianta={o.id === osobaId ? 'sel' : 'ring'} velikost={24} />
+                {#if potkani.has(o.id)}<RazitkoCloveka razitko={razitkoOsoby(o, mista)} obdobi={o.obdobi} velikost={28} />{/if}
                 <span><strong>{o.jmeno}</strong> <small>{[vekKratce(o), mista.get(kdeVRoce(o, rok)?.misto ?? '')?.nazev].filter(Boolean).join(' · ')}</small></span>
               </button>
             </li>
@@ -343,6 +391,7 @@
   <div class="mac__posuvnik">
     <Posuvnik
       {rok}
+      zije={zijici.length}
       {okno}
       rozsah={vstup.rozsah}
       {kotvy}
@@ -357,16 +406,31 @@
     />
   </div>
 
+  {#if vic}
   <div class="mac__zalozky" role="tablist" aria-label="Panel">
     <button type="button" role="tab" id="tab-clovek" aria-controls="panel-karta" aria-selected={zalozka === 'clovek'} onclick={() => (zalozka = 'clovek')}>Člověk{osoba ? `: ${osoba.jmeno}` : ''}</button>
     <button type="button" role="tab" id="tab-reka" aria-controls="panel-reka" aria-selected={zalozka === 'reka'} onclick={() => (zalozka = 'reka')}>Řeka životů</button>
   </div>
 
   <div class="mac__reka" id="panel-reka" role={telefon ? 'tabpanel' : undefined} aria-labelledby={telefon ? 'tab-reka' : undefined}>
-    <Reka lide={vstup.lide} vztahy={vstup.vztahy} {mista} {rok} {okno} vybrany={osobaId} {telefon} onvyber={(id) => vyber(id, 'reka')} />
+    <Reka lide={vstup.lide} vztahy={vstup.vztahy} {mista} {rok} {okno} vybrany={osobaId} {telefon} obdobi={vstup.obdobi} onvyber={(id) => vyber(id, 'reka')} />
   </div>
+  {/if}
 
-  <aside class="mac__karta" id="panel-karta" role={telefon ? 'tabpanel' : undefined} aria-labelledby={telefon ? 'tab-clovek' : undefined} aria-label={telefon ? undefined : 'Karta člověka'}>
+  <aside class="mac__karta" id="panel-karta" role={telefon && vic ? 'tabpanel' : undefined} aria-labelledby={telefon && vic ? 'tab-clovek' : undefined} aria-label={telefon && vic ? undefined : 'Karta člověka'}>
+    {#if !vic}
+      <div class="vyprava listek-paska" class:vyprava--splnena={vypravaSplnena} aria-labelledby="vyprava-otazka">
+        <p class="vyprava__nad">Výprava</p>
+        <h2 class="vyprava__otazka" id="vyprava-otazka">{PRVNI_VYPRAVA.otazka}</h2>
+        {#if vypravaSplnena}
+          <p class="vyprava__sedi" role="status"><span class="vyprava__razitko">Sedí</span> {odpovedVypravy}</p>
+        {:else}
+          <p class="vyprava__pokyn">{PRVNI_VYPRAVA.pokyn}</p>
+        {/if}
+        <button type="button" class="blok__tl blok__tl--vedlejsi vyprava__vic" onclick={ukazVic}>Víc: řeka životů a kdo všechno žije</button>
+      </div>
+    {/if}
+    {#if vic || osoba}
     <KartaCloveka
       {osoba}
       {rok}
@@ -390,16 +454,19 @@
       onprehrat={prehrat}
       onzastavit={() => zastavPrehravani()}
       onzastavka={naZastavku}
+      {potkani}
     />
+    {/if}
   </aside>
 </div>
 
 <style>
+  /* Notebook: pás období, výstřižek mapy, posuvník a řeka vlevo, vpravo karta člověka (nebo výprava) na tečkách. */
   .mac {
     --zlab: 208px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 408px;
-    grid-template-rows: 44px minmax(240px, 1fr) 72px clamp(196px, calc(100dvh - var(--hlavicka) - 44px - 72px - 400px), 296px);
+    grid-template-columns: minmax(0, 1fr) 420px;
+    grid-template-rows: 48px minmax(240px, 1fr) 76px clamp(196px, calc(100dvh - var(--hlavicka) - 48px - 76px - 400px), 296px);
     grid-template-areas:
       'pas karta'
       'mapa karta'
@@ -407,76 +474,115 @@
       'reka karta';
     height: calc(100dvh - var(--hlavicka) - 1px);
     min-height: 560px;
-    background: var(--paper);
   }
-  .mac__pas { grid-area: pas; padding: 8px var(--s-4) 0 var(--s-4); }
-  .mac__mapa { grid-area: mapa; position: relative; min-height: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .mac__posuvnik { grid-area: posuvnik; background: var(--surface); }
-  .mac__reka { grid-area: reka; min-height: 0; background: var(--surface); border-top: 1px solid var(--rule); }
-  .mac__karta { grid-area: karta; min-height: 0; overflow-y: auto; background: var(--surface); border-left: 1px solid var(--rule); scrollbar-width: thin; }
+  /* První návštěva: bez řeky, mapa je vyšší. Před hydratací to pozná skript na stránce (data-mapa-prvni). */
+  .mac--prvni, :global(html[data-mapa-prvni]) .mac {
+    grid-template-rows: 48px minmax(240px, 1fr) 76px;
+    grid-template-areas: 'pas karta' 'mapa karta' 'posuvnik karta';
+  }
+  :global(html[data-mapa-prvni]) .mac :is(.mac__reka, .mac__zalozky) { display: none; }
+  .mac__pas { grid-area: pas; padding: 10px var(--s-5) 0 var(--s-5); }
+  .mac__mapa { grid-area: mapa; position: relative; min-height: 0; padding: 18px var(--s-5) 8px var(--s-6); }
+  /* Posuvník má vpravo stejný okraj jako řeka pod ním: jezdec musí sedět na čáru roku v řece. */
+  .mac__posuvnik { grid-area: posuvnik; padding-right: var(--s-4); }
+  .mac__reka { grid-area: reka; min-height: 0; margin: 0 var(--s-4) 0 0; background: var(--list); box-shadow: var(--lezi); }
+  .mac__karta { grid-area: karta; min-height: 0; overflow-y: auto; scrollbar-width: thin; padding-bottom: var(--s-4); }
   .mac__zalozky { display: none; }
 
   .mezitim {
     position: absolute;
-    right: var(--s-3);
-    bottom: var(--s-3);
+    right: calc(var(--s-5) + 22px);
+    bottom: 32px;
+    z-index: 8;
     max-width: 260px;
     padding: var(--s-2) var(--s-3);
-    border-radius: var(--r-sm);
-    background: color-mix(in srgb, var(--surface) 95%, transparent);
-    box-shadow: var(--stin-mapa), 0 0 0 1px var(--rule);
+    background: var(--listek);
+    box-shadow: var(--lezi);
     font-family: var(--font-sans);
+    rotate: calc(.8deg * var(--natoceni));
   }
-  .mezitim__nadpis { margin: 0 0 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .mezitim__nadpis { margin: 0 0 4px; font-size: var(--fs-nadtitulek); font-weight: 600; letter-spacing: var(--ls-nadtitulek); text-transform: uppercase; color: var(--ink-3); }
   .mezitim ul { margin: 0; padding: 0; list-style: none; }
-  .mezitim button { display: flex; align-items: center; gap: 8px; padding: 2px 0; border: 0; background: none; text-align: left; font-size: 14px; line-height: 1.25; cursor: pointer; }
-  .mezitim small { display: block; font-size: 12px; color: var(--muted); }
-  .mezitim button:hover strong { text-decoration: underline; }
+  .mezitim button { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 2px 0; border: 0; background: none; color: var(--ink); text-align: left; font-size: 14px; line-height: 1.25; cursor: pointer; }
+  .mezitim button[aria-pressed='true'] strong { text-decoration: underline; text-decoration-color: var(--p); text-decoration-thickness: 2px; }
+  .mezitim small { display: block; font-size: 12px; color: var(--ink-3); }
+  @media (hover: hover) { .mezitim button:hover strong { text-decoration: underline; } }
+
+  /* Výprava při první návštěvě: lístek s páskou, otázka, pokyn, po splnění razítko „Sedí“ (bez červené a zelené). */
+  .vyprava { margin: var(--s-6) var(--s-4) var(--s-2); font-family: var(--font-sans); }
+  .vyprava__nad { margin: 0 0 var(--s-1); font-size: var(--fs-nadtitulek); font-weight: 600; letter-spacing: var(--ls-nadtitulek); text-transform: uppercase; color: var(--ink-3); }
+  .vyprava__otazka { margin: 0; font-family: var(--font-serif); font-size: 26px; font-weight: 400; line-height: 1.15; color: var(--ink); }
+  .vyprava__pokyn, .vyprava__sedi { margin: var(--s-2) 0 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
+  .vyprava__sedi { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; color: var(--ink); }
+  .vyprava__razitko {
+    display: inline-block;
+    padding: 2px 10px 3px;
+    border: 2px solid var(--p);
+    outline: 1px solid var(--p);
+    outline-offset: 2px;
+    border-radius: var(--r-razitko);
+    color: var(--p);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    rotate: -6deg;
+  }
+  .vyprava__vic { margin-top: var(--s-4); }
+  .vyprava--splnena .vyprava__razitko { animation-name: razitko-dopad; animation-duration: var(--d-listek); animation-timing-function: var(--k-dopad); animation-fill-mode: both; }
+  @media (prefers-reduced-motion: reduce) { .vyprava--splnena .vyprava__razitko { animation: none; } }
 
   @media (max-width: 1100px) and (min-width: 900px) {
-    .mac { --zlab: 176px; grid-template-columns: minmax(0, 1fr) 360px; }
+    .mac { --zlab: 176px; grid-template-columns: minmax(0, 1fr) 372px; }
   }
   @media (max-width: 899px) {
     .mac {
       --zlab: 16px;
       grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: 40px 300px 76px 44px minmax(0, 1fr);
+      grid-template-rows: 46px 300px 80px 44px minmax(0, 1fr);
       grid-template-areas: 'pas' 'mapa' 'posuvnik' 'zalozky' 'list';
       height: calc(100dvh - var(--hlavicka) - var(--spodni-lista) - env(safe-area-inset-bottom));
       min-height: 520px;
     }
-    .mac[data-zalozka='reka'] { grid-template-rows: 40px 200px 76px 44px minmax(0, 1fr); }
-    .mac__pas { padding: 6px var(--s-3) 0; }
+    .mac[data-zalozka='reka'] { grid-template-rows: 46px 200px 80px 44px minmax(0, 1fr); }
+    .mac--prvni, :global(html[data-mapa-prvni]) .mac { grid-template-rows: 46px 320px 80px minmax(0, 1fr); grid-template-areas: 'pas' 'mapa' 'posuvnik' 'list'; }
+    .mac__pas { padding: 8px 0 0 var(--s-3); }
+    .mac__mapa { padding: 14px var(--s-4) 6px; }
     .mac__zalozky {
       grid-area: zalozky;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      background: var(--surface);
-      border-top: 1px solid var(--rule);
-      box-shadow: var(--stin-list);
-      border-radius: var(--r-md) var(--r-md) 0 0;
+      gap: 6px;
+      padding: 0 var(--s-3);
       z-index: 2;
     }
     .mac__zalozky button {
       min-height: 44px;
       padding: 0 var(--s-3);
       border: 0;
-      border-bottom: 2px solid transparent;
-      background: none;
+      border-radius: var(--r-ovladani) var(--r-ovladani) 0 0;
+      background: var(--plocha);
+      box-shadow: var(--vyst-m);
+      color: var(--ink-2);
       font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 600;
-      color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: pointer;
     }
-    .mac__zalozky button[aria-selected='true'] { color: var(--ink); border-bottom-color: var(--pc); }
-    .mac__reka, .mac__karta { grid-area: list; border: 0; }
+    .mac__zalozky button[aria-selected='true'] { background: var(--list); box-shadow: var(--lista-stin); color: var(--ink); }
+    .mac__reka, .mac__karta { grid-area: list; }
+    .mac__reka { margin: 0; }
+    .mac__karta { background: none; }
     .mac[data-zalozka='clovek'] .mac__reka { display: none; }
     .mac[data-zalozka='reka'] .mac__karta { display: none; }
-    .mac__posuvnik { --posuvnik-rok: 22px; border-top: 1px solid var(--rule); }
-    .mezitim { right: var(--s-2); bottom: var(--s-2); max-width: 200px; padding: 6px 10px; }
+    .mac--prvni .mac__karta { display: block !important; }
+    .mac__posuvnik { --posuvnik-rok: 22px; padding-right: 0; }
+    .mezitim { right: calc(var(--s-4) + 14px); bottom: 22px; max-width: 200px; padding: 6px 10px; }
+    .vyprava { margin: var(--s-5) var(--s-3) var(--s-2); }
+    .vyprava__otazka { font-size: 22px; }
   }
 </style>

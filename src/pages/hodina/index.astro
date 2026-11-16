@@ -5,7 +5,7 @@
 import Zakladni from '../../layouts/Zakladni.astro';
 import HodinaStudent from '../../components/hodina/HodinaStudent.svelte';
 ---
-<Zakladni titulek="Hodina" popis="Hodina z míst v atlasu: kroky cest, bloky, kapitoly a hlasy v pořadí, jak je učitel složil." kratkyTitulek="Hodina" hledat={false}>
+<Zakladni titulek="Hodina" popis="Hodina z míst v atlasu: kroky cest, bloky, kapitoly a hlasy v pořadí, jak je učitel složil." hledat={false}>
   <div class="stranka ctenarsky hodina">
     <HodinaStudent client:load />
   </div>

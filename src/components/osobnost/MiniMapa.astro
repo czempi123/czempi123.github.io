@@ -2,35 +2,15 @@
 // Výřez mapy s místy, kde osoba žila, bojovala a zemřela. Podklad se počítá při sestavení z Natural Earth.
 // Výřez: výchozí egejský, dokud se do něj vejdou všechna místa osoby; jinak podle míst (src/lib/mapa.ts, vyrezMiniMapy).
 import type { TOsoba } from '../../lib/schema';
-import { mistaPodleId } from '../../lib/data';
 import { podklad, umisteniPopisku, vyrezMiniMapy, type MistoMiniMapy, type Vyrez } from '../../lib/mapa';
-import { rok as fmtRok } from '../../lib/casy';
-import { ROLE_UDALOSTI } from '../../lib/cas-mapy';
+import { klicVyrezu, mistaMiniMapy, sdileneVyrezy } from '../../lib/podklad-sdileny';
 
 // Společný profil (`dalsi`): místa všech osob stránky; u role stojí, čí je („narození Hipparchie“).
 // Stránka období a tradice (od K1 větve antika-doplnky) předá místo osoby hotová místa (`mista`) a období.
 interface Props { osoba?: TOsoba; dalsi?: TOsoba[]; vyrez?: Vyrez; mista?: MistoMiniMapy[]; obdobi?: number }
-// Role ze společného slovníku (src/lib/cas-mapy.ts): u místa s rokem událost („narození 384 př. n. l.“, „smrt“),
-// ostatní stejně jako karta člověka a Život na mapě („studium“, „vojenské tažení“).
-const ROLE = ROLE_UDALOSTI;
 const osobyMapy = Astro.props.osoba ? [Astro.props.osoba, ...(Astro.props.dalsi ?? [])] : [];
-// Místa sloučená podle id, s rolemi a roky.
-const mista = new Map<string, MistoMiniMapy>();
-for (const [o, m] of osobyMapy.flatMap((o) => o.mista.map((m) => [o, m] as const))) {
-  const misto = mistaPodleId.get(m.misto)!;
-  const rok = m.rok ?? m.od;
-  const koho = osobyMapy.length > 1 ? ` ${o.jmeno2 ?? o.jmeno}` : '';
-  // Přibližný rok (priblizne v datech) nese „asi“, stejně jako letopočty života.
-  const popis = `${ROLE[m.role]}${koho}${rok !== undefined ? ` ${m.priblizne ? 'asi ' : ''}${fmtRok(rok)}` : ''}`;
-  const b = mista.get(m.misto) ?? { nazev: misto.nazev, souradnice: misto.souradnice as [number, number], radky: [] };
-  b.radky.push(popis);
-  mista.set(m.misto, b);
-}
-// Dva pobyty na jednom místě, z nichž první nemá rok začátku (Seneca v Římě do roku 41 a znovu od roku 49),
-// by daly „působení“ a pod ním „působení 49 n. l.“: holý řádek vedle téhož s rokem nic neříká, proto vypadne.
-for (const b of mista.values()) {
-  b.radky = b.radky.filter((r) => !b.radky.some((jiny) => jiny !== r && jiny.startsWith(`${r} `)));
-}
+// Místa sloučená podle id, s rolemi a roky (src/lib/podklad-sdileny.ts).
+const mista = mistaMiniMapy(osobyMapy);
 for (const [i, m] of (Astro.props.mista ?? []).entries()) mista.set(`hotove-${i}`, m);
 const { vyrez = vyrezMiniMapy([...mista.values()]) } = Astro.props;
 const obdobi = Astro.props.osoba?.obdobi ?? Astro.props.obdobi ?? 1;
@@ -38,20 +18,32 @@ const p = podklad(vyrez);
 const body = [...mista.values()].map((m) => ({ nazev: m.nazev, xy: p.bod(m.souradnice), popis: m.radky }));
 const vidimne = body.filter((b) => b.xy[0] > 0 && b.xy[0] < vyrez.sirka && b.xy[1] > 0 && b.xy[1] < vyrez.vyska);
 // Strana popisku a jeho vysunutí nad bod, když by se řádky dvou míst potkaly (src/lib/mapa.ts).
+// Výstřižek staré mapy jako Mapa a čas (K7a, design-v2 K7b): rámeček je v jednotkách výřezu, tloušťky taky.
+const k = vyrez.sirka / 600;
+const ram = (x: number) => ({ x: x * k, y: x * k, width: vyrez.sirka - 2 * x * k, height: vyrez.vyska - 2 * x * k });
+const pevninaId = `minimapa-pevnina-${obdobi}-${Math.round(vyrez.sirka)}-${Math.round(vyrez.vyska)}-${body.length}`;
+// Obrys pobřeží: sdílený soubor, když výřez mají i jiné stránky (revize R, otázka 4); jinak v stránce.
+const klic = klicVyrezu(vyrez);
+const pevnina = sdileneVyrezy().has(klic) ? `/podklad/${klic}.svg#p` : `#${pevninaId}`;
 const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis })), vyrez.sirka);
 ---
-<figure class={`minimapa obdobi-${obdobi}`}>
+<figure class={`minimapa obdobi-${obdobi}`} style={`--k:${k}`}>
   <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}`}>
-    <rect width={vyrez.sirka} height={vyrez.vyska} class="more" />
-    <path d={p.sit} class="sit" />
-    <path d={p.pevnina} class="svit svit--1" />
-    <path d={p.pevnina} class="svit svit--2" />
-    <path d={p.pevnina} class="pevnina" />
+    {pevnina.startsWith('#') && <defs><path id={pevninaId} d={p.pevnina} /></defs>}
+    {/* Moře šrafované tužkou (pozadí SVG), tři vodní linky podél pobřeží, pevnina na lístkovém papíře. */}
+    <use href={pevnina} class="linka linka--1" />
+    <use href={pevnina} class="mezera mezera--1" />
+    <use href={pevnina} class="linka linka--2" />
+    <use href={pevnina} class="mezera mezera--2" />
+    <use href={pevnina} class="linka linka--3" />
+    <use href={pevnina} class="mezera mezera--3" />
+    <use href={pevnina} class="pevnina" />
     {vidimne.map((b, i) => {
       const vlevo = umisteni[i].strana === 'vlevo';
       return (
         <g transform={`translate(${b.xy[0]} ${b.xy[1]})`}>
-          <circle r="6" class="bod" />
+          {/* Místo jako razítko v inkoustu období (dva kruhy a střed), ne mince. */}
+          <g class="bod" aria-hidden="true"><circle r="7" class="bod__kruh" /><circle r="3.6" class="bod__kruh bod__kruh--vnitrni" /><circle r="1.6" class="bod__stred" /></g>
           <g class:list={['popisek', { 'popisek--nahoru': umisteni[i].nahoru }]} style={umisteni[i].nahoru ? `--radku:${b.popis.length}` : undefined}>
             <text x={vlevo ? -11 : 11} y="-2" class="nazev" text-anchor={vlevo ? 'end' : 'start'}>{b.nazev}</text>
             <text y="-2" class="role" text-anchor={vlevo ? 'end' : 'start'}>
@@ -61,7 +53,12 @@ const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev,
         </g>
       );
     })}
-    <g transform={`translate(16 ${vyrez.vyska - 18})`} class="meritko">
+    <g class="ram" aria-hidden="true">
+      <rect class="ram__vnejsi" {...ram(4)} />
+      <rect class="ram__stupnice" {...ram(7)} />
+      <rect class="ram__vnitrni" {...ram(9.5)} />
+    </g>
+    <g transform={`translate(${18 * k + 6} ${vyrez.vyska - 18 * k - 10})`} class="meritko">
       <path d={`M0 0h${p.meritko.px}`} />
       <text y="-6">{p.meritko.km} km</text>
     </g>
@@ -71,18 +68,37 @@ const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev,
 
 <style>
   .minimapa { margin: 0; --fs-nazev: 15px; --fs-role: 13px; --fs-meritko: 12px; }
-  svg { width: 100%; height: auto; border-radius: var(--r-xs); }
-  .more { fill: var(--map-sea); }
-  .sit { fill: none; stroke: var(--map-sea-line); stroke-width: 0.6; opacity: 0.7; }
-  .svit { fill: none; stroke: var(--map-sea-line); stroke-linejoin: round; }
-  .svit--1 { stroke-width: 16; opacity: var(--map-glow-1); }
-  .svit--2 { stroke-width: 7; opacity: var(--map-glow-2); }
-  .pevnina { fill: var(--map-land); stroke: var(--map-coast); stroke-width: 0.9; stroke-linejoin: round; }
-  .bod { fill: var(--pc); stroke: var(--surface); stroke-width: 2; }
+  /* Výstřižek staré mapy (jako Mapa a čas po K7a): moře šrafované tužkou na papíře listu. */
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    background:
+      repeating-linear-gradient(0deg, color-mix(in srgb, var(--tuzka) 38%, transparent) 0 0.7px, transparent 0.7px 6px),
+      var(--list);
+  }
+  .linka { fill: none; stroke: var(--tuzka); stroke-linejoin: round; }
+  .mezera { fill: none; stroke: var(--list); stroke-linejoin: round; }
+  /* Vodní linky užší než v Mapě a čase: výřez je malý a ostrovů v něm hodně. */
+  .linka--1 { stroke-width: calc(17px * var(--k)); opacity: 0.14; }
+  .mezera--1 { stroke-width: calc(14px * var(--k)); }
+  .linka--2 { stroke-width: calc(10.5px * var(--k)); opacity: 0.22; }
+  .mezera--2 { stroke-width: calc(8px * var(--k)); }
+  .linka--3 { stroke-width: calc(5px * var(--k)); opacity: 0.32; }
+  .mezera--3 { stroke-width: calc(3px * var(--k)); }
+  .pevnina { fill: var(--listek); stroke: var(--ink-2); stroke-width: calc(1.2px * var(--k)); stroke-linejoin: round; }
+  .ram { fill: none; stroke: var(--ink-2); }
+  .ram__vnejsi { stroke-width: calc(1.4px * var(--k)); }
+  .ram__stupnice { stroke-width: calc(3px * var(--k)); stroke-dasharray: calc(26px * var(--k)) calc(26px * var(--k)); }
+  .ram__vnitrni { stroke-width: calc(0.7px * var(--k)); }
+  .bod { opacity: 0.94; }
+  .bod__kruh { fill: var(--list); stroke: var(--p); stroke-width: 2; }
+  .bod__kruh--vnitrni { fill: none; stroke-width: 1; }
+  .bod__stred { fill: var(--p); }
   /* Popisek vysunutý nad bod: poslední řádek rolí stojí vedle bodu, název nad ním. */
   .popisek--nahoru { transform: translateY(calc(var(--radku) * -1.2 * var(--fs-role))); }
-  .nazev { font-family: var(--font-sans); font-size: var(--fs-nazev); font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--map-land); stroke-width: 4px; stroke-linejoin: round; }
-  .role { font-family: var(--font-sans); font-size: var(--fs-role); fill: var(--ink-2); paint-order: stroke; stroke: var(--map-land); stroke-width: 4px; stroke-linejoin: round; }
+  .nazev { font-family: var(--font-sans); font-size: var(--fs-nazev); font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--listek); stroke-width: 4px; stroke-linejoin: round; }
+  .role { font-family: var(--font-sans); font-size: var(--fs-role); fill: var(--ink-2); paint-order: stroke; stroke: var(--listek); stroke-width: 4px; stroke-linejoin: round; }
   .meritko path { stroke: var(--ink-2); stroke-width: 2; }
   .meritko text { font-family: var(--font-sans); font-size: var(--fs-meritko); fill: var(--ink-2); }
   figcaption { margin-top: var(--s-2); }

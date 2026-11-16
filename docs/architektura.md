@@ -189,9 +189,11 @@ Religionistika je v atlasu samostatná vrstva deseti stránek s vlastní mapou. 
 
 Mapa náboženství je samostatná vrstva: místa vzniku a šíření tradic v čase, na stejné ose jako filozofové. Stránky vznikají průběžně s obdobími, ve kterých tradice vznikla (judaismus a buddhismus v antice, islám ve středověku).
 
-## Vazba na RVP G
+## Vazba na kurikulum
 
-Atlas cílí na gymnázium a mapuje se přímo na platný RVP G, tematický celek **Úvod do filozofie a religionistiky** v oboru Občanský a společenskovědní základ ([RVP G 2021, vzdělávací oblasti](https://digitalizace.rvp.cz/files/rvp-g-5-vzdelavaci-oblasti.pdf)). Všech šest očekávaných výstupů má v atlasu konkrétní místo; konkrétní ŠVP není potřeba.
+Nad kurikulem stojí vize autora: student si má z atlasu odnést něco do života (nosný pilíř, rozhodnutí ze 14. 11. 2026). Pod ní platí dokumenty státu a školy v pořadí Strategie 2030+, RVP G, ŠVP Gymnázia Třinec; při rozporu má přednost ten, který stojí výš. Kompetence, skutečný stav atlasu vůči nim a kontrola kurikula pro nové celky jsou v `docs/plany/kurikulum.md`, list pro učitele v `ucitel/kurikulum.md`.
+
+Atlas cílí na gymnázium a mapuje se přímo na platný RVP G, tematický celek **Úvod do filozofie a religionistiky** v oboru Občanský a společenskovědní základ ([RVP G 2021, vzdělávací oblasti](https://digitalizace.rvp.cz/files/rvp-g-5-vzdelavaci-oblasti.pdf)). Všech šest očekávaných výstupů má v atlasu konkrétní místo.
 
 | Očekávaný výstup RVP G (žák…) | Kde v atlasu |
 | --- | --- |
@@ -204,7 +206,9 @@ Atlas cílí na gymnázium a mapuje se přímo na platný RVP G, tematický cele
 
 - **Revize RVP:** práce na novém RVP pro gymnázia začaly v roce 2025, schválená podoba zatím není ([revize.rvp.cz](https://revize.rvp.cz/sv/gymnazium)). Stavba podle otázek a období se na nové výstupy přemapuje bez přestavby atlasu.
 - **Pro závěrečnou práci:** MŠMT vydalo v únoru 2026 [oborovou přílohu Kompetenčního rámce absolventa učitelství pro filozofii](https://edu.gov.cz/wp-content/uploads/2026/02/OSKR_Filozofie.pdf). Pracuje s disciplínami etika, teorie poznání, metafyzika, filozofie společnosti a filozofie náboženství; všechny mají v atlasu svou velkou otázku.
-- **Učitelský dokument** `ucitel/rvp.md` později rozvede tuto tabulku na úroveň jednotlivých kroků cest a doporučí pořadí pro čtyřleté gymnázium.
+- **Klíčové kompetence:** RVP G jich má sedm, od znění ze září 2021 i digitální ([úplné znění](https://edu.gov.cz/wp-content/uploads/2021/09/001_RVP_GYM_uplne_zneni.pdf)). Které z nich která cesta cvičí, drží `ucitel/kurikulum.md`; každý nový celek jmenuje dvě nebo tři, ne všech sedm.
+- **ŠVP Gymnázia Třinec:** ZSV má 1, 2, 2 a 1 hodinu týdně. Úvod do filozofie a religionistika jsou ve 3. ročníku, dějiny filozofie ve 4. ročníku s jednou hodinou týdně; volitelný společenskovědní seminář přidává neformální logiku, etiku a filozofii 19. a 20. století. Vyšší stupeň osmiletého studia se učí podle téhož ŠVP. Do hodin se atlas celý nevejde: hodina je jedno zastavení, zbytek je doma.
+- **Učitelský dokument** `ucitel/kurikulum.md` rozvádí tuto tabulku na hotové cesty, kompetence a průřezová témata a rozvrhuje atlas na 3. a 4. ročník a seminář podle ŠVP Gymnázia Třinec.
 
 ## Pořadí výroby a dopady na design a data
 
@@ -236,4 +240,4 @@ Období vznikají chronologicky, protože na sebe navazuje mapa, časová osa i 
 | Religionistika | Zařazena | Vrstva Náboženství světa (10 stránek, mapa), sloupec Náboženství doby, cesta 35 |
 | Nefilozofové s přesahem | Schváleno | Rozšířeno o Durkheima, Webera, Otta, Stockdala a Becka |
 | Portréty včetně dvojportrétů a Čtyř z Oxfordu | Bez připomínek | — |
-| Cílová škola | Gymnázium bez konkrétního ŠVP | Mapování přímo na RVP G |
+| Cílová škola | Gymnázium bez konkrétního ŠVP; od 14. 11. 2026 s ŠVP Gymnázia Třinec jako nejnižší vrstvou pod vizí, Strategií 2030+ a RVP G | Mapování přímo na RVP G; ŠVP jako zkouška v konkrétní škole (oddíl Vazba na kurikulum) |

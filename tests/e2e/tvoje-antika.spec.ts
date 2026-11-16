@@ -37,7 +37,7 @@ const otazky = (page: Page) => page.locator('section.otazka');
 
 test('prázdný deník: žádná otázka, jen pozvánka do první cesty', async ({ page }) => {
   await otevri(page, null);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tvoje antika');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tvoje antika.');
   await expect(page.getByText(/Zatím tu nic není\./)).toBeVisible();
   await expect(page.getByRole('link', { name: 'Začít cestou Kdy mám dobrý důvod věřit?' })).toHaveAttribute('href', '/cesta/kdy-mam-dobry-duvod-verit/');
   await expect(otazky(page)).toHaveCount(0);
@@ -156,7 +156,8 @@ test('vstup z deníku a ze stránky období 2', async ({ page }) => {
   await page.evaluate((t) => localStorage.setItem('atlas-denik', t), PLNY);
   await page.reload();
   await page.waitForSelector('astro-island[component-url*="Denik"]:not([ssr])', { state: 'attached' });
-  await expect(page.getByRole('link', { name: /Tvoje antika/ })).toHaveAttribute('href', '/denik/antika/');
+  // Odkaz stojí na konci kapitoly Helenismus a Řím (K6 dodatek), i když je kapitola zavřená.
+  await expect(page.locator('a.konec')).toHaveAttribute('href', '/denik/antika/');
   // Prázdný deník odkaz nemá: není k čemu vést.
   await page.evaluate(() => localStorage.removeItem('atlas-denik'));
   await page.reload();

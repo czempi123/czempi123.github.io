@@ -3,6 +3,7 @@
 // jedním řádkem: <Volba id="…" />. Sdílí je kolekce `bloky` (src/content.config.ts) i testy (tests/data).
 // Texty smějí obsahovat *kurzívu*; prázdný řádek dělí odstavce.
 import { z } from 'astro/zod';
+import { ID_SKRYTY, ID_ZADNOU } from './argument-id';
 
 const idVzor = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const Id = z.string().regex(idVzor, 'id: malá písmena bez diakritiky, číslice a pomlčky');
@@ -200,9 +201,8 @@ export const BlokRoztrid = z
     message: 'Zpětná vazba `kdyz` odkazuje na koš, který v bloku není.',
   });
 
-/** Id vyhrazená volbě „Kterou premisu bys napadl ty?“: skrytý předpoklad a žádná premisa. */
-export const ID_SKRYTY = 'skryty';
-export const ID_ZADNOU = 'zadnou';
+/** Id vyhrazená volbě „Kterou premisu bys napadl ty?“: skrytý předpoklad a žádná premisa (bez Zodu v argument-id.ts). */
+export { ID_SKRYTY, ID_ZADNOU };
 
 /**
  * Slož argument: student seřadí premisy a závěr do řádků „1“, „2“ (případně „3“) a „Závěr“. Po kontrole

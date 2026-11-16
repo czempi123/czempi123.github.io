@@ -3,8 +3,12 @@
 // i tmavém režimu s axe, bez vodorovného posouvání a se snímky. Cesta 6 navíc celá jen klávesnicí
 // a jednou bez odkrytí bloků.
 import { test, expect, type Page } from '@playwright/test';
-import { pripravitStranku } from './strany';
+import { pripravitStranku, dalsiVListe } from './strany';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const CESTA = '/cesta/kdy-mam-dobry-duvod-verit/';
 const KROKY = ['Odpověď z Delf', 'Jak bys to zjišťoval ty?', 'Politik, básníci, řemeslníci', 'Podle čeho to poznáš?', 'Člověk je měřítkem', 'Bílozlaté, nebo modročerné?', 'Tvoje pravidlo'];
@@ -57,7 +61,7 @@ for (const c of CESTY) {
           await page.goto(`${c.adresa}${n}/`);
           await pripravit(page);
           await expect(page.locator('h1')).toHaveText(c.kroky[n - 1]);
-          await expect(page.getByRole('link', { name: `Krok ${n}: ${c.kroky[n - 1]}` })).toHaveAttribute('aria-current', 'step');
+          await expect(page.locator('.listek-cesty li[aria-current="step"]')).toContainText(`Krok ${n}: ${c.kroky[n - 1]}`);
           await axe(page);
           expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
           await page.addStyleTag({ content: '.cesta-lista, .cesta-hlavicka { position: static !important; }' });
@@ -84,10 +88,14 @@ test('cesta: průchod, Kam dál z bloku, lišta Další, Pokračuj na Domů a v 
   await expect(page).toHaveURL(`${CESTA}2/`);
   await pripravit(page);
   const volba = page.locator('#cesta1-jak-zjistit');
+  // Do tahu je Další krok tichý (podtržený tužkou); hlavní je čin bloku.
+  const tichy = page.locator('.cesta-lista [data-dalsi-krok]');
+  await expect(tichy).toHaveClass(/blok__tl--tiche/);
   await volba.getByText('Najdu lidi').click();
   await volba.getByRole('button', { name: 'Tohle je můj tah' }).click();
-  // Kam dál z bloku vede na další krok.
-  const dal = volba.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: 'Další krok: Politik, básníci, řemeslníci' });
+  // Po tahu se rozsvítí Další krok v liště; blok tentýž odkaz neopakuje.
+  const dal = await dalsiVListe(page, volba);
+  await expect(dal).toHaveAccessibleName('Další krok: Politik, básníci, řemeslníci');
   await expect(dal).toHaveAttribute('href', `${CESTA}3/`);
   await dal.click();
   await expect(page).toHaveURL(`${CESTA}3/`);
@@ -112,7 +120,7 @@ test('cesta: průchod, Kam dál z bloku, lišta Další, Pokračuj na Domů a v 
   await page.goto('/denik/');
   await expect(page.locator('.seznam--rozpracovane')).toContainText('Kdy mám dobrý důvod věřit?');
   await expect(page.locator('.seznam--rozpracovane')).toContainText('krok 3 z 7');
-  await expect(page.locator('.seznam--zapisy')).toContainText('B · Najdu lidi, kteří mají pověst moudrých, a vyzkouším je.');
+  await expect(page.locator('.kapitoly')).toContainText('B · Najdu lidi, kteří mají pověst moudrých, a vyzkouším je.');
 
   // Projít zbytek a dokončit.
   for (const n of [4, 5, 6, 7]) {
@@ -182,8 +190,8 @@ test('cesta: Spor Prótagorás × Sókratés a šaty jen klávesnicí (telefon)'
   await expect(posun).toBeFocused();
   await expect(posun).toContainText('Začal jsi: spíš Prótagorás. Teď: spíš Sókratés.');
   await expect(posun).not.toContainText(/správn|špatn/i);
-  // Kam dál z bloku vede na šaty.
-  await expect(spor.getByRole('link', { name: 'Další krok: Bílozlaté, nebo modročerné?' })).toHaveAttribute('href', `${CESTA}6/`);
+  // Po Sporu se rozsvítí Další krok v liště a vede na šaty.
+  await expect(await dalsiVListe(page, spor)).toHaveAttribute('href', `${CESTA}6/`);
 
   await page.goto(`${CESTA}6/`);
   await pripravit(page);
@@ -226,7 +234,7 @@ test('cesta: pravidlo v kroku 7 je vidět hned a uloží se samo, i když studen
   await page.getByRole('link', { name: 'Dokončit cestu' }).click();
   await expect(page).toHaveURL(`${CESTA}#hotovo`);
   await page.goto('/denik/');
-  await expect(page.locator('.seznam--zapisy')).toContainText('Když tvrzení obstojí, i když hledám, co by ho vyvrátilo.');
+  await expect(page.locator('.kapitoly')).toContainText('Když tvrzení obstojí, i když hledám, co by ho vyvrátilo.');
   // Návrat do kroku 7: text je v poli a ví se, že je uložený.
   await page.goto(`${CESTA}7/`);
   await pripravit(page);
@@ -243,7 +251,7 @@ test('cesta: pravidlo v kroku 7 je vidět hned a uloží se samo, i když studen
 
 /** Aktivuje odkaz Kam dál v bloku klávesnicí a počká na další krok. */
 async function dalKlavesnici(page: Page, blok: ReturnType<Page['locator']>, nazev: string, adresa: string) {
-  const dal = blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` });
+  const dal = (await dalsiVListe(page, blok));
   await dal.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(adresa);
@@ -388,7 +396,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(graf.locator('figcaption')).toContainText('Asi u pětiny lidí, těch nejméně šťastných, se zhruba nad 100 000 dolary ročně zastaví.');
   await expect(text6.locator('.citat')).toHaveCount(2);
   // Oba Epikúrovy citáty stojí před studií; poslední slovo před hlasováním nemá Epikúros, ale křivky.
-  await expect(text6.locator(':scope > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
+  await expect(text6.locator(':scope > .cisty-list > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
   const penize = page.locator('#cesta6-penize');
   await penize.getByRole('radio', { name: /Nedá se říct/ }).focus();
   await page.keyboard.press('Space');
@@ -420,7 +428,7 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
   await page.goto('/denik/');
-  const zapisy = page.locator('.seznam--zapisy');
+  const zapisy = page.locator('.kapitoly');
   await expect(zapisy).toContainText('Dost je, když mi nic nechybí, i když nic nepřibývá.');
   await expect(zapisy).toContainText('Potřebuju: Vyspat se po probdělé noci; Někdo, komu řeknu, co mě trápí.');
   await expect(zapisy).toContainText('Na začátku: spíš kynici. Po argumentech: spíš Epikúros. Co mě posunulo: přátelé.');

@@ -4,6 +4,97 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 15. 11. 2026: Pojmy (design-v2 P)
+
+Odpovědi po K7b byly prázdné, tedy souhlas s doporučeními (trasy v mini mapě ne teď, zapsané v `docs/navraty.md`). Podklady `docs/podklady/pojmy-antika.md`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pojmy nesou česká slova, která student v textu opravdu čte (klid, štěstí, neovládnutí, protipříklad, rozum); řecké slovo (ataraxia, eudaimonia, akrasia, elenchos, logos) je v původu a v tvarech pro hledání | Řecké termíny v textech antiky nestojí ani jednou; hotové texty se teď nemění (12. 11. 2026) |
+| 26 pojmů, vyznačených 57krát na 31 stránce; jen první výskyt na stránce, nejvýš jeden pojem v odstavci, ne v nadpisu, odkazu, citátu, bloku ani v obsahu ostrovu; kde stránka slovo vykládá sama, nevyznačuje se | Zadání P; lístek vedle výkladu by ho jen opakoval |
+| Pojem je tlačítko s popisem (aria-describedby), ne odkaz; na stránku pojmu vede „Celý pojem“ ve vysvětlení | Čtečka slyší slovo a vysvětlení hned, bez odchodu ze stránky |
+| Poznámka na okraji stojí od 1100 px tam, kde vedle listu zbývá aspoň 190 px; překážky jsou všechno, co do okraje zasahuje (citát rukou na okraji, širší blok, další kapitola); co se vedle svého odstavce nevejde, zůstane lístkem po klepnutí | Plátno a bod 6 (okraj žije); poznámka smí pokračovat podél aktivity pod listem, protože ta do okraje nesahá |
+| Komponenta je Astro se sdíleným skriptem (`src/scripts/pojmy.ts`), ne ostrov ve Svelte | Pojem stojí uprostřed věty v MDX; ostrov by na každé stránce přidal hydrataci kvůli jednomu tlačítku |
+| Stránka pojmu je šablona z dat (oddíly Odkud je slovo, U koho co, Ze života, Kde v atlasu stojí, Prameny); seznam `/pojmy/` vede z patičky každé stránky | Zadání P; patička je na všech stránkách, Otázky by vedly jen odtud |
+| Pagefind dostal české tvary v neviditelném odstavci uvnitř `main` (`hidden`, `aria-hidden`, váha 3): u osob 2., 3. a 7. pád ze `jmeno2`, u pojmů tvary z dat | Pagefind češtinu neskloňuje; meta pole se neprohledávají |
+
+## 15. 11. 2026: Kresby jako koláž (design-v2 K7b)
+
+Odpovědi po K7a a po K6 dodatku byly prázdné, tedy souhlas s doporučeními. Pravidla koláže jsou z plátna (Po D4 › Kresby jako koláž); tohle jsou volby, které plátno nechalo otevřené.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Rám kresby: ležící list s malou páskou, plátno z tečkovaného papíru, pod ním vtlačená drážka s přepínačem pohledů, ovládáním a Zastavit pohyb, popis pod drážkou | Zadání K7b; pořadí tabulátoru (pohled, ovládání, pohyb) zůstalo, jak ho drží testy |
+| Světlo a tma mají dál tři tóny `k-svetlo`, `k-stin`, `k-tma`, ale z tužky a listu, ne z desky období; drží pořadí světlý > střední > tmavý i v noci | Jeskyně, noc venku a tma před narozením stojí na rozdílu světla a tmy; list je v noci tmavý, takže samotné „tytéž tokeny“ by stěnu a stíny v noci slily |
+| Nositel barvy období (`k-pp`) je ve dne papír období a v noci inkoust období | Papír období má na nočním papíře 2,1 až 2,8 : 1; inkoust je zesvětlený pro noc už od D2 |
+| Postavy, které musí být vidět i v noci (vítr, břeh, tvář pod maskou, pohár), jsou ze světlého tónu, ne z listu; černý papír na tečkovaném papíře má hranu tužkou | Výstřižek z listu je v noci skoro stejně tmavý jako papír pod ním |
+| Obraz ke kapitole tam, kde ho nese kresba: Prótagorás 01 pravítko (atribut, Měřítko všech věcí), Platón 02 nová ikona čtverce na úhlopříčce | Bod 9 z Vizuálních zlepšení; jen kapitoly, ve kterých kresba stojí |
+
+## 15. 11. 2026: Kapitoly v Můj deník po obdobích
+
+Připomínka autora 15. 11. 2026 (deník bude dlouhá stránka, potřebuje jedno další členění); odpověď 5 po K7a prázdná, tedy souhlas s doporučením. Postaveno v kroku K6 dodatek větve `design-v2`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Pod Moje filozofie stojí kapitoly po obdobích jako rozbalovací lístky; Návrat, připomenutí zálohy a Moje filozofie nahoře, výzvy, týdny, pero a záloha s přenosem dole jednou pro celý deník | Období je osm, odpovídají pásu období a Tvoje antika; podle cest by kapitol bylo časem desítky |
+| Záznamy ze stránek velkých otázek (a z období, které ještě nemá stránku) jsou v kapitole Napříč obdobími na konci | Otázka nepatří jednomu období; nic ze zápisů nesmí zmizet |
+| Otevřená je kapitola, kde student naposledy byl, a ty, které si nechal otevřené; stav a řazení záznamů jsou v `localStorage` pod `atlas-denik-kapitoly`, ne v exportu deníku | Je to nastavení pohledu, ne studentova práce |
+| V kapitole se záznamy řadí podle cest (nadpis cesty je řádek), výpis podle data je přepínač, který platí pro všechny kapitoly | Zadání autora; jeden přepínač se pamatuje snáz než osm |
+
+## 14. 11. 2026: Kurikulum: odpovědi autora a dělení souborů
+
+Autor 14. 11. 2026: „Se vším v co rozhodnout souhlasím.“ Otázky jsou v `docs/plany/kurikulum.md` › Co rozhodnout.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Věta pilíře zůstává, jak je v `CLAUDE.md` | Autor souhlasil |
+| Každé období má vyznačené jádro (zhruba tři hodiny) a rozšíření; texty se nekrátí | Dějiny filozofie mají podle ŠVP jednu hodinu týdně; jádro říká, kudy jít, když je málo času |
+| Každá nová cesta má aspoň jednu společnou aktivitu a kartu Do hodiny | Největší mezera proti kurikulu i vizi: v deseti cestách není nic pro dva a víc lidí |
+| Lístek z cesty pro učitele: student sám vybere, co odevzdá; deník se neodevzdává nikdy | Učitel potřebuje podklad, deník zůstává soukromý |
+| Stránka Argumentační klamy a manipulace vznikne v `herna-v1`, ne až ve F5 | Výstup RVP G, látka semináře a nejkratší cesta k digitální kompetenci |
+| Větev `trida-v1` přijde po středověku, před zkouškou se čtenáři; karta Do hodiny a sebehodnocení vzniknou dřív v `herna-v1` | Ať se obsah nezastaví |
+| Kurikulum nemá zvláštní zadání; úkoly jsou zapsané v `docs/plany/po-auditu.md` › Kurikulum a převezmou je plány větví `herna-v1`, `uklid-v1`, celků a `trida-v1` | Autor nemá spouštět nic navíc |
+| Soubor, který se nedá nahrát do Projektu Claude vcelku, se v repozitáři rozdělí na víc souborů (pod 35 kB). `docs/plan.md` je proto rozdělený na tři: strategie zůstává, katalog zadání, Plány větví a Další větve v pořadí jsou v `docs/plan-vetve.md`, kritika prototypu a volba techniky v `docs/plan-vychodiska.md` | Autor: zasekávání na nahrávání ho hodně zdržuje |
+
+## 14. 11. 2026: Vize jako nosný pilíř a kurikulum
+
+Podklad: zadání autora ze 14. 11. 2026, Strategie vzdělávací politiky ČR do roku 2030+, [RVP G, úplné znění ze září 2021](https://edu.gov.cz/wp-content/uploads/2021/09/001_RVP_GYM_uplne_zneni.pdf), ŠVP 4 (2022) a ŠVP 8 (2021) Gymnázia Třinec; plán `docs/plany/kurikulum.md`, list pro učitele `ucitel/kurikulum.md`.
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nosný pilíř atlasu, nadřazený úplně všemu: student si z něj má opravdu odnést něco do života. Před každým celkem, aktivitou i revizí stojí nultá otázka „Co si z toho student odnese do života?“ | Autor: je to duše celé aplikace od začátku; atlas je doplněk výuky a tohle je jeho hlavní myšlenka |
+| Atlas je didaktická pomůcka pro výuku a drží požadavky na výuku v pořadí Strategie 2030+, RVP G, ŠVP; při rozporu má přednost dokument, který stojí výš | Autor; práce potrvá déle, proto se počítá už se Strategií 2030+ |
+| RVP G se bere v úplném znění ze září 2021, ne ve znění z roku 2007 | Autor odkaz 14. 11. 2026 opravil; znění 2021 je pro gymnázia závazné od 1. 9. 2025 a přidalo digitální kompetenci, filozofická část je stejná |
+| ŠVP Gymnázia Třinec (ŠVP 4 z roku 2022 a ŠVP 8 z roku 2021) je nejnižší vrstva. Mění rozhodnutí brány F0 „gymnázium bez konkrétního ŠVP“: atlas se dál staví podle RVP G, ŠVP slouží jako zkouška v konkrétní škole | Autor tam chce učit. ŠVP 8 platí jen pro nižší stupeň, vyšší stupeň se v ZSV učí podle ŠVP 4, takže pro filozofii stačí jedno mapování |
+| Student si má při práci s atlasem osvojovat klíčové kompetence; každý nový celek projde sedmi otázkami kontroly kurikula (`docs/plany/kurikulum.md`) | Autor; kompetence chtějí Strategie i RVP G |
+| Hotové části se podle kurikula smějí vrátit do plánu jako revize, ale nejdřív se dodělá design. Hotový obsah se dál nemění do fáze 5; nálezy k antice jsou v `docs/navraty.md` se zdrojem K | Autor; platí pořadí z 12. 11. 2026 |
+| Do zbylých kroků `design-v2` kurikulum nic nepřidává | Karta Do hodiny, sebehodnocení a práce pro třídu jsou nové funkce a patří do herny a do větve `trida-v1` |
+| Šest otázek v `docs/plany/kurikulum.md` › Co rozhodnout (věta pilíře, jádro a rozšíření, společná aktivita v každé nové cestě, lístek z cesty pro učitele, Argumentační klamy do `herna-v1`, `trida-v1` po středověku) čeká na odpověď autora | Jsou to návrhy, ne rozhodnutí |
+
+## 12. 11. 2026: Po auditu celého atlasu
+
+Podklad: `docs/revize/audit-2026-11-12.md`, `docs/revize/recenze-obsahu-2026-11-12.md`, `docs/revize/recenze-mapa-denik-2026-11-12.md`, plán `docs/plany/po-auditu.md` a odpovědi autora z 12. 11. 2026 („U otázek souhlasím, může to tak být“).
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nejdřív se dodělá design (`design-v2`) v plném rozsahu, včetně mapy jako výstřižku, kreseb jako koláže a pojmů; návrh auditu zmenšit K7 neplatí | Kresby jsou to nejzábavnější, co atlas má, a mají vypadat nejlíp |
+| Hotový obsah se teď nemění. Revize obsahu je samostatná fáze 5, až bude atlas celý; postřehy se do té doby sbírají v `docs/navraty.md` (kde, co, jedna věta) | Autor chce nejdřív dokončit projekt; opravovat antiku po kouskách by stálo víc než jedna revize podle zápisníku |
+| Zkoušku dělá zatím autor sám proklikáváním; zkouška se čtenáři přijde s revizí obsahu ve fázi 5. `noindex` zůstává | Autor zatím nemá čtenáře; audit doporučoval zkoušku hned |
+| Závěrečná práce počká, až bude projekt hotový | Autor: není to naléhavé |
+| Průchod atlasem má být hlavně zábavný a pestrý (text, interaktivní lekce, videa, zvuk, testy, hry; různé druhy paměti); stejná aktivita na každé stránce není cíl | Zábava drží pozornost a vede k přemýšlení o tom, co student čte |
+| Každá aktivita projde čtyřmi otázkami: odnese si něco, přemýšlí sám, zůstává otevřená, chtěl by ji udělat, i kdyby nemusel | Aktivita nesmí studenta nechat jen přijímat; má vést k vlastnímu názoru, hodnotám a kritickému myšlení |
+| Pořadí fází: 1 design (`design-v2`), 2 herna (`herna-v1`, `denik-v2`, `film-0` jen s filmem), 3 úklid (`uklid-v1`) před celkem 11, 4 období 3 až 8 s rozpisem aktivit, 5 revize obsahu, zkouška se čtenáři, zrušení `noindex`, závěrečná práce | Nové formáty a pravidla pestrosti mají být hotové dřív, než vznikne středověk |
+| Do `design-v2` přibývá D5 (herní prvky a vizuální zlepšení na plátně), dodatek K3 ke stránkám osob, K4 se dělí na K4a (společný rám aktivity a první bloky) a K4b, K7 na K7a (mapa) a K7b (kresby); K5 dostane tichý Další krok, K6 deník jako zápisník a Moje filozofie | Vizuální zlepšení a funkce mapy a deníku z recenzí (`docs/archiv/plany/design-v2.md` › Po auditu) |
+| Deník jako zápisník se sbírkou (razítka, pahýly lístků, vystřižené citáty) už v K6 | Odpověď 1 po auditu |
+| Kvíz Co ti zůstalo? a kartičky bez bodů, jen „víš“ a „zopakuj si“ s odkazem zpět | Odpověď 2; jde o znalost, ne o názor, a zásada bez bodů za názory zůstává |
+| Při stavbě herny dostane každý nový formát jedno místo v antice jako přídavek; hotový text se nepřepisuje | Odpověď 3; formát se vyzkouší na skutečném obsahu |
+| Zvuk (Poslechni si) se odkládá na později; autor ho možná namluví sám, rozhodne se až pak. `film-0` zkouší jen animovanou scénu a D5 nenavrhuje přehrávač zvuku | Odpověď 4 (autor 12. 11. 2026, druhá zpráva) |
+| Žádné odkazy na cizí videa; místo nich vlastní krátké animované scény v kódu | Odpověď 5; atlas nic nenačítá zvenku a odkazy stárnou |
+| Klidný režim jako přepínač v záhlaví (krátké přechody, čistý papír), krok O | Odpověď 6; pro čtenáře, kterým zdobení ztěžuje čtení |
+| Tichá tečka u ikony Deník, když čeká Návrat (K6). Mění rozhodnutí z 2. 10. 2026, že Návrat nabízí jen deník a jinde nic | Odpověď 7 (výslovné ano); bez tečky Návrat uvidí jen ten, kdo deník otevře sám |
+| Pravidla pestrosti (14 bodů, `docs/plany/stredovek.md` › Po auditu) platí od celku 11; do skillů je zapíše až `uklid-v1`, `CLAUDE.md` se teď nemění | Jedno místo pro pravidla, žádné udržování na dvou místech |
+| Odpovědi po K3 v `design-v2.md`: souhlas se všemi doporučeními | Autor 12. 11. 2026 |
+
 ## 7. 11. 2026: Úprava designu před středověkem
 
 | Rozhodnutí | Důvod |

@@ -6,12 +6,15 @@
 
   interface Props {
     svisle?: boolean;
+    /** jen tyhle typy (řeka ve výchozím stavu ukazuje jen učitele a žáky); bez nich všechny */
+    typy?: string[];
   }
-  let { svisle = false }: Props = $props();
+  let { svisle = false, typy }: Props = $props();
+  let polozky = $derived(typy ? LEGENDA_VZTAHU.filter((v) => typy.includes(v.typ)) : LEGENDA_VZTAHU);
 </script>
 
 <ul class="legenda" class:legenda--svisle={svisle} aria-label="Čáry mezi životy">
-  {#each LEGENDA_VZTAHU as v (v.typ)}
+  {#each polozky as v (v.typ)}
     <li>
       <svg class="cara" width="28" height="12" viewBox="0 0 28 12" aria-hidden="true">
         {#if v.cara === 'vlnovka'}
@@ -34,7 +37,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0 var(--s-4);
+    gap: 0 var(--s-3);
     margin: 0;
     padding: 0;
     list-style: none;

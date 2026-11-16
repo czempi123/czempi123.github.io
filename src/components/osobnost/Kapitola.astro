@@ -1,18 +1,82 @@
 ---
-// Kapitola portrétu: číslo, krátký název a titulek s pointou v kurzívě.
+// Kapitola portrétu: číslo rukou v inkoustu období, krátký název a titulek s pointou v kurzívě.
 // Atributy data-oddil hlásí kapitolu obsahu stránky (ObsahProfilu.astro).
-interface Props { cislo: string; kotva: string; nazev: string }
-const { cislo, kotva, nazev } = Astro.props;
+// Čtení a dělání vypadají jinak (K3 dodatek, bod 1): nadpis a souvislý text leží na čistém listu s jednou páskou,
+// aktivity (bloky, kresby, ostrovy) mezi listy zůstávají na tečkách; dělí je useky() ze src/lib/listy.ts.
+// Pokračovací list za aktivitou pásku nemá: páska patří kapitole, na obrazovce je nejvýš jedna; první kapitola
+// ji nemá, protože nad ní leží deska osoby se dvěma páskami (revize R, otázka 1).
+// Obraz ke kapitole (bod 9): `predmet` je id ze spritu public/ikony/atributy.svg; vytiskne se jako velké vybledlé
+// razítko u nadpisu. Výchozí nic.
+// <Kapitola cislo="01" kotva="delfy" nazev="Věštba z Delf" predmet="tripod">…</Kapitola>
+import { useky } from '../../lib/listy';
+
+interface Props { cislo: string; kotva: string; nazev: string; predmet?: string }
+const { cislo, kotva, nazev, predmet } = Astro.props;
+const html = Astro.slots.has('default') ? await Astro.slots.render('default') : '';
+const casti = useky(html);
+const prvni = casti[0]?.druh === 'text' ? casti.shift()!.html : '';
 ---
-<section class="kapitola" id={kotva} aria-labelledby={`${kotva}-titulek`} data-oddil={nazev} data-oddil-cislo={cislo}>
-  <p class="t-nadtitulek kapitola__cislo"><span class="t-letopocet">{cislo}</span> · {nazev}</p>
-  <h2 class="t-h1 kapitola__titulek" id={`${kotva}-titulek`}><slot name="titulek" /></h2>
-  <div class="ctenarsky"><slot /></div>
+<section class:list={['kapitola', { 'kapitola--predmet': predmet }]} id={kotva} aria-labelledby={`${kotva}-titulek`} data-oddil={nazev} data-oddil-cislo={cislo}>
+  <div class="ctenarsky">
+    <div class="cisty-list kapitola__list">
+      <span class="paska paska--mala" aria-hidden="true"></span>
+      {predmet && (
+        <svg class="kapitola__predmet" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-predmet={predmet}>
+          <circle cx="50" cy="50" r="47" stroke-width="2.6" />
+          <circle cx="50" cy="50" r="40" stroke-width="1.2" />
+          <use href={`/ikony/atributy.svg#${predmet}`} x="25" y="25" width="50" height="50" />
+        </svg>
+      )}
+      <p class="kapitola__cislo"><b>{cislo}</b> <span>{nazev}</span></p>
+      <h2 class="t-h2 kapitola__titulek" id={`${kotva}-titulek`}><slot name="titulek" /></h2>
+      <Fragment set:html={prvni} />
+    </div>
+    {casti.map((c) => (c.druh === 'text'
+      ? <div class="cisty-list"><Fragment set:html={c.html} /></div>
+      : <Fragment set:html={c.html} />))}
+  </div>
 </section>
 
 <style>
   .kapitola { margin: var(--s-9) 0 var(--s-7); }
-  .kapitola__cislo { margin: 0 0 var(--s-3); color: var(--pc); }
-  .kapitola__titulek { margin-bottom: var(--s-6); max-width: 14ch; }
-  @media (min-width: 900px) { .kapitola__titulek { max-width: 18ch; } }
+  /* Pod deskou osoby se dvěma páskami je první list kapitoly bez pásky: jedna páska na obrazovku (revize R, otázka 1). */
+  .kapitola:first-of-type .kapitola__list > .paska { display: none; }
+  .kapitola__list { isolation: isolate; }
+  .kapitola__cislo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-3);
+    margin: 0 0 var(--s-3);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink-2);
+  }
+  .kapitola__cislo b { font-family: var(--font-ruka); font-size: 22px; font-weight: 700; color: var(--p); }
+  .kapitola__titulek { margin-bottom: var(--s-6); max-width: 16ch; }
+  .kapitola__titulek :global(em) { font-style: inherit; color: inherit; }
+  @media (min-width: 900px) { .kapitola__titulek { max-width: 20ch; } }
+  /* Obraz ke kapitole: vybledlé razítko v inkoustu období vpravo u nadpisu, pod textem (z-index v izolovaném listu). */
+  .kapitola__predmet {
+    position: absolute;
+    z-index: -1;
+    top: 22px;
+    right: 26px;
+    width: 128px;
+    height: 128px;
+    color: var(--p);
+    opacity: .17;
+    rotate: -9deg;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .kapitola__predmet use { stroke-width: 2.2; }
+  :global(:root[data-theme='dark']) .kapitola__predmet { opacity: .24; }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme='light'])) .kapitola__predmet { opacity: .24; } }
+  @media (max-width: 699px) { .kapitola__predmet { top: 16px; right: 14px; width: 84px; height: 84px; } }
 </style>

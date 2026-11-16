@@ -54,6 +54,9 @@ test('klepnutí myší stránku neposune', async ({ page }) => {
   await page.goto('/cesta/je-to-co-vidim-cela-skutecnost/4/');
   await page.evaluate(() => document.fonts.ready);
   const pole = page.locator('#cesta3-ctverec-sam-pole');
+  // Horní okraj pole těsně nad lištou kroku (rozvržení kroku se s listy a rámem aktivity mění; K4a).
+  await pole.evaluate((e) => window.scrollTo({ top: e.getBoundingClientRect().top + scrollY - (innerHeight - 130), behavior: 'instant' }));
+  await page.waitForTimeout(100);
   const pred = await page.evaluate(() => scrollY);
   const box = (await pole.boundingBox())!;
   // Klepne do horní části pole, která je vidět nad lištou.
@@ -76,7 +79,8 @@ test('fokus z klávesnice nezůstane pod lištou hodiny ani pod lištou kroku, t
   const presah = () =>
     page.evaluate(() => {
       const e = document.activeElement as HTMLElement | null;
-      if (!e || e === document.body || e.closest('[data-hodina-lista], .cesta-hlavicka, .cesta-lista, .preskocit')) return 0;
+      // Záhlaví webu (od K5 i nad krokem cesty na notebooku) leží nad lištou hodiny: jeho prvky se nepočítají.
+      if (!e || e === document.body || e.closest('[data-hodina-lista], header.hlavicka, .cesta-hlavicka, .cesta-lista, .preskocit')) return 0;
       const horni = document.querySelector('[data-hodina-lista]')!.getBoundingClientRect().bottom;
       const dolni = document.querySelector('.cesta-lista')!.getBoundingClientRect().top;
       const r = e.getBoundingClientRect();

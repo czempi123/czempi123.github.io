@@ -39,18 +39,18 @@
 </section>
 
 <style>
-  .blok { padding: var(--s-5); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--surface); }
-  .nadtitulek { color: var(--pc, var(--ink)); }
+  /* Rám a tlačítka dává RamAktivity.svelte a global.css (.blok, .blok__tl--*); vlastní styl jen pro plochu hry. */
+  .nadtitulek { color: var(--p, var(--ink)); }
 </style>
 ```
 
 ## Tokeny a vzhled
 
-- Barvy jen přes proměnné z `src/styles/tokens.css`: `--paper`, `--surface`, `--sunk`, `--rule`, `--muted`, `--ink-2`, `--ink`; barva období přes třídu `obdobi-N` na předkovi (`--pc`, `--pc-tint`, `--pc-soft`, `--pc-plate`, `--pc-on-plate`).
+- Barvy jen přes proměnné z `src/styles/tokens.css`: plochy `--papir`, `--list`, `--plocha`, `--listek`, linky `--linka` a `--tuzka`, inkousty `--ink`, `--ink-2`, `--ink-3`, `--ruka`; barva období přes třídu `obdobi-N` na předkovi (`--p` inkoust, `--pp` papír). Pravidla papíru a pohybu: SKILL.md › Papír a Pohyb.
 - Písma: `--font-serif` (Newsreader) pro čtení a otázky, `--font-sans` (Instrument Sans) pro ovládání; velikosti třídami `t-h3`, `t-ovladani`, `t-popisek`…
-- Mezery `--s-1` až `--s-10`, zaoblení `--r-*`, pohyb `--pohyb*` (při omezeném pohybu nulový).
-- Tlačítka podle design.md: hlavní (`--ink`, text `--paper`, výška 48–56), vedlejší (obrys `--ink`), tiché (obrys `--rule`).
-- Volba s důvodem: karty A–D aspoň 60 px, vybraná s okrajem 2 px a tintem období, zpětná vazba v tintu s titulkem „Tvůj tah: …“ a oddílem „Co udělal …“.
+- Mezery `--s-1` až `--s-10`, zaoblení `--r-papir`, `--r-razitko`, `--r-ovladani`, `--r-plne`, pohyb `--d-*` a `--k-*` (při omezeném pohybu nulový), natočení přes `--natoceni`.
+- Tlačítka třídami `.blok__tl--hlavni` (plný inkoust), `--vedlejsi` (vystouplé), `--tiche` (podtržené tužkou); `Tlacitko.astro` dává tytéž třídy.
+- Volba s důvodem: vystouplé možnosti A–D, zvolená vtlačená s kroužkem tužkou v barvě období, zpětná vazba jako lístek s páskou (`.listek-paska`) tiskem.
 
 ## Přístupnost
 
@@ -65,7 +65,7 @@
 Vlastní kresba, která se hýbe a kterou student ovládá: prostor, děj nebo pořadí, které se z textu špatně představuje. Autor ji chce v atlasu častěji (rozhodnutí ze 4. 10. 2026). Vzor jsou `Jeskyne.svelte` (dva pohledy) a `JeskyneVen.svelte` (řez s postavami na cestě a posuvník). Kdy po ní sáhnout a kam ji dát, říkají skilly `atlas-cesta` a `atlas-osobnost`.
 
 - **Rám nepiš znovu.** `src/components/ostrovy/Kresba.svelte` dává kartu, název, přepínač pohledů, plátno, text pod kresbou a tlačítko Zastavit pohyb / Pustit pohyb. Ostrov kresby mu předá scénu (snippet `kresba` s prvky SVG) a případné další ovládání (snippet `ovladani`, třeba posuvník). K ostrovu patří obal `src/components/bloky/<Jmeno>.astro` s `client:visible` a řádek v `bloky/index.ts`.
-- **Tři tóny** z desky období: třídy `k-svetlo`, `k-stin`, `k-tma` a `k-popisek` (`global.css` › Kresba s pohybem). Jiné barvy ne; kresba tak sedí ve světlém i tmavém režimu sama. Výjimka je kresba, jejímž tématem je barva (`Saty.svelte`): barvy má vlastní, zapsané v `src/lib/<tema>.ts` s testem, a v obou režimech stejné.
+- **Koláž** (od K7b větve design-v2): výstřižky bez obrysových čar se stínem výstřižku (`k-list`, `k-listek-papir`, `k-pp` a `k-vystrih`), zem natržený pruh (`natrzenyPruh` v `src/lib/kresby.ts`), směr a síly tužkou (`k-tuzka`), barva období jen na jednom nositeli významu (`k-pp`), repliky na lístečku s páskou (`KresbaListek.svelte`), popisky `k-popisek` (na tmavém `k-popisek--svetly`). Světlo a tma tři tóny `k-svetlo`, `k-stin`, `k-tma`, které drží pořadí ve dne i v noci (`global.css` › Kresba s pohybem). Jiné barvy ne; kresba tak sedí ve světlém i tmavém režimu sama. Výjimka je kresba, jejímž tématem je barva (`Saty.svelte`): barvy má vlastní, zapsané v `src/lib/<tema>.ts` s testem, a v obou režimech stejné. Novou kresbu si prohlédni i v noci: černý papír na tmavém papíře zmizí (hrana tužkou), postava z listu taky (`k-svetlo`).
 - **Plátno 340 × 240 jednotek:** na telefonu vyjde jednotka asi na pixel. Popisky v kresbě mají 11,5 jednotky a jedno až tři slova. Postavy a věci jsou jednoduché siluety; hlava má poloměr aspoň 3,5 jednotky.
 - **Pohyb je CSS, ne JavaScript.** Animaci dej pod `:global(.kresba--pohyb)` a prvku třídu `k-hybe`; zastavení a omezený pohyb pak řeší rám. Bez `.kresba--pohyb` (omezený pohyb, sestavení) musí kresba vypadat dobře i stát: výchozí poloha je součást návrhu. Změny stavu jdou přes `transition` s tokeny `--pohyb*`.
 - **Nic se nestřídá samo.** Pohyb je děj uvnitř jednoho pohledu (stíny jdou po stěně, dvojice stoupá). Pohled nebo stupeň mění jen student: přepínačem (dva pohledy na totéž) nebo posuvníkem (`<input type="range">` s `aria-valuetext`, pořadí nebo míra).

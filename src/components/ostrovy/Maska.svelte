@@ -24,13 +24,12 @@
 
 <Kresba {id} {obdobi} nadtitulek={NADTITULKY_KRESEB.Maska} nazev={NAZVY_KRESEB.Maska} pohledy={POHLEDY_MASKY} bind:pohled {popis} viewBox="0 0 {PLATNO.sirka} {PLATNO.vyska}">
   {#snippet kresba()}
-    <rect class="k-stin" width={PLATNO.sirka} height={PLATNO.vyska} />
-
+    <!-- Koláž (K7b): tvář světlý výstřižek, maska z papíru období (jediný nositel barvy), tkanice tužkou. -->
     {#key pohled}
       <!-- Tvář: obyčejná, s vlasy a ušima. Stojí pořád na místě. -->
-      <g class="tvar" transform="translate({TVAR_STRED.x} {TVAR_STRED.y})">
-        {#each t.usi as u, i (i)}<ellipse class="k-svetlo tvar__obrys" cx={u.cx} cy={u.cy} rx={u.rx} ry={u.ry} />{/each}
-        <ellipse class="k-svetlo tvar__obrys" cx="0" cy="0" rx={t.rx} ry={t.ry} />
+      <g class="tvar k-vystrih" transform="translate({TVAR_STRED.x} {TVAR_STRED.y})">
+        {#each t.usi as u, i (i)}<ellipse class="k-svetlo" cx={u.cx} cy={u.cy} rx={u.rx} ry={u.ry} />{/each}
+        <ellipse class="k-svetlo" cx="0" cy="0" rx={t.rx} ry={t.ry} />
         <path class="k-tma" d={t.vlasy} />
         {#each t.oci as o, i (i)}<circle class="k-tma" cx={o.cx} cy={o.cy} r={o.r} />{/each}
         {#each t.oboci as d, i (i)}<path class="tvar__cara" d={d} />{/each}
@@ -40,9 +39,9 @@
 
       <!-- Maska: střed nad tváří; vnitřní skupina se posouvá (atribut transform vnější skupiny tak zůstane platit). -->
       <g transform="translate({TVAR_STRED.x} {TVAR_STRED.y})">
-        <g class="maska k-hybe" style:--dx="{MASKA_VEDLE.dx}px" style:--dy="{MASKA_VEDLE.dy}px" style:--rot="{MASKA_VEDLE.natoceni}deg">
+        <g class="maska k-vystrih k-hybe" style:--dx="{MASKA_VEDLE.dx}px" style:--dy="{MASKA_VEDLE.dy}px" style:--rot="{MASKA_VEDLE.natoceni}deg">
           {#each MASKA_CESTY.tkanice as d, i (i)}<path class="maska__tkanice" d={d} />{/each}
-          <path class="k-svetlo maska__obrys" d={MASKA_CESTY.obrys} />
+          <path class="k-pp" d={MASKA_CESTY.obrys} />
           {#each MASKA_CESTY.oci as d, i (i)}<path class="k-tma" d={d} />{/each}
           {#each MASKA_CESTY.oboci as d, i (i)}<path class="maska__cara" d={d} />{/each}
           <path class="maska__cara maska__nos" d={MASKA_CESTY.nos} />
@@ -59,12 +58,10 @@
 </Kresba>
 
 <style>
-  .tvar__obrys { stroke: var(--k-tma); stroke-width: 1.6; }
   .tvar__cara { fill: none; stroke: var(--k-tma); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .maska__obrys { stroke: var(--k-tma); stroke-width: 2.2; }
   .maska__cara { fill: none; stroke: var(--k-tma); stroke-width: 2.4; stroke-linecap: round; }
   .maska__nos { stroke-width: 1.8; }
-  .maska__tkanice { fill: none; stroke: var(--k-svetlo); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .maska__tkanice { fill: none; stroke: var(--tuzka); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* Bez pohybu (omezený pohyb, sestavení, zastaveno) leží maska vedle tváře a popisky svítí: to je výsledek. */
   .maska {

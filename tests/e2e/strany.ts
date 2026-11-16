@@ -1,7 +1,7 @@
 // Společné pomůcky testů posledního kroku cest s blokem Kdo je na tvé straně (větev interaktivita-v1, K1 a T1):
 // deník se zápisy bloků před načtením stránky a pořadí potomků oddílu po přeskládání. Používají cesta2, 7, 8, 33 a 34.
 // Od revize interaktivita-v2 i společná příprava stránky (projedStranku, pripravitStranku) pro všechny testy cest.
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 /** Co se objeví jen po přeskládání: štítek, studentova odpověď a sbalené ostatní odpovědi. */
@@ -92,4 +92,15 @@ export async function nicNeulozeno(page: Page, bloky: string[]) {
   const d = await denikBloku(page);
   expect(Object.keys(d.bloky).sort()).toEqual([...bloky].sort());
   expect(d.zapisy).toEqual([]);
+}
+
+/**
+ * Další krok po odpovědi v bloku (K5): nabízí ho lišta kroku, která se po odpovědi rozsvítí (hlavní tlačítko);
+ * blok tentýž odkaz neopakuje. Vrací odkaz v liště.
+ */
+export async function dalsiVListe(page: Page, blok: Locator): Promise<Locator> {
+  await expect(blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: /^(Další krok|Dokončit cestu)/ })).toHaveCount(0);
+  const dal = page.locator('.cesta-lista [data-dalsi-krok]');
+  await expect(dal).toHaveClass(/blok__tl--hlavni/);
+  return dal;
 }

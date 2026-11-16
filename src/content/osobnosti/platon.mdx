@@ -35,6 +35,7 @@ import MojeStanovisko from '../../components/ostrovy/MojeStanovisko.svelte';
 import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
 import { KdoZilDriv, ZmenJednuVec, Spor, Volba, Odkryj, ZdvojCtverec } from '../../components/bloky';
+import Pojem from '../../components/ui/Pojem.astro';
 
 <div class="uvod ctenarsky">
 
@@ -57,7 +58,7 @@ Po porážce se ve městě chopilo moci třicet oligarchů. Patřili k nim i Pla
 
 <Volba id="platon-pribuzni-u-moci" />
 
-V dopise, který se dochoval pod Platónovým jménem, stojí, že ho příbuzní zvali mezi sebe hned. Chtěl prý do politiky a čekal, že obec povedou ke spravedlnosti. Místo toho se díval, jak se kvůli nim na starou vládu vzpomíná jako na zlatý věk.
+V dopise, který se dochoval pod Platónovým jménem, stojí, že ho příbuzní zvali mezi sebe hned. Chtěl prý do politiky a čekal, že <Pojem id="obec">obec</Pojem> povedou ke spravedlnosti. Místo toho se díval, jak se kvůli nim na starou vládu vzpomíná jako na zlatý věk.
 
 Stojí tam i jeden příklad. Noví vládci chtěli Sókrata donutit, aby pro ně zatkl nevinného občana. Sókratés odmítl.
 
@@ -70,7 +71,7 @@ Héfaistos byl pro Řeky bůh ohně.
 Pět let po porážce stál Sókratés před soudem a Platón seděl v síni. Po Sókratově smrti odešel na čas z Athén.
 </Kapitola>
 
-<Kapitola cislo="02" kotva="chlapec-a-ctverec" nazev="Chlapec a čtverec">
+<Kapitola cislo="02" kotva="chlapec-a-ctverec" nazev="Chlapec a čtverec" predmet="square">
   <Fragment slot="titulek">Teď aspoň ví, že <em>neví.</em></Fragment>
 
 Asi ve čtyřiceti se Platón vydal do jižní Itálie a na Sicílii. Po návratu začal učit v háji za athénskými hradbami, kterému se říkalo Akadémie. Jeho škola se podle toho háje jmenuje Akademie a vydržela tam staletí. Mezi Platónovými žáky se jmenují i dvě ženy.
@@ -85,11 +86,11 @@ Kde končí Sókratés a začíná Platón, popsal Platónův žák Aristotelés
 
 <Citat id="metafyzika-1078b" />
 
-„Oni“, to je Platón a jeho škola. Ideje jsou tedy Platónovy, ne Sókratovy.
+„Oni“, to je Platón a jeho škola. <Pojem id="idea">Ideje</Pojem> jsou tedy Platónovy, ne Sókratovy.
 
 V rozhovoru Menón nechává Platón Sókrata čelit otázce: jak chceš hledat něco, o čem vůbec nevíš, co to je? A kdybys na to narazil, jak poznáš, že je to ono?
 
-Sókratés odpoví tím, co prý slyšel od kněží a básníků. Duše je nesmrtelná, mnohokrát se narodila a všechno už viděla. Proto podle nich platí:
+Sókratés odpoví tím, co prý slyšel od kněží a básníků. <Pojem id="duse">Duše</Pojem> je nesmrtelná, mnohokrát se narodila a všechno už viděla. Proto podle nich platí:
 
 <Citat id="menon-81d" />
 
@@ -198,7 +199,7 @@ Chvíli se přemáhal a zakrýval si tvář. Pak ho touha přemohla. Vytřeštil
 
 Znáš to z telefonu ve tři ráno. Víš, že se dívat nechceš, a díváš se.
 
-V Leontiovi se podle Platóna přely tři síly. Žádostivost chtěla vidět. Rozum říkal ne. A hněv se postavil na stranu rozumu: Leontios se zlobil sám na sebe.
+V Leontiovi se podle Platóna přely tři síly. Žádostivost chtěla vidět. <Pojem id="rozum">Rozum</Pojem> říkal ne. A hněv se postavil na stranu rozumu: Leontios se zlobil sám na sebe.
 
 Ty tři síly má podle Platóna v duši každý: rozum, hněv a žádostivost. Vládnout má rozum a hněv mu má pomáhat. Spravedlivý je ten, v kom každá dělá to své a žádná se neplete jiné do práce.
 
@@ -228,7 +229,7 @@ Kdo má takové obci vládnout? V Ústavě na to Platón nechává Sókrata odpo
 
 Platón to zkusil. Třikrát.
 
-Poprvé připlul do Syrákús na Sicílii asi ve čtyřiceti. Vládl tam tyran Dionýsios. Platón tam našel žáka: tyranova mladého švagra Dióna.
+Poprvé připlul do Syrákús na Sicílii asi ve čtyřiceti. Vládl tam <Pojem id="tyran">tyran</Pojem> Dionýsios. Platón tam našel žáka: tyranova mladého švagra Dióna.
 
 Vypráví se, že se tyran na Platóna rozhněval a dal ho cestou domů prodat do otroctví. Vykoupil ho prý jeden známý.
 
@@ -269,7 +270,7 @@ V Athénách se narodil, učil i zemřel. Třikrát odjel do Syrákús a třikr�
   <Myslenka cislo={1} disciplina="Poznání">
     <Fragment slot="titulek">Učit se znamená <em>rozpomínat se.</em></Fragment>
 
-Hledat a učit se podle Platóna znamená rozpomínat se. Duše už všechno viděla a dobrá otázka jí to připomene. Chlapec se čtvercem proto nedostal žádnou poučku, jen otázky.
+Hledat a učit se podle Platóna znamená <Pojem id="rozpominani">rozpomínat</Pojem> se. Duše už všechno viděla a dobrá otázka jí to připomene. Chlapec se čtvercem proto nedostal žádnou poučku, jen otázky.
 
 *Naučil se ten chlapec něco, nebo jen přitakával? Úhlopříčky přece nakreslil Sókratés. A ty: kdy jsi na něco přišel sám a kdy ti někdo jen dobře napověděl?*
 

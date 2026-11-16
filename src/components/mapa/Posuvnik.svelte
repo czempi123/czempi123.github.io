@@ -5,6 +5,8 @@
   // nahoře názvy, pod nimi značky (pruh pro období, tečka pro jeden rok). Značka tak nikdy nezasáhne do cizího názvu
   // a tečka uvnitř pruhu (bitva během války) má světlý okraj. Název, který se nevejde vedle sousedního, se schová
   // a ukáže se jako štítek po najetí myší nebo při fokusu z klávesnice (rozmístění: src/lib/kotvy.ts).
+  // Vzhled (design-v2, K7a): drážka vtlačená do papíru, jezdec jako razítko s dvojitým kruhem v inkoustu období,
+  // letopočet rukou v inkoustu období.
   import { onMount } from 'svelte';
   import type { UdalostV } from '../../lib/mapa-vstup';
   import { rozmistiNazvy, mistoStitku, type KotvaNaOse } from '../../lib/kotvy';
@@ -18,8 +20,11 @@
     kotvy: UdalostV[];
     onzmena: (rok: number, zdroj: 'tah' | 'klavesa' | 'tlacitko' | 'konec-tahu') => void;
     onokno: (okno: [number, number]) => void;
+    /** kolik lidí z atlasu ve zvoleném roce žije (věta pod letopočtem) */
+    zije?: number;
   }
-  let { rok, okno, rozsah, kotvy, onzmena, onokno }: Props = $props();
+  let { rok, okno, rozsah, kotvy, onzmena, onokno, zije }: Props = $props();
+  const vetaZije = (n: number) => (n === 1 ? 'žije 1 člověk z atlasu' : n > 1 && n < 5 ? `žijí ${n} lidé z atlasu` : `žije ${n} lidí z atlasu`);
 
   const podil = (r: number) => (naAstro(r) - naAstro(okno[0])) / (naAstro(okno[1]) - naAstro(okno[0]));
   let poloha = $derived(Math.min(1, Math.max(0, podil(rok))));
@@ -56,7 +61,10 @@
       const o = naOse[i];
       const levy = o.x2 === null ? o.x1 - CIL / 2 : Math.max(0, o.x1);
       const nazev = mista.get(k.id);
-      return { k, popisek: nazev !== undefined, posun: Math.round((nazev ?? mistoStitku(o, sirkaStopy)) - levy) };
+      // Pruh, na kterém leží událost jednoho roku (Salamína ve válkách s Peršany): na notebooku se na válku klepe
+      // jejím názvem, na pruhu jsou jen tečky bitev, aby se tlačítka nepřekrývala (revize R, otázka 2).
+      const sBody = !!k.do && v.some((j) => !j.do && j.od >= k.od && j.od <= k.do!);
+      return { k, popisek: nazev !== undefined, sBody, posun: Math.round((nazev ?? mistoStitku(o, sirkaStopy)) - levy) };
     });
   });
 
@@ -139,21 +147,22 @@
 
 <div class="posuvnik">
   <div class="posuvnik__rok">
-    <button type="button" class="sipka" onclick={() => o10(-1)} disabled={rok <= rozsah[0]} aria-label="O 10 let zpět">
+    <button type="button" class="sipka vystouple vystouple--m" onclick={() => o10(-1)} disabled={rok <= rozsah[0]} aria-label="O 10 let zpět">
       <svg width="20" height="20" aria-hidden="true"><use href="/ikony/ui.svg#zpet" /></svg>
     </button>
     <output class="letopocet" aria-live="off">{rokText(rok)}</output>
-    <button type="button" class="sipka" onclick={() => o10(1)} disabled={rok >= rozsah[1]} aria-label="O 10 let vpřed">
+    <button type="button" class="sipka vystouple vystouple--m" onclick={() => o10(1)} disabled={rok >= rozsah[1]} aria-label="O 10 let vpřed">
       <svg width="20" height="20" aria-hidden="true"><use href="/ikony/ui.svg#dal" /></svg>
     </button>
+    {#if zije !== undefined}<p class="zije">{vetaZije(zije)}</p>{/if}
   </div>
 
   <div class="posuvnik__cas">
     <ul class="kotvy" aria-label="Dějinné události" bind:this={kotvyEl} bind:clientWidth={sirkaStopy}>
-      {#each viditelneKotvy as { k, popisek, posun } (k.id)}
+      {#each viditelneKotvy as { k, popisek, sBody, posun } (k.id)}
         {@const l = Math.max(0, podil(k.od))}
         {@const p = Math.min(1, podil(k.do ?? k.od))}
-        <li class:kotva--pruh={!!k.do} class:kotva--bez-popisku={!popisek} style:left="{l * 100}%" style:width={k.do ? `${(p - l) * 100}%` : undefined}>
+        <li class:kotva--pruh={!!k.do} class:kotva--bez-popisku={!popisek} class:kotva--nazvem={sBody && popisek} style:left="{l * 100}%" style:width={k.do ? `${(p - l) * 100}%` : undefined}>
           <button type="button" class="kotva" title={kotvaText(k)} aria-label="{kotvaText(k)}: přejít" onclick={() => onzmena(k.od, 'tlacitko')}>
             <span class="kotva__znak" aria-hidden="true"></span>
             <span class="kotva__text" aria-hidden="true" style:left="{posun}px">{k.nazev}</span>
@@ -198,16 +207,18 @@
     height: 100%;
     font-family: var(--font-sans);
   }
-  .posuvnik__rok { display: flex; align-items: center; justify-content: space-between; gap: 2px; padding: 0 var(--s-2) 0 var(--s-3); }
+  .posuvnik__rok { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-content: center; align-items: center; gap: 2px 4px; padding: 0 var(--s-2) 0 var(--s-3); }
+  .zije { grid-column: 1 / -1; margin: 0; font-size: 13px; line-height: 1.2; color: var(--ink-2); text-align: center; }
   .letopocet {
     flex: 1;
-    font-family: var(--font-serif);
-    font-size: var(--posuvnik-rok, 26px);
+    font-family: var(--font-ruka);
+    font-size: var(--posuvnik-rok, 21px);
+    font-weight: 700;
     line-height: 1;
+    color: var(--p);
     text-align: center;
     white-space: nowrap;
     font-variant-numeric: lining-nums tabular-nums;
-    letter-spacing: -0.01em;
   }
   .sipka {
     display: grid;
@@ -215,14 +226,11 @@
     width: 36px;
     height: 36px;
     flex: none;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    background: var(--surface);
+    padding: 0;
+    border-radius: var(--r-plne);
     color: var(--ink);
-    cursor: pointer;
   }
-  .sipka:hover:not(:disabled) { border-color: var(--ink); }
-  .sipka:disabled { opacity: 0.4; cursor: default; }
+  .sipka:disabled { opacity: 0.5; cursor: default; }
   .posuvnik__cas { position: relative; padding-right: var(--s-4); }
   /* Dějinné kotvy: řádek názvů (0–16 px) a pod ním řádek značek (16–27 px). */
   .kotvy {
@@ -256,7 +264,7 @@
     cursor: pointer;
   }
   .kotva--pruh .kotva { left: 0; width: 100%; min-width: 6px; }
-  .kotva:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; border-radius: var(--r-xs); }
+  .kotva:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; border-radius: var(--r-razitko); }
   .kotva__znak {
     position: absolute;
     left: 50%;
@@ -266,7 +274,7 @@
     margin: -3.5px 0 0 -3.5px;
     border-radius: 999px;
     background: var(--ink-2);
-    box-shadow: 0 0 0 2px var(--surface);
+    box-shadow: 0 0 0 2px var(--papir);
   }
   .kotva--pruh .kotva__znak {
     left: 0;
@@ -276,13 +284,20 @@
     height: 5px;
     margin: 0;
     border-radius: 3px;
-    background: color-mix(in srgb, var(--ink-2) 35%, transparent);
+    background: color-mix(in srgb, var(--tuzka) 55%, transparent);
     box-shadow: none;
   }
   .kotva__text { position: absolute; top: -16px; white-space: nowrap; }
   .kotva:hover .kotva__text, .kotva:focus-visible .kotva__text { color: var(--ink); text-decoration: underline; }
   .kotva:hover .kotva__znak, .kotva:focus-visible .kotva__znak { background: var(--ink); }
   .kotva--pruh .kotva:hover .kotva__znak, .kotva--pruh .kotva:focus-visible .kotva__znak { background: color-mix(in srgb, var(--ink-2) 60%, transparent); }
+  /* Pruh s bitvou uvnitř (sBody): tlačítko pruhu je jen jeho název nad osou, pruh pod ním je kresba; tečky bitev
+     na něm jsou vlastní tlačítka. Na telefonu (názvy schované) zůstává tlačítkem celý pruh. */
+  @media (min-width: 900px) {
+    .kotva--nazvem .kotva { top: -16px; height: 16px; }
+    .kotva--nazvem .kotva__text { top: 0; }
+    .kotva--nazvem .kotva__znak { top: 19px; pointer-events: none; }
+  }
   /* Událost bez místa na název: název je schovaný a ukáže se po najetí nebo při fokusu jako štítek nad ostatními. */
   .kotva--bez-popisku .kotva__text { display: none; }
   .kotva--bez-popisku .kotva:hover .kotva__text,
@@ -290,31 +305,32 @@
     display: block;
     top: -18px;
     padding: 1px 6px;
-    border-radius: var(--r-xs);
-    background: var(--surface);
-    box-shadow: 0 0 0 1px var(--rule);
+    background: var(--listek);
+    box-shadow: var(--lezi-tlak);
     text-decoration: none;
   }
-  .stopa { position: absolute; left: 0; right: var(--s-4); bottom: 6px; height: 34px; touch-action: none; cursor: pointer; }
-  .stopa__draha { position: absolute; left: 0; right: 0; top: 14px; height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; }
-  .stopa__uplynulo { height: 100%; background: var(--pc-soft); }
+  /* Drážka vtlačená do papíru (plátno .rozsah) a jezdec jako razítko: plocha vystoupí, dva kruhy v inkoustu období. */
+  .stopa { position: absolute; left: 0; right: var(--s-4); bottom: 4px; height: 36px; touch-action: none; cursor: pointer; }
+  .stopa__draha { position: absolute; left: 0; right: 0; top: 11px; height: 14px; border-radius: var(--r-plne); background: var(--papir); box-shadow: var(--vtla); }
+  .stopa__uplynulo { display: none; }
   .jezdec {
     position: absolute;
-    top: 7px;
-    width: 20px;
-    height: 20px;
-    margin-left: -10px;
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    background: var(--surface);
-    box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
+    top: 3px;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    border-radius: 50%;
+    background: var(--plocha);
+    box-shadow: var(--vyst-m), inset 0 0 0 2px var(--p), inset 0 0 0 7px var(--plocha), inset 0 0 0 9px var(--p);
+    transition: transform var(--d-stisk) var(--k-stisk);
   }
-  .jezdec::after { content: ''; position: absolute; left: 50%; top: 18px; width: 2px; height: 20px; margin-left: -1px; background: var(--ink); }
-  .stopa--tah .jezdec { transform: scale(1.12); }
+  .jezdec::after { content: ''; position: absolute; left: 50%; top: 28px; width: 2px; height: 14px; margin-left: -1px; background: var(--ink); }
+  .stopa--tah .jezdec { transform: scale(1.1); }
   .jezdec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   @media (max-width: 899px) {
     .posuvnik { grid-template-rows: 36px 1fr; }
-    .posuvnik__rok { grid-column: 1 / -1; justify-content: center; gap: var(--s-4); padding: 4px var(--s-3) 0; }
+    .posuvnik__rok { grid-column: 1 / -1; display: flex; justify-content: center; gap: var(--s-3); padding: 4px var(--s-3) 0; }
+    .zije { margin: 0; font-size: 12px; text-align: left; }
     .letopocet { flex: 0 1 auto; min-width: 9ch; }
     .sipka { width: 32px; height: 32px; }
     .posuvnik__cas { grid-column: 2; }
@@ -330,11 +346,10 @@
       display: block;
       top: -4px;
       padding: 1px 6px;
-      border-radius: var(--r-xs);
-      background: var(--surface);
-      box-shadow: 0 0 0 1px var(--rule);
+      background: var(--listek);
+      box-shadow: var(--lezi-tlak);
       text-decoration: none;
     }
-    .stopa { bottom: 2px; }
+    .stopa { bottom: 0; }
   }
 </style>

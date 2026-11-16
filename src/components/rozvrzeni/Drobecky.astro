@@ -1,5 +1,5 @@
 ---
-// Drobečková navigace: vždy pod hlavičkou vlevo (Lidé a směry / období / osoba).
+// Drobečková navigace: vždy pod hlavičkou vlevo (Lidé a směry / období / osoba), celá v --ink-3.
 interface Props { cesta: { text: string; href?: string }[] }
 const { cesta } = Astro.props;
 ---
@@ -14,11 +14,11 @@ const { cesta } = Astro.props;
 </nav>
 
 <style>
-  .drobecky { padding-top: var(--s-4); padding-bottom: var(--s-2); }
+  .drobecky { padding-top: var(--s-4); padding-bottom: var(--s-2); color: var(--ink-3); }
   ol { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); margin: 0; padding: 0; list-style: none; }
-  li { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--muted); }
-  li + li::before { content: '/'; color: var(--muted); }
-  a { color: var(--ink-2); text-decoration: none; min-height: 24px; display: inline-flex; align-items: center; }
-  a:hover { color: var(--ink); text-decoration: underline; }
-  [aria-current] { color: var(--ink); }
+  li { display: inline-flex; align-items: center; gap: var(--s-2); }
+  li + li::before { content: '/'; }
+  /* Odkazy podtržené, aktuální stránka bez podtržení: rozdíl nenese jen barva. */
+  a { display: inline-flex; align-items: center; min-height: 24px; color: var(--ink-3); text-decoration-color: currentColor; text-underline-offset: 3px; }
+  a:hover { color: var(--ink); }
 </style>

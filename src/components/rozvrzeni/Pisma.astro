@@ -1,18 +1,31 @@
 ---
 // Písma uložená lokálně z balíčků @fontsource (jen podmnožiny latin a latin-ext), bez Google Fonts.
 // Newsreader: variabilní osy opsz 6–72 a wght 200–800, s kurzívou. Instrument Sans: wght 400–700.
+// Kalam (písmo ruky: pruh se jménem, poznámky, lístky): statické řezy 400 a 700 z @fontsource/kalam;
+// řez 700 latin se přednačítá na stránkách osob, kde je pruh na první obrazovce.
 import nLatin from '@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url';
 import nLatinExt from '@fontsource-variable/newsreader/files/newsreader-latin-ext-opsz-normal.woff2?url';
 import nLatinI from '@fontsource-variable/newsreader/files/newsreader-latin-opsz-italic.woff2?url';
 import nLatinExtI from '@fontsource-variable/newsreader/files/newsreader-latin-ext-opsz-italic.woff2?url';
 import iLatin from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
 import iLatinExt from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-ext-wght-normal.woff2?url';
+import k400 from '@fontsource/kalam/files/kalam-latin-400-normal.woff2?url';
+import k400Ext from '@fontsource/kalam/files/kalam-latin-ext-400-normal.woff2?url';
+import k700 from '@fontsource/kalam/files/kalam-latin-700-normal.woff2?url';
+import k700Ext from '@fontsource/kalam/files/kalam-latin-ext-700-normal.woff2?url';
+
+/** ruka: přednačíst Kalam 700 (latin), když je pruh se jménem na první obrazovce (stránky osob, K3) */
+interface Props { ruka?: boolean }
+const { ruka = false } = Astro.props;
 
 const LATIN = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
 const LATIN_EXT = 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF';
 
 const face = (rodina: string, url: string, styl: string, vahy: string, rozsah: string) =>
   `@font-face{font-family:'${rodina}';font-style:${styl};font-display:swap;font-weight:${vahy};src:url(${url}) format('woff2-variations'),url(${url}) format('woff2');unicode-range:${rozsah}}`;
+
+const staticky = (rodina: string, url: string, vaha: number, rozsah: string) =>
+  `@font-face{font-family:'${rodina}';font-style:normal;font-display:swap;font-weight:${vaha};src:url(${url}) format('woff2');unicode-range:${rozsah}}`;
 
 const css = [
   face('Newsreader', nLatin, 'normal', '200 800', LATIN),
@@ -21,8 +34,13 @@ const css = [
   face('Newsreader', nLatinExtI, 'italic', '200 800', LATIN_EXT),
   face('Instrument Sans', iLatin, 'normal', '400 700', LATIN),
   face('Instrument Sans', iLatinExt, 'normal', '400 700', LATIN_EXT),
+  staticky('Kalam', k400, 400, LATIN),
+  staticky('Kalam', k400Ext, 400, LATIN_EXT),
+  staticky('Kalam', k700, 700, LATIN),
+  staticky('Kalam', k700Ext, 700, LATIN_EXT),
 ].join('\n');
 ---
 <link rel="preload" href={nLatin} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={nLatinExt} as="font" type="font/woff2" crossorigin />
+{ruka && <link rel="preload" href={k700} as="font" type="font/woff2" crossorigin />}
 <style is:inline set:html={css}></style>

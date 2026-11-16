@@ -3,6 +3,10 @@
 // Navíc: ovládání dotykem, zápisy v deníku, odkaz do Mapy a času, noindex dílny a Sókratův profil.
 import { test, expect, type Page, type Locator } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { denikPodleData } from './denik';
+
+// Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
+test.beforeEach(({ page }) => denikPodleData(page));
 
 const STRANKA = '/dilna/bloky/';
 const SIRKY = [
@@ -64,7 +68,8 @@ const BLOKY: {
       await expect(blok.locator('h3')).toHaveText('Nikdo není moudřejší.');
       await expect(blok.locator('h3 em')).toHaveText('moudřejší.');
       await expect(blok.locator('figcaption')).toContainText('Chairefón');
-      await expect(blok.locator('.mince')).toHaveAttribute('aria-label', 'Sókratés · kalich');
+      // Deska bez obrazu nese razítko člověka s atributem (design-v2, K3; dřív mince).
+      await expect(blok.locator('.razitko-cloveka')).toHaveAttribute('aria-label', 'Sókratés · kalich');
       // Bez interakce: nic, na co by šlo tabulátorem.
       await expect(blok.locator('a, button, input, textarea')).toHaveCount(0);
     },
@@ -149,9 +154,10 @@ const BLOKY: {
       await expect(navrchu).toHaveText('Páteční pizza s kamarády');
       await expect(blok.locator('.stul__postup')).toHaveText('Zbývá 5 z 6');
       await expect(sem('Potřebuju')).toBeFocused();
-      // Tabulátor jde přes položenou kartu k dalšímu koši.
-      await page.keyboard.press('Tab');
+      // Karty v kapse stojí nad jejím čelem (K4b), takže jsou v pořadí před tlačítkem Dát sem; tabulátor jde dál k další kapse.
+      await page.keyboard.press('Shift+Tab');
       await expect(blok.getByRole('button', { name: 'Vyspat se po probdělé noci (vzít zpět z koše Potřebuju)' })).toBeFocused();
+      await page.keyboard.press('Tab');
       await page.keyboard.press('Tab');
       await expect(sem('Těší mě')).toBeFocused();
       await page.keyboard.press('Enter');
@@ -181,7 +187,7 @@ const BLOKY: {
       await page.keyboard.press('Enter');
       await expect(navrchu).toHaveText('Nové kolo');
       await expect(sem('Potřebuju')).toBeFocused();
-      await page.keyboard.press('Tab');
+      // Z kapsy Potřebuju přes dvě karty v kapse Těší mě k jejímu tlačítku.
       await page.keyboard.press('Tab');
       await page.keyboard.press('Tab');
       await page.keyboard.press('Tab');
@@ -407,7 +413,7 @@ test('deník: zápisy z bloků jsou v Mém deníku, Kdo žil dřív? tam není; 
   await spor.getByRole('radio', { name: /^spíš Platón/ }).check({ force: true });
   await spor.getByRole('button', { name: 'Zapsat konečnou polohu' }).click();
   const kdo = await pripravBlok(page, 'kdo-sokrates-diogenes-poradi', 'KdoZilDriv');
-  await kdo.getByText('Diogenés', { exact: true }).click();
+  await kdo.getByRole('radio', { name: 'Diogenés', exact: true }).check({ force: true });
   await kdo.getByRole('button', { name: 'Odhalit' }).click();
   await expect(kdo.getByRole('region', { name: 'Odhalení' })).toContainText('Je to naopak: dřív se narodil Sókratés.');
 
@@ -523,6 +529,8 @@ test('Roztřiď: tažení karty myší do koše, puštění mimo koš kartu vrá
   let blok = await pripravBlok(page, 'cesta6-tri-kose', 'Roztrid');
   const tahni = async (kam: Locator | null) => {
     const karta = blok.locator('.karta');
+    // Pod zátěží celého běhu (od K3 dvakrát) se karta měřila dřív, než se načetla písma, a koš pak nebyl pod ukazatelem.
+    await page.evaluate(() => document.fonts.ready);
     await karta.evaluate((e) => e.scrollIntoView({ block: 'center' }));
     const k = (await karta.boundingBox())!;
     await page.mouse.move(k.x + 60, k.y + k.height / 2);

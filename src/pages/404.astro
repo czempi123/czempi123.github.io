@@ -1,16 +1,27 @@
 ---
+// Stránka nenalezena: titulek na vytrženém listu a pod ním pruh bez období (v inkoustu), jako stránky,
+// které nepatří jednomu období (design-v2, K2; global.css › Titulek s pruhem).
 import Zakladni from '../layouts/Zakladni.astro';
 import Tlacitko from '../components/ui/Tlacitko.astro';
 ---
 <Zakladni titulek="Stránka nenalezena" hledat={false}>
-  <div class="stranka ctenarsky chyba">
-    <h1 class="t-h1">Tady nic <em>není.</em></h1>
-    <p class="t-perex">Tahle stránka v atlasu neexistuje. Zkus hledání, nebo se vrať domů.</p>
-    <Tlacitko href="/">Domů</Tlacitko>
+  <div class="stranka chyba bez-obdobi">
+    <div class="titulek">
+      <div class="titulek__list"><h1 class="titulek__jmeno">Tady nic není.</h1></div>
+    </div>
+    <div><div class="titulek-pruh"><p class="titulek-pruh__papir">Stránka nenalezena</p></div></div>
+    <div class="ctenarsky">
+      <p class="t-perex perex">Tahle stránka v atlasu neexistuje. Zkus hledání, nebo se vrať domů.</p>
+      <Tlacitko href="/">Domů</Tlacitko>
+    </div>
   </div>
 </Zakladni>
 
 <style>
-  .chyba { padding-top: var(--s-9); }
-  h1 { margin-bottom: var(--s-4); }
+  .chyba { padding-top: var(--s-8); }
+  .titulek-pruh__papir { margin: 0; }
+  .perex { margin: var(--s-6) 0 var(--s-5); }
+  @media (max-width: 699px) {
+    .chyba { padding-top: var(--s-6); }
+  }
 </style>

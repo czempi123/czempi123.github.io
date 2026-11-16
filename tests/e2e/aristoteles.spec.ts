@@ -182,11 +182,11 @@ test('Aristotelés: deska s odlitkem, druhý obraz a Zkus to žít', async ({ pa
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(ARISTOTELES);
   expect(await stred()).toBe('50% 20%');
-  const popisek = page.locator('.osobnost__deska .obraz-popisek');
+  const popisek = page.locator('.obraz-popisek');
   await expect(popisek).toContainText('Sádrový odlitek mramorové hlavy z Vídně');
   await expect(popisek).not.toContainText(/římsk|Lýsipp/i);
   // Atribut u desky neříká „ctnost“ dřív, než ji kapitola 01 vyloží.
-  await expect(page.locator('.osobnost__deska')).toContainText('Správná míra leží mezi dvěma krajnostmi a není pro každého stejná.');
+  await expect(page.locator('.osobnost .proc')).toContainText('Správná míra leží mezi dvěma krajnostmi a není pro každého stejná.');
   // Rembrandt stojí v kapitole 05 a popisek říká, čí je to představa a z kdy.
   const rembrandt = page.locator('#podruhe-ne .pribeh');
   await expect(rembrandt.locator('img')).toHaveAttribute('src', /aristoteles-rembrandt-met\.jpg$/);

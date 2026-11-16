@@ -2,7 +2,8 @@
 // vyhodnocení podle toho, co student složil, hlášení pro čtečky, volba „Kterou premisu bys napadl ty?“,
 // zápis do deníku a platný stav po obnovení. Čisté funkce bez DOM; testy v tests/data/argument.test.ts.
 // Nic se neboduje: zpětná vazba popíše, co student složil, a ptá se dál.
-import { ID_SKRYTY, ID_ZADNOU, type TBlokArgument } from './bloky-schema';
+import { ID_SKRYTY, ID_ZADNOU } from './argument-id';
+import type { TBlokArgument } from './bloky-schema';
 
 export type ObsahArgumentu = Pick<TBlokArgument, 'karty' | 'skryty' | 'napadnout' | 'zpetna' | 'zadnou'>;
 export type Karta = TBlokArgument['karty'][number];

@@ -38,4 +38,5 @@
   <symbol id="bag" viewBox="0 0 24 24"><path d="M7 10.5 12 3.5l5 7M4.5 10.5h15l-1.6 9.5H6.1zM4.5 10.5c2.5 3 12.5 3 15 0M12 13.2v1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="shuttle" viewBox="0 0 24 24"><path d="M2.5 12c2.5-3.2 16.5-3.2 19 0-2.5 3.2-16.5 3.2-19 0zM8.5 12h7M9.5 10.6v2.8M14.5 10.6v2.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="tripod" viewBox="0 0 24 24"><path d="M5.2 7h13.6M6.2 7c0 3.3 2.5 5 5.8 5s5.8-1.7 5.8-5M6.2 7 4.8 21.5M17.8 7 19.2 21.5M12 12v9.5M5.5 17h13M6 5.1a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0M10.6 4.4a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0M15.2 5.1a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="square" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM12 4l8 8-8 8-8-8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>

@@ -7,6 +7,7 @@
   import { onMount, tick } from 'svelte';
   import { najdiZapis, ulozZapis, stavBloku, ulozStavBloku } from '../../lib/denik';
   import { klicOtazky } from '../../lib/otazky';
+  import BlokHlava from './BlokHlava.svelte';
 
   interface Props { slug: string; otazka: string; odkaz: string }
   let { slug, otazka, odkaz }: Props = $props();
@@ -52,7 +53,7 @@
 </script>
 
 <section class="blok prvni-nazor" id="prvni-nazor" aria-labelledby={`${slug}-prvni-otazka`}>
-  <p class="t-nadtitulek blok__nadtitulek">Tvůj první názor</p>
+  <BlokHlava nadtitulek="Tvůj první názor" />
   <h2 class="t-h3 blok__otazka" id={`${slug}-prvni-otazka`}>Co si o tom myslíš ty?</h2>
   <label class="blok__popis" for={`${slug}-prvni-pole`}>Odpověz dřív, než uvidíš filozofy. Na konci se k&nbsp;odpovědi vrátíš.</label>
   <textarea
@@ -63,6 +64,7 @@
     placeholder="Napiš pár slov…"
     disabled={ulozeno && !upravuji}
   ></textarea>
+  <!-- Hlavní čin první (z pole tabulátorem rovnou na Uložit), Přeskočit tiše za ním. -->
   <div class="blok__akce">
     {#if !ulozeno || upravuji}
       <button class="blok__tl blok__tl--hlavni" type="button" onclick={uloz} disabled={!odpoved.trim()}>

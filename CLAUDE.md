@@ -2,7 +2,9 @@
 
 Interaktivní atlas filozofie pro středoškoláky (15–19 let), od antiky po současnost. Slouží ve třídě i k samostudiu doma. Kromě učiva má předávat lásku k filozofii, odvahu hledat vlastní odpovědi, poctivost k sobě a ohled na druhé. Páteří je západní filozofie s okny do islámské, židovské, indické a čínské tradice; součástí je úvod do religionistiky podle RVP G a stoicismus má zvláštní váhu. Autor a pedagog: Vojtěch Czempka.
 
-Než začneš pracovat, přečti si `docs/styl.md` (tón), `docs/pouceni.md` (co se nepovedlo a nemá opakovat) a plán větve, na které pracuješ: `docs/plany/<větev>.md` (zadání kroku, stav, co zůstalo na později); stav a další zadání zapisuj tam. Strategie a rozcestník větví jsou v `docs/plan.md`, období, velké otázky, cesty a osobnosti v `docs/architektura.md`, zásadní rozhodnutí v `docs/rozhodnuti.md` (nové zapiš tamtéž). Co z toho číst a co ne, říká oddíl Co číst a jak šetřit.
+**Nosný pilíř** (autor, 14. 11. 2026), nadřazený všemu ostatnímu: student si má z atlasu odnést něco do života. Atlas je doplněk výuky. Před každým celkem, aktivitou i revizí se nejdřív ptej: *Co si z toho student odnese do života?* Když odpověď zní „nic, ale je to v osnovách“, látka patří do dat (medailonek, mapa, stránka směru), ne do cesty. Teprve pod pilířem stojí požadavky státu a školy, v tomto pořadí: Strategie 2030+, RVP G (znění 2021), ŠVP Gymnázia Třinec; při rozporu platí to, co stojí výš. Kompetence, skutečný stav atlasu vůči nim a sedm otázek kontroly kurikula pro každý nový celek jsou v `docs/plany/kurikulum.md`, list pro učitele v `ucitel/kurikulum.md`.
+
+Než začneš pracovat, přečti si `docs/styl.md` (tón), `docs/pouceni.md` (co se nepovedlo a nemá opakovat) a plán větve, na které pracuješ: `docs/plany/<větev>.md` (zadání kroku, stav, co zůstalo na později); stav a další zadání zapisuj tam. Strategie je v `docs/plan.md`, katalog zadání, rozcestník větví a pořadí v `docs/plan-vetve.md`, období, velké otázky, cesty a osobnosti v `docs/architektura.md`, zásadní rozhodnutí v `docs/rozhodnuti.md` (nové zapiš tamtéž). Co z toho číst a co ne, říká oddíl Co číst a jak šetřit.
 
 ## Jak píšeme pro studenty
 
@@ -26,7 +28,8 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 - **Vzory střídmě.** Z hotových stránek stačí jedna jako vzor a z ní části, které potřebuješ.
 - **Testy:** při práci jen dotčené (`npx vitest run`; po `npm run build` pak `PW_BEZ_BUILDU=1 npx playwright test <soubor>`). Celé `npm test` jednou před posledním commitem; pouští i kontrolu typů (`astro check`), stejně jako kontroly na GitHubu.
 - **Snímky:** `node scripts/snimky-listy.mjs` složí celou stránku do pár obrázků, `node scripts/snimky-cesta.mjs` vyfotí kroky cesty s odpověďmi i bez nich, `node scripts/snimky-prvek.mjs` jeden blok nebo kresbu a `node scripts/snimky-montaz.mjs` složí několik snímků vedle sebe. Prohlížej tyhle listy, ne jednotlivé obrazovky.
-- **Projekt v Claude** drží jen `docs/plan.md`, `docs/architektura.md` a plán běžící větve. Když se některý z nich v repozitáři změní, aktualizuj ho i tam; nic dalšího do projektu nepřidávej.
+- **Projekt v Claude** drží jen `docs/plan.md`, `docs/plan-vetve.md`, `docs/architektura.md`, `docs/plany/kurikulum.md` a plány, podle kterých se právě pracuje. Když se některý z nich v repozitáři změní, aktualizuj ho i tam; nic dalšího do projektu nepřidávej.
+- **Co se nedá nahrát vcelku, rozděl** (pokyn autora ze 14. 11. 2026). Soubor určený pro Projekt drž pod 35 kB. Když přeroste nebo se nahrání zasekne, rozděl ho v repozitáři podle oddílů na víc souborů, v původním nech odkaz a nahraj všechny části. Na nahrávání se nezasekávej a autora jím nezdržuj.
 
 ## České konvence
 

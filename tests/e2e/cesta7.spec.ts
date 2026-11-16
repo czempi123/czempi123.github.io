@@ -7,7 +7,7 @@
 // rebelie není ctnost; přizpůsobiví lidé nejsou ovce; smích skupiny jednomu (obrácený pokus) jen v listu pro učitele.
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily } from './strany';
+import { PRESKLADANO, bezNalezuAxe, kotvy, nicNeulozeno, poradiOddilu, pripravitKrok, sDenikem, type Oddily, dalsiVListe } from './strany';
 
 const CESTA7 = '/cesta/ci-zivot-vlastne-ziju/';
 const KROKY7 = ['Ženich a jeho majetek', 'Podle přírody, ne podle zvyku', 'Tři oboly', 'Svazují mě zvyky?', 'Jinou nadutostí', 'Třetí čára', 'Kdo je na tvé straně', 'Nejdřív ty'];
@@ -24,7 +24,7 @@ async function pripravit(page: Page) {
 const denik = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
 
 async function dal(page: Page, blok: Locator, nazev: string, n: number) {
-  await blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` }).click();
+  await (await dalsiVListe(page, blok)).click();
   await expect(page).toHaveURL(`${CESTA7}${n}/`);
   await pripravit(page);
 }

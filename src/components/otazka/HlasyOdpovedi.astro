@@ -1,8 +1,8 @@
 ---
 // Odpovědi myslitelů na úvodní případ stránky velké otázky: karty vedle sebe (telefon pod sebou, od 700 px 2 sloupce),
-// mince, jméno a jedna až dvě věty. Každá karta vede na rozvinutí téže osoby na časové ose (#hlas-<osoba>).
+// razítko, jméno a jedna až dvě věty (K6: ležící listy, každý jinak natočený). Každá karta vede na rozvinutí téže osoby na časové ose (#hlas-<osoba>).
 import type { TOsoba } from '../../lib/schema';
-import Mince from '../ui/Mince.astro';
+import RazitkoCloveka from '../ui/RazitkoCloveka.astro';
 import Ikona from '../ui/Ikona.astro';
 import { radek } from '../../lib/bloky';
 
@@ -16,7 +16,7 @@ const { hlasy } = Astro.props;
     <li class={`odpoved obdobi-${h.osoba.obdobi}`}>
       <a class="odpoved__odkaz" href={`#hlas-${h.osoba.id}`}>
         <span class="odpoved__hlava">
-          <span aria-hidden="true"><Mince osoba={h.osoba} varianta="tint" velikost={40} /></span>
+          <RazitkoCloveka osoba={h.osoba} velikost={64} />
           <span class="odpoved__jmeno t-ovladani-l">{h.osoba.jmeno}</span>
         </span>
         <span class="odpoved__text" set:html={radek(h.odpoved)} />
@@ -27,22 +27,24 @@ const { hlasy } = Astro.props;
 </ul>
 
 <style>
-  .odpovedi { display: grid; gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
+  .odpovedi { display: grid; gap: var(--s-6) var(--s-5); margin: 0; padding: 0; list-style: none; }
   .odpoved__odkaz {
     display: flex;
     flex-direction: column;
     gap: var(--s-3);
     height: 100%;
-    padding: var(--s-5);
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--pc);
-    border-radius: var(--r-md);
-    background: var(--surface);
+    padding: 22px 22px 20px;
+    background: var(--list);
+    box-shadow: var(--lezi);
     color: var(--ink);
     text-decoration: none;
+    rotate: var(--nat, -.6deg);
+    transition: transform var(--d-stisk) var(--k-stisk), rotate var(--d-stisk) var(--k-stisk);
   }
-  .odpoved__odkaz:hover { border-color: var(--pc); }
-  .odpoved__odkaz:hover .odpoved__dal { text-decoration: underline; text-underline-offset: 0.15em; }
+  .odpoved:nth-child(2n) .odpoved__odkaz { --nat: .7deg; }
+  .odpoved__odkaz:hover { rotate: 0deg; transform: translateY(-3px); box-shadow: var(--lezi-zved); }
+  .odpoved__odkaz:hover .odpoved__dal { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 0.15em; }
+  .odpoved__odkaz:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
   .odpoved__hlava { display: flex; align-items: center; gap: var(--s-3); }
   .odpoved__jmeno { font-weight: 600; }
   .odpoved__text { font-family: var(--font-serif); font-size: var(--fs-text); line-height: 1.5; }

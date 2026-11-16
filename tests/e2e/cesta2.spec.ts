@@ -7,7 +7,7 @@
 // Plútarchovi nepřipisuje výměnu všech prken ani druhou loď a studie „měřily“, ne „dokázaly“.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { poradiStran, sDenikem } from './strany';
+import { poradiStran, sDenikem, dalsiVListe } from './strany';
 
 const CESTA2 = '/cesta/jsem-porad-tentyz-kdyz-se-menim/';
 const KROKY2 = ['Loď', 'Řeka', 'Proč je změna záhada', 'Loď po prknech', 'A co člověk?', 'Dva čtenáři jedné řeky', 'Jak staré je tvoje tělo', 'Kdo je na tvé straně'];
@@ -28,7 +28,7 @@ async function pripravit(page: Page) {
 const denik = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
 
 async function dal(page: Page, blok: ReturnType<Page['locator']>, nazev: string, n: number) {
-  await blok.getByRole('navigation', { name: 'Kam dál' }).getByRole('link', { name: `Další krok: ${nazev}` }).click();
+  await (await dalsiVListe(page, blok)).click();
   await expect(page).toHaveURL(`${CESTA2}${n}/`);
   await pripravit(page);
 }
@@ -145,7 +145,8 @@ test('cesta 2: průchod s odpověďmi na telefonu, Spor, závěr Na začátku ×
   await expect(text6.locator('.citat')).toHaveCount(3);
   await expect(text6.locator('.citat').nth(1)).toContainText('Přestaň se bát, že se jednou stane, co se děje každý den.');
   expect(await text6.evaluate((t) => {
-    const prvky = [...t.children];
+    // Text kroku leží na čistém listu (K4a): sousedé citátu jsou na témž listu.
+    const prvky = [...t.querySelectorAll(':scope > .cisty-list > *')];
     const i = prvky.findIndex((e) => e.textContent!.includes('Přestaň se bát'));
     return [prvky[i + 1]?.textContent, prvky[i + 2]?.textContent].map((x) => (x ?? '').replace(/\u00a0/g, ' '));
   })).toEqual([

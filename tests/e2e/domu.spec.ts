@@ -36,17 +36,16 @@ for (const { sirka, vyska } of [{ sirka: 1280, vyska: 720 }, { sirka: 390, vyska
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    // Nadpis drží existující token (h1), žádná vlastní velikost.
-    await expect(page.locator('main h1')).toHaveClass(/(^|\s)t-h1(\s|$)/);
+    // Nadpis je titulek na vytrženém listu (K6): třída a velikost z global.css, žádná vlastní.
+    await expect(page.locator('main h1')).toHaveClass(/(^|\s)titulek__jmeno(\s|$)/);
     const m = await hrany(page);
     expect(m.posun).toBe(0);
     expect(m.nadpis.nahore).toBeGreaterThanOrEqual(m.okno.nahore);
     for (const [co, prvek] of Object.entries({ nadpis: m.nadpis, perex: m.perex, tlacitko: m.tlacitko, udaj: m.udaj })) {
       expect(prvek.dole, `${co} končí nad ohybem`).toBeLessThanOrEqual(m.okno.dole);
     }
-    // Pod začátkem je vidět kus dalšího obsahu: na telefonu panel první cesty, na notebooku nadpis Osm období.
-    if (sirka < 900) expect(m.okno.dole - m.panel.nahore).toBeGreaterThanOrEqual(96);
-    else expect(m.obdobi.dole).toBeLessThanOrEqual(m.okno.dole);
+    // Pod začátkem je vidět kus dalšího obsahu: lístek první cesty (na telefonu pod začátkem, na notebooku vedle něj).
+    expect(m.okno.dole - m.panel.nahore).toBeGreaterThanOrEqual(96);
     await page.screenshot({ path: `test-results/snimky/domu-ohyb-${sirka}x${vyska}.png` });
   });
 }
@@ -60,11 +59,12 @@ test('Domů: jedna výzva k začátku, údaj z dat cesty a vedlejší odkaz na S
   await expect(hlavni).toHaveAttribute('href', `${CESTA}1/`);
   await expect(page.locator('[data-zacatek-udaj]')).toHaveText('První cesta · asi 14 minut · 7 kroků');
   await expect(page.locator('.uvod').getByRole('link', { name: 'Poznat Sókrata' })).toHaveAttribute('href', '/osobnost/sokrates/');
-  // Mapa zůstává v hlavičce a ve třech vstupech, ne v úvodu; karta cesty ani druhé tlačítko tu nejsou.
+  // Mapa zůstává v hlavičce a ve třech vstupech, ne v úvodu; druhé tlačítko tu není. První cesta je týž lístek
+  // jako všude (karta cesty, K6), jen velký a vede rovnou na krok 1.
   await expect(page.locator('.uvod a[href="/mapa/"]')).toHaveCount(0);
   await expect(page.locator('.rozcestnik a[href="/mapa/"]')).toHaveCount(1);
-  await expect(page.locator('.cesta-karta')).toHaveCount(0);
-  await expect(page.getByText('Vydat se na cestu')).toHaveCount(0);
+  await expect(page.locator('.cesta-karta')).toHaveCount(1);
+  await expect(page.getByText('Vydat se na cestu')).toHaveCount(1);
   // Panel první cesty říká, o čem cesta je, a vede na tentýž krok.
   const panel = page.locator('.prvni-cesta');
   await expect(panel).toHaveAttribute('href', `${CESTA}1/`);

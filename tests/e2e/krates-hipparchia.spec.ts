@@ -49,7 +49,8 @@ for (const { sirka, vyska } of [{ sirka: 390, vyska: 844 }, { sirka: 1440, vyska
       await expect(atributy.nth(1)).toContainText('Proč člunek?');
       await expect(atributy.nth(1)).toContainText('Hipparchia si vybrala filozofii.');
       await expect(atributy.nth(1)).not.toContainText('dala vzdělání');
-      await expect(atributy.locator('.mince')).toHaveCount(2);
+      // Atribut každé osoby ve vtlačeném kolečku (design-v2, K3; dřív mince).
+      await expect(atributy.locator('.vlys')).toHaveCount(2);
       await expect(hlavicka.locator('.obraz-popisek')).toContainText('nizozemský rytec');
 
       // Telefon: deska, oba atributy a začátek prvního odstavce nad spodní lištou.
