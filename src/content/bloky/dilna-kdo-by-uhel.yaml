@@ -1,0 +1,17 @@
+# Kdo by to řekl? v dílně (herna-v1, K3): věta 3 z podkladů docs/podklady/herna.md › 3 („Všechno je jen úhel
+# pohledu.“). Podepsal by Prótagorás podle Platónova Theaitéta (152a), odmítl Sókratés u Platóna (171a).
+druh: kdo-by
+obdobi: 1
+otazka: "Kdo z nich by tu větu podepsal?"
+veta: "Všechno je jen úhel pohledu."
+odkud: komentar
+moznosti: [protagoras, sokrates, herakleitos, platon]
+atlas:
+  - osoba: protagoras
+    citat: theaitetos-152a
+    proc: "Jeho spis se nedochoval. U Platóna jeho větu vykládá Sókratés tak, že jak se věc komu jeví, taková pro něj je. Zní takhle:"
+odmitl:
+  - osoba: sokrates
+    citat: theaitetos-171a
+    proc: "U Platóna nehledal jiný názor. Obrátil Prótagorovu větu proti ní samé:"
+zdroje: [platon-theaitetos]

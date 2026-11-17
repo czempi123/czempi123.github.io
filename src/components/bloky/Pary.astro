@@ -1,0 +1,35 @@
+---
+// Páry (herna-v1, K3): pojmy z kolekce pojmy (pod jménem první věta vysvětlení) a situace ze života, mezi nimi pasti.
+// Obsah je v src/content/bloky/<id>.yaml (druh: pary): páry s větou „jinak“ a „vazba“, pasti s pojmem, který připomínají.
+// Použití v MDX: <Pary id="dilna-pary" />  (volitelně dal={{ href, text }})
+import { getCollection } from 'astro:content';
+import Ostrov from '../ostrovy/Pary.svelte';
+import { situacePar, chybyPar, prvniVeta } from '../../lib/herna';
+import { adresaPojmu } from '../../lib/pojmy';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'pary', Astro.url.pathname);
+const pojmy = new Map((await getCollection('pojmy')).map((p) => [p.id, p.data]));
+const chyby = chybyPar(blok, new Set(pojmy.keys()));
+if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.Pary,
+  nazev: blok.nazev ?? 'Páry',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  pokyn: blok.pokyn,
+  // Pod jménem pojmu první věta jeho vysvětlení: podle ní student uvažuje, ne podle paměti.
+  pojmy: blok.pary.map((p) => {
+    const d = pojmy.get(p.pojem)!;
+    return { id: p.pojem, nazev: d.pojem, vyklad: prvniVeta(d.vysvetleni), vazba: p.vazba, adresa: adresaPojmu(p.pojem) };
+  }),
+  situace: situacePar(blok.pary, blok.pasti, id),
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

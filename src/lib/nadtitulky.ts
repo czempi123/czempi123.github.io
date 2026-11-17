@@ -17,6 +17,11 @@ export const VYCHOZI_NADTITULKY = {
   TipniSi: 'Hra',
   KdeToBylo: 'Hra',
   DoplnCitat: 'Hra',
+  Pary: 'Hra',
+  PravyNeboPodvrzeny: 'Hra',
+  // Názorové formáty herny (K3) nemají správnou odpověď: vlastní slovo místo „Hra“.
+  NajdiSlabeMisto: 'Tvůj škrt',
+  KdoByToRekl: 'Dnešní věta',
 } as const;
 
 export type BlokSNadtitulkem = keyof typeof VYCHOZI_NADTITULKY;

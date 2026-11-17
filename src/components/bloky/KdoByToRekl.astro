@@ -1,0 +1,35 @@
+---
+// Kdo by to řekl? (herna-v1, K3): dnešní věta jako výstřižek, výběr filozofa razítkem s větou z pole proc, důvod
+// do pole; pak koho by vybral atlas a kdo by větu odmítl (citát ze zdroje.yaml). Obsah je v src/content/bloky/<id>.yaml
+// (druh: kdo-by). Volba studenta se nehodnotí a jde do deníku.
+// Použití v MDX: <KdoByToRekl id="dilna-kdo-by-mene" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/KdoByToRekl.svelte';
+import { citatyPodleId, data, osoba } from '../../lib/data';
+import { chybyKdoBy, prvniVeta, zamichej, ODKUD } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal, clovek, hlasHerny } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'kdo-by', Astro.url.pathname);
+const chyby = chybyKdoBy(blok, citatyPodleId, new Set(data.lide.map((o) => o.id)));
+if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.KdoByToRekl,
+  nazev: blok.nazev ?? 'Kdo by to řekl?',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  pokyn: blok.pokyn,
+  veta: blok.veta,
+  popisek: blok.popisek ?? ODKUD[blok.odkud].popisek,
+  podoba: ODKUD[blok.odkud].podoba,
+  // Pořadí razítek podle semínka (id bloku); pod jménem první věta pole proc: čím se ten člověk zabýval.
+  moznosti: zamichej(blok.moznosti, id).map((o) => ({ id: o, clovek: clovek(o), myslenka: prvniVeta(osoba(o).proc ?? osoba(o).kdo ?? '') })),
+  atlas: blok.atlas.map(hlasHerny),
+  odmitl: blok.odmitl.map(hlasHerny),
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

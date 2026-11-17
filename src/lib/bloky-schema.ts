@@ -412,7 +412,135 @@ export const BlokDoplnit = z
   })
   .strict();
 
-export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat, BlokSerad, BlokKdoRekl, BlokTipni, BlokKde, BlokDoplnit]);
+// ─── Hry a aktivity herny z K3 ─────────────────────────────────────────────
+
+/** Páry (K3): pojem z kolekce pojmy a situace ze života; pasti pojem jen připomínají stejným slovem. */
+export const BlokPary = z
+  .object({
+    druh: z.literal('pary'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** pokyn nad lístky (Kalamem) */
+    pokyn: Text.default('Pod každým pojmem stojí, co znamená. Hledej situaci, ve které to opravdu je.'),
+    pary: z
+      .array(
+        z
+          .object({
+            /** id pojmu v src/content/pojmy */
+            pojem: Id,
+            situace: Text.max(180),
+            /** co situace ukazuje, když ji student spojí s jiným pojmem; jméno pojmu neříká */
+            jinak: Text,
+            /** jedna věta k páru po spojení všech */
+            vazba: Text,
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(5),
+    pasti: z
+      .array(z.object({ situace: Text.max(180), pripomina: Id, jinak: Text }).strict())
+      .min(1)
+      .max(3),
+  })
+  .strict();
+
+/** Pravý, nebo podvržený? (K3): série vět z záznamů pripsani v zdroje.yaml jako ústřižky z obrazovky telefonu. */
+export const BlokPravy = z
+  .object({
+    druh: z.literal('pravy'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** pokyn nad razítky (Kalamem) */
+    pokyn: Text.default('Nemusíš to vědět. Sedí ta věta k tomu, čím se ten člověk zabýval?'),
+    karty: z
+      .array(
+        z
+          .object({
+            /** id záznamu v zdroje.yaml › pripsani */
+            pripsani: Id,
+            /** odkud ústřižek je: hlavička obrazovky („Skupina třídy“, „Story“) */
+            odkud: Text.max(40),
+            /** jedna věta, jak si citát příště ověřit sám */
+            overeni: Text,
+          })
+          .strict(),
+      )
+      .min(2)
+      .max(8),
+  })
+  .strict();
+
+/** Hlas: kdo by větu škrtl, hájil nebo podepsal; citát ze zdroje.yaml patří témuž člověku. */
+const Hlas = z
+  .object({
+    osoba: Id,
+    citat: Id,
+    /** proč, jedna až dvě věty; citát neopakuje jinými slovy */
+    proc: Text,
+  })
+  .strict();
+
+/** Najdi slabé místo (K3): věty argumentu na linkovaném listu, student škrtne premisu, kterou nepřijímá. */
+export const BlokSlabe = z
+  .object({
+    druh: z.literal('slabe'),
+    ...zaklad,
+    nazev: Text.optional(),
+    karty: z
+      .array(
+        z
+          .object({
+            id: Id,
+            text: Text.max(140),
+            misto: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal('zaver')]),
+            /** kdo by tuhle premisu škrtl s tebou (u premis povinné) */
+            skrtl: z.array(Hlas).optional(),
+            /** kdo ji hájil */
+            hajil: z.array(Hlas).optional(),
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(4),
+    /** volba „Žádnou, argument mi drží“: kdo stál s argumentem */
+    drzi: z.object({ hlasy: z.array(Hlas).min(1) }).strict(),
+  })
+  .strict()
+  .refine((b) => new Set(b.karty.map((k) => k.id)).size === b.karty.length, { message: 'Id vět se opakuje.' })
+  .refine((b) => b.karty.every((k) => k.id !== 'zadna'), { message: 'Id „zadna“ je vyhrazené.' })
+  .refine((b) => b.karty.filter((k) => k.misto === 'zaver').length === 1, { message: 'Argument má právě jeden závěr.' })
+  .refine(
+    (b) => {
+      const mista = b.karty.filter((k) => k.misto !== 'zaver').map((k) => k.misto as number).sort((x, y) => x - y);
+      return mista.every((m, i) => m === i + 1);
+    },
+    { message: 'Premisy mají místa 1, 2 (a 3) bez mezery a bez opakování.' },
+  );
+
+/** Kdo by to řekl? (K3): dnešní věta, výběr filozofa razítkem, pak koho by vybral atlas a kdo by větu odmítl. */
+export const BlokKdoBy = z
+  .object({
+    druh: z.literal('kdo-by'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** dnešní věta, vymyšlená, bez historických osob */
+    veta: Text.max(120),
+    /** odkud věta je (src/lib/herna/kdo-by.ts › ODKUD) */
+    odkud: z.enum(['chat', 'kamarad', 'komentar', 'reklama', 'obrazek', 'sit']),
+    /** vlastní popisek nad výstřižkem („Reklama na byt“); jinak podle odkud */
+    popisek: Text.max(48).optional(),
+    pokyn: Text.default('Pod jménem stojí, čím se ten člověk zabýval. Kdo by tu větu podepsal?'),
+    /** razítka lidí, ze kterých student vybírá (pořadí podle semínka) */
+    moznosti: z.array(Id).min(2).max(4),
+    /** koho by vybral atlas a proč (z pramene) */
+    atlas: z.array(Hlas).min(1).max(2),
+    /** kdo by větu odmítl a proč */
+    odmitl: z.array(Hlas).min(1).max(2),
+  })
+  .strict();
+
+export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat, BlokSerad, BlokKdoRekl, BlokTipni, BlokKde, BlokDoplnit, BlokPary, BlokPravy, BlokSlabe, BlokKdoBy]);
 
 export type TBlokVolba = z.infer<typeof BlokVolba>;
 export type TBlokZmena = z.infer<typeof BlokZmena>;
@@ -425,4 +553,8 @@ export type TBlokKdoRekl = z.infer<typeof BlokKdoRekl>;
 export type TBlokTipni = z.infer<typeof BlokTipni>;
 export type TBlokKde = z.infer<typeof BlokKde>;
 export type TBlokDoplnit = z.infer<typeof BlokDoplnit>;
+export type TBlokPary = z.infer<typeof BlokPary>;
+export type TBlokPravy = z.infer<typeof BlokPravy>;
+export type TBlokSlabe = z.infer<typeof BlokSlabe>;
+export type TBlokKdoBy = z.infer<typeof BlokKdoBy>;
 export type TBlok = z.infer<typeof Blok>;

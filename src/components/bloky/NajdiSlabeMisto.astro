@@ -1,0 +1,35 @@
+---
+// Najdi slabé místo (herna-v1, K3): věty argumentu na linkovaném listu, student škrtne premisu, kterou nepřijímá.
+// Obsah je v src/content/bloky/<id>.yaml (druh: slabe): karty jako Slož argument (id, text, místo) a u premis hlasy
+// (kdo by ji škrtl, kdo ji hájil), u volby „drží mi“ zastánci. Citát hlasu je ze zdroje.yaml a patří témuž člověku.
+// Použití v MDX: <NajdiSlabeMisto id="dilna-slabe-zapas" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/NajdiSlabeMisto.svelte';
+import { citatyPodleId, data } from '../../lib/data';
+import { chybySlabe, poradiArgumentu } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal, hlasHerny } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'slabe', Astro.url.pathname);
+const chyby = chybySlabe(blok, citatyPodleId, new Set(data.lide.map((o) => o.id)));
+if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.NajdiSlabeMisto,
+  nazev: blok.nazev ?? 'Najdi slabé místo',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  vety: poradiArgumentu(blok.karty).map((k) => ({
+    id: k.id,
+    text: k.text,
+    misto: k.misto,
+    skrtl: (k.skrtl ?? []).map(hlasHerny),
+    hajil: (k.hajil ?? []).map(hlasHerny),
+  })),
+  drzi: blok.drzi.hlasy.map(hlasHerny),
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

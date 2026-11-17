@@ -4,6 +4,22 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 17. 11. 2026: Páry, Pravý, nebo podvržený?, Najdi slabé místo, Kdo by to řekl? (herna-v1 K3)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Páry ukazují pod pojmem první větu jeho vysvětlení z kolekce `pojmy`; pár vedle dostane větu, co situace ukazuje, bez jména pojmu | Pointa není paměť: student hledá situaci podle významu, ne podle slova, které si pamatuje; jméno pojmu ve „zkus to jinak“ by pár prozradilo |
+| Páry hodnotí každý pár hned (správný se zamkne s čarou, vedle se ukáže čárkovaně s lístkem); po třech párech vedle Ukázat páry | Zadání chce „zkus to jinak“ u páru, který nesedí; hodnocení až po všech by nevědělo, ke kterému páru větu říct. Tři pokusy jako Seřaď na ose |
+| Výběr ze seznamu u pojmu se ukáže jen při ovládání klávesnicí (`data-klavesnice` na ploše, sundá ho ukazatel) | Myši a prstu by řádek se seznamem při klepnutí na pojem roztáhl lístek a situace by uskočily; `:focus-visible` po programovém fokusu Chromium nedává, tak rozhoduje poslední klávesa |
+| Pravý, nebo podvržený? má jeden otisk na ústřižek a pak původ (bez „zkus to jinak“), jako Kde to bylo? | Druhý pokus u dvou razítek je jen druhé razítko; podstatné je, odkud věta je a jak si ji ověřit |
+| Oprava stojí jako proužek přímo na ústřižku a v souhrnu u každé věty; titulek lístku řekne podle druhu záznamu „Takhle to neřekl.“, „Napsal opak.“, „Neřekl to. Je to věta jiného autora.“ | Zadání: podvržená věta nikdy nestojí bez opravy na téže obrazovce; na telefonu by lístek mohl být pod ohybem |
+| Pod ústřižkem razítko člověka, kterému se věta připisuje, s první větou `proc` | Student uvažuje, jestli věta sedí k tomu, čím se ten člověk zabýval; u „Vím, že nic nevím“ tak uvidí, že myšlenka je Sókratova, slova ne |
+| Najdi slabé místo ukáže hlasy až po zápisu, ne po škrtu; u volby „drží mi“ zastánce a kdo by argument napadl | Nic se neodkrývá dřív, než se student rozhodne (pouceni, Bloky); každá odpověď má zastánce |
+| Hlasy proti stoickému argumentu v dílně jsou Aristotelovy a říkají, kdo by větu škrtl, ne že s Epiktétem vedl spor | Aristotelés žil před stoiky; spojovací věta netvrdí spor, který nebyl |
+| Linky listu nese každá věta (`--radek` 2,45 × `--fs-text`), ne celý list | Linky přes celý list neseděly pod řádky textu na žádné šířce; řádek 2,45 em je zároveň cíl aspoň 44 px |
+| Kdo by to řekl? zapíše do deníku „Můj výběr: … Proč: …“ a lístek začíná „Tvůj výběr“, pak „Atlas by vybral…“ a „Kdo by větu odmítl“; žádné „sedí“ | Názorový formát nemá správnou odpověď; zápis i škrt („Škrtám větu…“) jsou bez rodu |
+| Nadtitulky názorových formátů: „Tvůj škrt“ (Najdi slabé místo) a „Dnešní věta“ (Kdo by to řekl?); znalostní Páry a Pravý, nebo podvržený? mají „Hra“ | Zadání: názorové formáty mají vlastní slovo; obě slova říkají, co student drží v ruce |
+
 ## 17. 11. 2026: Pointa není paměť, Tipni si, Kde to bylo?, Doplň citát (herna-v1 K2)
 
 | Rozhodnutí | Důvod |

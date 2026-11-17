@@ -98,6 +98,43 @@ async function odpovez(blok: Locator): Promise<string> {
     for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
     return 'doplnit';
   }
+  if (await blok.locator('.par-listek').count()) {
+    // Páry: pojem a situace po řadě, dokud se nenabídne Ukázat páry (nebo nesedí všechno).
+    for (let i = 0; i < 30; i++) {
+      if (await tlacitko('Ukázat páry').count()) { await tlacitko('Ukázat páry').click(); break; }
+      const pojem = blok.locator('.par-listek--pojem:not(:disabled)');
+      if (!(await pojem.count())) break;
+      await pojem.first().click();
+      await blok.locator('.par-listek--situace:not(:disabled)').nth(i % 2).click();
+    }
+    await expect(blok.getByRole('region', { name: 'Spojené páry' })).toBeVisible();
+    return 'pary';
+  }
+  if (await blok.locator('.razitko-verdikt').count()) {
+    // Pravý, nebo podvržený?: první razítko na každém ústřižku, pak Další ústřižek; nakonec souhrn s opravami.
+    for (let i = 0; i < 20; i++) {
+      if (await tlacitko('Další ústřižek').count()) { await tlacitko('Další ústřižek').click(); continue; }
+      const r = blok.locator('.razitko-verdikt:not(:disabled)');
+      if (!(await r.count())) break;
+      await r.first().click();
+    }
+    await expect(blok.locator('.souhrn')).toBeVisible();
+    return 'pravy';
+  }
+  if (await blok.locator('.veta-arg').count()) {
+    // Najdi slabé místo: přeškrtnout první premisu a zapsat, bez nepovinného „Proč“.
+    await blok.locator('button.veta-arg').first().click();
+    await tlacitko('Zapsat do deníku').click();
+    await expect(blok.getByRole('region', { name: 'Kdo stál s tebou' })).toBeVisible();
+    return 'slabe';
+  }
+  if (await blok.locator('.razitko-volby').count()) {
+    // Kdo by to řekl?: první filozof a zapsat, bez nepovinného „Proč“.
+    await blok.locator('.razitko-volby').first().click();
+    await tlacitko('Zapsat do deníku').click();
+    await expect(blok.getByRole('region', { name: 'Atlas by vybral' })).toBeVisible();
+    return 'kdo-by';
+  }
   if (await tlacitko('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků, kontrola, chybějící věta, volba bez nepovinného „Proč“.
     const radky = blok.locator('[data-radek]');

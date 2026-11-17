@@ -79,6 +79,31 @@ async function odpovez(blok) {
     // Doplň citát: každý lístek jednou do mezery, dokud věta nesedí.
     const listky = blok.locator('.vystrizky .vystrizek');
     for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
+  } else if (await blok.locator('.par-listek').count()) {
+    // Páry: pojem a situace po řadě, dokud se nenabídne Ukázat páry (nebo nesedí všechno).
+    for (let i = 0; i < 30; i++) {
+      if (await tl('Ukázat páry').count()) { await tl('Ukázat páry').click(); break; }
+      const pojem = blok.locator('.par-listek--pojem:not(:disabled)');
+      if (!(await pojem.count())) break;
+      await pojem.first().click();
+      await blok.locator('.par-listek--situace:not(:disabled)').nth(i % 2).click();
+    }
+  } else if (await blok.locator('.razitko-verdikt').count()) {
+    // Pravý, nebo podvržený?: první razítko na každém ústřižku, pak Další ústřižek.
+    for (let i = 0; i < 20; i++) {
+      if (await tl('Další ústřižek').count()) { await tl('Další ústřižek').click(); continue; }
+      const r = blok.locator('.razitko-verdikt:not(:disabled)');
+      if (!(await r.count())) break;
+      await r.first().click();
+    }
+  } else if (await blok.locator('.veta-arg').count()) {
+    // Najdi slabé místo: přeškrtnout první premisu a zapsat (bez nepovinného „Proč“).
+    await blok.locator('button.veta-arg').first().click();
+    await tl('Zapsat do deníku').click();
+  } else if (await blok.locator('.razitko-volby').count()) {
+    // Kdo by to řekl?: první filozof a zapsat (bez nepovinného „Proč“).
+    await blok.locator('.razitko-volby').first().click();
+    await tl('Zapsat do deníku').click();
   } else if (await tl('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků 1, 2… a Závěr, pak ukázat chybějící větu a napadnout první možnost.
     const radky = blok.locator('[data-radek]');

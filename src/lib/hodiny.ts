@@ -115,7 +115,7 @@ export interface StrankaKatalogu {
 // ─── Značky v MDX ─────────────────────────────────────────────────────────────
 
 /** Bloky, jejichž otázka je v YAML (src/content/bloky/<id>.yaml). */
-const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument', 'SeradNaOse', 'KdoToRekl', 'TipniSi', 'KdeToBylo', 'DoplnCitat']);
+const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument', 'SeradNaOse', 'KdoToRekl', 'TipniSi', 'KdeToBylo', 'DoplnCitat', 'Pary', 'PravyNeboPodvrzeny', 'NajdiSlabeMisto', 'KdoByToRekl']);
 /** Bloky, jejichž otázka je atributem v MDX. */
 const BLOKY_S_OTAZKOU = new Set(['Odkryj', 'NejdrivSam', 'ZaverCesty']);
 

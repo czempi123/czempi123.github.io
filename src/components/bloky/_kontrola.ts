@@ -1,12 +1,13 @@
 // Společná kontrola bloků z YAML při sestavení: druh, odkazy na data a obsah čekající na ověření.
 import { getEntry, getCollection } from 'astro:content';
-import { data, osoba, mistaPodleId } from '../../lib/data';
+import { data, osoba, mistaPodleId, citatyPodleId } from '../../lib/data';
+import { puvodCitatu } from '../../lib/herna/citaty';
 import { zivot } from '../../lib/casy';
 import { stredRazitka } from '../../lib/razitko';
 import { chybyBloku } from '../../lib/bloky';
 import type { TBlok } from '../../lib/bloky-schema';
 import { dalsiKrok, krokZAdresy } from '../../lib/cesty';
-import type { ClovekBloku, Dal } from '../ostrovy/bloky-typy';
+import type { ClovekBloku, Dal, HlasHerny } from '../ostrovy/bloky-typy';
 
 const osoby = new Set(data.lide.map((o) => o.id));
 const prameny = new Set(data.zdroje.prameny.map((p) => p.id));
@@ -44,6 +45,16 @@ export function clovek(id: string): ClovekBloku {
       stred: stredRazitka(o, (m) => mistaPodleId.get(m)?.nazev),
     },
   };
+}
+
+/**
+ * Hlas pro hry herny (Najdi slabé místo, Kdo by to řekl?): člověk s razítkem, proč a citát s místem z dat
+ * („Rukojeť 5“, u postavy dialogu „Zapsal Platón: Theaitétos 171a“). Citát musí v datech být (kontroluje chyby bloku).
+ */
+export function hlasHerny(h: { osoba: string; citat: string; proc: string }): HlasHerny {
+  const c = citatyPodleId.get(h.citat)!;
+  const kdo = clovek(h.osoba);
+  return { osoba: h.osoba, clovek: kdo, proc: h.proc, citat: { text: c.cesky, kde: puvodCitatu(c, kdo.jmeno) } };
 }
 
 /** Kam dál po bloku: vlastní odkaz, jinak v kroku cesty další krok (nebo dokončení cesty). */

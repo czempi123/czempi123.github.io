@@ -28,3 +28,12 @@ export interface Dal {
   href: string;
   text: string;
 }
+
+/** Hlas ve hrách herny (Najdi slabé místo, Kdo by to řekl?): člověk, proč a citát s místem z dat. */
+export interface HlasHerny {
+  osoba: string;
+  clovek: ClovekBloku;
+  /** proč, jedna až dvě věty; často končí dvojtečkou a uvádí citát */
+  proc: string;
+  citat: { text: string; kde: string };
+}

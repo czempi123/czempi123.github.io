@@ -7,3 +7,7 @@ export * from './vazby';
 export * from './odhad';
 export * from './mista';
 export * from './doplnit';
+export * from './pary';
+export * from './pripsani';
+export * from './slabe';
+export * from './kdo-by';

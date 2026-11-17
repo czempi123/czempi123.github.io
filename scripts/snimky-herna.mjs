@@ -1,4 +1,5 @@
-// Snímky her herny v dílně (herna-v1): Seřaď na ose, Kdo to řekl?, Tipni si, Kde to bylo? a Doplň citát v klidu,
+// Snímky her herny v dílně (herna-v1): Seřaď na ose, Kdo to řekl?, Tipni si, Kde to bylo?, Doplň citát, Páry,
+// Pravý, nebo podvržený?, Najdi slabé místo a Kdo by to řekl? v klidu,
 // po „zkus to jinak“ a hotové,
 // na 390 a 1440 px ve světlém i tmavém režimu. Výstup do „Claude outputs/snimky/herna-<hra>-<stav>-<sirka>-<rezim>.png“.
 // node scripts/snimky-herna.mjs        (ZAKLAD: běžící web, výchozí náhled sestaveného webu na portu 4323; KLID=1 Klidný režim)
@@ -103,6 +104,53 @@ for (const sirka of [390, 1440]) {
     await snimek(page, 'dilna-doplnit-reka', `herna-doplnit-zkus-${pr}`);
     await d.locator('.vystrizek', { hasText: 'týchž' }).click();
     await snimek(page, 'dilna-doplnit-reka', `herna-doplnit-sedi-${pr}`);
+    // Páry (K3): klid, vybraný pojem, pár vedle, všechny spojené.
+    await priprav(page, 'dilna-pary', 'Pary');
+    const pa = page.locator('#dilna-pary');
+    await snimek(page, 'dilna-pary', `herna-pary-klid-${pr}`);
+    await pa.locator('[data-pojem="soud"] .par-listek').click();
+    await snimek(page, 'dilna-pary', `herna-pary-vybrany-${pr}`);
+    await pa.locator('[data-situace="past-1"] .par-listek').click();
+    await snimek(page, 'dilna-pary', `herna-pary-zkus-${pr}`);
+    for (const p of ['soud', 'v-nasi-moci', 'stred', 'klid']) {
+      await pa.locator(`[data-pojem="${p}"] .par-listek`).click();
+      await pa.locator(`[data-situace="${p}"] .par-listek`).click();
+    }
+    await snimek(page, 'dilna-pary', `herna-pary-sedi-${pr}`);
+    // Pravý, nebo podvržený? (K3): klid, otisk u přepsané věty, pravá věta, souhrn.
+    await priprav(page, 'dilna-pravy', 'PravyNeboPodvrzeny');
+    const pv = page.locator('#dilna-pravy');
+    await snimek(page, 'dilna-pravy', `herna-pravy-klid-${pr}`);
+    await pv.locator('.razitko-verdikt--rekl').click();
+    await snimek(page, 'dilna-pravy', `herna-pravy-otisk-${pr}`);
+    await pv.getByRole('button', { name: 'Další ústřižek' }).click();
+    await pv.locator('.razitko-verdikt--rekl').click();
+    await snimek(page, 'dilna-pravy', `herna-pravy-sedi-${pr}`);
+    for (let i = 0; i < 3; i++) {
+      await pv.getByRole('button', { name: 'Další ústřižek' }).click();
+      await pv.locator('.razitko-verdikt--nerekl').click();
+    }
+    await snimek(page, 'dilna-pravy', `herna-pravy-souhrn-${pr}`);
+    // Najdi slabé místo (K3): klid, přeškrtnutá premisa s polem, hlasy.
+    await priprav(page, 'dilna-slabe-zapas', 'NajdiSlabeMisto');
+    const sl = page.locator('#dilna-slabe-zapas');
+    await snimek(page, 'dilna-slabe-zapas', `herna-slabe-klid-${pr}`);
+    await sl.locator('button.veta-arg').nth(1).click();
+    await sl.locator('textarea').fill('První reakci nemám vždycky v rukou.');
+    await snimek(page, 'dilna-slabe-zapas', `herna-slabe-skrt-${pr}`);
+    await sl.getByRole('button', { name: 'Zapsat do deníku' }).click();
+    await snimek(page, 'dilna-slabe-zapas', `herna-slabe-hlasy-${pr}`);
+    // Kdo by to řekl? (K3): plakátek v klidu, výběr s důvodem, lístek atlasu; bublina v klidu.
+    await priprav(page, 'dilna-kdo-by-mene', 'KdoByToRekl');
+    const kb = page.locator('#dilna-kdo-by-mene');
+    await snimek(page, 'dilna-kdo-by-mene', `herna-kdoby-klid-${pr}`);
+    await kb.locator('.razitko-volby', { hasText: 'Epikúros' }).click();
+    await kb.locator('textarea').fill('Jde o touhy, ne o byt.');
+    await snimek(page, 'dilna-kdo-by-mene', `herna-kdoby-vyber-${pr}`);
+    await kb.getByRole('button', { name: 'Zapsat do deníku' }).click();
+    await snimek(page, 'dilna-kdo-by-mene', `herna-kdoby-atlas-${pr}`);
+    await priprav(page, 'dilna-kdo-by-uhel', 'KdoByToRekl');
+    await snimek(page, 'dilna-kdo-by-uhel', `herna-kdoby-bublina-${pr}`);
     await page.close();
   }
 }
