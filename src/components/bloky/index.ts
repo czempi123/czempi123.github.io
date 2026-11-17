@@ -1,5 +1,5 @@
 // Knihovna interaktivních bloků Atlasu myšlení. V MDX stačí jeden import:
-// import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../components/bloky';
+// import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../components/bloky';
 // Návod a API: docs/design.md › Bloky a aktivity (podrobnosti bloků v docs/archiv/design-2026-11-15.md › Bloky).
 export { default as Pribeh } from './Pribeh.astro';
 export { default as Volba } from './Volba.astro';
@@ -9,6 +9,8 @@ export { default as ZmenJednuVec } from './ZmenJednuVec.astro';
 export { default as Spor } from './Spor.astro';
 export { default as KdoZilDriv } from './KdoZilDriv.astro';
 export { default as SlozArgument } from './SlozArgument.astro';
+export { default as SeradNaOse } from './SeradNaOse.astro';
+export { default as KdoToRekl } from './KdoToRekl.astro';
 export { default as ZaverCesty } from './ZaverCesty.astro';
 export { default as Strany } from './Strany.astro';
 export { default as Strana } from './Strana.astro';

@@ -46,6 +46,23 @@ async function odpovez(blok) {
     await blok.locator('.cip').first().click();
     await blok.locator('.zmenena').getByRole('radio').nth(1).check({ force: true });
     await blok.locator('.zmenena .blok__tl--hlavni').click();
+  } else if (await tl('Zkontrolovat pořadí').count()) {
+    // Seřaď na ose: prohazovat karty a kontrolovat, po třech kontrolách Ukázat pořadí (nebo dřív sedí).
+    for (let i = 0; i < 12 && (await tl('Zkontrolovat pořadí').count()); i++) {
+      if (await tl('Ukázat pořadí').count()) { await tl('Ukázat pořadí').click(); break; }
+      const karty = blok.locator('.karta-osy');
+      await karty.nth(i % 2).click();
+      await karty.nth(2).click();
+      if (await tl('Zkontrolovat pořadí').isEnabled()) await tl('Zkontrolovat pořadí').click();
+    }
+  } else if (await blok.locator('.razitko-odpoved').count()) {
+    // Kdo to řekl?: razítka po řadě, dokud karta nesedí, pak Další karta.
+    for (let i = 0; i < 40; i++) {
+      if (await tl('Další karta').count()) { await tl('Další karta').click(); continue; }
+      const volne = blok.locator('.razitko-odpoved:not(:disabled)');
+      if (!(await volne.count())) break;
+      await volne.first().click();
+    }
   } else if (await tl('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků 1, 2… a Závěr, pak ukázat chybějící větu a napadnout první možnost.
     const radky = blok.locator('[data-radek]');

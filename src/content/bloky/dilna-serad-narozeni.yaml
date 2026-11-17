@@ -1,0 +1,11 @@
+# Seřaď na ose v dílně (herna-v1, K1): pětice 1 z podkladů docs/podklady/herna.md › Seřaď na ose. Roky jsou z lide.yaml.
+druh: serad
+obdobi: 1
+otazka: "Seřaď je podle toho, kdo se narodil dřív."
+karty:
+  - { osoba: thales }
+  - { osoba: konfucius }
+  - { osoba: parmenides }
+  - { osoba: sokrates }
+  - { osoba: aristoteles }
+vysvetleni: "Konfucius se narodil asi o generaci dřív než Parmenidés. Filozofie začínala ve stejném století v Číně i v řeckých městech."

@@ -295,7 +295,61 @@ export const BlokNavrat = z
   })
   .strict();
 
-export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat]);
+// ─── Hry herny (herna-v1, K1) ──────────────────────────────────────────────
+// Znalostní hry: „sedí“, nebo „zkus to jinak“ s větou, kam se podívat; bez bodů. Do deníku jen stav (src/lib/herna).
+
+/** Karta Seřaď na ose: člověk (narození, nebo smrt z lide.yaml), nebo událost z udalosti.yaml. Roky jsou z dat. */
+const KartaOsy = z
+  .object({
+    osoba: Id.optional(),
+    /** u člověka: řadí se podle narození (výchozí), nebo smrti */
+    kdy: z.enum(['narozeni', 'umrti']).optional(),
+    udalost: Id.optional(),
+    /** vlastní text karty („Platón umírá“); jinak jméno nebo název události */
+    text: Text.optional(),
+    /** věta „zkus to jinak“, když karta visí v obrácené dvojici; jinak se složí z obou jmen */
+    napoveda: Text.optional(),
+  })
+  .strict()
+  .refine((k) => !!k.osoba !== !!k.udalost, { message: 'Karta má právě jedno z polí osoba a udalost.' })
+  .refine((k) => !k.kdy || !!k.osoba, { message: 'Pole kdy patří jen ke kartě s osobou.' });
+
+export const BlokSerad = z
+  .object({
+    druh: z.literal('serad'),
+    ...zaklad,
+    /** název hry pod nadtitulkem (výchozí „Seřaď na ose“) */
+    nazev: Text.optional(),
+    karty: z.array(KartaOsy).min(3).max(6),
+    /** popisky konců šňůry */
+    zacatek: Text.default('dřív'),
+    konec: Text.default('později'),
+    /** po správném pořadí (i po „Ukázat pořadí“): co z pořadí plyne, jedna až dvě věty */
+    vysvetleni: Text,
+  })
+  .strict();
+
+/** Karta Kdo to řekl?: citát ze zdroje.yaml (správná je jeho osoba) a dva až tři další lidé. */
+const KartaCitatu = z
+  .object({
+    citat: Id,
+    jini: z.array(Id).min(2).max(3),
+    /** jedna věta „zkus to jinak“: kam se podívat, bez jména toho, kdo větu řekl */
+    napoveda: Text,
+  })
+  .strict();
+
+export const BlokKdoRekl = z
+  .object({
+    druh: z.literal('kdo-rekl'),
+    ...zaklad,
+    /** název hry pod nadtitulkem (výchozí „Kdo to řekl?“) */
+    nazev: Text.optional(),
+    karty: z.array(KartaCitatu).min(1).max(8),
+  })
+  .strict();
+
+export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat, BlokSerad, BlokKdoRekl]);
 
 export type TBlokVolba = z.infer<typeof BlokVolba>;
 export type TBlokZmena = z.infer<typeof BlokZmena>;
@@ -303,4 +357,6 @@ export type TBlokSpor = z.infer<typeof BlokSpor>;
 export type TBlokRoztrid = z.infer<typeof BlokRoztrid>;
 export type TBlokArgument = z.infer<typeof BlokArgument>;
 export type TBlokNavrat = z.infer<typeof BlokNavrat>;
+export type TBlokSerad = z.infer<typeof BlokSerad>;
+export type TBlokKdoRekl = z.infer<typeof BlokKdoRekl>;
 export type TBlok = z.infer<typeof Blok>;

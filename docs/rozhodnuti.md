@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 17. 11. 2026: Herní jádro, Seřaď na ose a Kdo to řekl? (herna-v1 K1)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Hry herny mají nadtitulek „Hra“ a pod ním název formátu; obsah v YAML (druhy `serad`, `kdo-rekl`) | Rodina aktivit nad rámem je u všech bloků slovo, ne název; formát pak student pozná podle názvu a autor ho v YAML může přepsat |
+| Zamíchání se semínkem z id bloku (a citátu), počítané stejně při sestavení i po hydrataci; Seřaď na ose nikdy nezačne hotové a nejvýš polovina dvojic na začátku sedí | Stejné pořadí po obnovení stránky (plán, K1); náhodná změna by šla proti zákazu automaticky se měnících prvků |
+| Po špatné kontrole Seřaď na ose ukáže značky u všech dvojic (✓ sedí, ⇄ obráceně) a větu o první obrácené dvojici; Zkontrolovat čeká na změnu pořadí; Ukázat pořadí po třech kontrolách | Zadání K1 („které dvojice sedí“); kontrola bez změny by jen přidávala pokusy |
+| Kdo to řekl? ukládá jen tipy a běžící kartu; zkusené razítko zůstane zakázané, karta se otočí až po trefě | Znalostní hra bez bodů: do deníku jen stav (plán, Co platí); nic se neodkryje dřív, než student sám trefí |
+| Herní pohyb (rozdání, otočení, otisk) v Klidném režimu stojí na konci, i když jiný pohyb bloků po činu studenta v něm zůstává | Zadání K1 a plán (Co platí: omezený pohyb a Klidný režim vypnou zamíchání i otočení) |
+
 ## 15. 11. 2026: Pojmy (design-v2 P)
 
 Odpovědi po K7b byly prázdné, tedy souhlas s doporučeními (trasy v mini mapě ne teď, zapsané v `docs/navraty.md`). Podklady `docs/podklady/pojmy-antika.md`.

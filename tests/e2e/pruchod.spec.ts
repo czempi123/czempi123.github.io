@@ -52,6 +52,29 @@ async function odpovez(blok: Locator): Promise<string> {
     await blok.locator('.zmenena .blok__tl--hlavni').click();
     return 'zmena';
   }
+  if (await tlacitko('Zkontrolovat pořadí').count()) {
+    // Seřaď na ose: prohazovat karty a kontrolovat, po třech kontrolách Ukázat pořadí (nebo dřív sedí).
+    for (let i = 0; i < 12 && (await tlacitko('Zkontrolovat pořadí').count()); i++) {
+      if (await tlacitko('Ukázat pořadí').count()) { await tlacitko('Ukázat pořadí').click(); break; }
+      const karty = blok.locator('.karta-osy');
+      await karty.nth(i % 2).click();
+      await karty.nth(2).click();
+      if (await tlacitko('Zkontrolovat pořadí').isEnabled()) await tlacitko('Zkontrolovat pořadí').click();
+    }
+    await expect(blok.locator('.karta-osy__rok').first()).toBeVisible();
+    return 'serad';
+  }
+  if (await blok.locator('.razitko-odpoved').count()) {
+    // Kdo to řekl?: razítka po řadě, dokud karta nesedí, pak Další karta; po poslední kartě nic nezbývá.
+    for (let i = 0; i < 40; i++) {
+      if (await tlacitko('Další karta').count()) { await tlacitko('Další karta').click(); continue; }
+      const volne = blok.locator('.razitko-odpoved:not(:disabled)');
+      if (!(await volne.count())) break;
+      await volne.first().click();
+    }
+    await expect(blok.getByRole('region', { name: 'Otočené karty' })).toBeVisible();
+    return 'kdo-rekl';
+  }
   if (await tlacitko('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků, kontrola, chybějící věta, volba bez nepovinného „Proč“.
     const radky = blok.locator('[data-radek]');

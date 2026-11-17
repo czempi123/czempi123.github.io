@@ -1,0 +1,21 @@
+# Kdo to řekl? v dílně (herna-v1, K1): pět vět z podkladů docs/podklady/herna.md › Kdo to řekl? (č. 1, 3, 5, 9, 12).
+# Citáty jsou ze zdroje.yaml; správná je osoba citátu, „jini“ jsou ostatní možnosti.
+druh: kdo-rekl
+obdobi: 1
+otazka: "Čí je ta věta?"
+karty:
+  - citat: rukojet-5
+    jini: [epikuros, aristoteles, diogenes]
+    napoveda: "Hledej toho, kdo učil rozlišovat, co je v našich rukou a co ne."
+  - citat: obrana-38a
+    jini: [epiktetos, epikuros, aristoteles]
+    napoveda: "Hledej toho, kdo chodil po Athénách a vyptával se lidí, co doopravdy vědí."
+  - citat: dl-ix-72-demokritos
+    jini: [parmenides, platon, thales]
+    napoveda: "Atomy a prázdno: tak odpovídal ten, kdo věřil, že svět je složený z nedělitelných kousků."
+  - citat: politika-1253a
+    jini: [diogenes, epikuros, protagoras]
+    napoveda: "Hledej toho, kdo se žáky sbíral ústavy řeckých obcí a psal o tom, jaká má obec být."
+  - citat: seneca-ep-28-1
+    jini: [epikuros, aristoteles, diogenes]
+    napoveda: "Hledej toho, kdo příteli v dopise radil, že cestování nepomůže, když si s sebou vezeš sám sebe."

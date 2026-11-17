@@ -87,6 +87,7 @@ Papír je kulisa, ne obsah.
 | `--d-list` | 400 ms, `--k-list` | posun listu mezi kroky cesty, let fotky na desku |
 | `--d-otoceni` | 900 ms | otočení listu mezi stránkami |
 | `--d-prichod`, `--z-prichod` | 420 ms, krok 80 ms | příchod na profil: titulek, pruh, pásky po sobě |
+| `--z-karta` | krok 40 ms | rozdání karet po jedné (herna: `.rozdat` s `--i`) |
 | `--d-kamera` | 600 ms | kamera Mapy a času |
 
 Křivky: `--k-stisk` (stav prvku), `--k-papir` (papír se pokládá, nikdy nepřestřelí), `--k-list` (celý list a kamera), `--k-dopad` (razítko a páska dopadnou bez odskoku).
@@ -122,7 +123,7 @@ Přepínač v záhlaví (`src/components/rozvrzeni/KlidnyRezim.astro`, ikona `kl
 - **čistý papír:** `--tecka: transparent` a `--natoceni: 0` (`:root[data-klidny][data-klidny]`, dvojitý atribut drží váhu nad nočním režimem);
 - **poznámky pojmů na okraji tiskem** (Newsreader 15 px, `ui/Pojem.astro`); přepnutí rozmístí poznámky znovu (`resize`).
 
-Kresby s pohybem a pohyb bloků po činu studenta zůstávají. Ovládá se klávesnicí (tlačítko s `aria-pressed`). Test `tests/e2e/klidny-rezim.spec.ts` (390 a 1440 px, den a noc, axe, bez probliknutí, krátký přechod, poznámky tiskem).
+Kresby s pohybem a pohyb bloků po činu studenta zůstávají; výjimka je herní pohyb (rozdání, otočení kartičky, otisk „sedí“), který stojí na konci stejně jako při omezeném pohybu. Ovládá se klávesnicí (tlačítko s `aria-pressed`). Test `tests/e2e/klidny-rezim.spec.ts` (390 a 1440 px, den a noc, axe, bez probliknutí, krátký přechod, poznámky tiskem).
 
 ## Rozvržení
 
@@ -133,11 +134,15 @@ Kresby s pohybem a pohyb bloků po činu studenta zůstávají. Ovládá se klá
 
 ## Bloky a aktivity
 
-Blok se do MDX vkládá jedním řádkem z `src/components/bloky/index.ts`; obsah Volby, Roztřiď, Změň jednu věc, Spor a Slož argument je v YAML (`src/content/bloky/<id>.yaml`, schéma `src/lib/bloky-schema.ts`), Příběh, Odkryj a Kdo žil dřív? se píšou v MDX. Jak blok psát, drží skill `atlas-cesta`; jak ho stavět, `atlas-komponenta`. Všechny bloky a kresby jsou pohromadě v dílně `/dilna/bloky/`.
+Blok se do MDX vkládá jedním řádkem z `src/components/bloky/index.ts`; obsah Volby, Roztřiď, Změň jednu věc, Spor, Slož argument, Seřaď na ose a Kdo to řekl? je v YAML (`src/content/bloky/<id>.yaml`, schéma `src/lib/bloky-schema.ts`), Příběh, Odkryj a Kdo žil dřív? se píšou v MDX. Jak blok psát, drží skill `atlas-cesta`; jak ho stavět, `atlas-komponenta`. Všechny bloky a kresby jsou pohromadě v dílně `/dilna/bloky/`.
 
 - **Rám aktivity** (`ostrovy/RamAktivity.svelte`, bez stavu `bloky/RamAktivity.astro`): pole na tečkách se čtyřmi rohovými značkami; hlava (nadtitulek z dat, tečka období, název, razítka lidí), zadání (`.blok__scena`, `.blok__otazka`), plocha, zpětná vazba jako lístek s páskou (snippet `vazba`), pata (`Začít znovu` vlevo, hlavní čin vpravo; snippety `hlavni`, `znovu`). Props `id`, `obdobi`, `nadtitulek`, `nazev`, `lide`, `labelledby`, `ulozeno`, `cerstve`, `bind:vazbaPrvek`. Nová hra je jen vnitřek plochy; kořen má třídu `.blok`.
 - **Studentova ruka:** pole `.blok__pole` a zvolené `.blok__ruka` jsou Kalamem v barvě `--pero`; pero se vybírá jednou (`VolbaPera.svelte`).
 - **Co se ukládá:** vše jen v prohlížeči, záznam `atlas-denik` verze 1 (`src/lib/denik.ts`): zápisy do Mých odpovědí, stav bloků, aktivita, postup cest, čtení profilů, hodiny, výzvy a týdny. Při promítání hodiny pracuje deník promítání v `sessionStorage`. Bez `localStorage` bloky fungují do zavření stránky.
+- **Herní pohyb** (`global.css` › Herní pohyb, herna-v1): `.rozdat` (karta přiletí z balíčku, zpoždění `--i` × `--z-karta`), `.otocna` s `.otocna__vnitrek`, `.otocna__lic`, `.otocna__rub` a stavem `.otocena` (otočení `--d-list`, `--k-list`), `.herni-otisk` s `.otisk` (kulaté razítko „sedí“ v inkoustu období, dopad `--d-listek`, `--k-dopad`). Jen po činu studenta; při omezeném pohybu i v Klidném režimu stav hned na konci.
+- **Hry herny** (znalostní): nadtitulek „Hra“, název formátu pod ním (`nazev` rámu), otázka `.blok__otazka--mala`. Výsledek je jen „sedí“ (otisk a lístek), nebo „zkus to jinak“ (lístek s šipkou tužkou, Kalam, a jedna věta tiskem, kam se podívat); nic se nepočítá. Do deníku jen stav bloku a aktivita, žádný zápis. Logika a zamíchání se semínkem (stejné pořadí po obnovení) v `src/lib/herna/`.
+  - **Seřaď na ose** (`<SeradNaOse id="…" />`, druh `serad`): tři až šest karet (lidé podle narození nebo smrti, události) na šňůře s kolíčky, v rámu pod 560 px svisle; tažení, klepnutí na dvě karty (prohodí se), klávesnice (šipky, Enter zvedne a položí, Escape vrátí); po kontrole značky dvojic ✓ a ⇄; roky až po správném pořadí; po třech kontrolách Ukázat pořadí.
+  - **Kdo to řekl?** (`<KdoToRekl id="…" />`, druh `kdo-rekl`): série otočných kartiček s citátem ze `zdroje.yaml`, odpověď razítkem jednoho ze tří až čtyř lidí; zkusené razítko zakázané, po trefě rub s jménem, dílem a místem („Zapsal Platón: …“, když mluví postava) a odkazem na stránku osoby; Další karta v patě, po poslední souhrn.
 - **Kresba s pohybem** (`ostrovy/Kresba.svelte`): rám s Pustit a Zastavit pohyb; zastavená kresba kreslí obsah, ne začátek smyčky; při omezeném pohybu stojí a popis říká totéž.
 
 ## Komponenty
@@ -148,7 +153,7 @@ Jen co komponenta dělá a kde je; props a ukázka použití jsou v úvodním ko
 | --- | --- | --- |
 | Rám webu | `rozvrzeni/Hlavicka.astro`, `SpodniLista.astro`, `Drobecky.astro`, `KlidnyRezim.astro`, `PrepinacRezimu.astro`, `ListaHodiny.astro`, `Pisma.astro`; `layouts/Zakladni.astro` | hlavička, lišty, přepínače, písma, skripty v hlavičce (režim, klid, pero, hodina, přechody) |
 | Papír a znaky | `ui/Deska.astro`, `ui/Citat.astro`, `ui/RazitkoCloveka.astro` (`.svelte` pro ostrovy), `ui/Pojem.astro`, `ui/PasObdobi.astro`, `ui/Ikona.astro`, `ui/Tlacitko.astro`, `ui/GrafKrivek.astro`, `ui/RadekPomoci.astro` | deska s fotkou a páskami (`<Deska osoba={o} osobni />`), citát z dat (`<Citat id="…" kompaktni />`), razítko, pojem s poznámkou (`<Pojem id="…">slovo</Pojem>`), pás období, ikony ze spritů |
-| Bloky do MDX | `bloky/*.astro` (index `bloky/index.ts`) | `<Volba id="…" />`, `<Odkryj id="…" otazka="…" tlacitko="…">`, `<Pribeh id="…" osoba="…" nadtitulek="…" titulek="…" popisek="…">`, `<Spor id="…" />`, `<Roztrid id="…" />`, `<ZmenJednuVec id="…" />`, `<SlozArgument id="…" />`, `<KdoZilDriv a="…" b="…" />`, `<Strany blok="…">`, `<ZaverCesty id="…" otazka="…" />` a kresby (`<Jeskyne />`, `<Lod />`, `<TretiCara />`…) |
+| Bloky do MDX | `bloky/*.astro` (index `bloky/index.ts`) | `<Volba id="…" />`, `<Odkryj id="…" otazka="…" tlacitko="…">`, `<Pribeh id="…" osoba="…" nadtitulek="…" titulek="…" popisek="…">`, `<Spor id="…" />`, `<Roztrid id="…" />`, `<ZmenJednuVec id="…" />`, `<SlozArgument id="…" />`, `<SeradNaOse id="…" />`, `<KdoToRekl id="…" />`, `<KdoZilDriv a="…" b="…" />`, `<Strany blok="…">`, `<ZaverCesty id="…" otazka="…" />` a kresby (`<Jeskyne />`, `<Lod />`, `<TretiCara />`…) |
 | Ostrovy (Svelte) | `ostrovy/*.svelte` | stav bloků, kresby, deník, hledání (Pagefind), Pokračuj, první názor a Změnil se na stránce otázky, osa hlasů, Dva životy, Tvoje antika, týden |
 | Cesta | `cesta/CestaHlavicka.astro`, `CestaLista.astro`, `ListekCesty.astro`, `ListyKroku.astro`, `CestaKarta.astro`, `PostupCesty.svelte` | lišta kroku s postupem, pevná lišta Předchozí/Další (další je tichý, dokud student neodpoví), lístek cesty s pahýlem, listy kroku |
 | Stránky osob | `osobnost/StrankaProfilu.astro`, `StrankaMedailonku.astro`, `Kapitola.astro`, `ListyProfilu.astro`, `ObsahProfilu.astro`, `VstupyOsoby.astro`, `DobaALide.astro`, `MiniMapa.astro`, `MiniOsa.astro`, `DvaZivoty.astro`, `Myslenky.astro`, `ZkusToZitKarta.astro`, `KamDal.astro`, `Prameny.astro` | hlavička s titulkem a deskou, kapitoly na čistém listu, Doba a lidé, Kam dál, Prameny |

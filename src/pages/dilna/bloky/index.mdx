@@ -1,9 +1,9 @@
 ---
 layout: ../../../layouts/Dilna.astro
 titulek: Bloky
-perex: Všech devět bloků, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
+perex: Všech devět bloků, hry, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
 ---
-import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
+import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
 import GrafKrivek from '../../../components/ui/GrafKrivek.astro';
 
 <section class="ukazka" aria-labelledby="h-pribeh">
@@ -77,6 +77,18 @@ Sókratés by se tě nejdřív zeptal, jestli ten člověk ví, kde jeho věděn
 <h2 class="t-h2" id="h-argument">Slož argument</h2>
 
 <SlozArgument id="dilna-sokrates-zemre" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-serad">
+<h2 class="t-h2" id="h-serad">Seřaď na ose</h2>
+
+<SeradNaOse id="dilna-serad-narozeni" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-kdo-rekl">
+<h2 class="t-h2" id="h-kdo-rekl">Kdo to řekl?</h2>
+
+<KdoToRekl id="dilna-kdo-rekl" />
 </section>
 
 <section class="ukazka" aria-labelledby="h-navrat">

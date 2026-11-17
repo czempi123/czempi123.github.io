@@ -20,8 +20,8 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
 | P6 | Podklady pro formáty: citáty pro Kdo to řekl? a Doplň citát, podvržené citáty s doloženým původem, věty pro Kdo by to řekl?, situace pro Páry, čísla pro Tipni si, otázky pro Výpravy, látka stránky Argumentační klamy a manipulace | Opus 5.5 · high se skillem `atlas-overeni` | hotovo 17. 11. 2026 (Po P6) |
-| K1 | Herní jádro a první dva formáty: sdílená logika v `src/lib/herna/`, herní pohyb (zamíchání, otočení karty, razítko), **Seřaď na ose** a **Kdo to řekl?** | Opus 5.5 · high se skillem `atlas-komponenta` | na řadě |
-| K2 | **Tipni si**, **Kde to bylo?** (slepá mapa), **Doplň citát** | totéž | čeká na K1 |
+| K1 | Herní jádro a první dva formáty: sdílená logika v `src/lib/herna/`, herní pohyb (zamíchání, otočení karty, razítko), **Seřaď na ose** a **Kdo to řekl?** | Opus 5.5 · high se skillem `atlas-komponenta` | hotovo 17. 11. 2026 (Po K1) |
+| K2 | **Tipni si**, **Kde to bylo?** (slepá mapa), **Doplň citát** | totéž | na řadě |
 | K3 | **Páry**, **Pravý, nebo podvržený?**, **Najdi slabé místo**, **Kdo by to řekl?** | totéž | čeká na K2 |
 | K4 | Stránky osob a mapa: **střídání malých aktivit** na medailoncích a profilech, **Výpravy** pro období 1 a 2, **Přehrát období**, trasy na mini mapě | totéž | čeká na K3 |
 | K5 | Kurikulum: karta **Do hodiny**, **sebehodnocení** na konci cesty, stránka **Argumentační klamy a manipulace** | komponenty `atlas-komponenta`, text `atlas-psani` · Opus 5.5 · high | čeká na K4 |
@@ -180,6 +180,34 @@ Odpovědi v Co rozhodnout před P6 zůstaly prázdné: platí všech sedm doporu
 **Otázky jen pro autora:** žádné nové osoby. Jen jedna věc k rozhodnutí: kde plátno D5 kotoučky použilo; pokud u Sókratova procesu, doporučuji je přesunout k obecnému popisu athénského soudu. Prázdná odpověď znamená souhlas.
 
 Další krok: K1 (herní jádro, Seřaď na ose, Kdo to řekl?) v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`.
+
+## Po K1 (17. 11. 2026)
+
+Odpověď na otázku po P6 (kotoučky) zůstala prázdná: platí doporučení, kotoučky patří k obecnému popisu athénského soudu, až vznikne Porota (Co zůstává na později).
+
+**Co vzniklo**
+
+- **Sdílená logika** `src/lib/herna/` (testy `tests/data/herna.test.ts`): `zamichej` se semínkem z textu (FNV-1a a mulberry32, stejné pořadí při sestavení, po hydrataci i po obnovení), `verdikt` („Sedí.“, nebo „Zkus to jinak.“ s jednou větou, kam se podívat), pro Seřaď na ose karty z dat s „asi“ (`kartaOsy`), `dvojice` a `vyhodnotPoradi`, `zamichaniOsy` (nikdy hotové, nejvýš polovina dvojic sedí), `presun`, `prohod`, `verdiktPoradi` a `platnyStavOsy`; pro Kdo to řekl? `moznostiCitatu`, `puvodCitatu` („Zapsal Platón: Obrana Sókratova 38a“, když mluví postava), `chybyKdoRekl`, `hotovaSerie` a `platnyStavKdoRekl`. Deník zná druhy aktivit `serad` a `kdo-rekl`; ukládá se jen stav bloku, žádný zápis.
+- **Herní pohyb** v `global.css` (oddíl Herní pohyb): `.rozdat` (zpoždění `--i` × nový token `--z-karta`, 40 ms), `.otocna` s otočením `--d-list`, `.herni-otisk` s dopadem `.otisk`. Při omezeném pohybu i v Klidném režimu stojí na konci (test pro plný pohyb, omezený a Klidný).
+- **Seřaď na ose** (`SeradNaOse.astro`, `ostrovy/SeradNaOse.svelte`, druh `serad`): šňůra s kolíčky, pod 560 px šířky rámu svisle; tažení myší i prstem, klepnutí na dvě karty je prohodí, z klávesnice šipky, Enter kartu zvedne a položí, Escape ji vrátí. Po špatné kontrole značky dvojic (✓, ⇄) a lístek „zkus to jinak“; roky až po správném pořadí, otisk „sedí“; po třech kontrolách Ukázat pořadí.
+- **Kdo to řekl?** (`KdoToRekl.astro`, `ostrovy/KdoToRekl.svelte`, druh `kdo-rekl`): otočná kartička s větou, odpovědi jako razítka lidí; špatné razítko zůstane zakázané a lístek řekne, kam se podívat; po trefě se karta otočí (jméno, věta, dílo a místo, Otevřít stránku), Další karta v patě; po poslední kartě souhrn.
+- **Zapojení:** `bloky/index.ts`, schémata `BlokSerad` a `BlokKdoRekl` v `bloky-schema.ts`, nadtitulek „Hra“ v `nadtitulky.ts`, `BLOKY_S_ODPOVEDI` (lišta kroku), katalog hodin (bloky z YAML), dílna (dva nové oddíly s `dilna-serad-narozeni` a `dilna-kdo-rekl`, obsah z podkladů P6), `pruchod.spec.ts`, `scripts/slova-cesta.mjs` a `scripts/snimky-cesta.mjs`.
+- **Testy:** `tests/e2e/herna.spec.ts` (390 a 1440 px, světlý i tmavý režim, jen klávesnicí, axe, obnovení stránky, tři kontroly a Ukázat pořadí, tažení myší, dotyk přes CDP, cíle 44 px, bez `localStorage`, plný, omezený pohyb a Klidný režim). Snímky pro kontrolu skládá `node scripts/snimky-herna.mjs` do `Claude outputs/snimky/herna-*.png`.
+- `docs/design.md` (Pohyb, Klidný režim, Bloky a aktivity, Komponenty) a `docs/rozhodnuti.md` (17. 11. 2026).
+- **Celé `npm test`:** kontrola typů, 1439 testů ve Vitestu a 810 z 811 v Playwrightu. Spadl jen `denik-kapitoly.spec.ts:101` (klávesnice v kapitolách deníku, 5,7 s místo obvyklých 0,3 s při zátěži); sám čtyřikrát po sobě prošel a hry se ho netýkají. Kdyby se objevil znovu, patří do revize R.
+
+**Nad čím jsem váhal a co by šlo jinak**
+
+- **Značky u všech dvojic, nebo jen věta o první obrácené.** Zadání chtělo „které dvojice sedí“, tak je značky ukazují všechny; lístek jmenuje jen první obrácenou. Jinak: jen počet nebo jen věta, hra by byla těžší.
+- **Kontrola čeká na změnu pořadí** a pokus se počítá jen za kontrolu jiného pořadí. Jinak by tři klepnutí na Zkontrolovat hned otevřela Ukázat pořadí.
+- **Rozdání karet jen po činu studenta** (Začít znovu, Další karta), ne při načtení stránky: pravidlo pohybu dovoluje pohyb jen po činu nebo jednou při příchodu na profil.
+- **Nabídka pera** se ukáže i po první odpovědi ve hře (rám ji nabízí při první zpětné vazbě vůbec). Ve hře student perem nepíše, jen jeho obrys nese zvednutá karta; nechal jsem to, protože pero je jedno pro celý atlas. Jinak: rám by nabídku ve hrách vynechal.
+- **Otisk „sedí“** stojí přes konec šňůry a roh poslední karty (vodorovně) nebo první karty (svisle); pod šňůrou se potkával s páskou lístku. Tučných 19 px drží v tmavém režimu kontrast velkého textu.
+- **Napovědy ke Kdo to řekl? v dílně** jsem napsal sám (jedna věta, bez jména); u Aristotela „se žáky sbíral ústavy řeckých obcí“ podle toho, že Athénskou ústavu data vedou jako dílo školy. Do antiky je projde krok T se skillem `atlas-psani`.
+
+**Na které snímky se podívat** (`Claude outputs/snimky/`): `herna-serad-klid-390-svetly.png` a `herna-serad-klid-1440-tmavy.png` (šňůra svisle a vodorovně), `herna-serad-zkus-390-svetly.png` (značky dvojic a lístek), `herna-serad-sedi-1440-svetly.png` (roky a otisk), `herna-kdo-zkus-390-svetly.png` (zakázané razítko a napověda), `herna-kdo-otocena-1440-tmavy.png` (rub karty). V dílně: `/dilna/bloky/#dilna-serad-narozeni` a `#dilna-kdo-rekl`.
+
+Další krok: K2 (Tipni si, Kde to bylo?, Doplň citát) v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`; zadání je výš.
 
 ## Co zůstává na později
 

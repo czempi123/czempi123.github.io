@@ -98,7 +98,8 @@ export interface HodinaVDeniku {
   kdy: string;
 }
 
-export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'kdo-zil-driv';
+/** Druh bloku v aktivitě; hry herny (serad, kdo-rekl) ukládají jen stav, žádný zápis (plán herna-v1, Co platí). */
+export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'kdo-zil-driv' | 'serad' | 'kdo-rekl';
 export interface Aktivita {
   id: string;
   odkaz: string;

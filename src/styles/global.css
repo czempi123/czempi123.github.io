@@ -734,6 +734,71 @@ em, i { font-style: italic; }
   animation-fill-mode: both;
 }
 
+/* ─── Herní pohyb (herna-v1, K1; plátno D5 › Herní pohyb, docs/design.md › Pohyb) ─────────────────────────────
+   Jen po činu studenta: rozdání karet po jedné (Začít znovu, Další karta), otočení kartičky a otisk razítka „sedí“.
+   Délky z tokenů, rozepsané vlastnosti (zkratka animation by se při sestavení zminifikovala na none).
+   Při omezeném pohybu i v Klidném režimu je stav hned na konci: animace vypnuté, otočení bez přechodu. */
+@keyframes karta-rozdat {
+  from { transform: translate(-28px, -36px) rotate(-7deg); opacity: 0; }
+  60% { opacity: 1; }
+  to { transform: none; opacity: 1; }
+}
+.rozdat {
+  animation-name: karta-rozdat;
+  animation-duration: var(--d-presun);
+  animation-timing-function: var(--k-papir);
+  animation-delay: calc(var(--i, 0) * var(--z-karta));
+  animation-fill-mode: both;
+}
+/* Otočná kartička: líc a rub ve stejné buňce mřížky, otočení kolem svislé osy (--d-list, --k-list).
+   Kořen .otocna, vnitřek .otocna__vnitrek, strany .otocna__lic a .otocna__rub; otočená má třídu .otocena. */
+.otocna { perspective: 1400px; }
+.otocna__vnitrek {
+  display: grid;
+  transform-style: preserve-3d;
+  transition-property: transform;
+  transition-duration: var(--d-list);
+  transition-timing-function: var(--k-list);
+}
+.otocna__lic, .otocna__rub { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.otocna__rub { transform: rotateY(180deg); }
+.otocena .otocna__vnitrek { transform: rotateY(180deg); }
+/* Otisk razítka „sedí“: kulatý otisk v inkoustu období, dopadne bez odskoku (--d-listek, --k-dopad). */
+.herni-otisk {
+  display: inline-grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 2.5px solid var(--p, var(--ink));
+  box-shadow: inset 0 0 0 4px var(--plocha, transparent), inset 0 0 0 5.5px var(--p, var(--ink));
+  color: var(--p, var(--ink));
+  font-family: var(--font-sans);
+  /* 19 px tučně je velký text (mez 3 : 1): inkoust období drží i na tmavém rubu karty. */
+  font-size: calc(var(--meritko) * 19px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: lowercase;
+  rotate: calc(-9deg * var(--natoceni));
+  pointer-events: none;
+}
+@keyframes razitko-otisk {
+  from { transform: scale(1.45); opacity: 0; }
+  to { transform: scale(1); }
+}
+.otisk {
+  animation-name: razitko-otisk;
+  animation-duration: var(--d-listek);
+  animation-timing-function: var(--k-dopad);
+  animation-fill-mode: both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rozdat, .otisk { animation: none !important; }
+  .otocna__vnitrek { transition: none !important; }
+}
+:root[data-klidny] :is(.rozdat, .otisk) { animation: none; }
+:root[data-klidny] .otocna__vnitrek { transition: none; }
+
 /* ─── Přechody mezi stránkami (design-v2, K2; Po D3 › Pravidla pohybu, plátno project/Pohyb.dc.html) ───────
    Stránka se otočí jako list v knize: od pravého dolního rohu se zvedne cíp, ohyb přejede zprava doleva ke hřbetu
    a zahnutý kus listu ukazuje rub papíru (.otoceni-ohyb), který vrhá stín na obě strany ohybu. Pod listem se
