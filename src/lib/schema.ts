@@ -114,6 +114,8 @@ export const Misto = z
     pleiades: z.string().regex(/^\d+$/).optional(),
     /** ostrov nebo krajina místo města */
     oblast: z.boolean().optional(),
+    /** místo v 6. pádu s předložkou pro věty z dat („v Athénách“, „na Korsice“, „u Délia“) */
+    kde: z.string().regex(/^(v|ve|na|u) \S/).optional(),
   })
   .strict();
 

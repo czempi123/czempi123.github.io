@@ -5,13 +5,16 @@ import Ostrov from '../ostrovy/KdoToRekl.svelte';
 import { citatyPodleId, data, osoba } from '../../lib/data';
 import { moznostiCitatu, puvodCitatu, chybyKdoRekl, chybyVetKdoRekl, prvniVeta } from '../../lib/herna';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
+import { nezlomitelne } from '../../lib/sazba.js';
 import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
-import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import { nactiBlok, blokZObsahu, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { TBlokKdoRekl } from '../../lib/bloky-schema';
 import type { Dal } from '../ostrovy/bloky-typy';
 
-interface Props { id: string; dal?: Dal }
-const { id, dal } = Astro.props;
-const blok = await nactiBlok(id, 'kdo-rekl', Astro.url.pathname);
+// Obsah místo id (hra medailonku sestavená z dat, src/lib/herna/aktivity.ts): YAML se pak nečte.
+interface Props { id: string; dal?: Dal; obsah?: TBlokKdoRekl }
+const { id, dal, obsah } = Astro.props;
+const blok = obsah ? blokZObsahu(id, obsah) : await nactiBlok(id, 'kdo-rekl', Astro.url.pathname);
 const proc = new Map(data.lide.map((o) => [o.id, o.proc ?? o.kdo ?? '']));
 const chyby = [...chybyKdoRekl(blok.karty, citatyPodleId, new Set(data.lide.map((o) => o.id))), ...chybyVetKdoRekl(blok.karty, citatyPodleId, proc)];
 if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
@@ -28,9 +31,9 @@ const karty = blok.karty.map((k) => {
     puvod: puvodCitatu(c, kdo.jmeno),
     adresa: adresa(spravna),
     napoveda: k.napoveda,
-    pointa: k.pointa,
+    pointa: nezlomitelne(k.pointa),
     // Věta pod razítkem: čím se člověk zabýval (první věta pole proc), aby student hledal myšlenku, ne jméno.
-    moznosti: moznostiCitatu(spravna, k.jini, `${id}:${k.citat}`).map((o) => ({ id: o, clovek: clovek(o), myslenka: prvniVeta(osoba(o).proc ?? osoba(o).kdo ?? '') })),
+    moznosti: moznostiCitatu(spravna, k.jini, `${id}:${k.citat}`).map((o) => ({ id: o, clovek: clovek(o), myslenka: nezlomitelne(prvniVeta(osoba(o).proc ?? osoba(o).kdo ?? '')) })),
   };
 });
 const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);

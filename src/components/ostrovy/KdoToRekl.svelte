@@ -4,6 +4,7 @@
   // (K2, zásada Pointa není paměť): hledá se, komu myšlenka sedí, ne koho si student pamatuje. Sedí: kartička se
   // otočí a ukáže nahoře, o čem věta je (pointa z YAML), pod tím jméno, dílo a místo a odkaz na stránku osoby. Jinak „zkus to jinak“ s jednou větou, kam se podívat; zkusené razítko zůstane zakázané.
   // Další karta v patě rámu rozdá další kartičku. Nic se nepočítá; do deníku jen stav (běžící karta a tipy).
+  // Jedna karta (hra medailonku z dat, K4) nemá počítadlo ani souhrn: všechno řekne rub.
   // Použití v MDX (obsah v src/content/bloky/dilna-kdo-rekl.yaml, druh: kdo-rekl):
   // <KdoToRekl id="dilna-kdo-rekl" />
   import { onMount, tick } from 'svelte';
@@ -139,7 +140,7 @@
   nadtitulek={blok.nadtitulek}
   nazev={blok.nazev}
   labelledby={`${id}-otazka`}
-  vazba={hotovo || zkus ? vazba : undefined}
+  vazba={(hotovo && n > 1) || zkus ? vazba : undefined}
   vazbaPopisek={hotovo ? 'Otočené karty' : 'Zkus to jinak'}
   {cerstve}
   bind:vazbaPrvek={oblast}
@@ -152,7 +153,7 @@
   <h3 class="t-h3 blok__otazka blok__otazka--mala" id={`${id}-otazka`} data-cast="otazka">{@html radek(blok.otazka)}</h3>
 
   <div class="serie" data-cast="moznosti">
-    <p class="serie__postup t-popisek">Karta {karta + 1} z {n}</p>
+    {#if n > 1}<p class="serie__postup t-popisek">Karta {karta + 1} z {n}</p>{/if}
     {#key karta}
       <div
         class={['otocna', 'kartka', vyreseno && 'otocena', karta < n - 1 && 'kartka--balicek', rozdat && 'rozdat']}

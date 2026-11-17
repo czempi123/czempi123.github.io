@@ -6,7 +6,8 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { osoby } from '../../lib/data';
 import { katalogZastaveni, VERZE_HODINY } from '../../lib/hodiny';
-import { kdoZilNaMedailonku, medailonky } from '../../lib/stranky-osob';
+import { kdoZilNaMedailonku, medailonky, hraMedailonku } from '../../lib/stranky-osob';
+import { KOMPONENTA_AKTIVITY } from '../../lib/herna/aktivity';
 import { strankyAtlasu } from '../../lib/stranky-typu';
 import { castiStrankyObdobi } from '../../lib/obdobi-stranka';
 import { ODDIL_HLASY_POKUSU, ODDIL_UVOD } from '../../lib/stranky';
@@ -26,9 +27,14 @@ export const GET: APIRoute = async () => {
     id: b.id,
     data: { otazka: 'otazka' in b.data ? b.data.otazka : undefined, nadtitulek: 'nadtitulek' in b.data ? b.data.nadtitulek : undefined },
   }));
-  // Medailonky: stránka z dat a blok Kdo žil dřív? s druhým člověkem podle stejného pravidla jako na stránce.
+  // Medailonky: stránka z dat a malá hra z dat (herna-v1, K4) se stejným id a otázkou jako na stránce
+  // (HraOsoby.astro); Kdo žil dřív? jako dřív s druhým člověkem podle pevného pravidla.
   const kdoZil = await kdoZilNaMedailonku();
-  const medailonkyKatalogu = medailonky.map((osoba) => ({ osoba, kdoZil: kdoZil(osoba) }));
+  const medailonkyKatalogu = await Promise.all(medailonky.map(async (osoba) => {
+    const hra = await hraMedailonku(osoba);
+    if (!hra || hra.druh === 'kdo-zil') return { osoba, kdoZil: hra ? hra.b : kdoZil(osoba) };
+    return { osoba, kdoZil: null, hra: { id: hra.id, typ: KOMPONENTA_AKTIVITY[hra.druh], otazka: hra.blok.otazka } };
+  }));
   // Stránky období, směrů, pokusů, úvodů a tradic (K1 větve antika-doplnky): oddíly šablony a text MDX.
   const s = await strankyAtlasu();
   const [obdobi, smery, pokusy, uvody, nabozenstvi, pojmy] = await Promise.all([

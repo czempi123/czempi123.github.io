@@ -1,0 +1,50 @@
+// Výpis malých aktivit na stránkách osob (herna-v1, K4): pro každou stránku v pořadí seznamu Lidé kandidáti
+// z dat a vybraná hra s otázkou, citátem a dalšími razítky. Čti ho jako stránky, ne jako tabulku.
+// Spuštění: npx vite-node scripts/herna-k4-vypis.ts
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { nactiData } from '../src/lib/kontroly';
+import { druziKdoZilDriv } from '../src/lib/dvojice';
+import { aktivityStranekOsob, kandidatiAktivit, obsahAktivity, poradiLidi, type KontextAktivit } from '../src/lib/herna/aktivity';
+
+const koren = join(import.meta.dirname, '..');
+const cti = (s: string) => readFileSync(join(koren, 'src/data', s), 'utf8');
+const { data } = nactiData({
+  lide: cti('lide.yaml'), mista: cti('mista.yaml'), vztahy: cti('vztahy.yaml'), udalosti: cti('udalosti.yaml'),
+  obdobi: cti('obdobi.yaml'), zdroje: cti('zdroje.yaml'), krajiny: cti('krajiny.yaml'),
+});
+const profily = new Set<string>();
+for (const f of readdirSync(join(koren, 'src/content/osobnosti'))) {
+  const t = readFileSync(join(koren, 'src/content/osobnosti', f), 'utf8');
+  for (const m of t.matchAll(/^(?:osoba: (.+)|dalsi: \[(.+)\])$/gm)) (m[1] ?? m[2]).split(',').forEach((x) => profily.add(x.trim()));
+}
+// Váha citátu jako na stránce: hlasy otázek 2, citát v textu atlasu 1 (src/lib/aktivity-stranek.ts).
+import { execSync } from 'node:child_process';
+const hlasy = new Set(execSync(`grep -rhoE 'citat: ?"?[a-z0-9-]+' ${join(koren, 'src/content/otazky')} || true`).toString().split('\n').map((r) => r.replace(/citat: ?"?/, '').trim()).filter(Boolean));
+const vTextu = new Set(execSync(`grep -rhoE 'Citat id="[a-z0-9-]+"' ${join(koren, 'src/content')} || true`).toString().split('\n').map((r) => r.replace(/Citat id="/, '').replace('"', '').trim()).filter(Boolean));
+const maStranku = (id: string) => profily.has(id) || !!data.lide.find((o) => o.id === id)?.medailonek;
+const druzi = druziKdoZilDriv(data.lide.filter((o) => o.medailonek), data.lide, data.vztahy, (id) => profily.has(id));
+const k: KontextAktivit = {
+  lide: data.lide, vztahy: data.vztahy, citaty: data.zdroje.citaty,
+  mista: new Map(data.mista.map((m) => [m.id, m])), maStranku, kdoZil: (id) => druzi.get(id) ?? null, znama: (id) => profily.has(id), vahaCitatu: (id) => (hlasy.has(id) ? 2 : vTextu.has(id) ? 1 : 0),
+};
+const vyber = aktivityStranekOsob(k, profily);
+const jmeno = (id: string) => data.lide.find((o) => o.id === id)!.jmeno;
+const pocty = new Map<string, number>();
+for (const o of poradiLidi(data.lide.filter((x) => maStranku(x.id)))) {
+  const a = vyber.get(o.id);
+  const kand = profily.has(o.id) ? 'profil' : kandidatiAktivit(o, k).map((x) => `${x.druh}:${x.sila}`).join(' ');
+  if (!a) { console.log(`${o.obdobi} ${o.id.padEnd(22)} ${profily.has(o.id) ? 'PROFIL (Kdo žil dřív? v MDX)' : '— nic —'}`); continue; }
+  pocty.set(a.druh, (pocty.get(a.druh) ?? 0) + 1);
+  const ob = obsahAktivity(o, a, k);
+  let detail = '';
+  if (ob.druh === 'kdo-zil') detail = `s ${jmeno(ob.b)}`;
+  else if (ob.druh === 'kde') detail = `${ob.blok.scena ?? ''} ${ob.blok.otazka} → ${ob.blok.misto}`;
+  else if (ob.druh === 'tipni') detail = `${ob.blok.scena ?? ''} ${ob.blok.otazka}`;
+  else {
+    const c = data.zdroje.citaty.find((x) => x.id === ob.blok.karty[0].citat)!;
+    detail = `„${c.cesky}“ (${jmeno(c.osoba!)}) proti ${ob.blok.karty[0].jini.map(jmeno).join(', ')} · rub: ${ob.blok.karty[0].pointa}`;
+  }
+  console.log(`${o.obdobi} ${o.id.padEnd(22)} ${a.druh.padEnd(9)} [${kand}] ${detail}`);
+}
+console.log([...pocty].map(([d, n]) => `${d}: ${n}`).join(', '));

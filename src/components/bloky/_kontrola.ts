@@ -26,6 +26,16 @@ export async function nactiBlok<D extends TBlok['druh']>(id: string, druh: D, st
   return blok as Extract<TBlok, { druh: D }>;
 }
 
+/**
+ * Blok, jehož obsah sestavila stránka z dat (hra medailonku, herna-v1 K4: obsahAktivity), ne YAML: stejná kontrola
+ * odkazů na data jako u bloku z kolekce. Obsah prošel schématem už při sestavení (BlokKde.parse a další).
+ */
+export function blokZObsahu<B extends TBlok>(id: string, blok: B): B {
+  const chyby = chybyBloku(id, blok, osoby, prameny);
+  if (chyby.length) throw new Error(chyby.join('\n'));
+  return blok;
+}
+
 /** Odkaz zpět k bloku pro deník: stránka a kotva. */
 export const odkazNaBlok = (stranka: string, id: string) => `${stranka}#${id}`;
 

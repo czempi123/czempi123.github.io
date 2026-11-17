@@ -240,3 +240,58 @@ export const ZIVOT_NA_MAPE = {
   /** role návratu do rodiště */
   domu: 'zpátky doma',
 } as const;
+
+// ─── Přehrát období (herna-v1, K4) ───────────────────────────────────────────
+// Rok projede okno období rovnoměrně asi za minutu (tentýž plán a tytéž funkce jako Přehrát život, jen bez
+// zastávek). Při omezeném pohybu a v Klidném režimu se nic samo nehýbe: student skáče po desetiletích
+// (desetiletiDal, desetiletiZpet) a mapa se přepne bez animace. Po Zastavit ukáže totéž ovládání a k němu Pokračovat.
+
+/** Jak dlouho trvá celé období (ms). */
+export const PREHRAT_OBDOBI = { delka: 60_000 };
+
+/** Plán přehrání období od `od` do `do` (bez zastávek): rokVCase, casProRok a rokyMeziSnimky fungují beze změny. */
+export function planObdobi(od: number, doRoku: number, delka = PREHRAT_OBDOBI.delka): PlanPrehravani {
+  const [a0, a1] = [naAstro(od), naAstro(doRoku)];
+  return { useky: [{ t0: 0, t1: delka, a0, a1 }], celkem: delka, od, do: doRoku };
+}
+
+/**
+ * Další kulatý rok po r směrem k dnešku (po desetiletích v běžném číslování: 424 → 420 př. n. l., 10 př. n. l.
+ * → 1 n. l. → 10 n. l.), nejvýš `doRoku`.
+ */
+export function desetiletiDal(r: number, doRoku: number): number {
+  let n: number;
+  if (r < 0) {
+    const b = -r;
+    const nb = b % 10 === 0 ? b - 10 : b - (b % 10);
+    n = nb <= 0 ? 1 : -nb;
+  } else n = r - (r % 10) + 10;
+  return naAstro(n) > naAstro(doRoku) ? doRoku : n;
+}
+
+/** Předchozí kulatý rok před r (20 n. l. → 10 n. l. → 10 př. n. l. → 20 př. n. l.), nejméně `odRoku`. */
+export function desetiletiZpet(r: number, odRoku: number): number {
+  let n: number;
+  if (r > 0) {
+    const m = r % 10 === 0 ? r - 10 : r - (r % 10);
+    n = m <= 0 ? -10 : m;
+  } else {
+    const b = -r;
+    n = -(b - (b % 10) + 10);
+  }
+  return naAstro(n) < naAstro(odRoku) ? odRoku : n;
+}
+
+/** Kde přehrávání začne: v aktuálním roce, leží-li v okně a ne na jeho konci, jinak na začátku okna. */
+export function zacatekObdobi(r: number, od: number, doRoku: number): number {
+  return naAstro(r) >= naAstro(od) && naAstro(r) < naAstro(doRoku) ? r : od;
+}
+
+/** Texty ovládání na jednom místě (testy hlídají přesné znění). */
+export const PREHRAT_OBDOBI_TEXTY = {
+  prehrat: 'Přehrát období',
+  zastavit: 'Zastavit',
+  pokracovat: 'Pokračovat',
+  zpet: 'O deset let zpět',
+  dal: 'O deset let dál',
+} as const;

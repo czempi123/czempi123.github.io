@@ -1,5 +1,6 @@
 // Snímky her herny v dílně (herna-v1): Seřaď na ose, Kdo to řekl?, Tipni si, Kde to bylo?, Doplň citát, Páry,
-// Pravý, nebo podvržený?, Najdi slabé místo a Kdo by to řekl? v klidu,
+// Pravý, nebo podvržený?, Najdi slabé místo a Kdo by to řekl? v klidu, hry na stránce osoby, trasy mini mapy,
+// výprava a Přehrát období v Mapě a čase (K4)
 // po „zkus to jinak“ a hotové,
 // na 390 a 1440 px ve světlém i tmavém režimu. Výstup do „Claude outputs/snimky/herna-<hra>-<stav>-<sirka>-<rezim>.png“.
 // node scripts/snimky-herna.mjs        (ZAKLAD: běžící web, výchozí náhled sestaveného webu na portu 4323; KLID=1 Klidný režim)
@@ -26,7 +27,8 @@ async function priprav(page, id, ostrov) {
   if (process.env.KLID) await page.reload();
   await page.evaluate(() => document.fonts.ready);
   await page.locator(`[id="${id}"]`).scrollIntoViewIfNeeded();
-  await page.waitForFunction((o) => !document.querySelector(`astro-island[component-url*="${o}"][ssr]`), ostrov);
+  // Ostrov právě tohoto bloku (v dílně je víc ostrovů téhož druhu a vzdálené se hydratují až po posunu).
+  await page.waitForFunction(([i, o]) => { const a = document.getElementById(i)?.closest(`astro-island[component-url*="${o}"]`); return !!a && !a.hasAttribute('ssr'); }, [id, ostrov]);
   await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .preskocit { visibility: hidden !important; } .blok__pata { position: static !important; }' });
 }
 for (const sirka of [390, 1440]) {
@@ -151,7 +153,45 @@ for (const sirka of [390, 1440]) {
     await snimek(page, 'dilna-kdo-by-mene', `herna-kdoby-atlas-${pr}`);
     await priprav(page, 'dilna-kdo-by-uhel', 'KdoByToRekl');
     await snimek(page, 'dilna-kdo-by-uhel', `herna-kdoby-bublina-${pr}`);
+    // Hra na stránce osoby (K4): Kdo to řekl? s jednou kartou (rub se vztahem), Tipni si, Kde to bylo?
+    await priprav(page, 'dilna-hra-theofrastos-kdo-rekl', 'KdoToRekl');
+    const ho = page.locator('#dilna-hra-theofrastos-kdo-rekl');
+    await snimek(page, 'dilna-hra-theofrastos-kdo-rekl', `herna-k4-kdorekl-klid-${pr}`);
+    await ho.locator('.razitko-odpoved', { hasText: 'Aristotelés' }).click();
+    await snimek(page, 'dilna-hra-theofrastos-kdo-rekl', `herna-k4-kdorekl-rub-${pr}`);
+    await priprav(page, 'dilna-hra-kleanthes-tipni', 'TipniSi');
+    await snimek(page, 'dilna-hra-kleanthes-tipni', `herna-k4-tipni-klid-${pr}`);
+    await priprav(page, 'dilna-hra-musonius-rufus-kde', 'KdeToBylo');
+    await snimek(page, 'dilna-hra-musonius-rufus-kde', `herna-k4-kde-klid-${pr}`);
+    // Trasy na mini mapě (K4): Sókratés v dílně.
+    await page.locator('#h-trasy').scrollIntoViewIfNeeded();
+    const mm = page.locator('#h-trasy + * .minimapa, section[aria-labelledby="h-trasy"] .minimapa').first();
+    await page.waitForTimeout(150);
+    await mm.screenshot({ path: `${VEN}/herna-k4-trasy-sokrates-${pr}.png` });
+    console.log(`herna-k4-trasy-sokrates-${pr}`);
+    // Mapa a čas (K4): výprava splněná nad kartou, pás s Přehrát období po zastavení (skoky a Pokračovat).
+    await page.goto(`${ZAKLAD}/mapa/?rok=-424&osoba=sokrates`);
+    await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: `${VEN}/herna-k4-mapa-vyprava-${pr}.png` });
+    console.log(`herna-k4-mapa-vyprava-${pr}`);
     await page.close();
   }
+}
+// Přehrát období během běhu a po zastavení (plný pohyb, jen notebook a telefon ve světlém režimu).
+for (const sirka of [390, 1440]) {
+  const page = await browser.newPage({ viewport: { width: sirka, height: 900 } });
+  await page.addInitScript(() => { window.atlasPrehravaniObdobi = { delka: 20000 }; });
+  await page.goto(`${ZAKLAD}/mapa/?rok=-520`);
+  await page.waitForSelector('astro-island[component-url*="MapaACas"]:not([ssr])', { state: 'attached' });
+  await page.waitForTimeout(600);
+  await page.locator('#obdobi-prehrat').click();
+  await page.waitForTimeout(2500);
+  await page.screenshot({ path: `${VEN}/herna-k4-obdobi-bezi-${sirka}.png` });
+  await page.locator('#obdobi-prehrat').click();
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `${VEN}/herna-k4-obdobi-zastaveno-${sirka}.png` });
+  console.log(`herna-k4-obdobi-${sirka}`);
+  await page.close();
 }
 await browser.close();

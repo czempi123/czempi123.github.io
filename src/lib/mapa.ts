@@ -109,7 +109,7 @@ type BodSPopiskem = { xy: [number, number] } & Pick<MistoMiniMapy, 'nazev' | 'ra
 // Šířka textu v Instrument Sans: úzké znaky (mezera, tečka, i, l, t…) mají asi poloviční šířku ostatních.
 // Změřeno v prohlížeči pro písmo na telefonu (název 21 px tučně, role 18 px); odhad sedí na ±5 %.
 const UZKE_ZNAKY = new Set(' .,ijlítfr1I');
-const sirkaTextu = (text: string, siroky: number, uzky: number) => [...text].reduce((s, z) => s + (UZKE_ZNAKY.has(z) ? uzky : siroky), 0);
+export const sirkaTextu = (text: string, siroky: number, uzky: number) => [...text].reduce((s, z) => s + (UZKE_ZNAKY.has(z) ? uzky : siroky), 0);
 
 /** Obdélníky jednotlivých řádků popisku (název a role) v jednotkách výřezu, odhad pro písmo na telefonu. */
 export function radkyPopisku(b: BodSPopiskem, u: UmisteniPopisku): Obdelnik[] {
@@ -125,7 +125,7 @@ export function radkyPopisku(b: BodSPopiskem, u: UmisteniPopisku): Obdelnik[] {
   ];
 }
 
-const prekryv = (a: Obdelnik, b: Obdelnik, mez = 6) => a[0] < b[2] + mez && b[0] < a[2] + mez && a[1] < b[3] && b[1] < a[3];
+export const prekryv = (a: Obdelnik, b: Obdelnik, mez = 6) => a[0] < b[2] + mez && b[0] < a[2] + mez && a[1] < b[3] && b[1] < a[3];
 
 /**
  * Umístění popisků všech míst. Strany určí `stranyPopisku`; když se pak řádky dvou popisků potkají

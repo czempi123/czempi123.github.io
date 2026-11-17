@@ -91,7 +91,7 @@ export interface VstupKatalogu {
   /** týdny cvičení (src/content/tydny); starší vstup je nemá */
   tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
   /** medailonky z dat: osoba a druhý člověk bloku Kdo žil dřív? (kdoZilNaMedailonku); starší vstup je nemá */
-  medailonky?: { osoba: string; kdoZil: string | null }[];
+  medailonky?: { osoba: string; kdoZil: string | null; hra?: { id: string; typ: string; otazka: string } }[];
   /**
    * stránky období, směrů, pokusů, úvodů a tradic (od K1 větve antika-doplnky); starší vstup je nemá.
    * `id` bez předpony (`obdobi-helenismus-a-rim`), `predTextem` a `zaTextem` jsou oddíly, které skládá šablona.
@@ -154,7 +154,7 @@ const adresa = (stranka: string, kotva: string | null) => (kotva ? `${stranka}#$
 
 /**
  * Seznam všech zastavení: cesty (přehled, kroky, bloky a příběhy v krocích), profily (celá stránka, kapitoly,
- * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), medailonky (celá stránka a blok Kdo žil dřív?, od K2
+ * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), medailonky (celá stránka a malá hra z dat; od K2
  * větve interaktivita-v1), stránky otázek s hlasy a týdny cvičení.
  * Zastaví sestavení, když blok chybí v datech, kapitola v textu nesedí na kapitoly ve frontmatteru, nebo když
  * dvě zastavení dostanou stejné id.
@@ -241,7 +241,12 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
       const idStranky = `o:${osoba.id}`;
       const spolecne = { kde: osoba.jmeno, stranka, obdobi: osoba.obdobi, osoba: osoba.id };
       vse.push({ id: idStranky, druh: 'profil', nazev: osoba.jmeno, kotva: null, adresa: stranka, rodic: null, poradi: 0, medailonek: true, ...spolecne });
-      if (s.m.kdoZil) {
+      if (s.m.hra) {
+        // Malá hra z dat (herna-v1, K4): id, otázka a nadtitulek jako na stránce (HraOsoby.astro).
+        const h = s.m.hra;
+        vse.push({ id: `b:${h.id}`, druh: 'blok', nazev: cisty(h.otazka), kotva: h.id, typ: h.typ, ...sNadtitulkem(vychozi(h.typ)),
+          adresa: adresa(stranka, h.id), rodic: idStranky, poradi: 1, ...spolecne });
+      } else if (s.m.kdoZil) {
         const cast = castZeZnacky({ jmeno: 'KdoZilDriv', atributy: { a: osoba.id, b: s.m.kdoZil, druh: 'poradi' } }, stranka)!;
         vse.push({ ...cast, adresa: adresa(stranka, cast.kotva), rodic: idStranky, poradi: 1, ...spolecne });
       }

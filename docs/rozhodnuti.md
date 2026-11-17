@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 17. 11. 2026: Stránky osob a mapa (herna-v1 K4)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Malou hru vybírá atlas jen pro medailonky; profily a portréty mají dál svou ručně napsanou Kdo žil dřív? v MDX a výběr ji bere jako pevnou, medailonky kolem se jí vyhnou | Hotový text se nepřepisuje (plán po auditu, fáze 5); dvojice v profilech jsou vybrané ručně a hlídají je testy profilů. Thalés vedle Hérakleita má Kdo žil dřív? taky, protože jinou hru data nedají |
+| Výběr počítá celou řadu stránek naráz (nejlevnější cesta se sousedy různými) se silou kandidáta z dat a semínkem z id; Kdo žil dřív? je záloha se silou 1 | Hladový výběr stránku po stránce se zasekl na třech sousedech, kteří mají jen Kdo to řekl? a Kdo žil dřív?; řada naráz dá 9, 9, 9 a 7 her každého druhu |
+| Kdo to řekl? na medailonku nese větu člověka, se kterým měl ten ze stránky vztah, ne jeho vlastní; rub nahoře řekne vztah z dat („Theofrastos se učil u Aristotela.“) | Vlastní věta na vlastní stránce by byla hádání jména (Pointa není paměť) a medailonky vlastní citáty skoro nemají. Přednost mají citáty, které atlas už použil samostatně (hlasy otázek, pak citáty v textu); citát se jménem, s vypuštěným místem nebo delší než 25 slov na kartu nejde a na dvou stránkách se neopakuje |
+| Tipni si z dlouhého života páruje osobu se známým člověkem narozeným později, se kterým žila aspoň dvacet let zároveň (Gorgiás a Diogenés) | Překryv o rok by s roky „asi“ byl past (poučení z Kdo žil dřív?) |
+| Místa dostala v datech 6. pád (`kde` v `mista.yaml`, všech 55) | Věty her a výprav se skládají z dat („Musonius Rufus se narodil ve Volsiniích.“); ruční text by se s daty rozešel |
+| Výpravy jsou v `src/data/vypravy.yaml` (otázky z P6), odpověď skládají data (pobyt, rodiště) a YAML smí přidat jednu ověřenou větu; splněná výprava zůstane splněná (localStorage `atlas-vypravy`) a lístek se ukazuje i v celé mapě, dokud není vybraný jiný člověk | Odpověď z dat nemůže tvrdit něco jiného než mapa; lístek nad kartou cizího člověka by kartu odsunul a míchal dvě věci |
+| Přehrát období je u pásu: Přehrát období, během běhu Zastavit, po zastavení Pokračovat a skoky o deset let zpět a dál; při omezeném pohybu a v Klidném režimu jen skoky. Na telefonu jen značky (název pro čtečku), cíl 44 px kolem pilulky 32 px | Zadání: po zastavení totéž co při omezeném pohybu. Pás na telefonu je úzký; pilulka drží výšku tlačítka Přehled |
+| Trasy na mini mapě: oblouk vpravo ve směru cesty (tam a zpět na dvou stranách), opakovaná cesta jeden oblouk s více roky, rok jen kde se nepotká s popisky; oblouk bez místa pro rok zůstane bez roku | Rok příchodu stojí i v řádku role u místa, takže vynechaný rok nic neschová |
+| Styly komponent jsou vždy v souborech (`inlineStylesheets: 'never'`) a skript fokusu nad lištou je modul | Stránky osob nesly v `<style>` asi 13 kB, které se opakovaly (písma, mini mapa, Kam dál, Prameny); medailonek klesl z 68,6 na 60,5 kB HTML. Stránka teď načítá víc souborů CSS (medailonek 11 místo 4), které si prohlížeč uloží |
+
 ## 17. 11. 2026: Páry, Pravý, nebo podvržený?, Najdi slabé místo, Kdo by to řekl? (herna-v1 K3)
 
 | Rozhodnutí | Důvod |

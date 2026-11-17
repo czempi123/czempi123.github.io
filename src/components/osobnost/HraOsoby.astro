@@ -1,0 +1,30 @@
+---
+// Malá hra na medailonku (herna-v1, K4; pravidlo pestrosti 4): atlas ji vybere z dat podle toho, co je u člověka
+// zajímavé (vyhnanství a daleká cesta: Kde to bylo?; věta člověka kolem něj: Kdo to řekl?; mezera k tomu, koho četl,
+// nebo dlouhý život: Tipni si; jinak Kdo žil dřív?), a sousední stránky v seznamu Lidé se liší (src/lib/herna/aktivity.ts).
+// Hra se skládá z dat, YAML nemá: obal bloku dostane obsah místo id. Stojí nad Dobou a lidmi, které by odpověď prozradily.
+// Hledání ji neindexuje (data-pagefind-ignore): citát a razítka cizích lidí by hledání „Sókrata“ zahltila medailonky.
+// Použití: <HraOsoby osoba="kleanthes" />   (StrankaMedailonku.astro; profil má svou aktivitu v MDX)
+// V dílně s `dilna`: id bloků dostane předponu „dilna-“, aby stav ukázky nesdílel stav hry na medailonku.
+import { hraMedailonku } from '../../lib/stranky-osob';
+import KdoZilDriv from '../bloky/KdoZilDriv.astro';
+import KdeToBylo from '../bloky/KdeToBylo.astro';
+import KdoToRekl from '../bloky/KdoToRekl.astro';
+import TipniSi from '../bloky/TipniSi.astro';
+
+interface Props { osoba: string; dilna?: boolean }
+const hra = await hraMedailonku(Astro.props.osoba);
+const id = hra && (Astro.props.dilna ? `dilna-${hra.id}` : hra.id);
+---
+{hra && (
+  <div class="ctenarsky hra-osoby" data-hra={hra.druh} data-pagefind-ignore>
+    {hra.druh === 'kdo-zil' && <KdoZilDriv a={hra.a} b={hra.b} druh="poradi" id={id!} />}
+    {hra.druh === 'kde' && <KdeToBylo id={id!} obsah={hra.blok} />}
+    {hra.druh === 'kdo-rekl' && <KdoToRekl id={id!} obsah={hra.blok} />}
+    {hra.druh === 'tipni' && <TipniSi id={id!} obsah={hra.blok} />}
+  </div>
+)}
+
+<style>
+  .hra-osoby { margin-top: var(--s-8); }
+</style>

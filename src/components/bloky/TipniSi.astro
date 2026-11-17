@@ -7,12 +7,14 @@ import { data, osoby } from '../../lib/data';
 import { vzdalenost } from '../../lib/cas-mapy';
 import { zivotuMezi, delkaPravitka, vazbaDvou, vetaVazby } from '../../lib/herna';
 import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
-import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import { nactiBlok, blokZObsahu, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { TBlokTipni } from '../../lib/bloky-schema';
 import type { Dal } from '../ostrovy/bloky-typy';
 
-interface Props { id: string; dal?: Dal }
-const { id, dal } = Astro.props;
-const blok = await nactiBlok(id, 'tipni', Astro.url.pathname);
+// Obsah místo id (hra medailonku sestavená z dat, src/lib/herna/aktivity.ts): YAML se pak nečte.
+interface Props { id: string; dal?: Dal; obsah?: TBlokTipni }
+const { id, dal, obsah } = Astro.props;
+const blok = obsah ? blokZObsahu(id, obsah) : await nactiBlok(id, 'tipni', Astro.url.pathname);
 const a = osoby.get(blok.a);
 const b = osoby.get(blok.b);
 if (!a || !b) throw new Error(`Blok „${id}“: osoba „${!a ? blok.a : blok.b}“ není v lide.yaml.`);
