@@ -14,6 +14,9 @@ export const VYCHOZI_NADTITULKY = {
   // Hry herny (herna-v1): rodina aktivit „Hra“, název formátu stojí pod ní (RamAktivity › nazev).
   SeradNaOse: 'Hra',
   KdoToRekl: 'Hra',
+  TipniSi: 'Hra',
+  KdeToBylo: 'Hra',
+  DoplnCitat: 'Hra',
 } as const;
 
 export type BlokSNadtitulkem = keyof typeof VYCHOZI_NADTITULKY;

@@ -58,3 +58,36 @@ export function platnyStavKdoRekl(s: unknown, karty: readonly { moznosti: readon
   const tipy = o.tipy.map((t, i) => (Array.isArray(t) ? [...new Set(t.filter((x): x is string => typeof x === 'string' && karty[i].moznosti.includes(x)))] : []));
   return { karta: o.karta as number, tipy };
 }
+
+// ─── Věta pod razítkem (K2, zásada Pointa není paměť) ─────────────────────────
+// Pod jménem u razítka stojí jedna věta z dat, čím se člověk zabýval (pole proc v lide.yaml), aby student hledal,
+// komu myšlenka sedí, ne koho si pamatuje. Věta nesmí citát opisovat: to by nebyla hra, jen hledání stejných slov.
+
+/** První věta textu; „př. n. l.“ a jiné zkratky s malým písmenem za tečkou větu neukončí. */
+export function prvniVeta(text: string): string {
+  const m = text.match(/^.+?[.!?](?=\s+[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ„]|$)/su);
+  return (m ? m[0] : text).trim();
+}
+
+/** Kořeny slov (prvních pět písmen slov delších než tři) v pořadí, jak stojí. */
+const koreny = (t: string) => (t.toLocaleLowerCase('cs').match(/\p{L}+/gu) ?? []).filter((s) => s.length > 3).map((s) => s.slice(0, 5));
+
+/** Opisuje věta pod razítkem citát? Ano, když mají dva po sobě jdoucí kořeny společné („podle zvyku“, „atomy a prázdno“). */
+export function prozrazuje(veta: string, citat: string): boolean {
+  const a = koreny(veta);
+  const b = koreny(citat);
+  const dvojice = new Set(b.slice(1).map((x, i) => `${b[i]} ${x}`));
+  return a.slice(1).some((x, i) => dvojice.has(`${a[i]} ${x}`));
+}
+
+/** Chyby vět pod razítky: správná osoba má větu, která citát opisuje. */
+export function chybyVetKdoRekl(karty: readonly ZaznamCitatu[], citaty: Map<string, CitatDat>, proc: Map<string, string>): string[] {
+  const chyby: string[] = [];
+  for (const k of karty) {
+    const c = citaty.get(k.citat);
+    if (!c?.osoba) continue;
+    const veta = proc.get(c.osoba);
+    if (veta && prozrazuje(prvniVeta(veta), c.cesky)) chyby.push(`Kdo to řekl?: věta pod razítkem osoby „${c.osoba}“ opisuje citát „${k.citat}“; vyber jiný citát.`);
+  }
+  return chyby;
+}

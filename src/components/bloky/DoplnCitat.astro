@@ -1,0 +1,38 @@
+---
+// Doplň citát (herna-v1, K2): citát ze zdroje.yaml s vystřiženým slovem a vystřižená slova jako ve vzkazu z novin.
+// Obsah je v src/content/bloky/<id>.yaml (druh: doplnit): slovo, záměny s vazbou (co by věta s nimi tvrdila), pointa.
+// Použití v MDX: <DoplnCitat id="dilna-doplnit-reka" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/DoplnCitat.svelte';
+import { citatyPodleId } from '../../lib/data';
+import { rozdelCitat, listkyDoplnit, chybyDoplnit, puvodCitatu } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'doplnit', Astro.url.pathname);
+const chyby = chybyDoplnit(blok, citatyPodleId);
+if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+const c = citatyPodleId.get(blok.citat)!;
+const casti = rozdelCitat(c.cesky, blok.slovo, blok.vyskyt)!;
+const kdo = c.osoba ? clovek(c.osoba) : undefined;
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.DoplnCitat,
+  nazev: blok.nazev ?? 'Doplň citát',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  pred: casti.pred,
+  po: casti.po,
+  slovo: blok.slovo,
+  listky: listkyDoplnit(blok.slovo, blok.zameny, id),
+  zameny: blok.zameny,
+  pointa: blok.pointa,
+  // Kdo a odkud: „Hérakleitos“ a „zlomek B12, u Eusebia…“, u postavy dialogu „Zapsal Platón: …“.
+  kdo: kdo?.jmeno ?? c.autor,
+  puvod: puvodCitatu(c, kdo?.jmeno ?? c.autor),
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

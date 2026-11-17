@@ -1,9 +1,9 @@
 ---
-// Seřaď na ose (herna-v1, K1): karty z lide.yaml a udalosti.yaml na šňůru. Obsah je v src/content/bloky/<id>.yaml (druh: serad).
+// Seřaď na ose (herna-v1, K1; K2: vztahy mezi kartami): karty z lide.yaml a udalosti.yaml na šňůru. Obsah je v src/content/bloky/<id>.yaml (druh: serad).
 // Použití v MDX: <SeradNaOse id="dilna-serad-narozeni" />  (volitelně dal={{ href, text }})
 import Ostrov from '../ostrovy/SeradNaOse.svelte';
 import { data, osoby } from '../../lib/data';
-import { kartaOsy, chybyKaret } from '../../lib/herna';
+import { kartaOsy, chybyKaret, spravnePoradi, vazbaDvou } from '../../lib/herna';
 import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
 import { nactiBlok, odkazNaBlok, kamDal } from './_kontrola';
 import type { Dal } from '../ostrovy/bloky-typy';
@@ -15,6 +15,13 @@ const udalosti = new Map(data.udalosti.map((u) => [u.id, u]));
 const karty = blok.karty.map((k) => kartaOsy(k, osoby, udalosti));
 const chyby = chybyKaret(karty);
 if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+// Po správném pořadí stojí mezi sousedy, co je spojuje (vztah z dat, „mohli se potkat“), jen u dvou lidí.
+const sprave = spravnePoradi(karty.map((k) => k.rok));
+const vazby = sprave.slice(1).map((k, i) => {
+  const a = blok.karty[sprave[i]].osoba;
+  const b = blok.karty[k].osoba;
+  return a && b ? vazbaDvou(osoby.get(a)!, osoby.get(b)!, data.vztahy) : null;
+});
 const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
 const proOstrov = {
   obdobi: blok.obdobi,
@@ -26,6 +33,7 @@ const proOstrov = {
   konec: blok.konec,
   vysvetleni: blok.vysvetleni,
   karty,
+  vazby,
 };
 ---
 <Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

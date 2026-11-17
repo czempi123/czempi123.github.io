@@ -1,0 +1,8 @@
+# Tipni si v dílně (herna-v1, K2): číslo 6 z podkladů docs/podklady/herna.md › Tipni si. Vzdálenost (asi 915 let,
+# asi dvanáct lidských životů) počítá vzdalenost() z lide.yaml; mezi Thalétem a Hypatií v datech vztah není.
+druh: tipni
+obdobi: 2
+otazka: "Kolik lidských životů je mezi Thalétem a Hypatií?"
+a: thales
+b: hypatia
+vysvetleni: "Thalés stojí na začátku řecké filozofie, Hypatia na konci antiky v Alexandrii. Mezi nimi se filozofie předávala skoro tisíc let, od učitele k žákovi a z knihy do knihy."

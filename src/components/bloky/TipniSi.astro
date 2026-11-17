@@ -1,0 +1,43 @@
+---
+// Tipni si (herna-v1, K2): kolik lidských životů je mezi dvěma lidmi z lide.yaml. Obsah je v src/content/bloky/<id>.yaml
+// (druh: tipni). Vzdálenost počítá vzdalenost() z časové logiky mapy, co je spojuje, vazbaDvou() (src/lib/herna).
+// Použití v MDX: <TipniSi id="dilna-tipni-thales-hypatia" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/TipniSi.svelte';
+import { data, osoby } from '../../lib/data';
+import { vzdalenost } from '../../lib/cas-mapy';
+import { zivotuMezi, delkaPravitka, vazbaDvou, vetaVazby } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'tipni', Astro.url.pathname);
+const a = osoby.get(blok.a);
+const b = osoby.get(blok.b);
+if (!a || !b) throw new Error(`Blok „${id}“: osoba „${!a ? blok.a : blok.b}“ není v lide.yaml.`);
+const v = vzdalenost(a, b);
+if (!v) throw new Error(`Blok „${id}“: u „${a.id}“ nebo „${b.id}“ chybí v lide.yaml roky.`);
+// Dřívější život první (narození, jinak začátek činnosti), ať vztah i věta čtou ve směru času.
+const [prvni, druhy] = (a.narozen?.rok ?? a.aktivni?.od ?? 0) <= (b.narozen?.rok ?? b.aktivni?.od ?? 0) ? [a, b] : [b, a];
+const vazba = vazbaDvou(prvni, druhy, data.vztahy);
+const zivotu = zivotuMezi(v);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.TipniSi,
+  nazev: blok.nazev ?? 'Tipni si',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  lide: [clovek(blok.a), clovek(blok.b)],
+  zeny: !!(a.zena && b.zena),
+  zivotu,
+  delka: delkaPravitka(zivotu, blok.delka),
+  // Věta z dat: „Dělí je asi 915 let. To je asi dvanáct lidských životů.“, nebo „Žili současně asi 14 let.“
+  vzdalenost: v.text,
+  // Vztah z dat, jen když nějaký je (kdo na koho navázal); „mohli se potkat“ u současníků bez vztahu.
+  vazba: vazba ? vetaVazby(vazba) : undefined,
+  vysvetleni: blok.vysvetleni,
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

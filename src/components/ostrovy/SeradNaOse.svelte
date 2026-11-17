@@ -3,7 +3,9 @@
   // Student je seřadí tažením (myš i prst), klepnutím na dvě karty (prohodí se), nebo z klávesnice: šipky mezi
   // kartami, Enter kartu zvedne, šipky ji posouvají, Enter ji položí, Escape ji vrátí. Zkontrolovat pořadí: „sedí“,
   // nebo „zkus to jinak“ se značkami dvojic a jednou větou, kam se podívat. Roky až po správném pořadí; po třech
-  // kontrolách se nabídne Ukázat pořadí. Do deníku jen stav (pořadí, kontrola, pokusy), žádný zápis.
+  // kontrolách se nabídne Ukázat pořadí. Po správném pořadí (i po Ukázat pořadí) stojí mezi sousedními lidmi, co je
+  // spojuje: vztah z vztahy.yaml, „mohli se potkat“, nebo nic (K2, zásada Pointa není paměť); roky jen drobně pod jménem.
+  // Do deníku jen stav (pořadí, kontrola, pokusy), žádný zápis.
   // Použití v MDX (obsah v src/content/bloky/dilna-serad-narozeni.yaml, druh: serad):
   // <SeradNaOse id="dilna-serad-narozeni" />
   import { onMount, tick } from 'svelte';
@@ -11,8 +13,9 @@
   import { radek, odstavce } from '../../lib/bloky';
   import {
     zamichaniOsy, spravnePoradi, vyhodnotPoradi, verdiktPoradi, presun, prohod, stejnePoradi, platnyStavOsy,
-    POKUSU_DO_UKAZANI, SEDI, type KartaOsy,
+    POKUSU_DO_UKAZANI, SEDI, type KartaOsy, type VazbaDvou,
   } from '../../lib/herna';
+  import { LEGENDA_TRADOVANY } from '../../lib/vztahy';
   import { prelet, omezenyPohyb } from '../../lib/pohyb';
   import RamAktivity from './RamAktivity.svelte';
   import BlokDal from './BlokDal.svelte';
@@ -28,6 +31,8 @@
     konec: string;
     vysvetleni: string;
     karty: KartaOsy[];
+    /** co spojuje sousedy ve správném pořadí: [i] mezi místem i a i+1 */
+    vazby: (VazbaDvou | null)[];
   }
   interface Props {
     id: string;
@@ -280,7 +285,7 @@
   {/if}
   <h3 class="t-h3 blok__otazka blok__otazka--mala" id={`${id}-otazka`} data-cast="otazka">{@html radek(blok.otazka)}</h3>
 
-  <div class={['osa', hotovo && 'osa--hotovo']} data-cast="moznosti">
+  <div class={['osa', hotovo && 'osa--hotovo', hotovo && blok.vazby.some(Boolean) && 'osa--vazby']} data-cast="moznosti">
     <span class="osa__kraj osa__kraj--zacatek" aria-hidden="true">{blok.zacatek}</span>
     <ol class="snura" aria-label={`Šňůra od „${blok.zacatek}“ po „${blok.konec}“`} aria-describedby={hotovo ? undefined : `${id}-jak`}>
       <svg class="snura__provaz" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -310,6 +315,13 @@
             {#if hotovo}<span class="karta-osy__rok">{karta.rokText}</span>{/if}
             <span class="vizualne-skryte">, místo {i + 1} z {n}</span>
           </button>
+          {#if hotovo && i < n - 1 && blok.vazby[i]}
+            {@const v = blok.vazby[i]!}
+            <span class={['vazba-osy', `vazba-osy--${v.druh}`, v.tradovany && 'vazba-osy--tradovana']}>
+              <span aria-hidden="true">{#if v.kPrvnimu}<span class="vazba-osy__sipka"></span>{/if}{v.text}{#if v.tradovany}<span class="vazba-osy__tradovany">{LEGENDA_TRADOVANY}</span>{/if}</span>
+              <span class="vizualne-skryte">{v.veta}</span>
+            </span>
+          {/if}
           {#if znacky && i < n - 1}
             <span class={['dvojice', znacky[i] ? 'dvojice--sedi' : 'dvojice--obracene']}>
               <span aria-hidden="true">{znacky[i] ? '✓' : '⇄'}</span>
@@ -404,7 +416,29 @@
   .karta-osy--zvednuta:focus-visible { outline: 2px solid var(--pero); box-shadow: var(--lezi-zved), 0 0 0 7px var(--list), 0 0 0 9px var(--ink); }
   .karta-osy--tazena { z-index: 6; cursor: grabbing; transition: none; }
   .karta-osy[aria-disabled] { cursor: default; }
-  .karta-osy__rok { font-family: var(--font-sans); font-size: var(--fs-popisek); font-weight: 600; color: var(--p, var(--ink-2)); }
+  /* Roky jsou jen drobný údaj pod jménem (zásada Pointa není paměť). */
+  .karta-osy__rok { font-family: var(--font-sans); font-size: calc(var(--meritko) * 12.5px); font-weight: 500; color: var(--ink-2); }
+  /* Co spojuje sousedy: drobně tiskem v mezeře mezi kartami, na provázku. Tradovaný vztah „· vypráví se“. */
+  .osa--vazby .snura { gap: 40px; }
+  .vazba-osy {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: 100%;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding-left: var(--s-2);
+    font-family: var(--font-sans);
+    font-size: var(--fs-popisek);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .vazba-osy--potkat, .vazba-osy--soucasne { color: var(--ink-2); font-style: italic; }
+  /* Tradovaný vztah: „vypráví se“ na vlastním řádku kurzívou. */
+  .vazba-osy__tradovany { display: block; color: var(--ink-2); font-style: italic; }
+  .vazba-osy__sipka::before { content: '↑ '; }
   /* Značka dvojice na provázku mezi kartami: ✓ sedí, ⇄ visí obráceně. Jen tvar, žádná barva navíc. */
   .dvojice {
     position: absolute;
@@ -445,6 +479,12 @@
     .kolicek::after { left: 50%; right: auto; top: 6px; bottom: 6px; width: 1.5px; height: auto; translate: -50% 0; }
     .karta-osy { align-items: center; min-height: 92px; padding: var(--s-3) var(--s-2); text-align: center; hyphens: auto; }
     .dvojice { left: auto; right: -7px; bottom: auto; top: -10px; translate: 50% 0; }
+    /* Vodorovně stojí vazba pod šňůrou, na středu mezi dvěma kartami. */
+    .osa--vazby .snura { gap: 14px; padding-bottom: 58px; }
+    .vazba-osy { left: calc(100% + 7px); right: auto; top: calc(100% + 6px); width: calc(100% + 14px); height: auto; padding: 0; translate: -50% 0; justify-content: center; text-align: center; text-wrap: balance; }
+    .vazba-osy__sipka::before { content: '← '; }
+    /* Otisk nad konec šňůry, ať nezakryje jméno poslední karty. */
+    .osa__otisk { top: -58px; }
   }
 
   .zkus { display: flex; align-items: center; gap: var(--s-2); margin: 0 0 var(--s-2); font-family: var(--font-ruka); font-size: calc(var(--meritko) * 22px); line-height: 1.3; color: var(--ruka); }

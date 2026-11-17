@@ -75,6 +75,29 @@ async function odpovez(blok: Locator): Promise<string> {
     await expect(blok.getByRole('region', { name: 'Otočené karty' })).toBeVisible();
     return 'kdo-rekl';
   }
+  if (await tlacitko('Zkontrolovat odhad').count()) {
+    // Tipni si: dva odhady posuvníkem, pak Ukázat, jak to bylo (nebo dřív sedí).
+    const vstup = blok.locator('.pravitko__vstup');
+    for (const n of ['0', '1']) {
+      if (!(await tlacitko('Zkontrolovat odhad').count())) break;
+      await vstup.evaluate((e: HTMLInputElement, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, n);
+      if (await tlacitko('Zkontrolovat odhad').isEnabled()) await tlacitko('Zkontrolovat odhad').click();
+    }
+    if (await tlacitko('Ukázat, jak to bylo').count()) await tlacitko('Ukázat, jak to bylo').click();
+    await expect(blok.locator('.pravitko__pravda')).toBeVisible();
+    return 'tipni';
+  }
+  if (await blok.locator('.slepa').count()) {
+    // Kde to bylo?: klepnutí do slepé mapy položí špendlík.
+    await blok.locator('.slepa').click({ position: { x: 30, y: 30 } });
+    return 'kde';
+  }
+  if (await blok.locator('.vystrizky .vystrizek').count()) {
+    // Doplň citát: každý lístek jednou do mezery, dokud věta nesedí.
+    const listky = blok.locator('.vystrizky .vystrizek');
+    for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
+    return 'doplnit';
+  }
   if (await tlacitko('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků, kontrola, chybějící věta, volba bez nepovinného „Proč“.
     const radky = blok.locator('[data-radek]');

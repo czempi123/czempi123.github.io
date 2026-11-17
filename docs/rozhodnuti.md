@@ -4,6 +4,17 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 17. 11. 2026: Pointa není paměť, Tipni si, Kde to bylo?, Doplň citát (herna-v1 K2)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Kdo to řekl? ukazuje u razítka první větu `proc` z dat a pokyn „Nemusíš to vědět: hledej, čí myšlence věta sedí.“; věta, která citát opisuje (dva společné kořeny za sebou), zastaví sestavení | Zásada Pointa není paměť (autor, 17. 11. 2026); Démokritova věta `proc` je skoro citát, hádalo by se podle stejných slov |
+| Seřaď na ose ukáže po správném pořadí mezi sousedy vztah z dat, jinak „mohli se potkat“; kdo žil v jiné tradici, jen „žili ve stejné době“ | Odkrytí má říct, kdo na koho navázal; u Konfucia by „mohli se potkat“ tvrdilo víc, než víme, a „nevěděli o sobě“ taky |
+| Pětice v dílně je řetěz Sókratés, Antisthenés, Diogenés, Kratés, Zénón z Kitia (čtyři vztahy učitel a žák, jeden tradovaný); Konfucius z dílny vypadl | Zadání K2: řetěz vlivu z podkladů, aspoň dva vztahy na šňůře |
+| Tipni si odhaduje v lidských životech (75 let, jako Dva životy), 0 znamená „mohli se potkat“; „sedí“ u současníků jen 0, jinak nejvýš o život nebo čtvrtinu vedle; po dvou odhadech Ukázat, jak to bylo | Roky nejsou učivo; mez větší než nejistota „asi“ (pouceni); „zkus to jinak“ jen tam, kde jde zkusit znovu |
+| Kde to bylo? je jeden tah: klepnutí rovnou odkryje místo, vzdálenost slovem a větu z dat o pobytu; „sedí“ do 250 km, bez „zkus to jinak“ | Zadání K2 (vzdálenost jen slovem, bez bodů); pointa je, proč tam člověk byl, ne druhý pokus o bod |
+| Doplň citát nechá záměnu v mezeře, dokud ji student nevymění, a po správném slově ukáže, co by tvrdily všechny záměny | Nejde o to trefit slovo: rozdíl v myšlence je to, co si student odnese; nic se neodkryje dřív, než sám zvolí |
+
 ## 17. 11. 2026: Herní jádro, Seřaď na ose a Kdo to řekl? (herna-v1 K1)
 
 | Rozhodnutí | Důvod |

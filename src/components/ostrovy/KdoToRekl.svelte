@@ -1,7 +1,8 @@
 <script lang="ts">
   // Kdo to řekl? (herna-v1, K1; plátno D5 › Kdo to řekl?): série otočných kartiček s větou z pramene. Student tipne,
-  // čí věta je, razítkem jednoho ze tří až čtyř lidí. Sedí: kartička se otočí a ukáže jméno, dílo, místo a odkaz na
-  // stránku osoby. Jinak „zkus to jinak“ s jednou větou, kam se podívat; zkusené razítko zůstane zakázané.
+  // čí věta je, razítkem jednoho ze tří až čtyř lidí. Pod každým razítkem jedna věta z dat, čím se člověk zabýval
+  // (K2, zásada Pointa není paměť): hledá se, komu myšlenka sedí, ne koho si student pamatuje. Sedí: kartička se
+  // otočí a ukáže nahoře, o čem věta je (pointa z YAML), pod tím jméno, dílo a místo a odkaz na stránku osoby. Jinak „zkus to jinak“ s jednou větou, kam se podívat; zkusené razítko zůstane zakázané.
   // Další karta v patě rámu rozdá další kartičku. Nic se nepočítá; do deníku jen stav (běžící karta a tipy).
   // Použití v MDX (obsah v src/content/bloky/dilna-kdo-rekl.yaml, druh: kdo-rekl):
   // <KdoToRekl id="dilna-kdo-rekl" />
@@ -27,12 +28,14 @@
     /** stránka osoby, když ji má */
     adresa?: string;
     napoveda: string;
-    /** možnosti v pořadí podle semínka; id a razítko z dat */
-    moznosti: { id: string; clovek: ClovekBloku }[];
+    /** o čem věta je, nahoře na rubu */
+    pointa: string;
+    /** možnosti v pořadí podle semínka; id, razítko a věta, čím se člověk zabýval, z dat */
+    moznosti: { id: string; clovek: ClovekBloku; myslenka: string }[];
   }
   interface Props {
     id: string;
-    blok: { obdobi: number; nadtitulek: string; nazev: string; scena?: string; otazka: string; karty: KartaKdoRekl[] };
+    blok: { obdobi: number; nadtitulek: string; nazev: string; scena?: string; otazka: string; pokyn: string; karty: KartaKdoRekl[] };
     odkaz: string;
     dal?: Dal;
   }
@@ -74,7 +77,7 @@
     ulozStav();
     const jmeno = k.moznosti.find((m) => m.id === osoba)?.clovek.jmeno ?? '';
     if (osoba === k.spravna) {
-      hlaseni = `${SEDI} Řekl to: ${k.jmeno}. ${k.puvod}.`;
+      hlaseni = `${SEDI} Řekl to: ${k.jmeno}. ${k.pointa} ${k.puvod}.`;
       await tick();
       (prvek('.serie__dalsi') ?? prvek('.otocna__rub'))?.focus();
     } else {
@@ -161,9 +164,9 @@
             <span class="kartka__otaznik" aria-hidden="true">?</span>
           </figure>
           <div class="otocna__rub kartka__strana" aria-hidden={vyreseno ? undefined : 'true'} inert={!vyreseno} tabindex="-1" role="group" aria-label="Rub karty">
-            <p class="kartka__jmeno">{k.jmeno}</p>
+            <p class="kartka__pointa">{@html radek(k.pointa)}</p>
             <p class="kartka__veta">„{@html radek(k.veta)}“</p>
-            <p class="kartka__puvod">{k.puvod}</p>
+            <p class="kartka__kdo"><span class="kartka__jmeno">{k.jmeno}</span> <span class="kartka__puvod">{k.puvod}</span></p>
             {#if k.adresa}
               <a class="kartka__odkaz" href={k.adresa} aria-label={`Otevřít stránku: ${k.jmeno}`}>Otevřít stránku</a>
             {/if}
@@ -173,7 +176,8 @@
       </div>
     {/key}
 
-    <ul class="odpovedi" aria-label="Kdo to řekl?">
+    {#if !vyreseno}<p class="odpovedi__pokyn" id={`${id}-pokyn`}>{@html radek(blok.pokyn)}</p>{/if}
+    <ul class="odpovedi" aria-label="Kdo to řekl?" aria-describedby={vyreseno ? undefined : `${id}-pokyn`}>
       {#each k.moznosti as m (m.id)}
         {@const zkuseno = tipyKarty.includes(m.id)}
         <li>
@@ -183,8 +187,11 @@
             disabled={vyreseno || zkuseno}
             onclick={() => tipni(m.id)}
           >
-            <RazitkoCloveka razitko={m.clovek.razitko} obdobi={m.clovek.obdobi} velikost={60} />
-            <span class="odpoved__jmeno">{m.clovek.jmeno}</span>
+            <RazitkoCloveka razitko={m.clovek.razitko} obdobi={m.clovek.obdobi} velikost={52} />
+            <span class="odpoved__text">
+              <span class="odpoved__jmeno">{m.clovek.jmeno}</span>
+              <span class="odpoved__myslenka">{@html radek(m.myslenka)}</span>
+            </span>
             {#if zkuseno && m.id !== k.spravna}<span class="vizualne-skryte">(zkusil jsi)</span>{/if}
           </button>
         </li>
@@ -224,37 +231,43 @@
   .kartka__strana blockquote { margin: 0; }
   .kartka__strana blockquote p { margin: 0; font-size: var(--fs-perex); line-height: 1.4; text-wrap: balance; }
   .kartka__otaznik { position: absolute; right: 16px; top: 8px; font-family: var(--font-ruka); font-size: 30px; line-height: 1; color: var(--ruka); }
-  /* Rub: papír lístku, jméno velké, věta menší, pod ní odkud je a odkaz na stránku. */
+  /* Rub: papír lístku; nahoře, o čem věta je (tiskem, velké), pod tím věta menší a jméno s dílem a místem. */
   .otocna__rub { background: var(--listek); }
   .otocna__rub:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .kartka__jmeno { margin: 0 0 var(--s-2); font-family: var(--font-serif); font-size: calc(var(--meritko) * 28px); line-height: 1.15; color: var(--ink); }
-  .kartka__veta { margin: 0 0 var(--s-3); font-style: italic; font-size: calc(var(--meritko) * 17px); line-height: 1.45; color: var(--ink-2); }
-  .kartka__puvod { margin: 0; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
-  .kartka__odkaz { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; margin-top: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+  .kartka__pointa { margin: 0 0 var(--s-3); font-family: var(--font-serif); font-size: var(--fs-perex); line-height: 1.35; color: var(--ink); text-wrap: pretty; }
+  .kartka__veta { margin: 0 0 var(--s-2); font-style: italic; font-size: calc(var(--meritko) * 16px); line-height: 1.45; color: var(--ink-2); }
+  .kartka__kdo { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); margin: 0; }
+  .kartka__jmeno { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); }
+  .kartka__puvod { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
+  .kartka__odkaz { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; margin-top: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); text-decoration-color: var(--tuzka); text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
   .kartka__odkaz:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .kartka__otisk { position: absolute; right: 6px; bottom: -26px; z-index: 2; }
 
-  /* Odpovědi: razítka lidí na vystouplých lístcích; zkusené je zakázané (čárkovaný okraj tužkou, global.css). */
-  .odpovedi { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
-  @container (min-width: 600px) { .odpovedi { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* Odpovědi: razítka lidí na vystouplých lístcích, vedle razítka jméno a věta, čím se člověk zabýval. Na úzkém
+     rámu pod sebou (věta by ve dvou sloupcích na 390 px měla šest řádků), od 520 px dva sloupce. Zkusené je zakázané
+     (čárkovaný okraj tužkou, global.css). */
+  .odpovedi__pokyn { margin: 0 0 var(--s-3); font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
+  .odpovedi { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); margin: 0; padding: 0; list-style: none; }
+  @container (min-width: 520px) { .odpovedi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .odpovedi li { display: flex; }
   .razitko-odpoved {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--s-2);
+    gap: var(--s-3);
     width: 100%;
     min-height: 44px;
-    padding: var(--s-3) var(--s-2);
+    padding: var(--s-3);
     border: 0;
     border-radius: var(--r-ovladani);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: var(--fs-ovladani);
-    font-weight: 600;
-    line-height: 1.2;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
   }
+  .razitko-odpoved :global(.razitko-cloveka) { flex: none; }
+  .odpoved__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .odpoved__jmeno { font-size: var(--fs-ovladani); font-weight: 600; line-height: 1.2; }
+  .odpoved__myslenka { font-family: var(--font-serif); font-size: calc(var(--meritko) * 15px); font-weight: 400; line-height: 1.35; color: var(--ink-2); }
   .razitko-odpoved:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   /* Trefa po otočení: vtlačená (zvolené je vtlačené) s tučným jménem; ostatní jen zakázané. */
   .razitko-odpoved.razitko-odpoved--trefa:disabled { outline: 0; box-shadow: var(--vtla); color: var(--ink); cursor: default; }

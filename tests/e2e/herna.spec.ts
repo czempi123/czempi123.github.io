@@ -12,8 +12,8 @@ const SIRKY = [
 const REZIMY = ['light', 'dark'] as const;
 const SERAD = 'dilna-serad-narozeni';
 const KDO = 'dilna-kdo-rekl';
-const SPRAVNE = ['Thalés', 'Konfucius', 'Parmenidés', 'Sókratés', 'Aristotelés'];
 const N = '\u00a0';
+const SPRAVNE = ['Sókratés', 'Antisthenés', 'Diogenés', 'Kratés', `Zénón z${N}Kitia`];
 
 async function priprav(page: Page, id: string, ostrov: string): Promise<Locator> {
   await page.evaluate(() => document.fonts.ready);
@@ -106,7 +106,7 @@ for (const { sirka, vyska } of SIRKY) {
       await page.keyboard.press('Enter');
       const zkus = blok.getByRole('region', { name: 'Zkus to jinak' });
       await expect(zkus).toContainText('Zkus to jinak.');
-      await expect(zkus).toContainText(/visí obráceně/);
+      await expect(zkus).toContainText(/učil|poslouchat|navazovali|začínal/);
       await expect(blok.locator('.dvojice')).toHaveCount(4);
       await expect(blok.getByRole('button', { name: 'Zkontrolovat pořadí' })).toBeDisabled();
       await expect(blok.locator('.karta-osy__rok')).toHaveCount(0);
@@ -121,9 +121,25 @@ for (const { sirka, vyska } of SIRKY) {
       await page.keyboard.press('Enter');
       const vazba = blok.getByRole('region', { name: 'Pořadí' });
       await expect(vazba).toContainText('Sedí.');
-      await expect(vazba).toContainText('Konfucius se narodil asi o generaci dřív než Parmenidés.');
-      await expect(blok.locator('.karta-osy__rok').first()).toHaveText(`asi${N}620${N}př.${N}n.${N}l.`);
-      await expect(blok.locator('.karta-osy__rok').nth(3)).toHaveText(`469${N}př.${N}n.${N}l.`);
+      await expect(vazba).toContainText('Od Sókrata ke stoikům vedou čtyři kroky od učitele k žákovi.');
+      await expect(blok.locator('.karta-osy__rok').first()).toHaveText(`469${N}př.${N}n.${N}l.`);
+      await expect(blok.locator('.karta-osy__rok').nth(3)).toHaveText(`asi${N}365${N}př.${N}n.${N}l.`);
+      // Mezi kartami: kdo na koho navázal (vztahy z dat), tradovaný s „vypráví se“; roky drobně pod jménem.
+      const vazby = blok.locator('.vazba-osy');
+      await expect(vazby).toHaveCount(4);
+      await expect(vazby.first()).toContainText('učitel a žák');
+      await expect(vazby.first()).toContainText('Antisthenés se učil u Sókrata.');
+      await expect(vazby.nth(1)).toContainText('vypráví se');
+      await expect(vazby.nth(1)).toContainText('Vypráví se, že se Diogenés učil u Antisthena.');
+      const velikost = await blok.locator('.karta-osy__rok').first().evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
+      const jmeno = await blok.locator('.karta-osy__text').first().evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
+      expect(velikost).toBeLessThan(jmeno * 0.8);
+      // Vazby se nepotkají s kartami ani mezi sebou.
+      const obdelniky = await blok.evaluate((e) => [...e.querySelectorAll('.karta-osy, .vazba-osy > [aria-hidden]')].map((x) => { const r = x.getBoundingClientRect(); return [r.left, r.top, r.right, r.bottom]; }));
+      for (let i = 0; i < obdelniky.length; i++) for (let j = i + 1; j < obdelniky.length; j++) {
+        const [a, b] = [obdelniky[i], obdelniky[j]];
+        expect(a[0] < b[2] - 1 && b[0] < a[2] - 1 && a[1] < b[3] - 1 && b[1] < a[3] - 1, `překryv ${i} a ${j}`).toBe(false);
+      }
       await expect(blok.locator('.osa__otisk')).toHaveText('sedí');
       await expect(blok.getByRole('button', { name: 'Zkontrolovat pořadí' })).toHaveCount(0);
       await bezPresahu(page);
@@ -158,6 +174,14 @@ for (const { sirka, vyska } of SIRKY) {
       await expect(blok.locator('.serie__postup')).toHaveText('Karta 1 z 5');
       await expect(blok.locator('.otocna__lic')).toContainText('Lidi neznepokojují věci, ale jejich soudy o věcech.');
       await expect(blok.locator('.razitko-odpoved')).toHaveCount(4);
+      // Pod každým jménem věta z dat, čím se člověk zabýval; nad razítky pokyn, že se hledá myšlenka.
+      await expect(blok.locator('.odpoved__myslenka')).toHaveCount(4);
+      await expect(blok.locator('.razitko-odpoved', { hasText: 'Epiktétos' })).toContainText('Rozlišil, co je v naší moci a co ne.');
+      await expect(blok.locator('.odpovedi__pokyn')).toHaveText('Nemusíš to vědět: hledej, čí myšlence věta sedí.');
+      // Na telefonu razítka pod sebou, nic nepřetéká; na notebooku dva sloupce.
+      const xy = await blok.locator('.razitko-odpoved').evaluateAll((l) => l.map((e) => Math.round(e.getBoundingClientRect().left)));
+      expect(new Set(xy).size).toBe(sirka < 700 ? 1 : 2);
+      expect(await blok.locator('.razitko-odpoved').evaluateAll((l) => l.filter((e) => e.scrollWidth > e.clientWidth + 1).length)).toBe(0);
       await expect(blok.locator('.otocna__rub')).toHaveAttribute('aria-hidden', 'true');
       await expect(blok.getByRole('link', { name: /Otevřít stránku/ })).toHaveCount(0);
       await axe(page, `[id="${KDO}"]`);
@@ -171,7 +195,7 @@ for (const { sirka, vyska } of SIRKY) {
       await page.keyboard.press('Enter');
       const zkus = blok.getByRole('region', { name: 'Zkus to jinak' });
       await expect(zkus).toContainText('Zkus to jinak.');
-      await expect(zkus).toContainText('co je v našich rukou');
+      await expect(zkus).toContainText('co máme ve své moci');
       await expect(zkus).toBeFocused();
       await expect(blok.locator('.razitko-odpoved').nth(spatne)).toBeDisabled();
       await expect(blok.locator('.otocena')).toHaveCount(0);
@@ -187,6 +211,10 @@ for (const { sirka, vyska } of SIRKY) {
       await expect(rub).not.toHaveAttribute('aria-hidden', /.*/);
       await expect(rub).toContainText('Epiktétos');
       await expect(rub).toContainText('Rukojeť 5');
+      // Nahoře na rubu, o čem věta je; jméno a místo menší pod ní.
+      await expect(rub.locator('.kartka__pointa')).toHaveText(/^Neklid nevyvolá věc sama/);
+      const [p1, p2] = await rub.evaluate((e) => ['.kartka__pointa', '.kartka__jmeno'].map((s) => e.querySelector(s)!.getBoundingClientRect().top));
+      expect(p1).toBeLessThan(p2);
       await expect(rub.getByRole('link', { name: 'Otevřít stránku: Epiktétos' })).toHaveAttribute('href', /^\/osobnost\//);
       await expect(blok.locator('.kartka__otisk')).toHaveText('sedí');
       await expect(blok.getByRole('region', { name: 'Zkus to jinak' })).toHaveCount(0);

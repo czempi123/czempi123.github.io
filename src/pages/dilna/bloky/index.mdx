@@ -3,7 +3,7 @@ layout: ../../../layouts/Dilna.astro
 titulek: Bloky
 perex: Všech devět bloků, hry, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
 ---
-import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
+import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, TipniSi, KdeToBylo, DoplnCitat, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
 import GrafKrivek from '../../../components/ui/GrafKrivek.astro';
 
 <section class="ukazka" aria-labelledby="h-pribeh">
@@ -89,6 +89,26 @@ Sókratés by se tě nejdřív zeptal, jestli ten člověk ví, kde jeho věděn
 <h2 class="t-h2" id="h-kdo-rekl">Kdo to řekl?</h2>
 
 <KdoToRekl id="dilna-kdo-rekl" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-tipni">
+<h2 class="t-h2" id="h-tipni">Tipni si</h2>
+
+<TipniSi id="dilna-tipni-thales-hypatia" />
+
+<TipniSi id="dilna-tipni-epiktetos-marcus" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-kde">
+<h2 class="t-h2" id="h-kde">Kde to bylo?</h2>
+
+<KdeToBylo id="dilna-kde-seneca" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-doplnit">
+<h2 class="t-h2" id="h-doplnit">Doplň citát</h2>
+
+<DoplnCitat id="dilna-doplnit-reka" />
 </section>
 
 <section class="ukazka" aria-labelledby="h-navrat">

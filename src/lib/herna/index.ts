@@ -3,3 +3,7 @@ export * from './michani';
 export * from './verdikt';
 export * from './poradi';
 export * from './citaty';
+export * from './vazby';
+export * from './odhad';
+export * from './mista';
+export * from './doplnit';

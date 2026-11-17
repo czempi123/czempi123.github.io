@@ -54,6 +54,22 @@ async function odpovez(blok) {
       if (!(await volne.count())) break;
       await volne.first().click();
     }
+  } else if (await tl('Zkontrolovat odhad').count()) {
+    // Tipni si: dva odhady posuvníkem, pak Ukázat, jak to bylo (nebo dřív sedí).
+    const vstup = blok.locator('.pravitko__vstup');
+    for (const n of ['0', '1']) {
+      if (!(await tl('Zkontrolovat odhad').count())) break;
+      await vstup.evaluate((e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, n);
+      if (await tl('Zkontrolovat odhad').isEnabled()) await tl('Zkontrolovat odhad').click();
+    }
+    if (await tl('Ukázat, jak to bylo').count()) await tl('Ukázat, jak to bylo').click();
+  } else if (await blok.locator('.slepa').count()) {
+    // Kde to bylo?: klepnutí do slepé mapy položí špendlík.
+    await blok.locator('.slepa').click({ position: { x: 30, y: 30 } });
+  } else if (await blok.locator('.vystrizky .vystrizek').count()) {
+    // Doplň citát: každý lístek jednou do mezery, dokud věta nesedí.
+    const listky = blok.locator('.vystrizky .vystrizek');
+    for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
   } else if (await tl('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků 1, 2… a Závěr, pak ukázat chybějící větu a napadnout první možnost.
     const radky = blok.locator('[data-radek]');

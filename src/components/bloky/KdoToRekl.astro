@@ -1,9 +1,9 @@
 ---
-// Kdo to řekl? (herna-v1, K1): série otočných kartiček s citáty ze zdroje.yaml. Obsah je v src/content/bloky/<id>.yaml (druh: kdo-rekl).
+// Kdo to řekl? (herna-v1, K1; K2: věta pod razítkem a pointa na rubu): série otočných kartiček s citáty ze zdroje.yaml. Obsah je v src/content/bloky/<id>.yaml (druh: kdo-rekl).
 // Použití v MDX: <KdoToRekl id="dilna-kdo-rekl" />  (volitelně dal={{ href, text }})
 import Ostrov from '../ostrovy/KdoToRekl.svelte';
-import { citatyPodleId, data } from '../../lib/data';
-import { moznostiCitatu, puvodCitatu, chybyKdoRekl } from '../../lib/herna';
+import { citatyPodleId, data, osoba } from '../../lib/data';
+import { moznostiCitatu, puvodCitatu, chybyKdoRekl, chybyVetKdoRekl, prvniVeta } from '../../lib/herna';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
 import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
@@ -12,7 +12,8 @@ import type { Dal } from '../ostrovy/bloky-typy';
 interface Props { id: string; dal?: Dal }
 const { id, dal } = Astro.props;
 const blok = await nactiBlok(id, 'kdo-rekl', Astro.url.pathname);
-const chyby = chybyKdoRekl(blok.karty, citatyPodleId, new Set(data.lide.map((o) => o.id)));
+const proc = new Map(data.lide.map((o) => [o.id, o.proc ?? o.kdo ?? '']));
+const chyby = [...chybyKdoRekl(blok.karty, citatyPodleId, new Set(data.lide.map((o) => o.id))), ...chybyVetKdoRekl(blok.karty, citatyPodleId, proc)];
 if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
 const adresa = await adresaStranekOsob();
 const karty = blok.karty.map((k) => {
@@ -27,7 +28,9 @@ const karty = blok.karty.map((k) => {
     puvod: puvodCitatu(c, kdo.jmeno),
     adresa: adresa(spravna),
     napoveda: k.napoveda,
-    moznosti: moznostiCitatu(spravna, k.jini, `${id}:${k.citat}`).map((o) => ({ id: o, clovek: clovek(o) })),
+    pointa: k.pointa,
+    // Věta pod razítkem: čím se člověk zabýval (první věta pole proc), aby student hledal myšlenku, ne jméno.
+    moznosti: moznostiCitatu(spravna, k.jini, `${id}:${k.citat}`).map((o) => ({ id: o, clovek: clovek(o), myslenka: prvniVeta(osoba(o).proc ?? osoba(o).kdo ?? '') })),
   };
 });
 const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
@@ -37,6 +40,7 @@ const proOstrov = {
   nazev: blok.nazev ?? 'Kdo to řekl?',
   scena: blok.scena,
   otazka: blok.otazka,
+  pokyn: blok.pokyn,
   karty,
 };
 ---
