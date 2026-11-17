@@ -65,6 +65,8 @@ Každé čtení stojí tokeny. Čti jen to, co potřebuješ ke kroku, na kterém
 
 Celek (velká otázka s cestou a potřebnými profily) prochází kroky: podklady (`atlas-overeni`) → psaní přímo do atlasu (`atlas-cesta`, `atlas-osobnost`, `atlas-data`) → revize (`atlas-revize`) → schválení autorem. Každý text pro studenty se píše i reviduje se skillem `atlas-psani` (čtivost, úvody, citáty, lidský hlas); skilly psaní a revize na něj odkazují. Nová komponenta vzniká se skillem `atlas-komponenta`, nové období se plánuje se skillem `atlas-obdobi`. Zdrojová verze všech osmi skillů je ve složce `skills/` (používají se uložené v účtu Claude). Když skill upravíš, uprav i jeho kopii ve `skills/`.
 
+**Každý krok končí hotovým promptem dalšího kroku** (pokyn autora ze 17. 11. 2026): poslední zpráva kroku obsahuje celé znění zadání pro nový chat, připravené ke zkopírování, s doporučeným modelem a úsilím; stejné znění patří do plánu větve.
+
 **Bez mezikroku schvalování** (rozhodnutí autora ze 4. 10. 2026). Osnovu ani návrh neposílej předem ke schválení. Kde si nejsi jistý, zvol podle sebe nejlepší cestu, práci dokonči a ve zprávě na konci napiš, nad čím jsi váhal, co jsi zvolil a co by šlo jinak; autor řekne, co změnit. Předem se ptej jen na to, co nejde snadno vrátit nebo co smí rozhodnout jen autor: GitHub a slučování větví, stahování obrázků, nové osoby v datech, mazání. Kde skill nebo starší zadání říká „navrhni autorovi a počkej na odpověď“, platí tohle pravidlo.
 
 **Celek je hotový, když:** má jasnou otázku a úplný průchod, student dostane zpětnou vazbu a nový případ, obsah drží historicky i argumentačně, všechny odkazy a kroky fungují na telefonu i notebooku a text zní jako vyprávění, ne jako posudek.

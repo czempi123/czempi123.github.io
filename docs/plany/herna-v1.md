@@ -11,6 +11,7 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 - **Hotový text se nepřepisuje.** Každý nový formát se objeví jednou v dílně (`/dilna/bloky/`) a na jednom místě antiky jako přídavek: nový blok mezi hotové odstavce nebo na konec stránky, bez změny okolních vět. Postřehy k hotovému obsahu jdou do `docs/navraty.md`.
 - **Data, ne ruční text.** Jména, roky a místa z `src/data/`; citáty jen ze `zdroje.yaml`; každý nový citát, číslo nebo připsání projde skillem `atlas-overeni`.
 - **Předmět podle D5.** Seřaď na ose je šňůra s kolíčky, Tipni si pravítko, Kdo to řekl? otočná kartička, Doplň citát vystřižená slova, Pravý, nebo podvržený? dvě razítka, Najdi slabé místo červená tužka. „Sedí“ a „zkus to jinak“ jsou jediná dvojice pro správně a jinak, bez červené a zelené.
+- **Pointa není paměť** (autor, 17. 11. 2026). Student se nemá učit citáty nazpaměť ani hádat, o koho jde; roky a přesné životy nejsou učivo. Znalostní hra stojí na myšlence a na vlivu: kdo na koho mohl navázat, čí myšlenka větě sedí, co by věta tvrdila s jiným slovem. Hra dává studentovi do ruky to, podle čeho může uvažovat (myšlenku osoby z dat, vztahy), a odkrytí řekne, o čem věta je a kdo na koho navázal. Roky jsou jen drobný údaj vedle toho. Hra stojí až tam, kde student lidi ze hry už potkal.
 - **Bez bodů a skóre.** Znalostní formáty říkají „sedí“ nebo „zkus to jinak“ s jednou větou, kam se podívat. Názorové formáty (Kdo by to řekl?, Najdi slabé místo) nemají správnou odpověď: student uvidí, kdo stál s ním.
 - **Každé tažení má cestu bez tažení** (klepnutí, klávesnice); cíle aspoň 44 px; omezený pohyb a Klidný režim vypnou zamíchání i otočení.
 - **Do deníku jen to, co si student vytvořil nebo zvolil** (stanovisko, sebehodnocení, slabé místo). Znalostní hry ukládají jen stav, aby šly obnovit.
@@ -21,7 +22,7 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 | --- | --- | --- | --- |
 | P6 | Podklady pro formáty: citáty pro Kdo to řekl? a Doplň citát, podvržené citáty s doloženým původem, věty pro Kdo by to řekl?, situace pro Páry, čísla pro Tipni si, otázky pro Výpravy, látka stránky Argumentační klamy a manipulace | Opus 5.5 · high se skillem `atlas-overeni` | hotovo 17. 11. 2026 (Po P6) |
 | K1 | Herní jádro a první dva formáty: sdílená logika v `src/lib/herna/`, herní pohyb (zamíchání, otočení karty, razítko), **Seřaď na ose** a **Kdo to řekl?** | Opus 5.5 · high se skillem `atlas-komponenta` | hotovo 17. 11. 2026 (Po K1) |
-| K2 | **Tipni si**, **Kde to bylo?** (slepá mapa), **Doplň citát** | totéž | na řadě |
+| K2 | Úprava Seřaď na ose a Kdo to řekl? podle zásady Pointa není paměť, pak **Tipni si**, **Kde to bylo?** (slepá mapa), **Doplň citát** | totéž | na řadě |
 | K3 | **Páry**, **Pravý, nebo podvržený?**, **Najdi slabé místo**, **Kdo by to řekl?** | totéž | čeká na K2 |
 | K4 | Stránky osob a mapa: **střídání malých aktivit** na medailoncích a profilech, **Výpravy** pro období 1 a 2, **Přehrát období**, trasy na mini mapě | totéž | čeká na K3 |
 | K5 | Kurikulum: karta **Do hodiny**, **sebehodnocení** na konci cesty, stránka **Argumentační klamy a manipulace** | komponenty `atlas-komponenta`, text `atlas-psani` · Opus 5.5 · high | čeká na K4 |
@@ -30,7 +31,7 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 | O | Opravy po revizi, referenční snímky nových formátů, `docs/design.md` a `docs/pouceni.md` | Opus 5.5 · high | čeká na R |
 | Uzavření | Schválení autorem, sloučení, GitHub, kontrola nasazeného webu a běhu kontrol, plán do archivu | Opus 5.5 · medium | čeká na O |
 
-Každý krok končí commitem ve větvi `herna-v1`, oddílem „Po <krok>“ v tomto souboru a otázkami, jen když něco smí rozhodnout jen autor. Na GitHub se nic neposílá až do Uzavření.
+Každý krok končí commitem ve větvi `herna-v1`, oddílem „Po <krok>“ v tomto souboru, otázkami, jen když něco smí rozhodnout jen autor, a celým promptem dalšího kroku ve zprávě i tady v plánu. Na GitHub se nic neposílá až do Uzavření.
 
 ## Formáty
 
@@ -78,13 +79,26 @@ Ve větvi `herna-v1` na Macu. Přečti `CLAUDE.md`, `docs/pouceni.md`, `docs/des
 6. Testy: Vitest na logiku; Playwright na 390 a 1440 px, světlý a tmavý režim, axe, jen klávesnicí, dotyk přes CDP, obnovení stránky, bez `localStorage`, omezený pohyb, Klidný režim. Snímky si prohlédni.
 7. `docs/design.md` (Bloky a aktivity, jedna řádka na formát), celé `npm test`, commit, Po K1, restart `npm run dev`, plán do Projektu. Zastav se a napiš, na které snímky se mám podívat.
 
-## Zadání K2: Tipni si, Kde to bylo?, Doplň citát
+## Zadání K2: úprava her z K1, Tipni si, Kde to bylo?, Doplň citát
 
-Jako K1 (čtení, testy, zápis, zastavení), navíc Po K1.
+Opus 5.5 · high, skill `atlas-komponenta`, nový chat.
 
-1. **Tipni si:** papírové pravítko s jezdcem v barvě pera, měřítko podle čísla (roky, kilometry, procenta), posuvník je `input type="range"` s popisem pro čtečku; po odhalení ryska a čárkovaná svorka rozdílu, věta „Dělí je … let, asi … lidských životů“ z dat (`src/lib/` už počítá vzdálenost dvou životů: najdi a použij).
-2. **Kde to bylo?:** slepý výřez mapy ze sdíleného podkladu, klepnutí položí špendlík, z klávesnice kříž šipkami a Enter; po klepnutí razítko místa a spojnice; vzdálenost jen slovem („blízko“, „o moře dál“), bez kilometrů a bodů. Popisky míst se nesmí potkat (pouceni: obdélníky jednotlivých řádků).
-3. **Doplň citát:** vystřižená slova jako ve vzkazu z novin, vložení do vtlačené mezery tažením i klepnutím; po vložení celý citát s místem.
+```
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/pouceni.md, docs/design.md (Pohyb, Bloky a aktivity, Komponenty), v docs/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty, Po P6 a Po K1, skill atlas-komponenta a z podkladů docs/podklady/herna.md jen oddíly 1 (Kdo to řekl? a Doplň citát) a 5 (Tipni si a Seřaď na ose). Archiv nečti.
+
+Zásada kroku: student se nemá učit citáty nazpaměť, hádat, o koho jde, ani znát přesné roky. Hra mu dá do ruky, podle čeho může uvažovat (myšlenku osoby, vztahy z dat), a odkrytí řekne, o čem věta je a kdo na koho navázal. Roky jsou jen drobný údaj.
+
+0. Úprava her z K1 (src/lib/herna, ostrovy SeradNaOse.svelte a KdoToRekl.svelte, YAML v dílně, testy):
+   - Kdo to řekl?: u každého razítka pod jménem jedna věta z dat, čím se člověk zabýval (pole proc v lide.yaml), aby student hledal, komu myšlenka sedí, ne koho si pamatuje. Pokyn nad razítky v duchu „Nemusíš to vědět: hledej, čí myšlence věta sedí.“ (skill atlas-psani). Na rubu karty nahoře jedna věta, o čem věta je (nové pole pointa u karty v YAML), dílo a místo menší pod ní. Ověř, že se razítka s větou vejdou na 390 px; když ne, dvě pod sebou.
+   - Seřaď na ose: po správném pořadí (i po Ukázat pořadí) ukaž mezi kartami vztahy z vztahy.yaml (učitel a žák, znali se, četl ho, přel se; tradovaný s „vypráví se“) a u lidí, jejichž životy se překrývají, „mohli se potkat“; roky drobně pod jménem. Vysvětlení v YAML mluví o tom, kdo na koho mohl navázat. Pětice v dílně vyber jako řetěz vlivu z podkladů (nebo ji z dat sestav tak, aby aspoň dva vztahy na šňůře byly); Konfucius smí zůstat jako překvapení (žil ve stejném století jako Parmenidés), ale bez tvrzení, že o sobě nevěděli.
+   - docs/design.md a testy podle toho.
+1. Tipni si: papírové pravítko s jezdcem v barvě pera, posuvník input type="range" s popisem pro čtečku. Odhaduje se v lidských životech a generacích, ne v přesných letech: „Kolik lidských životů je mezi nimi?“, „Mohli se potkat?“. Po odhalení ryska a čárkovaná svorka rozdílu a věta z dat „Dělí je asi … let, zhruba … lidských životů“ (src/lib už počítá vzdálenost dvou životů: najdi a použij); odhad v rozumném rozpětí je „sedí“, žádné body. Čísla jen z dat nebo z podkladů P6.
+2. Kde to bylo?: slepý výřez mapy ze sdíleného podkladu (src/lib/podklad-sdileny.ts), klepnutí položí špendlík, z klávesnice kříž šipkami a Enter; po klepnutí razítko místa, spojnice a vzdálenost jen slovem („blízko“, „o moře dál“), bez kilometrů a bodů. Pointa je, proč tam člověk byl (odchod, vyhnanství, škola): po odhalení jedna věta z dat o tom, co ho tam přivedlo. Popisky míst se nesmí potkat (pouceni: obdélníky jednotlivých řádků).
+3. Doplň citát: vystřižená slova jako ve vzkazu z novin, vložení do vtlačené mezery tažením i klepnutím, z klávesnice. Nejde o to trefit slovo z paměti: ke každé záměně zpětná vazba, co by věta s tím slovem tvrdila a čím se to liší (slova a vazby v YAML, z podkladů P6); po vložení celý citát s místem a věta, o čem je.
+4. Všechny tři formáty do bloky/index.ts, schéma do bloky-schema.ts, do dílny, do katalogu hodin a do pruchod.spec.ts, scripts/slova-cesta.mjs a scripts/snimky-cesta.mjs; nové stavy do scripts/snimky-herna.mjs.
+5. Testy: Vitest na logiku; Playwright na 390 a 1440 px, světlý a tmavý režim, axe, jen klávesnicí, dotyk přes CDP, obnovení stránky, bez localStorage, omezený pohyb, Klidný režim. Snímky si prohlédni.
+6. docs/design.md (Bloky a aktivity, jedna řádka na formát), celé npm test, commit, oddíl Po K2 v plánu, restart npm run dev, plán do Projektu Claude. Na konci zprávy napiš, na které snímky se mám podívat, a celý prompt pro K3 (do zprávy i do plánu), s modelem a úsilím.
+```
 
 ## Zadání K3: Páry, Pravý, nebo podvržený?, Najdi slabé místo, Kdo by to řekl?
 
@@ -207,7 +221,7 @@ Odpověď na otázku po P6 (kotoučky) zůstala prázdná: platí doporučení, 
 
 **Na které snímky se podívat** (`Claude outputs/snimky/`): `herna-serad-klid-390-svetly.png` a `herna-serad-klid-1440-tmavy.png` (šňůra svisle a vodorovně), `herna-serad-zkus-390-svetly.png` (značky dvojic a lístek), `herna-serad-sedi-1440-svetly.png` (roky a otisk), `herna-kdo-zkus-390-svetly.png` (zakázané razítko a napověda), `herna-kdo-otocena-1440-tmavy.png` (rub karty). V dílně: `/dilna/bloky/#dilna-serad-narozeni` a `#dilna-kdo-rekl`.
 
-Další krok: K2 (Tipni si, Kde to bylo?, Doplň citát) v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`; zadání je výš.
+Další krok: K2 v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`. Autor 17. 11. 2026 doplnil zásadu Pointa není paměť (Co platí), proto K2 začne úpravou obou her z K1; celé znění promptu je v Zadání K2.
 
 ## Co zůstává na později
 
