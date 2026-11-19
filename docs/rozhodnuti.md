@@ -4,6 +4,20 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 19. 11. 2026: Do hodiny, sebehodnocení, Argumentační klamy a manipulace (herna-v1 K5)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Karta Do hodiny má vlastní kolekci `src/content/do-hodiny/<slug cesty>.yaml` (dvě pole: `dvojice`, `trida`), ne druh v kolekci bloků; do posledního kroku ji vloží jeden řádek `<DoHodiny />` a id je `cestaN-do-hodiny` | Zadání chce YAML k cestě; karta není blok pro studenta (nemá stav, deník ani rám aktivity), a v unii bloků by ji musel znát každý kód, který bloky prochází |
+| Karta je na stránce skrytá přes `display: none` a vidí ji jen promítání (`html.promitani`); není v hledání ani ve slovech cesty. V přípravě hodiny je to zastavení „Do hodiny“ s názvem otázky pro třídu a s otázkou do dvojice pod ním, v tisku taky | Student ji vidět nemá; učitel ji potřebuje číst, když hodinu skládá, a třída na plátně |
+| Sebehodnocení vkládá obal Závěru cesty (`bloky/ZaverCesty.astro`), takže ho mají všechny cesty bez úpravy textu; závěr je ve všech deseti cestách poslední v textu kroku, karta Stoického týdne zůstává pod sebehodnocením | Odpověď 6 před P6: jedna komponenta za Závěrem cesty; vložení do šablony kroku by ho posunulo pod kartu týdne |
+| Otázky sebehodnocení jsou „Co už umím“ a „Co mi ještě není jasné“, nadpis „Kam tě cesta dovedla?“ | Zadání znělo „v čem si jistý nejsem“; texty atlasu nenesou rod studenta, a tak je druhá otázka bez rodu se stejným smyslem |
+| Sebehodnocení jsou dva samostatné zápisy deníku (`<slug>-umim`, `<slug>-nejsem`, druh `sebehodnoceni`) s odkazem na kotvu pod závěrem; Moje filozofie je ukáže u velké otázky cesty pod Na začátku × Teď, zápisník u cesty | Prázdné pole zápis smaže; nic se nesčítá ani nehodnotí. Dva zápisy se dají smazat a číst každý zvlášť |
+| Stránka Argumentační klamy a manipulace je úvod oddílu (`src/content/uvody/argumentacni-klamy.mdx`, `/argumentacni-klamy/`) se scénou z Euthydéma, třemi oddíly (Triky na lidi, Triky s myšlenkou, Věta s cizím jménem), deseti klamy a závěrem; Najdi slabé místo stojí za prvním oddílem, Pravý, nebo podvržený? za třetím | Odpověď 7 před P6; bloky uprostřed, každý u klamů, které cvičí (autorita a většina; podvržený citát) |
+| U klamů autority a většiny stojí v textu jen vyprávění, citáty Cicerona, Sókrata z Gorgia a Kritóna přinese až blok Najdi slabé místo | Tentýž citát dvakrát na jedné stránce by se četl jako opakování a blok by prozradil, kdo co škrtl |
+| Z Otázek vede na stránku druhý lístek vedle Co je filozofie?, z cesty 1 řádek v Kam dál přehledu z nového pole `kamDal` ve frontmatteru cesty | Text cesty se nemění (odpověď 7) |
+| Otisk razítka „neřekl to“ jde na telefonu přes roh ústřižku jen o 2 px (dřív 12 px) | Na 390 px vystrčil stránku o pixel do strany, i v dílně od K3 |
+
 ## 17. 11. 2026: Stránky osob a mapa (herna-v1 K4)
 
 | Rozhodnutí | Důvod |

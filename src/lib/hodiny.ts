@@ -11,6 +11,7 @@ import { VYCHOZI_NADTITULKY } from './nadtitulky';
 import { ODDILY } from './oddily';
 import { ODDIL_MISTA, ODDIL_RODOKMEN } from './stranky';
 import { OSA_HLASU } from './osa-hlasu';
+import { chybyDoHodiny, idDoHodiny, NADTITULEK_DO_HODINY, type TDoHodiny } from './do-hodiny';
 
 // ─── Zastavení ────────────────────────────────────────────────────────────────
 
@@ -59,6 +60,8 @@ export interface Zastaveni {
   medailonek?: true;
   /** typ stránky druhu `stranka` (u zastavení uvnitř stránky chybí) */
   typStranky?: TypStranky;
+  /** karta Do hodiny (typ DoHodiny, herna-v1 K5): obě otázky, aby je skladatel ukázal učiteli */
+  doHodiny?: TDoHodiny;
   /** zastavení, do kterého tohle patří (krok, kapitola, stránka); stránka sama žádné */
   rodic: string | null;
   /** pořadí na stránce: stránka 0, pak části tak, jak za sebou stojí */
@@ -97,6 +100,8 @@ export interface VstupKatalogu {
    * `id` bez předpony (`obdobi-helenismus-a-rim`), `predTextem` a `zaTextem` jsou oddíly, které skládá šablona.
    */
   stranky?: StrankaKatalogu[];
+  /** karty Do hodiny podle slugu cesty (src/content/do-hodiny); starší vstup je nemá */
+  doHodiny?: { id: string; data: TDoHodiny }[];
   osoby: Map<string, OsobaKatalogu>;
 }
 
@@ -161,6 +166,11 @@ const adresa = (stranka: string, kotva: string | null) => (kotva ? `${stranka}#$
  */
 export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   const vse: Zastaveni[] = [];
+  const karty = v.doHodiny ?? [];
+  const chybyKaret = chybyDoHodiny(karty, v.cesty);
+  if (chybyKaret.length) throw new Error(`Katalog hodin: ${chybyKaret.join(' ')}`);
+  const kartaCesty = new Map(karty.map((k) => [k.id, k.data]));
+  const cisloCesty = new Map(v.cesty.map((c) => [c.id, c.data.cislo]));
   const otazkaBloku = new Map(v.bloky.map((b) => [b.id, b.data.otazka]));
   const nadtitulekBloku = new Map(v.bloky.map((b) => [b.id, b.data.nadtitulek]));
   const vychozi = (jmeno: string): string | undefined => VYCHOZI_NADTITULKY[jmeno as keyof typeof VYCHOZI_NADTITULKY];
@@ -171,8 +181,19 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   };
 
   /** Blok nebo příběh ze značky; null pro značku, která zastavením není. */
-  const castZeZnacky = (z: Znacka, stranka: string): Pick<Zastaveni, 'id' | 'druh' | 'nazev' | 'kotva' | 'typ' | 'nadtitulek'> | null => {
+  const castZeZnacky = (z: Znacka, stranka: string): Pick<Zastaveni, 'id' | 'druh' | 'nazev' | 'kotva' | 'typ' | 'nadtitulek' | 'doHodiny'> | null => {
     const a = z.atributy;
+    if (z.jmeno === 'DoHodiny') {
+      // Karta Do hodiny: id a kotvu skládá obal stejně (src/components/bloky/DoHodiny.astro); název je otázka pro třídu.
+      // Starší vstup bez karet (testy z doby před K5) kartu vynechá; sestavení karty předává vždy.
+      if (!v.doHodiny) return null;
+      const slug = a.cesta ?? stranka.match(/^\/cesta\/([^/]+)\//)?.[1];
+      const data = slug ? kartaCesty.get(slug) : undefined;
+      const cislo = slug ? cisloCesty.get(slug) : undefined;
+      if (!slug || !data || cislo === undefined) throw new Error(`Katalog hodin: karta Do hodiny na ${stranka} nemá v src/content/do-hodiny soubor své cesty.`);
+      const id = idDoHodiny(cislo);
+      return { id: `b:${id}`, druh: 'blok', nazev: cisty(data.trida), kotva: id, typ: 'DoHodiny', nadtitulek: NADTITULEK_DO_HODINY, doHodiny: data };
+    }
     if (z.jmeno === 'Pribeh') {
       if (!a.id) return null;
       const nazev = a.titulek ?? a.nadtitulek ?? a.popisek;

@@ -6,6 +6,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { Blok } from './lib/bloky-schema';
 import { Tyden } from './lib/tydny-schema';
+import { DoHodiny } from './lib/do-hodiny';
 import { ObdobiStranka, Smer, Pokus, Uvod, Nabozenstvi, OdkazKamDal } from './lib/stranky-schema';
 import { Pojem } from './lib/pojmy';
 
@@ -111,6 +112,11 @@ const cesty = defineCollection({
      * Cesta 8: po strachu ze smrti ne hned „Co když přijde to nejhorší?“ (slovo, kterému se cesta 8 vyhýbá).
      */
     nenabizet: z.array(id).optional(),
+    /**
+     * Odkazy navíc v Kam dál na přehledu cesty, za těmi, které se skládají samy (herna-v1, K5: z cesty 1
+     * na Argumentační klamy a manipulace). Text cesty se tím nemění.
+     */
+    kamDal: z.array(z.object({ href: z.string().startsWith('/'), text: z.string().trim().min(1) }).strict()).max(2).default([]),
   }),
 });
 
@@ -157,4 +163,13 @@ const tydny = defineCollection({
   schema: Tyden,
 });
 
-export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, uvody, pojmy, pribehy, nabozenstvi, bloky, kroky, tydny };
+/**
+ * Karta Do hodiny k cestě (herna-v1, K5): src/content/do-hodiny/<slug cesty>.yaml, otázka do dvojice a pro třídu.
+ * Do posledního kroku ji vloží <DoHodiny />; student ji vidí jen při promítání hodiny (src/lib/do-hodiny.ts).
+ */
+const doHodiny = defineCollection({
+  loader: glob({ pattern: '[^_]*.yaml', base: './src/content/do-hodiny' }),
+  schema: DoHodiny,
+});
+
+export const collections = { osobnosti, smery, obdobi: obdobiTexty, otazky, cesty, pokusy, uvody, pojmy, pribehy, nabozenstvi, bloky, kroky, tydny, doHodiny };

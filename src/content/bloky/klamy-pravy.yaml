@@ -1,0 +1,21 @@
+# Pravý, nebo podvržený? na stránce Argumentační klamy a manipulace (herna-v1, K5): čtyři záznamy pripsani
+# ze zdroje.yaml (podklady docs/podklady/herna.md › 2 a 7, klam 9). Tři z nich v dílně nejsou (nádoba a oheň,
+# laskavý a těžký boj, řeka a týž člověk), čtvrtá je pravá Senekova věta, aby razítko „řekl to“ mělo smysl.
+# Původ a kde věta koluje skládá blok z dat; tady je hlavička ústřižku a věta, jak si citát příště ověřit.
+druh: pravy
+obdobi: 1
+otazka: "Patří ta věta tomu, pod jehož jménem koluje?"
+karty:
+  - pripsani: nadoba-a-ohen
+    odkud: "Profil · citáty o škole"
+    overeni: "Když tutéž větu dávají dvě stránky dvěma různým lidem, hledej, kdo ji napsal jako první."
+  - pripsani: vic-nas-strasi
+    odkud: "Článek o úzkosti"
+    overeni: "Pravá věta vydrží, když ji dohledáš: číslo dopisu a odstavec ji najdou v každém vydání."
+  - pripsani: laskavy-tezky-boj
+    odkud: "Status · dobré slovo na den"
+    overeni: "Hledej nejstarší doklad. Když je o víc než dva tisíce let mladší než ten, komu se věta připisuje, máš odpověď."
+  - pripsani: reka-tyz-clovek
+    odkud: "Popisek fotky z výletu"
+    overeni: "Věta může být pravá jen napůl. Porovnej ji se zlomkem, jak ho podávají staří autoři, a hledej, co přibylo."
+zdroje: []

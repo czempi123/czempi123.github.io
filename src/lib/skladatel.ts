@@ -121,6 +121,7 @@ const TYPY_BLOKU: Record<string, string> = {
   KdoZilDriv: 'Kdo žil dřív?',
   SlozArgument: 'Slož argument',
   ZaverCesty: 'Závěr cesty',
+  DoHodiny: 'Do hodiny',
   OsaHlasu: 'Osa hlasů',
 };
 

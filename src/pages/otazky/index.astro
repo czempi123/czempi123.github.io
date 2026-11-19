@@ -19,6 +19,11 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
         <span class="uvodni__nazev">Co je filozofie?</span>
         <Ikona id="dal" velikost={20} />
       </a>
+      <a class="uvodni uvodni--druhy" href="/argumentacni-klamy/">
+        <span class="t-nadtitulek uvodni__nad">Do každého sporu</span>
+        <span class="uvodni__nazev">Argumentační klamy a manipulace</span>
+        <Ikona id="dal" velikost={20} />
+      </a>
     </header>
     <ol class="otazky">
       {otazky.map((o) => (
@@ -52,6 +57,9 @@ const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data
     background: var(--listek); box-shadow: var(--lezi); color: var(--ink); text-decoration: none; rotate: calc(-.8deg * var(--natoceni));
     transition: transform var(--d-stisk) var(--k-stisk);
   }
+  /* Druhý lístek vedle prvního, natočený na druhou stranu (na telefonu pod ním). */
+  .uvodni--druhy { margin-left: var(--s-4); rotate: calc(.6deg * var(--natoceni)); }
+  @media (max-width: 699px) { .uvodni--druhy { margin-left: 0; } }
   .uvodni:hover { transform: translateY(-2px); }
   .uvodni:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .uvodni__nad { color: var(--ink-2); }

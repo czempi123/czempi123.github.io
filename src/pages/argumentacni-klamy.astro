@@ -1,0 +1,13 @@
+---
+// /argumentacni-klamy/: Argumentační klamy a manipulace (herna-v1, K5; odpověď 7 před P6), úvod oddílu jako Co je filozofie?.
+// Obsah v src/content/uvody/argumentacni-klamy.mdx; odkaz na ni vede z Otázek a z Kam dál cesty 1.
+import StrankaUvodu from '../components/stranka/StrankaUvodu.astro';
+---
+<StrankaUvodu
+  id="argumentacni-klamy"
+  adresa="/argumentacni-klamy/"
+  sekce="otazky"
+  zpet={{ href: '/otazky/', text: 'Otázky' }}
+  drobecky={[{ text: 'Otázky', href: '/otazky/' }, { text: 'Argumentační klamy a manipulace' }]}
+  tvary={['klam', 'klamy', 'klamů', 'manipulace', 'manipulaci', 'argument', 'argumenty', 'podvržený citát', 'kritické myšlení']}
+/>

@@ -19,6 +19,7 @@ export { default as PravyNeboPodvrzeny } from './PravyNeboPodvrzeny.astro';
 export { default as NajdiSlabeMisto } from './NajdiSlabeMisto.astro';
 export { default as KdoByToRekl } from './KdoByToRekl.astro';
 export { default as ZaverCesty } from './ZaverCesty.astro';
+export { default as DoHodiny } from './DoHodiny.astro';
 export { default as Strany } from './Strany.astro';
 export { default as Strana } from './Strana.astro';
 export { default as Navrat } from './Navrat.astro';

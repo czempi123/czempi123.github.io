@@ -3,10 +3,11 @@ layout: ../../../layouts/Dilna.astro
 titulek: Bloky
 perex: Všech devět bloků, hry, hra na stránce osoby, trasy mini mapy, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
 ---
-import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, TipniSi, KdeToBylo, DoplnCitat, Pary, PravyNeboPodvrzeny, NajdiSlabeMisto, KdoByToRekl, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
+import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, TipniSi, KdeToBylo, DoplnCitat, Pary, PravyNeboPodvrzeny, NajdiSlabeMisto, KdoByToRekl, DoHodiny, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
 import GrafKrivek from '../../../components/ui/GrafKrivek.astro';
 import HraOsoby from '../../../components/osobnost/HraOsoby.astro';
 import MiniMapa from '../../../components/osobnost/MiniMapa.astro';
+import Sebehodnoceni from '../../../components/ostrovy/Sebehodnoceni.svelte';
 import { osoba } from '../../../lib/data';
 
 <section class="ukazka" aria-labelledby="h-pribeh">
@@ -158,6 +159,22 @@ Na každém medailonku vybere atlas z dat jednu malou hru: vyhnanství nebo dale
 V Době a lidech vede oblouk se šipkou a rokem tam, kam člověk přešel, když data rok příchodu znají. Výpravy a Přehrát období jsou v [Mapě a čase](/mapa/).
 
 <div class="ctenarsky"><MiniMapa osoba={osoba('sokrates')} /></div>
+</section>
+
+<section class="ukazka" aria-labelledby="h-do-hodiny">
+<h2 class="t-h2" id="h-do-hodiny">Do hodiny</h2>
+
+Lístek pro učitele na konci posledního kroku cesty: otázka do dvojice a otázka pro celou třídu. Student ho na stránce nevidí; ukáže se při promítání hodiny a v přípravě hodiny je to zastavení s oběma otázkami. Tady je lístek cesty Kdy mám dobrý důvod věřit?
+
+<DoHodiny cesta="kdy-mam-dobry-duvod-verit" ukazat />
+</section>
+
+<section class="ukazka" aria-labelledby="h-sebehodnoceni">
+<h2 class="t-h2" id="h-sebehodnoceni">Sebehodnocení</h2>
+
+Pod Závěrem cesty stojí v každé cestě stejné dvě nepovinné poznámky. Ukládají se samy do deníku k poslednímu kroku a deník je ukáže v Moje filozofie pod odpověďmi Na začátku a Teď.
+
+<Sebehodnoceni client:visible slug="dilna" cesta="Ukázka v dílně:" odkaz="/dilna/bloky/#dilna-sebehodnoceni" obdobi={1} />
 </section>
 
 <section class="ukazka" aria-labelledby="h-navrat">

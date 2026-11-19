@@ -1,0 +1,90 @@
+---
+// Karta Do hodiny (herna-v1, K5): lístek pro učitele s otázkou do dvojice a otázkou pro celou třídu.
+// Obsah je v src/content/do-hodiny/<slug cesty>.yaml (schéma src/lib/do-hodiny.ts). Na stránce je skrytá:
+// ukáže se jen při promítání hodiny (html.promitani, src/styles/promitani.css) a v přípravě hodiny ji učitel
+// vidí v Skladateli z katalogu hodin. Do hledání ani do čtení kroku nepatří (data-pagefind-ignore, data-pro-ucitele).
+// Použití v MDX na konci posledního kroku cesty: <DoHodiny />
+// V dílně s vybranou cestou a vždy vidět: <DoHodiny cesta="kdy-mam-dobry-duvod-verit" ukazat />
+import { getCollection, getEntry } from 'astro:content';
+import { krokZAdresy, krokyCesty } from '../../lib/cesty';
+import { chybyDoHodiny, idDoHodiny, NADTITULEK_DO_HODINY, POPISKY_DO_HODINY } from '../../lib/do-hodiny';
+import { radek } from '../../lib/bloky';
+
+interface Props {
+  /** slug cesty; v kroku cesty se vezme z adresy */
+  cesta?: string;
+  /** ukázat i mimo promítání (dílna) */
+  ukazat?: boolean;
+}
+const { cesta: cestaProp, ukazat = false } = Astro.props;
+const stranka = Astro.url.pathname;
+const k = krokZAdresy(stranka);
+const slug = cestaProp ?? k?.slug;
+if (!slug) throw new Error(`Karta Do hodiny na ${stranka}: patří do kroku cesty, jinde potřebuje atribut cesta.`);
+const cesta = await getEntry('cesty', slug);
+if (!cesta) throw new Error(`Karta Do hodiny na ${stranka}: cesta „${slug}“ není.`);
+if (k && !cestaProp) {
+  const kroky = (await getCollection('kroky')).map((x) => x.data);
+  if (k.n !== krokyCesty(kroky, slug).length) throw new Error(`Karta Do hodiny patří do posledního kroku cesty „${slug}“, ne na ${stranka}.`);
+}
+const karty = await getCollection('doHodiny');
+const chyby = chybyDoHodiny(karty, await getCollection('cesty'));
+if (chyby.length) throw new Error(chyby.join(' '));
+const karta = karty.find((x) => x.id === slug);
+if (!karta) throw new Error(`Karta Do hodiny na ${stranka}: chybí src/content/do-hodiny/${slug}.yaml.`);
+const id = idDoHodiny(cesta.data.cislo);
+---
+<aside class:list={['do-hodiny', `obdobi-${cesta.data.obdobi}`, { 'do-hodiny--vzdy': ukazat }]} id={id} aria-labelledby={`${id}-nadpis`} data-pagefind-ignore data-pro-ucitele>
+  <h2 class="do-hodiny__nadpis t-nadtitulek" id={`${id}-nadpis`} data-cast="hlava">{NADTITULEK_DO_HODINY}</h2>
+  <dl class="do-hodiny__otazky">
+    <div class="do-hodiny__otazka">
+      <dt class="do-hodiny__komu"><svg class="do-hodiny__znak" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true" focusable="false"><circle cx="9" cy="6" r="3.6" /><circle cx="19" cy="6" r="3.6" /><path d="M2.5 18.5c.6-4 3.2-6.2 6.5-6.2s5.9 2.2 6.5 6.2M12.5 18.5c.6-4 3.2-6.2 6.5-6.2s5.9 2.2 6.5 6.2" /></svg>{POPISKY_DO_HODINY.dvojice}</dt>
+      <dd set:html={radek(karta.data.dvojice)} />
+    </div>
+    <div class="do-hodiny__otazka">
+      <dt class="do-hodiny__komu"><svg class="do-hodiny__znak" width="28" height="20" viewBox="0 0 28 20" aria-hidden="true" focusable="false"><circle cx="5" cy="7" r="2.8" /><circle cx="14" cy="5.5" r="3.4" /><circle cx="23" cy="7" r="2.8" /><path d="M1 18.5c.4-3.2 2-5 4-5M27 18.5c-.4-3.2-2-5-4-5M8.2 18.5c.6-4 2.8-6.3 5.8-6.3s5.2 2.3 5.8 6.3" /></svg>{POPISKY_DO_HODINY.trida}</dt>
+      <dd set:html={radek(karta.data.trida)} />
+    </div>
+  </dl>
+</aside>
+
+<style>
+  /* Na stránce studenta skrytá; Display, ne visibility (při omezeném pohybu by se ukázala až po přechodu). */
+  .do-hodiny { display: none; }
+  .do-hodiny--vzdy,
+  :global(html.promitani) .do-hodiny { display: block; }
+  /* Lístek z kartotéky učitele: linkovaná kartička s červenou linkou nahoře, ležící, bez pásky a bez natočení textu. */
+  .do-hodiny {
+    max-width: var(--ctenarsky-sloupec);
+    margin: var(--s-7) auto 0;
+    padding: var(--s-4) var(--s-5) var(--s-5);
+    background: var(--listek);
+    box-shadow: var(--lezi);
+  }
+  /* Dvojitá třída: v kroku cesty má každé h2 velikost nadpisu kroku ([krok].astro); tady je to nadtitulek lístku. */
+  .do-hodiny .do-hodiny__nadpis {
+    margin: 0 0 var(--s-4);
+    padding-bottom: var(--s-2);
+    border-bottom: 1.5px solid var(--cervena-tuzka);
+    font-size: var(--fs-nadtitulek);
+    line-height: var(--lh-nadtitulek);
+    color: var(--p, var(--ink-2));
+  }
+  .do-hodiny__otazky { display: grid; gap: var(--s-4); margin: 0; }
+  .do-hodiny__otazka + .do-hodiny__otazka { padding-top: var(--s-4); border-top: 1px dashed var(--tuzka); }
+  .do-hodiny__komu {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin: 0 0 var(--s-2);
+    font-family: var(--font-sans);
+    font-size: var(--fs-ovladani);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .do-hodiny__znak { flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+  .do-hodiny__otazka dd { margin: 0; font-size: var(--fs-perex); line-height: var(--lh-perex); color: var(--ink); }
+  /* Na plátně přes šířku čtenářského sloupce plátna a s většími mezerami (písmo zvětší --meritko). */
+  :global(html.promitani) .do-hodiny { margin-top: var(--s-5); padding: var(--s-5) var(--s-6) var(--s-6); }
+  @media print { .do-hodiny:not(.do-hodiny--vzdy) { display: none !important; } }
+</style>

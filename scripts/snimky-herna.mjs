@@ -12,6 +12,7 @@ const VEN = process.env.VEN ?? 'Claude outputs/snimky';
 mkdirSync(VEN, { recursive: true });
 
 const browser = await chromium.launch();
+const JEN_K5 = process.env.SKUPINA === 'k5';
 async function snimek(page, id, soubor) {
   await page.waitForTimeout(120);
   const r = await page.locator(`[id="${id}"]`).evaluate((e) => {
@@ -31,7 +32,7 @@ async function priprav(page, id, ostrov) {
   await page.waitForFunction(([i, o]) => { const a = document.getElementById(i)?.closest(`astro-island[component-url*="${o}"]`); return !!a && !a.hasAttribute('ssr'); }, [id, ostrov]);
   await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .preskocit { visibility: hidden !important; } .blok__pata { position: static !important; }' });
 }
-for (const sirka of [390, 1440]) {
+for (const sirka of JEN_K5 ? [] : [390, 1440]) {
   for (const rezim of ['light', 'dark']) {
     const page = await browser.newPage({ viewport: { width: sirka, height: 900 }, colorScheme: rezim, reducedMotion: 'reduce' });
     const pr = `${sirka}-${rezim === 'light' ? 'svetly' : 'tmavy'}`;
@@ -179,7 +180,7 @@ for (const sirka of [390, 1440]) {
   }
 }
 // Přehrát období během běhu a po zastavení (plný pohyb, jen notebook a telefon ve světlém režimu).
-for (const sirka of [390, 1440]) {
+for (const sirka of JEN_K5 ? [] : [390, 1440]) {
   const page = await browser.newPage({ viewport: { width: sirka, height: 900 } });
   await page.addInitScript(() => { window.atlasPrehravaniObdobi = { delka: 20000 }; });
   await page.goto(`${ZAKLAD}/mapa/?rok=-520`);
@@ -192,6 +193,83 @@ for (const sirka of [390, 1440]) {
   await page.waitForTimeout(400);
   await page.screenshot({ path: `${VEN}/herna-k4-obdobi-zastaveno-${sirka}.png` });
   console.log(`herna-k4-obdobi-${sirka}`);
+  await page.close();
+}
+// K5: karta Do hodiny (dílna a promítání), sebehodnocení (dílna, vyplněné), stránka Argumentační klamy a manipulace
+// (Najdi slabé místo a Pravý, nebo podvržený? před činem a po něm), Moje filozofie se sebehodnocením.
+// SKUPINA=k5 pustí jen tuhle část.
+for (const sirka of [390, 1440]) {
+  for (const rezim of ['light', 'dark']) {
+    const page = await browser.newPage({ viewport: { width: sirka, height: 900 }, colorScheme: rezim, reducedMotion: 'reduce' });
+    const pr = `${sirka}-${rezim === 'light' ? 'svetly' : 'tmavy'}`;
+    await page.goto(`${ZAKLAD}/dilna/bloky/`);
+    await page.evaluate(() => document.fonts.ready);
+    await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .preskocit { visibility: hidden !important; }' });
+    await page.locator('#cesta1-do-hodiny').scrollIntoViewIfNeeded();
+    await snimek(page, 'cesta1-do-hodiny', `herna-k5-dohodiny-dilna-${pr}`);
+    await page.locator('#dilna-sebehodnoceni').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => { const a = document.getElementById('dilna-sebehodnoceni')?.closest('astro-island'); return !!a && !a.hasAttribute('ssr'); });
+    await snimek(page, 'dilna-sebehodnoceni', `herna-k5-sebe-prazdne-${pr}`);
+    await page.locator('#dilna-umim-stanovisko').fill('Poznám, kdy mi někdo dává jméno místo důvodu.');
+    await page.locator('#dilna-nejsem-stanovisko').fill('Jak poznat, komu věřit, když to sám ověřit nejde.');
+    await page.locator('#dilna-nejsem-stanovisko').blur();
+    await page.waitForTimeout(700);
+    await snimek(page, 'dilna-sebehodnoceni', `herna-k5-sebe-vyplnene-${pr}`);
+    // Stránka klamů: bloky před činem a po něm.
+    await page.goto(`${ZAKLAD}/argumentacni-klamy/`);
+    await page.evaluate(() => document.fonts.ready);
+    await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .preskocit { visibility: hidden !important; }' });
+    for (const [id, ostrov] of [['klamy-slabe-video', 'NajdiSlabeMisto'], ['klamy-pravy', 'PravyNeboPodvrzeny']]) {
+      await page.locator(`[id="${id}"]`).scrollIntoViewIfNeeded();
+      await page.waitForFunction(([i, o]) => { const a = document.getElementById(i)?.closest(`astro-island[component-url*="${o}"]`); return !!a && !a.hasAttribute('ssr'); }, [id, ostrov]);
+    }
+    await snimek(page, 'klamy-slabe-video', `herna-k5-klamy-slabe-klid-${pr}`);
+    const sl = page.locator('#klamy-slabe-video');
+    await sl.locator('button.veta-arg').filter({ hasText: 'tolika lidem' }).click();
+    await page.waitForTimeout(400);
+    await snimek(page, 'klamy-slabe-video', `herna-k5-klamy-slabe-skrt-${pr}`);
+    const zapsat = sl.getByRole('button', { name: 'Zapsat do deníku' });
+    if (await zapsat.count()) { await zapsat.click(); await page.waitForTimeout(400); await snimek(page, 'klamy-slabe-video', `herna-k5-klamy-slabe-hlasy-${pr}`); }
+    await snimek(page, 'klamy-pravy', `herna-k5-klamy-pravy-klid-${pr}`);
+    await page.locator('#klamy-pravy button.razitko-verdikt--nerekl').first().click();
+    await page.waitForTimeout(400);
+    await snimek(page, 'klamy-pravy', `herna-k5-klamy-pravy-otisk-${pr}`);
+    await page.close();
+  }
+}
+// Promítání karty Do hodiny (notebook, plátno) a Moje filozofie se sebehodnocením (telefon i notebook, světlý režim).
+for (const sirka of [390, 1440]) {
+  const page = await browser.newPage({ viewport: { width: sirka, height: sirka > 900 ? 900 : 844 }, reducedMotion: 'reduce' });
+  await page.goto(`${ZAKLAD}/hodina/?v=1&n=${encodeURIComponent('Delfy')}&z=k:kdy-mam-dobry-duvod-verit/7,b:cesta1-do-hodiny`);
+  await page.getByRole('button', { name: 'Promítat hodinu' }).click();
+  await page.waitForFunction(() => document.documentElement.classList.contains('promitani-pripraveno'));
+  await page.keyboard.press('End');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${VEN}/herna-k5-promitani-krok-${sirka}.png` });
+  await page.locator('[data-hl-dalsi]').click();
+  await page.waitForFunction(() => location.hash === '#cesta1-do-hodiny' && document.documentElement.classList.contains('promitani-pripraveno'));
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${VEN}/herna-k5-promitani-karta-${sirka}.png` });
+  console.log(`herna-k5-promitani-${sirka}`);
+  await page.locator('[data-hl-ukoncit]').click();
+  await page.waitForLoadState('load');
+  // Deník: pravidlo a sebehodnocení cesty 1 (zápisy jako z bloků).
+  await page.evaluate(() => {
+    const kdy = '2026-11-19T10:00:00.000Z';
+    const odkaz = '/cesta/kdy-mam-dobry-duvod-verit/7/';
+    const d = { verze: 1, zapisy: [
+      { id: 'cesta1-moje-pravidlo', otazka: 'Kdy mám dobrý důvod něčemu věřit?', odpoved: 'Když to obstojí, i když hledám, co by to vyvrátilo.', odkaz, kdy },
+      { id: 'kdy-mam-dobry-duvod-verit-umim', otazka: 'Kdy mám dobrý důvod věřit? Co už umím', odpoved: 'Zeptat se, odkud to kdo ví.', odkaz: `${odkaz}#kdy-mam-dobry-duvod-verit-sebehodnoceni`, kdy, druh: 'sebehodnoceni' },
+      { id: 'kdy-mam-dobry-duvod-verit-nejsem', otazka: 'Kdy mám dobrý důvod věřit? Co mi ještě není jasné', odpoved: 'Komu věřit, když to sám ověřit nejde.', odkaz: `${odkaz}#kdy-mam-dobry-duvod-verit-sebehodnoceni`, kdy, druh: 'sebehodnoceni' },
+    ], vyzvy: [], navstivene: [], bloky: {}, aktivita: [], cesty: { 'kdy-mam-dobry-duvod-verit': { nazev: 'Kdy mám dobrý důvod věřit?', pocet: 7, krok: 7, navstivene: [1, 2, 3, 4, 5, 6, 7], kdy } } };
+    localStorage.setItem('atlas-denik', JSON.stringify(d));
+  });
+  await page.goto(`${ZAKLAD}/denik/`);
+  await page.waitForSelector('#moje-filozofie');
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(300);
+  await page.locator('.mf-otazka').first().screenshot({ path: `${VEN}/herna-k5-denik-filozofie-${sirka}.png` });
+  console.log(`herna-k5-denik-${sirka}`);
   await page.close();
 }
 await browser.close();

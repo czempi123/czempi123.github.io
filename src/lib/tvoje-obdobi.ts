@@ -7,6 +7,7 @@ import type { Denik } from './denik';
 import { odpovedStudenta, kodyStrany, type PopisStran } from './strany';
 import { klicOtazky } from './otazky';
 import { volbaZeStavu, NIKDO } from './osa-hlasu';
+import { sebehodnoceniZDeniku } from './sebehodnoceni';
 import type { UdajeRazitka } from '../components/ostrovy/bloky-typy';
 
 export interface OsobaKatalogu {
@@ -96,6 +97,15 @@ export interface PravidloCesty {
   text: string;
 }
 
+/** Sebehodnocení na konci cesty (herna-v1, K5): co student o sobě napsal, jen to, co napsal. */
+export interface SebehodnoceniCesty {
+  cesta: string;
+  /** adresa posledního kroku, kotva sebehodnocení */
+  adresa: string;
+  umim?: string;
+  nejsem?: string;
+}
+
 export interface OtazkaPrehledu {
   cislo: number;
   slug: string;
@@ -106,6 +116,8 @@ export interface OtazkaPrehledu {
   /** odpověď „Po setkání s filozofy“ (Změnil se?, nebo pole Teď na téhle stránce) */
   ted?: string;
   pravidla: PravidloCesty[];
+  /** sebehodnocení z cest této otázky (pod Na začátku × Teď v Moje filozofie) */
+  sebehodnoceni: SebehodnoceniCesty[];
   /** koho si student na ose hlasů stránky otázky zvolil jako sobě nejbližšího; „Nikdo z nich“ tu není */
   nejbliz?: Nejbliz;
   blizci: Blizky[];
@@ -213,6 +225,14 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
         const text = textZapisu(zapisy, c.pravidlo!.id);
         return text ? [{ cesta: c.nazev, adresa: c.pravidlo!.adresa, text }] : [];
       });
+    const sebehodnoceni: SebehodnoceniCesty[] = Array.isArray(zapisy)
+      ? k.cesty
+          .filter((c) => c.otazka === o.cislo && c.pravidlo)
+          .flatMap((c) => {
+            const s = sebehodnoceniZDeniku((zapisy as unknown[]).filter((x): x is { id: string; odpoved: string } => !!x && typeof (x as { id?: unknown }).id === 'string' && typeof (x as { odpoved?: unknown }).odpoved === 'string'), c.slug);
+            return s ? [{ cesta: c.nazev, adresa: `${c.pravidlo!.adresa.split('#')[0]}#${c.slug}-sebehodnoceni`, ...s }] : [];
+          })
+      : [];
     const uOtazky = stopy.get(o.cislo) ?? new Map();
     const ukazane = new Set<string>();
     // Volba na ose hlasů: jen hlas, který na stránce otázky opravdu je; „Nikdo z nich“ otázku sám neukáže.
@@ -231,7 +251,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
         if (novy) ukazane.add(novy);
         return { osoba: k.osoby[id], ...(novy ? { duvod: novy } : {}), stopy: z.stopy };
       });
-    if (!zacatek && !ted && !pravidla.length && !blizci.length && !nejbliz) continue;
+    if (!zacatek && !ted && !pravidla.length && !sebehodnoceni.length && !blizci.length && !nejbliz) continue;
     // Odpůrce: kdo nejčastěji zastával jinou odpověď než student, a přitom mu nikde nebyl blízko.
     const blizko = new Set([...blizci.map((b) => b.osoba.id), ...(nejbliz ? [nejbliz.osoba.id] : [])]);
     const [idProti, p] = [...(proti.get(o.cislo) ?? new Map()).entries()]
@@ -250,6 +270,7 @@ export function prehledObdobi(d: Partial<Denik> | null | undefined, k: KatalogOb
       ...(zacatek ? { zacatek } : {}),
       ...(ted ? { ted } : {}),
       pravidla,
+      sebehodnoceni,
       ...(nejbliz ? { nejbliz } : {}),
       blizci,
       ...(odpurce ? { odpurce } : {}),

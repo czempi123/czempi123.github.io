@@ -119,8 +119,9 @@ test('závěr cesty bez počáteční odpovědi: žádný panel, pravidlo funguj
     await pole.fill('Moje pravidlo.');
     await pole.blur();
     await expect(page.getByText('Uloženo v deníku.')).toBeVisible();
-    // Ani s uloženým pravidlem se bez začátku nic nesrovnává.
-    await expect(page.getByRole('textbox')).toHaveCount(1);
+    // Ani s uloženým pravidlem se bez začátku nic nesrovnává; pod závěrem jsou jen dvě pole sebehodnocení (herna-v1, K5).
+    await expect(page.getByRole('textbox', { name: /Co se změnilo/ })).toHaveCount(0);
+    await expect(page.getByRole('textbox')).toHaveCount(3);
   }
 });
 
@@ -168,9 +169,9 @@ test('závěr cesty jen klávesnicí na telefonu: pravidlo, nepovinná otázka a
   const lista = await page.locator('.cesta-lista').boundingBox();
   expect(b!.y + b!.height).toBeLessThanOrEqual(lista!.y);
   await page.keyboard.type('Lajky jsem dal do prázdných už tehdy.');
-  // Mezi polem a lištou kroku stojí ještě odkazy pod blokem a v patičce („Pro učitele: připravit hodinu“).
+  // Mezi polem a lištou kroku stojí ještě dvě pole sebehodnocení (herna-v1, K5), odkazy pod blokem a v patičce („Pro učitele: připravit hodinu“).
   const dokoncit = page.getByRole('link', { name: 'Dokončit cestu' });
-  for (let i = 0; i < 6 && !(await dokoncit.evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press('Tab');
+  for (let i = 0; i < 10 && !(await dokoncit.evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press('Tab');
   await expect(dokoncit).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(`${C6}#hotovo`);

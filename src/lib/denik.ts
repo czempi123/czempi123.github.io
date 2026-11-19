@@ -10,7 +10,7 @@ export interface Zapis {
   odkaz: string;
   kdy: string;
   /** z jakého bloku zápis pochází (pro řazení v deníku); starší zápisy ho nemají */
-  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'navrat' | 'slabe' | 'kdo-by';
+  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'navrat' | 'slabe' | 'kdo-by' | 'sebehodnoceni';
 }
 export interface Vyzva {
   id: string;

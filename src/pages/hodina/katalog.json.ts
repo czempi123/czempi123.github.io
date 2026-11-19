@@ -14,13 +14,14 @@ import { ODDIL_HLASY_POKUSU, ODDIL_UVOD } from '../../lib/stranky';
 import type { StrankaKatalogu } from '../../lib/hodiny';
 
 export const GET: APIRoute = async () => {
-  const [cesty, kroky, osobnosti, otazky, bloky, tydny] = await Promise.all([
+  const [cesty, kroky, osobnosti, otazky, bloky, tydny, doHodiny] = await Promise.all([
     getCollection('cesty'),
     getCollection('kroky'),
     getCollection('osobnosti'),
     getCollection('otazky'),
     getCollection('bloky'),
     getCollection('tydny'),
+    getCollection('doHodiny'),
   ]);
   // Návrat otázku nemá (nabízí ho jen deník, v katalogu není).
   const otazkyBloku = bloky.map((b) => ({
@@ -61,6 +62,6 @@ export const GET: APIRoute = async () => {
     ...pojmy.map((z) => ({ id: `pojem-${z.id}`, typ: 'pojem' as const, nazev: nazevPojmu(z.data.pojem), stranka: adresaPojmu(z.id), obdobi: z.data.obdobi[0],
       zaTextem: oddilyPojmu(z.data) })),
   ];
-  const zastaveni = katalogZastaveni({ cesty, kroky, osobnosti, otazky, bloky: otazkyBloku, tydny, medailonky: medailonkyKatalogu, stranky, osoby });
+  const zastaveni = katalogZastaveni({ cesty, kroky, osobnosti, otazky, bloky: otazkyBloku, tydny, medailonky: medailonkyKatalogu, stranky, doHodiny, osoby });
   return new Response(JSON.stringify({ verze: VERZE_HODINY, zastaveni }), { headers: { 'Content-Type': 'application/json' } });
 };

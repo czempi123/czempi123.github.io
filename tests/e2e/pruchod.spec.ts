@@ -207,6 +207,9 @@ for (const c of CESTY) {
     await expect(panel.locator('.zacatek .cast').first()).not.toBeEmpty();
     await panel.getByRole('textbox', { name: /Napiš svoje pravidlo/ }).fill('Moje pravidlo po cestě.');
     await expect(panel.getByRole('textbox', { name: /Co se změnilo/ })).toBeVisible();
+    // Pod závěrem sebehodnocení (herna-v1, K5): dvě nepovinná pole, průchod je nechá prázdná.
+    const sebe = page.getByRole('region', { name: 'Kam tě cesta dovedla?' });
+    await expect(sebe.getByRole('textbox')).toHaveCount(2);
     await page.getByRole('link', { name: 'Dokončit cestu' }).click();
     await expect(page).toHaveURL(`/cesta/${c.slug}/#hotovo`);
     await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
@@ -219,10 +222,10 @@ for (const c of CESTY) {
     const d = await page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
     const zapis = (id: string) => d.zapisy.find((z: { id: string }) => z.id === id);
     expect(zapis(c.pravidlo).odpoved).toBe('Moje pravidlo po cestě.');
-    // Nic nepovinného se nezapsalo: Spor má jen polohy, otázka o změně a návrat v deníku nejsou.
+    // Nic nepovinného se nezapsalo: Spor má jen polohy, otázka o změně, sebehodnocení a návrat v deníku nejsou.
     expect(zapis(c.spor).odpoved).toMatch(/^Na začátku: [^.]+\. Po argumentech: [^.]+\.$/);
     expect(d.bloky[c.spor].reflexe).toBeNull();
-    expect(d.zapisy.some((z: { id: string }) => /-zmena$|-navrat$/.test(z.id))).toBe(false);
+    expect(d.zapisy.some((z: { id: string }) => /-zmena$|-navrat$|-umim$|-nejsem$/.test(z.id))).toBe(false);
     expect(d.zapisy.every((z: { odpoved: string }) => !/Proč:|Co mě (posunulo|udrželo)/.test(z.odpoved))).toBe(true);
     expect(Date.now() - Date.parse(d.cesty[c.slug].dokonceno)).toBeLessThan(120_000);
 

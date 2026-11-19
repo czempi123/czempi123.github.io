@@ -229,6 +229,8 @@
     rotate: calc(-11deg * var(--natoceni));
     pointer-events: none;
   }
+  /* Na telefonu by otisk přes roh (right: -12px) vystrčil stránku o pixel do strany (K5): přes roh jen kousek. */
+  @media (max-width: 479px) { .otisk-studenta { right: -2px; } }
   .otisk-studenta--rekl { width: 80px; height: 80px; padding: 0; border-radius: 50%; text-align: center; line-height: 1.1; }
   .otisk-studenta--nerekl { border-radius: 3px; }
   .ustrizek__sedi { position: absolute; right: 4px; bottom: -44px; z-index: 2; }

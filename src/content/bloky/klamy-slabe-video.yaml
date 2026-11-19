@@ -1,0 +1,33 @@
+# Najdi slabé místo na stránce Argumentační klamy a manipulace (herna-v1, K5): argument stojí na dvou trikách
+# z oddílu Triky na lidi (autorita a většina). Kdo by premisu škrtl: Cicero (O povaze bohů I, 10: v rozpravě
+# váha důvodů, ne autority; čtenáři nemají hledat, co si myslí on sám) a Sókratés z Platónova Gorgia (471e–472a:
+# Pólos se dovolává souhlasu skoro všech Athéňanů). S argumentem by stál Kritón (Kritón 44b–d: bojí se, co si
+# pomyslí lidé, a radí dbát i na mínění většiny). Hlasy říkají, kdo by větu škrtl, ne že o ní kdy mluvili.
+druh: slabe
+obdobi: 1
+scena: "Influencer, kterého sleduje milion lidí, natočil video, že vitamín C zažene každou chřipku. Pod videem se rozjede hádka a někdo ji utne třemi větami:"
+otazka: "Kterou větu škrtáš?"
+karty:
+  - id: sledujici
+    text: "Kdo má milion sledujících, ví, o čem mluví."
+    misto: 1
+    skrtl:
+      - osoba: cicero
+        citat: cicero-nd-i-10
+        proc: "Nechtěl, aby mu čtenáři věřili jen proto, že je to on. Napsal:"
+  - id: lajky
+    text: "Co se líbí tolika lidem, nemůže být omyl."
+    misto: 2
+    skrtl:
+      - osoba: sokrates
+        citat: gorgias-471e
+        proc: "Pólovi, který se dovolával souhlasu skoro všech Athéňanů, odpověděl:"
+  - id: zaver
+    text: "Vitamín C zažene každou chřipku."
+    misto: zaver
+drzi:
+  hlasy:
+    - osoba: kriton
+      citat: kriton-44d
+      proc: "Když přemlouval Sókrata k útěku z vězení, bál se hlavně toho, co si pomyslí lidé:"
+zdroje: [cicero-nd-i-10, platon-gorgias, platon-kriton-perseus]
