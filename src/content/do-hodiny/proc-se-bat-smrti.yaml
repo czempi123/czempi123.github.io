@@ -1,0 +1,4 @@
+# Karta Do hodiny k cestě (herna-v1, T). Lístek pro učitele na konci posledního kroku: student ho vidí
+# jen při promítání hodiny. Cesta 8: krok 2 (čtyři koše strachů), krok 3 (Epikúrův argument) a krok 4 (Lucretiovo zrcadlo). Nic osobního: dvojice zkouší argument, třída třídí strachy z koše, ne vlastní (pouceni › celek 6).
+dvojice: "Vyberte si jeden argument z cesty: Epikúrův, nebo Lucretiovo zrcadlo. Jeden ho hájí, druhý hledá nejsilnější námitku. Pak si role vyměňte."
+trida: "Na které strachy z druhého kroku Epikúrův argument míří, a na které vůbec ne? Proč na všechny nestačí jeden argument?"

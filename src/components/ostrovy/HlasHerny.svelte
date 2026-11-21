@@ -6,6 +6,8 @@
   import type { HlasHerny } from './bloky-typy';
 
   let { hlas }: { hlas: HlasHerny } = $props();
+  // Citát, který je sám rozhovorem („Mnoho lidí tě chválí.“ – „A co…?“), už uvozovky má: druhé se nepřidávají.
+  const vlastniUvozovky = $derived(hlas.citat.text.trimStart().startsWith('„'));
 </script>
 
 <li class="hlas-herny">
@@ -13,7 +15,7 @@
   <div class="hlas-herny__telo">
     <p class="hlas-herny__jmeno">{hlas.clovek.jmeno}</p>
     <p class="hlas-herny__proc">{@html radek(hlas.proc)}</p>
-    <blockquote class="hlas-herny__citat"><p>„{@html radek(hlas.citat.text)}“</p><footer>{hlas.citat.kde}</footer></blockquote>
+    <blockquote class="hlas-herny__citat"><p>{vlastniUvozovky ? '' : '„'}{@html radek(hlas.citat.text)}{vlastniUvozovky ? '' : '“'}</p><footer>{hlas.citat.kde}</footer></blockquote>
   </div>
 </li>
 

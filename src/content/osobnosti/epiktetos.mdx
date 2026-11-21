@@ -25,13 +25,14 @@ kapitoly:
 import Kapitola from '../../components/osobnost/Kapitola.astro';
 import Citat from '../../components/ui/Citat.astro';
 import DobaALide from '../../components/osobnost/DobaALide.astro';
+import HraOsoby from '../../components/osobnost/HraOsoby.astro';
 import Myslenky from '../../components/osobnost/Myslenky.astro';
 import Myslenka from '../../components/osobnost/Myslenka.astro';
 import MojeStanovisko from '../../components/ostrovy/MojeStanovisko.svelte';
 import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
-import { KdoZilDriv, ZmenJednuVec, Volba, Odkryj } from '../../components/bloky';
+import { ZmenJednuVec, Volba, Odkryj } from '../../components/bloky';
 import Pojem from '../../components/ui/Pojem.astro';
 
 <div class="uvod ctenarsky">
@@ -169,13 +170,13 @@ S Epiktétem by se tu přel Aristotelés: podle něj záleží i na tom, co člo
 <CestaKarta slug="co-mam-ve-svych-rukou" nadtitulek="Pokračuj cestou" />
 </Kapitola>
 
+<HraOsoby osoba="epiktetos" bez="kde" />
+
 <DobaALide osoba={props.osoba}>
 
 Narodil se kolem roku 55 n. l. v Hierapoli v Malé Asii. Z Říma odešel do Níkopole a učil tam až do smrti kolem roku 135. Žil skromně a sám. Vypráví se, že se ve stáří ujal dítěte, o které se rodiče nemohli postarat.
 
 </DobaALide>
-
-<div class="ctenarsky"><KdoZilDriv a="diogenes" b="epiktetos" druh="vzdalenost" /></div>
 
 <Myslenky>
   <Myslenka cislo={1} disciplina="Etika">

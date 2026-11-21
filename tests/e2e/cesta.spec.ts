@@ -388,15 +388,17 @@ test('cesta 6: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   await dalKlavesnici(page, mesic, 'Peníze a štěstí', `${CESTA6}6/`);
 
   // Krok 6: studie vyprávěná přímo, graf s textovou alternativou, výhrady až ve zpětné vazbě.
+  // Text kroku stojí od kroku T větve herna-v1 ve dvou částech: citáty, Najdi slabé místo, studie.
   const text6 = page.locator('.krok__obsah > .ctenarsky');
-  await expect(text6).toContainText('V roce 2023 se oba soupeři spojili a data přepočítali spolu.');
-  await expect(text6).not.toContainText(/souvislost|85.000|Spojených státech/);
+  await expect(text6).toHaveCount(2);
+  await expect(text6.last()).toContainText('V roce 2023 se oba soupeři spojili a data přepočítali spolu.');
+  for (const t of [text6.first(), text6.last()]) await expect(t).not.toContainText(/souvislost|85.000|Spojených státech/);
   const graf = page.locator('#graf-penize-stesti');
   await expect(graf.getByRole('img')).toHaveAttribute('aria-describedby', 'graf-penize-stesti-popis');
   await expect(graf.locator('figcaption')).toContainText('Asi u pětiny lidí, těch nejméně šťastných, se zhruba nad 100 000 dolary ročně zastaví.');
-  await expect(text6.locator('.citat')).toHaveCount(2);
+  await expect(text6.first().locator('.citat')).toHaveCount(2);
   // Oba Epikúrovy citáty stojí před studií; poslední slovo před hlasováním nemá Epikúros, ale křivky.
-  await expect(text6.locator(':scope > .cisty-list > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
+  await expect(text6.last().locator(':scope > .cisty-list > p').last()).toContainText('musel by se příjem pokaždé zdvojnásobit');
   const penize = page.locator('#cesta6-penize');
   await penize.getByRole('radio', { name: /Nedá se říct/ }).focus();
   await page.keyboard.press('Space');

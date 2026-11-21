@@ -1,0 +1,22 @@
+# Kdo by to řekl? na stránce velké otázky Jak mám žít? (herna-v1, T; odpověď 1 v Co rozhodnout před P6). Stojí pod
+# oddílem Proč to tak viděli (frontmatter `hra`), kde student hlasy na otázku už potkal. Věta 6 z podkladů
+# docs/podklady/herna.md › 3: podepsal by Antisthenés (D. L. VI, 8: chvála mnohých ho znepokojila), odmítl
+# Aristotelés (EN IV, 9, 1128b16–20: stud se hodí k mladému věku). Aristotelův důvod je o studu za to, co člověk
+# udělal, ne o tom, kým je: proto „za co by se stydět musel“. Hipparchia je mezi razítky jako hlas stránky, který
+# se na očekávání druhých neohlížel; její citát stojí na stránce, a tak ho atlas v lístku neopakuje.
+druh: kdo-by
+obdobi: 2
+otazka: "Komu z nich by ta věta mluvila z duše?"
+veta: "Na tom, co si o tobě myslí ostatní, nezáleží."
+odkud: sit
+popisek: "Video influencera"
+moznosti: [antisthenes, hipparchia, aristoteles]
+atlas:
+  - osoba: antisthenes
+    citat: dl-vi-8-chvala
+    proc: "Podepsal by ji. Chvála mnoha lidí ho spíš znepokojila:"
+odmitl:
+  - osoba: aristoteles
+    citat: etika-1128b
+    proc: "Namítl by, že strach o dobré jméno chrání před tím, za co by se člověk stydět musel:"
+zdroje: [dl-vi-8, aristoteles-etika-stud]

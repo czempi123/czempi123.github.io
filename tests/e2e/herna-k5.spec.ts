@@ -201,9 +201,10 @@ test('sebehodnocení i v další cestě (Kolik je dost?) bez úpravy jejího tex
   await expect(s.locator('#kolik-je-dost-umim-stav')).toHaveText('Uloženo v deníku.');
   await page.goto('/denik/');
   await expect(page.locator('.mf-otazka', { hasText: 'Jak mám žít?' }).locator('.mf-sebe')).toContainText('Rozlišit, co potřebuju a co chci.');
-  // Krok bez karty Do hodiny ji nemá.
+  // Od kroku T má kartu Do hodiny každá cesta; na stránce kroku je skrytá.
   await page.goto(KOLIK7);
-  await expect(page.locator('.do-hodiny')).toHaveCount(0);
+  await expect(page.locator('#cesta6-do-hodiny')).toBeAttached();
+  await expect(page.locator('#cesta6-do-hodiny')).toBeHidden();
 });
 
 test('sebehodnocení bez localStorage funguje do zavření stránky', async ({ page }) => {

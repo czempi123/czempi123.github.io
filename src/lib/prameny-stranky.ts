@@ -13,7 +13,8 @@ export interface PramenyStranky {
 export async function pramenyZTextu(body: string | undefined, navic: Partial<PramenyStranky> = {}): Promise<PramenyStranky> {
   const text = body ?? '';
   const citaty = [...(navic.citaty ?? []), ...[...text.matchAll(/<Citat id="([^"]+)"/g)].map((m) => m[1])];
-  const bloky = [...text.matchAll(/<(?:Volba|ZmenJednuVec|Spor|Roztrid|SlozArgument) id="([^"]+)"/g)].map((m) => m[1]);
+  // Od kroku T větve herna-v1 i hry herny (Seřaď na ose, Kdo to řekl?, Páry…): jejich prameny jsou v YAML bloku.
+  const bloky = [...text.matchAll(/<(?:Volba|ZmenJednuVec|Spor|Roztrid|SlozArgument|SeradNaOse|KdoToRekl|TipniSi|KdeToBylo|DoplnCitat|Pary|PravyNeboPodvrzeny|NajdiSlabeMisto|KdoByToRekl) id="([^"]+)"/g)].map((m) => m[1]);
   const zdrojeBloku = (await Promise.all(bloky.map((id) => getEntry('bloky', id)))).flatMap((b) => b?.data.zdroje ?? []);
   const obrazky = [...(navic.obrazky ?? []), ...[...text.matchAll(/<Pribeh [^>]*obrazek="([^"]+)"/g)].map((m) => m[1])];
   const prameny = [

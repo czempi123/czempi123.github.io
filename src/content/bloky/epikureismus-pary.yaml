@@ -1,0 +1,30 @@
+# Páry na stránce směru Epikureismus (herna-v1, T; odpověď 1 v Co rozhodnout před P6). Stojí za Třemi myšlenkami,
+# které slast a klid vyloží; před nimi by hra prozradila, co text řekne. Situace slasti a štěstí a obě pasti jsou
+# z podkladů docs/podklady/herna.md › 4 (u pasti slasti bez rodu: „nemůžeš se soustředit“ místo „jsi jako přejetý“).
+# Klid má novou situaci: dílna už má přijímačky i neděli u seriálu. Mez stránky (Stoický týden): nic o jídle, hladu
+# ani vydržení, žádná věta, že někomu chybí přítel. Že se Epikúros vzdá slasti, po které přijde víc bolesti, je
+# Dopis Menoikeovi 129 (sep-epicurus).
+druh: pary
+obdobi: 2
+otazka: "Kde v tvém týdnu ta tři slova doopravdy jsou?"
+pary:
+  - pojem: slast
+    situace: "Po tréninku si sedneš, nic tě nebolí a ničeho se nebojíš, a víc nepotřebuješ."
+    jinak: "Tady jde o chvíli, kdy tělo nic nebolí a mysl se ničeho nebojí, a nic dalšího chybět nemusí."
+    vazba: "Podle Epikúra tahle chvíle stačí, a kdo ji pozná, nemusí honit další požitky."
+  - pojem: klid
+    situace: "Kamarádi mají nové boty za tři tisíce. Tvoje jsou starší, ale dobré, a vůbec tě to netahá."
+    jinak: "Tady mysl nerozbouří touha mít to, co mají druzí."
+    vazba: "Ataraxia je klid od strachu i od touhy po dalším a Epikúros k ní šel skromností a přáteli."
+  - pojem: stesti
+    situace: "Ve třiceti se ohlédneš a řekneš, že se ti život zatím vydařil, i když ne každý den byl dobrý."
+    jinak: "Tady se ptáš na celý život, ne na jeden den."
+    vazba: "Řekové neměřili štěstí jedním dnem, ale celým životem, a na tom se shodli i ti, kdo se přeli, z čeho se takový život skládá."
+pasti:
+  - situace: "Do rána hraješ, protože tě to baví, a celý další den se nemůžeš na nic soustředit."
+    pripomina: slast
+    jinak: "Tady je slast požitek, za který se platí zítra. Epikúros by se ho vzdal: přinese víc bolesti než radosti."
+  - situace: "Vyhraješ v tombole sluchátka a máš štěstí."
+    pripomina: stesti
+    jinak: "Tady je štěstí náhoda, která se ti přihodila. Řekové tím slovem mysleli celý život, který se vydařil."
+zdroje: [sep-epicurus, sep-aristotle-ethics]

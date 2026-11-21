@@ -41,7 +41,7 @@ export type Aktivita =
 export interface KontextAktivit {
   lide: readonly OsobaAktivity[];
   vztahy: readonly VztahVazby[];
-  citaty: readonly { id: string; osoba?: string; tradice?: string; cesky: string }[];
+  citaty: readonly { id: string; osoba?: string; autor?: string; tradice?: string; cesky: string }[];
   mista: ReadonlyMap<string, { souradnice: readonly [number, number]; kde?: string }>;
   /** má osoba stránku (profil, portrét, medailonek) */
   maStranku: (id: string) => boolean;
@@ -54,6 +54,13 @@ export interface KontextAktivit {
    * 1 = citát na stránce atlasu, 0 = jen v datech. Na kartu jde nejdřív citát, který atlas už jako samostatný použil.
    */
   vahaCitatu?: (id: string) => number;
+  /**
+   * Stojí citát v textu stránky té osoby (profil, herna-v1, T)? Taková věta na kartičku nejde: student by ji
+   * o pár obrazovek výš už četl a hra by zkoušela paměť, ne úvahu.
+   */
+  naStrance?: (osoba: string, citat: string) => boolean;
+  /** Druhy aktivit, které profil vylučuje (`<HraOsoby bez="kde" />`: příběh místa vypráví kapitola výš). */
+  bez?: (osoba: string) => ReadonlySet<DruhAktivity> | undefined;
 }
 
 // ─── Kandidáti ────────────────────────────────────────────────────────────────
@@ -121,12 +128,14 @@ function kandidatKdoRekl(o: OsobaAktivity, k: KontextAktivit, pouzite: ReadonlyS
   const bezJmena = (t: string) => !jmena.some((j) => t.includes(j));
   for (const mluvci of kolem.filter((id) => k.maStranku(id))) {
     const proc = prvniVeta(podleId.get(mluvci)!.proc);
-    const citaty = k.citaty.filter((c) => c.osoba === mluvci && !c.tradice && !pouzite.has(c.id) && NA_KARTU(c.cesky) && bezJmena(c.cesky) && !prozrazuje(proc, c.cesky));
+    const citaty = k.citaty.filter((c) => c.osoba === mluvci && !c.tradice && !pouzite.has(c.id) && !k.naStrance?.(o.id, c.id) && NA_KARTU(c.cesky) && bezJmena(c.cesky) && !prozrazuje(proc, c.cesky));
     if (!citaty.length) continue;
     const vaha = (id: string) => k.vahaCitatu?.(id) ?? 0;
     const c = zamichej(citaty, `${o.id}:${mluvci}`).sort((x, y) => vaha(y.id) - vaha(x.id))[0];
+    // Autor díla, ve kterém mluví jiný (Platón u Sókratovy věty z Obrany), mezi razítka nejde: větu opravdu napsal.
+    // Filtruje se až po zamíchání, aby razítka medailonků zůstala stejná jako před pravidlem.
     const smi = (id: string) => id !== o.id && id !== mluvci && sProc(id) && !prozrazuje(prvniVeta(podleId.get(id)!.proc), c.cesky);
-    const ze = (ids: string[], klic: string) => zamichej(ids.filter(smi), klic);
+    const ze = (ids: string[], klic: string) => zamichej(ids.filter(smi), klic).filter((id) => podleId.get(id)!.jmeno !== c.autor);
     const obdobi = k.lide.filter((x) => x.obdobi === o.obdobi).map((x) => x.id);
     const jini = [...new Set([...ze(kolem, `${o.id}:kolem`), ...ze(lideKolem(mluvci, k), `${o.id}:mluvci`), ...ze(obdobi, `${o.id}:obdobi`)])].slice(0, 2);
     if (jini.length < 2) continue;
@@ -342,14 +351,23 @@ export function obsahAktivity(o: OsobaAktivity, a: Aktivita, k: KontextAktivit):
   }
 }
 
-/** Výběr pro všechny stránky osob: medailonky z dat, profily s pevnou aktivitou (Kdo žil dřív? v MDX). */
+/** Výběr pro všechny stránky osob: medailonky z dat, profily s pevnou aktivitou (Kdo žil dřív? v MDX) nebo s hrou z dat (<HraOsoby> v MDX). */
 export function aktivityStranekOsob(k: KontextAktivit, profily: ReadonlySet<string>): Map<string, Aktivita | null> {
   // Citát kandidáta Kdo to řekl? se na další stránce v řadě nenabídne znovu (Archytás a Eudoxos mají oba Platóna).
+  // Profil s hrou z dat (herna-v1, T) bere citáty až po medailoncích: medailonky tak mají tytéž karty jako před T.
   const pouzite = new Set<string>();
-  const stranky = poradiLidi(k.lide.filter((o) => k.maStranku(o.id))).map((o) => {
-    const kandidati = profily.has(o.id) ? [] : kandidatiAktivit(o, k, pouzite);
-    for (const a of kandidati) if (a.druh === 'kdo-rekl') pouzite.add(a.citat);
-    return { id: o.id, pevna: profily.has(o.id) ? ('kdo-zil' as const) : undefined, kandidati };
-  });
+  const rada = poradiLidi(k.lide.filter((o) => k.maStranku(o.id)));
+  const profilSHrou = (id: string) => !profily.has(id) && !!k.znama?.(id);
+  const kandidati = new Map<string, Aktivita[]>();
+  for (const pruchod of [false, true]) {
+    for (const o of rada) {
+      if (profily.has(o.id) || profilSHrou(o.id) !== pruchod) continue;
+      const vylouceno = k.bez?.(o.id);
+      const kand = kandidatiAktivit(o, k, pouzite).filter((a) => !vylouceno?.has(a.druh));
+      for (const a of kand) if (a.druh === 'kdo-rekl') pouzite.add(a.citat);
+      kandidati.set(o.id, kand);
+    }
+  }
+  const stranky = rada.map((o) => ({ id: o.id, pevna: profily.has(o.id) ? ('kdo-zil' as const) : undefined, kandidati: kandidati.get(o.id) ?? [] }));
   return vyberAktivity(stranky);
 }

@@ -92,7 +92,7 @@ describe('Do hodiny: schéma a kontrola obsahu', () => {
     const kat = katalogZastaveni(vstup(karty));
     const z = kat.find((x) => x.id === `b:${idDoHodiny(1)}`)!;
     expect(z).toMatchObject({ druh: 'blok', typ: 'DoHodiny', nadtitulek: NADTITULEK_DO_HODINY, kotva: 'cesta1-do-hodiny', rodic: 'k:kdy-mam-dobry-duvod-verit/7', krok: 7, cesta: 'kdy-mam-dobry-duvod-verit' });
-    expect(z.nazev).toBe(karty[0].data.trida);
+    expect(z.nazev).toBe(karty.find((k) => k.id === 'kdy-mam-dobry-duvod-verit')!.data.trida);
     expect(z.doHodiny).toEqual(karty.find((k) => k.id === 'kdy-mam-dobry-duvod-verit')!.data);
     expect(z.adresa).toBe('/cesta/kdy-mam-dobry-duvod-verit/7/#cesta1-do-hodiny');
     expect(podobyZastaveni(z)).toEqual(['cely']);

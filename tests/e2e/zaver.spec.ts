@@ -4,6 +4,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { denikPodleData } from './denik';
+import { pripravitStranku } from './strany';
 
 // Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
 test.beforeEach(({ page }) => denikPodleData(page));
@@ -12,10 +13,9 @@ const C1 = '/cesta/kdy-mam-dobry-duvod-verit/';
 const C6 = '/cesta/kolik-je-dost/';
 const C5 = '/cesta/co-mam-ve-svych-rukou/';
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Od kroku T větve herna-v1 stojí v posledním kroku cesty 1 nad závěrem hra (Pravý, nebo podvržený?) a ostrovy
+// pod ní se hydratují až při posunu: příprava je proto společná (tests/e2e/strany.ts), s projetím stránky.
+const pripravit = (page: Page) => pripravitStranku(page);
 const denik = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
 const zapisy = async (page: Page, id: string) => ((await denik(page)).zapisy ?? []).filter((z: { id: string }) => z.id === id);
 
@@ -108,7 +108,8 @@ test('závěr cesty bez počáteční odpovědi: žádný panel, pravidlo funguj
     await pripravit(page);
     await expect(panel(page)).toHaveCount(0);
     await expect(page.locator('.krok__obsah')).not.toContainText(/Na začátku|Bez odpovědi|Co se změnilo/);
-    await expect(page.locator('.krok__obsah .blok')).toHaveCount(0);
+    // Jediný blok v posledním kroku je od kroku T větve herna-v1 Pravý, nebo podvržený? v cestě 1 (nad závěrem).
+    await expect(page.locator('.krok__obsah .blok:not(:has(.razitko-verdikt))')).toHaveCount(0);
     const pole = page.getByRole('textbox', { name: otazka });
     await expect(pole).toBeVisible();
     // Pole stojí ve čtenářském sloupci pod textem, ne v širokém pásu.

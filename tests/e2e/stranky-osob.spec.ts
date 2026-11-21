@@ -32,7 +32,7 @@ test('lístky cest s pahýlem a záložky otázek; na telefonu záložky pod seb
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/osobnost/sokrates/');
   const cesta = page.locator('.vstup--cesta').first();
-  await expect(cesta.locator('.vstup__pahyl')).toHaveText(/7\s*kroků\s*asi 14 min/);
+  await expect(cesta.locator('.vstup__pahyl')).toHaveText(/7\s*kroků\s*asi 17 min/);
   await expect(cesta.locator('.vstup__pahyl')).toHaveAttribute('aria-hidden', 'true');
   // Po najetí se lístek u perforace odtrhne: pahýl odjede doprava (mezera) a ukážou se zubaté okraje.
   // Najetí se opakuje v čekání: stránka se po načtení ještě může posunout (příchod, lišta Obsah) a ukazatel z lístku sjet.

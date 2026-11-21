@@ -240,7 +240,7 @@ test('vstupy: cesta a otázky jsou v hlavičce profilu, cesty u otázek v přehl
   await page.goto('/osobnost/epikuros/');
   const vstupy = page.getByRole('navigation', { name: 'Cesty, kde potkáš Epikúra' });
   const otazkyNav = page.getByRole('navigation', { name: 'Velké otázky, kde potkáš Epikúra' });
-  await expect(vstupy.getByRole('link')).toHaveText([/Cesta · 7 kroků · asi 19 minut\s*Kolik je dost\?/, /Cesta · 9 kroků · asi \d+ minut\s*Proč se bát smrti\?/]);
+  await expect(vstupy.getByRole('link')).toHaveText([/Cesta · 7 kroků · asi 21 minut\s*Kolik je dost\?/, /Cesta · 9 kroků · asi \d+ minut\s*Proč se bát smrti\?/]);
   await expect(otazkyNav.getByRole('link')).toHaveText([/Velká otázka 1\s*Jak mám žít\?/, /Velká otázka 3\s*Má život smysl\?/, /Velká otázka 2\s*Co je správné a co dlužím druhým\?/, /Velká otázka 4\s*Jsem svobodný\?/, /Velká otázka 5\s*Kdo vlastně jsem\?/, /Velká otázka 7\s*Jak poznám, co je pravda\?/, /Velká otázka 8\s*Jak spolu máme žít\?/]);
   await expect(vstupy.getByRole('link').first()).toHaveAttribute('href', '/cesta/kolik-je-dost/');
   const cesta = (await vstupy.getByRole('link').first().boundingBox())!;

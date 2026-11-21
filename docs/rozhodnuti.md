@@ -4,6 +4,18 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 21. 11. 2026: Přídavky herny v antice, Do hodiny ve všech cestách, hry v profilech (herna-v1 T)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Na stránce období a otázky stojí hra ve frontmatteru (`hra: <id>`) a šablona ji dá pod Lidé a směry, resp. pod Proč to tak viděli (`HraStranky.astro`); katalog hodin ji zná jako zastavení na konci toho oddílu | Text MDX těch stránek je jen úvodní scéna: hra by stála nad lidmi, které student na stránce ještě nepotkal, a na stránce otázky dokonce před Tvým prvním názorem |
+| Doplň citát není na konci kapitoly Soud, ale na konci kapitoly Muž z agory (Menón 98a) | Soud cituje 36a, 36d a 38a (38a i jako motto) a jediná další věta ze soudu, Obrana 35c i se třemi syny, nese stránku klamů, na kterou vede Kam dál cesty 1 |
+| Najdi slabé místo není v cestě 8, ale v cestě Kolik je dost?, krok 6 (Epikúrův argument o bohatství, Hlavní myšlenky 15 a VS 68) | V cestě 8 už týž Epikúrův argument napadá Slož argument i Odkryj (krok 3) a zrcadlo s Nagelovou námitkou (krok 4): třetí škrtání by opakovalo scénu |
+| Pravý, nebo podvržený? stojí v posledním kroku cesty 1 před Závěrem cesty, s Kam dál na pravidlo | Za závěrem by hra držela krok nedokončený i s napsaným pravidlem (lišta, pahýl lístku); jako poslední nový případ před pravidlem dává smysl i obsahem |
+| Hry z dat v profilech jen u Aristotela, Parmenida a Epiktéta (`bez="kde"`); ostatní profily mají dál Kdo žil dřív? | Výpis výběru pro všechny profily: u Platóna by Kde to bylo? zkoušelo kapitolu Třikrát do Syrákús a Kdo to řekl? by stálo vedle stejné hry u Aristotela; Seneca končí kapitolou o smrti s řádkem pomoci; Prótagorás by se ptal na Thurioi, které profil nezmiňuje; Hérakleitos, Diogenés a Epikúros by dostali větu, která s jejich myšlenkou nesouvisí nebo nese příběh někoho jiného; Sókratés má nově Doplň citát |
+| Profil s hrou bere citáty až po medailoncích, citát z vlastního textu na kartu nejde a autor díla (Platón u Sókratovy věty) mezi razítka nejde | Medailonky mají tytéž karty jako po K4 (ověřeno výpisem) a hra nezkouší, co student o obrazovku výš četl |
+| Štítek času cest 1 a 6 je 17 a 21 minut (bylo 14 a 19) | Přepočet skriptem `scripts/slova-cesta.mjs` po přidání bloku; čas cesty 1 zahrnuje i sebehodnocení z K5 |
+
 ## 19. 11. 2026: Do hodiny, sebehodnocení, Argumentační klamy a manipulace (herna-v1 K5)
 
 | Rozhodnutí | Důvod |

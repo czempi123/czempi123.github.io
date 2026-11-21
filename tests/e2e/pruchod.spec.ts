@@ -202,6 +202,9 @@ for (const c of CESTY) {
     // Poslední krok: počáteční odpověď vedle pravidla; nepovinná otázka zůstane prázdná.
     await expect(page).toHaveURL(`/cesta/${c.slug}/${c.kroku}/`);
     await pripravit(page);
+    // Hra herny pod Závěrem cesty (Pravý, nebo podvržený? v cestě 1, herna-v1, T) se odehraje jako v jiných krocích.
+    const hry = page.locator('.krok__obsah section.blok:has(.razitko-verdikt, .veta-arg, .razitko-volby, .razitko-odpoved, .karta-osy, .pravitko, .slepa, .vystrizky, .par-listek)');
+    for (let i = 0; i < (await hry.count()); i++) druhy.push(await odpovez(hry.nth(i)));
     const panel = page.getByRole('region', { name: 'Na začátku a teď' });
     await expect(panel.locator('.zacatek')).toContainText(c.zacatek);
     await expect(panel.locator('.zacatek .cast').first()).not.toBeEmpty();
@@ -216,6 +219,9 @@ for (const c of CESTY) {
 
     // Každá cesta má vlastní pokus, Spor i nový případ; průchod žádný blok nevynechal.
     expect(druhy).toContain('spor');
+    // Přídavky herny v cestách (herna-v1, T): průchod je zná a odehraje.
+    if (c.slug === 'kdy-mam-dobry-duvod-verit') expect(druhy).toContain('pravy');
+    if (c.slug === 'kolik-je-dost') expect(druhy).toContain('slabe');
     expect(druhy.filter((d) => d !== 'pribeh').length).toBeGreaterThanOrEqual(c.kroku - 3);
     expect(chyby).toEqual([]);
 

@@ -1,0 +1,40 @@
+---
+// Hra herny na stránce, jejíž text šablona skládá z dat (herna-v1, T): stránka období (pod oddílem Lidé a směry)
+// a stránka velké otázky (pod oddílem Proč to tak viděli). Ve frontmatteru stránky stojí jeden řádek `hra: <id>`,
+// blok je v src/content/bloky/<id>.yaml a obal podle druhu vybere komponentu (src/lib/herna/komponenty.ts).
+// Hra tak stojí až tam, kde student lidi ze hry na stránce potkal, ne v úvodu nad nimi.
+// Použití v šabloně: <HraStranky id={fm.hra} />
+import { getEntry } from 'astro:content';
+import SeradNaOse from './SeradNaOse.astro';
+import KdoToRekl from './KdoToRekl.astro';
+import TipniSi from './TipniSi.astro';
+import KdeToBylo from './KdeToBylo.astro';
+import DoplnCitat from './DoplnCitat.astro';
+import Pary from './Pary.astro';
+import PravyNeboPodvrzeny from './PravyNeboPodvrzeny.astro';
+import NajdiSlabeMisto from './NajdiSlabeMisto.astro';
+import KdoByToRekl from './KdoByToRekl.astro';
+import { jeHra } from '../../lib/herna/komponenty';
+
+interface Props { id: string }
+const { id } = Astro.props;
+const blok = await getEntry('bloky', id);
+if (!blok) throw new Error(`Hra „${id}“ ve frontmatteru ${Astro.url.pathname} není v src/content/bloky.`);
+const druh = blok.data.druh;
+if (!jeHra(druh)) throw new Error(`Blok „${id}“ (${druh}) na ${Astro.url.pathname} není hra herny.`);
+---
+<div class="ctenarsky hra-stranky" data-hra={druh}>
+  {druh === 'serad' && <SeradNaOse id={id} />}
+  {druh === 'kdo-rekl' && <KdoToRekl id={id} />}
+  {druh === 'tipni' && <TipniSi id={id} />}
+  {druh === 'kde' && <KdeToBylo id={id} />}
+  {druh === 'doplnit' && <DoplnCitat id={id} />}
+  {druh === 'pary' && <Pary id={id} />}
+  {druh === 'pravy' && <PravyNeboPodvrzeny id={id} />}
+  {druh === 'slabe' && <NajdiSlabeMisto id={id} />}
+  {druh === 'kdo-by' && <KdoByToRekl id={id} />}
+</div>
+
+<style>
+  .hra-stranky { margin-top: var(--s-8); }
+</style>

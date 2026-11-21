@@ -1,0 +1,36 @@
+# Najdi slabé místo v cestě Kolik je dost?, krok 6 (herna-v1, T). Odpověď 1 v Co rozhodnout před P6 chtěla krok
+# cesty 8 s Epikúrovým argumentem, tam ale stojí dvakrát totéž: v kroku 3 Slož argument nechá vybrat, kterou větu
+# napadnout, a Odkryj chce námitku; v kroku 4 zrcadlo ukáže Nagelovu námitku. Třetí škrtání téhož argumentu by
+# opakovalo scénu, proto jiný Epikúrův argument: o bohatství, hned za větami Hlavních myšlenek 15 a VS 68, které krok
+# cituje. Věty argumentu jsou převod těch dvou citátů. Kdo by premisu škrtl: Aristotelés (EN I, 8, 1099a31–33:
+# blaženost potřebuje i vnější dobra, bez prostředků se krásné činy konají těžko) a Seneca (O blaženém životě 26, 1:
+# moudrému bohatství slouží; spis psal proti těm, kdo mu bohatství vyčítali, otázka 1 a sep-seneca). Kdo stojí
+# s argumentem: Epikúros sám (VS 33, cituje ho profil). Hlasy říkají, kdo by větu škrtl, ne že s Epikúrem vedl spor.
+druh: slabe
+obdobi: 2
+scena: "Obě Epikúrovy věty se dají složit do krátké úvahy o penězích:"
+otazka: "Kde s Epikúrem nesouhlasíš?"
+karty:
+  - id: meze
+    text: "To, co opravdu potřebuješ, má mez a dá se snadno sehnat."
+    misto: 1
+    skrtl:
+      - osoba: aristoteles
+        citat: etika-1099a
+        proc: "Dobrý život podle něj potřebuje i nástroje, ne jen to, bez čeho se nedá žít:"
+  - id: navic
+    text: "Co chceš navíc, chceš kvůli prázdným představám, a to nemá konec."
+    misto: 2
+    skrtl:
+      - osoba: seneca
+        citat: vita-beata-26
+        proc: "Sám byl velmi bohatý a ve spise o blaženém životě se proti výčitkám bránil:"
+  - id: zaver
+    text: "Kdo chce víc, než potřebuje, nebude mít nikdy dost."
+    misto: zaver
+drzi:
+  hlasy:
+    - osoba: epikuros
+      citat: vs-33
+      proc: "Kolik to „málo“ je, napsal i jinde:"
+zdroje: [aristoteles-etika-stesti, seneca-vita-beata, gnomologium-vaticanum]

@@ -57,7 +57,7 @@ test('Domů: jedna výzva k začátku, údaj z dat cesty a vedlejší odkaz na S
   await expect(hlavni).toHaveCount(1);
   await expect(hlavni).toHaveText('Začít první cestu');
   await expect(hlavni).toHaveAttribute('href', `${CESTA}1/`);
-  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('První cesta · asi 14 minut · 7 kroků');
+  await expect(page.locator('[data-zacatek-udaj]')).toHaveText('První cesta · asi 17 minut · 7 kroků');
   await expect(page.locator('.uvod').getByRole('link', { name: 'Poznat Sókrata' })).toHaveAttribute('href', '/osobnost/sokrates/');
   // Mapa zůstává v hlavičce a ve třech vstupech, ne v úvodu; druhé tlačítko tu není. První cesta je týž lístek
   // jako všude (karta cesty, K6), jen velký a vede rovnou na krok 1.

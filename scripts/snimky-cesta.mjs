@@ -129,11 +129,15 @@ for (let n = 1; n < 20; n++) {
   if (!odp || odp.status() !== 200) break;
   await projed(page);
   if (stav === 'odkryt') {
-    // Poslední krok má místo bloků závěrečné pravidlo.
+    // Poslední krok má místo bloků závěrečné pravidlo; hra herny pod ním (Pravý, nebo podvržený? v cestě 1,
+    // herna-v1, T) se odehraje jako v jiných krocích, sebehodnocení zůstane prázdné.
     const pravidlo = page.getByRole('textbox', { name: /Napiš svoje pravidlo/ });
     const bloky = page.locator('.krok__obsah section.blok');
-    if (await pravidlo.count()) await pravidlo.fill('Skutečné je to, co obstojí, i když se na to podívám odjinud.');
-    else for (let i = 0; i < (await bloky.count()); i++) await odpovez(bloky.nth(i));
+    const hry = page.locator('.krok__obsah section.blok:has(.razitko-verdikt, .veta-arg, .razitko-volby, .razitko-odpoved, .karta-osy, .pravitko, .slepa, .vystrizky, .par-listek)');
+    if (await pravidlo.count()) {
+      await pravidlo.fill('Skutečné je to, co obstojí, i když se na to podívám odjinud.');
+      for (let i = 0; i < (await hry.count()); i++) await odpovez(hry.nth(i));
+    } else for (let i = 0; i < (await bloky.count()); i++) await odpovez(bloky.nth(i));
     await page.waitForTimeout(400);
     await projed(page);
   }

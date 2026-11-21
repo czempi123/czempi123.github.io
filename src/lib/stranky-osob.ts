@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { adresaOsoby } from './adresa-osoby';
 import { data } from './data';
 import { druziKdoZilDriv } from './dvojice';
-import { aktivityStranekOsob, obsahAktivity, type Aktivita, type KontextAktivit, type ObsahAktivity } from './herna/aktivity';
+import { aktivityStranekOsob, obsahAktivity, type Aktivita, type DruhAktivity, type KontextAktivit, type ObsahAktivity } from './herna/aktivity';
 
 /** id osob, které mají stránku medailonku (pořadí jako v lide.yaml). */
 export const medailonky: string[] = data.lide.filter((o) => o.medailonek).map((o) => o.id);
@@ -39,12 +39,25 @@ function vahyCitatu(): Map<string, number> {
   return vaha;
 }
 
-let kontext: Promise<KontextAktivit & { profily: Set<string> }> | undefined;
+let kontext: Promise<KontextAktivit & { profily: Set<string>; pevne: Set<string> }> | undefined;
 /** Kontext výběru aktivit nad daty atlasu: stránky osob, Kdo žil dřív? na medailoncích, váhy citátů. */
-export function kontextAktivit(): Promise<KontextAktivit & { profily: Set<string> }> {
+export function kontextAktivit(): Promise<KontextAktivit & { profily: Set<string>; pevne: Set<string> }> {
   kontext ??= (async () => {
     const osobnosti = await getCollection('osobnosti');
     const profily = new Set(osobnosti.flatMap((p) => [p.data.osoba, ...(p.data.dalsi ?? [])]));
+    // Profil s <HraOsoby> v MDX (herna-v1, T) dostane hru z dat jako medailonek; ostatní mají svou aktivitu v MDX.
+    const sHrou = new Set(osobnosti.filter((p) => /<HraOsoby\b/.test(p.body ?? '')).flatMap((p) => [p.data.osoba, ...(p.data.dalsi ?? [])]));
+    const pevne = new Set([...profily].filter((id) => !sHrou.has(id)));
+    const bez = new Map(osobnosti.flatMap((p) => {
+      const m = (p.body ?? '').match(/<HraOsoby\b[^>]*\bbez="([^"]+)"/);
+      return m ? [[p.data.osoba, new Set(m[1].split(/[\s,]+/) as DruhAktivity[])] as const] : [];
+    }));
+    // Citáty v textu profilu: na kartičku hry na téže stránce nejdou.
+    const citatyProfilu = new Map(osobnosti.flatMap((p) => {
+      const ids = new Set([...(p.body ?? '').matchAll(/<Citat id="([a-z0-9-]+)"/g)].map((m) => m[1]));
+      if (p.data.citat) ids.add(p.data.citat);
+      return [p.data.osoba, ...(p.data.dalsi ?? [])].map((o) => [o, ids] as const);
+    }));
     const adresa = await adresaStranekOsob();
     const kdoZil = await kdoZilNaMedailonku();
     const vaha = vahyCitatu();
@@ -57,16 +70,19 @@ export function kontextAktivit(): Promise<KontextAktivit & { profily: Set<string
       kdoZil,
       znama: (id: string) => profily.has(id),
       vahaCitatu: (id: string) => vaha.get(id) ?? 0,
+      naStrance: (osoba: string, citat: string) => !!citatyProfilu.get(osoba)?.has(citat),
+      bez: (osoba: string) => bez.get(osoba),
       profily,
+      pevne,
     };
   })();
   return kontext;
 }
 
 let vyber: Promise<Map<string, Aktivita | null>> | undefined;
-/** Vybraná malá aktivita každé stránky osoby (aktivityStranekOsob); u profilu null (má svou v MDX). */
+/** Vybraná malá aktivita každé stránky osoby (aktivityStranekOsob); u profilu s aktivitou v MDX null. */
 export function aktivityOsob(): Promise<Map<string, Aktivita | null>> {
-  vyber ??= kontextAktivit().then((k) => aktivityStranekOsob(k, k.profily));
+  vyber ??= kontextAktivit().then((k) => aktivityStranekOsob(k, k.pevne));
   return vyber;
 }
 

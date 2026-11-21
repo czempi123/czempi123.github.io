@@ -105,6 +105,20 @@ Tón a pravidla obsahu jsou v `CLAUDE.md` a `docs/styl.md`; platí i pro texty u
   - *`bezDuvodu: true`,* když v kroku pod blokem následuje pole s námitkou (Odkryj „Co bys Epikúrovi namítl?“): jinak student píše totéž dvakrát a jedno z polí přeskočí.
   - *Kam dál na kotvu pod blokem,* když pod ním v kroku stojí text nebo další blok: `<SlozArgument id="…" dal={{ href: '#veta-ktera-chybi', text: 'Věta, která v dopise chybí' }} />`.
   - *Čas na štítku* (`minut`) po přidání bloku přepočítej (`node scripts/slova-cesta.mjs <slug>`): počítá viditelný text po odpovědích, tedy i zpětné vazby bloku, a k tomu ovládání.
+- **Hry herny** (`docs/design.md` › Bloky a aktivity; vzory v dílně `/dilna/bloky/` a `src/content/bloky/dilna-*.yaml`). Nic se neboduje a nic se neučí nazpaměť (`docs/plany/herna-v1.md` › Pointa není paměť): hra dá studentovi do ruky, podle čeho uvažovat (věta `proc` pod razítkem, vztah z dat, situaci ze dne), a odkrytí řekne, odkud věc je a kdo na koho navázal. Stojí až tam, kde student lidi ze hry potkal, nikdy před textem, který by prozradila. Každá je vlastní YAML blok (ne kopie dílny) a v MDX jedna řádka:
+  - *Seřaď na ose* (`serad`): pět lidí, kteří na sebe navazovali; napověda karty říká, kdo komu co předal, ne rok. `<SeradNaOse id="obdobi1-serad" />`
+  - *Tipni si* (`tipni`): kolik lidských životů dělí dva lidi, kteří mají vztah v datech; scéna nenese letopočet. `<TipniSi id="obdobi2-tipni" />`
+  - *Kdo to řekl?* (`kdo-rekl`): věta, která se pozná podle myšlenky; citát, který stránka už ukázala, na kartu nejde. `<KdoToRekl id="stoicismus-kdo-rekl" />`
+  - *Kde to bylo?* (`kde`): pobyt s časem a důvodem z dat. `<KdeToBylo id="dilna-kde-seneca" />`
+  - *Doplň citát* (`doplnit`): slovo, na kterém věta stojí; každá záměna řekne, co by věta s ní tvrdila. Citát, který stojí o obrazovku výš, ne. `<DoplnCitat id="sokrates-doplnit-sochy" />`
+  - *Páry* (`pary`): pojem a situace ze dne šestnáctiletého, aspoň jedna past stejného slova. `<Pary id="epikureismus-pary" />`
+  - *Pravý, nebo podvržený?* (`pravy`): věty se záznamem `pripsani` v `zdroje.yaml`, aspoň jedna „řekl to“; dobře sedí jako poslední nový případ před Závěrem cesty o důvěře. `<PravyNeboPodvrzeny id="cesta1-pravy" />`
+  - *Najdi slabé místo* (`slabe`): argument ze dvou premis, u každé premisy kdo by ji škrtl (hlas z dat s citátem). Ne tam, kde týž argument už napadá Slož argument nebo Odkryj; s textem pod sebou vede blok na kotvu: `<NajdiSlabeMisto id="cesta6-slabe" dal={{ href: '#co-namerili-vedci', text: 'Co naměřili vědci' }} />`
+  - *Kdo by to řekl?* (`kdo-by`): dnešní věta, koho by atlas vybral a kdo by ji odmítl, studentova volba se nehodnotí. Ze stránky otázky řádkem `hra: jak-zit-kdo-by` ve frontmatteru.
+  - Stránka období a otázky nemá text pod oddíly v MDX: hra stojí ve frontmatteru (`hra: <id>`) a šablona ji dá pod Lidé a směry, resp. pod Proč to tak viděli (`HraStranky.astro`). V profilu dává malou hru z dat `<HraOsoby osoba="…" />` nad `<DobaALide>`; `bez="kde"` vyloučí druh, jehož příběh vypráví kapitola výš.
+  - Hra v posledním kroku stojí před Závěrem cesty, s Kam dál na pravidlo: krok je hotový, až když je odehraná.
+- **Karta Do hodiny** (lístek pro učitele, student ji vidí jen při promítání): `src/content/do-hodiny/<slug cesty>.yaml` s poli `dvojice` a `trida` a `<DoHodiny />` na konci posledního kroku. Otázka do dvojice řekne, co spolu dva udělají; otázka pro třídu míří na to, co cesta opravdu dělala. Bez rodu studenta, věty do 25 slov, nic, co by ve dvojici bylo zpovědí. Příklad: `dvojice: "Každý napíše jednu starost z tohoto týdne. Druhý ji rozdělí na dvě půlky: co je v rukou toho, kdo ji napsal, a co ne. Souhlasíte?"`
+- **Sebehodnocení** (Co už umím, Co mi ještě není jasné) vkládá `ZaverCesty` sám pod závěrečné pravidlo; do MDX se nepíše a cesta ho nemusí nijak ohlásit.
 - **Návrat:** krátký nový případ, který deník nabídne pár dní po dokončení cesty. Student na něm zkouší své závěrečné pravidlo; není to opakování cvičení.
   - *Případ* (`scena`): „Představ si…“, dva krátké odstavce, bez historických osob a bez tvrzení, která by potřebovala pramen. Situace ze života studenta, ve které se musí rozhodnout. Poslední věta ho v ní nechá stát („Máš před sebou sešit a rozhoduješ se, jestli ho zavřít.“).
   - *Musí jít posoudit jakýmkoli pravidlem,* které si student z cesty mohl odnést, i tím, které s filozofem cesty nesouhlasí. Případ nesmí napovídat, co je správně.
@@ -194,4 +208,5 @@ V cestě hlídej hlavně dvě věci, které se v ní opakují deset kroků za se
 - Student, který s filozofem cesty nesouhlasí, najde v cestě nebo na jejím konci myslitele, který mu dává za pravdu.
 - Student, kterému někdo ubližuje, projde cestou, aniž by četl, že se má smířit.
 - Kresba s pohybem, pokud v cestě je, jde zastavit a zastavená hned po načtení ukáže obsah, při omezeném pohybu stojí a text pod ní i text kroku říkají totéž co ona.
+- Poslední krok končí kartou Do hodiny (`<DoHodiny />` a soubor v `src/content/do-hodiny/`).
 - `npm test` prošlo celé, snímky jsou prohlédnuté, revize (`atlas-revize`) bez zásadních nálezů.

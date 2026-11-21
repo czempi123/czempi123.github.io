@@ -83,6 +83,8 @@ const otazky = defineCollection({
      * ke kterým zatím nevede žádná cesta (otázky 2 a 8); cesty k otázce se ukazují samy.
      */
     kamDal: z.array(OdkazKamDal).max(4).default([]),
+    /** hra herny pod oddílem Proč to tak viděli (herna-v1, T): id bloku v src/content/bloky (HraStranky.astro) */
+    hra: id.optional(),
   }),
 });
 

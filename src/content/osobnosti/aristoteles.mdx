@@ -29,12 +29,13 @@ kapitoly:
 import Kapitola from '../../components/osobnost/Kapitola.astro';
 import Citat from '../../components/ui/Citat.astro';
 import DobaALide from '../../components/osobnost/DobaALide.astro';
+import HraOsoby from '../../components/osobnost/HraOsoby.astro';
 import Myslenky from '../../components/osobnost/Myslenky.astro';
 import Myslenka from '../../components/osobnost/Myslenka.astro';
 import MojeStanovisko from '../../components/ostrovy/MojeStanovisko.svelte';
 import ZkusToZitKarta from '../../components/osobnost/ZkusToZitKarta.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
-import { KdoZilDriv, ZmenJednuVec, Roztrid, Volba, Odkryj, Pribeh } from '../../components/bloky';
+import { ZmenJednuVec, Roztrid, Volba, Odkryj, Pribeh } from '../../components/bloky';
 import Pojem from '../../components/ui/Pojem.astro';
 
 <div class="uvod ctenarsky">
@@ -270,13 +271,13 @@ A je v ní jedna věta o Pýthiadě:
 <Citat id="dl-v-16" />
 </Kapitola>
 
+<HraOsoby osoba="aristoteles" />
+
 <DobaALide osoba={props.osoba}>
 
 Narodil se ve Stageiře a zemřel v Chalkidě. Mezitím dvakrát žil v Athénách, pokaždé přes deset let. V čele Lykeia ho vystřídal Theofrastos. Se Sókratem a s Prótagorem se přel, i když ani jednoho nezažil: Sókratés zemřel patnáct let před jeho narozením.
 
 </DobaALide>
-
-<div class="ctenarsky"><KdoZilDriv a="sokrates" b="aristoteles" druh="vzdalenost" /></div>
 
 <Myslenky>
   <Myslenka cislo={1} disciplina="Poznání">
