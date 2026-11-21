@@ -185,7 +185,7 @@ Jednopísmenné předložky a spojky a letopočty („423 př. n. l.“) mají n
 
 ## Přístupnost
 
-WCAG 2.1 AA ve dne i v noci. Každý stav má druhý znak mimo stín a barvu. Dotykový cíl aspoň 44 × 44 px. Ikony mají `aria-hidden`, razítko a mince nesou jméno. Rozbalovací kapitola deníku je `details` s nadpisem v `summary`. Ověření VoiceOverem v Safari čeká na autora u Macu (postup v `docs/plany/herna-v1.md` › Po R, stav v Po O). Mapa a čas: lístečky a místa jsou tlačítka, řeka má textovou alternativu, popisky krajů pod lístečkem, měřítkem nebo špendlíkem se schovají a překryté lístečky přejdou na špendlík. Hlídají to axe v testech nových stránek, `scripts/kontrola-fokus.mjs` a `scripts/revize-tabulator.mjs`.
+WCAG 2.1 AA ve dne i v noci. Každý stav má druhý znak mimo stín a barvu. Dotykový cíl aspoň 44 × 44 px. Ikony mají `aria-hidden`, razítko a mince nesou jméno. Rozbalovací kapitola deníku je `details` s nadpisem v `summary`. Ověření VoiceOverem v Safari čeká na autora u Macu (postup v `docs/archiv/plany/herna-v1.md` › Po R, stav v Po O). Mapa a čas: lístečky a místa jsou tlačítka, řeka má textovou alternativu, popisky krajů pod lístečkem, měřítkem nebo špendlíkem se schovají a překryté lístečky přejdou na špendlík. Hlídají to axe v testech nových stránek, `scripts/kontrola-fokus.mjs` a `scripts/revize-tabulator.mjs`.
 
 ## Referenční snímky
 

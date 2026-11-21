@@ -18,7 +18,7 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 
 ## Kroky
 
-Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, Po P6, Po K1 a Po K2 v `docs/plany/herna-v1-1.md`, zadání K4, K5 a T, Po K3, Po K4 a Po K5 v `docs/plany/herna-v1-2.md`, Po T, zadání R, Po R (s celým výčtem nálezů) a zadání O v `docs/plany/herna-v1-3.md`.
+Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, Po P6, Po K1 a Po K2 v `docs/archiv/plany/herna-v1-1.md`, zadání K4, K5 a T, Po K3, Po K4 a Po K5 v `docs/archiv/plany/herna-v1-2.md`, Po T, zadání R, Po R (s celým výčtem nálezů) a zadání O v `docs/archiv/plany/herna-v1-3.md`.
 
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
@@ -29,9 +29,9 @@ Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, 
 | K4 | Stránky osob a mapa: **střídání malých aktivit** na medailoncích a profilech, **Výpravy** pro období 1 a 2, **Přehrát období**, trasy na mini mapě | totéž | hotovo 17. 11. 2026 (Po K4) |
 | K5 | Kurikulum: karta **Do hodiny**, **sebehodnocení** na konci cesty, stránka **Argumentační klamy a manipulace** | komponenty `atlas-komponenta`, text `atlas-psani` · Opus 5.5 · high | hotovo 19. 11. 2026 (Po K5) |
 | T | Přídavky v antice: každý formát na jednom místě (tabulka v Co rozhodnout, otázka 1), karta Do hodiny ve zbylých devíti cestách, zadání a zpětné vazby skillem `atlas-psani`, zápis bloků do skillu `atlas-cesta` | Opus 5.5 · high se skilly `atlas-cesta` a `atlas-psani` | hotovo 21. 11. 2026 (Po T) |
-| R | Revize větve: čtyři otázky zásady u každého formátu, 390 a 1440 px, světlý i tmavý režim, Klidný režim, klávesnice, čtečka, dotyk skutečnými událostmi, výkon stránek osob | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design | hotovo 21. 11. 2026 (Po R, `docs/revize/herna-v1.md`) |
+| R | Revize větve: čtyři otázky zásady u každého formátu, 390 a 1440 px, světlý i tmavý režim, Klidný režim, klávesnice, čtečka, dotyk skutečnými událostmi, výkon stránek osob | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design | hotovo 21. 11. 2026 (Po R, `docs/archiv/revize/herna-v1.md`) |
 | O | Opravy po revizi, referenční snímky nových formátů, `docs/design.md` a `docs/pouceni.md`, VoiceOver s autorem | Opus 5.5 · high | hotovo 21. 11. 2026 (Po O; VoiceOver přesunut do Uzavření) |
-| Uzavření | VoiceOver s autorem, schválení, sloučení, GitHub, kontrola nasazeného webu a běhu kontrol, plán do archivu | Opus 5.5 · medium | na řadě (Zadání Uzavření) |
+| Uzavření | VoiceOver s autorem, schválení, sloučení, GitHub, kontrola nasazeného webu a běhu kontrol, plán do archivu | Opus 5.5 · medium | 21. 11. 2026 sloučeno do main, testy zelené, plán v archivu; VoiceOver vynechán, push na GitHub čeká (Po Uzavření) |
 
 Každý krok končí commitem ve větvi `herna-v1`, oddílem „Po <krok>“ v tomto souboru, otázkami, jen když něco smí rozhodnout jen autor, a celým promptem dalšího kroku ve zprávě i tady v plánu. Na GitHub se nic neposílá až do Uzavření.
 
@@ -58,20 +58,20 @@ Formáty se staví jednou jako ostrov v rámu aktivity a vkládají se jedním �
 Opus 5.5 · medium, nový chat. VoiceOver jen s autorem u Macu.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, v docs/pouceni.md oddíl Technika a v docs/plany/herna-v1.md tabulku Kroky, Po O (i odpověď autora; prázdná odpověď = souhlas se sloučením) a Co zůstává na později. Archiv nečti.
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, v docs/pouceni.md oddíl Technika a v docs/archiv/plany/herna-v1.md tabulku Kroky, Po O (i odpověď autora; prázdná odpověď = souhlas se sloučením) a Co zůstává na později. Archiv nečti.
 
 Uzavření větve herna-v1.
 
 1. VoiceOver s autorem (asi deset minut, Safari a npm run dev): projdi s ním postup v Po O a zapiš tamtéž, co čtečka řekla, neřekla, řekla dvakrát nebo anglicky. Co jde opravit malou změnou (aria-label, hlášení, pořadí čtení), oprav s testem; větší nález zapiš do Co zůstává na později. Když autor u Macu není, krok vynech a napiš to do Po Uzavření.
 2. Když autor větev schválil: git switch main, git merge --no-ff herna-v1, celé npm test na pozadí s výstupem do souboru (výsledek čti po částech), pak push na GitHub (sám, ne autor).
 3. Po pushi zkontroluj běh kontrol a nasazení (gh run list, gh run view --log-failed) a nasazený web: https://czempi123.github.io/obdobi/pocatky-a-klasicke-recko/, /smer/epikureismus/, /otazka/jak-zit/ a /osobnost/demokritos/ na 390 a 1440 px (Playwright proti nasazené adrese, snímky do Claude outputs/). Test, který padne jen na GitHubu, zkus na Linuxu s CI=true (docs/pouceni.md › Technika); flaky test hledej příčinou, ne dalším pokusem.
-4. Plány větve (docs/plany/herna-v1.md, herna-v1-1.md až herna-v1-3.md) přesuň do docs/archiv/plany/ a záznam docs/revize/herna-v1.md do docs/archiv/revize/; oprav odkazy na ně (grep -rn "plany/herna-v1\|revize/herna-v1" docs src skills tests). V docs/plan-vetve.md označ herna-v1 jako hotovou a podle docs/plany/po-auditu.md › Větve napiš, která větev je další. docs/plan-vetve.md (a docs/plan.md, pokud se změnil) nahraj do Projektu Claude, herna-v1.md z Projektu smaž.
+4. Plány větve (docs/archiv/plany/herna-v1.md, herna-v1-1.md až herna-v1-3.md) přesuň do docs/archiv/plany/ a záznam docs/archiv/revize/herna-v1.md do docs/archiv/revize/; oprav odkazy na ně (grep -rn "plany/herna-v1\|revize/herna-v1" docs src skills tests). V docs/plan-vetve.md označ herna-v1 jako hotovou a podle docs/plany/po-auditu.md › Větve napiš, která větev je další. docs/plan-vetve.md (a docs/plan.md, pokud se změnil) nahraj do Projektu Claude, herna-v1.md z Projektu smaž.
 5. Commit na main, push, restart npm run dev a zpráva autorovi: co je na webu, co zůstalo na později a celý prompt pro první krok další větve s modelem a úsilím (i do jejího plánu). Zastav se.
 ```
 
 ## Po O (21. 11. 2026)
 
-Opravy všech nálezů revize R podle odpovědí autora (všechny prázdné = souhlas s doporučením). Celý výčet nálezů je v `docs/plany/herna-v1-3.md` › Po R a v `docs/revize/herna-v1.md`.
+Opravy všech nálezů revize R podle odpovědí autora (všechny prázdné = souhlas s doporučením). Celý výčet nálezů je v `docs/archiv/plany/herna-v1-3.md` › Po R a v `docs/archiv/revize/herna-v1.md`.
 
 **Co se změnilo**
 
@@ -104,11 +104,19 @@ Opravy všech nálezů revize R podle odpovědí autora (všechny prázdné = so
 
 Další krok: Uzavření v novém chatu, Opus 5.5 · medium; celé znění promptu je v Zadání Uzavření.
 
+## Po Uzavření (21. 11. 2026)
+
+1. **VoiceOver:** neproběhl. Autor nebyl u Macu (odpověď „Ne, vynech to“); postup zůstává v Po O a krok se připojí k Uzavření větve `denik-v2`.
+2. **Sloučení:** odpověď na otázku v Po O zůstala prázdná, tedy souhlas. `git merge --no-ff herna-v1` do `main` (commit „Sloučení větve herna-v1: knihovna nových aktivit“). Celé `npm test` na `main`: kontrola typů bez chyb, Vitest 1 591 z 1 591, Playwright 902 z 902 (10,8 min).
+3. **GitHub:** push neproběhl. Na Macu git nemá přihlášení ke GitHubu (`could not read Username`, `gh` není nainstalované) a připojení repozitáře s právem zápisu z cloudu bylo v tomto chatu zamítnuto. `main` je proti `origin/main` napřed o sloučení a o commit uzavření. Kontrola běhu kontrol (`gh run list`) a nasazeného webu na 390 a 1440 px (`ZAKLAD=https://czempi123.github.io node scripts/snimky-listy.mjs …` pro `/obdobi/pocatky-a-klasicke-recko/`, `/smer/epikureismus/`, `/otazka/jak-zit/`, `/osobnost/demokritos/`) proběhne hned po pushi.
+4. **Archiv:** plány `herna-v1.md` a `herna-v1-1.md` až `-3.md` v `docs/archiv/plany/`, záznam revize v `docs/archiv/revize/herna-v1.md`; odkazy opravené v `docs/design.md`, `skills/atlas-cesta/SKILL.md` a `src/content/uvody/argumentacni-klamy.mdx`. Uložený skill `atlas-cesta` v účtu Claude má starý odkaz na plán; oprava počká na `uklid-v1`.
+5. **Další větev:** `denik-v2` (`docs/plany/po-auditu.md` › Větve), soubor `docs/plany/denik-v2.md` se zadáním prvního kroku (Plán).
+
 ## Co zůstává na později
 
 - Porota, Dialog, Úryvek s otázkou, Příběh v obrazech a hračky vzniknou v celku, který je první potřebuje (`docs/plany/po-auditu.md` › Větve).
 - Co ti zůstalo?, kartičky s rozestupem a vystřižené citáty: `denik-v2`.
 - Zvuk (Poslechni si) a film: `film-0`, zvuk později.
 - Pravidla pestrosti a katalog aktivit do skillů: `uklid-v1`.
-- VoiceOver s autorem (z design-v2 a z R): krok O ho nestihl, protože se Mac během práce odpojil; je v Zadání Uzavření, postup v Po O.
+- VoiceOver s autorem (z design-v2 a z R): neproběhl ani v O, ani v Uzavření; připojí se k Uzavření `denik-v2`, postup v Po O.
 - Zénón z Eleje a Démokritos mají na medailoncích vedle sebe dvě Kdo to řekl?. Jinou hru dostanou, až bude mít Zénón v datech pobyt v Athénách s rokem (Parmenidés 127b: Kde to bylo?), nebo až přibude jiný vztah.

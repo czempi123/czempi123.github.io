@@ -1,6 +1,6 @@
 # Větev herna-v1: hotové kroky (3)
 
-Po T a zadání R. Plán, stav a další zadání jsou v `docs/plany/herna-v1.md`.
+Po T a zadání R. Plán, stav a další zadání jsou v `docs/archiv/plany/herna-v1.md`.
 
 ## Po T (21. 11. 2026)
 
@@ -65,7 +65,7 @@ Další krok: R v novém chatu, Opus 5.5 · high se skillem `atlas-revize` a plu
 Opus 5.5 · high, skill `atlas-revize` (perspektivy student, učitel, uživatel, přístupnost), `design:accessibility-review` a `design:design-critique`, nový chat. Ověření VoiceOverem jen s autorem u Macu.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty a Po T, v docs/plany/herna-v1-2.md jen Po K4 a Po K5 (Nad čím jsem váhal), docs/design.md (Pohyb, Bloky a aktivity, Přístupnost), skilly atlas-revize a atlas-psani. Archiv nečti. Z podkladů docs/podklady/herna.md čti jen místa, která ověřuješ.
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/archiv/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty a Po T, v docs/archiv/plany/herna-v1-2.md jen Po K4 a Po K5 (Nad čím jsem váhal), docs/design.md (Pohyb, Bloky a aktivity, Přístupnost), skilly atlas-revize a atlas-psani. Archiv nečti. Z podkladů docs/podklady/herna.md čti jen místa, která ověřuješ.
 
 Revize celé větve herna-v1 (K1 až T) podle skillu atlas-revize, perspektivy student, učitel, uživatel a přístupnost (skilly design:accessibility-review a design:design-critique). Zásada: nic se neboduje, nic se neučí nazpaměť, hra dá do ruky, podle čeho uvažovat, a stojí až tam, kde student lidi ze hry potkal. Hotový text se nepřepisuje; drobnosti oprav rovnou, zásadní nálezy seřaď podle dopadu s hotovým návrhem opravy.
 
@@ -75,12 +75,12 @@ Revize celé větve herna-v1 (K1 až T) podle skillu atlas-revize, perspektivy s
 4. Telefon 390 a notebook 1440 px, světlý i tmavý režim, Klidný režim, jen klávesnicí (skutečný Tab na dvou výškách okna, scripts/kontrola-fokus.mjs), dotyk skutečnými událostmi přes CDP, cíle 44 px, axe. Snímky node scripts/snimky-herna.mjs a node scripts/snimky-herna-t.mjs (náhled sestaveného webu na portu 4323); celé stránky scripts/snimky-listy.mjs, kroky scripts/snimky-cesta.mjs. VoiceOver jen jako krok s autorem (pouceni: nastavení přístupnosti mění autor), připrav mu krátký postup.
 5. Váha stránek osob a cest po K4 a K5 (node scripts/vaha-stranek-osob.mjs a --cesty): je někde co zmenšit bez ztráty?
 6. Katalog hodin proti dist/ (node scripts/hodiny-katalog.mjs) a příprava hodiny s novými zastaveními (hry na stránkách období, otázky a profilů, karty Do hodiny) jen klávesnicí.
-7. Záznam do docs/revize/herna-v1.md (nálezy podle dopadu: zásadní, důležité, drobné; u každého návrh opravy), drobnosti opravené rovnou s testy, celé npm test na pozadí s výstupem do souboru, commit, oddíl Po R v plánu s otázkami jen pro autora (prázdná odpověď = souhlas s doporučením), restart npm run dev, plán do Projektu Claude. Na konci zprávy napiš, na které snímky se mám podívat, a celý prompt pro O (do zprávy i do plánu), s modelem a úsilím. Zastav se.
+7. Záznam do docs/archiv/revize/herna-v1.md (nálezy podle dopadu: zásadní, důležité, drobné; u každého návrh opravy), drobnosti opravené rovnou s testy, celé npm test na pozadí s výstupem do souboru, commit, oddíl Po R v plánu s otázkami jen pro autora (prázdná odpověď = souhlas s doporučením), restart npm run dev, plán do Projektu Claude. Na konci zprávy napiš, na které snímky se mám podívat, a celý prompt pro O (do zprávy i do plánu), s modelem a úsilím. Zastav se.
 ```
 
 ## Po R (21. 11. 2026)
 
-Revize celé větve je v `docs/revize/herna-v1.md`. **Verdikt: po opravách.** Technicky drží všechno (axe, fokus pod lištou, skutečný Tab na dvou výškách okna, dotyk přes CDP, cíle 44 px, katalog hodin). Zásadu „hra dá do ruky, podle čeho uvažovat“ ale na dvou místech porušuje sama stavba hry a šest nálezů se týká toho, kdo ve hře mluví.
+Revize celé větve je v `docs/archiv/revize/herna-v1.md`. **Verdikt: po opravách.** Technicky drží všechno (axe, fokus pod lištou, skutečný Tab na dvou výškách okna, dotyk přes CDP, cíle 44 px, katalog hodin). Zásadu „hra dá do ruky, podle čeho uvažovat“ ale na dvou místech porušuje sama stavba hry a šest nálezů se týká toho, kdo ve hře mluví.
 
 **Nejdůležitější nálezy**
 
@@ -126,7 +126,7 @@ Další krok: O v novém chatu, Opus 5.5 · high se skilly `atlas-komponenta` a 
 Opus 5.5 · high, skilly `atlas-komponenta` a `atlas-psani`, pro nové citáty `atlas-overeni`, nový chat. VoiceOver jen s autorem u Macu.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/plany/herna-v1.md Co platí, Formáty a Po R (i odpovědi autora; prázdná odpověď = souhlas s doporučením), celý záznam docs/revize/herna-v1.md, v docs/design.md Bloky a aktivity, Přístupnost a Referenční snímky, skilly atlas-komponenta a atlas-psani; před každým novým citátem nebo připsáním skill atlas-overeni. Archiv nečti. Ze src/ čti jen soubory, které nálezy jmenují.
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/archiv/plany/herna-v1.md Co platí, Formáty a Po R (i odpovědi autora; prázdná odpověď = souhlas s doporučením), celý záznam docs/archiv/revize/herna-v1.md, v docs/design.md Bloky a aktivity, Přístupnost a Referenční snímky, skilly atlas-komponenta a atlas-psani; před každým novým citátem nebo připsáním skill atlas-overeni. Archiv nečti. Ze src/ čti jen soubory, které nálezy jmenují.
 
 Opravy po revizi R. Hotový text mimo bloky herny se nemění; nové věty piš skillem atlas-psani a ověř proti místu v díle.
 

@@ -1,6 +1,6 @@
 # Větev herna-v1, část 1: hotové kroky P6 až K2
 
-Zadání a záznamy kroků P6, K1 a K2 a odpovědi před P6, přesunuté z `docs/plany/herna-v1.md`, aby se plán vešel do Projektu Claude (pod 35 kB). Platný stav, zásady, další zadání a poslední oddíl Po jsou v hlavním plánu.
+Zadání a záznamy kroků P6, K1 a K2 a odpovědi před P6, přesunuté z `docs/archiv/plany/herna-v1.md`, aby se plán vešel do Projektu Claude (pod 35 kB). Platný stav, zásady, další zadání a poslední oddíl Po jsou v hlavním plánu.
 
 ## Zadání P6: podklady pro formáty
 
@@ -35,7 +35,7 @@ Ve větvi `herna-v1` na Macu. Přečti `CLAUDE.md`, `docs/pouceni.md`, `docs/des
 Opus 5.5 · high, skill `atlas-komponenta`, nový chat.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/pouceni.md, docs/design.md (Pohyb, Bloky a aktivity, Komponenty), v docs/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty, Po P6 a Po K1, skill atlas-komponenta a z podkladů docs/podklady/herna.md jen oddíly 1 (Kdo to řekl? a Doplň citát) a 5 (Tipni si a Seřaď na ose). Archiv nečti.
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/pouceni.md, docs/design.md (Pohyb, Bloky a aktivity, Komponenty), v docs/archiv/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty, Po P6 a Po K1, skill atlas-komponenta a z podkladů docs/podklady/herna.md jen oddíly 1 (Kdo to řekl? a Doplň citát) a 5 (Tipni si a Seřaď na ose). Archiv nečti.
 
 Zásada kroku: student se nemá učit citáty nazpaměť, hádat, o koho jde, ani znát přesné roky. Hra mu dá do ruky, podle čeho může uvažovat (myšlenku osoby, vztahy z dat), a odkrytí řekne, o čem věta je a kdo na koho navázal. Roky jsou jen drobný údaj.
 
@@ -138,7 +138,7 @@ Další krok: K2 v novém chatu, Opus 5.5 · high se skillem `atlas-komponenta`.
 Opus 5.5 · high, skill `atlas-komponenta` (texty skillem `atlas-psani`), nový chat.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/pouceni.md, docs/design.md (Pohyb, Bloky a aktivity, Komponenty), v docs/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty a Po K2, z docs/plany/herna-v1-1.md jen Po K1, skilly atlas-komponenta a atlas-psani a z podkladů docs/podklady/herna.md jen oddíly 2 (Pravý, nebo podvržený?), 3 (Kdo by to řekl?) a 4 (Páry). Archiv nečti. Ze src/lib/herna si přečti jen index.ts a ty soubory, které použiješ (verdikt.ts, michani.ts, vazby.ts); vzor ostrovu je DoplnCitat.svelte (tažení, klepnutí, klávesnice) a TipniSi.svelte (Ukázat, jak to bylo).
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/pouceni.md, docs/design.md (Pohyb, Bloky a aktivity, Komponenty), v docs/archiv/plany/herna-v1.md Co platí (hlavně Pointa není paměť), Formáty a Po K2, z docs/archiv/plany/herna-v1-1.md jen Po K1, skilly atlas-komponenta a atlas-psani a z podkladů docs/podklady/herna.md jen oddíly 2 (Pravý, nebo podvržený?), 3 (Kdo by to řekl?) a 4 (Páry). Archiv nečti. Ze src/lib/herna si přečti jen index.ts a ty soubory, které použiješ (verdikt.ts, michani.ts, vazby.ts); vzor ostrovu je DoplnCitat.svelte (tažení, klepnutí, klávesnice) a TipniSi.svelte (Ukázat, jak to bylo).
 
 Zásada kroku stejná jako v K2: student se nemá nic učit nazpaměť ani hádat, o koho jde. Hra mu dá do ruky, podle čeho uvažovat (myšlenku osoby z pole proc v lide.yaml, situaci, argument), a odkrytí řekne, o čem to je a proč. Názorové formáty nemají správnou odpověď: student uvidí, kdo stál s ním, a nic se nehodnotí.
 
