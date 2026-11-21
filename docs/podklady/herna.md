@@ -255,3 +255,13 @@ Pravidla, která hlídá schéma a kontroly: „řekl to“ platí právě u dru
 
 - Nové osoby nepotřebuji. Ve studentském textu by padla jen jména, která v datech nejsou a nemají mít kartu: Dionýsodóros a Kleinias (Euthydémos), Pólos (Gorgiás), Símónidés (Prótagorás), Kólótés, apoštol Pavel a Jeroným, Will Durant a Ian Maclaren. Doporučuji jmenovat je jen v textu, bez záznamu v datech.
 - Kotoučky z D5: kde je plátno použilo? Pokud u Sókratova procesu, doporučuji kresbu přesunout k obecnému popisu athénského soudu (Athénská ústava 68), u Sókrata jen „třicet hlasů“.
+
+## Ověření v kroku O (21. 11. 2026)
+
+| Tvrzení | Typ | Zdroj a místo | Jak v atlasu |
+| --- | --- | --- | --- |
+| Na „Většina lidí se ti směje“ Diogenés odpověděl, že jim se možná smějí osli, a jako se oni neohlížejí na osly, on se neohlíží na ně | tradovaný výrok | D. L. VI, 58 (Perseus Hopper, řecky 1999.01.0257, angl. Hicks 1999.01.0258); podobná odpověď „ale já se vysmát nedám“ je ve VI, 54 | citát `dl-vi-58-osli`, vlastní převod, v lístku Kdo by to řekl? na otázce 1 |
+| Stud je cit vyvolaný špatnými činy, a ty musí být dobrovolné; ctnostný se proto nestydí | výklad | Aristotelés, EN IV, 9, 1128b21–29 (Rackham, Perseus) | `proc` Aristotela: „Stud podle něj patří jen k tomu, co člověk sám udělal špatně“ |
+| Stud drží mladé, kteří žijí citem a chybují, na uzdě | výklad | EN IV, 9, 1128b16–18 | „strach o dobré jméno drží mladé od chyb“ |
+| „Člověk je měřítkem všech věcí“ je začátek Prótagorovy věty z Platónova Theaitéta 152a (totéž D. L. IX, 51) a koluje zkráceně | doložený fakt; doklad o šíření jen výtahem z vyhledávače | `theaitetos-152a`; anglická Wikipedie, heslo Protagoras (`wikipedia-protagoras-meritko`) | připsání `clovek-meritkem`, druh pravý |
+| Dvanáct vět `oCem` | výklad | místo každého citátu v `zdroje.yaml` (Ústava 360b, 433a, 489a; Timaios 51d; Prótagorás 352b, 356c; Obrana 23c–d, 36d; Parmenidés B8; Dopis Menoikeovi 134; EN 1098a; Hovory VI, 54); u dialogů mluvčí podle pole `podle` | jedna věta na rubu, citát neopakuje (test `prozrazuje`) |

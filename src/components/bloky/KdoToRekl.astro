@@ -32,6 +32,7 @@ const karty = blok.karty.map((k) => {
     adresa: adresa(spravna),
     napoveda: k.napoveda,
     pointa: nezlomitelne(k.pointa),
+    vztah: k.vztah ? nezlomitelne(k.vztah) : undefined,
     // Věta pod razítkem: čím se člověk zabýval (první věta pole proc), aby student hledal myšlenku, ne jméno.
     moznosti: moznostiCitatu(spravna, k.jini, `${id}:${k.citat}`).map((o) => ({ id: o, clovek: clovek(o), myslenka: nezlomitelne(prvniVeta(osoba(o).proc ?? osoba(o).kdo ?? '')) })),
   };

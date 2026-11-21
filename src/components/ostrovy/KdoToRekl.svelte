@@ -31,6 +31,8 @@
     napoveda: string;
     /** o čem věta je, nahoře na rubu */
     pointa: string;
+    /** hra z dat: kdo na koho navázal, drobně pod pointou */
+    vztah?: string;
     /** možnosti v pořadí podle semínka; id, razítko a věta, čím se člověk zabýval, z dat */
     moznosti: { id: string; clovek: ClovekBloku; myslenka: string }[];
   }
@@ -78,7 +80,7 @@
     ulozStav();
     const jmeno = k.moznosti.find((m) => m.id === osoba)?.clovek.jmeno ?? '';
     if (osoba === k.spravna) {
-      hlaseni = `${SEDI} Řekl to: ${k.jmeno}. ${k.pointa} ${k.puvod}.`;
+      hlaseni = `${SEDI} Řekl to: ${k.jmeno}. ${k.pointa}${k.vztah ? ` ${k.vztah}` : ''} ${k.puvod}.`;
       await tick();
       (prvek('.serie__dalsi') ?? prvek('.otocna__rub'))?.focus();
     } else {
@@ -166,6 +168,7 @@
           </figure>
           <div class="otocna__rub kartka__strana" aria-hidden={vyreseno ? undefined : 'true'} inert={!vyreseno} tabindex="-1" role="group" aria-label="Rub karty">
             <p class="kartka__pointa">{@html radek(k.pointa)}</p>
+            {#if k.vztah}<p class="kartka__vztah">{@html radek(k.vztah)}</p>{/if}
             <p class="kartka__veta">„{@html radek(k.veta)}“</p>
             <p class="kartka__kdo"><span class="kartka__jmeno">{k.jmeno}</span> <span class="kartka__puvod">{k.puvod}</span></p>
             {#if k.adresa}
@@ -236,6 +239,7 @@
   .otocna__rub { background: var(--listek); }
   .otocna__rub:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .kartka__pointa { margin: 0 0 var(--s-3); font-family: var(--font-serif); font-size: var(--fs-perex); line-height: 1.35; color: var(--ink); text-wrap: pretty; }
+  .kartka__vztah { margin: calc(-1 * var(--s-2)) 0 var(--s-3); font-family: var(--font-sans); font-size: var(--fs-popisek); line-height: 1.35; color: var(--ink-2); }
   .kartka__veta { margin: 0 0 var(--s-2); font-style: italic; font-size: calc(var(--meritko) * 16px); line-height: 1.45; color: var(--ink-2); }
   .kartka__kdo { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); margin: 0; }
   .kartka__jmeno { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); }

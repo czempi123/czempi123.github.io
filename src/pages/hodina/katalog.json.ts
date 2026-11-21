@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 import { osoby } from '../../lib/data';
 import { katalogZastaveni, VERZE_HODINY } from '../../lib/hodiny';
 import { kdoZilNaMedailonku, medailonky, hraMedailonku } from '../../lib/stranky-osob';
-import { KOMPONENTA_AKTIVITY } from '../../lib/herna/aktivity';
+import { KOMPONENTA_AKTIVITY, otazkaVKatalogu } from '../../lib/herna/aktivity';
 import { jeHra, KOMPONENTA_HRY } from '../../lib/herna/komponenty';
 import { strankyAtlasu } from '../../lib/stranky-typu';
 import { castiStrankyObdobi } from '../../lib/obdobi-stranka';
@@ -35,13 +35,13 @@ export const GET: APIRoute = async () => {
   const medailonkyKatalogu = await Promise.all(medailonky.map(async (osoba) => {
     const hra = await hraMedailonku(osoba);
     if (!hra || hra.druh === 'kdo-zil') return { osoba, kdoZil: hra ? hra.b : kdoZil(osoba) };
-    return { osoba, kdoZil: null, hra: { id: hra.id, typ: KOMPONENTA_AKTIVITY[hra.druh], otazka: hra.blok.otazka } };
+    return { osoba, kdoZil: null, hra: { id: hra.id, typ: KOMPONENTA_AKTIVITY[hra.druh], otazka: otazkaVKatalogu(osoby.get(osoba)!, hra.druh, hra.blok.otazka) } };
   }));
   // Profily s hrou z dat (<HraOsoby> v MDX, herna-v1, T): id, typ a otázka jako na stránce.
   const hryProfilu = new Map<string, { id: string; typ: string; otazka: string }>();
   for (const p of osobnosti.filter((x) => /<HraOsoby\b/.test(x.body ?? ''))) {
     const hra = await hraMedailonku(p.data.osoba);
-    if (hra && hra.druh !== 'kdo-zil') hryProfilu.set(p.data.osoba, { id: hra.id, typ: KOMPONENTA_AKTIVITY[hra.druh], otazka: hra.blok.otazka });
+    if (hra && hra.druh !== 'kdo-zil') hryProfilu.set(p.data.osoba, { id: hra.id, typ: KOMPONENTA_AKTIVITY[hra.druh], otazka: otazkaVKatalogu(osoby.get(p.data.osoba)!, hra.druh, hra.blok.otazka) });
   }
   // Stránky období, směrů, pokusů, úvodů a tradic (K1 větve antika-doplnky): oddíly šablony a text MDX.
   const s = await strankyAtlasu();

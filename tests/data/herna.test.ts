@@ -69,6 +69,10 @@ describe('Seřaď na ose: karty z dat', () => {
   it('člověk podle narození i smrti, událost s rozpětím', () => {
     expect(kartaOsy({ osoba: 'thales' }, osoby, udalosti)).toEqual({ text: 'Thalés', rok: -620, rokText: `asi${N}620${N}př.${N}n.${N}l.`, napoveda: undefined });
     expect(kartaOsy({ osoba: 'sokrates', kdy: 'umrti', text: 'Sókratův proces' }, osoby, udalosti)).toMatchObject({ text: 'Sókratův proces', rok: -399 });
+    // Karta bez napovědy v YAML dostane první větu proc z dat (revize R); napověda z YAML má přednost.
+    const sProc = new Map([['x', { jmeno: 'X', narozen: { rok: -400 }, proc: 'Učil v Athénách asi 400 př. n. l. Pak odešel.' }]]);
+    expect(kartaOsy({ osoba: 'x' }, sProc, udalosti).napoveda).toBe('Učil v Athénách asi 400 př. n. l.');
+    expect(kartaOsy({ osoba: 'x', napoveda: 'Vlastní.' }, sProc, udalosti).napoveda).toBe('Vlastní.');
     expect(kartaOsy({ udalost: 'marathon' }, osoby, udalosti).rokText).toBe(`490${N}př.${N}n.${N}l.`);
     expect(kartaOsy({ udalost: 'peloponneska-valka' }, osoby, udalosti).rokText).toBe(`431–404${N}př.${N}n.${N}l.`);
     expect(kartaOsy({ udalost: 'korsika' }, osoby, udalosti).rokText).toBe(`41–49${N}n.${N}l.`);
@@ -120,14 +124,14 @@ describe('Seřaď na ose: vyhodnocení pořadí', () => {
     expect(stejnePoradi([1, 2], [2, 1])).toBe(false);
     expect(stejnePoradi(null, [1])).toBe(false);
   });
-  it('zkus to jinak jmenuje první obrácenou dvojici, napověda karty má přednost', () => {
+  it('zkus to jinak jmenuje první obrácenou dvojici (napovědy jsou na kartách od začátku)', () => {
     const karty = [
       { text: 'Thalés', rok: -620 },
       { text: 'Konfucius', rok: -551, napoveda: 'Konfucius byl starší, než se zdá.' },
       { text: 'Parmenidés', rok: -515 },
     ];
     expect(verdiktPoradi(karty, [0, 1, 2])).toEqual({ sedi: true, slovo: SEDI });
-    expect(verdiktPoradi(karty, [0, 2, 1])).toEqual({ sedi: false, slovo: ZKUS_JINAK, veta: 'Konfucius byl starší, než se zdá.' });
+    expect(verdiktPoradi(karty, [0, 2, 1])).toEqual({ sedi: false, slovo: ZKUS_JINAK, veta: '„Parmenidés“ a „Konfucius“ zatím visí obráceně.' });
     expect(verdiktPoradi(karty, [2, 0, 1]).veta).toBe('„Parmenidés“ a „Thalés“ zatím visí obráceně.');
   });
   it('stav v deníku: jen platná permutace, jinak null', () => {

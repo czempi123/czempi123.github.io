@@ -4,7 +4,8 @@
 # opakovalo scénu, proto jiný Epikúrův argument: o bohatství, hned za větami Hlavních myšlenek 15 a VS 68, které krok
 # cituje. Věty argumentu jsou převod těch dvou citátů. Kdo by premisu škrtl: Aristotelés (EN I, 8, 1099a31–33:
 # blaženost potřebuje i vnější dobra, bez prostředků se krásné činy konají těžko) a Seneca (O blaženém životě 26, 1:
-# moudrému bohatství slouží; spis psal proti těm, kdo mu bohatství vyčítali, otázka 1 a sep-seneca). Kdo stojí
+# moudrému bohatství slouží; spis psal proti těm, kdo mu bohatství vyčítali, otázka 1 a sep-seneca). Revize R (O):
+# proc dává Senekovi důvod, ne životopis; citát pak řekne proč. Kdo stojí
 # s argumentem: Epikúros sám (VS 33, cituje ho profil). Hlasy říkají, kdo by větu škrtl, ne že s Epikúrem vedl spor.
 druh: slabe
 obdobi: 2
@@ -24,7 +25,7 @@ karty:
     skrtl:
       - osoba: seneca
         citat: vita-beata-26
-        proc: "Sám byl velmi bohatý a ve spise o blaženém životě se proti výčitkám bránil:"
+        proc: "Že každé „navíc“ je prázdná představa, by nepřijal:"
   - id: zaver
     text: "Kdo chce víc, než potřebuje, nebude mít nikdy dost."
     misto: zaver

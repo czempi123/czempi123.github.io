@@ -2,6 +2,7 @@
 // přesuny a stav bloku v deníku. Čisté funkce; ostrov src/components/ostrovy/SeradNaOse.svelte, testy tests/data/herna.test.ts.
 import { zamichej } from './michani';
 import { verdikt, type Verdikt } from './verdikt';
+import { prvniVeta } from './citaty';
 
 /** Kolik špatných kontrol, než se nabídne „Ukázat pořadí“. */
 export const POKUSU_DO_UKAZANI = 3;
@@ -30,11 +31,11 @@ export interface ZaznamKarty {
   udalost?: string;
   /** vlastní text karty („Platón umírá“); jinak jméno nebo název události */
   text?: string;
-  /** věta „zkus to jinak“, když karta visí v obrácené dvojici */
+  /** napověda pod jménem, viditelná od začátku (revize R): kdo komu co předal; jinak první věta proc z dat */
   napoveda?: string;
 }
 interface Datum { rok: number; priblizne?: boolean }
-export interface OsobaKarty { jmeno: string; narozen?: Datum; zemrel?: Datum }
+export interface OsobaKarty { jmeno: string; narozen?: Datum; zemrel?: Datum; proc?: string }
 export interface UdalostKarty { nazev: string; od: number; do?: number }
 
 export interface KartaOsy {
@@ -43,6 +44,7 @@ export interface KartaOsy {
   rok: number;
   /** rok, jak se ukáže po správném pořadí */
   rokText: string;
+  /** napověda pod jménem od začátku hry, podle čeho řadit (zásada Pointa není paměť) */
   napoveda?: string;
 }
 
@@ -53,7 +55,7 @@ export function kartaOsy(z: ZaznamKarty, osoby: Map<string, OsobaKarty>, udalost
     if (!o) throw new Error(`Seřaď na ose: osoba „${z.osoba}“ není v lide.yaml.`);
     const d = z.kdy === 'umrti' ? o.zemrel : o.narozen;
     if (!d) throw new Error(`Seřaď na ose: u „${z.osoba}“ chybí v lide.yaml ${z.kdy === 'umrti' ? 'rok smrti' : 'rok narození'}.`);
-    return { text: z.text ?? o.jmeno, rok: d.rok, rokText: rokKarty(d.rok, d.priblizne), napoveda: z.napoveda };
+    return { text: z.text ?? o.jmeno, rok: d.rok, rokText: rokKarty(d.rok, d.priblizne), napoveda: z.napoveda ?? (o.proc ? prvniVeta(o.proc) : undefined) };
   }
   if (z.udalost) {
     const u = udalosti.get(z.udalost);
@@ -128,14 +130,14 @@ export function prohod(poradi: readonly number[], i: number, j: number): number[
   return p;
 }
 
-/** Verdikt kontroly: u „zkus to jinak“ věta o první obrácené dvojici (napověda karty, jinak obě jména). */
-export function verdiktPoradi(karty: readonly Pick<KartaOsy, 'text' | 'rok' | 'napoveda'>[], poradi: readonly number[]): Verdikt {
+/** Verdikt kontroly: u „zkus to jinak“ jmenuje první obrácenou dvojici; napovědy student vidí na kartách od začátku. */
+export function verdiktPoradi(karty: readonly Pick<KartaOsy, 'text' | 'rok'>[], poradi: readonly number[]): Verdikt {
   const v = vyhodnotPoradi(poradi, karty.map((k) => k.rok));
   if (v.sedi) return verdikt(true);
   const i = v.dvojice.indexOf(false);
   const a = karty[poradi[i]];
   const b = karty[poradi[i + 1]];
-  return verdikt(false, a.napoveda ?? b.napoveda ?? `„${a.text}“ a „${b.text}“ zatím visí obráceně.`);
+  return verdikt(false, `„${a.text}“ a „${b.text}“ zatím visí obráceně.`);
 }
 
 export const stejnePoradi = (a: readonly number[] | null | undefined, b: readonly number[] | null | undefined): boolean =>

@@ -18,7 +18,7 @@ Z devadesáti míst, kde student v antice něco dělá, je jen třináct hraček
 
 ## Kroky
 
-Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, Po P6, Po K1 a Po K2 v `docs/plany/herna-v1-1.md`, zadání K4, K5 a T, Po K3, Po K4 a Po K5 v `docs/plany/herna-v1-2.md`, Po T a zadání R v `docs/plany/herna-v1-3.md`.
+Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, Po P6, Po K1 a Po K2 v `docs/plany/herna-v1-1.md`, zadání K4, K5 a T, Po K3, Po K4 a Po K5 v `docs/plany/herna-v1-2.md`, Po T, zadání R, Po R (s celým výčtem nálezů) a zadání O v `docs/plany/herna-v1-3.md`.
 
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
@@ -30,8 +30,8 @@ Hotové kroky jsou ve třech souborech: zadání P6 až K3, odpovědi před P6, 
 | K5 | Kurikulum: karta **Do hodiny**, **sebehodnocení** na konci cesty, stránka **Argumentační klamy a manipulace** | komponenty `atlas-komponenta`, text `atlas-psani` · Opus 5.5 · high | hotovo 19. 11. 2026 (Po K5) |
 | T | Přídavky v antice: každý formát na jednom místě (tabulka v Co rozhodnout, otázka 1), karta Do hodiny ve zbylých devíti cestách, zadání a zpětné vazby skillem `atlas-psani`, zápis bloků do skillu `atlas-cesta` | Opus 5.5 · high se skilly `atlas-cesta` a `atlas-psani` | hotovo 21. 11. 2026 (Po T) |
 | R | Revize větve: čtyři otázky zásady u každého formátu, 390 a 1440 px, světlý i tmavý režim, Klidný režim, klávesnice, čtečka, dotyk skutečnými událostmi, výkon stránek osob | Opus 5.5 · high se skillem `atlas-revize` a pluginem Design | hotovo 21. 11. 2026 (Po R, `docs/revize/herna-v1.md`) |
-| O | Opravy po revizi, referenční snímky nových formátů, `docs/design.md` a `docs/pouceni.md`, VoiceOver s autorem | Opus 5.5 · high | na řadě (Zadání O) |
-| Uzavření | Schválení autorem, sloučení, GitHub, kontrola nasazeného webu a běhu kontrol, plán do archivu | Opus 5.5 · medium | čeká na O |
+| O | Opravy po revizi, referenční snímky nových formátů, `docs/design.md` a `docs/pouceni.md`, VoiceOver s autorem | Opus 5.5 · high | hotovo 21. 11. 2026 (Po O; VoiceOver přesunut do Uzavření) |
+| Uzavření | VoiceOver s autorem, schválení, sloučení, GitHub, kontrola nasazeného webu a běhu kontrol, plán do archivu | Opus 5.5 · medium | na řadě (Zadání Uzavření) |
 
 Každý krok končí commitem ve větvi `herna-v1`, oddílem „Po <krok>“ v tomto souboru, otázkami, jen když něco smí rozhodnout jen autor, a celým promptem dalšího kroku ve zprávě i tady v plánu. Na GitHub se nic neposílá až do Uzavření.
 
@@ -53,71 +53,56 @@ Každý krok končí commitem ve větvi `herna-v1`, oddílem „Po <krok>“ v t
 
 Formáty se staví jednou jako ostrov v rámu aktivity a vkládají se jedním řádkem (`<SeradNaOse id="…" />`); obsah je v `src/content/bloky/<id>.yaml` se schématem v `src/lib/bloky-schema.ts`. Medailonek dostane formát bez YAML, sestavený z dat (K4).
 
-## Zadání O
+## Zadání Uzavření
 
-Opus 5.5 · high, skilly `atlas-komponenta` a `atlas-psani`, pro nové citáty `atlas-overeni`, nový chat. VoiceOver jen s autorem u Macu.
+Opus 5.5 · medium, nový chat. VoiceOver jen s autorem u Macu.
 
 ```
-Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/plany/herna-v1.md Co platí, Formáty a Po R (i odpovědi autora; prázdná odpověď = souhlas s doporučením), celý záznam docs/revize/herna-v1.md, v docs/design.md Bloky a aktivity, Přístupnost a Referenční snímky, skilly atlas-komponenta a atlas-psani; před každým novým citátem nebo připsáním skill atlas-overeni. Archiv nečti. Ze src/ čti jen soubory, které nálezy jmenují.
+Ve větvi herna-v1 na Macu (/Users/vojtechczempka/Atlas, Desktop Commander). Přečti CLAUDE.md, v docs/pouceni.md oddíl Technika a v docs/plany/herna-v1.md tabulku Kroky, Po O (i odpověď autora; prázdná odpověď = souhlas se sloučením) a Co zůstává na později. Archiv nečti.
 
-Opravy po revizi R. Hotový text mimo bloky herny se nemění; nové věty piš skillem atlas-psani a ověř proti místu v díle.
+Uzavření větve herna-v1.
 
-1. Seřaď na ose (zásadní): napověda karty viditelná od začátku pod jménem, karta bez napovědy dostane první větu proc z dat, „zkus to jinak“ jmenuje obrácenou dvojici. Změř šňůru na 390 px. Testy herna-k1, herna-k2 a data.
-2. Páry na Epikureismu (zásadní): nové znění páru slast podle záznamu revize, zdroj gnomologium-vaticanum.
-3. Kdo to řekl? z dat: nepovinné pole oCem u citátu v zdroje.yaml, obsahAktivity ho dá na rub nad vztah, výběr bere jen citáty s oCem (kontrola při sestavení). Dvanáct citátů z výpisu npx vite-node scripts/herna-k4-vypis.ts (výpis nejdřív uprav, ať zná HraOsoby v profilech).
-4. Parmenidés: zpět řádek KdoZilDriv a="parmenides" b="sokrates" druh="vzdalenost"; ověř výpisem, že se hry medailonků kolem nezměnily.
-5. Kdo by to řekl? na otázce 1: nové proc Aristotela (ověř EN IV, 9, 1128b21–29) a Diogenés s D. L. VI, 58 místo Antisthena v lístku (nový citát přes atlas-overeni; když se nepotvrdí, nech Antisthena a napiš proč).
-6. Najdi slabé místo v Kolik je dost?: nové proc Seneky ze záznamu.
-7. Pravý, nebo podvržený? v cestě 1: Prótagorás „Člověk je měřítkem všech věcí.“ jako připsání druhu pravy (Theaitétos 152a, doklad, kde koluje) místo Marka.
-8. Tipni si na stránkách osob jen z četby přes lidský život; dlouhý život z kandidátů vyřaď a podle výpisu zkontroluj, co dostanou Démokritos, Gorgiás, Isokratés a Pyrrhón.
-9. Drobné: vysvětlení Tipni si na období 2 a název her z dat v katalogu hodin („Čí je ta věta? · u Theofrasta“).
-10. Referenční snímky nových formátů v tests/e2e/snimky.spec.ts (jedna hra herny na telefonu a notebooku, den a noc; po --update-snapshots si je prohlédni), docs/design.md (Seřaď na ose s napovědou, oCem, promítání bloku pod prvním názorem) a docs/pouceni.md (poučení z R jednou větou každé).
-11. VoiceOver: jestli je autor u Macu, projdi s ním postup z Po R a zapiš, co čtečka řekla; jinak to zapiš do Co zůstává na později.
-12. Snímky oprav (node scripts/snimky-herna.mjs a node scripts/snimky-herna-t.mjs nad náhledem sestaveného webu na portu 4323) si prohlédni na 390 a 1440 px v obou režimech; node scripts/revize-herna-dotyk.mjs a node scripts/revize-hodina-klavesnice.mjs znovu. Celé npm test na pozadí s výstupem do souboru, docs/rozhodnuti.md, commit, oddíl Po O v plánu s jedinou otázkou pro autora (schválení větve), restart npm run dev, plán do Projektu Claude. Na konci zprávy napiš, na které snímky se mám podívat, a celý prompt pro Uzavření (do zprávy i do plánu), s modelem a úsilím. Zastav se.
+1. VoiceOver s autorem (asi deset minut, Safari a npm run dev): projdi s ním postup v Po O a zapiš tamtéž, co čtečka řekla, neřekla, řekla dvakrát nebo anglicky. Co jde opravit malou změnou (aria-label, hlášení, pořadí čtení), oprav s testem; větší nález zapiš do Co zůstává na později. Když autor u Macu není, krok vynech a napiš to do Po Uzavření.
+2. Když autor větev schválil: git switch main, git merge --no-ff herna-v1, celé npm test na pozadí s výstupem do souboru (výsledek čti po částech), pak push na GitHub (sám, ne autor).
+3. Po pushi zkontroluj běh kontrol a nasazení (gh run list, gh run view --log-failed) a nasazený web: https://czempi123.github.io/obdobi/pocatky-a-klasicke-recko/, /smer/epikureismus/, /otazka/jak-zit/ a /osobnost/demokritos/ na 390 a 1440 px (Playwright proti nasazené adrese, snímky do Claude outputs/). Test, který padne jen na GitHubu, zkus na Linuxu s CI=true (docs/pouceni.md › Technika); flaky test hledej příčinou, ne dalším pokusem.
+4. Plány větve (docs/plany/herna-v1.md, herna-v1-1.md až herna-v1-3.md) přesuň do docs/archiv/plany/ a záznam docs/revize/herna-v1.md do docs/archiv/revize/; oprav odkazy na ně (grep -rn "plany/herna-v1\|revize/herna-v1" docs src skills tests). V docs/plan-vetve.md označ herna-v1 jako hotovou a podle docs/plany/po-auditu.md › Větve napiš, která větev je další. docs/plan-vetve.md (a docs/plan.md, pokud se změnil) nahraj do Projektu Claude, herna-v1.md z Projektu smaž.
+5. Commit na main, push, restart npm run dev a zpráva autorovi: co je na webu, co zůstalo na později a celý prompt pro první krok další větve s modelem a úsilím (i do jejího plánu). Zastav se.
 ```
 
-## Po R (21. 11. 2026)
+## Po O (21. 11. 2026)
 
-Revize celé větve je v `docs/revize/herna-v1.md`. **Verdikt: po opravách.** Technicky drží všechno (axe, fokus pod lištou, skutečný Tab na dvou výškách okna, dotyk přes CDP, cíle 44 px, katalog hodin). Zásadu „hra dá do ruky, podle čeho uvažovat“ ale na dvou místech porušuje sama stavba hry a šest nálezů se týká toho, kdo ve hře mluví.
+Opravy všech nálezů revize R podle odpovědí autora (všechny prázdné = souhlas s doporučením). Celý výčet nálezů je v `docs/plany/herna-v1-3.md` › Po R a v `docs/revize/herna-v1.md`.
 
-**Nejdůležitější nálezy**
+**Co se změnilo**
 
-1. **Seřaď na ose (zásadní):** karty nesou jen jméno, napovědy přijdou až po chybě a roky stojí o obrazovku výš v Lidech a směrech; Xenofanés na stránce není. Oprava: napověda viditelná od začátku.
-2. **Páry na Epikureismu (zásadní):** situace pro slast odpovídá i vysvětlení klidu pod pojmem a hlasu Epikúra na otázce 1; správná úvaha dostane „zkus to jinak“. Oprava: slast jen tělem podle VS 33.
-3. **Kdo to řekl? z dat** neřekne, o čem věta je (rub jen se vztahem, razítka s nesouvisející větou `proc`). Oprava: pole `oCem` u dvanácti citátů.
-4. **Parmenidés s Obranou 35c** (věta o soudci na stránce o bytí): vrátit Kdo žil dřív? Parmenidés a Sókratés.
-5. **Kdo by to řekl? na otázce 1:** Aristotelův stud čte student, kterému se smějí, jako „máš se stydět“; Antisthenés na stránce nemluví. Oprava: `proc` se studem za vlastní činy, Diogenés (D. L. VI, 58) v lístku.
-6. **Najdi slabé místo:** Seneka škrtá životopisem („sám byl bohatý“), ne důvodem. Nové `proc`.
-7. **Pravý, nebo podvržený? v cestě 1:** Marcus, kterého student v první cestě nepotkal. Prótagorás „Člověk je měřítkem všech věcí“.
-8. **Tipni si z dlouhého života** na čtyřech medailoncích je kvíz o letech bez vztahu: vyřadit.
-
-**Opraveno rovnou:** hra stránky otázky (i osa hlasů) se při promítání hodiny neukázala, protože `#<slug>-po` čeká na první názor; `src/scripts/hodina-lista.ts` ho odkryje i pro blok uvnitř, test `tests/e2e/herna-r.spec.ts`. Tři věty přídavků: „napsali stoikové“ → „jsou od stoiků“ (Epiktétos nic nenapsal), scéna Menónu „bez obrazu“ → „co tím myslí“, napověda Sókrata „zapsal až jeho žák“ → „psali až jeho žáci“.
-
-**Rozhodnutí z T:** Doplň citát mimo Soud platí, Najdi slabé místo mimo cestu 8 platí, Pravý před Závěrem cesty 1 platí, hra ve frontmatteru platí, hry ve třech profilech platí u Aristotela a Epiktéta, Parmenidés s Obranou 35c neplatí.
-
-**Nové skripty:** `scripts/revize-herna-dotyk.mjs` (přídavky prstem přes CDP na 390 px, cíle 44 px, přetečení) a `scripts/revize-hodina-klavesnice.mjs` (příprava hodiny s novými zastaveními jen klávesnicí a promítání).
-
-**Celé `npm test`:** kontrola typů bez chyb, 1590 testů ve Vitestu, v Playwrightu 899 z 900 (10,9 min). Spadl jen `denik-kapitoly.spec.ts:101` (kapitola Helenismus a Řím po obnovení), deníku se R nedotkla; samotný soubor pak prošel třikrát po sobě (30 z 30). Kdyby se objevil znovu, hledat příčinu (`docs/pouceni.md`, flaky).
+1. **Seřaď na ose:** pod jménem je od začátku napověda (z YAML, jinak první věta `proc`), „zkus to jinak“ jmenuje obrácenou dvojici („„Kratés“ a „Diogenés“ zatím visí obráceně.“). Na 390 px měří šňůra s pěti kartami 471 px (karty 81 až 85 px) a celý blok 856 px; v čtenářském sloupci na notebooku 377 px. Šňůra visí vodorovně až od 860 px rámu (dílna, krok cesty), v čtenářském sloupci svisle: pět karet po 109 px s napovědou mělo šest až sedm řádků dělených slov. Otisk „sedí“ je svisle dole u konce šňůry, nahoře by zakryl napovědu první karty.
+2. **Páry na Epikureismu:** slast jen tělem podle VS 33 („nemáš žízeň, není ti zima a nic tě nebolí“), zdroj `gnomologium-vaticanum`. Ve vazbě zůstalo „a doufá, že to mít bude“: stojí to ve VS 33 a revize to vynechala.
+3. **Kdo to řekl? z dat:** nepovinné pole `oCem` u citátu; dvanáct citátů z výpisu ho má (věty skillem `atlas-psani`, ověřené proti místu v díle, u dialogů s mluvčím). Rub ukáže `oCem` nahoře a vztah drobně pod ním (`.kartka__vztah`). Vybraný citát bez `oCem` zastaví sestavení. Nabídka se podle `oCem` **nefiltruje**: filtr přeskládal půlku medailonků (do `pouzite` jdou citáty všech kandidátů) a Aristotelés zůstal bez hry. `scripts/herna-k4-vypis.ts` zná `<HraOsoby>` v profilech, `bez` i citáty profilu a ukazuje id citátu a obě věty rubu.
+4. **Parmenidés:** zase `<KdoZilDriv a="parmenides" b="sokrates" druh="vzdalenost" />`, stav jako před T; výpis: Zénón z Eleje a Thalés kolem beze změny.
+5. **Kdo by to řekl? na otázce 1:** Aristotelés „Namítl by, že strach o dobré jméno drží mladé od chyb. Stud podle něj patří jen k tomu, co člověk sám udělal špatně:“ (EN IV, 9, 1128b16–18 a 21–29, Rackham na Perseu). V lístku Diogenés s novým citátem `dl-vi-58-osli` (D. L. VI, 58, řecky i Hicks na Perseu); Antisthenés zůstal mezi čtyřmi možnostmi bez lístku.
+6. **Najdi slabé místo:** Seneka „Že každé „navíc“ je prázdná představa, by nepřijal:“.
+7. **Pravý, nebo podvržený? v cestě 1:** Prótagorás „Člověk je měřítkem všech věcí.“ (připsání `clovek-meritkem`, druh pravý, doklad šíření `wikipedia-protagoras-meritko`), ověření „Cituje ji odpůrce, který s ní nesouhlasil, a to je dobrý důvod jí věřit.“ (Platóna jmenuje už lístek o původu). Marcus zůstal na stránce klamů a v dílně.
+8. **Tipni si na stránkách osob** jen z četby přes lidský život. Démokritos: Kdo to řekl? (Epikúros proti nutnosti atomistů, Menoikeus 134), Gorgiás: Kde to bylo? (Athény), Isokratés: Kdo žil dřív? s Hérakleitem, Pyrrhón: Kdo žil dřív? se Sókratem. Řada se tím přeskládala u Chairefónta, Kritóna, Alkibiada, Aristofana, Antisthena a Aspasie (střídání kdo-rekl a kdo-zil se otočilo, jinak to data nedovolí). Zénón z Eleje a Démokritos mají vedle sebe dvě Kdo to řekl?: Zénón sousedí s Prótagorovým Kdo žil dřív?, Démokritos s Anaximandrem, který má jen Kdo žil dřív?. Test to má jako jedinou výjimku. Počty na medailoncích: Kdo to řekl? 10, Kdo žil dřív? 11, Kde to bylo? 8, Tipni si 5.
+9. **Drobné:** vysvětlení Tipni si na období 2 končí otázkou „Je to ještě spor, když druhý už nemůže odpovědět?“; katalog hodin dává hrám z dat název se stránkou („Čí je ta věta? · u Theofrasta“, `otazkaVKatalogu` v `src/lib/herna/aktivity.ts`).
+10. **Referenční snímky:** `hra-serad-390-den` a `hra-serad-1440-noc` v `tests/e2e/snimky.spec.ts` (prohlédnuté; na 390 px leží přes konec bloku pevná pata s Zkontrolovat pořadí, protože blok je o 12 px vyšší než okno). `docs/design.md` (Seřaď na ose, rub z dat, promítání hry pod prvním názorem, čtrnáct snímků), `docs/pouceni.md` (devět vět z R a O), `docs/podklady/herna.md` (Ověření v kroku O), `docs/rozhodnuti.md`.
+11. **VoiceOver:** neproběhl. Autorův Mac se uprostřed kroku asi na půl hodiny odpojil a krok jsem pak dokončoval bez něj; postup je níž a je v Zadání Uzavření.
+12. **Kontroly:** `scripts/revize-herna-dotyk.mjs` všech osm přídavků bez nálezu (prst mění blok, cíle aspoň 44 px, nic nepřetéká), `scripts/revize-hodina-klavesnice.mjs` 0 nálezů; snímky her v dílně a přídavků na 390 a 1440 px v obou režimech prohlédnuté (`scripts/snimky-herna-t.mjs` místo Parmenida fotí Démokrita). Celé `npm test`: kontrola typů bez chyb, Vitest 1 591 testů, Playwright 897 z 902 (10,3 min). Padlo pět testů, všechny kvůli O: čtyřikrát Seřaď na ose v `herna.spec.ts` (vzor věty s „a“ bez nezlomitelné mezery) a sousední hry v `herna-k4.spec.ts` (Zénón z Eleje a Démokritos). Po opravě oba soubory prošly (34 z 34).
 
 **VoiceOver s autorem** (nastavení přístupnosti mění autor; asi deset minut, Safari a `npm run dev`):
 
 1. V Safari otevři `http://localhost:4321/smer/stoicismus/#stoicismus-kdo-rekl`, zapni VoiceOver (Cmd + F5).
 2. Tabulátorem na první razítko pod kartičkou: má zaznít jméno a věta, čím se ten člověk zabýval. Mezerník vybere. Po trefě má VoiceOver sám přečíst lístek („Sedí…“), po chybě „Zkus to jinak“ a napovědu.
-3. `http://localhost:4321/obdobi/pocatky-a-klasicke-recko/#obdobi1-serad`: Tab na kartu, Enter ji zvedne, šipka dolů posune, Enter položí. Má zaznít jméno a „místo 2 z 5“.
+3. `http://localhost:4321/obdobi/pocatky-a-klasicke-recko/#obdobi1-serad`: Tab na kartu, Enter ji zvedne, šipka dolů posune, Enter položí. Má zaznít jméno, napověda a „místo 2 z 5“.
 4. `http://localhost:4321/cesta/kolik-je-dost/6/#cesta6-slabe`: Tab na větu, Enter ji přeškrtne. Má zaznít, že je přeškrtnutá, a pak lístek, kdo by ji škrtl s tebou.
 5. Zapiš, co VoiceOver neřekl, řekl dvakrát, nebo řekl anglicky. Cmd + F5 ho vypne.
 
-**Otázky jen pro autora** (prázdná odpověď = souhlas s doporučením):
+**Na které snímky se podívat** (`Claude outputs/snimky/`): `herna-t-obdobi1-serad-klid-390-light.png` a `herna-t-obdobi1-serad-klid-1440-light.png` (napovědy na šňůře), `herna-serad-zkus-1440-tmavy.png` (dílna vodorovně, „zkus to jinak“ s dvojicí), `herna-serad-sedi-390-svetly.png` (otisk dole), `herna-t-jak-zit-kdo-by-cin-390-dark.png` (Diogenés a Aristotelés v lístku), `herna-t-hra-demokritos-kdo-rekl-cin-390-light.png` (rub s `oCem` a vztahem).
 
-1. Seřaď na ose: napovědy na kartách hned od začátku (doporučuji), nebo dál jen po chybě, s tím, že hra na období 1 je hlavně hádání? Odpověď:
-2. Kdo by to řekl? na otázce 1: v lístku Diogenés s odpovědí na posměch (doporučuji, po ověření D. L. VI, 58), nebo dál Antisthenés, kterého student zná z cesty Čí život vlastně žiju?? Odpověď:
-3. Pravý, nebo podvržený? v cestě 1: Prótagorás místo Marka Aurelia (doporučuji), nebo nechat Marka a smířit se s tím, že ho student v první cestě nezná? Odpověď:
-4. Parmenidés: vrátit Kdo žil dřív? (doporučuji), nebo vybrat jinou hru z dat (Kde to bylo? s Athénami), pokud ji data unesou? Odpověď:
-5. VoiceOver: projít s tebou v kroku O (doporučuji, deset minut u Macu), nebo odložit do Uzavření? Odpověď:
+**Otázka jen pro autora** (prázdná odpověď = souhlas):
 
-**Na které snímky se podívat** (`Claude outputs/snimky/`): `herna-t-obdobi1-serad-klid-390-light.png` (jen jména na šňůře; roky nad hrou na `t-obdobi1-390-light-1.jpg`), `herna-t-epikureismus-pary-klid-390-light.png` (vysvětlení klidu pod pojmem a situace po tréninku), `herna-t-jak-zit-kdo-by-cin-390-dark.png` (lístek s Aristotelovým studem), `herna-t-cesta6-slabe-cin-1440-light.png` (Seneka v lístku), `herna-t-cesta1-pravy-cin-390-light.png`, `revize-r-promitani-b-jak-zit-kdo-by.png` (promítání hry otázky před opravou: prázdná stránka).
+1. Schvaluješ větev herna-v1, aby se v Uzavření (po VoiceOveru) sloučila do hlavní větve a poslala na GitHub? Odpověď:
 
-Další krok: O v novém chatu, Opus 5.5 · high se skilly `atlas-komponenta` a `atlas-psani`; celé znění promptu je v Zadání O.
+Další krok: Uzavření v novém chatu, Opus 5.5 · medium; celé znění promptu je v Zadání Uzavření.
 
 ## Co zůstává na později
 
@@ -125,4 +110,5 @@ Další krok: O v novém chatu, Opus 5.5 · high se skilly `atlas-komponenta` a 
 - Co ti zůstalo?, kartičky s rozestupem a vystřižené citáty: `denik-v2`.
 - Zvuk (Poslechni si) a film: `film-0`, zvuk později.
 - Pravidla pestrosti a katalog aktivit do skillů: `uklid-v1`.
-- Kontrola VoiceOverem z design-v2 (`docs/archiv/plany/design-v2.md` › Co zůstává na později) se hodí k revizi R, když bude autor u Macu.
+- VoiceOver s autorem (z design-v2 a z R): krok O ho nestihl, protože se Mac během práce odpojil; je v Zadání Uzavření, postup v Po O.
+- Zénón z Eleje a Démokritos mají na medailoncích vedle sebe dvě Kdo to řekl?. Jinou hru dostanou, až bude mít Zénón v datech pobyt v Athénách s rokem (Parmenidés 127b: Kde to bylo?), nebo až přibude jiný vztah.

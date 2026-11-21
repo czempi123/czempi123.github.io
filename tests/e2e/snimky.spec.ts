@@ -1,4 +1,4 @@
-// Referenční snímky dvanácti klíčových obrazovek (design-v2, O): hlídají vzhled Spojení po každé změně, kterou jiné
+// Referenční snímky čtrnácti klíčových obrazovek (design-v2, O; hra herny od herna-v1, O): hlídají vzhled Spojení po každé změně, kterou jiné
 // testy neuvidí (barva, papír, rozvržení). Jen Chromium. Jeden snímek pro Mac i Linux na GitHubu: písma jsou
 // v atlasu lokální (stejné metriky, stejné zalomení), liší se jen vyhlazení hran, a na to stačí tolerance níž.
 // Snímky jsou v tests/e2e/snimky/ (playwright.config.ts › snapshotPathTemplate). Po záměrné změně vzhledu:
@@ -27,6 +27,9 @@ const OBRAZOVKY: Obrazovka[] = [
   { nazev: 'denik-kapitoly-390-noc', adresa: '/denik/', sirka: 390, rezim: 'dark', denik: true, prvek: '.kapitoly' },
   { nazev: 'pojem-390-den', adresa: '/pojem/ctnost/', sirka: 390, rezim: 'light' },
   { nazev: 'kresba-1440-noc', adresa: '/cesta/je-to-co-vidim-cela-skutecnost/1/', sirka: 1440, rezim: 'dark', prvek: '.kresba' },
+  // Hra herny (herna-v1, O): Seřaď na ose s napovědami na šňůře, svisle na telefonu a v čtenářském sloupci.
+  { nazev: 'hra-serad-390-den', adresa: '/obdobi/pocatky-a-klasicke-recko/', sirka: 390, rezim: 'light', prvek: '#obdobi1-serad' },
+  { nazev: 'hra-serad-1440-noc', adresa: '/obdobi/pocatky-a-klasicke-recko/', sirka: 1440, rezim: 'dark', prvek: '#obdobi1-serad' },
 ];
 
 async function pripravit(page: Page, o: Obrazovka) {

@@ -2,16 +2,17 @@
 # které slast a klid vyloží; před nimi by hra prozradila, co text řekne. Situace slasti a štěstí a obě pasti jsou
 # z podkladů docs/podklady/herna.md › 4 (u pasti slasti bez rodu: „nemůžeš se soustředit“ místo „jsi jako přejetý“).
 # Klid má novou situaci: dílna už má přijímačky i neděli u seriálu. Mez stránky (Stoický týden): nic o jídle, hladu
-# ani vydržení, žádná věta, že někomu chybí přítel. Že se Epikúros vzdá slasti, po které přijde víc bolesti, je
+# ani vydržení, žádná věta, že někomu chybí přítel. Slast je jen tělem podle VS 33 (revize R: situace s klidem mysli
+# odpovídala i vysvětlení klidu pod pojmem; „doufá, že to mít bude“ drží pramen, revize ho vynechala). Že se Epikúros vzdá slasti, po které přijde víc bolesti, je
 # Dopis Menoikeovi 129 (sep-epicurus).
 druh: pary
 obdobi: 2
 otazka: "Kde v tvém týdnu ta tři slova doopravdy jsou?"
 pary:
   - pojem: slast
-    situace: "Po tréninku si sedneš, nic tě nebolí a ničeho se nebojíš, a víc nepotřebuješ."
-    jinak: "Tady jde o chvíli, kdy tělo nic nebolí a mysl se ničeho nebojí, a nic dalšího chybět nemusí."
-    vazba: "Podle Epikúra tahle chvíle stačí, a kdo ji pozná, nemusí honit další požitky."
+    situace: "Po tréninku si sedneš, nemáš žízeň, není ti zima a nic tě nebolí."
+    jinak: "Tady jde o tělo, kterému nic nechybí: nebolí, nežízní, nemrzne."
+    vazba: "Epikúros tomu říkal hlas těla: kdo to má a doufá, že to mít bude, mohl by se o štěstí přít i s Diem."
   - pojem: klid
     situace: "Kamarádi mají nové boty za tři tisíce. Tvoje jsou starší, ale dobré, a vůbec tě to netahá."
     jinak: "Tady mysl nerozbouří touha mít to, co mají druzí."
@@ -27,4 +28,4 @@ pasti:
   - situace: "Vyhraješ v tombole sluchátka a máš štěstí."
     pripomina: stesti
     jinak: "Tady je štěstí náhoda, která se ti přihodila. Řekové tím slovem mysleli celý život, který se vydařil."
-zdroje: [sep-epicurus, sep-aristotle-ethics]
+zdroje: [sep-epicurus, sep-aristotle-ethics, gnomologium-vaticanum]

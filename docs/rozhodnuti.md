@@ -4,6 +4,19 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 21. 11. 2026: Opravy po revizi větve herna-v1 (O)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Seřaď na ose ukazuje napovědu pod jménem od začátku (z YAML, jinak první věta `proc`); „zkus to jinak“ jmenuje obrácenou dvojici | Revize R: student měl jen jména a roky stály o obrazovku výš; autor (Po R, otázka 1) souhlas |
+| Šňůra visí vodorovně až od 860 px rámu; v čtenářském sloupci stránky (680 px) svisle | Pět karet s napovědou vedle sebe mělo po 109 px šířky, šest až sedm řádků dělených slov; svisle se napovědy čtou jako věty |
+| Citát má nepovinné pole `oCem`; rub Kdo to řekl? z dat ho ukáže nad vztahem a vybraný citát bez něj zastaví sestavení. Nabídka citátů se podle `oCem` nefiltruje | Filtr by přeskládal půlku medailonků (citáty všech kandidátů jdou do `pouzite`) a Aristotelés by zůstal bez hry; kontrola při sestavení drží týž požadavek bez přeskládání |
+| Tipni si na stránce osoby jen z četby přes lidský život; dlouhý život vypadl | Revize R: kvíz o letech bez vztahu. Řada se tím přeskládala u Chairefónta až Aspasie a Zénón z Eleje s Démokritem mají vedle sebe dvě Kdo to řekl? (jinou hru jim data nedají) |
+| Parmenidés má zase Kdo žil dřív? se Sókratem | Revize R a autor (otázka 4): Sókratova věta o soudci s Parmenidem nesouvisí |
+| Kdo by to řekl? na otázce 1: v lístku Diogenés s D. L. VI, 58 (nový citát `dl-vi-58-osli`), Antisthenés jen mezi možnostmi; Aristotelés s větou, že stud patří jen ke špatnému činu, který člověk udělal sám (EN IV, 9, 1128b21–29) | Revize R a autor (otázka 2); obojí ověřeno na Perseu (Hicks, Rackham) |
+| Pravý, nebo podvržený? v cestě 1: Prótagorás „Člověk je měřítkem všech věcí.“ (připsání `clovek-meritkem`, druh pravý) místo Marca | Revize R a autor (otázka 3); citát tak stojí v cestě 1 v kroku 5 a ve hře, třetí výskyt je profil Prótagory |
+| VoiceOver s autorem se přesouvá do Uzavření | Autorův Mac se během O odpojil; postup zůstává v plánu (Po R) |
+
 ## 21. 11. 2026: Přídavky herny v antice, Do hodiny ve všech cestách, hry v profilech (herna-v1 T)
 
 | Rozhodnutí | Důvod |

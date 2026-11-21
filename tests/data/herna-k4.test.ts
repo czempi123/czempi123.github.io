@@ -5,14 +5,14 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { nactiData } from '../../src/lib/kontroly';
-import { druziKdoZilDriv, mezeraZivotu, zijiZaroven } from '../../src/lib/dvojice';
+import { druziKdoZilDriv } from '../../src/lib/dvojice';
 import { vzdalenost, kdeVRoce, naAstro, LIDSKY_ZIVOT } from '../../src/lib/cas-mapy';
 import { projekce, radkyPopisku, umisteniPopisku, vyrezMiniMapy, prekryv, type MistoMiniMapy, type Obdelnik } from '../../src/lib/mapa';
 import {
-  aktivityStranekOsob, kandidatiAktivit, obsahAktivity, poradiLidi, vyberAktivity, idAktivity, delkaZivota, kmMeziMisty,
-  DLOUHY_ZIVOT, DALEKA_CESTA, type Aktivita, type KontextAktivit,
+  aktivityStranekOsob, kandidatiAktivit, obsahAktivity, poradiLidi, vyberAktivity, idAktivity, kmMeziMisty, otazkaVKatalogu,
+  DALEKA_CESTA, type Aktivita, type KontextAktivit,
 } from '../../src/lib/herna/aktivity';
-import { chybyKdoRekl, chybyVetKdoRekl, prvniVeta } from '../../src/lib/herna/citaty';
+import { chybyKdoRekl, chybyVetKdoRekl, prvniVeta, prozrazuje } from '../../src/lib/herna/citaty';
 import { pobytOsoby } from '../../src/lib/herna/mista';
 import {
   Vypravy, chybyVyprav, odpovedVypravy, pokynVypravy, vypravyObdobi, dalsiVyprava, splnenaVyprava, platnyStavVyprav,
@@ -105,6 +105,9 @@ describe('malá aktivita na všech medailoncích', () => {
       const [p, q] = [poradi[i - 1].id, poradi[i].id];
       if (profily.has(p) && profily.has(q)) continue;
       const medailonek = profily.has(p) ? q : p;
+      // Zénón z Eleje a Démokritos (O): od vyřazení dlouhého života mají oba jen Kdo to řekl? a Kdo žil dřív?, mezi
+      // Prótagorovým Kdo žil dřív? a Anaximandrem, který má jen Kdo žil dřív?. Jedna dvojice stejných her je nevyhnutelná.
+      if (`${p}|${q}` === 'zenon-z-eleje|demokritos') continue;
       if (druh(p) === druh(q)) expect(kandidatiAktivit(osoba(medailonek), k).length, `${p} a ${q}`).toBe(1);
     }
   });
@@ -157,7 +160,11 @@ describe('malá aktivita na všech medailoncích', () => {
         expect(mluvci).not.toBe(id);
         // Mluvčí je ve vztahu s osobou stránky a rub to řekne.
         expect(data.vztahy.some((v) => (v.od === id && v.k === mluvci) || (v.od === mluvci && v.k === id))).toBe(true);
-        expect(karta.pointa).toContain(osoba(id).jmeno);
+        expect([osoba(id).jmeno, osoba(id).jmeno2].some((j) => !!j && karta.vztah!.includes(j)), karta.vztah).toBe(true);
+        // Rub řekne, o čem věta je (oCem, revize R): jedna věta, citát neopakuje.
+        expect(karta.pointa).toBe(citaty.get(karta.citat)!.oCem);
+        expect(prvniVeta(karta.pointa)).toBe(karta.pointa);
+        expect(prozrazuje(karta.pointa, citaty.get(karta.citat)!.cesky), karta.pointa).toBe(false);
         for (const j of [mluvci, ...karta.jini]) expect(prvniVeta(osoba(j).proc).length).toBeGreaterThan(10);
         break;
       }
@@ -165,20 +172,22 @@ describe('malá aktivita na všech medailoncích', () => {
         const [A, B] = [osoba(ob.blok.a), osoba(ob.blok.b)];
         const d = vzdalenost(A, B);
         expect(d).not.toBeNull();
-        if (a.druh === 'tipni' && a.duvod === 'cetl') {
-          expect(d!.druh).toBe('deli');
-          expect(d!.let).toBeGreaterThanOrEqual(LIDSKY_ZIVOT);
-          expect(data.vztahy.some((v) => v.typ === 'vliv-textem' && v.od === A.id && v.k === B.id)).toBe(true);
-        } else {
-          expect(delkaZivota(A)!).toBeGreaterThanOrEqual(DLOUHY_ZIVOT);
-          expect(zijiZaroven(A, B)).toBe(true);
-          expect(mezeraZivotu(A, B)).toBe(0);
-          expect(A.zemrel!.rok - B.narozen!.rok).toBeGreaterThanOrEqual(20);
-        }
+        // Jen četba přes lidský život (revize R): dlouhý život bez vztahu z kandidátů vypadl.
+        expect(a.druh === 'tipni' && a.duvod).toBe('cetl');
+        expect(d!.druh).toBe('deli');
+        expect(d!.let).toBeGreaterThanOrEqual(LIDSKY_ZIVOT);
+        expect(data.vztahy.some((v) => v.typ === 'vliv-textem' && v.od === A.id && v.k === B.id)).toBe(true);
         expect(ob.blok.scena).toBeTruthy();
         break;
       }
     }
+  });
+});
+
+describe('katalog hodin', () => {
+  it('Kdo to řekl? z dat má v katalogu jméno stránky ve 2. pádě, ostatní hry otázku beze změny (revize R)', () => {
+    expect(otazkaVKatalogu({ jmeno: 'Theofrastos', jmeno2: 'Theofrasta' }, 'kdo-rekl', 'Čí je ta věta?')).toBe('Čí je ta věta? · u Theofrasta');
+    expect(otazkaVKatalogu({ jmeno: 'Gorgiás' }, 'kde', 'Kam se Gorgiás vydal?')).toBe('Kam se Gorgiás vydal?');
   });
 });
 

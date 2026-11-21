@@ -17,7 +17,7 @@ const PRIDAVKY = [
   ['cesta6-slabe', '/cesta/kolik-je-dost/6/'],
   ['jak-zit-kdo-by', '/otazka/jak-zit/'],
   ['hra-aristoteles-kdo-rekl', '/osobnost/aristoteles/'],
-  ['hra-parmenides-kdo-rekl', '/osobnost/parmenides/'],
+  ['hra-demokritos-kdo-rekl', '/osobnost/demokritos/'],
   ['hra-epiktetos-kdo-rekl', '/osobnost/epiktetos/'],
 ];
 const vybrane = process.argv.slice(2);

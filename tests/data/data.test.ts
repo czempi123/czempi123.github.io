@@ -43,9 +43,10 @@ describe('data atlasu', () => {
 
 describe('připsání citátů (Pravý, nebo podvržený?)', () => {
   const p = data.zdroje.pripsani;
-  it('jich je pět až osm, z toho dvě až tři pravé', () => {
+  // Osm z P6 a Prótagorás z revize R (cesta 1 potřebovala pravou větu člověka, kterého student potkal).
+  it('jich je pět až devět, z toho dvě až tři pravé', () => {
     expect(p.length).toBeGreaterThanOrEqual(5);
-    expect(p.length).toBeLessThanOrEqual(8);
+    expect(p.length).toBeLessThanOrEqual(9);
     const pravych = p.filter((x) => x.verdikt === 'rekl').length;
     expect(pravych).toBeGreaterThanOrEqual(2);
     expect(pravych).toBeLessThanOrEqual(3);

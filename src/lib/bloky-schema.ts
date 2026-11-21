@@ -338,6 +338,8 @@ const KartaCitatu = z
     napoveda: Text,
     /** jedna věta na rubu karty nad jménem: o čem věta je (K2, zásada Pointa není paměť) */
     pointa: Text,
+    /** hra z dat (O): pod pointou drobně, kdo na koho navázal (vztah z vztahy.yaml) */
+    vztah: Text.optional(),
   })
   .strict();
 

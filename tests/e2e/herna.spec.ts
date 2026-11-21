@@ -88,6 +88,9 @@ for (const { sirka, vyska } of SIRKY) {
       expect(smer).toBe(sirka < 700 ? 'column' : 'row');
       await expect(blok.locator('.karta-osy[tabindex="0"]')).toHaveCount(1);
       await expect(blok.locator('.karta-osy__rok')).toHaveCount(0);
+      // Napovědy jsou na kartách od začátku (revize R): student řadí podle toho, kdo na koho navázal.
+      await expect(blok.locator('.karta-osy__napoveda')).toHaveCount(5);
+      await expect(blok.locator('.karta-osy__napoveda').filter({ hasText: 'Antisthenés chodil poslouchat Sókrata.' })).toHaveCount(1);
       expect(await poradiNaSnure(blok)).not.toEqual(SPRAVNE);
       await axe(page, `[id="${SERAD}"]`);
       await snimek(page, blok, `herna-serad-klid-${pr}`);
@@ -106,7 +109,7 @@ for (const { sirka, vyska } of SIRKY) {
       await page.keyboard.press('Enter');
       const zkus = blok.getByRole('region', { name: 'Zkus to jinak' });
       await expect(zkus).toContainText('Zkus to jinak.');
-      await expect(zkus).toContainText(/učil|poslouchat|navazovali|začínal/);
+      await expect(zkus).toContainText(/„.+“\sa\s„.+“ zatím visí obráceně\./);
       await expect(blok.locator('.dvojice')).toHaveCount(4);
       await expect(blok.getByRole('button', { name: 'Zkontrolovat pořadí' })).toBeDisabled();
       await expect(blok.locator('.karta-osy__rok')).toHaveCount(0);

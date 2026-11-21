@@ -218,6 +218,11 @@ export const Citat = z
     dilo: z.string(),
     misto: z.string(),
     cesky: z.string(),
+    /**
+     * jedna věta, o čem citát je (herna-v1, O): rub hry Kdo to řekl? z dat ji ukáže nad vztahem a hra z dat bere
+     * jen citáty s ní. Píše se skillem atlas-psani, nikdy neopakuje citát.
+     */
+    oCem: z.string().optional(),
     original: z.string().optional(),
     preklad: z
       .object({

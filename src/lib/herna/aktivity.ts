@@ -2,15 +2,14 @@
 // co je u člověka zajímavé, a sousední stránky v seznamu Lidé dostanou různé hry.
 //   daleká cesta nebo vyhnanství  → Kde to bylo?
 //   věta člověka, se kterým se znal, učil nebo přel → Kdo to řekl? (odkrytí řekne, kdo na koho navázal)
-//   velká mezera k tomu, koho četl, nebo dlouhý život → Tipni si
+//   velká mezera k tomu, koho četl → Tipni si (dlouhý život vyřazen v O: kvíz o letech bez vztahu, revize R)
 //   překvapivý současník (druhý člověk bez vztahu, src/lib/dvojice.ts) → Kdo žil dřív? (má ho každý, je to záloha)
 // Výběr je pevný: síla kandidáta z dat a semínko z id osoby (FNV-1a), žádná náhoda. Profily mají svou aktivitu
 // napsanou ručně (Kdo žil dřív? v MDX) a výběr ji bere jako pevnou; medailonek dostane hru sestavenou z dat
 // (obsahAktivity), obaly her ji vezmou místo YAML. Zásada Pointa není paměť: hra dává do ruky myšlenku (proc),
 // vztah nebo pobyt, roky jsou drobný údaj.
 // Čisté funkce bez Astra a DOM; testy tests/data/herna-k4.test.ts, výpis scripts/herna-k4-vypis.ts.
-import { vzdalenost, zivotOsoby, let_, LIDSKY_ZIVOT } from '../cas-mapy';
-import { zijiZaroven, NEJMENSI_MEZERA } from '../dvojice';
+import { vzdalenost, zivotOsoby, LIDSKY_ZIVOT } from '../cas-mapy';
 import { interval } from '../casy';
 import { BlokKde, BlokKdoRekl, BlokTipni, type TBlokKde, type TBlokKdoRekl, type TBlokTipni } from '../bloky-schema';
 import type { TOsoba, TVztah } from '../schema';
@@ -36,12 +35,12 @@ export type Aktivita =
   | { druh: 'kdo-zil'; sila: number; b: string }
   | { druh: 'kde'; sila: number; misto: string; role: Role; km: number | null }
   | { druh: 'kdo-rekl'; sila: number; citat: string; mluvci: string; jini: string[] }
-  | { druh: 'tipni'; sila: number; a: string; b: string; duvod: 'cetl' | 'zivot' };
+  | { druh: 'tipni'; sila: number; a: string; b: string; duvod: 'cetl' };
 
 export interface KontextAktivit {
   lide: readonly OsobaAktivity[];
   vztahy: readonly VztahVazby[];
-  citaty: readonly { id: string; osoba?: string; autor?: string; tradice?: string; cesky: string }[];
+  citaty: readonly { id: string; osoba?: string; autor?: string; tradice?: string; cesky: string; oCem?: string }[];
   mista: ReadonlyMap<string, { souradnice: readonly [number, number]; kde?: string }>;
   /** má osoba stránku (profil, portrét, medailonek) */
   maStranku: (id: string) => boolean;
@@ -74,8 +73,6 @@ export function kmMeziMisty(a: readonly [number, number], b: readonly [number, n
 
 /** Od kolika kilometrů od rodiště je pobyt „daleká cesta“ (Athény z Kitia, Řím z Kyréné; ne Athény z Théb). */
 export const DALEKA_CESTA = 500;
-/** Od kolika let je život „dlouhý“ (Gorgiás, Isokratés, Kleanthés). */
-export const DLOUHY_ZIVOT = 90;
 const ROLE_CESTY: Role[] = ['pusobeni', 'studium', 'pobyt', 'tazeni'];
 const PORADI_VZTAHU: TVztah['typ'][] = ['ucitel', 'znali-se', 'polemika', 'vliv-textem'];
 /** Citát na kartičku: aspoň pět a nejvýš pětadvacet slov, bez vypuštěného místa (…), které by chtělo výklad. */
@@ -131,6 +128,9 @@ function kandidatKdoRekl(o: OsobaAktivity, k: KontextAktivit, pouzite: ReadonlyS
     const citaty = k.citaty.filter((c) => c.osoba === mluvci && !c.tradice && !pouzite.has(c.id) && !k.naStrance?.(o.id, c.id) && NA_KARTU(c.cesky) && bezJmena(c.cesky) && !prozrazuje(proc, c.cesky));
     if (!citaty.length) continue;
     const vaha = (id: string) => k.vahaCitatu?.(id) ?? 0;
+    // Vybraný citát musí mít v zdroje.yaml větu oCem (revize R), jinak obsahAktivity zastaví sestavení. Nabídka se
+    // podle oCem nefiltruje: citáty kandidátů jdou do `pouzite` i u stránek, které nakonec hrají jinou hru, a filtr by
+    // přeskládal všechny medailonky v řadě.
     const c = zamichej(citaty, `${o.id}:${mluvci}`).sort((x, y) => vaha(y.id) - vaha(x.id))[0];
     // Autor díla, ve kterém mluví jiný (Platón u Sókratovy věty z Obrany), mezi razítka nejde: větu opravdu napsal.
     // Filtruje se až po zamíchání, aby razítka medailonků zůstala stejná jako před pravidlem.
@@ -145,8 +145,8 @@ function kandidatKdoRekl(o: OsobaAktivity, k: KontextAktivit, pouzite: ReadonlyS
 }
 
 /**
- * Tipni si: koho osoba četla a od koho ji dělí aspoň jeden lidský život (Plótínos a Platón), jinak dlouhý život
- * (Gorgiás) a ten nejpozději narozený člověk se stránkou, se kterým ještě žil zároveň (Aristotelés).
+ * Tipni si: koho osoba četla a od koho ji dělí aspoň jeden lidský život (Plótínos a Platón). Dlouhý život bez vztahu
+ * (Gorgiás a Diogenés) byl kvíz o letech, ne o tom, kdo na koho navázal: z kandidátů vypadl (revize R, O).
  */
 function kandidatTipni(o: OsobaAktivity, k: KontextAktivit): Aktivita | null {
   const podleId = new Map(k.lide.map((x) => [x.id, x]));
@@ -155,18 +155,7 @@ function kandidatTipni(o: OsobaAktivity, k: KontextAktivit): Aktivita | null {
     .map((v) => ({ a: v.od, d: vzdalenost(podleId.get(v.od)!, o) }))
     .filter((x) => x.d?.druh === 'deli' && x.d.let >= LIDSKY_ZIVOT)
     .sort((x, y) => y.d!.let - x.d!.let);
-  if (cetl[0]) return { druh: 'tipni', sila: cetl[0].d!.let >= 2 * LIDSKY_ZIVOT ? 3 : 2, a: cetl[0].a, b: o.id, duvod: 'cetl' };
-  const delka = delkaZivota(o);
-  if (delka === null || delka < DLOUHY_ZIVOT) return null;
-  // Druhý člověk: narozený po osobě, a přesto s ní žil aspoň dvacet let zároveň (s roky „asi“ by kratší překryv
-  // byl past, pouceni: Kdo žil dřív?); nejpozději narozený, nejdřív ze známých (profil, portrét).
-  const narozen = o.narozen!.rok;
-  const konec = o.zemrel!.rok;
-  const pozdejsi = k.lide
-    .filter((x) => x.id !== o.id && k.maStranku(x.id) && x.narozen && x.narozen.rok > narozen && konec - x.narozen.rok >= NEJMENSI_MEZERA && zijiZaroven(o, x))
-    .sort((x, y) => Number(!!k.znama?.(y.id)) - Number(!!k.znama?.(x.id)) || y.narozen!.rok - x.narozen!.rok || x.id.localeCompare(y.id));
-  const b = pozdejsi[0];
-  return b ? { druh: 'tipni', sila: delka >= 100 ? 3 : 2, a: o.id, b: b.id, duvod: 'zivot' } : null;
+  return cetl[0] ? { druh: 'tipni', sila: cetl[0].d!.let >= 2 * LIDSKY_ZIVOT ? 3 : 2, a: cetl[0].a, b: o.id, duvod: 'cetl' } : null;
 }
 
 /** Délka života v letech (přes rok nula), jen s narozením i úmrtím. */
@@ -289,6 +278,14 @@ export function otazkaAktivity(o: OsobaAktivity, a: Exclude<Aktivita, { druh: 'k
   }
 }
 
+/**
+ * Název hry z dat v katalogu hodin (revize R): Kdo to řekl? má na každé stránce stejnou otázku, a tak ji katalog
+ * doplní o stránku ve 2. pádě („Čí je ta věta? · u Theofrasta“). Na stránce zůstává otázka beze změny.
+ */
+export function otazkaVKatalogu(o: Pick<OsobaAktivity, 'jmeno' | 'jmeno2'>, druh: DruhAktivity, otazka: string): string {
+  return druh === 'kdo-rekl' ? `${otazka} · u ${o.jmeno2 ?? o.jmeno}` : otazka;
+}
+
 export type ObsahAktivity =
   | { druh: 'kde'; id: string; blok: TBlokKde }
   | { druh: 'kdo-rekl'; id: string; blok: TBlokKdoRekl }
@@ -297,8 +294,8 @@ export type ObsahAktivity =
 
 /**
  * Obsah hry pro obal bloku (místo YAML): stejná schémata jako bloky v src/content/bloky, takže hra z dat projde
- * stejnou kontrolou. Texty skládá z dat: rodiště a pobyt (Kde to bylo?), vztah k mluvčímu (Kdo to řekl?),
- * kdo koho četl, nebo jak dlouho žil (Tipni si).
+ * stejnou kontrolou. Texty skládá z dat: rodiště a pobyt (Kde to bylo?), o čem citát je a vztah k mluvčímu (Kdo to řekl?),
+ * kdo koho četl (Tipni si).
  */
 export function obsahAktivity(o: OsobaAktivity, a: Aktivita, k: KontextAktivit): ObsahAktivity {
   const id = idAktivity(o.id, a);
@@ -324,6 +321,8 @@ export function obsahAktivity(o: OsobaAktivity, a: Aktivita, k: KontextAktivit):
       const mluvci = podleId.get(a.mluvci)!;
       const [prvni, druhy] = zacatekVSeznamu(mluvci) <= zacatekVSeznamu(o) ? [mluvci, o] : [o, mluvci];
       const v = vazbaDvou(prvni, druhy, k.vztahy);
+      const c = k.citaty.find((x) => x.id === a.citat);
+      if (!c?.oCem) throw new Error(`Hra na stránce osoby „${o.id}“: citát „${a.citat}“ nemá v zdroje.yaml větu oCem (o čem citát je); doplň ji skillem atlas-psani.`);
       return {
         druh: 'kdo-rekl', id,
         blok: BlokKdoRekl.parse({
@@ -334,8 +333,9 @@ export function obsahAktivity(o: OsobaAktivity, a: Aktivita, k: KontextAktivit):
             citat: a.citat,
             jini: a.jini,
             napoveda: 'Porovnej větu s tím, čím se který z nich zabýval.',
-            // Na rubu nahoře: kdo na koho navázal (vztah z dat), ne výklad věty.
-            pointa: v!.veta,
+            // Na rubu nahoře, o čem věta je (oCem ze zdroje.yaml, revize R), pod tím drobně, kdo na koho navázal.
+            pointa: c.oCem,
+            vztah: v!.veta,
           }],
         }),
       };
@@ -343,9 +343,7 @@ export function obsahAktivity(o: OsobaAktivity, a: Aktivita, k: KontextAktivit):
     case 'tipni': {
       const A = podleId.get(a.a)!;
       const B = podleId.get(a.b)!;
-      const scena = a.duvod === 'cetl'
-        ? vazbaDvou(A, B, k.vztahy)?.veta
-        : `${A.jmeno} se ${tvar(A, 'dožil', 'dožila')} ${A.narozen?.priblizne || A.zemrel?.priblizne ? 'asi\u00a0' : ''}${let_(delkaZivota(A)!)}.`;
+      const scena = vazbaDvou(A, B, k.vztahy)?.veta;
       return { druh: 'tipni', id, blok: BlokTipni.parse({ druh: 'tipni', ...zaklad, scena, otazka: otazkaAktivity(o, a, k), a: a.a, b: a.b }) };
     }
   }

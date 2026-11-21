@@ -73,6 +73,9 @@ for (const { sirka, vyska } of SIRKY) {
       await page.keyboard.press('Enter');
       const rub = kdo.getByRole('group', { name: 'Rub karty' });
       await expect(rub).toContainText('Theofrastos se učil u Aristotela.');
+      // Nahoře na rubu, o čem věta je (oCem ze zdroje.yaml, revize R), vztah drobně pod tím.
+      await expect(rub.locator('.kartka__pointa')).toContainText('Štěstí měří Aristotelés celým životem');
+      await expect(rub.locator('.kartka__vztah')).toHaveText('Theofrastos se učil u Aristotela.');
       await expect(rub).toContainText('Aristotelés');
       await expect(kdo.getByRole('region', { name: 'Otočené karty' })).toHaveCount(0);
       await bezPresahu(page);
@@ -132,6 +135,8 @@ test('sousední stránky v seznamu Lidé mají různé hry a každý medailonek 
   // Dva medailonky vedle sebe nikdy stejná hra (profil má svou v textu; Thalés vedle Hérakleita jinou možnost nemá).
   for (let i = 1; i < druhy.length; i++) {
     const [a, b] = [druhy[i - 1], druhy[i]];
+    // Zénón z Eleje a Démokritos (herna-v1, O): od vyřazení dlouhého života jinou hru data nedají (tests/data/herna-k4.test.ts).
+    if (a.adresa === '/osobnost/zenon-z-eleje/' && b.adresa === '/osobnost/demokritos/') continue;
     if (!a.profil && !b.profil) expect(a.hra, `${a.adresa} a ${b.adresa}`).not.toBe(b.hra);
   }
 });

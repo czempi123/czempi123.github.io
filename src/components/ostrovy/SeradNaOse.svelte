@@ -5,6 +5,8 @@
   // nebo „zkus to jinak“ se značkami dvojic a jednou větou, kam se podívat. Roky až po správném pořadí; po třech
   // kontrolách se nabídne Ukázat pořadí. Po správném pořadí (i po Ukázat pořadí) stojí mezi sousedními lidmi, co je
   // spojuje: vztah z vztahy.yaml, „mohli se potkat“, nebo nic (K2, zásada Pointa není paměť); roky jen drobně pod jménem.
+  // Pod jménem je od začátku napověda, podle čeho řadit (revize R): z YAML, jinak první věta proc z dat. „Zkus to
+  // jinak“ jmenuje první obrácenou dvojici.
   // Do deníku jen stav (pořadí, kontrola, pokusy), žádný zápis.
   // Použití v MDX (obsah v src/content/bloky/dilna-serad-narozeni.yaml, druh: serad):
   // <SeradNaOse id="dilna-serad-narozeni" />
@@ -312,6 +314,7 @@
             onpointercancel={pusteni}
           >
             <span class="karta-osy__text">{@html radek(karta.text)}</span>
+            {#if karta.napoveda}<span class="karta-osy__napoveda">{@html radek(karta.napoveda)}</span>{/if}
             {#if hotovo}<span class="karta-osy__rok">{karta.rokText}</span>{/if}
             <span class="vizualne-skryte">, místo {i + 1} z {n}</span>
           </button>
@@ -341,8 +344,9 @@
 </RamAktivity>
 
 <style>
-  /* Šňůra: provázek s kolíčky, karty na něm visí. Vodorovně, když je v rámu místo (aspoň asi 110 px na kartu),
-     jinak svisle: provázek vlevo, karty vpravo od něj (telefon, úzký sloupec). */
+  /* Šňůra: provázek s kolíčky, karty na něm visí. Vodorovně, když je v rámu místo (od O s napovědou pod jménem
+     aspoň asi 160 px na kartu: v kroku cesty a v dílně), jinak svisle: provázek vlevo, karty vpravo od něj
+     (telefon, čtenářský sloupec stránky období). */
   .osa {
     position: relative;
     display: grid;
@@ -416,6 +420,8 @@
   .karta-osy--zvednuta:focus-visible { outline: 2px solid var(--pero); box-shadow: var(--lezi-zved), 0 0 0 7px var(--list), 0 0 0 9px var(--ink); }
   .karta-osy--tazena { z-index: 6; cursor: grabbing; transition: none; }
   .karta-osy[aria-disabled] { cursor: default; }
+  /* Napověda pod jménem (revize R): tiskem jako věta proc pod razítkem v Kdo to řekl? */
+  .karta-osy__napoveda { font-family: var(--font-serif); font-size: calc(var(--meritko) * 14px); line-height: 1.35; color: var(--ink-2); text-wrap: pretty; }
   /* Roky jsou jen drobný údaj pod jménem (zásada Pointa není paměť). */
   .karta-osy__rok { font-family: var(--font-sans); font-size: calc(var(--meritko) * 12.5px); font-weight: 500; color: var(--ink-2); }
   /* Co spojuje sousedy: drobně tiskem v mezeře mezi kartami, na provázku. Tradovaný vztah „· vypráví se“. */
@@ -459,12 +465,12 @@
     line-height: 1;
   }
   .dvojice--obracene { box-shadow: inset 0 0 0 1.5px var(--ink); background: var(--plocha); }
-  /* Otisk přes konec šňůry a roh poslední karty (dole by se potkal s páskou lístku). */
-  .osa__otisk { position: absolute; right: 0; top: -14px; z-index: 4; }
+  /* Otisk svisle dole vpravo u konce šňůry: nahoře by zakryl napovědu první karty. */
+  .osa__otisk { position: absolute; right: 0; bottom: -18px; z-index: 4; }
   .osa__napoveda { margin: 0 0 var(--s-2); font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
 
   /* Vodorovná šňůra: karty vedle sebe, kolíčky nahoře, popisky konců pod ní. */
-  @container (min-width: 560px) {
+  @container (min-width: 860px) {
     .osa { grid-template-columns: 1fr 1fr; grid-template-areas: 'snura snura' 'zacatek konec'; }
     .osa__kraj--konec { justify-self: end; }
     .osa__kraj--zacatek::before { content: '← '; }
@@ -484,7 +490,7 @@
     .vazba-osy { left: calc(100% + 7px); right: auto; top: calc(100% + 6px); width: calc(100% + 14px); height: auto; padding: 0; translate: -50% 0; justify-content: center; text-align: center; text-wrap: balance; }
     .vazba-osy__sipka::before { content: '← '; }
     /* Otisk nad konec šňůry, ať nezakryje jméno poslední karty. */
-    .osa__otisk { top: -58px; }
+    .osa__otisk { top: -58px; bottom: auto; }
   }
 
   .zkus { display: flex; align-items: center; gap: var(--s-2); margin: 0 0 var(--s-2); font-family: var(--font-ruka); font-size: calc(var(--meritko) * 22px); line-height: 1.3; color: var(--ruka); }
