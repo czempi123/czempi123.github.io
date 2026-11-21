@@ -6,7 +6,7 @@
 # Hovory II, 1 a Rukojeť 5 nejsou v žádném textu atlasu; VS 68 je v cestě Kolik je dost? (krok 6).
 druh: kdo-rekl
 obdobi: 2
-scena: "Dvě z těch tří vět napsali stoikové. Třetí je od muže, se kterým se stoikové přeli."
+scena: "Dvě z těch tří vět jsou od stoiků. Třetí je od muže, se kterým se stoikové přeli."
 otazka: "Čí je ta věta, a je stoická?"
 karty:
   - citat: rukojet-5
