@@ -37,6 +37,64 @@ async function odpovez(blok) {
     await blok.locator('.cip').first().click();
     await blok.locator('.zmenena').getByRole('radio').nth(1).check({ force: true });
     await blok.locator('.zmenena .blok__tl--hlavni').click();
+  } else if (await tl('Zkontrolovat pořadí').count()) {
+    // Seřaď na ose: prohazovat karty a kontrolovat, po třech kontrolách Ukázat pořadí (nebo dřív sedí).
+    for (let i = 0; i < 12 && (await tl('Zkontrolovat pořadí').count()); i++) {
+      if (await tl('Ukázat pořadí').count()) { await tl('Ukázat pořadí').click(); break; }
+      const karty = blok.locator('.karta-osy');
+      await karty.nth(i % 2).click();
+      await karty.nth(2).click();
+      if (await tl('Zkontrolovat pořadí').isEnabled()) await tl('Zkontrolovat pořadí').click();
+    }
+  } else if (await blok.locator('.razitko-odpoved').count()) {
+    // Kdo to řekl?: razítka po řadě, dokud karta nesedí, pak Další karta.
+    for (let i = 0; i < 40; i++) {
+      if (await tl('Další karta').count()) { await tl('Další karta').click(); continue; }
+      const volne = blok.locator('.razitko-odpoved:not(:disabled)');
+      if (!(await volne.count())) break;
+      await volne.first().click();
+    }
+  } else if (await tl('Zkontrolovat odhad').count()) {
+    // Tipni si: dva odhady posuvníkem, pak Ukázat, jak to bylo (nebo dřív sedí).
+    const vstup = blok.locator('.pravitko__vstup');
+    for (const n of ['0', '1']) {
+      if (!(await tl('Zkontrolovat odhad').count())) break;
+      await vstup.evaluate((e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, n);
+      if (await tl('Zkontrolovat odhad').isEnabled()) await tl('Zkontrolovat odhad').click();
+    }
+    if (await tl('Ukázat, jak to bylo').count()) await tl('Ukázat, jak to bylo').click();
+  } else if (await blok.locator('.slepa').count()) {
+    // Kde to bylo?: klepnutí do slepé mapy položí špendlík.
+    await blok.locator('.slepa').click({ position: { x: 30, y: 30 } });
+  } else if (await blok.locator('.vystrizky .vystrizek').count()) {
+    // Doplň citát: každý lístek jednou do mezery, dokud věta nesedí.
+    const listky = blok.locator('.vystrizky .vystrizek');
+    for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
+  } else if (await blok.locator('.par-listek').count()) {
+    // Páry: pojem a situace po řadě, dokud se nenabídne Ukázat páry (nebo nesedí všechno).
+    for (let i = 0; i < 30; i++) {
+      if (await tl('Ukázat páry').count()) { await tl('Ukázat páry').click(); break; }
+      const pojem = blok.locator('.par-listek--pojem:not(:disabled)');
+      if (!(await pojem.count())) break;
+      await pojem.first().click();
+      await blok.locator('.par-listek--situace:not(:disabled)').nth(i % 2).click();
+    }
+  } else if (await blok.locator('.razitko-verdikt').count()) {
+    // Pravý, nebo podvržený?: první razítko na každém ústřižku, pak Další ústřižek.
+    for (let i = 0; i < 20; i++) {
+      if (await tl('Další ústřižek').count()) { await tl('Další ústřižek').click(); continue; }
+      const r = blok.locator('.razitko-verdikt:not(:disabled)');
+      if (!(await r.count())) break;
+      await r.first().click();
+    }
+  } else if (await blok.locator('.veta-arg').count()) {
+    // Najdi slabé místo: přeškrtnout první premisu a zapsat (bez nepovinného „Proč“).
+    await blok.locator('button.veta-arg').first().click();
+    await tl('Zapsat do deníku').click();
+  } else if (await blok.locator('.razitko-volby').count()) {
+    // Kdo by to řekl?: první filozof a zapsat (bez nepovinného „Proč“).
+    await blok.locator('.razitko-volby').first().click();
+    await tl('Zapsat do deníku').click();
   } else if (await tl('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků 1, 2… a Závěr, pak ukázat chybějící větu a napadnout první možnost.
     const radky = blok.locator('[data-radek]');

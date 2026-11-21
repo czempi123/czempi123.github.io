@@ -1,0 +1,14 @@
+# Tipni si na stránce období 2 (herna-v1, T; odpověď 1 v Co rozhodnout před P6). Stojí pod oddílem Lidé a směry
+# (frontmatter `hra`). Epikúros a Cicero: vztah ve vztahy.yaml je polemika, spor na dálku („starají se bohové
+# o lidi?“, iep-cicero), takže odkrytí řekne, kdo s kým nesouhlasil, i když se nepotkali. Asi dva lidské životy
+# (Epikúros zemřel 270, Cicero se narodil 106 př. n. l.). Jiná dvojice než v dílně (Epiktétos a Marcus, Thalés
+# a Hypatia) i na medailoncích (Platón a Cicero, Platón a Filón). Scéna je jen z vztahů v datech (dialogy podle
+# Platónových a Aristotelových vzorů, spor s Epikúrem); otázku sporu řekne až odkrytí. Letopočet nenese.
+druh: tipni
+obdobi: 2
+scena: "Cicero, římský řečník a politik, psal filozofické dialogy podle řeckých vzorů. S Epikúrovým učením v nich nesouhlasil."
+otazka: "Kolik lidských životů je mezi Epikúrem a Ciceronem?"
+a: epikuros
+b: cicero
+vysvetleni: "Cicero nesouhlasil s člověkem, který zemřel dávno před jeho narozením, a přel se s ním přes knihy. Je to ještě spor, když druhý už nemůže odpovědět?"
+zdroje: [iep-cicero]

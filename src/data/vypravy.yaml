@@ -1,0 +1,65 @@
+# Výpravy v Mapě a čase (herna-v1, K4): otázky „Kde byl…?“ pro období na pásu.
+# Otázky jsou z podkladů P6 (docs/podklady/herna.md, oddíl 6); odpověď skládají data (kdeVRoce a věta o pobytu,
+# src/lib/herna/vypravy.ts) a `misto` je kontrola, kde člověka mapa v tom roce opravdu ukáže (tests/data/herna-k4.test.ts).
+# `pak` je jedna ověřená věta navíc, jen kde ji podklady mají. Schéma: Vyprava v src/lib/herna/vypravy.ts.
+# Pořadí v období je pořadí na lístku (Další výprava); první výprava období 1 je ta z první návštěvy mapy.
+
+- id: sokrates-424
+  obdobi: 1
+  osoba: sokrates
+  rok: -424
+  misto: delion
+  otazka: Kde byl Sókratés roku 424 př. n. l.?
+- id: pythagoras-520
+  obdobi: 1
+  osoba: pythagoras
+  rok: -520
+  misto: kroton
+  otazka: Kde učil Pýthagorás roku 520 př. n. l.?
+- id: anaxagoras-440
+  obdobi: 1
+  osoba: anaxagoras
+  rok: -440
+  misto: athenes
+  otazka: Kde působil Anaxagorás roku 440 př. n. l.?
+  pak: Z Athén musel později odejít do vyhnanství.
+- id: aristoteles-343
+  obdobi: 1
+  osoba: aristoteles
+  rok: -343
+  misto: pella
+  otazka: Kam odešel Aristotelés roku 343 př. n. l.?
+  pak: Učil tu mladého Alexandra, pozdějšího krále.
+- id: diogenes-323
+  obdobi: 1
+  osoba: diogenes
+  rok: -323
+  misto: korinth
+  otazka: Kde byl Diogenés roku 323 př. n. l.?
+  pak: Vypráví se, že zemřel v týž den jako Alexandr Veliký.
+- id: epikuros-310
+  obdobi: 2
+  osoba: epikuros
+  rok: -310
+  misto: mytilena
+  otazka: Kde učil Epikúros roku 310 př. n. l.?
+  pak: Zahradu v Athénách založil až o čtyři roky později.
+- id: seneca-45
+  obdobi: 2
+  osoba: seneca
+  rok: 45
+  misto: korsika
+  otazka: Kde byl Seneca roku 45 n. l.?
+- id: marcus-aurelius-173
+  obdobi: 2
+  osoba: marcus-aurelius
+  rok: 173
+  misto: carnuntum
+  otazka: Kde byl Marcus Aurelius roku 173 n. l.?
+  pak: Tady psal část svých Hovorů k sobě.
+- id: plotinos-240
+  obdobi: 2
+  osoba: plotinos
+  rok: 240
+  misto: alexandrie
+  otazka: Kde studoval Plótínos roku 240 n. l.?

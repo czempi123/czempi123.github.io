@@ -1,0 +1,31 @@
+# Páry v dílně (herna-v1, K3): situace z podkladů docs/podklady/herna.md › 4. Páry (v naší moci, soud, střed,
+# klid; pasti u soudu a klidu). Věty „jinak“ a „vazba“ jsou napsané z vysvětlení pojmů v src/content/pojmy
+# a z poznámek podkladů; do antiky je projde krok T se skillem atlas-psani.
+druh: pary
+obdobi: 2
+otazka: "Kde v tvém dni ten pojem opravdu je?"
+pary:
+  - pojem: v-nasi-moci
+    situace: "Zítra je zápas. Počasí neovlivníš, rozcvičku a spánek ano."
+    jinak: "Tahle situace dělí zítřek na to, s čím něco uděláš, a na to, s čím ne."
+    vazba: "Epiktétos by řekl, že zápas začíná u rozcvičky a spánku: to je tvoje dílo, počasí ne."
+  - pojem: soud
+    situace: "Spolužák se na tebe na chodbě nepodívá a ty si všimneš, že „ignoruje mě“ si říkáš ty."
+    jinak: "Tady si všimneš, že „ignoruje mě“ je tvoje věta o tom, co se stalo, a ne to, co se stalo."
+    vazba: "„Ignoruje mě“ je soud o věci, a ten se podle stoiků dá prozkoumat: třeba se jen nedíval."
+  - pojem: stred
+    situace: "Na oslavě se nebojíš promluvit, ale ani nepřekřičíš celý stůl."
+    jinak: "Tady se hledá míra mezi dvěma krajnostmi: mezi mlčením ze strachu a překřikováním."
+    vazba: "Aristotelův střed není půlka, ale míra mezi dvěma chybami, která sedí tobě a té chvíli."
+  - pojem: klid
+    situace: "Před přijímačkami víš, co umíš, a večer usneš bez převalování."
+    jinak: "Tady mysl nerozbouří ani strach z toho, co zítra přijde."
+    vazba: "Ataraxia není volno od povinností, ale mysl, kterou nerozbouří strach, ani když povinnosti čekají."
+pasti:
+  - situace: "Kamarád dostal pokutu u okresního soudu za jízdu na koloběžce."
+    pripomina: soud
+    jinak: "Tady je soud úřad, který rozhoduje spory. Stoikům šlo o soud v hlavě: co si o věci řekneš ty."
+  - situace: "Ležíš celou neděli u seriálu, protože máš klid od školy."
+    pripomina: klid
+    jinak: "Tady je klid volno od školy. Epikúrovi šlo o mysl, kterou nerozbouří strach, ať máš volno, nebo ne."
+zdroje: [sep-stoicism, sep-epicurus]

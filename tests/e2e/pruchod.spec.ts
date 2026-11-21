@@ -52,6 +52,89 @@ async function odpovez(blok: Locator): Promise<string> {
     await blok.locator('.zmenena .blok__tl--hlavni').click();
     return 'zmena';
   }
+  if (await tlacitko('Zkontrolovat pořadí').count()) {
+    // Seřaď na ose: prohazovat karty a kontrolovat, po třech kontrolách Ukázat pořadí (nebo dřív sedí).
+    for (let i = 0; i < 12 && (await tlacitko('Zkontrolovat pořadí').count()); i++) {
+      if (await tlacitko('Ukázat pořadí').count()) { await tlacitko('Ukázat pořadí').click(); break; }
+      const karty = blok.locator('.karta-osy');
+      await karty.nth(i % 2).click();
+      await karty.nth(2).click();
+      if (await tlacitko('Zkontrolovat pořadí').isEnabled()) await tlacitko('Zkontrolovat pořadí').click();
+    }
+    await expect(blok.locator('.karta-osy__rok').first()).toBeVisible();
+    return 'serad';
+  }
+  if (await blok.locator('.razitko-odpoved').count()) {
+    // Kdo to řekl?: razítka po řadě, dokud karta nesedí, pak Další karta; po poslední kartě nic nezbývá.
+    for (let i = 0; i < 40; i++) {
+      if (await tlacitko('Další karta').count()) { await tlacitko('Další karta').click(); continue; }
+      const volne = blok.locator('.razitko-odpoved:not(:disabled)');
+      if (!(await volne.count())) break;
+      await volne.first().click();
+    }
+    await expect(blok.getByRole('region', { name: 'Otočené karty' })).toBeVisible();
+    return 'kdo-rekl';
+  }
+  if (await tlacitko('Zkontrolovat odhad').count()) {
+    // Tipni si: dva odhady posuvníkem, pak Ukázat, jak to bylo (nebo dřív sedí).
+    const vstup = blok.locator('.pravitko__vstup');
+    for (const n of ['0', '1']) {
+      if (!(await tlacitko('Zkontrolovat odhad').count())) break;
+      await vstup.evaluate((e: HTMLInputElement, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); }, n);
+      if (await tlacitko('Zkontrolovat odhad').isEnabled()) await tlacitko('Zkontrolovat odhad').click();
+    }
+    if (await tlacitko('Ukázat, jak to bylo').count()) await tlacitko('Ukázat, jak to bylo').click();
+    await expect(blok.locator('.pravitko__pravda')).toBeVisible();
+    return 'tipni';
+  }
+  if (await blok.locator('.slepa').count()) {
+    // Kde to bylo?: klepnutí do slepé mapy položí špendlík.
+    await blok.locator('.slepa').click({ position: { x: 30, y: 30 } });
+    return 'kde';
+  }
+  if (await blok.locator('.vystrizky .vystrizek').count()) {
+    // Doplň citát: každý lístek jednou do mezery, dokud věta nesedí.
+    const listky = blok.locator('.vystrizky .vystrizek');
+    for (let i = 0; i < 3 && (await listky.count()); i++) await listky.nth(i).click();
+    return 'doplnit';
+  }
+  if (await blok.locator('.par-listek').count()) {
+    // Páry: pojem a situace po řadě, dokud se nenabídne Ukázat páry (nebo nesedí všechno).
+    for (let i = 0; i < 30; i++) {
+      if (await tlacitko('Ukázat páry').count()) { await tlacitko('Ukázat páry').click(); break; }
+      const pojem = blok.locator('.par-listek--pojem:not(:disabled)');
+      if (!(await pojem.count())) break;
+      await pojem.first().click();
+      await blok.locator('.par-listek--situace:not(:disabled)').nth(i % 2).click();
+    }
+    await expect(blok.getByRole('region', { name: 'Spojené páry' })).toBeVisible();
+    return 'pary';
+  }
+  if (await blok.locator('.razitko-verdikt').count()) {
+    // Pravý, nebo podvržený?: první razítko na každém ústřižku, pak Další ústřižek; nakonec souhrn s opravami.
+    for (let i = 0; i < 20; i++) {
+      if (await tlacitko('Další ústřižek').count()) { await tlacitko('Další ústřižek').click(); continue; }
+      const r = blok.locator('.razitko-verdikt:not(:disabled)');
+      if (!(await r.count())) break;
+      await r.first().click();
+    }
+    await expect(blok.locator('.souhrn')).toBeVisible();
+    return 'pravy';
+  }
+  if (await blok.locator('.veta-arg').count()) {
+    // Najdi slabé místo: přeškrtnout první premisu a zapsat, bez nepovinného „Proč“.
+    await blok.locator('button.veta-arg').first().click();
+    await tlacitko('Zapsat do deníku').click();
+    await expect(blok.getByRole('region', { name: 'Kdo stál s tebou' })).toBeVisible();
+    return 'slabe';
+  }
+  if (await blok.locator('.razitko-volby').count()) {
+    // Kdo by to řekl?: první filozof a zapsat, bez nepovinného „Proč“.
+    await blok.locator('.razitko-volby').first().click();
+    await tlacitko('Zapsat do deníku').click();
+    await expect(blok.getByRole('region', { name: 'Atlas by vybral' })).toBeVisible();
+    return 'kdo-by';
+  }
   if (await tlacitko('Zkontrolovat').count()) {
     // Slož argument: karty z hromádky po řadě do řádků, kontrola, chybějící věta, volba bez nepovinného „Proč“.
     const radky = blok.locator('[data-radek]');
@@ -119,27 +202,36 @@ for (const c of CESTY) {
     // Poslední krok: počáteční odpověď vedle pravidla; nepovinná otázka zůstane prázdná.
     await expect(page).toHaveURL(`/cesta/${c.slug}/${c.kroku}/`);
     await pripravit(page);
+    // Hra herny pod Závěrem cesty (Pravý, nebo podvržený? v cestě 1, herna-v1, T) se odehraje jako v jiných krocích.
+    const hry = page.locator('.krok__obsah section.blok:has(.razitko-verdikt, .veta-arg, .razitko-volby, .razitko-odpoved, .karta-osy, .pravitko, .slepa, .vystrizky, .par-listek)');
+    for (let i = 0; i < (await hry.count()); i++) druhy.push(await odpovez(hry.nth(i)));
     const panel = page.getByRole('region', { name: 'Na začátku a teď' });
     await expect(panel.locator('.zacatek')).toContainText(c.zacatek);
     await expect(panel.locator('.zacatek .cast').first()).not.toBeEmpty();
     await panel.getByRole('textbox', { name: /Napiš svoje pravidlo/ }).fill('Moje pravidlo po cestě.');
     await expect(panel.getByRole('textbox', { name: /Co se změnilo/ })).toBeVisible();
+    // Pod závěrem sebehodnocení (herna-v1, K5): dvě nepovinná pole, průchod je nechá prázdná.
+    const sebe = page.getByRole('region', { name: 'Kam tě cesta dovedla?' });
+    await expect(sebe.getByRole('textbox')).toHaveCount(2);
     await page.getByRole('link', { name: 'Dokončit cestu' }).click();
     await expect(page).toHaveURL(`/cesta/${c.slug}/#hotovo`);
     await expect(page.getByRole('status')).toContainText('Cestu jsi prošel celou.');
 
     // Každá cesta má vlastní pokus, Spor i nový případ; průchod žádný blok nevynechal.
     expect(druhy).toContain('spor');
+    // Přídavky herny v cestách (herna-v1, T): průchod je zná a odehraje.
+    if (c.slug === 'kdy-mam-dobry-duvod-verit') expect(druhy).toContain('pravy');
+    if (c.slug === 'kolik-je-dost') expect(druhy).toContain('slabe');
     expect(druhy.filter((d) => d !== 'pribeh').length).toBeGreaterThanOrEqual(c.kroku - 3);
     expect(chyby).toEqual([]);
 
     const d = await page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
     const zapis = (id: string) => d.zapisy.find((z: { id: string }) => z.id === id);
     expect(zapis(c.pravidlo).odpoved).toBe('Moje pravidlo po cestě.');
-    // Nic nepovinného se nezapsalo: Spor má jen polohy, otázka o změně a návrat v deníku nejsou.
+    // Nic nepovinného se nezapsalo: Spor má jen polohy, otázka o změně, sebehodnocení a návrat v deníku nejsou.
     expect(zapis(c.spor).odpoved).toMatch(/^Na začátku: [^.]+\. Po argumentech: [^.]+\.$/);
     expect(d.bloky[c.spor].reflexe).toBeNull();
-    expect(d.zapisy.some((z: { id: string }) => /-zmena$|-navrat$/.test(z.id))).toBe(false);
+    expect(d.zapisy.some((z: { id: string }) => /-zmena$|-navrat$|-umim$|-nejsem$/.test(z.id))).toBe(false);
     expect(d.zapisy.every((z: { odpoved: string }) => !/Proč:|Co mě (posunulo|udrželo)/.test(z.odpoved))).toBe(true);
     expect(Date.now() - Date.parse(d.cesty[c.slug].dokonceno)).toBeLessThan(120_000);
 

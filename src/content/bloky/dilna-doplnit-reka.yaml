@@ -1,0 +1,14 @@
+# Doplň citát v dílně (herna-v1, K2): číslo 6 z podkladů docs/podklady/herna.md › Kdo to řekl? a Doplň citát
+# (herakleitos-b12, slovo „týchž“, záměny „různých“ a „hlubokých“). Vazby jsou napsané z poznámky podkladů:
+# „různých“ obrátí myšlenku, řeka zůstává, voda se mění.
+druh: doplnit
+obdobi: 1
+otazka: "Které slovo z věty vypadlo?"
+citat: herakleitos-b12
+slovo: týchž
+zameny:
+  - slovo: různých
+    vazba: "Věta by říkala samozřejmost: v různých řekách teče různá voda. Hérakleitos mluví o téže řece, která zůstává, i když voda v ní je pořád jiná."
+  - slovo: hlubokých
+    vazba: "Věta by mluvila o tom, jak je řeka hluboká, a ztratila by to hlavní: řeka je pořád táž, a přitom se v ní všechno mění."
+pointa: "Řeka zůstává táž, i když voda v ní je pořád jiná: proměna a stálost k sobě patří."

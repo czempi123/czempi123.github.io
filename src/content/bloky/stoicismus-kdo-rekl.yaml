@@ -1,0 +1,24 @@
+# Kdo to řekl? na stránce směru Stoicismus (herna-v1, T; odpověď 1 v Co rozhodnout před P6). Stojí za oddílem Spor,
+# kde student potkal stoiky i jejich protivníky. Dvě věty jsou stoické (Epiktétos, Rukojeť 5; Marcus Aurelius,
+# Hovory II, 1), třetí je Epikúrova (Vatikánské výroky 68): student pozná školu podle myšlenky, ne jméno podle paměti.
+# Možnosti u Rukojeti 5 a VS 68 podle podkladů docs/podklady/herna.md › 1 (Seneca u VS 68 ne: podobnou Epikúrovu
+# větu cituje, Dopisy 9, 20); u Hovorů II, 1 bez Diogena, který lidi taky rád zkoušel a vysmíval se jim.
+# Hovory II, 1 a Rukojeť 5 nejsou v žádném textu atlasu; VS 68 je v cestě Kolik je dost? (krok 6).
+druh: kdo-rekl
+obdobi: 2
+scena: "Dvě z těch tří vět jsou od stoiků. Třetí je od muže, se kterým se stoikové přeli."
+otazka: "Čí je ta věta, a je stoická?"
+karty:
+  - citat: rukojet-5
+    jini: [epikuros, platon, diogenes]
+    napoveda: "Hledej toho, kdo celý život dělil věci na ty, které má člověk ve své moci, a na ty ostatní."
+    pointa: "Mezi věc a tvůj neklid se vždycky vejde soud, který si o ní uděláš, a ten je podle stoiků ve tvé moci."
+  - citat: vs-68
+    jini: [diogenes, platon, aristoteles]
+    napoveda: "Tahle věta stoická není: hledej toho, komu ke štěstí stačil klid a pár přátel."
+    pointa: "Epikúros nepočítá, kolik máš, ale kolik chceš, a podobnou jeho větu cituje v dopise i stoik Seneca."
+  - citat: hovory-ii-1
+    jini: [aristoteles, epikuros, platon]
+    napoveda: "Hledej toho, kdo si psal zápisník jen pro sebe a připomínal si v něm, jak jednat s lidmi."
+    pointa: "Marcus si ráno připomínal, že potká i lidi, kteří ho rozzlobí: kdo s tím počítá předem, toho to během dne nezaskočí."
+zdroje: [epiktetos-rukojet, gnomologium-vaticanum, marcus-hovory]

@@ -877,3 +877,20 @@ Podklady: `docs/podklady/pojmy-antika.md`.
 | Co | Stav | Co dál |
 | --- | --- | --- |
 | Řecký termín stoiků pro osud (heimarmenē) | V LSJ na Perseu heslo nenalezeno, SEP ho neuvádí | Pojem osud zatím bez původu; doplnit po ověření (LSJ pod jiným heslem, SEP Freedom ancient) |
+
+## Větev herna-v1, formáty herny (P6, 17. 11. 2026)
+
+Podklady: `docs/podklady/herna.md`.
+
+| Co | Stav | Co dál |
+| --- | --- | --- |
+| Jak se hlasovalo na Sókratově procesu (399 př. n. l.) | Athénská ústava 68 (čteno řecky) popisuje bronzové kotoučky soudů 30. a 20. let 4. století, o roce 399 neříká nic | Kotoučky nespojovat se Sókratem; ověřit v odborné literatuře (A. L. Boegehold, The Lawcourts at Athens, 1995), kdy se zavedly |
+| Autorství Athénské ústavy | Obecně známá pochybnost (Aristotelova škola); heslo ani úvod vydání jsem nečetl | Ve studentském textu „spis z Aristotelovy školy“ |
+| Xenofón, Vzpomínky na Sókrata I, 6, 10 (nic nepotřebovat je božské) | Soubor stažen, místo v anglickém textu nenalezeno | Do té doby Sókratés mezi možnostmi u `dl-vi-104` není |
+| Sorités a Chrýsippovo „mlčet“ (Cicero, Lucullus 92–94) | PerseusDL má jen Akademiky I | Ke klamu šikmá plocha nepoužito; použita Ústava VIII, 564a |
+| Santayana, „Only the dead have seen the end of war“ (1922) | Jen výtahy z vyhledávače, kniha neotevřena | Jen záloha Pravý, nebo podvržený?; do dat nepřidáno |
+| Doklady, kde věty kolují (TheCollector, Correio Braziliense, Check Your Fact, Pedagogická orientace, WIST, OKDIARIO) | Jen výtah z vyhledávače, stránky jsem neotevřel | Původ všech osmi vět je ověřený jinde; před T stránky otevřít, kdyby se měly ukázat studentovi |
+| Konfuciovy roky 551–479 př. n. l. | Tradiční data, v atlasu přibližná | Tipni si s tolerancí 20 let; číslo 61 let nepsat bez „asi“ |
+| Bekkerova čísla u O sofistických důkazech | Vydání First1KGreek je nemá | Cituje se kapitola (4, 5, 22, 27) |
+| Šedý, Kritické myšlení (Galén 2021) | Neotevřeno | Do Pramenů stránky klamů jen příručka MELIA |
+| Musonius Rufus: Gyaros od 65 bez konce | Zjištěno ve výpisu `kdeVRoce` | Zapsáno do `docs/navraty.md`; data neměněna |

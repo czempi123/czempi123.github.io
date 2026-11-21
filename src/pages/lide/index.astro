@@ -4,11 +4,12 @@ import { getCollection } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import RazitkoCloveka from '../../components/ui/RazitkoCloveka.astro';
 import { data } from '../../lib/data';
-import { zivot, interval, rozpeti } from '../../lib/casy';
+import { zivot, rozpeti } from '../../lib/casy';
 import { cestyOsoby } from '../../lib/vstupy';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { nezlomitelne } from '../../lib/sazba.js';
 import { adresyStranek } from '../../lib/stranky-typu';
+import { zacatekVSeznamu } from '../../lib/herna/aktivity';
 
 const smery = (await getCollection('smery')).sort((a, b) => a.data.poradi - b.data.poradi);
 const adresa = await adresaStranekOsob();
@@ -16,8 +17,8 @@ const odkazy = await adresyStranek();
 const nazevSmeru = new Map(smery.map((s) => [s.id, s.data.nazev]));
 const cesty = (await getCollection('cesty')).map((c) => ({ slug: c.id, ...c.data }));
 const obdobi = data.obdobi.filter((o) => data.lide.some((l) => l.obdobi === o.id));
-const podleNarozeni = (a: (typeof data.lide)[number], b: (typeof data.lide)[number]) =>
-  (interval(a)?.[0] ?? a.narozen?.rok ?? a.aktivni?.od ?? 9999) - (interval(b)?.[0] ?? b.narozen?.rok ?? b.aktivni?.od ?? 9999);
+// Pořadí v seznamu drží i výběr malých her na stránkách osob (sousední se liší): src/lib/herna/aktivity.ts.
+const podleNarozeni = (a: (typeof data.lide)[number], b: (typeof data.lide)[number]) => zacatekVSeznamu(a) - zacatekVSeznamu(b);
 const HLOUBKY = [
   { id: 'portret', nazev: 'Portréty' },
   { id: 'profil', nazev: 'Profily' },

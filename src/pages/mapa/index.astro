@@ -9,12 +9,25 @@ import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { obdobiProRok } from '../../lib/cas-mapy';
 import { dataZapisniku } from '../../components/denik/_zapisnik-data';
 import { KLIC_MAPA_VIC } from '../../lib/mapa-listky';
+import { parse } from 'yaml';
+import vypravyYaml from '../../data/vypravy.yaml?raw';
+import { Vypravy, chybyVyprav, odpovedVypravy, pokynVypravy, type VypravaV } from '../../lib/herna/vypravy';
+import { data, osoby, mistaPodleId } from '../../lib/data';
+import { nezlomitelne } from '../../lib/sazba.js';
 
 const vstup = vstupMapy(await adresaStranekOsob());
 // Logo dostane období výchozího roku mapy už při sestavení; po načtení ho ostrov drží podle roku.
 const obdobiMapy = obdobiProRok(vstup.obdobi, -360);
 // Koho student potkal (razítko u jména): adresy stránek osob a filozofové cest; deník čte až prohlížeč.
 const { potkani } = await dataZapisniku();
+// Výpravy (herna-v1, K4): obsah z YAML, odpověď z dat; nesedí-li výprava na data, sestavení se zastaví.
+const vypravyData = Vypravy.parse(parse(vypravyYaml));
+const chyby = chybyVyprav(vypravyData, osoby, data.obdobi);
+if (chyby.length) throw new Error(`Výpravy (src/data/vypravy.yaml):\n- ${chyby.join('\n- ')}`);
+const vypravy: VypravaV[] = vypravyData.map((v) => {
+  const o = osoby.get(v.osoba)!;
+  return { id: v.id, obdobi: v.obdobi, osoba: v.osoba, rok: v.rok, otazka: nezlomitelne(v.otazka), pokyn: nezlomitelne(pokynVypravy(o)), odpoved: nezlomitelne(odpovedVypravy(v, o, mistaPodleId)) };
+});
 // První návštěva (K7a): bez řeky a s výpravou. Pozná se před vykreslením, aby rozvržení po hydrataci neuskočilo.
 const skriptPrvni = `(function(){try{var q=new URLSearchParams(location.search);if(localStorage.getItem(${JSON.stringify(KLIC_MAPA_VIC)})!=='1'&&!q.get('osoba')&&!q.get('srovnat')&&q.get('stin')!=='1'&&q.get('zivot')!=='1')document.documentElement.setAttribute('data-mapa-prvni','');}catch(e){}})();`;
 ---
@@ -28,5 +41,5 @@ const skriptPrvni = `(function(){try{var q=new URLSearchParams(location.search);
 >
   <h1 class="vizualne-skryte">Mapa a čas</h1>
   <script is:inline set:html={skriptPrvni} />
-  <MapaACas client:load {vstup} potkaniMapa={potkani} />
+  <MapaACas client:load {vstup} potkaniMapa={potkani} {vypravy} />
 </Zakladni>

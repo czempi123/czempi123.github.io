@@ -102,8 +102,8 @@ prameny:
   # Celek 1 (docs/podklady/celek-1-pravda.md): řecký text a překlady z PerseusDL (canonical-greekLit, TEI se Stephanovým číslováním).
   - { id: platon-laches, druh: pramen, nazev: "Lachés", autor: Platón, dilo: "Laches, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg019/tlg0059.tlg019.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Lachés chválí Sókrata za ústup od Délia (181a–b); odvaha = zůstat v řadě (190e); Skythové a Plataje (191a–c); odvaha ve všem (191d–e); vytrvalost duše a rozumná vytrvalost (192b–193c); Nikiás: vědění, čeho se bát (194d–195a), domyšleno celá ctnost (199c–e); nenašli, co je odvaha (199e)." }
   - { id: platon-euthyfron, druh: pramen, nazev: "Euthyfrón", autor: Platón, dilo: "Euthyphro, řecky J. Burnet, angl. H. N. Fowler (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg001/tlg0059.tlg001.perseus-grc1.xml", overeno: 2026-10-01, poznamka: "U sloupoví krále-archonta kvůli Melétově žalobě, popis Meléta (2a–b); Euthyfrón žaluje otce (3e–4d) a tvrdí, že přesně ví, co je zbožné (4e–5a); dilema zbožného (10a)." }
-  - { id: platon-theaitetos, druh: pramen, nazev: "Theaitétos", autor: Platón, dilo: "Theaetetus, řecky J. Burnet, angl. H. N. Fowler (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg006/tlg0059.tlg006.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "B1 a vítr (152a–b); prase a pavián (161c); sirotek (164e); Prótagorova obrana, lékař (166d–167c); sebevyvrácení (170a–171c); hlava ze země (171d); budoucnost a lékař (178b–179b); Sókratés jde k Melétově žalobě (210d)." }
-  - { id: platon-protagoras, druh: pramen, nazev: "Prótagorás", autor: Platón, dilo: "Protagoras, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg022/tlg0059.tlg022.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Hippokratés budí Sókrata (310a–311a), Prótagorás bydlí u Kallia (311a); Prótagorás v Kalliově domě (314e–315b); Sókratova námitka: o lodích odborníci, o obci každý (319b–d); velká řeč, mýtus o Prométheovi (320c–323a); pestrost dobra (334a–c)." }
+  - { id: platon-theaitetos, druh: pramen, nazev: "Theaitétos", autor: Platón, dilo: "Theaetetus, řecky J. Burnet, angl. H. N. Fowler (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg006/tlg0059.tlg006.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "B1 a vítr (152a–b); prase a pavián (161c); sirotek (164e); Prótagorova obrana, lékař (166d–167c); sebevyvrácení (170a–171c); hlava ze země (171d); budoucnost a lékař (178b–179b); Sókratés jde k Melétově žalobě (210d). 17. 11. 2026 (herna-v1, P6), řecky i anglicky: 167c obhajoba Prótagory, kterou za něj mluví Sókratés (co se obci zdá spravedlivé, je pro ni spravedlivé, dokud si to myslí); 171a–b: kdo uznává, že všichni mají pravdivá mínění, uznává za pravdivé i mínění těch, kdo ho mají za omyl." }
+  - { id: platon-protagoras, druh: pramen, nazev: "Prótagorás", autor: Platón, dilo: "Protagoras, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg022/tlg0059.tlg022.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Hippokratés budí Sókrata (310a–311a), Prótagorás bydlí u Kallia (311a); Prótagorás v Kalliově domě (314e–315b); Sókratova námitka: o lodích odborníci, o obci každý (319b–d); velká řeč, mýtus o Prométheovi (320c–323a); pestrost dobra (334a–c). 17. 11. 2026 (herna-v1, P6): 339b–d Prótagorás staví vedle sebe dva verše Símónidovy básně (je těžké stát se dobrým; nesouhlasím s Pittakem, že je těžké být dobrý) a ptá se, jestli si básník neodporuje." }
   - { id: platon-menon, druh: pramen, nazev: "Menón", autor: Platón, dilo: "Meno, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg024/tlg0059.tlg024.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Prótagorás zemřel asi sedmdesátiletý, 40 let učil, pověst si udržel (91d–92a); Daidalovy sochy, pravdivý názor a vědění (97d–98a). 3. 10. 2026 (celek 4): Menónova otázka (80d), rozpomínání podle kněží a básníků (81a–e), pokus s otrokem (82b–85b), závěr a Sókratova výhrada (85c–86c)." }
   - { id: dl-ii-40, druh: pramen, nazev: "Životy filozofů II, 40–43", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Znění obžaloby podle Favorína (40); Lýsiova řeč, počty hlasů 281 a +80 (41–42, sporné); pozdější lítost Athéňanů (43, nedoložené)." }
   - { id: dl-ix-50, druh: pramen, nazev: "Životy filozofů IX, 50–56", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Prótagorás: Abdéra a zákony pro Thurioi podle Hérakleida z Pontu (50); dva protichůdné výklady, B1, B4 (51); vyhnání a pálení knih (52, 54, sporné); utonutí podle Filochora (55); věk 70 nebo 90, Euathlos (56)." }
@@ -132,7 +132,7 @@ prameny:
   - { id: tacitus-annales, druh: pramen, nazev: "Letopisy XIII, 42 a XIV, 53–54", autor: Tacitus, dilo: "Annales, lat. C. D. Fisher (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi1351/phi005/phi1351.phi005.perseus-lat1.xml", overeno: 2026-10-01, poznamka: "Suillius vyčítá Senekovi 300 milionů sesterciů za čtyři roky u dvora (XIII, 42); Seneca prosí Nerona, ať si majetek vezme zpět (XIV, 53–54, stylizovaná řeč)." }
   - { id: cicero-nd-i-93, druh: pramen, nazev: "O povaze bohů I, 93", autor: Cicero, dilo: "De natura deorum, lat. O. Plasberg (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi0474/phi050/phi0474.phi050.perseus-lat2.xml", overeno: 2026-10-01, poznamka: "Akademik Cotta posměšně: i Leontion se odvážila psát proti Theofrastovi, sice vytříbenou attičtinou." }
   - { id: dl-vi-20, druh: pramen, nazev: "Životy filozofů VI, 20–38", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Sinópé, otec směnárník Hikesios, aféra s mincemi ve více verzích, věštba (20–21); Antisthenés (21); myš (22); pithos v Métróu, horký písek a zasněžené sochy (23); prodej Xeniadovi podle Menippa (29–31); Alexandr: kdybych nebyl Alexandrem (32); dítě, pohárek a miska (37); nestíněj mi, osudu odvahu, zvyku přírodu (38). 3. 10. 2026 (celek 4): Platónovy přednášky nazýval ztrátou času (24); olivy ze Syrákús a Platónovy koberce (25–26)." }
-  - { id: dl-vi-41, druh: pramen, nazev: "Životy filozofů VI, 40–63", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Platónova definice člověka, oškubaný kohout přinesený do školy, „tohle je Platónův člověk“, k definici přidáno „s plochými nehty“ (40); lampa za dne, hledám člověka (41); snadný život skrytý za medovými koláčky (44); vyhnanství ho udělalo filozofem, prosí sochu o almužnu (49); Sókratés, který se zbláznil (54); jí na agoře (58); jsem Diogenés, pes (60); připraven na každý osud, občan světa (63)." }
+  - { id: dl-vi-41, druh: pramen, nazev: "Životy filozofů VI, 40–63", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Platónova definice člověka, oškubaný kohout přinesený do školy, „tohle je Platónův člověk“, k definici přidáno „s plochými nehty“ (40); lampa za dne, hledám člověka (41); snadný život skrytý za medovými koláčky (44); vyhnanství ho udělalo filozofem, prosí sochu o almužnu (49); Sókratés, který se zbláznil (54); jí na agoře (58); jsem Diogenés, pes (60); připraven na každý osud, občan světa (63). 21. 11. 2026 (herna-v1, O): „většina lidí se ti směje“, osli se smějí jim (58)." }
   - { id: dl-vi-69, druh: pramen, nazev: "Životy filozofů VI, 69–75", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Otevřená řeč, vše veřejně (69); cvičení těla i duše, pohrdání slastí je nejslastnější, zvyk proti přírodě, Héraklés a svoboda (70–71; podle Hickse vložka z jiného pramene); piráti, Kréta, Xeniadés, Korinth (74); odmítne výkupné (75)." }
   - { id: dl-vi-104, druh: pramen, nazev: "Životy filozofů VI, 103–105", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Kynická nauka: život podle ctnosti, prostý život, pohrdání bohatstvím a slávou, pithos; Diogenés: bohům je vlastní nic nepotřebovat, podobným bohům potřebovat málo (104); nic nesvěřovat osudu (105)." }
   - { id: plutarchos-alexandr, druh: pramen, nazev: "Alexandr 14", autor: Plútarchos, dilo: "Vitae parallelae, řecky a angl. B. Perrin (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0007/tlg047/tlg0007.tlg047.perseus-grc2.xml", overeno: 2026-10-01, poznamka: "Po sněmu na Isthmu jde Alexandr za Diogenem do Kraneia; ustup mi trochu ze slunce; kdybych nebyl Alexandrem, byl bych Diogenem (kap. 14)." }
@@ -160,7 +160,7 @@ prameny:
   - { id: suda-epiktetos, druh: pramen, nazev: "Suda, heslo Epiktétos (epsilon 2424)", dilo: "Suda On Line, angl. překlad", url: "https://www.cs.uky.edu/~raphael/sol/sol-html/", overeno: 2026-10-02, poznamka: "Otrok Epafrodita; ochrnul na nohu „z revmatu“; žil v Níkopoli; prý až do vlády Marca Antonina (vydavatelé hesla to mají za sporné)." }
   - { id: long-epictetus-1877, druh: monografie, nazev: "Epictetus (úvod k překladu)", autor: "George Long", dilo: "The Discourses of Epictetus; with the Encheiridion and Fragments (1877), Wikisource", url: "https://en.wikisource.org/wiki/The_Discourses_of_Epictetus;_with_the_Encheiridion_and_Fragments/Epictetus", overeno: 2026-10-02, poznamka: "Simplikios: Epiktétos byl slabého těla a chromý od mládí, neoženil se, ve stáří se ujal dítěte; Rozprav bylo osm knih, dochovaly se čtyři. Simplikia samotného jsem nečetl." }
   - { id: historia-augusta-marcus, druh: pramen, nazev: "Historia Augusta, Marcus Antoninus", dilo: "Scriptores Historiae Augustae, lat. D. Magie (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi2331/phi004/phi2331.phi004.perseus-lat2.xml", overeno: 2026-10-02, poznamka: "Pozdní sbírka životopisů, jen jako tradice. Narozen 26. dubna v Římě (1, 5); ve dvanácti filozofský plášť (2, 6); adopce a úlek (5, 1–6); povodeň Tibery (8, 4–5); mor a pohřby chudých (13, 3–6); dražba císařského majetku (17, 4–5; 21, 9); smrt syna Vera (21, 3–5); Cassius (24–26); smrt (28)." }
-  - { id: aristoteles-etika-stesti, druh: pramen, nazev: "Etika Nikomachova I, 8–10; IV, 5; VII, 13", autor: Aristotelés, dilo: "Ethica Nicomachea, řecky I. Bywater, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg010/tlg0086.tlg010.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Blaženost potřebuje i vnější dobra (1099a31–b8); šťastný není chameleon, velké rány blaženost tísní, ale prosvítá v nich krása, švec a kůže, Priamos (1100b4–1101a8); kdo se nezlobí, když má, je považován za hlupáka, snášet urážky je otrocké (1125b31–1126a8); člověk lámaný kolem šťastný není (1153b17–21)." }
+  - { id: aristoteles-etika-stesti, druh: pramen, nazev: "Etika Nikomachova I, 8–10; IV, 5; VII, 13", autor: Aristotelés, dilo: "Ethica Nicomachea, řecky I. Bywater, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg010/tlg0086.tlg010.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Blaženost potřebuje i vnější dobra (1099a31–b8); šťastný není chameleon, velké rány blaženost tísní, ale prosvítá v nich krása, švec a kůže, Priamos (1100b4–1101a8); kdo se nezlobí, když má, je považován za hlupáka, snášet urážky je otrocké (1125b31–1126a8); člověk lámaný kolem šťastný není (1153b17–21). 17. 11. 2026 (herna-v1, P6), řecky i anglicky znovu: 1099a31–b2 (bez prostředků nelze, nebo aspoň nesnadno, konat krásné věci; přátelé, bohatství a moc jako nástroje) a 1153b17–21 (kdo tvrdí, že dobrý člověk je šťastný i lámaný kolem, mluví naprázdno)." }
   - { id: aristoteles-etika-iii, druh: pramen, nazev: "Etika Nikomachova III, 1 a 5", autor: Aristotelés, dilo: "Ethica Nicomachea, řecky I. Bywater, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg010/tlg0086.tlg010.perseus-grc2.xml", overeno: 2026-10-02, poznamka: "Nedobrovolné je, co se děje z donucení nebo z nevědomosti; náklad hozený do moře za bouře (1109b30–1110a19); dobrovolné má počátek v člověku, který zná okolnosti (1111a22–24); co je na nás konat, je na nás i nekonat (1113b6–14); povahu si děláme svými činy, kámen (1114a3–21); jsme spolupůvodci svých vlastností (1114b22–23)." }
   - { id: cicero-de-fato-perseus, druh: pramen, nazev: "O osudu 22–31 a 39–43", autor: Cicero, dilo: "De fato, lat. C. F. W. Müller (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi0474/phi054/phi0474.phi054.perseus-lat2.xml", overeno: 2026-10-02, poznamka: "Epikúrova odchylka atomů proti nutnosti osudu, Démokritos nutnost přijal (22–23); Karneadés: epikurejci odchylku nepotřebují, pohyb vůle nemá vnější příčinu (23–25); líný argument a Chrýsippova odpověď (28–30); Karneadův argument proti osudu (31); Chrýsippos jako rozhodčí (39); válec a káča (41–43)." }
   - { id: cicero-de-finibus, druh: pramen, nazev: "O nejvyšším dobru a zlu III, 22 a 50–51; IV, 20 a 72", autor: Cicero, dilo: "De finibus bonorum et malorum, lat. Th. Schiche (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi0474/phi048/phi0474.phi048.perseus-lat2.xml", overeno: 2026-10-02, poznamka: "Stoik Cato: lučištník má udělat všechno, aby mířil přesně, zásah je „k vybrání, ne k usilování“ (III, 22); věci, kterým se dává přednost (III, 50–51); Cicero proti stoikům: se staršími se shodují věcí, liší se slovy (IV, 72)." }
@@ -424,6 +424,31 @@ prameny:
   - { id: herodotos-i-74, druh: pramen, nazev: "Dějiny I, 74", autor: Hérodotos, dilo: "Historiae, angl. A. D. Godley (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0016/tlg001/tlg0016.tlg001.perseus-eng2.xml", overeno: 2026-11-01, poznamka: "Válka Lýdů s Médy: v šestém roce se uprostřed bitvy den změnil v noc; Thalés z Milétu to prý Iónům předpověděl a stanovil rok. Rok 585 př. n. l. je většinový výklad (zatmění 28. 5. 585), v atlasu jen u kotvy na ose." }
   - { id: dl-iv-62, druh: pramen, nazev: "Životy filozofů IV, 62 (Karneadés)", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Karneadés pečlivě studoval knihy stoiků, hlavně Chrýsippovy, úspěšně je vyvracel a říkal: kdyby nebylo Chrýsippa, nebyl bych ani já. Totéž rčení uvádí SEP „Carneades“." }
   - { id: dl-v-36, druh: pramen, nazev: "Životy filozofů V, 35–36 (Theofrastos)", autor: Diogenés Laertios, dilo: "Vitae philosophorum, řecky a angl. R. D. Hicks (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml", overeno: 2026-11-01, poznamka: "Z Aristotelových žáků byl nejpřednější Theofrastos (35); nejdřív poslouchal Alkippa doma v Eresu, pak Platóna, od něhož přešel k Aristotelovi, a když Aristotelés odešel do Chalkidy, převzal školu (36)." }
+
+  # Herna (herna-v1, P6, 17. 11. 2026): podklady pro formáty, docs/podklady/herna.md
+  - { id: plutarchos-o-poslouchani, druh: pramen, nazev: "O poslouchání 48C", autor: Plútarchos, dilo: "De recta ratione audiendi, řecky G. N. Bernardakis, angl. F. C. Babbitt (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0007/tlg069/tlg0007.tlg069.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Četl jsem řecky i anglicky (Babbitt, oddíl 18). 48C: mysl nepotřebuje naplnit jako nádoba, ale jako dřevo jen zapálit, aby v ní vznikla chuť objevovat a touha po pravdě (οὐ γὰρ ὡς ἀγγεῖον ὁ νοῦς ἀποπληρώσεως ἀλλʼ ὑπεκκαύματος μόνον ὥσπερ ὕλη δεῖται); hned za tím obraz souseda, který si přijde pro oheň a zůstane se jen ohřívat. Slovo „vzdělání“ ani „vědro“ v textu není; mluví o posluchači přednášek." }
+  - { id: aristoteles-athenska-ustava, druh: pramen, nazev: "Athénská ústava 68", autor: "Aristotelés (škola)", dilo: "Athenaion politeia, řecky F. G. Kenyon (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg003/tlg0086.tlg003.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Četl jsem řecky. 68, 2–4: hlasovací kotoučky jsou bronzové s trubičkou uprostřed, polovina provrtaná, polovina plná; každý porotce dostane dva, provrtaný a plný, ukázané oběma stranám; drží je za trubičku tak, aby nikdo neviděl, který hodí do bronzové amfory (platný hlas) a který do dřevěné (neplatný); hlasatel ohlašuje: provrtaný pro toho, kdo mluvil první (žalobce), plný pro toho, kdo mluvil potom (obžalovaný). Spis vznikl ve 30. a 20. letech 4. století př. n. l. v Aristotelově škole; že ho psal sám Aristotelés, se pochybuje. Popisuje soudy své doby, ne soud se Sókratem (399 př. n. l.)." }
+  - { id: platon-euthydemos, druh: pramen, nazev: "Euthydémos 275d–278a", autor: Platón, dilo: "Euthydemus, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg021/tlg0059.tlg021.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Vypráví Sókratés. 275d: Euthydémos se ptá Kleinia, kdo se učí, moudří, nebo hloupí; 275e: Dionysodóros Sókratovi do ucha, že chlapec bude vyvrácen, ať odpoví tak, nebo tak (ὁπότερʼ ἂν ἀποκρίνηται τὸ μειράκιον, ἐξελεγχθήσεται); 277e–278a: Sókratés vysvětluje, že trik stojí na dvojím významu slova „učit se“ (získávat vědění i užívat ho, chápat)." }
+  - { id: platon-gorgias, druh: pramen, nazev: "Gorgiás 471e–472c", autor: Platón, dilo: "Gorgias, řecky J. Burnet, angl. W. R. M. Lamb (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg023/tlg0059.tlg023.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Sókratés Pólovi: vyvracíš mě řečnicky, jako u soudu, kde vyhrává, kdo přivede víc a váženějších svědků; takové vyvracení nemá pro pravdu žádnou cenu, i mnozí vážení mohou svědčit křivě (471e–472a); skoro všichni Athéňané a cizinci budou souhlasit s tebou, já sám ne; za svědka stačí jediný, ten, s kým mluvím (472b–c)." }
+  - { id: platon-obrana-perseus, druh: pramen, nazev: "Obrana Sókratova 19c, 23c–e a 34c–35c", autor: Platón, dilo: "Apology, řecky J. Burnet, angl. H. N. Fowler (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg002/tlg0059.tlg002.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "19c: Sókrata v Aristofanově komedii, který kráčí po vzduchu, Sókratés odmítá: s tím nemá nic společného. 23c–e: ti, které mladí napodobitelé vyzkoušeli, se zlobí na Sókrata, a když se jich ptají, co dělá a co učí, nemají co říct; aby nevypadali bezradně, říkají to, co se po ruce říká proti všem filozofům (věci na nebi a pod zemí, nevěřit v bohy, slabší řeč dělat silnější). 34c–35c: jiní obžalovaní prosí se slzami a přivádějí děti; Sókratés má tři syny, ale nepřivede je; soudce nesedí proto, aby z práva dělal laskavost, ale aby soudil, a přísahal, že bude soudit podle zákonů." }
+  - { id: platon-kriton-perseus, druh: pramen, nazev: "Kritón 44c–d a 47a–c", autor: Platón, dilo: "Crito, řecky J. Burnet, angl. H. N. Fowler (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg003/tlg0059.tlg003.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "44c: Kritón se bojí, co si lidé pomyslí, že přátelé nechtěli platit; Sókratés: proč nám tolik záleží na tom, co si myslí většina? 44d Kritón: vidíš přece, že je nutné dbát i na mínění většiny, ta umí způsobit největší zlo tomu, koho pomluví. 47a–c: dbát se má jen na dobrá mínění, mínění rozumných; kdo cvičí, poslouchá lékaře nebo trenéra, ne každého; bát se má hany a vítat chválu toho jednoho, ne většiny." }
+  - { id: platon-ustava-viii, druh: pramen, nazev: "Ústava VIII, 562b–564a", autor: Platón, dilo: "Respublica, řecky J. Burnet, angl. P. Shorey (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0059/tlg030/tlg0059.tlg030.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Mluví Sókratés s Adeimantem. 563e–564a: kořen, ze kterého roste tyranie; každé přehánění obvykle vyvolá opačnou změnu; příliš velká svoboda se, jak se zdá (ἔοικεν), nemění v nic jiného než v příliš velké otroctví; tyranie tedy pravděpodobně (εἰκότως) vzniká z demokracie. Platón řetěz podává jako pravděpodobný, ne nutný." }
+  - { id: cicero-nd-i-10, druh: pramen, nazev: "O povaze bohů I, 10", autor: Cicero, dilo: "De natura deorum, lat. O. Plasberg (PerseusDL)", url: "https://github.com/PerseusDL/canonical-latinLit/blob/master/data/phi0474/phi050/phi0474.phi050.perseus-lat2.xml", overeno: 2026-11-17, poznamka: "Četl jsem latinsky. Cicero mluví sám za sebe (předmluva): v rozpravě je třeba hledat spíš váhu důvodů než autority; autorita učitele často škodí těm, kdo se chtějí učit, protože přestanou užívat vlastní úsudek; neschvaluje, co se vypráví o pýthagorejcích: na otázku proč odpovídali „ipse dixit“, „on sám to řekl“, a tím byl myšlen Pýthagorás." }
+  - { id: aristoteles-sofisticke-dukazy, druh: pramen, nazev: "O sofistických důkazech 4, 5, 22 a 27", autor: Aristotelés, dilo: "De sophisticis elenchis, řecky (First1KGreek, 1st1K-grc1)", url: "https://github.com/OpenGreekAndLatin/First1KGreek/blob/master/data/tlg0086/tlg040/tlg0086.tlg040.1st1K-grc1.xml", overeno: 2026-11-17, poznamka: "Četl jsem řecky; vydání nemá Bekkerovo číslování, cituji kapitolu. 4: sedm druhů zdánlivých vyvrácení mimo jazyk, mezi nimi záměna toho, co platí jen nějak, s tím, co platí prostě, braní toho, co se má dokázat (τὸ ἐν ἀρχῇ λαμβάνειν), nepříčina za příčinu a víc otázek jako jedna. 5: Ind je celý černý, ale bílé zuby má; braní výchozího bodu. 22: takové odpovědi neřeší argument, ale člověka (οὐ πρὸς τὸν λόγον ἀλλὰ πρὸς τὸν ἄνθρωπον). 27: když se tazatel ptá právě na to, co má dokázat, a je to vidět, nemá se mu to přiznat, ani kdyby to bylo věrohodné a pravdivé." }
+  - { id: aristoteles-etika-stud, druh: pramen, nazev: "Etika Nikomachova IV, 9 (1128b10–21)", autor: Aristotelés, dilo: "Ethica Nicomachea, řecky I. Bywater, angl. H. Rackham (PerseusDL)", url: "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0086/tlg010/tlg0086.tlg010.perseus-grc2.xml", overeno: 2026-11-17, poznamka: "Stud (αἰδώς) není ctnost, ale cit: je to jakýsi strach ze ztráty dobrého jména; kdo se stydí, zčervená. Nehodí se ke každému věku, jen k mladému: mladí žijí citem a často chybují, stud je zdrží; mladé, kteří se stydí, chválíme, staršího by za to nikdo nechválil, protože nemá dělat nic, zač by se musel stydět. 21. 11. 2026 (herna-v1, O, ověřeno na Perseu, Rackham): stud je cit vyvolaný špatnými činy, a ty musí být dobrovolné; ctnostný se proto nestydí, protože špatné dobrovolně nedělá (1128b21–29)." }
+  - { id: nasscal-pavel-seneca, druh: encyklopedie, nazev: "Epistles of Paul and Seneca", autor: "Chance Bonar", dilo: "e-Clavis: Christian Apocrypha (NASSCAL)", url: "https://www.nasscal.com/e-clavis-christian-apocrypha/epistles-of-paul-and-seneca/", overeno: 2026-11-17, poznamka: "Četl nástroj WebFetch, stránku jsem sám neviděl. Čtrnáct dopisů, osm pod Senekovým jménem Pavlovi a šest Pavlových Senekovi, poslaných pod cizím jménem (pseudonymously); první zmínka u Jeronýma (O slavných mužích 12), dále Augustin (List 153) a Pseudo-Linus; většina badatelů je klade do 4. století; za pravé platily až do renesance." }
+  - { id: melia-kriticke-mysleni, druh: monografie, nazev: "Dovednosti kritického myšlení. Příručka pro studenty středních škol", dilo: "projekt MELIA Observatory (Interreg Danube, ERDF, IPA, ENI)", url: "https://dtp.interreg-danube.eu/uploads/media/approved_project_public/0001/54/e724aa9189e6b3d1f5237ba502c2874f554be98b.pdf", overeno: 2026-11-17, poznamka: "Česká příručka pro střední školy; četl nástroj WebFetch, PDF jsem sám neviděl. České názvy faulů s definicemi: osobní útok (nesouvisející výhrady vůči osobě, argument se přehlíží), chybné dilema (dvě řešení jako jediná možná), šikmá plocha (drobná změna musí vést k řetězci nežádoucích důsledků), důraz na rozšířený názor (pravdivé, protože to sdílí většina), důraz na tradici, apel na soucit, apel na strach, apel na posměch, logický kruh (závěr je stejný jako některý předpoklad), důraz na nevhodnou autoritu; v obsahu i útok na osobu, důraz na autoritu, všechno, nebo nic. Autor ani rok v textu nejsou." }
+  - { id: qi-mysl-ohen, druh: data, nazev: "The Mind Is Not a Vessel That Needs Filling, But Wood That Needs Igniting", autor: "Garson O’Toole", dilo: "Quote Investigator (2013)", url: "https://quoteinvestigator.com/2013/03/28/mind-fire/", overeno: 2026-11-17, poznamka: "Četl nástroj WebFetch. Věta koluje se jménem Sókrata („Education is the kindling of a flame, not the filling of a vessel“) i W. B. Yeatse („Education is not the filling of a pail, but the lighting of a fire“); QI nenašel žádný doklad, že by ji řekl Sókratés nebo Yeats. Nejstarší podoba se slovy vzdělání a vědro je v knize J. J. Sweeneyho Vision and Image (1968), tam s Plútarchovým jménem. Zdroj myšlenky je Plútarchos, O poslouchání (48C)." }
+  - { id: qi-laskavy-boj, druh: data, nazev: "Be Kind; Everyone You Meet is Fighting a Hard Battle", autor: "Garson O’Toole", dilo: "Quote Investigator (2010)", url: "https://quoteinvestigator.com/2010/06/29/be-kind/", overeno: 2026-11-17, poznamka: "Četl nástroj WebFetch. Weby ThinkExist, Quotations Page a BrainyQuote mají větu pod Platónovým jménem, jiní ji dávají Filónovi Alexandrijskému. Nejstarší doklad: 6. 1. 1898, The Congregationalist (Boston): „Be pitiful, for every man is fighting a hard battle“, vánoční poselství Iana Maclarena (pseudonym reverenda Johna Watsona) čtenářům The British Weekly. Slovo „kind“ v původní podobě nebylo." }
+  - { id: checkyourfact-platon-boj, druh: data, nazev: "Did Plato Say ‘Be Kind, Everyone You Meet Is Fighting A Hard Battle’?", autor: "Brad Sylvester", dilo: "Check Your Fact (15. 8. 2019)", url: "https://checkyourfact.com/2019/08/15/fact-check-plato-hard-battle/", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: příspěvek na Facebooku připsal větu Platónovi; ověřovatelé ji v Platónových dílech nenašli; připisuje se také Filónovi Alexandrijskému a Sókratovi." }
+  - { id: thecollector-sokrates, druh: data, nazev: "“All I Know Is That I Know Nothing”: What Did Socrates Mean?", dilo: "TheCollector", url: "https://www.thecollector.com/all-i-know-is-that-i-know-nothing-socrates/", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: populární článek tvrdí, že Sókratés „famously stated“ větu „all I know is that I know nothing“. Doklad, že věta koluje jako doslovný výrok." }
+  - { id: correio-aristoteles, druh: data, nazev: "Citação do dia do filósofo grego Aristóteles: „Somos o que repetidamente fazemos…“", dilo: "Correio Braziliense (8. 6. 2026)", url: "https://www.correiobraziliense.com.br/cbradar/citacao-do-dia-do-filosofo-grego-aristoteles-somos-o-que-repetidamente-fazemos-a-excelencia-portanto-nao-e-um-feito-mas-um-habito/", overeno: 2026-11-17, poznamka: "Jen titulek a výtah z vyhledávače: deník roku 2026 uvádí Durantovu větu jako Aristotelův citát dne. Doklad, že věta koluje." }
+  - { id: skacelova-vitae, druh: data, nazev: "Vitae non scholae discimus", autor: "Jana Skácelová", dilo: "Pedagogická orientace (Masarykova univerzita)", url: "https://journals.muni.cz/pedor/article/download/8075/7297/13839", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: článek nese v názvu obrácenou podobu „Vitae non scholae discimus“ a sám ji nazývá parafrází Senekova výroku „Učíme se pro školu, ne pro život“. Doklad, že obrácená věta koluje v češtině." }
+  - { id: wist-herakleitos-reka, druh: data, nazev: "Heraclitus: All things are in motion…", dilo: "WIST Quotations", url: "https://wist.info/heraclitus/7212/", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: mezi variantami věty o řece uvádí i „No man ever steps in the same river twice, for it's not the same river and he's not the same man“ pod Hérakleitovým jménem; jako pramen dává Platónův Kratylos 402a a Diogena Laertia IX, 8, kde dodatek o člověku není." }
+  - { id: wist-marcus-pomsta, druh: data, nazev: "Marcus Aurelius, Meditations 6.6", dilo: "WIST Quotations", url: "https://wist.info/marcus-aureleus/78624/", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: věta koluje jako „The best revenge is not to be like that“ (G. Hays) a v mnoha starších překladech; řecky Ἄριστος τρόπος τοῦ ἀμύνεσθαι τὸ μὴ ἐξομοιοῦσθαι." }
+  - { id: wikipedia-protagoras-meritko, druh: data, nazev: "Protagoras", dilo: "Wikipedia (anglicky)", url: "https://en.wikipedia.org/wiki/Protagoras", overeno: 2026-11-21, poznamka: "Jen výtah z vyhledávače (herna-v1, O): heslo uvádí celé znění z Theaitéta a dodává, že se obvykle podává zkráceně jako „Man is the measure of all things“; tak věta koluje i v infoboxu hesla. Doklad, že věta koluje jen jako začátek, ne pramen." }
+  - { id: okdiario-seneca-13, druh: data, nazev: "Seneca: „We suffer more often in imagination than in reality“", dilo: "OKDIARIO (16. 7. 2026)", url: "https://okdiario.com/metabolic/en/psychology/seneca-philosopher-and-orator-we-suffer-more-often-in-imagination-than-in-reality-which-is-why-your-worst-fears-rarely-come-true-29080/", overeno: 2026-11-17, poznamka: "Jen výtah z vyhledávače: článek z roku 2026 cituje větu se Senekovým jménem a správně ji klade do Dopisu 13." }
+
 citaty:
   - id: obrana-38a
     osoba: sokrates
@@ -489,6 +514,7 @@ citaty:
     dilo: Obrana Sókratova
     misto: 36d–e
     cesky: "On vám dává pocit, že jste šťastní. Já vás šťastnými dělám."
+    oCem: "Odsouzený Sókratés navrhuje soudu místo trestu obědy na účet obce, jaké dostávají vítězové z Olympie."
     original: "ὁ μὲν γὰρ ὑμᾶς ποιεῖ εὐδαίμονας δοκεῖν εἶναι, ἐγὼ δὲ εἶναι"
     preklad:
       druh: vlastni
@@ -832,6 +858,7 @@ citaty:
     dilo: Etika Nikomachova
     misto: I, 7, 1098a18–20
     cesky: "Jedna vlaštovka jaro nedělá, ani jeden den. A tak ani jeden den nebo krátký čas neudělá člověka blaženým a šťastným."
+    oCem: "Štěstí měří Aristotelés celým životem, ve kterém člověk dělá dobře to, co je v něm lidské."
     original: "μία γὰρ χελιδὼν ἔαρ οὐ ποιεῖ, οὐδὲ μία ἡμέρα· οὕτω δὲ οὐδὲ μακάριον καὶ εὐδαίμονα μία ἡμέρα οὐδʼ ὀλίγος χρόνος"
     preklad:
       druh: vlastni
@@ -1291,6 +1318,7 @@ citaty:
     dilo: Dopis Menoikeovi
     misto: 134 (Diogenés Laertios X, 134)
     cesky: "Bylo by lepší věřit bájím o bozích než otročit osudu přírodních filozofů."
+    oCem: "Epikúros odmítá nutnost, která podle atomistů řídí všechno: bohy z bájí jde aspoň uprosit, takový osud ne."
     original: "κρεῖττον ἦν τῷ περὶ θεῶν μύθῳ κατακολουθεῖν ἢ τῇ τῶν φυσικῶν εἱμαρμένῃ δουλεύειν"
     preklad:
       druh: vlastni
@@ -1404,6 +1432,7 @@ citaty:
     dilo: Ústava
     misto: IV, 433a–b
     cesky: "Dělat to své a neplést se do všeho, to je spravedlnost."
+    oCem: "Platón nechává Sókrata říct, co je spravedlnost v obci: každý dělá práci, ke které se hodí, a do cizí se neplete."
     original: "τὸ τὰ αὑτοῦ πράττειν καὶ μὴ πολυπραγμονεῖν δικαιοσύνη ἐστί"
     preklad:
       druh: vlastni
@@ -1426,6 +1455,7 @@ citaty:
     dilo: Ústava
     misto: II, 360b
     cesky: "Nenašel by se nejspíš nikdo tak pevný, aby vytrval ve spravedlnosti a nesáhl na cizí."
+    oCem: "Platón nechává Glaukóna hájit názor, kterému sám nevěří: spravedliví jsme jen ze strachu, že nás někdo uvidí."
     original: "οὐδεὶς ἂν γένοιτο, ὡς δόξειεν, οὕτως ἀδαμάντινος, ὃς ἂν μείνειεν ἐν τῇ δικαιοσύνῃ καὶ τολμήσειεν ἀπέχεσθαι τῶν ἀλλοτρίων καὶ μὴ ἅπτεσθαι"
     preklad:
       druh: vlastni
@@ -1492,6 +1522,7 @@ citaty:
     dilo: Tímaios
     misto: 51d
     cesky: "Jsou-li rozum a pravdivé mínění dvojí, pak tyhle podoby určitě existují samy o sobě: smysly je nevnímáme, jen je myslíme."
+    oCem: "Tímaios dokazuje, že ideje opravdu jsou: když je poznání rozumem něco jiného než správné mínění, musí mít i vlastní předmět."
     original: "εἰ μὲν νοῦς καὶ δόξα ἀληθής ἐστον δύο γένη, παντάπασιν εἶναι καθʼ αὑτὰ ταῦτα, ἀναίσθητα ὑφʼ ἡμῶν εἴδη, νοούμενα μόνον"
     preklad:
       druh: vlastni
@@ -1657,6 +1688,7 @@ citaty:
     dilo: O přírodě
     misto: zlomek B8, 9–10
     cesky: "A kdyby to začalo z ničeho, co by to přimělo vzniknout později, a ne dřív?"
+    oCem: "Podle Parmenida nemohlo to, co je, nikdy vzniknout: z ničeho by nebyl důvod začít zrovna teď."
     original: "τί δʼ ἄν μιν καὶ χρέος ὦρσεν ὕστερον ἢ πρόσθεν, τοῦ μηδενὸς ἀρξάμενον, φῦν;"
     preklad:
       druh: vlastni
@@ -1924,6 +1956,7 @@ citaty:
     dilo: Prótagorás
     misto: 352b–c
     cesky: "Myslí si o vědění zkrátka totéž co o otrokovi: že ho všechno ostatní vláčí sem a tam."
+    oCem: "Sókratés líčí mínění většiny, se kterým nesouhlasí: slast nebo strach prý člověka strhnou, i když ví, co je dobré."
     original: "ἀτεχνῶς διανοούμενοι περὶ τῆς ἐπιστήμης ὥσπερ περὶ ἀνδραπόδου, περιελκομένης ὑπὸ τῶν ἄλλων ἁπάντων"
     preklad:
       druh: vlastni
@@ -1957,6 +1990,7 @@ citaty:
     dilo: Prótagorás
     misto: 356c
     cesky: "Nezdají se vám tytéž velikosti zblízka větší a zdálky menší?"
+    oCem: "Sókratés tu srovnává slasti s věcmi v dálce: blízká se zdá větší a pomůže jen umění měřit."
     original: "φαίνεται ὑμῖν τῇ ὄψει τὰ αὐτὰ μεγέθη ἐγγύθεν μὲν μείζω, πόρρωθεν δὲ ἐλάττω· ἢ οὔ;"
     preklad:
       druh: vlastni
@@ -3859,6 +3893,17 @@ citaty:
       druh: vlastni
       podle: "řecký text a anglický překlad R. D. Hickse"
     zdroj: dl-vi-8
+  - id: dl-vi-58-osli
+    osoba: diogenes
+    autor: Diogenés Laertios
+    dilo: Životy filozofů
+    misto: VI, 58
+    cesky: "„Většina lidí se ti směje.“ – „A jim se možná smějí osli. Oni se ale na osly neohlížejí, a já se neohlížím na ně.“"
+    original: "πρὸς τὸν εἰπόντα, οἱ πλείους σου καταγελῶσι, κἀκείνων τυχόν, εἶπεν, οἱ ὄνοι· ἀλλ᾽ οὔτ᾽ ἐκεῖνοι τῶν ὄνων ἐπιστρέφονται, οὔτ᾽ ἐγὼ ἐκείνων."
+    preklad:
+      druh: vlastni
+      podle: "řecký text (PerseusDL, perseus-grc2 6.2.58) a anglický překlad R. D. Hickse („And so very likely do the asses at them; but as they don't care for the asses, so neither do I care for them“); ověřeno 21. 11. 2026 na Perseu (Hopper, VI, 58). Podobná odpověď „Ale já se vysmát nedám“ je ve VI, 54."
+    zdroj: dl-vi-41
   - id: etika-1103a-priroda
     osoba: aristoteles
     autor: Aristotelés
@@ -4364,6 +4409,7 @@ citaty:
     dilo: Ústava
     misto: VI, 488e–489a
     cesky: "Skutečného kormidelníka by na takových lodích námořníci nazvali pozorovatelem nebes, žvanilem a budižkničemu."
+    oCem: "Platón nechává Sókrata vysvětlit, proč filozofové vypadají k ničemu: na lodi, kde se přou o kormidlo, nikdo neposlouchá toho, kdo zná hvězdy."
     original: "τὸν ὡς ἀληθῶς κυβερνητικὸν οὐχ ἡγῇ ἂν τῷ ὄντι μετεωροσκόπον τε καὶ ἀδολέσχην καὶ ἄχρηστόν σφισι καλεῖσθαι ὑπὸ τῶν ἐν ταῖς οὕτω κατεσκευασμέναις ναυσὶ πλωτήρων"
     preklad:
       druh: vlastni
@@ -4452,6 +4498,7 @@ citaty:
     dilo: Hovory k sobě
     misto: VI, 54
     cesky: "Co neprospívá úlu, neprospívá ani včele."
+    oCem: "Marcus si v zápisníku připomíná, že vlastní prospěch nejde oddělit od prospěchu všech, se kterými žije."
     original: "Τὸ τῷ σμήνει μὴ συμφέρον οὐδὲ τῇ μελίσσῃ συμφέρει"
     preklad:
       druh: vlastni
@@ -4479,6 +4526,153 @@ citaty:
       druh: vlastni
       podle: "řecký text a anglický překlad R. D. Hickse; Diogenés nastavuje hlavu Antisthenově holi"
     zdroj: dl-vi-20
+
+  # Herna (herna-v1, P6, 17. 11. 2026): Pravý, nebo podvržený?, Kdo by to řekl? a stránka klamů; docs/podklady/herna.md
+  - id: plutarchos-o-poslouchani-48c
+    osoba: plutarchos
+    autor: Plútarchos
+    dilo: O poslouchání
+    misto: 48C
+    cesky: "Mysl totiž nepotřebuje naplnit jako nádoba, ale jako dřevo jen zapálit, aby v ní vznikla chuť objevovat a touha po pravdě."
+    original: "οὐ γὰρ ὡς ἀγγεῖον ὁ νοῦς ἀποπληρώσεως ἀλλʼ ὑπεκκαύματος μόνον ὥσπερ ὕλη δεῖται, ὁρμὴν ἐμποιοῦντος εὑρετικὴν καὶ ὄρεξιν ἐπὶ τὴν ἀλήθειαν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (Bernardakis) a anglický překlad F. C. Babbitta („the mind does not require filling like a bottle, but rather, like wood, it only requires kindling“); věta o vzdělání a vědru je pozdější přepis"
+    zdroj: plutarchos-o-poslouchani
+  - id: etika-1128b
+    osoba: aristoteles
+    autor: Aristotelés
+    dilo: Etika Nikomachova
+    misto: IV, 9, 1128b16–20
+    cesky: "Stud se nehodí ke každému věku, jen k mladému. Mladé, kteří se stydí, chválíme; staršího by za to nikdo nepochválil."
+    original: "οὐ πάσῃ δʼ ἡλικίᾳ τὸ πάθος ἁρμόζει, ἀλλὰ τῇ νέᾳ … καὶ ἐπαινοῦμεν τῶν μὲν νέων τοὺς αἰδήμονας, πρεσβύτερον δʼ οὐδεὶς ἂν ἐπαινέσειεν ὅτι αἰσχυντηλός"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (I. Bywater) a anglický překlad H. Rackhama; stud (αἰδώς) Aristotelés vymezuje jako strach ze ztráty dobrého jména (1128b11–12)"
+    zdroj: aristoteles-etika-stud
+  - id: theaitetos-171a
+    osoba: sokrates
+    autor: Platón
+    dilo: Theaitétos
+    misto: 171a
+    cesky: "Prótagorás uznává, že všichni lidé mají pravdivá mínění. Tím uznává za pravdivé i mínění těch, kdo si myslí, že se mýlí on."
+    original: "ἐκεῖνος μὲν περὶ τῆς αὑτοῦ οἰήσεως τὴν τῶν ἀντιδοξαζόντων οἴησιν, ᾗ ἐκεῖνον ἡγοῦνται ψεύδεσθαι, συγχωρεῖ που ἀληθῆ εἶναι ὁμολογῶν τὰ ὄντα δοξάζειν ἅπαντας"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad H. N. Fowlera; mluví Sókratés s Theodórem"
+    zdroj: platon-theaitetos
+  - id: kriton-44d
+    osoba: kriton
+    autor: Platón
+    dilo: Kritón
+    misto: 44d
+    cesky: "Vidíš přece, Sókrate, že je nutné dbát i na mínění většiny."
+    original: "ἀλλʼ ὁρᾷς δὴ ὅτι ἀνάγκη, ὦ Σώκρατες, καὶ τῆς τῶν πολλῶν δόξης μέλειν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad H. N. Fowlera; Kritón dodává, že většina umí tomu, koho pomluví, způsobit to největší zlo"
+    zdroj: platon-kriton-perseus
+  - id: kriton-47b
+    osoba: sokrates
+    autor: Platón
+    dilo: Kritón
+    misto: 47b
+    cesky: "Bát se má tedy hany a vítat chválu toho jednoho, a ne většiny."
+    original: "οὐκοῦν φοβεῖσθαι χρὴ τοὺς ψόγους καὶ ἀσπάζεσθαι τοὺς ἐπαίνους τοὺς τοῦ ἑνὸς ἐκείνου ἀλλὰ μὴ τοὺς τῶν πολλῶν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad H. N. Fowlera; „ten jeden“ je lékař nebo trenér toho, kdo cvičí"
+    zdroj: platon-kriton-perseus
+  - id: gorgias-471e
+    osoba: sokrates
+    autor: Platón
+    dilo: Gorgiás
+    misto: 471e–472a
+    cesky: "Takové vyvracení nemá pro pravdu žádnou cenu. Křivě proti někomu může svědčit i mnoho lidí, kteří vypadají, že něco znamenají."
+    original: "οὗτος δὲ ὁ ἔλεγχος οὐδενὸς ἄξιός ἐστιν πρὸς τὴν ἀλήθειαν· ἐνίοτε γὰρ ἂν καὶ καταψευδομαρτυρηθείη τις ὑπὸ πολλῶν καὶ δοκούντων εἶναί τι"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad W. R. M. Lamba; Sókratés odpovídá Pólovi, který se dovolává toho, že s ním souhlasí všichni"
+    zdroj: platon-gorgias
+  - id: euthydemos-275e
+    bezOsoby: true
+    autor: Platón
+    dilo: Euthydémos
+    misto: 275e
+    cesky: "Říkám ti předem, Sókrate: ať ten chlapec odpoví tak, nebo tak, bude vyvrácen."
+    original: "σοί, ὦ Σώκρατες, προλέγω ὅτι ὁπότερʼ ἂν ἀποκρίνηται τὸ μειράκιον, ἐξελεγχθήσεται"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad W. R. M. Lamba; šeptá to Sókratovi sofista Dionýsodóros, který v datech není"
+    zdroj: platon-euthydemos
+  - id: obrana-23d
+    osoba: sokrates
+    autor: Platón
+    dilo: Obrana Sókratova
+    misto: 23d
+    cesky: "Nemají co říct. Aby ale nevypadali bezradně, říkají to, co se po ruce říká proti všem filozofům."
+    oCem: "Před soudem Sókratés líčí, odkud se vzala nenávist k němu: koho vyzkoušeli otázkami jeho mladí napodobitelé, zlobí se na něj, ne na sebe."
+    original: "ἔχουσι μὲν οὐδὲν εἰπεῖν ἀλλʼ ἀγνοοῦσιν, ἵνα δὲ μὴ δοκῶσιν ἀπορεῖν, τὰ κατὰ πάντων τῶν φιλοσοφούντων πρόχειρα ταῦτα λέγουσιν"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad H. N. Fowlera; „oni“ jsou ti, které Sókratés a jeho mladí napodobitelé vyzkoušeli otázkami"
+    zdroj: platon-obrana-perseus
+  - id: obrana-35c
+    osoba: sokrates
+    autor: Platón
+    dilo: Obrana Sókratova
+    misto: 35c
+    cesky: "Soudce tu nesedí proto, aby z práva dělal laskavost, ale aby soudil."
+    original: "οὐ γὰρ ἐπὶ τούτῳ κάθηται ὁ δικαστής, ἐπὶ τῷ καταχαρίζεσθαι τὰ δίκαια, ἀλλʼ ἐπὶ τῷ κρίνειν ταῦτα"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad H. N. Fowlera; předtím Sókratés říká, že své tři syny k soudu nepřivede, aby porotce dojímali (34c–d)"
+    zdroj: platon-obrana-perseus
+  - id: cicero-nd-i-10
+    osoba: cicero
+    autor: Cicero
+    dilo: O povaze bohů
+    misto: I, 10
+    cesky: "V rozpravě je třeba hledat spíš váhu důvodů než váhu autority."
+    original: "non enim tam auctoritatis in disputando quam rationis momenta quaerenda sunt"
+    preklad:
+      druh: vlastni
+      podle: "latinský text (O. Plasberg); hned za tím Cicero vypráví o pýthagorejcích, kteří na otázku proč odpovídali „on sám to řekl“ (ipse dixit)"
+    zdroj: cicero-nd-i-10
+  - id: ustava-564a
+    osoba: platon
+    autor: Platón
+    dilo: Ústava
+    misto: VIII, 564a
+    cesky: "Příliš velká svoboda se, jak se zdá, nemění v nic jiného než v příliš velké otroctví, u člověka i u obce."
+    original: "ἡ γὰρ ἄγαν ἐλευθερία ἔοικεν οὐκ εἰς ἄλλο τι ἢ εἰς ἄγαν δουλείαν μεταβάλλειν καὶ ἰδιώτῃ καὶ πόλει"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad P. Shoreyho; mluví Sókratés; „jak se zdá“ (ἔοικεν) a odpověď „pravděpodobně“ (εἰκός) jsou v textu"
+    zdroj: platon-ustava-viii
+  - id: protagoras-339c
+    osoba: protagoras
+    autor: Platón
+    dilo: Prótagorás
+    misto: 339c
+    cesky: "Všímáš si, že tentýž člověk říká tohle i to, co předtím?"
+    original: "ἐννοεῖς ὅτι ὁ αὐτὸς οὗτος καὶ τάδε λέγει κἀκεῖνα τὰ ἔμπροσθεν;"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (J. Burnet) a anglický překlad W. R. M. Lamba; Prótagorás staví vedle sebe dva verše Símónidovy básně, aby ukázal, že si básník odporuje"
+    zdroj: platon-protagoras
+  - id: sofisticke-dukazy-27
+    osoba: aristoteles
+    autor: Aristotelés
+    dilo: O sofistických důkazech
+    misto: "27"
+    cesky: "Když se tazatel ptá právě na to, co má teprve dokázat, a je to vidět, nemá se mu to přiznat, ani kdyby to bylo věrohodné a pravdivé."
+    original: "Τοὺς δὲ παρὰ τὸ αἰτεῖσθαι καὶ λαμβάνειν τὸ ἐν ἀρχῇ πυνθανομένῳ μέν, ἂν ᾖ δῆλον, οὐ δοτέον, οὐδ᾿ ἂν ἔνδοξον ᾖ, λέγοντα τἀληθές"
+    preklad:
+      druh: vlastni
+      podle: "řecký text (First1KGreek); vydání nemá Bekkerovo číslování, místo je kapitola"
+    zdroj: aristoteles-sofisticke-dukazy
+
 obrazky:
   - id: sokrates-louvre
     soubor: obrazky/sokrates-louvre.jpg
@@ -4706,3 +4900,81 @@ obrazky:
     instituce: "The Metropolitan Museum of Art, inv. 2013.443"
     licence: "Public Domain (Open Access, CC0)"
     url: "https://www.metmuseum.org/art/collection/search/239512"
+
+# Věty, které kolují pod jménem antických filozofů (formát Pravý, nebo podvržený?; herna-v1, P6, 17. 11. 2026).
+# osoba = komu větu připisuje internet; verdikt = řekl to, nebo ne; druh = pravy (skutečný citát), prepsany
+# (myšlenka je jeho, slova ne), obraceny (napsal opak), cizi (řekl to někdo jiný), neznamy (původ neznáme).
+# skutecne = co ten člověk opravdu řekl (citát v datech); koluje = doklad, kde věta koluje; puvod = odkud věta je.
+# Postup, rozpory a co vypadlo: docs/podklady/herna.md, oddíl 2.
+pripsani:
+  - id: vim-ze-nic-nevim
+    cesky: "Vím, že nic nevím."
+    osoba: sokrates
+    verdikt: nerekl
+    druh: prepsany
+    skutecne: obrana-21d
+    koluje: { kde: "populární články a weby s citáty jako doslovný Sókratův výrok; česky jako ustálené rčení", zdroj: thecollector-sokrates }
+    puvod: { popis: "Ustálená zkratka Platónovy Obrany 21d. Sókratés tam říká, že neví, ale ani si nemyslí, že ví; v této podobě věta v Platónových dílech není.", zdroj: platon-obrana }
+  - id: nadoba-a-ohen
+    cesky: "Vzdělání není plnění nádoby, ale zapalování ohně."
+    osoba: sokrates
+    verdikt: nerekl
+    druh: cizi
+    koluje: { kde: "weby s citáty pod Sókratovým jménem i pod jménem básníka W. B. Yeatse", zdroj: qi-mysl-ohen }
+    puvod: { citat: plutarchos-o-poslouchani-48c, autor: Plútarchos, dilo: O poslouchání, misto: 48C, popis: "Plútarchos píše o mysli posluchače, ne o vzdělání: mysl se nemá naplnit jako nádoba, ale zapálit jako dřevo. Podoba se slovy vzdělání a vědro je doložená až z roku 1968.", zdroj: plutarchos-o-poslouchani }
+  - id: opakovane-delame
+    cesky: "Jsme to, co opakovaně děláme. Dokonalost tedy není čin, ale zvyk."
+    osoba: aristoteles
+    verdikt: nerekl
+    druh: cizi
+    skutecne: etika-1103a
+    koluje: { kde: "motivační weby a zpravodajství jako Aristotelův citát dne", zdroj: correio-aristoteles }
+    puvod: { autor: Will Durant, dilo: The Story of Philosophy, rok: 1926, popis: "Durantovo shrnutí Etiky Nikomachovy. Aristotelés píše, že stavitelem se člověk stává stavěním a spravedlivým spravedlivým jednáním.", zdroj: wikiquote-aristotle }
+  - id: laskavy-tezky-boj
+    cesky: "Buď laskavý, každý, koho potkáš, svádí těžký boj."
+    osoba: platon
+    tez: [filon-alexandrijsky]
+    verdikt: nerekl
+    druh: cizi
+    koluje: { kde: "weby s citáty a sociální sítě pod Platónovým jménem, jinde pod Filónovým", zdroj: qi-laskavy-boj }
+    puvod: { autor: "Ian Maclaren (John Watson)", dilo: "vánoční poselství čtenářům The British Weekly", rok: 1898, popis: "Nejstarší doklad je z 6. 1. 1898 a zní „Buď soucitný, každý člověk svádí těžký boj“. Slovo laskavý přibylo později.", zdroj: qi-laskavy-boj }
+  - id: skola-zivot
+    cesky: "Neučíme se pro školu, ale pro život."
+    osoba: seneca
+    verdikt: nerekl
+    druh: obraceny
+    skutecne: seneca-ep-106-12
+    koluje: { kde: "školní heslo, i česky; článek v Pedagogické orientaci nese obrácenou podobu v názvu", zdroj: skacelova-vitae }
+    puvod: { popis: "Seneca napsal opak a myslel ho jako výtku: učíme se pro školu, ne pro život. Stěžuje si na filozofické hříčky, se kterými se v životě nic nezmůže.", zdroj: seneca-epistulae-zivot }
+  - id: reka-tyz-clovek
+    cesky: "Do téže řeky nevstoupíš dvakrát, protože už to není táž řeka a ty už nejsi týž člověk."
+    osoba: herakleitos
+    verdikt: nerekl
+    druh: prepsany
+    skutecne: herakleitos-b12
+    koluje: { kde: "weby s citáty pod Hérakleitovým jménem", zdroj: wist-herakleitos-reka }
+    puvod: { citat: kratylos-402a, popis: "První půlku podává až Platón (Kratylos 402a) a po něm Plútarchos (O delfském E 392b). Dodatek o člověku v žádném antickém svědectví o Hérakleitovi není a jeho původ neznáme. Podobnou myšlenku má Plútarchos (O delfském E 392d).", zdroj: platon-kratylos }
+  - id: pomsta-nebyt-jako-on
+    cesky: "Nejlepší pomsta je nebýt jako on."
+    osoba: marcus-aurelius
+    verdikt: rekl
+    druh: pravy
+    skutecne: hovory-vi-6
+    koluje: { kde: "weby a podcasty o stoicismu", zdroj: wist-marcus-pomsta }
+    puvod: { citat: hovory-vi-6, autor: Marcus Aurelius, dilo: Hovory k sobě, misto: "VI, 6", popis: "Řecké sloveso znamená bránit se i oplácet, proto se překládá jako obrana i jako pomsta.", zdroj: marcus-hovory }
+  - id: clovek-meritkem
+    cesky: "Člověk je měřítkem všech věcí."
+    osoba: protagoras
+    verdikt: rekl
+    druh: pravy
+    skutecne: theaitetos-152a
+    koluje: { kde: "encyklopedie a weby s citáty jako Prótagorova věta, obvykle jen začátek celého znění", zdroj: wikipedia-protagoras-meritko }
+    puvod: { citat: theaitetos-152a, autor: Platón, dilo: Theaitétos, misto: "152a", popis: "Prótagorův spis Pravda se nedochoval. Celou větu i s pokračováním zapsal Platón v Theaitétu a stejně ji podává Diogenés Laertios (IX, 51).", zdroj: platon-theaitetos }
+  - id: vic-nas-strasi
+    cesky: "Víc věcí nás straší, než nás tíží."
+    osoba: seneca
+    verdikt: rekl
+    druh: pravy
+    skutecne: seneca-ep-13-4
+    koluje: { kde: "weby o stoicismu a články o úzkosti", zdroj: okdiario-seneca-13 }
+    puvod: { citat: seneca-ep-13-4, autor: Seneca, dilo: Dopisy Luciliovi, misto: "13, 4", popis: "Seneca píše Luciliovi a dodává, že častěji trpíme představou než skutečností.", zdroj: seneca-epistulae-nejhorsi }

@@ -1,0 +1,15 @@
+# Seřaď na ose v dílně (herna-v1, K1; K2: řetěz vlivu podle zásady Pointa není paměť). Od Sókrata ke stoikům:
+# každá dvojice sousedů je v vztahy.yaml učitel a žák (Antisthenés a Diogenés tradovaně). Roky jsou z lide.yaml
+# a ukážou se drobně až po správném pořadí; mezi kartami pak stojí vztahy (src/lib/herna/vazby.ts).
+# Konfucius (pětice 1 z podkladů) z dílny vypadl: s řetězem vlivu nemá nic společného a bez vztahu by šňůra stála
+# zase jen na letopočtech.
+druh: serad
+obdobi: 1
+otazka: "Kdo na koho navázal? Seřaď je od nejstaršího."
+karty:
+  - { osoba: sokrates, napoveda: "Na Sókrata navazovali ostatní, ne on na ně." }
+  - { osoba: antisthenes, napoveda: "Antisthenés chodil poslouchat Sókrata." }
+  - { osoba: diogenes, napoveda: "Vypráví se, že se Diogenés učil u Antisthena." }
+  - { osoba: krates, napoveda: "Kratés se učil u Diogena." }
+  - { osoba: zenon-z-kitia, napoveda: "Zénón z Kitia začínal u Kratéta, a teprve potom učil po svém." }
+vysvetleni: "Od Sókrata ke stoikům vedou čtyři kroky od učitele k žákovi. Myšlenka, že ke štěstí stačí žít dobře, ne mít hodně, šla z ruky do ruky, až z ní Zénón postavil vlastní školu."

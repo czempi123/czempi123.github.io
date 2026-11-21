@@ -1,10 +1,14 @@
 ---
 layout: ../../../layouts/Dilna.astro
 titulek: Bloky
-perex: Všech devět bloků, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
+perex: Všech devět bloků, hry, hra na stránce osoby, trasy mini mapy, graf a sedm kreseb s pohybem na jednom místě. Ve skutečném atlasu je najdeš v cestách „Kdy mám dobrý důvod věřit?“ a „Kolik je dost?“ a u Sókrata. Návrat nabízí deník pár dní po dokončení cesty.
 ---
-import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
+import { Pribeh, Volba, Odkryj, Roztrid, ZmenJednuVec, Spor, KdoZilDriv, SlozArgument, SeradNaOse, KdoToRekl, TipniSi, KdeToBylo, DoplnCitat, Pary, PravyNeboPodvrzeny, NajdiSlabeMisto, KdoByToRekl, DoHodiny, Navrat, Jeskyne, JeskyneVen, Saty, StejnyVitr, DvePulky, KolikJeDost, ZdvojCtverec, KdeJeStred, Zrcadlo, Lod, TretiCara, PresypaciHodiny, Maska } from '../../../components/bloky';
 import GrafKrivek from '../../../components/ui/GrafKrivek.astro';
+import HraOsoby from '../../../components/osobnost/HraOsoby.astro';
+import MiniMapa from '../../../components/osobnost/MiniMapa.astro';
+import Sebehodnoceni from '../../../components/ostrovy/Sebehodnoceni.svelte';
+import { osoba } from '../../../lib/data';
 
 <section class="ukazka" aria-labelledby="h-pribeh">
 <h2 class="t-h2" id="h-pribeh">Příběh</h2>
@@ -77,6 +81,100 @@ Sókratés by se tě nejdřív zeptal, jestli ten člověk ví, kde jeho věděn
 <h2 class="t-h2" id="h-argument">Slož argument</h2>
 
 <SlozArgument id="dilna-sokrates-zemre" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-serad">
+<h2 class="t-h2" id="h-serad">Seřaď na ose</h2>
+
+<SeradNaOse id="dilna-serad-narozeni" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-kdo-rekl">
+<h2 class="t-h2" id="h-kdo-rekl">Kdo to řekl?</h2>
+
+<KdoToRekl id="dilna-kdo-rekl" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-tipni">
+<h2 class="t-h2" id="h-tipni">Tipni si</h2>
+
+<TipniSi id="dilna-tipni-thales-hypatia" />
+
+<TipniSi id="dilna-tipni-epiktetos-marcus" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-kde">
+<h2 class="t-h2" id="h-kde">Kde to bylo?</h2>
+
+<KdeToBylo id="dilna-kde-seneca" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-doplnit">
+<h2 class="t-h2" id="h-doplnit">Doplň citát</h2>
+
+<DoplnCitat id="dilna-doplnit-reka" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-pary">
+<h2 class="t-h2" id="h-pary">Páry</h2>
+
+<Pary id="dilna-pary" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-pravy">
+<h2 class="t-h2" id="h-pravy">Pravý, nebo podvržený?</h2>
+
+<PravyNeboPodvrzeny id="dilna-pravy" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-slabe">
+<h2 class="t-h2" id="h-slabe">Najdi slabé místo</h2>
+
+<NajdiSlabeMisto id="dilna-slabe-zapas" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-kdo-by">
+<h2 class="t-h2" id="h-kdo-by">Kdo by to řekl?</h2>
+
+<KdoByToRekl id="dilna-kdo-by-mene" />
+
+<KdoByToRekl id="dilna-kdo-by-uhel" />
+</section>
+
+<section class="ukazka" aria-labelledby="h-hra-osoby">
+<h2 class="t-h2" id="h-hra-osoby">Hra na stránce osoby</h2>
+
+Na každém medailonku vybere atlas z dat jednu malou hru: vyhnanství nebo dalekou cestu (Kde to bylo?), větu člověka, se kterým se znal nebo od koho se učil (Kdo to řekl?), mezeru k tomu, koho četl, nebo dlouhý život (Tipni si). Kde data nic z toho nemají, zůstane Kdo žil dřív? Sousední stránky v seznamu Lidé mají každá jinou hru. Tady jsou hry z medailonků Musonia Rufa, Theofrasta a Kleantha.
+
+<HraOsoby osoba="musonius-rufus" dilna />
+
+<HraOsoby osoba="theofrastos" dilna />
+
+<HraOsoby osoba="kleanthes" dilna />
+</section>
+
+<section class="ukazka" aria-labelledby="h-trasy">
+<h2 class="t-h2" id="h-trasy">Trasy na mini mapě</h2>
+
+V Době a lidech vede oblouk se šipkou a rokem tam, kam člověk přešel, když data rok příchodu znají. Výpravy a Přehrát období jsou v [Mapě a čase](/mapa/).
+
+<div class="ctenarsky"><MiniMapa osoba={osoba('sokrates')} /></div>
+</section>
+
+<section class="ukazka" aria-labelledby="h-do-hodiny">
+<h2 class="t-h2" id="h-do-hodiny">Do hodiny</h2>
+
+Lístek pro učitele na konci posledního kroku cesty: otázka do dvojice a otázka pro celou třídu. Student ho na stránce nevidí; ukáže se při promítání hodiny a v přípravě hodiny je to zastavení s oběma otázkami. Tady je lístek cesty Kdy mám dobrý důvod věřit?
+
+<DoHodiny cesta="kdy-mam-dobry-duvod-verit" ukazat />
+</section>
+
+<section class="ukazka" aria-labelledby="h-sebehodnoceni">
+<h2 class="t-h2" id="h-sebehodnoceni">Sebehodnocení</h2>
+
+Pod Závěrem cesty stojí v každé cestě stejné dvě nepovinné poznámky. Ukládají se samy do deníku k poslednímu kroku a deník je ukáže v Moje filozofie pod odpověďmi Na začátku a Teď.
+
+<Sebehodnoceni client:visible slug="dilna" cesta="Ukázka v dílně:" odkaz="/dilna/bloky/#dilna-sebehodnoceni" obdobi={1} />
 </section>
 
 <section class="ukazka" aria-labelledby="h-navrat">

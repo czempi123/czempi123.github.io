@@ -1,0 +1,21 @@
+# Kdo by to řekl? v dílně (herna-v1, K3): věta 1 z podkladů docs/podklady/herna.md › 3 („Méně je víc.“).
+# Podepsal by Diogenés (D. L. VI, 104) a Epikúros (Vatikánské výroky 68), odmítl Aristotelés (EN I, 8, 1099a).
+druh: kdo-by
+obdobi: 2
+otazka: "Kdo z nich by tu větu podepsal?"
+veta: "Méně je víc."
+odkud: reklama
+popisek: "Reklama na malý byt"
+moznosti: [diogenes, epikuros, aristoteles]
+atlas:
+  - osoba: diogenes
+    citat: dl-vi-104
+    proc: "Podepsal by ji, kdyby šlo o potřeby, a ne o metry čtvereční. Proč, zapsal Diogenés Laertios:"
+  - osoba: epikuros
+    citat: vs-68
+    proc: "Podepsal by ji o touhách, ne o věcech v bytě:"
+odmitl:
+  - osoba: aristoteles
+    citat: etika-1099a
+    proc: "Namítl by, že dobrý život stojí i na tom, co máš v rukou:"
+zdroje: [dl-vi-1, sep-epicurus]

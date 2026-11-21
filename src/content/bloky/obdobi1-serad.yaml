@@ -1,0 +1,17 @@
+# Seřaď na ose na stránce období 1 (herna-v1, T; odpověď 1 v Co rozhodnout před P6). Stojí pod oddílem Lidé a směry
+# (frontmatter `hra`), kde student lidi období vidí, ne v úvodní scéně nad nimi. Řetěz pěti lidí období 1, každá
+# dvojice sousedů má vztah ve vztahy.yaml: Xenofanés → Parmenidés (učitel, tradovaný, „říkalo se to už za Aristotela“),
+# Parmenidés → Sókratés (znali se, tradovaný: Platónova scéna, profil Parmenida „jako starý muž… s velmi mladým
+# Sókratem“), Sókratés → Platón a Platón → Aristotelés (učitel a žák), Aristotelés → Platón (polemika, „spor o ideje“).
+# Jiný řetěz než v dílně (Sókratés → stoikové); napovědy říkají, kdo komu co předal, ne roky.
+druh: serad
+obdobi: 1
+otazka: "Kdo s kým mluvil a kdo koho učil? Seřaď je od nejstaršího."
+karty:
+  - { osoba: xenofanes, napoveda: "Už za Aristotela se říkalo, že Xenofanés učil Parmenida." }
+  - { osoba: parmenides, napoveda: "Platón líčí, jak Parmenidés jako starý muž mluvil v Athénách s velmi mladým Sókratem." }
+  - { osoba: sokrates, napoveda: "Sókratés nenapsal ani řádek. O rozhovorech s ním psali až jeho žáci." }
+  - { osoba: platon, napoveda: "Platón chodil za Sókratem jako mladý muž a později v Athénách sám učil." }
+  - { osoba: aristoteles, napoveda: "Aristotelés přišel do Athén studovat k Platónovi." }
+vysvetleni: "Od Xenofana k Aristotelovi vedou čtyři kroky od staršího k mladšímu a dva z nich známe jen z vyprávění. Na posledním kroku se žák přel s učitelem: Aristotelés s Platónem o ideje."
+zdroje: [aristoteles-metafyzika-zmena, platon-parmenides, sep-plato, sep-aristotle, aristoteles-metafyzika-ideje]

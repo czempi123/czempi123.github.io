@@ -124,6 +124,7 @@
   --d-otoceni: 900ms;  /* otočení listu mezi stránkami: ohyb od rohu ke hřbetu (autor 8. 11.) */
   --d-prichod: 420ms;  /* příchod na profil: titulek, pruh, pásky */
   --z-prichod: 80ms;   /* krok mezi částmi příchodu */
+  --z-karta: 40ms;     /* krok mezi kartami při rozdání (herna, D5) */
   --d-kamera: 600ms;   /* kamera Mapy a času */
   --k-stisk: cubic-bezier(.25, .1, .25, 1);
   --k-papir: cubic-bezier(.22, .61, .36, 1);
@@ -227,6 +228,6 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     --d-stisk: 0ms; --d-bod: 0ms; --d-listek: 0ms; --d-odkryti: 0ms; --d-tah: 0ms; --d-presun: 0ms;
-    --d-list: 0ms; --d-otoceni: 0ms; --d-prichod: 0ms; --z-prichod: 0ms; --d-kamera: 0ms;
+    --d-list: 0ms; --d-otoceni: 0ms; --d-prichod: 0ms; --z-prichod: 0ms; --z-karta: 0ms; --d-kamera: 0ms;
   }
 }

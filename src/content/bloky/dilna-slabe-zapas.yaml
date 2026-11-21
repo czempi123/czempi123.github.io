@@ -1,0 +1,40 @@
+# Najdi slabé místo v dílně (herna-v1, K3): stoický argument z Epiktétovy Rukojeti 1 a 5 a Hovorů VIII, 47.
+# Kdo by premisu škrtl: Aristotelés (Etika Nikomachova I, 10, 1100b: rána v neštěstí bolí, ušlechtilý ji jen
+# nese klidně; VII, 6, 1149a: hněv přeslechne rozum). Aristotelés žil před stoiky: hlasy říkají, kdo by větu škrtl,
+# ne že s Epiktétem vedl spor (docs/pouceni.md › Prameny a formulace). Citáty jsou v datech; texty projde krok T.
+druh: slabe
+obdobi: 2
+scena: "Zítra hraješ finále a od rána se třeseš. Trenér, který čte stoiky, ti to vysvětlí za minutu:"
+otazka: "Kterou větu škrtáš?"
+karty:
+  - id: soudy
+    text: "Neznepokojují nás věci, ale naše soudy o nich."
+    misto: 1
+    skrtl:
+      - osoba: aristoteles
+        citat: etika-1100b
+        proc: "Obdivoval klid v neštěstí, ale rána pro něj zůstala ranou:"
+    hajil:
+      - osoba: epiktetos
+        citat: rukojet-5
+        proc: "Tu větu zapsal takhle:"
+  - id: moc
+    text: "Své soudy máme ve své moci."
+    misto: 2
+    skrtl:
+      - osoba: aristoteles
+        citat: etika-1149a
+        proc: "Pozoroval, jak hněv předběhne rozum:"
+    hajil:
+      - osoba: marcus-aurelius
+        citat: hovory-viii-47
+        proc: "Připomínal si to v zápisníku, který psal jen pro sebe:"
+  - id: zaver
+    text: "Jestli mě zítřek znepokojí, je jen na mně."
+    misto: zaver
+drzi:
+  hlasy:
+    - osoba: epiktetos
+      citat: rukojet-1
+      proc: "Řekl by, že výsledek finále v tvé moci není, tvůj úsudek o něm ano:"
+zdroje: [epiktetos-rukojet, marcus-hovory, aristoteles-etika]

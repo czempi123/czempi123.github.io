@@ -14,6 +14,8 @@ const STRANKY = [
   { adresa: '/pokus/gyguv-prsten/', h1: 'Gýgův prsten.', oddily: ['Co řekli filozofové'] },
   { adresa: '/pokus/zrcadlo-casu/', h1: 'Zrcadlo času.', oddily: ['Co řekli filozofové'] },
   { adresa: '/co-je-filozofie/', h1: 'Co je filozofie?', oddily: ['Proč hřmí?', 'Čím je filozofie jiná', 'Deset velkých otázek'] },
+  // Úvod oddílu z herna-v1, K5: deset klamů ve třech oddílech a závěr.
+  { adresa: '/argumentacni-klamy/', h1: 'Argumentační klamy a manipulace.', oddily: ['Triky na lidi', 'Triky s myšlenkou', 'Věta s cizím jménem', 'Proč?'] },
   { adresa: '/nabozenstvi/', h1: 'Co je náboženství?', oddily: ['Posvátné, mýtus, rituál, společenství', 'Jak náboženství zkoumá věda', 'Tradice'] },
   { adresa: '/nabozenstvi/judaismus/', h1: 'Judaismus.', oddily: ['Tóra a smlouva', 'Exil a rozptýlení', 'Rabínská tradice', 'Víra a filozofie', 'Kde a kdy'] },
   // Pojmy (design-v2, krok P): stránka pojmu se všemi oddíly a seznam pojmů bez Pramenů (prameny má každý pojem).
@@ -125,7 +127,10 @@ test('odkazy na nové stránky: Domů, Lidé a směry, otázky, medailonek, drob
   await expect(page.locator('.na-zacatek').getByRole('link', { name: 'Co je náboženství?' })).toHaveAttribute('href', '/nabozenstvi/');
 
   await page.goto('/otazky/');
-  await expect(page.locator('.uvodni')).toHaveAttribute('href', '/co-je-filozofie/');
+  // Od herna-v1 K5 stojí vedle Co je filozofie? druhý lístek: Argumentační klamy a manipulace.
+  await expect(page.locator('.uvodni')).toHaveCount(2);
+  await expect(page.locator('.uvodni').nth(0)).toHaveAttribute('href', '/co-je-filozofie/');
+  await expect(page.locator('.uvodni').nth(1)).toHaveAttribute('href', '/argumentacni-klamy/');
 
   await page.goto('/lide/');
   await expect(page.locator('#obdobi-2').getByRole('link', { name: /^Stoicismus/ })).toHaveAttribute('href', '/smer/stoicismus/');

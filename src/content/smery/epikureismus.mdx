@@ -8,6 +8,7 @@ poradi: 11
 perex: Ke štěstí stačí málo, když máš přátele a ničeho se zbytečně nebojíš. Tak to učil Epikúros v zahradě, kde s ním přátelé i bydleli. Jestli měl pravdu, poznáš po jednom večeru s přítelem.
 zakladatel: epikuros
 ---
+import { Pary } from '../../components/bloky';
 import Oddil from '../../components/stranka/Oddil.astro';
 import Rodokmen from '../../components/stranka/Rodokmen.astro';
 import Myslenky from '../../components/osobnost/Myslenky.astro';
@@ -47,6 +48,8 @@ Ze všeho, co moudrost chystá pro šťastný život, je podle Epikúra nejdůle
 
   </Myslenka>
 </Myslenky>
+
+<div class="ctenarsky"><Pary id="epikureismus-pary" /></div>
 
 <Rodokmen smer={props.smer} />
 

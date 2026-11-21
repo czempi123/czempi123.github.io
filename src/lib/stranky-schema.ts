@@ -28,6 +28,8 @@ export const ObdobiStranka = z
     jinde: Text.optional(),
     /** Mapa a čas: rok, kdy období vrcholí, a osoba, která se v mapě vybere */
     mapa: z.object({ rok: Rok, osoba: Id.optional() }).strict(),
+    /** hra herny pod oddílem Lidé a směry (herna-v1, T): id bloku v src/content/bloky (HraStranky.astro) */
+    hra: Id.optional(),
   })
   .strict();
 

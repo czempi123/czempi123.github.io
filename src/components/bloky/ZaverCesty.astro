@@ -3,8 +3,11 @@
 // Který blok je začátkem, říká pole `zacatek` v přehledu cesty; tady se jen dohledá krok, druh a názvy košů.
 // Použití v MDX posledního kroku, mimo čtenářský sloupec:
 // <ZaverCesty id="cesta1-moje-pravidlo" otazka="Kdy mám dobrý důvod něčemu věřit? Napiš svoje pravidlo." />
+// Pod závěrem stojí v každé cestě stejné sebehodnocení (herna-v1, K5, src/lib/sebehodnoceni.ts): text cest se nemění.
 import { getCollection, getEntry } from 'astro:content';
 import Ostrov from '../ostrovy/ZaverCesty.svelte';
+import Sebehodnoceni from '../ostrovy/Sebehodnoceni.svelte';
+import { kotvaSebehodnoceni } from '../../lib/sebehodnoceni';
 import { krokZAdresy, krokyCesty, zacatekCesty } from '../../lib/cesty';
 import type { DruhZacatku } from '../../lib/zaver';
 
@@ -31,3 +34,4 @@ if (cesta.data.zacatek) {
 }
 ---
 <Ostrov client:load id={id} otazka={otazka} odkaz={stranka} cesta={cesta.data.nazev} obdobi={cesta.data.obdobi} zacatek={zacatek} />
+<Sebehodnoceni client:idle slug={k.slug} cesta={cesta.data.nazev} odkaz={`${stranka}#${kotvaSebehodnoceni(k.slug)}`} obdobi={cesta.data.obdobi} />

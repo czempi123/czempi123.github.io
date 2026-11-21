@@ -100,6 +100,8 @@ export function spustListuHodiny(): void {
     if (!p.kotva) return;
     const el = usek(p);
     if (!el || el === main) return;
+    // Blok pod Tvým prvním názorem (osa hlasů, hra stránky otázky; herna-v1, R) se na plátně ukáže taky hned.
+    if (el.closest('.po')) html.removeAttribute('data-otazka-zavreno');
     const kotva = el.getAttribute('data-oddil-kotva');
     const sel = el.id ? `#${CSS.escape(el.id)}` : kotva ? `[data-oddil-kotva="${CSS.escape(kotva)}"]` : '';
     if (!sel) return;

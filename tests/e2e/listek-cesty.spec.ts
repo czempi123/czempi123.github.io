@@ -85,6 +85,16 @@ test('po posledním kroku se pahýl odtrhne a přistane v deníku; po obnovení 
   const listek = page.locator('.cesta-hlavicka .listek-cesty');
   await expect(listek).not.toHaveAttribute('data-cely');
   await expect(dalsi(page)).toHaveClass(/blok__tl--tiche/);
+  // Nad závěrem stojí od kroku T větve herna-v1 Pravý, nebo podvržený?: krok je hotový, až je odehraný i on.
+  const pravy = page.locator('#cesta1-pravy');
+  for (let i = 0; i < 20; i++) {
+    if (await pravy.getByRole('button', { name: 'Další ústřižek' }).count()) { await pravy.getByRole('button', { name: 'Další ústřižek' }).click(); continue; }
+    const r = pravy.locator('.razitko-verdikt:not(:disabled)');
+    if (!(await r.count())) break;
+    await r.first().click();
+  }
+  await expect(pravy.locator('.souhrn')).toBeVisible();
+  await expect(dalsi(page)).toHaveClass(/blok__tl--tiche/);
   await page.getByRole('textbox', { name: /Napiš svoje pravidlo/ }).fill('Když obstojí i proti protipříkladu.');
   await expect(dalsi(page)).toHaveClass(/blok__tl--hlavni/);
   await expect(listek).toHaveAttribute('data-cely', '');

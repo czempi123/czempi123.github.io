@@ -173,8 +173,11 @@ test('Aristotelés: text drží pravidla celku (co nese cesta 4, tradované př�
   await expect(page.locator('#skola-a-pratele').getByRole('link', { name: 'Stačí vědět, co je správné?' })).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
   await expect(page.locator('.vstupy-osoby a').first()).toHaveText(/Cesta · 8 kroků · asi \d+ minut\s*Stačí vědět, co je správné\?/);
   await expect(page.locator('.vstupy-osoby a').first()).toHaveAttribute('href', '/cesta/staci-vedet-co-je-spravne/');
-  // Kdo žil dřív? má dvojici, která na jiných stránkách není.
-  await expect(page.locator('[id="kdo-sokrates-aristoteles-vzdalenost"]')).toContainText('Sókratés a Aristotelés');
+  // Od kroku T větve herna-v1 má profil místo Kdo žil dřív? hru z dat (HraOsoby) nad Dobou a lidmi.
+  await expect(page.locator('[id="kdo-sokrates-aristoteles-vzdalenost"]')).toHaveCount(0);
+  const hra = page.locator('.hra-osoby[data-hra="kdo-rekl"]');
+  await expect(hra).toHaveCount(1);
+  expect(await hra.evaluate((e) => !!(e.compareDocumentPosition(document.querySelector('#doba-a-lide')!) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
 });
 
 test('Aristotelés: deska s odlitkem, druhý obraz a Zkus to žít', async ({ page }) => {

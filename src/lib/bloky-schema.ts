@@ -295,7 +295,254 @@ export const BlokNavrat = z
   })
   .strict();
 
-export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat]);
+// ─── Hry herny (herna-v1, K1) ──────────────────────────────────────────────
+// Znalostní hry: „sedí“, nebo „zkus to jinak“ s větou, kam se podívat; bez bodů. Do deníku jen stav (src/lib/herna).
+
+/** Karta Seřaď na ose: člověk (narození, nebo smrt z lide.yaml), nebo událost z udalosti.yaml. Roky jsou z dat. */
+const KartaOsy = z
+  .object({
+    osoba: Id.optional(),
+    /** u člověka: řadí se podle narození (výchozí), nebo smrti */
+    kdy: z.enum(['narozeni', 'umrti']).optional(),
+    udalost: Id.optional(),
+    /** vlastní text karty („Platón umírá“); jinak jméno nebo název události */
+    text: Text.optional(),
+    /** věta „zkus to jinak“, když karta visí v obrácené dvojici; jinak se složí z obou jmen */
+    napoveda: Text.optional(),
+  })
+  .strict()
+  .refine((k) => !!k.osoba !== !!k.udalost, { message: 'Karta má právě jedno z polí osoba a udalost.' })
+  .refine((k) => !k.kdy || !!k.osoba, { message: 'Pole kdy patří jen ke kartě s osobou.' });
+
+export const BlokSerad = z
+  .object({
+    druh: z.literal('serad'),
+    ...zaklad,
+    /** název hry pod nadtitulkem (výchozí „Seřaď na ose“) */
+    nazev: Text.optional(),
+    karty: z.array(KartaOsy).min(3).max(6),
+    /** popisky konců šňůry */
+    zacatek: Text.default('dřív'),
+    konec: Text.default('později'),
+    /** po správném pořadí (i po „Ukázat pořadí“): co z pořadí plyne, jedna až dvě věty */
+    vysvetleni: Text,
+  })
+  .strict();
+
+/** Karta Kdo to řekl?: citát ze zdroje.yaml (správná je jeho osoba) a dva až tři další lidé. */
+const KartaCitatu = z
+  .object({
+    citat: Id,
+    jini: z.array(Id).min(2).max(3),
+    /** jedna věta „zkus to jinak“: kam se podívat, bez jména toho, kdo větu řekl */
+    napoveda: Text,
+    /** jedna věta na rubu karty nad jménem: o čem věta je (K2, zásada Pointa není paměť) */
+    pointa: Text,
+    /** hra z dat (O): pod pointou drobně, kdo na koho navázal (vztah z vztahy.yaml) */
+    vztah: Text.optional(),
+  })
+  .strict();
+
+export const BlokKdoRekl = z
+  .object({
+    druh: z.literal('kdo-rekl'),
+    ...zaklad,
+    /** název hry pod nadtitulkem (výchozí „Kdo to řekl?“) */
+    nazev: Text.optional(),
+    /** pokyn nad razítky (Kalamem) */
+    pokyn: Text.default('Nemusíš to vědět: hledej, čí myšlence věta sedí.'),
+    karty: z.array(KartaCitatu).min(1).max(8),
+  })
+  .strict();
+
+/** Tipni si (K2): kolik lidských životů je mezi dvěma lidmi z lide.yaml; vzdálenost a vztah jsou z dat. */
+export const BlokTipni = z
+  .object({
+    druh: z.literal('tipni'),
+    ...zaklad,
+    /** název hry pod nadtitulkem (výchozí „Tipni si“) */
+    nazev: Text.optional(),
+    a: Id,
+    b: Id,
+    /** délka pravítka v lidských životech; jinak podle odpovědi s rezervou (src/lib/herna/odhad.ts) */
+    delka: z.number().int().min(4).max(60).optional(),
+    /** po odhalení: kdo na koho mohl navázat, jedna až dvě věty; věta o vzdálenosti a vztah jsou z dat */
+    vysvetleni: Text.optional(),
+  })
+  .strict()
+  .refine((b) => b.a !== b.b, { message: 'Tipni si potřebuje dva různé lidi.' });
+
+/** Kde to bylo? (K2): pobyt osoby z lide.yaml na slepé mapě; po odhalení věta z dat, co ho tam přivedlo. */
+export const BlokKde = z
+  .object({
+    druh: z.literal('kde'),
+    ...zaklad,
+    nazev: Text.optional(),
+    osoba: Id,
+    misto: Id,
+    /** role pobytu (když má osoba na místě víc pobytů) */
+    role: z.enum(['narozeni', 'studium', 'pusobeni', 'pobyt', 'exil', 'tazeni', 'smrt']).optional(),
+    /** místo v 6. pádu pro větu z dat („na Korsice“) */
+    kde: Text,
+    /** po odhalení navíc: proč tam byl, jedna věta z ověřených podkladů */
+    vysvetleni: Text.optional(),
+  })
+  .strict();
+
+/** Doplň citát (K2): citát ze zdroje.yaml s vystřiženým slovem a dvěma záměnami s vazbou. */
+const Zamena = z
+  .object({
+    slovo: Text,
+    /** co by věta s tímhle slovem tvrdila a čím se to liší od citátu, jedna až dvě věty */
+    vazba: Text,
+  })
+  .strict();
+
+export const BlokDoplnit = z
+  .object({
+    druh: z.literal('doplnit'),
+    ...zaklad,
+    nazev: Text.optional(),
+    citat: Id,
+    /** vystřižené slovo přesně, jak stojí v citátu */
+    slovo: Text,
+    /** kolikátý výskyt slova (od 1) */
+    vyskyt: z.number().int().min(1).optional(),
+    zameny: z.array(Zamena).min(2).max(3),
+    /** po vložení správného slova: o čem věta je, jedna věta */
+    pointa: Text,
+  })
+  .strict();
+
+// ─── Hry a aktivity herny z K3 ─────────────────────────────────────────────
+
+/** Páry (K3): pojem z kolekce pojmy a situace ze života; pasti pojem jen připomínají stejným slovem. */
+export const BlokPary = z
+  .object({
+    druh: z.literal('pary'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** pokyn nad lístky (Kalamem) */
+    pokyn: Text.default('Pod každým pojmem stojí, co znamená. Hledej situaci, ve které to opravdu je.'),
+    pary: z
+      .array(
+        z
+          .object({
+            /** id pojmu v src/content/pojmy */
+            pojem: Id,
+            situace: Text.max(180),
+            /** co situace ukazuje, když ji student spojí s jiným pojmem; jméno pojmu neříká */
+            jinak: Text,
+            /** jedna věta k páru po spojení všech */
+            vazba: Text,
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(5),
+    pasti: z
+      .array(z.object({ situace: Text.max(180), pripomina: Id, jinak: Text }).strict())
+      .min(1)
+      .max(3),
+  })
+  .strict();
+
+/** Pravý, nebo podvržený? (K3): série vět z záznamů pripsani v zdroje.yaml jako ústřižky z obrazovky telefonu. */
+export const BlokPravy = z
+  .object({
+    druh: z.literal('pravy'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** pokyn nad razítky (Kalamem) */
+    pokyn: Text.default('Nemusíš to vědět. Sedí ta věta k tomu, čím se ten člověk zabýval?'),
+    karty: z
+      .array(
+        z
+          .object({
+            /** id záznamu v zdroje.yaml › pripsani */
+            pripsani: Id,
+            /** odkud ústřižek je: hlavička obrazovky („Skupina třídy“, „Story“) */
+            odkud: Text.max(40),
+            /** jedna věta, jak si citát příště ověřit sám */
+            overeni: Text,
+          })
+          .strict(),
+      )
+      .min(2)
+      .max(8),
+  })
+  .strict();
+
+/** Hlas: kdo by větu škrtl, hájil nebo podepsal; citát ze zdroje.yaml patří témuž člověku. */
+const Hlas = z
+  .object({
+    osoba: Id,
+    citat: Id,
+    /** proč, jedna až dvě věty; citát neopakuje jinými slovy */
+    proc: Text,
+  })
+  .strict();
+
+/** Najdi slabé místo (K3): věty argumentu na linkovaném listu, student škrtne premisu, kterou nepřijímá. */
+export const BlokSlabe = z
+  .object({
+    druh: z.literal('slabe'),
+    ...zaklad,
+    nazev: Text.optional(),
+    karty: z
+      .array(
+        z
+          .object({
+            id: Id,
+            text: Text.max(140),
+            misto: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal('zaver')]),
+            /** kdo by tuhle premisu škrtl s tebou (u premis povinné) */
+            skrtl: z.array(Hlas).optional(),
+            /** kdo ji hájil */
+            hajil: z.array(Hlas).optional(),
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(4),
+    /** volba „Žádnou, argument mi drží“: kdo stál s argumentem */
+    drzi: z.object({ hlasy: z.array(Hlas).min(1) }).strict(),
+  })
+  .strict()
+  .refine((b) => new Set(b.karty.map((k) => k.id)).size === b.karty.length, { message: 'Id vět se opakuje.' })
+  .refine((b) => b.karty.every((k) => k.id !== 'zadna'), { message: 'Id „zadna“ je vyhrazené.' })
+  .refine((b) => b.karty.filter((k) => k.misto === 'zaver').length === 1, { message: 'Argument má právě jeden závěr.' })
+  .refine(
+    (b) => {
+      const mista = b.karty.filter((k) => k.misto !== 'zaver').map((k) => k.misto as number).sort((x, y) => x - y);
+      return mista.every((m, i) => m === i + 1);
+    },
+    { message: 'Premisy mají místa 1, 2 (a 3) bez mezery a bez opakování.' },
+  );
+
+/** Kdo by to řekl? (K3): dnešní věta, výběr filozofa razítkem, pak koho by vybral atlas a kdo by větu odmítl. */
+export const BlokKdoBy = z
+  .object({
+    druh: z.literal('kdo-by'),
+    ...zaklad,
+    nazev: Text.optional(),
+    /** dnešní věta, vymyšlená, bez historických osob */
+    veta: Text.max(120),
+    /** odkud věta je (src/lib/herna/kdo-by.ts › ODKUD) */
+    odkud: z.enum(['chat', 'kamarad', 'komentar', 'reklama', 'obrazek', 'sit']),
+    /** vlastní popisek nad výstřižkem („Reklama na byt“); jinak podle odkud */
+    popisek: Text.max(48).optional(),
+    pokyn: Text.default('Pod jménem stojí, čím se ten člověk zabýval. Kdo by tu větu podepsal?'),
+    /** razítka lidí, ze kterých student vybírá (pořadí podle semínka) */
+    moznosti: z.array(Id).min(2).max(4),
+    /** koho by vybral atlas a proč (z pramene) */
+    atlas: z.array(Hlas).min(1).max(2),
+    /** kdo by větu odmítl a proč */
+    odmitl: z.array(Hlas).min(1).max(2),
+  })
+  .strict();
+
+export const Blok = z.union([BlokVolba, BlokZmena, BlokSpor, BlokRoztrid, BlokArgument, BlokNavrat, BlokSerad, BlokKdoRekl, BlokTipni, BlokKde, BlokDoplnit, BlokPary, BlokPravy, BlokSlabe, BlokKdoBy]);
 
 export type TBlokVolba = z.infer<typeof BlokVolba>;
 export type TBlokZmena = z.infer<typeof BlokZmena>;
@@ -303,4 +550,13 @@ export type TBlokSpor = z.infer<typeof BlokSpor>;
 export type TBlokRoztrid = z.infer<typeof BlokRoztrid>;
 export type TBlokArgument = z.infer<typeof BlokArgument>;
 export type TBlokNavrat = z.infer<typeof BlokNavrat>;
+export type TBlokSerad = z.infer<typeof BlokSerad>;
+export type TBlokKdoRekl = z.infer<typeof BlokKdoRekl>;
+export type TBlokTipni = z.infer<typeof BlokTipni>;
+export type TBlokKde = z.infer<typeof BlokKde>;
+export type TBlokDoplnit = z.infer<typeof BlokDoplnit>;
+export type TBlokPary = z.infer<typeof BlokPary>;
+export type TBlokPravy = z.infer<typeof BlokPravy>;
+export type TBlokSlabe = z.infer<typeof BlokSlabe>;
+export type TBlokKdoBy = z.infer<typeof BlokKdoBy>;
 export type TBlok = z.infer<typeof Blok>;

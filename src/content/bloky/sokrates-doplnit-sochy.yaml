@@ -1,0 +1,19 @@
+# Doplň citát v portrétu Sókrata (herna-v1, T). Odpověď 1 v Co rozhodnout před P6 chtěla konec kapitoly Soud, tam se
+# ale hra nehodí: kapitola cituje Obranu 36a, 36d a 38a (38a stojí i nad portrétem jako motto), takže by hra zkoušela,
+# co student o obrazovku výš četl. Jediná další věta ze soudu, Obrana 35c i s třemi syny, nese stránku Argumentační
+# klamy a manipulace, kam vede Kam dál cesty 1: stejná scéna by byla v celku podruhé. Proto konec kapitoly Muž
+# z agory: Lachés tam umí odvážného poznat, ale neumí říct proč, a Menón 98a (podklady docs/podklady/celek-1-pravda.md,
+# řádek 173 a citát 10) říká, co mu chybělo. Citát není v žádném textu atlasu.
+druh: doplnit
+obdobi: 1
+scena: "V Platónově dialogu Menón přirovnává Sókratés pravdivé názory k sochám, o kterých se vyprávělo, že utečou, když je nikdo nepřiváže. Pak řekne, co tím myslí:"
+otazka: "Které slovo ze Sókratovy věty vypadlo?"
+citat: menon-98a
+slovo: věděním
+zameny:
+  - slovo: pravdou
+    vazba: "Věta by tvrdila, že úvaha udělá z názoru pravdu. Jenže ty názory pravdivé už jsou: úvaha o důvodu jim přidá to, že víš, proč platí."
+  - slovo: zvykem
+    vazba: "Zvyk drží názor tím, že ho opakuješ. Sókratovi jde o to, aby ho držel důvod, ne opakování."
+pointa: "Mít pravdu náhodou nestačí: věděním se názor stane, až víš, proč je pravdivý."
+zdroje: [platon-menon]

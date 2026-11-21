@@ -67,7 +67,7 @@ export function nactiData(s: SurovaData): { data: Data; chyby: string[] } {
   const krajiny = s.krajiny ? nactiPole('krajiny.yaml', s.krajiny, Krajina, chyby) : [];
   const zr = Zdroje.safeParse(parse(s.zdroje));
   if (!zr.success) chyby.push(...naformatuj('zdroje.yaml', zr.error));
-  const zdroje: TZdroje = zr.success ? zr.data : { prameny: [], citaty: [], obrazky: [] };
+  const zdroje: TZdroje = zr.success ? zr.data : { prameny: [], citaty: [], obrazky: [], pripsani: [] };
   return { data: { lide, mista, vztahy, udalosti, obdobi, zdroje, krajiny }, chyby };
 }
 
@@ -138,6 +138,19 @@ export function kontrolaOdkazu(d: Data, k: Kontext = {}): string[] {
     if (c.osoba && !lide.has(c.osoba)) chyby.push(`${kde}: osoba „${c.osoba}“ není v lide.yaml`);
     if (c.tradice && k.tradice && !k.tradice.includes(c.tradice)) chyby.push(`${kde}: tradice „${c.tradice}“ nemá soubor v src/content/nabozenstvi`);
     pramen(kde, c.zdroj);
+  }
+  // Připsání (Pravý, nebo podvržený?): odkazy existují a pravý citát patří tomu, komu se připisuje.
+  duplicity('zdroje.yaml (připsání)', d.zdroje.pripsani.map((p) => p.id), chyby);
+  const citaty = new Map(d.zdroje.citaty.map((c) => [c.id, c]));
+  for (const p of d.zdroje.pripsani) {
+    const kde = `zdroje.yaml připsání ${p.id}`;
+    if (citaty.has(p.id)) chyby.push(`${kde}: id je i id citátu`);
+    for (const o of [p.osoba, ...(p.tez ?? [])]) if (!lide.has(o)) chyby.push(`${kde}: osoba „${o}“ není v lide.yaml`);
+    for (const c of [p.skutecne, p.puvod.citat]) if (c && !citaty.has(c)) chyby.push(`${kde}: citát „${c}“ není v zdroje.yaml`);
+    if (p.skutecne && citaty.has(p.skutecne) && citaty.get(p.skutecne)!.osoba !== p.osoba)
+      chyby.push(`${kde}: skutečný citát „${p.skutecne}“ nepatří osobě „${p.osoba}“`);
+    pramen(`${kde} (koluje)`, p.koluje.zdroj);
+    pramen(`${kde} (původ)`, p.puvod.zdroj);
   }
   if (k.souboryObrazku) {
     const soubory = new Set(k.souboryObrazku);

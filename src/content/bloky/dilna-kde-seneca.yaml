@@ -1,0 +1,9 @@
+# Kde to bylo? v dílně (herna-v1, K2): Seneca ve vyhnanství na Korsice (lide.yaml: exil 41–49, zdroj sep-seneca;
+# udalosti.yaml: seneca-na-korsice). Věta po odhalení se skládá z pobytu (src/lib/herna/mista.ts › vetaPobytu).
+druh: kde
+obdobi: 2
+otazka: "Kde žil Seneca osm let, než se směl vrátit do Říma?"
+osoba: seneca
+misto: korsika
+role: exil
+kde: "na Korsice"

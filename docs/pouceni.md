@@ -42,6 +42,11 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Otázka na vlastní selhání nebo bolestnou chvíli nemá pole na psaní: Volba s `bezDuvodu: true` uloží jen zvolenou možnost a text kroku říká „Nikam ji nepiš“.
 - Vlastní karta v Roztřiď: zpětná vazba se ptá, proč ji student dal do koše, ne jak moc si jí je jistý. U karty s něčím bolestným to zní jako pochybnost o tom, co zažil.
 - Kde by vlastní karta byla zpověď (strachy ze smrti), blok ji nemá: student třídí cizí věty a text to říká.
+- Hra, která se ptá, kdo koho učil, dá ty vztahy na kartu od začátku: napověda až po chybě nutila opisovat roky z oddílu nad hrou (Seřaď na ose, herna-v1, R).
+- Situaci v Párech čti proti vysvětlení sousedních pojmů a hlasům téže stránky: slast „nic tě nebolí a ničeho se nebojíš“ byla i klidem a správná úvaha dostala „zkus to jinak“ (herna-v1, R).
+- Hlas ve hře čti očima studenta, kterému se druzí smějí: „mladé, kteří se stydí, chválíme“ bez věty, že jde o stud za vlastní špatný čin, zní jako „máš se stydět“ (herna-v1, R).
+- Lístek Atlas by vybral a spojenec ve škrtu nesou člověka, kterého student na té stránce potkal, a jeho důvod, ne životopis („sám byl bohatý“; herna-v1, R).
+- Hra s pravou větou stojí jen tam, kde student toho člověka už potkal: po dvou „neřekl to“ by u neznámého rozhodoval vzor, ne úvaha (Marcus v cestě 1; herna-v1, R).
 - Autor, který ve Sporu mluví za jednu stranu, patří do dat aspoň jako medailonek s atributem (Plútarchos): prázdnou minci vedle plné autor 9. 10. 2026 odmítl. Strana jen s `oznaceni` zůstává pro nouzi; cizí mince by tvrdila, že mluví někdo jiný.
 
 ## Celek
@@ -114,6 +119,9 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Vazba stránky na lidi patří do dat: tradice zná své osoby polem `tradice` a medailonek Filóna z něj sám skládá kartu judaismu (antika-doplnky, O).
 - Přehled období v deníku (Tvoje antika) čte student o týdny později a bez kroku cesty: věta převzatá z kroku („Jestli nemáš…“) potřebuje odkud nad sebou (antika-doplnky, R).
 - Místo jen s „do“ platilo na mapě jen v jediném roce a Život na mapě z toho udělal příběh (Epiktétos v Římě nikdy nebyl, Anaxagorás šel do vyhnanství před Athénami); a „asi“ z dat se ztratilo cestou přes `kdeVRoce`, takže karta tvrdila přesný rok, který mini mapa o kus výš nesla s „asi“. Kdo z dat skládá vyprávění, přečte výpis zastávek všech lidí jako životopis (`scripts/zivot-na-mape-vypis.ts --podrobne`; interaktivita-v2, R).
+- Odkrytí hry z dat řekne, o čem věta je (`oCem` u citátu), ne jen vztah: rub „Theofrastos se učil u Aristotela“ učil hádat podle stránky, ne podle myšlenky (herna-v1, R).
+- Hra z dat bez vztahu (Tipni si z dlouhého života, Sókratova věta o soudci u Parmenida) je kvíz o letech nebo o jménu: výsledek výběru si u každé stránky přečti jako stránku, ne jako počty druhů (herna-v1, R).
+- Pravidlo výběru, které jednomu druhu hry vezme kandidáty, přeskládá celou řadu sousedů, a nový požadavek na data (oCem) jako filtr nabídky taky, protože do `pouzite` jdou citáty všech kandidátů: výpis aktivit před a po změně porovnej `diff` a požadavek na vybranou hru hlídej kontrolou při sestavení (herna-v1, O).
 - Prameny stránky z textu (`pramenyZTextu`) vidí jen citáty a bloky. Pramen výkladu v próze nebo v Odkryj patří do `zdroje` ve frontmatteru, jinak v Pramenech chybí (antika-doplnky, O).
 
 ## Technika
@@ -182,3 +190,16 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - `ui/Pojem.astro` má styly `is:global`: `:global(…)` v nich zůstane v CSS doslova a pravidlo nic nechytí (design-v2, O).
 - Ověření VoiceOverem potřebuje autora u Macu: zapnout čtečku a její ovládání AppleScriptem je nastavení přístupnosti, které Claude sám měnit nesmí; naplánuj ho jako krok s autorem (design-v2, O).
 - Po sloučení design-v2 padla na GitHubu dvakrát po sobě jedna prohlídka profilu na 390 px: `page.evaluate` v `projedStranku` uvázl na 60 s, pokaždé u jiného profilu (Platón, Kratés a Hipparchia), referenční snímky prošly. V Linuxu s `CI=1` se to ani ve 300 bězích neopakovalo, proto má Playwright na GitHubu jeden opakovaný pokus (`retries`). Když se ve zprávě objeví flaky víckrát, hledej příčinu, ne další pokus (design-v2, Uzavření).
+- `getByRole('button', { name: 'Zkontrolovat' })` bez `exact` chytí i „Zkontrolovat odhad“ a „Zkontrolovat pořadí“: v `pruchod.spec.ts` a skriptech cesty stojí větev hry s delším názvem před Slož argument (herna-v1, K2).
+- Hra, která po činu přesune fokus na lístek zpětné vazby, posune stránku: test „tažení prstem neposouvá stránku“ měří `scrollY` před `touchEnd`, ne po něm (herna-v1, K2).
+- Věta `proc` z dat může citát opisovat (Démokritos: „podle zvyku… atomy a prázdno“): hra, která ji ukazuje jako nápovědu, to musí poznat při sestavení (`prozrazuje`), jinak se hádá podle stejných slov (herna-v1, K2).
+- Prvek schovaný ořezem na 1 px (`clip-path`, `width: 1px`) je pro Playwright pořád viditelný a test cílů 44 px ho chytí. Co má být pro myš schované a pro klávesnici po ruce (seznam u pojmu v Párech), skrývej přes `display: none` a ukazuj podle poslední klávesy na ploše: `:focus-visible` po programovém fokusu (`locator.focus()`) Chromium nedává (herna-v1, K3).
+- Linky linkovaného listu jako pozadí celého listu nesedí pod řádky textu, protože každý řádek má jinou výšku: linky má nést sama věta s výškou řádku jako jejich krokem (herna-v1, K3).
+- Výběr pro řadu stránek, kde se sousedé musí lišit, počítej celou řadu naráz (nejlevnější cesta) a stejné sousedy trestej velkou cenou, ne nekonečnem: tři pevné profily za sebou daly nekonečno všem dalším stránkám a výběr tiše vrátil u každé prvního kandidáta, takže vedle sebe stály tři stejné hry (herna-v1, K4).
+- Hra skládaná z dat přenáší do stránky věty `proc` cizích lidí („roku 415 n. l.“ u Hypatie pod razítkem): každý text z dat v obalu bloku projde `nezlomitelne()`, i ten, který ve hře z YAML letopočet nikdy neměl (herna-v1, K4).
+- Hra na stránce osoby nesmí do hledání: rub s „Antisthenés se učil u Sókrata.“ na sedmi medailoncích vytlačil profil Sókrata z výsledků pro „Sókrata“. Obal hry má `data-pagefind-ignore` (herna-v1, K4).
+- Odhad obdélníku textu v SVG (`radkyPopisku`) bere jen tělo písmen; prohlížeč měří celý řádek písma. Nový popisek, který se má vyhnout starým, počítej s rezervou na dotahy a ověř testem přes `getBoundingClientRect` na 390 px, kde je písmo mini mapy největší (herna-v1, K4).
+- V dílně stojí víc ostrovů téhož druhu (Kdo to řekl? z YAML i z dat) a vzdálené se hydratují až po posunu: čekej na ostrov, ve kterém je blok s daným id, ne na všechny ostrovy toho jména (`scripts/snimky-herna.mjs`, herna-v1, K4).
+- Prvek přes roh (otisk razítka s `right: -12px`) vystrčí na 390 px stránku o pixel do strany, i když jeho `getBoundingClientRect` leží uvnitř okna: přetečení hledej schováváním potomků jednoho po druhém a test přetečení dělej až po činu studenta, ne jen po načtení (herna-v1, K5).
+- Blok uvnitř oddílu, který se odkrývá až po prvním názoru (`#<slug>-po` na stránce otázky), promítání hodiny neukázalo: zastavení uvnitř skrytého oddílu ho musí odkrýt samo (`hodina-lista.ts › oznacUsek`; herna-v1, R).
+- Pravidlo kroku cesty `.krok__obsah :global(h2)` dá každému h2 v kroku velikost a okraje nadpisu kroku, i nadtitulku lístku: h2 v komponentě do kroku styluj dvojitou třídou (herna-v1, K5).

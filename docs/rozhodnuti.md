@@ -4,6 +4,96 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 21. 11. 2026: Opravy po revizi větve herna-v1 (O)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Seřaď na ose ukazuje napovědu pod jménem od začátku (z YAML, jinak první věta `proc`); „zkus to jinak“ jmenuje obrácenou dvojici | Revize R: student měl jen jména a roky stály o obrazovku výš; autor (Po R, otázka 1) souhlas |
+| Šňůra visí vodorovně až od 860 px rámu; v čtenářském sloupci stránky (680 px) svisle | Pět karet s napovědou vedle sebe mělo po 109 px šířky, šest až sedm řádků dělených slov; svisle se napovědy čtou jako věty |
+| Citát má nepovinné pole `oCem`; rub Kdo to řekl? z dat ho ukáže nad vztahem a vybraný citát bez něj zastaví sestavení. Nabídka citátů se podle `oCem` nefiltruje | Filtr by přeskládal půlku medailonků (citáty všech kandidátů jdou do `pouzite`) a Aristotelés by zůstal bez hry; kontrola při sestavení drží týž požadavek bez přeskládání |
+| Tipni si na stránce osoby jen z četby přes lidský život; dlouhý život vypadl | Revize R: kvíz o letech bez vztahu. Řada se tím přeskládala u Chairefónta až Aspasie a Zénón z Eleje s Démokritem mají vedle sebe dvě Kdo to řekl? (jinou hru jim data nedají) |
+| Parmenidés má zase Kdo žil dřív? se Sókratem | Revize R a autor (otázka 4): Sókratova věta o soudci s Parmenidem nesouvisí |
+| Kdo by to řekl? na otázce 1: v lístku Diogenés s D. L. VI, 58 (nový citát `dl-vi-58-osli`), Antisthenés jen mezi možnostmi; Aristotelés s větou, že stud patří jen ke špatnému činu, který člověk udělal sám (EN IV, 9, 1128b21–29) | Revize R a autor (otázka 2); obojí ověřeno na Perseu (Hicks, Rackham) |
+| Pravý, nebo podvržený? v cestě 1: Prótagorás „Člověk je měřítkem všech věcí.“ (připsání `clovek-meritkem`, druh pravý) místo Marca | Revize R a autor (otázka 3); citát tak stojí v cestě 1 v kroku 5 a ve hře, třetí výskyt je profil Prótagory |
+| VoiceOver s autorem se přesouvá do Uzavření | Autorův Mac se během O odpojil; postup zůstává v plánu (Po R) |
+
+## 21. 11. 2026: Přídavky herny v antice, Do hodiny ve všech cestách, hry v profilech (herna-v1 T)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Na stránce období a otázky stojí hra ve frontmatteru (`hra: <id>`) a šablona ji dá pod Lidé a směry, resp. pod Proč to tak viděli (`HraStranky.astro`); katalog hodin ji zná jako zastavení na konci toho oddílu | Text MDX těch stránek je jen úvodní scéna: hra by stála nad lidmi, které student na stránce ještě nepotkal, a na stránce otázky dokonce před Tvým prvním názorem |
+| Doplň citát není na konci kapitoly Soud, ale na konci kapitoly Muž z agory (Menón 98a) | Soud cituje 36a, 36d a 38a (38a i jako motto) a jediná další věta ze soudu, Obrana 35c i se třemi syny, nese stránku klamů, na kterou vede Kam dál cesty 1 |
+| Najdi slabé místo není v cestě 8, ale v cestě Kolik je dost?, krok 6 (Epikúrův argument o bohatství, Hlavní myšlenky 15 a VS 68) | V cestě 8 už týž Epikúrův argument napadá Slož argument i Odkryj (krok 3) a zrcadlo s Nagelovou námitkou (krok 4): třetí škrtání by opakovalo scénu |
+| Pravý, nebo podvržený? stojí v posledním kroku cesty 1 před Závěrem cesty, s Kam dál na pravidlo | Za závěrem by hra držela krok nedokončený i s napsaným pravidlem (lišta, pahýl lístku); jako poslední nový případ před pravidlem dává smysl i obsahem |
+| Hry z dat v profilech jen u Aristotela, Parmenida a Epiktéta (`bez="kde"`); ostatní profily mají dál Kdo žil dřív? | Výpis výběru pro všechny profily: u Platóna by Kde to bylo? zkoušelo kapitolu Třikrát do Syrákús a Kdo to řekl? by stálo vedle stejné hry u Aristotela; Seneca končí kapitolou o smrti s řádkem pomoci; Prótagorás by se ptal na Thurioi, které profil nezmiňuje; Hérakleitos, Diogenés a Epikúros by dostali větu, která s jejich myšlenkou nesouvisí nebo nese příběh někoho jiného; Sókratés má nově Doplň citát |
+| Profil s hrou bere citáty až po medailoncích, citát z vlastního textu na kartu nejde a autor díla (Platón u Sókratovy věty) mezi razítka nejde | Medailonky mají tytéž karty jako po K4 (ověřeno výpisem) a hra nezkouší, co student o obrazovku výš četl |
+| Štítek času cest 1 a 6 je 17 a 21 minut (bylo 14 a 19) | Přepočet skriptem `scripts/slova-cesta.mjs` po přidání bloku; čas cesty 1 zahrnuje i sebehodnocení z K5 |
+
+## 19. 11. 2026: Do hodiny, sebehodnocení, Argumentační klamy a manipulace (herna-v1 K5)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Karta Do hodiny má vlastní kolekci `src/content/do-hodiny/<slug cesty>.yaml` (dvě pole: `dvojice`, `trida`), ne druh v kolekci bloků; do posledního kroku ji vloží jeden řádek `<DoHodiny />` a id je `cestaN-do-hodiny` | Zadání chce YAML k cestě; karta není blok pro studenta (nemá stav, deník ani rám aktivity), a v unii bloků by ji musel znát každý kód, který bloky prochází |
+| Karta je na stránce skrytá přes `display: none` a vidí ji jen promítání (`html.promitani`); není v hledání ani ve slovech cesty. V přípravě hodiny je to zastavení „Do hodiny“ s názvem otázky pro třídu a s otázkou do dvojice pod ním, v tisku taky | Student ji vidět nemá; učitel ji potřebuje číst, když hodinu skládá, a třída na plátně |
+| Sebehodnocení vkládá obal Závěru cesty (`bloky/ZaverCesty.astro`), takže ho mají všechny cesty bez úpravy textu; závěr je ve všech deseti cestách poslední v textu kroku, karta Stoického týdne zůstává pod sebehodnocením | Odpověď 6 před P6: jedna komponenta za Závěrem cesty; vložení do šablony kroku by ho posunulo pod kartu týdne |
+| Otázky sebehodnocení jsou „Co už umím“ a „Co mi ještě není jasné“, nadpis „Kam tě cesta dovedla?“ | Zadání znělo „v čem si jistý nejsem“; texty atlasu nenesou rod studenta, a tak je druhá otázka bez rodu se stejným smyslem |
+| Sebehodnocení jsou dva samostatné zápisy deníku (`<slug>-umim`, `<slug>-nejsem`, druh `sebehodnoceni`) s odkazem na kotvu pod závěrem; Moje filozofie je ukáže u velké otázky cesty pod Na začátku × Teď, zápisník u cesty | Prázdné pole zápis smaže; nic se nesčítá ani nehodnotí. Dva zápisy se dají smazat a číst každý zvlášť |
+| Stránka Argumentační klamy a manipulace je úvod oddílu (`src/content/uvody/argumentacni-klamy.mdx`, `/argumentacni-klamy/`) se scénou z Euthydéma, třemi oddíly (Triky na lidi, Triky s myšlenkou, Věta s cizím jménem), deseti klamy a závěrem; Najdi slabé místo stojí za prvním oddílem, Pravý, nebo podvržený? za třetím | Odpověď 7 před P6; bloky uprostřed, každý u klamů, které cvičí (autorita a většina; podvržený citát) |
+| U klamů autority a většiny stojí v textu jen vyprávění, citáty Cicerona, Sókrata z Gorgia a Kritóna přinese až blok Najdi slabé místo | Tentýž citát dvakrát na jedné stránce by se četl jako opakování a blok by prozradil, kdo co škrtl |
+| Z Otázek vede na stránku druhý lístek vedle Co je filozofie?, z cesty 1 řádek v Kam dál přehledu z nového pole `kamDal` ve frontmatteru cesty | Text cesty se nemění (odpověď 7) |
+| Otisk razítka „neřekl to“ jde na telefonu přes roh ústřižku jen o 2 px (dřív 12 px) | Na 390 px vystrčil stránku o pixel do strany, i v dílně od K3 |
+
+## 17. 11. 2026: Stránky osob a mapa (herna-v1 K4)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Malou hru vybírá atlas jen pro medailonky; profily a portréty mají dál svou ručně napsanou Kdo žil dřív? v MDX a výběr ji bere jako pevnou, medailonky kolem se jí vyhnou | Hotový text se nepřepisuje (plán po auditu, fáze 5); dvojice v profilech jsou vybrané ručně a hlídají je testy profilů. Thalés vedle Hérakleita má Kdo žil dřív? taky, protože jinou hru data nedají |
+| Výběr počítá celou řadu stránek naráz (nejlevnější cesta se sousedy různými) se silou kandidáta z dat a semínkem z id; Kdo žil dřív? je záloha se silou 1 | Hladový výběr stránku po stránce se zasekl na třech sousedech, kteří mají jen Kdo to řekl? a Kdo žil dřív?; řada naráz dá 9, 9, 9 a 7 her každého druhu |
+| Kdo to řekl? na medailonku nese větu člověka, se kterým měl ten ze stránky vztah, ne jeho vlastní; rub nahoře řekne vztah z dat („Theofrastos se učil u Aristotela.“) | Vlastní věta na vlastní stránce by byla hádání jména (Pointa není paměť) a medailonky vlastní citáty skoro nemají. Přednost mají citáty, které atlas už použil samostatně (hlasy otázek, pak citáty v textu); citát se jménem, s vypuštěným místem nebo delší než 25 slov na kartu nejde a na dvou stránkách se neopakuje |
+| Tipni si z dlouhého života páruje osobu se známým člověkem narozeným později, se kterým žila aspoň dvacet let zároveň (Gorgiás a Diogenés) | Překryv o rok by s roky „asi“ byl past (poučení z Kdo žil dřív?) |
+| Místa dostala v datech 6. pád (`kde` v `mista.yaml`, všech 55) | Věty her a výprav se skládají z dat („Musonius Rufus se narodil ve Volsiniích.“); ruční text by se s daty rozešel |
+| Výpravy jsou v `src/data/vypravy.yaml` (otázky z P6), odpověď skládají data (pobyt, rodiště) a YAML smí přidat jednu ověřenou větu; splněná výprava zůstane splněná (localStorage `atlas-vypravy`) a lístek se ukazuje i v celé mapě, dokud není vybraný jiný člověk | Odpověď z dat nemůže tvrdit něco jiného než mapa; lístek nad kartou cizího člověka by kartu odsunul a míchal dvě věci |
+| Přehrát období je u pásu: Přehrát období, během běhu Zastavit, po zastavení Pokračovat a skoky o deset let zpět a dál; při omezeném pohybu a v Klidném režimu jen skoky. Na telefonu jen značky (název pro čtečku), cíl 44 px kolem pilulky 32 px | Zadání: po zastavení totéž co při omezeném pohybu. Pás na telefonu je úzký; pilulka drží výšku tlačítka Přehled |
+| Trasy na mini mapě: oblouk vpravo ve směru cesty (tam a zpět na dvou stranách), opakovaná cesta jeden oblouk s více roky, rok jen kde se nepotká s popisky; oblouk bez místa pro rok zůstane bez roku | Rok příchodu stojí i v řádku role u místa, takže vynechaný rok nic neschová |
+| Styly komponent jsou vždy v souborech (`inlineStylesheets: 'never'`) a skript fokusu nad lištou je modul | Stránky osob nesly v `<style>` asi 13 kB, které se opakovaly (písma, mini mapa, Kam dál, Prameny); medailonek klesl z 68,6 na 60,5 kB HTML. Stránka teď načítá víc souborů CSS (medailonek 11 místo 4), které si prohlížeč uloží |
+
+## 17. 11. 2026: Páry, Pravý, nebo podvržený?, Najdi slabé místo, Kdo by to řekl? (herna-v1 K3)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Páry ukazují pod pojmem první větu jeho vysvětlení z kolekce `pojmy`; pár vedle dostane větu, co situace ukazuje, bez jména pojmu | Pointa není paměť: student hledá situaci podle významu, ne podle slova, které si pamatuje; jméno pojmu ve „zkus to jinak“ by pár prozradilo |
+| Páry hodnotí každý pár hned (správný se zamkne s čarou, vedle se ukáže čárkovaně s lístkem); po třech párech vedle Ukázat páry | Zadání chce „zkus to jinak“ u páru, který nesedí; hodnocení až po všech by nevědělo, ke kterému páru větu říct. Tři pokusy jako Seřaď na ose |
+| Výběr ze seznamu u pojmu se ukáže jen při ovládání klávesnicí (`data-klavesnice` na ploše, sundá ho ukazatel) | Myši a prstu by řádek se seznamem při klepnutí na pojem roztáhl lístek a situace by uskočily; `:focus-visible` po programovém fokusu Chromium nedává, tak rozhoduje poslední klávesa |
+| Pravý, nebo podvržený? má jeden otisk na ústřižek a pak původ (bez „zkus to jinak“), jako Kde to bylo? | Druhý pokus u dvou razítek je jen druhé razítko; podstatné je, odkud věta je a jak si ji ověřit |
+| Oprava stojí jako proužek přímo na ústřižku a v souhrnu u každé věty; titulek lístku řekne podle druhu záznamu „Takhle to neřekl.“, „Napsal opak.“, „Neřekl to. Je to věta jiného autora.“ | Zadání: podvržená věta nikdy nestojí bez opravy na téže obrazovce; na telefonu by lístek mohl být pod ohybem |
+| Pod ústřižkem razítko člověka, kterému se věta připisuje, s první větou `proc` | Student uvažuje, jestli věta sedí k tomu, čím se ten člověk zabýval; u „Vím, že nic nevím“ tak uvidí, že myšlenka je Sókratova, slova ne |
+| Najdi slabé místo ukáže hlasy až po zápisu, ne po škrtu; u volby „drží mi“ zastánce a kdo by argument napadl | Nic se neodkrývá dřív, než se student rozhodne (pouceni, Bloky); každá odpověď má zastánce |
+| Hlasy proti stoickému argumentu v dílně jsou Aristotelovy a říkají, kdo by větu škrtl, ne že s Epiktétem vedl spor | Aristotelés žil před stoiky; spojovací věta netvrdí spor, který nebyl |
+| Linky listu nese každá věta (`--radek` 2,45 × `--fs-text`), ne celý list | Linky přes celý list neseděly pod řádky textu na žádné šířce; řádek 2,45 em je zároveň cíl aspoň 44 px |
+| Kdo by to řekl? zapíše do deníku „Můj výběr: … Proč: …“ a lístek začíná „Tvůj výběr“, pak „Atlas by vybral…“ a „Kdo by větu odmítl“; žádné „sedí“ | Názorový formát nemá správnou odpověď; zápis i škrt („Škrtám větu…“) jsou bez rodu |
+| Nadtitulky názorových formátů: „Tvůj škrt“ (Najdi slabé místo) a „Dnešní věta“ (Kdo by to řekl?); znalostní Páry a Pravý, nebo podvržený? mají „Hra“ | Zadání: názorové formáty mají vlastní slovo; obě slova říkají, co student drží v ruce |
+
+## 17. 11. 2026: Pointa není paměť, Tipni si, Kde to bylo?, Doplň citát (herna-v1 K2)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Kdo to řekl? ukazuje u razítka první větu `proc` z dat a pokyn „Nemusíš to vědět: hledej, čí myšlence věta sedí.“; věta, která citát opisuje (dva společné kořeny za sebou), zastaví sestavení | Zásada Pointa není paměť (autor, 17. 11. 2026); Démokritova věta `proc` je skoro citát, hádalo by se podle stejných slov |
+| Seřaď na ose ukáže po správném pořadí mezi sousedy vztah z dat, jinak „mohli se potkat“; kdo žil v jiné tradici, jen „žili ve stejné době“ | Odkrytí má říct, kdo na koho navázal; u Konfucia by „mohli se potkat“ tvrdilo víc, než víme, a „nevěděli o sobě“ taky |
+| Pětice v dílně je řetěz Sókratés, Antisthenés, Diogenés, Kratés, Zénón z Kitia (čtyři vztahy učitel a žák, jeden tradovaný); Konfucius z dílny vypadl | Zadání K2: řetěz vlivu z podkladů, aspoň dva vztahy na šňůře |
+| Tipni si odhaduje v lidských životech (75 let, jako Dva životy), 0 znamená „mohli se potkat“; „sedí“ u současníků jen 0, jinak nejvýš o život nebo čtvrtinu vedle; po dvou odhadech Ukázat, jak to bylo | Roky nejsou učivo; mez větší než nejistota „asi“ (pouceni); „zkus to jinak“ jen tam, kde jde zkusit znovu |
+| Kde to bylo? je jeden tah: klepnutí rovnou odkryje místo, vzdálenost slovem a větu z dat o pobytu; „sedí“ do 250 km, bez „zkus to jinak“ | Zadání K2 (vzdálenost jen slovem, bez bodů); pointa je, proč tam člověk byl, ne druhý pokus o bod |
+| Doplň citát nechá záměnu v mezeře, dokud ji student nevymění, a po správném slově ukáže, co by tvrdily všechny záměny | Nejde o to trefit slovo: rozdíl v myšlence je to, co si student odnese; nic se neodkryje dřív, než sám zvolí |
+
+## 17. 11. 2026: Herní jádro, Seřaď na ose a Kdo to řekl? (herna-v1 K1)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Hry herny mají nadtitulek „Hra“ a pod ním název formátu; obsah v YAML (druhy `serad`, `kdo-rekl`) | Rodina aktivit nad rámem je u všech bloků slovo, ne název; formát pak student pozná podle názvu a autor ho v YAML může přepsat |
+| Zamíchání se semínkem z id bloku (a citátu), počítané stejně při sestavení i po hydrataci; Seřaď na ose nikdy nezačne hotové a nejvýš polovina dvojic na začátku sedí | Stejné pořadí po obnovení stránky (plán, K1); náhodná změna by šla proti zákazu automaticky se měnících prvků |
+| Po špatné kontrole Seřaď na ose ukáže značky u všech dvojic (✓ sedí, ⇄ obráceně) a větu o první obrácené dvojici; Zkontrolovat čeká na změnu pořadí; Ukázat pořadí po třech kontrolách | Zadání K1 („které dvojice sedí“); kontrola bez změny by jen přidávala pokusy |
+| Kdo to řekl? ukládá jen tipy a běžící kartu; zkusené razítko zůstane zakázané, karta se otočí až po trefě | Znalostní hra bez bodů: do deníku jen stav (plán, Co platí); nic se neodkryje dřív, než student sám trefí |
+| Herní pohyb (rozdání, otočení, otisk) v Klidném režimu stojí na konci, i když jiný pohyb bloků po činu studenta v něm zůstává | Zadání K1 a plán (Co platí: omezený pohyb a Klidný režim vypnou zamíchání i otočení) |
+
 ## 15. 11. 2026: Pojmy (design-v2 P)
 
 Odpovědi po K7b byly prázdné, tedy souhlas s doporučeními (trasy v mini mapě ne teď, zapsané v `docs/navraty.md`). Podklady `docs/podklady/pojmy-antika.md`.

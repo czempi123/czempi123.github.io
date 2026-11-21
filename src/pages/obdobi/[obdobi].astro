@@ -3,7 +3,7 @@
 // v src/content/obdobi/<slug>.mdx) → Co se dělo (kotvy z udalosti.yaml) a Mezitím jinde → Otázky doby →
 // Lidé a směry → Cesty → Na mapě (výřez s odkazem do Mapy a času) → Kam dál → Prameny.
 // Kromě scény, perexu, odstavců k otázkám a Mezitím jinde se všechno skládá z dat; prázdný oddíl se neukáže.
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
 import OsaUdalosti from '../../components/stranka/OsaUdalosti.astro';
@@ -12,6 +12,7 @@ import OkrajObdobi from '../../components/stranka/OkrajObdobi.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import MiniMapa from '../../components/osobnost/MiniMapa.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
+import HraStranky from '../../components/bloky/HraStranky.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
 import { obdobiPodleId } from '../../lib/data';
 import { zivot, rok as fmtRok, rozpeti } from '../../lib/casy';
@@ -48,7 +49,9 @@ const kamDal = [
   { href: `/lide/#obdobi-${o.id}`, nadtitulek: 'Lidé a směry', text: `Všichni lidé období ${o.id}` },
   { href: odkazMapy, nadtitulek: 'Mapa a čas', text: `Svět roku ${fmtRok(fm.mapa.rok)}` },
 ];
-const prameny = await pramenyZTextu(zaznam.body, { prameny: udalosti.map((u) => u.zdroj) });
+// Hra pod Lidmi a směry (herna-v1, T) přidá do Pramenů prameny svého bloku.
+const zdrojeHry = fm.hra ? ((await getEntry('bloky', fm.hra))?.data.zdroje ?? []) : [];
+const prameny = await pramenyZTextu(zaznam.body, { prameny: [...udalosti.map((u) => u.zdroj), ...zdrojeHry] });
 const stranka = `/obdobi/${zaznam.id}/`;
 const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
 ---
@@ -138,6 +141,7 @@ const okno = rozpeti(o.okno.od, o.okno.do, o.id === 8);
         {dalsichLidi > 0 && (
           <p class="t-ovladani dalsi-lide"><a href={`/lide/#obdobi-${o.id}`}>Další lidé období v Lidech a směrech ({dalsichLidi})</a></p>
         )}
+        {fm.hra && <HraStranky id={fm.hra} />}
       </section>
     )}
 

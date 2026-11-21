@@ -6,7 +6,7 @@
  * Bloky, ve kterých student odpovídá. Krok s některým z nich má Další krok tichý, dokud poslední z nich v kroku
  * není hotový (deník: aktivita bloku, u závěrečného pravidla zápis). Kresby, Příběh a zastánci odpověď nečekají.
  */
-export const BLOKY_S_ODPOVEDI = ['Volba', 'Odkryj', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument', 'KdoZilDriv', 'ZaverCesty'] as const;
+export const BLOKY_S_ODPOVEDI = ['Volba', 'Odkryj', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument', 'KdoZilDriv', 'SeradNaOse', 'KdoToRekl', 'TipniSi', 'KdeToBylo', 'DoplnCitat', 'Pary', 'PravyNeboPodvrzeny', 'NajdiSlabeMisto', 'KdoByToRekl', 'ZaverCesty'] as const;
 
 /** Id posledního bloku s odpovědí v textu kroku (MDX), nebo undefined: krok bez něj má Další krok hlavní hned. */
 export function blokKroku(telo: string): string | undefined {

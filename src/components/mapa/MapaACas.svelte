@@ -7,6 +7,10 @@
   // První návštěva (design-v2, K7a): jen mapa, rok a jedna výprava; řeka životů, navazující a přehled všech žijících
   // jsou pod „Víc“ (zapamatuje si localStorage). Kdo přijde odkazem s člověkem nebo se srovnáním, dostane mapu celou.
   // U lidí, které student už potkal (deník: stránky a prošlé cesty), je razítko.
+  // Výpravy (herna-v1, K4): lístek s otázkou pro období na pásu, ověření na mapě (vybraný člověk v roce výpravy),
+  // razítko „sedí“ a odpověď z dat; rozpracovaná a splněné výpravy si pamatuje localStorage (src/lib/herna/vypravy.ts).
+  // Přehrát období (K4): rok projede okno období asi za minutu, Zastavit a Pokračovat; při omezeném pohybu
+  // a v Klidném režimu se nic samo nehýbe a student skáče po desetiletích; po Zastavit ukáže totéž a k tomu Pokračovat.
   import { onMount, onDestroy, untrack, tick } from 'svelte';
   import type { PodkladObdobi } from '../../lib/mapa';
   import type { VstupMapy, OsobaV } from '../../lib/mapa-vstup';
@@ -15,17 +19,20 @@
   } from '../../lib/cas-mapy';
   import { rok as rokText } from '../../lib/casy';
   import { prectiAdresu, zapisAdresu } from '../../lib/adresa-mapy';
-  import { zastavkyZivota, maZastavky, planPrehravani, rokVCase, rokyMeziSnimky, casProRok, PREHRAVANI, type NastaveniPrehravani } from '../../lib/zivot-na-mape';
+  import {
+    zastavkyZivota, maZastavky, planPrehravani, rokVCase, rokyMeziSnimky, casProRok, PREHRAVANI, type NastaveniPrehravani,
+    planObdobi, desetiletiDal, desetiletiZpet, zacatekObdobi, PREHRAT_OBDOBI, PREHRAT_OBDOBI_TEXTY as TO,
+  } from '../../lib/zivot-na-mape';
+  import { vypravyObdobi, dalsiVyprava, splnenaVyprava, platnyStavVyprav, KLIC_VYPRAVY, type VypravaV, type StavVyprav } from '../../lib/herna/vypravy';
   import Mapa from './Mapa.svelte';
   import Posuvnik from './Posuvnik.svelte';
   import Reka from './Reka.svelte';
   import PasObdobi from './PasObdobi.svelte';
   import KartaCloveka from './KartaCloveka.svelte';
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
-  import { razitkoOsoby, PRVNI_VYPRAVA, KLIC_MAPA_VIC } from '../../lib/mapa-listky';
+  import { razitkoOsoby, KLIC_MAPA_VIC } from '../../lib/mapa-listky';
   import { potkaniFilozofove, type MapaPotkanych } from '../../lib/zapisnik';
   import { nacti } from '../../lib/denik';
-  import { ROLE_MISTA } from '../../lib/cas-mapy';
   import { obarviLogo } from '../../lib/logo';
 
   interface Props {
@@ -33,8 +40,10 @@
     vychoziRok?: number;
     /** adresy stránek osob a filozofové cest: z deníku se pozná, koho student potkal */
     potkaniMapa?: MapaPotkanych;
+    /** výpravy pro období na pásu (src/data/vypravy.yaml, texty hotové) */
+    vypravy?: VypravaV[];
   }
-  let { vstup, vychoziRok = -360, potkaniMapa }: Props = $props();
+  let { vstup, vychoziRok = -360, potkaniMapa, vypravy = [] }: Props = $props();
 
   const podleId = new Map(vstup.lide.map((o) => [o.id, o]));
   const mista = new Map(vstup.mista.map((m) => [m.id, m]));
@@ -66,13 +75,35 @@
 
   let osoba = $derived(osobaId ? podleId.get(osobaId) : undefined);
   let zastavky = $derived(osoba && maZastavky(osoba) ? zastavkyZivota(osoba) : []);
-  // První výprava: splněná, když je vybraný její člověk v jejím roce; odpověď skládají data.
-  let vypravaSplnena = $derived(osobaId === PRVNI_VYPRAVA.osoba && rok === PRVNI_VYPRAVA.rok);
-  let odpovedVypravy = $derived.by(() => {
-    const o = podleId.get(PRVNI_VYPRAVA.osoba);
-    const k = o ? kdeVRoce(o, PRVNI_VYPRAVA.rok) : null;
-    return k ? `${mista.get(k.misto)?.nazev ?? ''}, ${ROLE_MISTA[k.role]}.` : '';
+  // Výpravy: lístek pro období na pásu; splněná, když je vybraný její člověk v jejím roce (pak zůstane splněná).
+  let stavVyprav = $state<StavVyprav>({ aktualni: {}, splnene: [] });
+  let cerstvaVyprava = $state<string | null>(null);
+  let seznamVyprav = $derived(vypravyObdobi(vypravy, obdobi));
+  let vyprava = $derived(seznamVyprav.find((v) => v.id === stavVyprav.aktualni[String(obdobi)]) ?? seznamVyprav[0]);
+  let poradiVypravy = $derived(vyprava ? seznamVyprav.indexOf(vyprava) + 1 : 0);
+  let vypravaSplnena = $derived(!!vyprava && stavVyprav.splnene.includes(vyprava.id));
+  // Při první návštěvě vždy; jinak, dokud není vybraný nikdo jiný než člověk výpravy (karta pod ní má přednost).
+  let ukazVypravu = $derived(!!vyprava && (!vic || !osobaId || osobaId === vyprava.osoba));
+  function ulozVypravy() {
+    try { localStorage.setItem(KLIC_VYPRAVY, JSON.stringify(stavVyprav)); } catch { /* bez úložiště jen pro tuto návštěvu */ }
+  }
+  $effect(() => {
+    const v = vyprava;
+    if (!v || !splnenaVyprava(v, osobaId, rok) || untrack(() => stavVyprav.splnene.includes(v.id))) return;
+    stavVyprav = { ...untrack(() => stavVyprav), splnene: [...untrack(() => stavVyprav.splnene), v.id] };
+    cerstvaVyprava = v.id;
+    ulozVypravy();
   });
+  async function dalsiVypravu() {
+    if (!vyprava) return;
+    const d = dalsiVyprava(seznamVyprav, vyprava.id);
+    if (!d) return;
+    stavVyprav = { ...stavVyprav, aktualni: { ...stavVyprav.aktualni, [String(obdobi)]: d.id } };
+    cerstvaVyprava = null;
+    ulozVypravy();
+    await tick();
+    document.getElementById('vyprava-otazka')?.focus();
+  }
   let zijici = $derived(vstup.lide.filter((o) => zijeVRoce(o, rok)));
   let stinLide = $derived(stin ? stinOdkazu(vstup.lide, vstup.vztahy, rok) : []);
 
@@ -184,7 +215,8 @@
   function vyber(id: string, odkud: 'mapa' | 'reka' | 'karta' = 'mapa') {
     const o = podleId.get(id);
     if (!o) return;
-    if (id !== osobaId) zastavPrehravani();
+    if (id !== osobaId) zastavZivot();
+    if (!zijeVRoce(o, rok)) zastavObdobi();
     osobaId = id;
     if (srovnatId === id) srovnatId = undefined;
     if (!zijeVRoce(o, rok)) {
@@ -199,7 +231,7 @@
     zapisAdresy('push');
   }
   function zavrit() {
-    zastavPrehravani();
+    zastavZivot();
     osobaId = undefined;
     zapisAdresy('push');
   }
@@ -207,6 +239,7 @@
     const ob = vstup.obdobi.find((o) => o.id === id);
     if (!ob || !ob.otevrene || id === obdobi) return;
     zastavPrehravani();
+    obdobiPozastaveno = false;
     obdobi = id;
     if (rok < ob.okno.od || rok > ob.okno.do) {
       // Rok, ve kterém v období žije nejvíc lidí z atlasu.
@@ -227,13 +260,18 @@
   let prehrava = $state(false);
   let snimek = 0;
   let prvniPosun = false;
-  /** Zastaví přehrávání; adresa pak nese rok, kde skončilo. Při Zpět (`zapsat = false`) se adresa nepřepisuje. */
-  function zastavPrehravani(zapsat = true) {
+  /** Zastaví přehrávání života; adresa pak nese rok, kde skončilo. Při Zpět (`zapsat = false`) se adresa nepřepisuje. */
+  function zastavZivot(zapsat = true) {
     if (!prehrava) return;
     prehrava = false;
     cancelAnimationFrame(snimek);
     if (zapsat && !prvniPosun) zapisAdresy('replace');
     else clearTimeout(odlozenyZapis);
+  }
+  /** Zastaví jakékoli přehrávání (život i období): každý zásah do času. */
+  function zastavPrehravani(zapsat = true) {
+    zastavZivot(zapsat);
+    zastavObdobi(zapsat);
   }
   function posunPrehravani(r: number, o: OsobaV) {
     rok = r;
@@ -248,6 +286,7 @@
   function prehrat() {
     const o = osoba;
     if (!o || omezitPohyb || !zastavky.length || prehrava) return;
+    zastavObdobi();
     // Testy si přehrávání zkrátí: window.atlasPrehravani = { delka: 1000, zastaveni: 100 }.
     const nastaveni: NastaveniPrehravani = { ...PREHRAVANI, ...((globalThis as { atlasPrehravani?: Partial<NastaveniPrehravani> }).atlasPrehravani ?? {}) };
     const plan = planPrehravani(o, zastavky, nastaveni);
@@ -283,10 +322,96 @@
     zastavPrehravani();
     zmenaRoku(r, 'tlacitko');
   }
-  // Omezený pohyb zapnutý během přehrávání ho zastaví.
+  // Omezený pohyb zapnutý během přehrávání ho zastaví; Klidný režim zastaví přehrávání období.
   $effect(() => {
     if (omezitPohyb) untrack(() => zastavPrehravani());
   });
+  $effect(() => {
+    if (klidny) untrack(() => zastavObdobi());
+  });
+
+  // ── Přehrát období ─────────────────────────────────────────────────────────
+  let prehravaObdobi = $state(false);
+  /** student přehrávání zastavil: ovládání ukáže skoky po desetiletích a Pokračovat */
+  let obdobiPozastaveno = $state(false);
+  let klidny = $state(false);
+  let bezPohybu = $derived(omezitPohyb || klidny);
+  let oknoObdobi = $derived.by((): [number, number] => {
+    const ob = vstup.obdobi.find((o) => o.id === obdobi)!;
+    return [Math.max(ob.okno.od, vstup.rozsah[0]), Math.min(ob.okno.do, vstup.rozsah[1])];
+  });
+  function zastavObdobi(zapsat = true) {
+    if (!prehravaObdobi) return;
+    prehravaObdobi = false;
+    obdobiPozastaveno = true;
+    cancelAnimationFrame(snimek);
+    if (zapsat && !prvniPosun) zapisAdresy('replace');
+    else clearTimeout(odlozenyZapis);
+  }
+  function posunObdobi(r: number, cil: number) {
+    rok = r;
+    // Kamera drží přehrávané období, dokud rok leží v jeho okně (okna se na okrajích překrývají).
+    obdobi = obdobiProRok(vstup.obdobi, r, cil);
+    drzOkno(r);
+    if (osoba && !zijeVRoce(osoba, r)) osobaId = undefined;
+    if (prvniPosun) {
+      prvniPosun = false;
+      zapisAdresy('push');
+    } else zapisAdresy('prehravani');
+  }
+  async function prehratObdobi() {
+    if (bezPohybu || prehravaObdobi) return;
+    zastavZivot();
+    // Testy si přehrávání zkrátí: window.atlasPrehravaniObdobi = { delka: 2000 }; historii roků čtou z háčku.
+    const hacek = (globalThis as { atlasPrehravaniObdobi?: { delka?: number; historie?: number[] } }).atlasPrehravaniObdobi;
+    const [od, doRoku] = oknoObdobi;
+    const plan = planObdobi(od, doRoku, hacek?.delka ?? PREHRAT_OBDOBI.delka);
+    const start = zacatekObdobi(rok, od, doRoku);
+    const cil = obdobi;
+    const zacatek = performance.now() - casProRok(plan, start);
+    prehravaObdobi = true;
+    obdobiPozastaveno = false;
+    prvniPosun = true;
+    if (start !== rok) posunObdobi(start, cil);
+    const historie: number[] = [rok];
+    if (hacek) hacek.historie = historie;
+    await tick();
+    document.getElementById('obdobi-prehrat')?.focus();
+    const krok = (ted: number) => {
+      if (!prehravaObdobi) return;
+      const t = ted - zacatek;
+      const r = rokVCase(plan, t);
+      if (r !== rok) {
+        posunObdobi(r, cil);
+        historie.push(r);
+      }
+      if (t >= plan.celkem) {
+        prehravaObdobi = false;
+        obdobiPozastaveno = false;
+        clearTimeout(odlozenyZapis);
+        zapisAdresy('replace');
+        tick().then(() => document.getElementById('obdobi-prehrat')?.focus());
+        return;
+      }
+      snimek = requestAnimationFrame(krok);
+    };
+    snimek = requestAnimationFrame(krok);
+  }
+  /** Skok o desetiletí (bez animace i bez přehrávání): kulatý rok v okně období. */
+  function skokDesetileti(smer: 1 | -1) {
+    zastavPrehravani();
+    const [od, doRoku] = oknoObdobi;
+    const r = smer > 0 ? desetiletiDal(rok, doRoku) : desetiletiZpet(rok, od);
+    if (r === rok) return;
+    const cil = obdobi;
+    rok = r;
+    obdobi = obdobiProRok(vstup.obdobi, r, cil);
+    drzOkno(r);
+    if (osoba && !zijeVRoce(osoba, r)) osobaId = undefined;
+    zapisAdresy('push');
+  }
+  let naZacatku = $derived(naAstro(rok) <= naAstro(oknoObdobi[0]));
+  let naKonci = $derived(naAstro(rok) >= naAstro(oknoObdobi[1]));
 
   onMount(() => {
     const mqTelefon = matchMedia('(max-width: 899px)');
@@ -299,6 +424,15 @@
     zmenaMedii();
     mqTelefon.addEventListener('change', zmenaMedii);
     mqPohyb.addEventListener('change', zmenaMedii);
+    // Klidný režim (atribut na <html>, přepínač v záhlaví) vypne přehrávání období stejně jako omezený pohyb.
+    const html = document.documentElement;
+    const zmenaKlidu = () => (klidny = html.hasAttribute('data-klidny'));
+    zmenaKlidu();
+    const pozorovatel = new MutationObserver(zmenaKlidu);
+    pozorovatel.observe(html, { attributes: true, attributeFilter: ['data-klidny'] });
+    try {
+      stavVyprav = platnyStavVyprav(JSON.parse(localStorage.getItem(KLIC_VYPRAVY) ?? 'null'), new Set(vypravy.map((v) => v.id)));
+    } catch { /* bez úložiště nebo s poškozeným záznamem: výpravy od začátku */ }
     const stav = prectiAdresy();
     try {
       const d = nacti();
@@ -319,6 +453,7 @@
     return () => {
       mqTelefon.removeEventListener('change', zmenaMedii);
       mqPohyb.removeEventListener('change', zmenaMedii);
+      pozorovatel.disconnect();
       removeEventListener('popstate', zpet);
       cancelAnimationFrame(snimek);
     };
@@ -332,6 +467,7 @@
 
 <div class="mac obdobi-{obdobi}" class:mac--prvni={!vic} data-zalozka={zalozka}>
   <div class="mac__pas">
+    <div class="mac__pasek">
     <PasObdobi
       obdobi={vstup.obdobi}
       aktivni={obdobi}
@@ -347,6 +483,29 @@
       }}
       onpripravuje={(o) => ukazZpravu(`${o.nazev}: připravujeme.`)}
     />
+    </div>
+    <!-- Přehrát období: při omezeném pohybu a v Klidném režimu jen skoky po desetiletích; po Zastavit totéž a Pokračovat. -->
+    <div class="prehrat-obdobi" role="group" aria-label="Přehrát období">
+      {#if !prehravaObdobi && (bezPohybu || obdobiPozastaveno)}
+        <button type="button" class="po" id="obdobi-zpet" onclick={() => skokDesetileti(-1)} disabled={naZacatku}>
+          <span class="po__pilulka"><span aria-hidden="true">‹</span><span class="po__text">{TO.zpet}</span></span>
+        </button>
+      {/if}
+      {#if prehravaObdobi}
+        <button type="button" class="po po--hlavni" id="obdobi-prehrat" onclick={() => zastavObdobi()}>
+          <span class="po__pilulka"><svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="2" width="10" height="10" rx="1.5" /></svg><span class="po__text">{TO.zastavit}</span></span>
+        </button>
+      {:else if !bezPohybu}
+        <button type="button" class="po po--hlavni" id="obdobi-prehrat" onclick={prehratObdobi}>
+          <span class="po__pilulka"><svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" /></svg><span class="po__text">{obdobiPozastaveno ? TO.pokracovat : TO.prehrat}</span></span>
+        </button>
+      {/if}
+      {#if !prehravaObdobi && (bezPohybu || obdobiPozastaveno)}
+        <button type="button" class="po" id="obdobi-dal" onclick={() => skokDesetileti(1)} disabled={naKonci}>
+          <span class="po__pilulka"><span class="po__text">{TO.dal}</span><span aria-hidden="true">›</span></span>
+        </button>
+      {/if}
+    </div>
   </div>
 
   <div class="mac__mapa">
@@ -418,16 +577,23 @@
   {/if}
 
   <aside class="mac__karta" id="panel-karta" role={telefon && vic ? 'tabpanel' : undefined} aria-labelledby={telefon && vic ? 'tab-clovek' : undefined} aria-label={telefon && vic ? undefined : 'Karta člověka'}>
-    {#if !vic}
-      <div class="vyprava listek-paska" class:vyprava--splnena={vypravaSplnena} aria-labelledby="vyprava-otazka">
-        <p class="vyprava__nad">Výprava</p>
-        <h2 class="vyprava__otazka" id="vyprava-otazka">{PRVNI_VYPRAVA.otazka}</h2>
+    {#if ukazVypravu && vyprava}
+      <div class="vyprava listek-paska" class:vyprava--splnena={vypravaSplnena} class:vyprava--cerstva={cerstvaVyprava === vyprava.id} aria-labelledby="vyprava-otazka">
+        <p class="vyprava__nad">Výprava{#if seznamVyprav.length > 1}<span class="vyprava__pocet">{`${poradiVypravy} z ${seznamVyprav.length}`}</span>{/if}</p>
+        <h2 class="vyprava__otazka" id="vyprava-otazka" tabindex="-1">{vyprava.otazka}</h2>
         {#if vypravaSplnena}
-          <p class="vyprava__sedi" role="status"><span class="vyprava__razitko">Sedí</span> {odpovedVypravy}</p>
+          <p class="vyprava__sedi" role="status"><span class="vyprava__razitko">Sedí</span> <span class="vyprava__odpoved">{vyprava.odpoved}</span></p>
         {:else}
-          <p class="vyprava__pokyn">{PRVNI_VYPRAVA.pokyn}</p>
+          <p class="vyprava__pokyn">{vyprava.pokyn}</p>
         {/if}
-        <button type="button" class="blok__tl blok__tl--vedlejsi vyprava__vic" onclick={ukazVic}>Víc: řeka životů a kdo všechno žije</button>
+        <div class="vyprava__akce">
+          {#if seznamVyprav.length > 1}
+            <button type="button" class="blok__tl blok__tl--vedlejsi vyprava__dalsi" onclick={dalsiVypravu}>Další výprava</button>
+          {/if}
+          {#if !vic}
+            <button type="button" class="blok__tl blok__tl--vedlejsi vyprava__vic" onclick={ukazVic}>Víc: řeka životů a kdo všechno žije</button>
+          {/if}
+        </div>
       </div>
     {/if}
     {#if vic || osoba}
@@ -481,7 +647,18 @@
     grid-template-areas: 'pas karta' 'mapa karta' 'posuvnik karta';
   }
   :global(html[data-mapa-prvni]) .mac :is(.mac__reka, .mac__zalozky) { display: none; }
-  .mac__pas { grid-area: pas; padding: 10px var(--s-5) 0 var(--s-5); }
+  .mac__pas { grid-area: pas; display: flex; align-items: flex-start; gap: var(--s-2); min-width: 0; padding: 10px var(--s-5) 0 var(--s-5); }
+  .mac__pasek { flex: 1; min-width: 0; height: 100%; }
+  /* Přehrát období: tlačítko jako Přehled v pásu (pilulka 32 px), cíl dotyku 44 px kolem ní. */
+  .prehrat-obdobi { display: flex; flex: none; margin-top: -6px; }
+  .po { position: relative; display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0; border: 0; background: none; color: var(--ink); font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .po__pilulka { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 var(--s-3); border-radius: var(--r-plne); background: var(--plocha); box-shadow: var(--vyst-m); white-space: nowrap; }
+  .po--hlavni .po__pilulka svg { fill: var(--p); }
+  .po:disabled { cursor: default; }
+  .po:disabled .po__pilulka { background: none; box-shadow: none; color: var(--ink-3); outline: 1.5px dashed var(--tuzka); outline-offset: -1.5px; }
+  .po:focus-visible { outline: none; }
+  .po:focus-visible .po__pilulka { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (hover: hover) { .po:not(:disabled):hover .po__pilulka { box-shadow: var(--vyst-m), 0 0 0 1px var(--tuzka); } }
   .mac__mapa { grid-area: mapa; position: relative; min-height: 0; padding: 18px var(--s-5) 8px var(--s-6); }
   /* Posuvník má vpravo stejný okraj jako řeka pod ním: jezdec musí sedět na čáru roku v řece. */
   .mac__posuvnik { grid-area: posuvnik; padding-right: var(--s-4); }
@@ -512,8 +689,14 @@
   .vyprava { margin: var(--s-6) var(--s-4) var(--s-2); font-family: var(--font-sans); }
   .vyprava__nad { margin: 0 0 var(--s-1); font-size: var(--fs-nadtitulek); font-weight: 600; letter-spacing: var(--ls-nadtitulek); text-transform: uppercase; color: var(--ink-3); }
   .vyprava__otazka { margin: 0; font-family: var(--font-serif); font-size: 26px; font-weight: 400; line-height: 1.15; color: var(--ink); }
-  .vyprava__pokyn, .vyprava__sedi { margin: var(--s-2) 0 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
-  .vyprava__sedi { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; color: var(--ink); }
+  .vyprava__pocet { margin-left: .9em; letter-spacing: .02em; word-spacing: .12em; text-transform: none; font-weight: 500; }
+  .vyprava__otazka:focus { outline: none; }
+  .vyprava__otazka:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .vyprava__pokyn { margin: var(--s-2) 0 0; font-family: var(--font-ruka); font-size: var(--fs-ruka); line-height: var(--lh-ruka); color: var(--ruka); }
+  /* Odpověď je vysvětlení z dat: tiskem, ne Kalamem (Kalamem jen pokyn a co píše student). */
+  .vyprava__sedi { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px 12px; margin: var(--s-3) 0 0; color: var(--ink); }
+  .vyprava__odpoved { flex: 1 1 220px; font-size: 15px; line-height: 1.45; }
+  .vyprava__akce { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-4); }
   .vyprava__razitko {
     display: inline-block;
     padding: 2px 10px 3px;
@@ -529,9 +712,10 @@
     text-transform: uppercase;
     rotate: -6deg;
   }
-  .vyprava__vic { margin-top: var(--s-4); }
-  .vyprava--splnena .vyprava__razitko { animation-name: razitko-dopad; animation-duration: var(--d-listek); animation-timing-function: var(--k-dopad); animation-fill-mode: both; }
-  @media (prefers-reduced-motion: reduce) { .vyprava--splnena .vyprava__razitko { animation: none; } }
+  /* Razítko dopadne jen ve chvíli splnění (ne po obnovení stránky); při omezeném pohybu a v Klidném režimu stojí. */
+  .vyprava--cerstva .vyprava__razitko { animation-name: razitko-dopad; animation-duration: var(--d-listek); animation-timing-function: var(--k-dopad); animation-fill-mode: both; }
+  @media (prefers-reduced-motion: reduce) { .vyprava--cerstva .vyprava__razitko { animation: none; } }
+  :global(:root[data-klidny]) .vyprava--cerstva .vyprava__razitko { animation: none; }
 
   @media (max-width: 1100px) and (min-width: 900px) {
     .mac { --zlab: 176px; grid-template-columns: minmax(0, 1fr) 372px; }
@@ -547,7 +731,10 @@
     }
     .mac[data-zalozka='reka'] { grid-template-rows: 46px 200px 80px 44px minmax(0, 1fr); }
     .mac--prvni, :global(html[data-mapa-prvni]) .mac { grid-template-rows: 46px 320px 80px minmax(0, 1fr); grid-template-areas: 'pas' 'mapa' 'posuvnik' 'list'; }
-    .mac__pas { padding: 8px 0 0 var(--s-3); }
+    .mac__pas { padding: 8px var(--s-2) 0 var(--s-3); gap: 2px; }
+    /* Na telefonu jen značky; název tlačítka zůstává pro čtečku. */
+    .po__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .po__pilulka { padding: 0 11px; }
     .mac__mapa { padding: 14px var(--s-4) 6px; }
     .mac__zalozky {
       grid-area: zalozky;

@@ -1,0 +1,46 @@
+---
+// Pravý, nebo podvržený? (herna-v1, K3): série ústřižků s větami, které kolují pod jménem filozofa. Věta, původ
+// a kde koluje jsou ze zdroje.yaml › pripsani; obsah bloku v src/content/bloky/<id>.yaml (druh: pravy) nese jen
+// hlavičku ústřižku (odkud) a větu, jak si citát příště ověřit.
+// Použití v MDX: <PravyNeboPodvrzeny id="dilna-pravy" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/PravyNeboPodvrzeny.svelte';
+import { citatyPodleId, data, osoba } from '../../lib/data';
+import { chybyPravy, puvodPripsani, prvniVeta } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+interface Props { id: string; dal?: Dal }
+const { id, dal } = Astro.props;
+const blok = await nactiBlok(id, 'pravy', Astro.url.pathname);
+const pripsani = new Map(data.zdroje.pripsani.map((p) => [p.id, p]));
+const chyby = chybyPravy(blok.karty, pripsani);
+if (chyby.length) throw new Error(`Blok „${id}“: ${chyby.join(' ')}`);
+const karty = blok.karty.map((k) => {
+  const p = pripsani.get(k.pripsani)!;
+  const o = osoba(p.osoba);
+  return {
+    id: p.id,
+    veta: p.cesky,
+    clovek: clovek(p.osoba),
+    // Pod razítkem člověka věta z dat, čím se zabýval: podle ní student uvažuje, jestli věta k němu sedí.
+    myslenka: prvniVeta(o.proc ?? o.kdo ?? ''),
+    zena: !!o.zena,
+    odkud: k.odkud,
+    overeni: k.overeni,
+    verdikt: p.verdikt,
+    puvod: puvodPripsani(p, citatyPodleId, o.zena),
+  };
+});
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.PravyNeboPodvrzeny,
+  nazev: blok.nazev ?? 'Pravý, nebo podvržený?',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  pokyn: blok.pokyn,
+  karty,
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

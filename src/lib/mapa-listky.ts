@@ -152,16 +152,7 @@ export function razitkoOsoby(o: OsobaV, mista: Map<string, MistoV>): UdajeRazitk
   };
 }
 
-/**
- * První výprava: při první návštěvě má mapa jen rok, mapu a tuhle jednu otázku (zbytek je pod „Víc“).
- * Odpověď skládá ostrov z dat (kdeVRoce): místo a role v tom roce.
- */
-export const PRVNI_VYPRAVA = {
-  osoba: 'sokrates',
-  rok: -424,
-  otazka: 'Kde byl Sókratés roku 424\u00a0př.\u00a0n.\u00a0l.?',
-  pokyn: 'Posuň rok, najdi na mapě jeho lísteček a\u00a0otevři ho.',
-} as const;
+// První výprava (Sókratés 424 př. n. l.) a další výpravy období jsou od herna-v1 K4 v src/data/vypravy.yaml.
 
 /** Klíč v localStorage: student už mapu viděl celou (klepl na Víc). */
 export const KLIC_MAPA_VIC = 'atlas-mapa-vic';

@@ -15,4 +15,7 @@ export default defineConfig({
   // Nezlomitelné mezery za jednopísmennými předložkami v textech Markdownu a MDX (src/lib/sazba.js).
   markdown: { processor: satteri({ mdastPlugins: [sazbaMdast] }) },
   devToolbar: { enabled: false },
+  // Styly komponent jako sdílené soubory, ne vložené do každé stránky (herna-v1, K4): písma, mini mapa, Kam dál
+  // a Prameny stály dřív v <style> na každé stránce osoby znovu (asi 13 kB); soubor si prohlížeč uloží jednou.
+  build: { inlineStylesheets: 'never' },
 });

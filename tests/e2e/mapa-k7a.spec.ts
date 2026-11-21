@@ -42,14 +42,16 @@ test('první návštěva: jen mapa, rok a jedna výprava; Víc ukáže řeku a z
   await page.locator('[data-listek="delion"] .listek__hlava').click();
   await page.getByRole('list', { name: 'Lidé v místě Délion' }).getByRole('button', { name: /^Sókratés/ }).click();
   await expect(vyprava.locator('.vyprava__sedi')).toContainText('Sedí');
-  await expect(vyprava.locator('.vyprava__sedi')).toContainText('Délion');
+  await expect(vyprava.locator('.vyprava__sedi')).toContainText('U Délia byl Sókratés na vojenském tažení');
   await expect(page.locator('#karta-jmeno')).toHaveText('Sókratés');
   const axe = await new AxeBuilder({ page }).include('.mac').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
   // Víc: řeka a přepínač navazujících; po obnovení stránky zůstane mapa celá.
   await page.getByRole('button', { name: /^Víc/ }).click();
   await expect(page.locator('.mac__reka')).toBeVisible();
-  await expect(vyprava).toHaveCount(0);
+  // Splněná výprava zůstane nad kartou svého člověka i s Víc (herna-v1, K4); tlačítko Víc už v ní není.
+  await expect(vyprava.locator('.vyprava__sedi')).toContainText('Sedí');
+  await expect(vyprava.getByRole('button', { name: /^Víc/ })).toHaveCount(0);
   await page.goto('/mapa/?rok=-424');
   await pripravit(page);
   await expect(page.locator('.mac__reka')).toBeVisible();

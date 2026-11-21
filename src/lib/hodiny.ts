@@ -6,11 +6,13 @@ import type { TOsoba } from './schema';
 import { interval } from './casy';
 import { seradHlasy } from './otazky';
 import { otazkaKdoZil } from './bloky';
+import { jeHra, KOMPONENTA_HRY } from './herna/komponenty';
 import { NAZVY_KRESEB, NADTITULKY_KRESEB } from './kresby';
 import { VYCHOZI_NADTITULKY } from './nadtitulky';
 import { ODDILY } from './oddily';
 import { ODDIL_MISTA, ODDIL_RODOKMEN } from './stranky';
 import { OSA_HLASU } from './osa-hlasu';
+import { chybyDoHodiny, idDoHodiny, NADTITULEK_DO_HODINY, type TDoHodiny } from './do-hodiny';
 
 // ─── Zastavení ────────────────────────────────────────────────────────────────
 
@@ -59,6 +61,8 @@ export interface Zastaveni {
   medailonek?: true;
   /** typ stránky druhu `stranka` (u zastavení uvnitř stránky chybí) */
   typStranky?: TypStranky;
+  /** karta Do hodiny (typ DoHodiny, herna-v1 K5): obě otázky, aby je skladatel ukázal učiteli */
+  doHodiny?: TDoHodiny;
   /** zastavení, do kterého tohle patří (krok, kapitola, stránka); stránka sama žádné */
   rodic: string | null;
   /** pořadí na stránce: stránka 0, pak části tak, jak za sebou stojí */
@@ -85,18 +89,22 @@ export interface VstupKatalogu {
     };
     body?: string;
   }[];
-  otazky: { id: string; data: { cislo: number; otazka: string; hlasy?: { osoba: string }[] } }[];
+  otazky: { id: string; data: { cislo: number; otazka: string; hlasy?: { osoba: string }[]; hra?: string } }[];
   /** bloky z YAML (src/content/bloky): Volba, Roztřiď, Změň jednu věc, Spor, Slož argument */
-  bloky: { id: string; data: { otazka?: string; nadtitulek?: string } }[];
+  bloky: { id: string; data: { otazka?: string; nadtitulek?: string; druh?: string } }[];
   /** týdny cvičení (src/content/tydny); starší vstup je nemá */
   tydny?: { id: string; data: { nazev: string; obdobi: number } }[];
   /** medailonky z dat: osoba a druhý člověk bloku Kdo žil dřív? (kdoZilNaMedailonku); starší vstup je nemá */
-  medailonky?: { osoba: string; kdoZil: string | null }[];
+  medailonky?: { osoba: string; kdoZil: string | null; hra?: { id: string; typ: string; otazka: string } }[];
+  /** hra z dat v profilu s <HraOsoby> v MDX (herna-v1, T), podle osoby; starší vstup ji nemá */
+  hryProfilu?: Map<string, { id: string; typ: string; otazka: string }>;
   /**
    * stránky období, směrů, pokusů, úvodů a tradic (od K1 větve antika-doplnky); starší vstup je nemá.
    * `id` bez předpony (`obdobi-helenismus-a-rim`), `predTextem` a `zaTextem` jsou oddíly, které skládá šablona.
    */
   stranky?: StrankaKatalogu[];
+  /** karty Do hodiny podle slugu cesty (src/content/do-hodiny); starší vstup je nemá */
+  doHodiny?: { id: string; data: TDoHodiny }[];
   osoby: Map<string, OsobaKatalogu>;
 }
 
@@ -109,13 +117,14 @@ export interface StrankaKatalogu {
   obdobi: number | null;
   body?: string;
   predTextem?: { kotva: string; nazev: string }[];
-  zaTextem?: { kotva: string; nazev: string }[];
+  /** oddíly šablony za textem; `hra` = hra herny na konci oddílu (frontmatter `hra`, HraStranky.astro) */
+  zaTextem?: { kotva: string; nazev: string; hra?: { jmeno: string; id: string } }[];
 }
 
 // ─── Značky v MDX ─────────────────────────────────────────────────────────────
 
 /** Bloky, jejichž otázka je v YAML (src/content/bloky/<id>.yaml). */
-const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument']);
+const BLOKY_Z_YAML = new Set(['Volba', 'Roztrid', 'ZmenJednuVec', 'Spor', 'SlozArgument', 'SeradNaOse', 'KdoToRekl', 'TipniSi', 'KdeToBylo', 'DoplnCitat', 'Pary', 'PravyNeboPodvrzeny', 'NajdiSlabeMisto', 'KdoByToRekl']);
 /** Bloky, jejichž otázka je atributem v MDX. */
 const BLOKY_S_OTAZKOU = new Set(['Odkryj', 'NejdrivSam', 'ZaverCesty']);
 
@@ -154,15 +163,21 @@ const adresa = (stranka: string, kotva: string | null) => (kotva ? `${stranka}#$
 
 /**
  * Seznam všech zastavení: cesty (přehled, kroky, bloky a příběhy v krocích), profily (celá stránka, kapitoly,
- * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), medailonky (celá stránka a blok Kdo žil dřív?, od K2
+ * oddíly Doba a lidé, Myšlenky, Zkus to žít, bloky a příběhy), medailonky (celá stránka a malá hra z dat; od K2
  * větve interaktivita-v1), stránky otázek s hlasy a týdny cvičení.
  * Zastaví sestavení, když blok chybí v datech, kapitola v textu nesedí na kapitoly ve frontmatteru, nebo když
  * dvě zastavení dostanou stejné id.
  */
 export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   const vse: Zastaveni[] = [];
+  const karty = v.doHodiny ?? [];
+  const chybyKaret = chybyDoHodiny(karty, v.cesty);
+  if (chybyKaret.length) throw new Error(`Katalog hodin: ${chybyKaret.join(' ')}`);
+  const kartaCesty = new Map(karty.map((k) => [k.id, k.data]));
+  const cisloCesty = new Map(v.cesty.map((c) => [c.id, c.data.cislo]));
   const otazkaBloku = new Map(v.bloky.map((b) => [b.id, b.data.otazka]));
   const nadtitulekBloku = new Map(v.bloky.map((b) => [b.id, b.data.nadtitulek]));
+  const druhBloku = new Map(v.bloky.map((b) => [b.id, b.data.druh]));
   const vychozi = (jmeno: string): string | undefined => VYCHOZI_NADTITULKY[jmeno as keyof typeof VYCHOZI_NADTITULKY];
   const jmeno = (id: string) => {
     const o = v.osoby.get(id);
@@ -171,8 +186,19 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
   };
 
   /** Blok nebo příběh ze značky; null pro značku, která zastavením není. */
-  const castZeZnacky = (z: Znacka, stranka: string): Pick<Zastaveni, 'id' | 'druh' | 'nazev' | 'kotva' | 'typ' | 'nadtitulek'> | null => {
+  const castZeZnacky = (z: Znacka, stranka: string): Pick<Zastaveni, 'id' | 'druh' | 'nazev' | 'kotva' | 'typ' | 'nadtitulek' | 'doHodiny'> | null => {
     const a = z.atributy;
+    if (z.jmeno === 'DoHodiny') {
+      // Karta Do hodiny: id a kotvu skládá obal stejně (src/components/bloky/DoHodiny.astro); název je otázka pro třídu.
+      // Starší vstup bez karet (testy z doby před K5) kartu vynechá; sestavení karty předává vždy.
+      if (!v.doHodiny) return null;
+      const slug = a.cesta ?? stranka.match(/^\/cesta\/([^/]+)\//)?.[1];
+      const data = slug ? kartaCesty.get(slug) : undefined;
+      const cislo = slug ? cisloCesty.get(slug) : undefined;
+      if (!slug || !data || cislo === undefined) throw new Error(`Katalog hodin: karta Do hodiny na ${stranka} nemá v src/content/do-hodiny soubor své cesty.`);
+      const id = idDoHodiny(cislo);
+      return { id: `b:${id}`, druh: 'blok', nazev: cisty(data.trida), kotva: id, typ: 'DoHodiny', nadtitulek: NADTITULEK_DO_HODINY, doHodiny: data };
+    }
     if (z.jmeno === 'Pribeh') {
       if (!a.id) return null;
       const nazev = a.titulek ?? a.nadtitulek ?? a.popisek;
@@ -241,7 +267,12 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
       const idStranky = `o:${osoba.id}`;
       const spolecne = { kde: osoba.jmeno, stranka, obdobi: osoba.obdobi, osoba: osoba.id };
       vse.push({ id: idStranky, druh: 'profil', nazev: osoba.jmeno, kotva: null, adresa: stranka, rodic: null, poradi: 0, medailonek: true, ...spolecne });
-      if (s.m.kdoZil) {
+      if (s.m.hra) {
+        // Malá hra z dat (herna-v1, K4): id, otázka a nadtitulek jako na stránce (HraOsoby.astro).
+        const h = s.m.hra;
+        vse.push({ id: `b:${h.id}`, druh: 'blok', nazev: cisty(h.otazka), kotva: h.id, typ: h.typ, ...sNadtitulkem(vychozi(h.typ)),
+          adresa: adresa(stranka, h.id), rodic: idStranky, poradi: 1, ...spolecne });
+      } else if (s.m.kdoZil) {
         const cast = castZeZnacky({ jmeno: 'KdoZilDriv', atributy: { a: osoba.id, b: s.m.kdoZil, druh: 'poradi' } }, stranka)!;
         vse.push({ ...cast, adresa: adresa(stranka, cast.kotva), rodic: idStranky, poradi: 1, ...spolecne });
       }
@@ -272,6 +303,14 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
         if (!k) throw new Error(`Katalog hodin: kapitola „${a.kotva}“ v textu ${p.id}.mdx není mezi hotovými kapitolami ve frontmatteru.`);
         vTextu.push(k.kotva);
         oddil(k.kotva, 'kapitola', k.nazev, k.cislo);
+      } else if (z.jmeno === 'HraOsoby') {
+        // Hra z dat v profilu (herna-v1, T): stojí mezi poslední kapitolou a Dobou a lidmi, patří celé stránce.
+        const h = v.hryProfilu?.get(a.osoba);
+        if (h) {
+          vse.push({ id: `b:${h.id}`, druh: 'blok', nazev: cisty(h.otazka), kotva: h.id, typ: h.typ, ...sNadtitulkem(vychozi(h.typ)),
+            adresa: adresa(stranka, h.id), rodic: idStranky, poradi: ++poradi, ...spolecne });
+          rodic = idStranky;
+        }
       } else if (z.jmeno === 'DobaALide') oddil(ODDILY.doba.kotva, 'oddil', ODDILY.doba.nazev);
       else if (z.jmeno === 'Myslenky') oddil(ODDILY.myslenky.kotva, 'oddil', a.titulek ?? ODDILY.myslenky.nazev);
       else if (z.jmeno === 'ZkusToZitKarta') oddil(ODDILY.zkus.kotva, 'oddil', a.nazev ? `${ODDILY.zkus.nazev}: ${a.nazev}` : ODDILY.zkus.nazev);
@@ -303,6 +342,13 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
       const kotva = `hlas-${o.id}`;
       vse.push({ id: `h:${q.id}/${o.id}`, druh: 'hlas', nazev: o.jmeno, kotva, adresa: adresa(stranka, kotva), obdobi: o.obdobi, osoba: o.id, rodic: idStranky, poradi: i + 2, ...spolecne });
     });
+    // Hra pod Proč to tak viděli (frontmatter `hra`, herna-v1, T).
+    const druhHry = q.data.hra ? druhBloku.get(q.data.hra) : undefined;
+    if (q.data.hra) {
+      if (!jeHra(druhHry)) throw new Error(`Katalog hodin: hra „${q.data.hra}“ na ${stranka} není hra herny v src/content/bloky.`);
+      const cast = castZeZnacky({ jmeno: KOMPONENTA_HRY[druhHry], atributy: { id: q.data.hra } }, stranka)!;
+      vse.push({ ...cast, adresa: adresa(stranka, cast.kotva), obdobi: null, rodic: idStranky, poradi: hlasy.length + 2, ...spolecne });
+    }
   }
 
   // Týdny cvičení: jen celá stránka, jeden odkaz; třída ho projde doma.
@@ -345,7 +391,11 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
         if (cast && !uzMa.has(cast.id)) vse.push({ ...cast, adresa: adresa(st.stranka, cast.kotva), rodic, poradi: ++poradi, ...spolecne });
       }
     }
-    for (const o of st.zaTextem ?? []) oddil(o.kotva, o.nazev);
+    for (const o of st.zaTextem ?? []) {
+      oddil(o.kotva, o.nazev);
+      const cast = o.hra ? castZeZnacky({ jmeno: o.hra.jmeno, atributy: { id: o.hra.id } }, st.stranka) : null;
+      if (cast && !uzMa.has(cast.id)) vse.push({ ...cast, adresa: adresa(st.stranka, cast.kotva), rodic, poradi: ++poradi, ...spolecne });
+    }
   }
 
   const videne = new Map<string, Zastaveni>();

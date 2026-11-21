@@ -4,6 +4,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { denikPodleData } from './denik';
+import { pripravitStranku } from './strany';
 
 // Deník řadí zápisy v kapitolách podle cest; tady se čte výpis podle data (K6 dodatek).
 test.beforeEach(({ page }) => denikPodleData(page));
@@ -12,10 +13,9 @@ const C1 = '/cesta/kdy-mam-dobry-duvod-verit/';
 const C6 = '/cesta/kolik-je-dost/';
 const C5 = '/cesta/co-mam-ve-svych-rukou/';
 
-async function pripravit(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
-}
+// Od kroku T větve herna-v1 stojí v posledním kroku cesty 1 nad závěrem hra (Pravý, nebo podvržený?) a ostrovy
+// pod ní se hydratují až při posunu: příprava je proto společná (tests/e2e/strany.ts), s projetím stránky.
+const pripravit = (page: Page) => pripravitStranku(page);
 const denik = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('atlas-denik') ?? '{}'));
 const zapisy = async (page: Page, id: string) => ((await denik(page)).zapisy ?? []).filter((z: { id: string }) => z.id === id);
 
@@ -108,7 +108,8 @@ test('závěr cesty bez počáteční odpovědi: žádný panel, pravidlo funguj
     await pripravit(page);
     await expect(panel(page)).toHaveCount(0);
     await expect(page.locator('.krok__obsah')).not.toContainText(/Na začátku|Bez odpovědi|Co se změnilo/);
-    await expect(page.locator('.krok__obsah .blok')).toHaveCount(0);
+    // Jediný blok v posledním kroku je od kroku T větve herna-v1 Pravý, nebo podvržený? v cestě 1 (nad závěrem).
+    await expect(page.locator('.krok__obsah .blok:not(:has(.razitko-verdikt))')).toHaveCount(0);
     const pole = page.getByRole('textbox', { name: otazka });
     await expect(pole).toBeVisible();
     // Pole stojí ve čtenářském sloupci pod textem, ne v širokém pásu.
@@ -119,8 +120,9 @@ test('závěr cesty bez počáteční odpovědi: žádný panel, pravidlo funguj
     await pole.fill('Moje pravidlo.');
     await pole.blur();
     await expect(page.getByText('Uloženo v deníku.')).toBeVisible();
-    // Ani s uloženým pravidlem se bez začátku nic nesrovnává.
-    await expect(page.getByRole('textbox')).toHaveCount(1);
+    // Ani s uloženým pravidlem se bez začátku nic nesrovnává; pod závěrem jsou jen dvě pole sebehodnocení (herna-v1, K5).
+    await expect(page.getByRole('textbox', { name: /Co se změnilo/ })).toHaveCount(0);
+    await expect(page.getByRole('textbox')).toHaveCount(3);
   }
 });
 
@@ -168,9 +170,9 @@ test('závěr cesty jen klávesnicí na telefonu: pravidlo, nepovinná otázka a
   const lista = await page.locator('.cesta-lista').boundingBox();
   expect(b!.y + b!.height).toBeLessThanOrEqual(lista!.y);
   await page.keyboard.type('Lajky jsem dal do prázdných už tehdy.');
-  // Mezi polem a lištou kroku stojí ještě odkazy pod blokem a v patičce („Pro učitele: připravit hodinu“).
+  // Mezi polem a lištou kroku stojí ještě dvě pole sebehodnocení (herna-v1, K5), odkazy pod blokem a v patičce („Pro učitele: připravit hodinu“).
   const dokoncit = page.getByRole('link', { name: 'Dokončit cestu' });
-  for (let i = 0; i < 6 && !(await dokoncit.evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press('Tab');
+  for (let i = 0; i < 10 && !(await dokoncit.evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press('Tab');
   await expect(dokoncit).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(`${C6}#hotovo`);

@@ -49,13 +49,17 @@ Zdroje: **A** = `docs/revize/audit-2026-11-12.md`, **R** = `docs/revize/recenze-
 | Sókratés | dlouhé čtení, nápad | Nejdelší čtení bez činu (241 slov) a žádná hračka; návrat: soud jako Porota. | R |
 | Seneca | žádná hračka | Nejdelší text (2 058 slov) bez hračky je nejslabší poměr; návrat: přidat jednu. | R |
 | Epiktétos | rozhodnutí splývají | Čtyři rozhodnutí za sebou splývají; aspoň jedno dát jinou formou. | R |
+| Musonius Rufus | místo bez konce | Vyhnanství na Gyaru má v datech jen „od 65“, takže ho Mapa a čas i Život na mapě nechávají na ostrově až do smrti (101); doplnit „do“ podle pramene. | herna-v1, P6 |
 | Marcus Aurelius | zárodek příběhu | Vládneš místo něj (pokladna, spiknutí) je zárodek rozhodovacího příběhu; při revizi rozvinout. | R |
 | Diogenés | hádanka bez hry | Definice člověka a oškubané kuře chce odhalení jako hra. | R |
 | Hérakleitos | pole místo hry | „Kterou z vět napsal Hérakleitos?“ je hotový Pravý, nebo podvržený?; převést na formát z herny. | R |
 | Kratés a Hipparchia | pole místo hry | Přepiš heslo a najdi chybu v důkazu jsou dnes pole na psaní; převést na Napiš s formou a Najdi slabé místo. | R |
 | Sókratés, Diogenés, Epikúros | obraz ke kapitole | Vzor má jen jedna kapitola každého (Sókratés 01 trojnožka, Diogenés 02 lucerna, Epikúros 01 výhonek; pole `predmet` u `Kapitola`); ostatním kapitolám předmět vybrat při revizi obsahu: Sókratés 05 kalich, Diogenés 01 pohárek a 03 pes, Epikúros 02 a 03 chtějí nové ikony ve spritu `atributy.svg` (K7b). | K3 dodatek, 13. 11. 2026 |
 | ostatní profily (9) | obraz ke kapitole | Od K7b mají předmět Prótagorás 01 (pravítko) a Platón 02 (čtverec na úhlopříčce), kde ho nese kresba. Ostatní kapitoly zatím předmět nemají; vybrat jen tam, kde kapitola opravdu stojí na jedné věci (loď, svitek, přesýpací hodiny), ne ke každé. | K3 dodatek, 13. 11. 2026 |
-| mini mapa v Době a lidech | trasy | Oblouky se šipkou a rokem mezi místy (plátno D4) v kódu nejsou; patří k Životu na mapě a výpravám, větev `herna-v1` (odpověď 5 po K7b). | design-v2 |
+| ~~mini mapa v Době a lidech~~ | ~~trasy~~ | ~~Oblouky se šipkou a rokem mezi místy (plátno D4) v kódu nejsou; patří k Životu na mapě a výpravám, větev `herna-v1` (odpověď 5 po K7b).~~ Hotovo v herna-v1 K4 (`src/lib/trasy-mapy.ts`). | design-v2 |
+| profily a portréty (11) | pořád Kdo žil dřív? | T dal hru z dat (`HraOsoby`) jen Aristotelovi, Parmenidovi a Epiktétovi. Ostatní mají Kdo žil dřív? dál, protože data jim dávají hru, která se k stránce nehodí: Platón Kde to bylo? se Syrákúsami z kapitoly výš, Seneca hru hned za kapitolou o smrti, Prótagorás Thurioi, které profil nezmiňuje, Hérakleitos, Diogenés a Epikúros větu cizího člověka bez vazby na jejich myšlenku (Aristotelův kámen, Kratétův ženich, Plútarchova věta o změně), Sókratés má Doplň citát. Při revizi obsahu vybrat hru ručně, nebo doplnit data. | herna-v1, K4 a T |
+| Platón, Prótagorás, Epiktétos | otázka Kde to bylo? z dat | Hra z dat se u pobytu s rolí `pobyt` ptá „Kam se X vydal?“; u Epiktéta, který byl v Římě otrokem, by to byla nepravda (proto `bez="kde"`). Projít role pobytů a otázku pro nedobrovolný pobyt. | herna-v1, T |
+| Thalés | jediná možná hra | Data mu nedávají vztah s citátem, cestu ani dlouhý život, takže má Kdo žil dřív? jako Hérakleitos vedle něj; doplnit vztah se zdrojem (Anaximandros, Aristotelés o Thalétovi), až se budou data rozšiřovat. | herna-v1, K4 |
 
 ## Ostatní stránky
 

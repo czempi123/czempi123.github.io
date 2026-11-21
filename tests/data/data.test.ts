@@ -41,6 +41,29 @@ describe('data atlasu', () => {
   });
 });
 
+describe('připsání citátů (Pravý, nebo podvržený?)', () => {
+  const p = data.zdroje.pripsani;
+  // Osm z P6 a Prótagorás z revize R (cesta 1 potřebovala pravou větu člověka, kterého student potkal).
+  it('jich je pět až devět, z toho dvě až tři pravé', () => {
+    expect(p.length).toBeGreaterThanOrEqual(5);
+    expect(p.length).toBeLessThanOrEqual(9);
+    const pravych = p.filter((x) => x.verdikt === 'rekl').length;
+    expect(pravych).toBeGreaterThanOrEqual(2);
+    expect(pravych).toBeLessThanOrEqual(3);
+  });
+  it('každé má doklad, kde koluje, i původ s popisem', () => {
+    for (const x of p) {
+      expect(x.koluje.kde.length, x.id).toBeGreaterThan(5);
+      expect(x.puvod.popis.length, x.id).toBeGreaterThan(20);
+    }
+  });
+  it('pravá věta je citát téhož člověka', () => {
+    for (const x of p.filter((y) => y.verdikt === 'rekl')) {
+      expect(data.zdroje.citaty.find((c) => c.id === x.skutecne)?.osoba, x.id).toBe(x.osoba);
+    }
+  });
+});
+
 describe('osobnosti v MDX', () => {
   const slozka = join(koren, 'src/content/osobnosti');
   const soubory = readdirSync(slozka).filter((f) => f.endsWith('.mdx'));
@@ -77,6 +100,14 @@ describe('kontroly samy odhalí chyby', () => {
     // Funguje s prázdným seznamem obrázků i se seznamem, který už obrázky má.
     const z = surova.zdroje.replace(/^obrazky:( \[\])?/m, 'obrazky:\n  - { id: busta, soubor: x.jpg, popisek: Busta, autor: X, licence: "", url: "https://example.org" }');
     expect(nactiData(s(surova.lide, surova.vztahy, z)).chyby.join()).toMatch(/licence/);
+  });
+  it('připsání: razítko nesedí na druh, chybí skutečný citát, cizí citát u pravého', () => {
+    const pripis = (radek: string) => `${surova.zdroje.replace(/\npripsani:[\s\S]*$/, '')}\npripsani:\n  - ${radek}\n`;
+    const zaklad = 'id: x-test, cesky: "Věta.", osoba: sokrates, koluje: { kde: web, zdroj: sep-socrates }, puvod: { popis: "Odjinud.", zdroj: sep-socrates }';
+    expect(nactiData(s(surova.lide, surova.vztahy, pripis(`{ ${zaklad}, verdikt: rekl, druh: cizi }`))).chyby.join()).toMatch(/řekl to/);
+    expect(nactiData(s(surova.lide, surova.vztahy, pripis(`{ ${zaklad}, verdikt: nerekl, druh: prepsany }`))).chyby.join()).toMatch(/skutecne/);
+    const d = nactiData(s(surova.lide, surova.vztahy, pripis(`{ ${zaklad}, verdikt: rekl, druh: pravy, skutecne: hovory-vi-6 }`))).data;
+    expect(kontrolaOdkazu(d).join()).toMatch(/nepatří osobě/);
   });
   it('profil bez atributu', () => {
     const d = nactiData(s(osoba('a', -300, -250).replace('medailonek', 'profil'))).data;

@@ -1,6 +1,6 @@
 ---
 // Stránka medailonku /osobnost/<id>/ pro osobu s `medailonek: true` v lide.yaml. Celá se skládá z dat, ručně se nepíše nic:
-// hlavička (jméno, roky, místo, období, kdo a proč, cesty a otázky; deska jen s obrazem nebo atributem) →
+// hlavička (jméno, roky, místo, období, kdo a proč, cesty a otázky; deska jen s obrazem nebo atributem) → malá hra z dat →
 // Doba a lidé (vztahy, mini osa, mini mapa) → Kam dál (lidé se stránkou, Mapa a čas, Lidé a směry) → Prameny.
 // Je to profil v malém: stejné komponenty a tokeny jako StrankaProfilu.astro, jen bez kapitol, myšlenek a Zkus to žít.
 // Kritéria, kdy smí osoba medailonek dostat, hlídá tests/data/medailonky.test.ts (chybiMedailonku v src/lib/medailonek.ts).
@@ -17,8 +17,8 @@ import type { TOsoba } from '../../lib/schema';
 import { osoba as najdiOsobu, obdobiPodleId, mistaPodleId, data } from '../../lib/data';
 import { zivot } from '../../lib/casy';
 import { nezlomitelne } from '../../lib/sazba.js';
-import { adresaStranekOsob, medailonky, kdoZilNaMedailonku } from '../../lib/stranky-osob';
-import KdoZilDriv from '../bloky/KdoZilDriv.astro';
+import { adresaStranekOsob, medailonky } from '../../lib/stranky-osob';
+import HraOsoby from './HraOsoby.astro';
 import { kamDalMedailonku, type CilStranky } from '../../lib/medailonek';
 import { adresyStranek } from '../../lib/stranky-typu';
 
@@ -70,7 +70,6 @@ const prameny = [
 ];
 const adresaStranky = `/osobnost/${osoba.id}/`;
 const deska = !!(osoba.obrazek || osoba.atribut);
-const druhy = (await kdoZilNaMedailonku())(osoba.id);
 ---
 <Zakladni obdobi={osoba.obdobi} strankaOsoby deskaOsoby={deska} tvary={tvaryJmena(osoba.jmeno, osoba.jmeno2)}
   titulek={osoba.jmeno}
@@ -126,8 +125,8 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
       </div>}
     </header>
 
-    {/* Kdo žil dřív? stojí nad Dobou a lidmi: mini osa pod ním by odpověď prozradila. Druhý člověk podle pevného pravidla. */}
-    {druhy && <div class="ctenarsky kdo-zil-medailonek"><KdoZilDriv a={osoba.id} b={druhy} druh="poradi" /></div>}
+    {/* Malá hra z dat (herna-v1, K4) stojí nad Dobou a lidmi: mini osa a mapa pod ní by odpověď prozradily. */}
+    <HraOsoby osoba={osoba.id} />
 
     <DobaALide osoba={osoba} />
 
@@ -164,7 +163,6 @@ const druhy = (await kdoZilNaMedailonku())(osoba.id);
   .jadro__proc { font-size: var(--fs-text); line-height: 1.55; }
   .medailonek__titulek :global(.vstupy-osoby--otazky) { margin-top: var(--s-6); }
   .medailonek__deska { max-width: 420px; padding-inline: 6px; }
-  .kdo-zil-medailonek { margin-top: var(--s-8); }
   .proc { display: flex; gap: 14px; align-items: flex-start; margin-top: var(--s-4); font-family: var(--font-sans); color: var(--ink-2); font-size: 14px; line-height: 1.45; }
   .proc strong { color: var(--ink); font-weight: 600; }
   /* Na telefonu je deska bez obrazu jen razítko na papíře: nízká, ať nepřebije jméno a dvě věty nad ní. */

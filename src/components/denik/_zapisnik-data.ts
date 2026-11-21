@@ -13,7 +13,7 @@ import type { UdajeRazitka } from '../ostrovy/bloky-typy';
 import type { MapaPotkanych, MapaStranek, ObdobiZapisniku } from '../../lib/zapisnik';
 
 /** Kde stojí úvody oddílů (src/pages/co-je-filozofie.astro, src/pages/nabozenstvi/index.astro). */
-const ADRESY_UVODU: Record<string, string> = { 'co-je-filozofie': '/co-je-filozofie/', 'co-je-nabozenstvi': '/nabozenstvi/' };
+const ADRESY_UVODU: Record<string, string> = { 'co-je-filozofie': '/co-je-filozofie/', 'co-je-nabozenstvi': '/nabozenstvi/', 'argumentacni-klamy': '/argumentacni-klamy/' };
 
 export async function dataZapisniku(dalsi: Iterable<string> = []): Promise<{
   razitka: Record<string, UdajeRazitka>;

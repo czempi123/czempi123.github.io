@@ -1,13 +1,15 @@
 <script lang="ts">
   // Moje filozofie (design-v2, K6; plán větve › Mapa a deník: funkce): hlavní pohled deníku po velkých otázkách.
   // U každé otázky studentova odpověď na začátku a teď (perem, jen ke čtení; přepsat jde v Tvoje antika), pravidla
-  // z cest, kdo stál s ním a kdo by mu nejvíc odporoval. Jen z toho, co student udělal (prehledObdobi
+  // z cest, pod nimi sebehodnocení z konce cest (herna-v1, K5), kdo stál s ním a kdo by mu nejvíc odporoval. Jen z toho, co student udělal (prehledObdobi
   // v src/lib/tvoje-obdobi.ts); nic se nehodnotí. Tlačítko Vytisknout dá na papír jen tenhle oddíl (global.css › Tisk).
   // <MojeFilozofie prehled={…} razitka={…} upravit="/denik/antika/" prvniCesta={…} />
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
   import type { OtazkaPrehledu, OsobaKatalogu } from '../../lib/tvoje-obdobi';
   import type { UdajeRazitka } from '../ostrovy/bloky-typy';
   import { NEJBLIZ } from '../../lib/tvoje-obdobi';
+  import { OTAZKY_SEBEHODNOCENI, type CastSebehodnoceni } from '../../lib/sebehodnoceni';
+  import type { SebehodnoceniCesty } from '../../lib/tvoje-obdobi';
 
   interface Props {
     prehled: OtazkaPrehledu[];
@@ -23,6 +25,9 @@
     const lide = [...(o.nejbliz ? [o.nejbliz.osoba] : []), ...o.blizci.map((b) => b.osoba)];
     return lide.filter((x, i) => lide.findIndex((y) => y.id === x.id) === i).slice(0, NEJBLIZ);
   };
+
+  /** Obě poznámky sebehodnocení v pevném pořadí; nenapsaná zůstane prázdná. */
+  const castiSebe = (s: SebehodnoceniCesty): [CastSebehodnoceni, string | undefined][] => [['umim', s.umim], ['nejsem', s.nejsem]];
 
   function vytisknout() {
     const html = document.documentElement;
@@ -60,6 +65,23 @@
               {#if o.ted}<p class="mf-pero">{o.ted}</p>{:else if o.pravidla.length}<p class="mf-pero">{o.pravidla[0].text}</p>{:else}<p class="mf-pero mf-nic">Ještě nenapsáno.</p>{/if}
             </div>
           </div>
+          {#if o.sebehodnoceni?.length}
+            <ul class="mf-sebe">
+              {#each o.sebehodnoceni as s (s.adresa)}
+                <li>
+                  <p class="mf-kde">na konci cesty <a href={s.adresa}>{s.cesta}</a></p>
+                  <div class="mf-odpovedi">
+                    {#each castiSebe(s) as [cast, text] (cast)}
+                      <div class="mf-sloupec">
+                        <p class="mf-popis">{OTAZKY_SEBEHODNOCENI[cast]}</p>
+                        {#if text}<p class="mf-pero">{text}</p>{:else}<p class="mf-pero mf-nic">Nenapsáno.</p>{/if}
+                      </div>
+                    {/each}
+                  </div>
+                </li>
+              {/each}
+            </ul>
+          {/if}
           {#if o.pravidla.length > (o.ted ? 0 : 1)}
             <ul class="mf-pravidla">
               {#each o.pravidla.slice(o.ted ? 0 : 1) as p (p.adresa)}
@@ -137,6 +159,10 @@
   .mf-pero.mf-nic { font-family: var(--font-sans); font-size: var(--fs-ovladani); color: var(--ink-3); }
   .mf-zdroj { font-weight: 400; color: var(--ink-2); }
   .mf-zdroj a { color: inherit; }
+  .mf-sebe { margin: var(--s-4) 0 0; padding: 0; list-style: none; }
+  .mf-sebe li { padding-top: var(--s-3); border-top: 1px dashed var(--tuzka); }
+  .mf-sebe .mf-kde { margin: 0 0 var(--s-2); }
+  .mf-sebe a { color: inherit; }
   .mf-pravidla { margin: var(--s-4) 0 0; padding: 0; list-style: none; }
   .mf-pravidla li { padding-top: var(--s-3); border-top: 1px dashed var(--tuzka); }
   .mf-pravidla a { color: inherit; }

@@ -2,7 +2,7 @@
 // Stránka velké otázky: otázka a úvod scénou → Tvůj první názor → odpovědi myslitelů na úvodní případ →
 // proč to tak viděli (osa hlasů s volbou „Kdo z nich je ti nejblíž?“, pak hlasy pod sebou) → cesty k otázce → Změnil se? → Kam dál (pole kamDal) → Prameny. Obsah v src/content/otazky/<slug>.mdx (frontmatter hlasy, text = úvod).
 // Hlasy, cesty a návrat se ukážou až po prvním názoru nebo po „Přeskočit“; bez JavaScriptu jsou vidět hned.
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import Zakladni from '../../layouts/Zakladni.astro';
 import PrvniNazor from '../../components/ostrovy/PrvniNazor.svelte';
 import ZmenilSe from '../../components/ostrovy/ZmenilSe.svelte';
@@ -12,6 +12,7 @@ import HlasyOdpovedi from '../../components/otazka/HlasyOdpovedi.astro';
 import CestaKarta from '../../components/cesta/CestaKarta.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
 import KamDal from '../../components/osobnost/KamDal.astro';
+import HraStranky from '../../components/bloky/HraStranky.astro';
 import { osoba as najdiOsobu, osoby, citatyPodleId, pramenyPodleId } from '../../lib/data';
 import { maStranku, seradHlasy, chybyHlasu, klicOtazky } from '../../lib/otazky';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
@@ -39,7 +40,9 @@ const citatyNaStrance = [
   ...hlasy.flatMap((h) => (h.citat ? [h.citat] : [])),
   ...[...(zaznam.body ?? '').matchAll(/<Citat id="([^"]+)"/g)].map((m) => m[1]),
 ];
-const prameny = [...hlasy.flatMap((h) => h.zdroje), ...citatyNaStrance.map((id) => citatyPodleId.get(id)!.zdroj)];
+// Hra pod Proč to tak viděli (herna-v1, T) přidá do Pramenů prameny svého bloku.
+const zdrojeHry = o.hra ? ((await getEntry('bloky', o.hra))?.data.zdroje ?? []) : [];
+const prameny = [...hlasy.flatMap((h) => h.zdroje), ...citatyNaStrance.map((id) => citatyPodleId.get(id)!.zdroj), ...zdrojeHry];
 const adresa = `/otazka/${slug}/`;
 const klic = klicOtazky(slug);
 ---
@@ -89,6 +92,8 @@ const klic = klicOtazky(slug);
         <OsaHlasu slug={slug} hlasy={hlasy} />
         <HlasyOsa hlasy={hlasy} adresa={adresaProfilu} />
       </section>
+
+      {o.hra && <HraStranky id={o.hra} />}
 
       {cesty.length > 0 && (
         <section class="ctenarsky oddil" aria-labelledby={`${slug}-cesty-nadpis`}>

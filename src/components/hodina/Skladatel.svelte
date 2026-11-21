@@ -219,6 +219,11 @@
   const vHodineVeSkupine = (g: Skupina) => zastaveni.filter((z) => podleId.get(z.id)?.stranka.startsWith(g.koren.stranka)).length;
 </script>
 
+<!-- Karta Do hodiny (herna-v1, K5): název zastavení je otázka pro třídu, pod ním otázka do dvojice. -->
+{#snippet dvojice(text: string, trida: string)}
+  <span class={['dvojice', trida]}><span class="dvojice__popis">Ve dvojici:</span> {nezlomitelne(text)}</span>
+{/snippet}
+
 {#snippet polozka(z: Zastaveni, deti: Uzel[])}
   {#if viditelny(z.id)}
     {@const zvoleno = vHodine.has(z.id)}
@@ -227,6 +232,7 @@
         <div class="polozka__text">
           <span class="polozka__druh">{stitekDruhu(z)}</span>
           <a class="polozka__nazev" href={z.adresa} target="_blank" rel="noopener">{nezlomitelne(z.nazev)}<span class="vizualne-skryte">otevře se v nové kartě</span><span class="sipka" aria-hidden="true">↗</span></a>
+          {#if z.doHodiny}{@render dvojice(z.doHodiny.dvojice, 'polozka__dvojice')}{/if}
         </div>
         <button
           type="button"
@@ -341,6 +347,7 @@
               {#if n.nalezeno}
                 <p class="zvolene__kde">{stitekDruhu(n.zastaveni)} · {kdeStoji(n.zastaveni)}</p>
                 <a class="zvolene__nazev" href={n.zastaveni.adresa} target="_blank" rel="noopener"><span class="vizualne-skryte">{i + 1}.</span>{nezlomitelne(n.zastaveni.nazev)}<span class="vizualne-skryte">otevře se v nové kartě</span><span class="sipka" aria-hidden="true">↗</span></a>
+                {#if n.zastaveni.doHodiny}{@render dvojice(n.zastaveni.doHodiny.dvojice, 'zvolene__dvojice')}{/if}
                 <label class="vizualne-skryte" for="poznamka-{i}">Poznámka k zastavení {i + 1}: {n.zastaveni.nazev}</label>
                 <textarea id="poznamka-{i}" class="vstup vstup--poznamka" rows="2" placeholder="Poznámka" bind:value={zs.poznamka} oninput={zmena}></textarea>
                 {@const podoby = podobyZastaveni(n.zastaveni)}
@@ -417,6 +424,7 @@
           {#if n.nalezeno}
             <p class="tisk__kde">{stitekDruhu(n.zastaveni)} · {kdeStoji(n.zastaveni)}</p>
             <p class="tisk__nazev-zastaveni">{n.zastaveni.nazev}</p>
+            {#if n.zastaveni.doHodiny}<p class="tisk__pozn">Ve dvojici: {n.zastaveni.doHodiny.dvojice}</p>{/if}
             {#if podobaZastaveni(zs) !== 'cely'}<p class="tisk__podoba">na plátně: {malym(nazevPodoby(podobaZastaveni(zs), n.zastaveni.typ))}</p>{/if}
             <p class="tisk__adresa">{origin}{n.zastaveni.adresa}</p>
           {:else}
@@ -572,6 +580,8 @@
   .zvolene__nazev:hover { text-decoration: underline; }
   .zvolene__nazev--chybi { color: var(--ink-2); font-style: italic; font-weight: 500; }
   .vstup--poznamka { min-height: 44px; font-size: var(--fs-ovladani); resize: vertical; }
+  .dvojice { display: block; margin-top: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-popisek); line-height: 1.4; color: var(--ink-2); }
+  .dvojice__popis { font-weight: 600; color: var(--ink); }
   .podoba { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--s-2); row-gap: var(--s-1); margin-top: var(--s-2); }
   .podoba__popis { font-family: var(--font-sans); font-size: var(--fs-ovladani); color: var(--ink-2); }
   .vstup--podoba { display: inline-block; flex: 1 1 12em; width: auto; min-width: 0; font-size: var(--fs-ovladani); }

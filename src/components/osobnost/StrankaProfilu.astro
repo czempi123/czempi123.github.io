@@ -40,8 +40,8 @@ const obrazekOsoby = osoba.obrazek ? data.zdroje.obrazky.find((o) => o.id === os
 const naStrance = new Set(osoby.map((o) => o.id));
 const vztahy = data.vztahy.filter((v) => naStrance.has(v.od) || naStrance.has(v.k));
 const citatyNaStrance = [fm.citat, ...[...(zaznam.body ?? '').matchAll(/<Citat id="([^"]+)"/g)].map((m) => m[1])].filter(Boolean) as string[];
-// Prameny bloků z YAML (Volba, Změň jednu věc, Spor) vložených do textu.
-const blokyNaStrance = [...(zaznam.body ?? '').matchAll(/<(?:Volba|ZmenJednuVec|Spor) id="([^"]+)"/g)].map((m) => m[1]);
+// Prameny bloků z YAML (Volba, Změň jednu věc, Spor a od kroku T větve herna-v1 i Doplň citát) vložených do textu.
+const blokyNaStrance = [...(zaznam.body ?? '').matchAll(/<(?:Volba|ZmenJednuVec|Spor|DoplnCitat) id="([^"]+)"/g)].map((m) => m[1]);
 const zdrojeBloku = (await Promise.all(blokyNaStrance.map((id) => getEntry('bloky', id)))).flatMap((b) => b?.data.zdroje ?? []);
 const prameny = [
   ...zdrojeBloku,

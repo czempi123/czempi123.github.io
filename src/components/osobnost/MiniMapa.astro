@@ -4,6 +4,8 @@
 import type { TOsoba } from '../../lib/schema';
 import { podklad, umisteniPopisku, vyrezMiniMapy, type MistoMiniMapy, type Vyrez } from '../../lib/mapa';
 import { klicVyrezu, mistaMiniMapy, sdileneVyrezy } from '../../lib/podklad-sdileny';
+import { zastavkyZivota } from '../../lib/zivot-na-mape';
+import { trasyMiniMapy } from '../../lib/trasy-mapy';
 
 // Společný profil (`dalsi`): místa všech osob stránky; u role stojí, čí je („narození Hipparchie“).
 // Stránka období a tradice (od K1 větve antika-doplnky) předá místo osoby hotová místa (`mista`) a období.
@@ -15,7 +17,7 @@ for (const [i, m] of (Astro.props.mista ?? []).entries()) mista.set(`hotove-${i}
 const { vyrez = vyrezMiniMapy([...mista.values()]) } = Astro.props;
 const obdobi = Astro.props.osoba?.obdobi ?? Astro.props.obdobi ?? 1;
 const p = podklad(vyrez);
-const body = [...mista.values()].map((m) => ({ nazev: m.nazev, xy: p.bod(m.souradnice), popis: m.radky }));
+const body = [...mista.entries()].map(([id, m]) => ({ id, nazev: m.nazev, xy: p.bod(m.souradnice), popis: m.radky }));
 const vidimne = body.filter((b) => b.xy[0] > 0 && b.xy[0] < vyrez.sirka && b.xy[1] > 0 && b.xy[1] < vyrez.vyska);
 // Strana popisku a jeho vysunutí nad bod, když by se řádky dvou míst potkaly (src/lib/mapa.ts).
 // Výstřižek staré mapy jako Mapa a čas (K7a, design-v2 K7b): rámeček je v jednotkách výřezu, tloušťky taky.
@@ -26,9 +28,22 @@ const pevninaId = `minimapa-pevnina-${obdobi}-${Math.round(vyrez.sirka)}-${Math.
 const klic = klicVyrezu(vyrez);
 const pevnina = sdileneVyrezy().has(klic) ? `/podklad/${klic}.svg#p` : `#${pevninaId}`;
 const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis })), vyrez.sirka);
+// Trasy (herna-v1, K4; plátno D4): oblouk se šipkou a rokem, jen kde je rok příchodu v datech; u jedné osoby.
+// Rok se nepotká s popisky míst (src/lib/trasy-mapy.ts); měřítko vlevo dole je zabrané taky.
+const osobaTras = Astro.props.osoba && !Astro.props.dalsi?.length ? Astro.props.osoba : undefined;
+const trasy = osobaTras ? trasyMiniMapy({
+  zastavky: zastavkyZivota(osobaTras),
+  xy: new Map(vidimne.map((b) => [b.id, b.xy])),
+  popisky: vidimne.map((b, i) => ({ xy: b.xy, nazev: b.nazev, radky: b.popis, umisteni: umisteni[i] })),
+  sirka: vyrez.sirka,
+  vyska: vyrez.vyska,
+  meritko: [0, vyrez.vyska - 18 * k - 40, 18 * k + 6 + Math.max(p.meritko.px, 70) + 10, vyrez.vyska],
+}) : [];
+const nazevMista = new Map(body.map((b) => [b.id, b.nazev]));
+const popisTras = trasy.map((t) => `${nazevMista.get(t.od)} → ${nazevMista.get(t.kam)} ${t.rok}`).join('; ');
 ---
 <figure class={`minimapa obdobi-${obdobi}`} style={`--k:${k}`}>
-  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}`}>
+  <svg viewBox={`0 0 ${vyrez.sirka} ${vyrez.vyska}`} role="img" aria-label={`Mapa: ${vidimne.map((b) => (b.popis.length ? `${b.nazev} (${b.popis.join(', ')})` : b.nazev)).join('; ')}${trasy.length ? `. Cesty: ${popisTras}` : ''}`}>
     {pevnina.startsWith('#') && <defs><path id={pevninaId} d={p.pevnina} /></defs>}
     {/* Moře šrafované tužkou (pozadí SVG), tři vodní linky podél pobřeží, pevnina na lístkovém papíře. */}
     <use href={pevnina} class="linka linka--1" />
@@ -38,6 +53,13 @@ const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev,
     <use href={pevnina} class="linka linka--3" />
     <use href={pevnina} class="mezera mezera--3" />
     <use href={pevnina} class="pevnina" />
+    {trasy.length > 0 && (
+      <g class="trasy" aria-hidden="true">
+        {trasy.map((t) => <path class="trasa" d={t.d} data-trasa={`${t.od}>${t.kam}`} />)}
+        {trasy.map((t) => <path class="trasa__sipka" d={t.sipka} />)}
+        {trasy.map((t) => t.popisek && <text class="rok-trasy" x={t.popisek.x} y={t.popisek.y} text-anchor="middle">{t.rok}</text>)}
+      </g>
+    )}
     {vidimne.map((b, i) => {
       const vlevo = umisteni[i].strana === 'vlevo';
       return (
@@ -99,6 +121,10 @@ const umisteni = umisteniPopisku(vidimne.map((b) => ({ xy: b.xy, nazev: b.nazev,
   .popisek--nahoru { transform: translateY(calc(var(--radku) * -1.2 * var(--fs-role))); }
   .nazev { font-family: var(--font-sans); font-size: var(--fs-nazev); font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--listek); stroke-width: 4px; stroke-linejoin: round; }
   .role { font-family: var(--font-sans); font-size: var(--fs-role); fill: var(--ink-2); paint-order: stroke; stroke: var(--listek); stroke-width: 4px; stroke-linejoin: round; }
+  /* Trasy: tenká čárkovaná linka v inkoustu období, šipka plná, rok drobně jako role místa. */
+  .trasa { fill: none; stroke: var(--p); stroke-width: calc(1.6px * var(--k)); stroke-dasharray: calc(6px * var(--k)) calc(4px * var(--k)); stroke-linecap: round; opacity: 0.85; }
+  .trasa__sipka { fill: var(--p); }
+  .rok-trasy { font-family: var(--font-sans); font-size: var(--fs-role); font-style: italic; fill: var(--p); paint-order: stroke; stroke: var(--listek); stroke-width: 4px; stroke-linejoin: round; }
   .meritko path { stroke: var(--ink-2); stroke-width: 2; }
   .meritko text { font-family: var(--font-sans); font-size: var(--fs-meritko); fill: var(--ink-2); }
   figcaption { margin-top: var(--s-2); }

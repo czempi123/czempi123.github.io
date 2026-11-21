@@ -1,0 +1,21 @@
+# Pravý, nebo podvržený? v posledním kroku cesty Kdy mám dobrý důvod věřit? (herna-v1, T; odpověď 1 v Co rozhodnout
+# před P6). Stojí před Závěrem cesty jako poslední nový případ: student se na třech větách ze sítí zeptá, jestli má
+# dobrý důvod věřit, a pak si napíše pravidlo (za Závěrem by hra držela krok nedokončený i s napsaným pravidlem). Dvě se připisují Sókratovi, kterého cesta celou dobu sleduje: „Vím, že nic nevím“ (krok 3 cituje celé
+# znění, Obrana 21d) a nádoba a oheň (Plútarchos). Třetí je pravá věta Prótagory, kterého student v cestě potkal
+# (revize R, O: Marcus Aurelius přijde až v cestě 5): „Člověk je měřítkem všech věcí“ (Theaitétos 152a). Původ a kde věta koluje skládá blok z dat (zdroje.yaml › pripsani); tady je hlavička
+# ústřižku a věta, jak si citát příště ověřit. Jiný výběr a jiné věty o ověření než v dílně a na stránce klamů.
+druh: pravy
+obdobi: 1
+scena: "Než si napíšeš pravidlo, vyzkoušej se na třech větách, které kolují po sítích pod slavnými jmény."
+otazka: "Máš dobrý důvod věřit, že to řekl on?"
+karty:
+  - pripsani: vim-ze-nic-nevim
+    odkud: "Popisek pod fotkou knihovny"
+    overeni: "Celá ta věta stojí ve třetím kroku cesty. Porovnej ji se zkratkou: co ze Sókratova přiznání zmizelo?"
+  - pripsani: nadoba-a-ohen
+    odkud: "Story · první školní den"
+    overeni: "Zkus větu najít v díle, ze kterého má být. Sókratés žádné nenapsal, a tak se mu dá připsat skoro cokoli."
+  - pripsani: clovek-meritkem
+    odkud: "Bio na profilu"
+    overeni: "Cituje ji odpůrce, který s ní nesouhlasil, a to je dobrý důvod jí věřit."
+zdroje: []

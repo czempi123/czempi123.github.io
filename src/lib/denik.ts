@@ -10,7 +10,7 @@ export interface Zapis {
   odkaz: string;
   kdy: string;
   /** z jakého bloku zápis pochází (pro řazení v deníku); starší zápisy ho nemají */
-  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'navrat';
+  druh?: 'stanovisko' | 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'navrat' | 'slabe' | 'kdo-by' | 'sebehodnoceni';
 }
 export interface Vyzva {
   id: string;
@@ -98,7 +98,8 @@ export interface HodinaVDeniku {
   kdy: string;
 }
 
-export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'kdo-zil-driv';
+/** Druh bloku v aktivitě; hry herny (serad, kdo-rekl, tipni, kde, doplnit) ukládají jen stav, žádný zápis (plán herna-v1, Co platí). */
+export type DruhBloku = 'odkryj' | 'volba' | 'zmena' | 'spor' | 'roztrid' | 'argument' | 'kdo-zil-driv' | 'serad' | 'kdo-rekl' | 'tipni' | 'kde' | 'doplnit' | 'pary' | 'pravy' | 'slabe' | 'kdo-by';
 export interface Aktivita {
   id: string;
   odkaz: string;

@@ -110,7 +110,7 @@ for (const sirka of [390, 1440]) {
       for (const s of STRANKY) {
         await pripravit(page, s.adresa);
         const axe = new AxeBuilder({ page }).include('.doba');
-        if (s.druh === 'medailonek') axe.include('.kdo-zil-medailonek');
+        if (s.druh === 'medailonek') axe.include('.hra-osoby');
         const v = await axe.withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
         const popis = v.violations.map((x) => `${x.id}: ${x.nodes.map((n) => n.target.join(' ')).join(', ')}`);
         expect(popis, `${s.adresa}\n${popis.join('\n')}`).toEqual([]);
@@ -127,21 +127,22 @@ for (const sirka of [390, 1440]) {
   }
 }
 
-test('Kdo žil dřív? je na každém medailonku nad Dobou a lidmi, profil ho nemá', async ({ page }) => {
+// Od herna-v1 K4 je nad Dobou a lidmi malá hra z dat (Kdo žil dřív?, Kde to bylo?, Kdo to řekl?, Tipni si).
+test('malá hra je na každém medailonku nad Dobou a lidmi, profil ji nemá', async ({ page }) => {
   for (const id of MEDAILONKY) {
     await page.goto(`/osobnost/${id}/`);
-    const blok = page.locator('.kdo-zil-medailonek section.blok');
-    await expect(blok, id).toHaveCount(1);
-    await expect(blok).toHaveAttribute('id', new RegExp(`^kdo-${id}-[a-z-]+-poradi$`));
+    const blok = page.locator('.hra-osoby .blok').first();
+    await expect(page.locator('.hra-osoby'), id).toHaveCount(1);
+    await expect(blok).toHaveAttribute('id', new RegExp(`^(kdo-${id}-[a-z-]+-poradi|hra-${id}-(kde|kdo-rekl|tipni))$`));
     const nad = await page.evaluate(() => {
-      const b = document.querySelector('.kdo-zil-medailonek')!;
+      const b = document.querySelector('.hra-osoby')!;
       const d = document.querySelector('.doba')!;
       return !!(b.compareDocumentPosition(d) & Node.DOCUMENT_POSITION_FOLLOWING);
     });
     expect(nad, id).toBe(true);
   }
   await page.goto('/osobnost/diogenes/');
-  await expect(page.locator('.kdo-zil-medailonek')).toHaveCount(0);
+  await expect(page.locator('.hra-osoby')).toHaveCount(0);
 });
 
 test('Kdo žil dřív? na medailonku: odhad, odhalení a odkaz do mapy', async ({ page }) => {

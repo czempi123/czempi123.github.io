@@ -1,0 +1,52 @@
+---
+// Kde to bylo? (herna-v1, K2): pobyt osoby z lide.yaml na slepém výřezu mapy. Obsah je v src/content/bloky/<id>.yaml
+// (druh: kde). Výřez je výřez mini mapy osoby (src/lib/mapa.ts › vyrezMiniMapy); obrys pobřeží je sdílený soubor
+// /podklad/<klíč>.svg (src/lib/podklad-sdileny.ts), když ho mají i jiné stránky, jinak jde do stránky.
+// Použití v MDX: <KdeToBylo id="dilna-kde-seneca" />  (volitelně dal={{ href, text }})
+import Ostrov from '../ostrovy/KdeToBylo.svelte';
+import { osoby, mistaPodleId } from '../../lib/data';
+import { podklad, vyrezMiniMapy } from '../../lib/mapa';
+import { klicVyrezu, mistaMiniMapy, sdileneVyrezy } from '../../lib/podklad-sdileny';
+import { pobytOsoby, vetaPobytu } from '../../lib/herna';
+import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
+import { nactiBlok, blokZObsahu, odkazNaBlok, kamDal, clovek } from './_kontrola';
+import type { TBlokKde } from '../../lib/bloky-schema';
+import type { Dal } from '../ostrovy/bloky-typy';
+
+// Obsah místo id (hra medailonku sestavená z dat, src/lib/herna/aktivity.ts): YAML se pak nečte.
+interface Props { id: string; dal?: Dal; obsah?: TBlokKde }
+const { id, dal, obsah } = Astro.props;
+const blok = obsah ? blokZObsahu(id, obsah) : await nactiBlok(id, 'kde', Astro.url.pathname);
+const o = osoby.get(blok.osoba);
+if (!o) throw new Error(`Blok „${id}“: osoba „${blok.osoba}“ není v lide.yaml.`);
+const misto = mistaPodleId.get(blok.misto);
+if (!misto) throw new Error(`Blok „${id}“: místo „${blok.misto}“ není v mista.yaml.`);
+const pobyt = pobytOsoby(o, blok.misto, blok.role);
+if (!pobyt) throw new Error(`Blok „${id}“: „${o.id}“ nemá v lide.yaml pobyt na místě „${blok.misto}“${blok.role ? ` s rolí ${blok.role}` : ''}.`);
+const vyrez = vyrezMiniMapy([...mistaMiniMapy([o]).values()]);
+const p = podklad(vyrez);
+const klic = klicVyrezu(vyrez);
+const sdileny = sdileneVyrezy().has(klic);
+const xy = p.bod(misto.souradnice as [number, number]);
+if (xy[0] < 0 || xy[0] > vyrez.sirka || xy[1] < 0 || xy[1] > vyrez.vyska) throw new Error(`Blok „${id}“: místo „${blok.misto}“ leží mimo výřez mapy.`);
+const dalsi = await kamDal(Astro.url.pathname, dal ?? blok.dal);
+const proOstrov = {
+  obdobi: blok.obdobi,
+  nadtitulek: blok.nadtitulek ?? VYCHOZI_NADTITULKY.KdeToBylo,
+  nazev: blok.nazev ?? 'Kde to bylo?',
+  scena: blok.scena,
+  otazka: blok.otazka,
+  lide: [clovek(o.id)],
+  sirka: vyrez.sirka,
+  vyska: vyrez.vyska,
+  // Sdílený obrys jako odkaz; jinak cesta pobřeží přímo (výřez, který nemá žádná stránka osoby).
+  pevnina: sdileny ? `/podklad/${klic}.svg#p` : undefined,
+  pevninaCesta: sdileny ? undefined : p.pevnina,
+  meritko: p.meritko,
+  misto: { nazev: misto.nazev, xy },
+  // Věta z dat o tom, co ho tam přivedlo: „Na Korsice žil Seneca ve vyhnanství v letech 41–49 n. l.“
+  veta: vetaPobytu(o, pobyt, blok.kde),
+  vysvetleni: blok.vysvetleni,
+};
+---
+<Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

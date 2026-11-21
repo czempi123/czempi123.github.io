@@ -1,0 +1,22 @@
+# Pravý, nebo podvržený? v dílně (herna-v1, K3): pět záznamů pripsani ze zdroje.yaml (podklady
+# docs/podklady/herna.md › 2). Původ, kde věta koluje a co doopravdy stojí v pramenu, skládá blok z dat;
+# v YAML je jen hlavička ústřižku a věta, jak si citát příště ověřit (z doporučených zpětných vazeb podkladů).
+druh: pravy
+obdobi: 2
+otazka: "Řekl to opravdu ten, komu se to připisuje?"
+karty:
+  - pripsani: vim-ze-nic-nevim
+    odkud: "Story · citát na každý den"
+    overeni: "Když citát nemá dílo a místo, hledej ho v textu, ze kterého má být."
+  - pripsani: vic-nas-strasi
+    odkud: "Podcast o stoicismu"
+    overeni: "Pravý citát má adresu: dílo, číslo dopisu a odstavec. Tenhle ji má, a dá se podle ní najít."
+  - pripsani: opakovane-delame
+    odkud: "Obrázek ve skupině třídy"
+    overeni: "Když věta zní až moc hladce, hledej, kdo ji napsal poprvé: výklad o filozofovi se snadno vydává za jeho slova."
+  - pripsani: skola-zivot
+    odkud: "Fotka nástěnky ve škole"
+    overeni: "Přečti i větu před citátem a za ním. Vytržená věta může říkat opak toho, co autor chtěl."
+  - pripsani: pomsta-nebyt-jako-on
+    odkud: "Komentář pod videem"
+    overeni: "Když se dva překlady liší, nemusí jeden lhát: porovnej je s tím, co znamená původní slovo."
