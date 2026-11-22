@@ -1,0 +1,61 @@
+# Větev denik-v2: průběh kroků
+
+Zápisy „Po …“ starších kroků větve `denik-v2` (výsledky, nad čím krok váhal). Plán, formáty, tabulka kroků a poslední zápis jsou v `docs/plany/denik-v2.md`, zadání kroků v `docs/plany/denik-v2-zadani.md`. Rozděleno 22. 11. 2026 v K3, aby plán zůstal pod 35 kB pro Projekt.
+
+## Po Plán (22. 11. 2026)
+
+- **GitHub:** po výslovném povolení autora poslán `main` z cloudu přes git bundle (`d68e6ec..fd86def`; balíček přes složku `Claude outputs`, ke které autor dal přístup). Stejnou cestou poslat `main` i v Uzavření.
+- **Kontrola nasazení herna-v1** (zapsaná v `docs/archiv/plany/herna-v1.md` › Po Uzavření, bod 3): zveřejnění prošlo a nasazený web herna-v1 ukazuje (`Claude outputs/nasazeni-herna-v1/`). Sestavení a kontroly ale skončily zrušením: spadl `herna-k2.spec.ts:278` (dotyk do slepé mapy na telefonu) a limit 20 minut nestačil na 902 testů. Oprava je první část K1.
+
+## Po K1 (22. 11. 2026)
+
+**Kontroly na GitHubu.**
+- Log běhu přes API stáhnout nejde (403, chce administrátorská práva k repozitáři) a připojení repozitáře z cloudu automatická kontrola oprávnění znovu zamítla. Chybu ale ukázaly veřejné anotace běhu (`api.github.com/repos/czempi123/czempi123.github.io/check-runs/137191863017/annotations`): `herna-k2.spec.ts:306`, po `tap()` do `.slepa` žádný `.spendlik`, v prvním i opakovaném pokusu; testy pak po 18,5 minuty zrušil limit 20 minut.
+- **Příčina:** komponenta je v pořádku. Klepnutí krátce po dotykovém tažení na téže stránce (lístek v Doplň citát) Chromium na Linuxu za klepnutí nepovažuje a `click` nevznikne. V cloudu (Linux, `CI=true`, klon `main`) to jde vyvolat: bez čekání i s čekáním 150 a 300 ms test padl čtyřikrát ze čtyř, s 500 ms prošel; GitHub je pomalejší a 500 ms mu nestačilo. Na Macu se klepnutí rozpozná hned.
+- **Oprava v testu:** Kde to bylo? se klepe na nové stránce téhož kontextu, čekání 500 ms je pryč. V cloudu 12 z 12 při čtyřech souběžných bězích, na Macu celý `herna-k2.spec.ts` 19 z 19. Limit v `.github/workflows/kontroly.yml` je 30 minut. Věta o příčině je v `docs/pouceni.md` › Technika.
+- Zelené kontroly se ukážou až po sloučení do `main` v Uzavření; na GitHub se v K1 nic neposlalo.
+
+**Datový základ v `src/lib/denik.ts`** (bez UI):
+- Typy `Karticka`, `ZdrojKarticky`, pole `karticky` v deníku podle Formátů; konstanty `ROZESTUP` (0, 1, 3, 7, 16, 35), `PRIHRADKA_NEJVYS`, `HROMADKA` (5).
+- Čisté funkce: `sKartickou`, `bezKarticky`, `sHodnocenim` (Vím o přihrádku dál, nejvýš pátá; Zopakuj si do první), `naRade(d, dnes, zdrojExistuje?)`, `hromadka(d, dnes, 5, zdrojExistuje?)`, `naRadeOd`, `jeNaRade`, `maZdroj`, `klicKarticky`, `mistniDatum`, `posunDatum`. Pro ostrovy: `pridatKarticku`, `vyndatKarticku`, `ohodnotitKarticku`, `maKarticku`.
+- Citáty: `poznamka` a `upraveno` u `CitatVDeniku`, `CITATY_NEJVYS = 300`, `sbirkaPlna`. `sCitatem` vrací `null`, když je sbírka plná a citát v ní není; `vystrihniCitat` vrací `false`. `sPoznamkouCitatu` a `ulozPoznamkuCitatu` (prázdná poznámka se smaže).
+- `rozeberDenik` pročistí kartičky (zdroj, přihrádka 0–5, datum RRRR-MM-DD, klíč se složí znovu) i poznámky; `spojDeniky` spojí kartičky (vyhraje novější `kdy`) a poznámky citátů (vyhraje novější `upraveno`, i smazaná). Export je JSON celého deníku, takže obojí obsahuje beze změny `exportuj`.
+
+**Testy.** Nový `tests/data/karticky.test.ts` (rozestup přes všech pět přihrádek, Zopakuj si, hromádka a Ještě pět, zdroj, který zmizel, týden a měsíc bez návštěvy, půlnoc a změna času, spojení dvou deníků, poškozený soubor, starý deník bez polí, plná sbírka, uložení a export). Ve čtyřech časových pásmech (UTC, Praha, Auckland, Los Angeles) prošel spolu s `denik.test.ts` a `zapisnik.test.ts`: 67 z 67. Test stropu sbírky v `zapisnik.test.ts` hlídá nové chování (plná sbírka citát nepřijme). Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1613 z 1613, Playwright 902 z 902 (10,5 min). Commit `e51262b`.
+
+Pro kontrolu jako na GitHubu běželo celé `npm test` i v cloudu (Linux, `CI=true`, jeden pracovník, 38 min): 899 prošlo, dva testy napodruhé (`denik-kapitoly.spec.ts:101`, `mapa.spec.ts:448` na 1280 px) a jeden spadl i napodruhé: `mapa.spec.ts:448` na 1440 px (názvy událostí na posuvníku se potkají). Ten padá v cloudu asi jednou ze tří i na čistém `main` bez změn K1, takže ho K1 nezpůsobil. Na GitHubu se v běhu 45017169458 nehlásil; kdyby po sloučení spadl tam, patří do Uzavření jako samostatná oprava (měření šířky názvů v Linuxu).
+
+**Nad čím jsem váhal.**
+- *Kartička bez zdroje se neukáže, ale nesmaže.* Plán říká „tiše zmizí“. Smazání by ale vzalo i přihrádku pokaždé, když student v bloku dá Začít znovu a napíše odpověď znovu (Začít znovu zápis maže). Kartička bez citátu nebo bez zápisu s textem se proto v hromádce neukáže a vrátí se, když se zdroj vrátí. Pojmy a otázky kvízu deník nezná: `hromadka` bere `zdrojExistuje` od volajícího (K2 a K3 předají seznam z dat); bez něj je bere jako existující. Kdyby se tichá kartička někde ukázala (stisknuté Do kartiček u smazaného zápisu), K3 ji může mazat při Vyndat ze sbírky a Začít znovu.
+- *Test, nebo komponenta?* Komponenta by se dala přepsat na `pointerup` místo `click` a na rychlosti by nezávisela. Změnila by ale chování: klepnutí, které jen zastaví dojíždějící posun stránky, by zapíchlo špendlík. Skutečný student lístek nepřetáhne a do mapy neklepne do půl sekundy; problém je jen v testu, a tak se opravil test.
+- *Spojení deníků bez stropu.* Dvě sbírky dohromady můžou mít víc než 300 citátů. Spojení nic nevyhodí (s citátem by zmizela poznámka a kartička); plná sbírka jen nepřijme další vystřižení.
+- *Znovu vystřižený citát* se posune navrch a poznámku si nechá; jde to i v plné sbírce, protože nic nepřibývá.
+- *„Ještě pět“* nepotřebuje vlastní funkci: kartičky ohodnocené dnes už na řadě nejsou, takže další `hromadka` vrátí dalších pět. Hranici „Na dnes stačí“ po první pětce drží ostrov (K3).
+- *Datum.* Dnešek je místní datum (`mistniDatum`), rozestup se přičítá k datu v UTC (`posunDatum`), aby změna času den neposunula. Kartička ohodnocená ve 23:59 je na řadě další den ráno, ne o 24 hodin později.
+- *Přihrádka ze souboru mimo 0–5* se ořízne; přihrádka bez data posledního opakování se bere jako nová kartička.
+- `vystrihniCitat` už pozná plnou sbírku, ale `src/scripts/vystrihnout.ts` výsledek zatím nečte; hláška „sbírka je plná“ patří do K4.
+
+## Po K2 (22. 11. 2026)
+
+**Skladatel otázek** (`src/lib/herna/zustalo.ts`, čisté funkce; data čte `src/lib/herna/zustalo-data.ts` přes `import.meta.glob` jako text, takže totéž běží při sestavení, ve Vitestu i ve výpisu):
+- Antika dává 68 otázek: myšlenka v situaci 16, hlas k případu 41, obraz a otázka 11. Celý výpis jako text: `Claude outputs/zustalo-antika.md` (skript `npx vite-node scripts/zustalo-vypis.ts`), i s tím, co do kvízu nepřišlo.
+- *Pojem:* situace z Párů (`epikureismus-pary` před `dilna-pary`), jinak `priklad`, jen když nejmenuje pojem ani jeho tvary (vypadlo deset pojmů: ctnost, dialog, duše, etika, idea, látka, mýtus, obec, osud, rozum). Další dvě možnosti z téhož bloku Párů, jinak z pojmů téhož období, nikdy pojem, který situace jmenuje. Vysvětlení: první věta `vysvetleni` a „Najdeš ho u: …“ z `uKoho`. Potká: výskyty pojmu a stránka pojmu.
+- *Hlas:* úvodní případ stránky otázky (odstavce před první komponentou, bez odstavce, který uvádí citát dvojtečkou), zadání „Co by ti na to řekl X?“, možnosti jsou odpovědi tří hlasů téže otázky, přednostně jiného směru. Odpověď, která vysloví jméno některého mluvčího, vypadne (Diogenés v Jak spolu máme žít?). Vysvětlení: citát hlasu s údajem, bez citátu důvod z myšlenky. Potká: stránka otázky.
+- *Kresba:* jedenáct kreseb v cestách antiky; podnět „Kresba „…“. “ a úsek textu kroku, možnosti tři velké otázky, ke kterým vede cesta antiky. Vysvětlení: krok a cesta. Potká: krok.
+- Kontrola při sestavení (`chybyZustalo`) zastaví build: situace nejmenuje svůj pojem, tři různé možnosti se správnou mezi nimi, vysvětlení a podnět z dat, kresba neprozradí otázku, id jen jednou.
+- Výběr kola: jen potkané (kroky cest z deníku, navštívené stránky, čtení profilů, stránky s aktivitou), nejvýš osm, nejvýš čtyři jednoho druhu, dva stejné nikdy po sobě (kolo se zkrátí, když jeden druh převládá), pořadí ze semínka `zustalo:<kolo>`. Pod čtyři otázky pozvánka do první nedokončené cesty antiky.
+
+**Ostrov** `src/components/ostrovy/CoTiZustalo.svelte` v rámu aktivity (nadtitulek = druh otázky), obal `src/components/denik/CoTiZustalo.astro` skládá katalog. Otázka po otázce s „Otázka 3 z 8“ (postup, ne výsledek), jedna odpověď, hned rub v lístku s páskou (`aria-live`, fokus na něj): „Víš.“ / „Zopakuj si.“ (`VIS`, `ZOPAKUJ_SI`, `vybaveni()` vedle „Sedí.“ v `verdikt.ts`), vysvětlení a odkaz zpět na první místo z `potkal`, kde student opravdu byl. Možnosti po odpovědi leží: zvolená vtlačená, správná s ✓ a tučně, pro čtečku „(tvoje odpověď)“, „(správná odpověď)“. Konec kola bez počtu: „Tohle si zopakuj“ se seznamem a odkazy zpět, Dát do kartiček (`pridatKarticku('zustalo', id)`, pak „✓ V kartičkách“ a fokus na Nové kolo) a Nové kolo; uprostřed kola Začít znovu. Oddíl „Co ti zůstalo?“ stojí na stránce Tvoje antika pod přehledem (texty v `TVOJE_ANTIKA.zustalo`), ukázka v dílně (`/dilna/bloky/#h-zustalo`) s připraveným deníkem dvou prošlých cest a vlastním klíčem stavu `co-ti-zustalo/dilna`.
+
+**Testy.** `tests/data/zustalo.test.ts` (20: text, skládání, kontrola, data antiky včetně „žádná situace nejmenuje svůj pojem“ a vět kreseb doslova v kroku, výběr kola na 30 kolech, deník, stav). `tests/e2e/co-ti-zustalo.spec.ts` (6: pozvánka, průchod celým kolem klávesnicí s obnovením stránky uprostřed a kartičkami, Začít znovu, čtečka a axe ve světlém i tmavém režimu, omezený pohyb a 44 px na 390 px, dílna). Snímky: `Claude outputs/snimky-zustalo/` (prázdný deník, prošlé dvě cesty s rubem, konec kola; 390 a 1440 px, světlý i tmavý; ve světlém i celá stránka), skript `scripts/snimky-zustalo.mjs`. Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1633 z 1633, Playwright 907 z 908 (11,1 min). Spadl `denik-kapitoly.spec.ts:101` (po obnovení stránky je otevřená i kapitola Helenismus a Řím); sám padá dvakrát z pěti a K2 stránku deníku nemění. Tentýž test hlásil cloud už v Po K1 jako opakovaný. `otevreneKapitoly` otevře kapitolu, ve které student byl po uložení stavu kapitol, takže podezření je zápis času v deníku při načtení stránky; oprava patří do O nebo do Uzavření.
+
+**Nad čím jsem váhal.**
+- *Věta ke kresbě.* Věta nad kresbou vybraná skriptem sedla jen u tří kreseb z jedenácti; jinde vyšla ozvěna z jeskyně, „Nebe snese nejdřív v noci.“ nebo věta, která uvádí citát dvojtečkou. Úsek textu kroku jsem proto vybral ručně (`VETY_KRESEB` v `src/lib/kresby.ts`) a test hlídá, že v kroku doslova stojí; nic nového se nepíše. Skript zůstal jako záloha pro novou kresbu.
+- *Další možnosti u pojmů.* Z Párů jsou prověřené proti sobě; u pojmů z `priklad` jsou z období podle semínka (Atom × Příčina × Religionistika). Situace u nich T a R přečtou proti vysvětlení sousedních pojmů.
+- *Hlasy.* Druhá a třetí odpověď jsou přednostně jiného směru (dva stoikové radí podobně). Citát pod rubem k případu někde sedí slabě (Parmenidés B8 u duhy): je to citát, který stojí u hlasu na stránce otázky, a T ho může nahradit důvodem z myšlenky.
+- *Zmrazené kolo.* Ke stavu z Formátů jsem přidal `poradi`, `pozice` a `volby`: kdo mezi otázkami projde další krok, kolo se mu pod rukama nezmění, a rub po obnovení ví, co zvolil.
+- *Kolo začíná hned první otázkou*, bez tlačítka Začít; nic se neuloží, dokud student neodpoví.
+- *Co student potkal.* Kroky cest deník drží trvale, navštívené stránky jen posledních dvacet. Hlas ze stránky otázky, kterou student viděl dávno, se proto do kola nemusí dostat; pomohla by trvalá stopa stránek otázek v deníku (na později, kdyby to vadilo).
+- *Nabídka pera* po první odpovědi zůstala jako v ostatních hrách (dává ji rám aktivity).
+- *Velikost.* Katalog má 77 kB JSON, hlasy opakují případ u každého mluvčího; stránka Tvoje antika 213 kB (gzip 37 kB). Případ jednou za otázku by ušetřil asi 20 kB; zatím jsem nechal formát z plánu.
+- *K3* potřebuje pro kartičky druhu `zustalo` líc a rub z katalogu: na stránku deníku stačí id, podnět, zadání, text správné možnosti, vysvětlení a zpět, ne celý katalog.

@@ -8,6 +8,7 @@ import Zakladni from '../../layouts/Zakladni.astro';
 import HlavickaStranky from '../../components/stranka/HlavickaStranky.astro';
 import Oddil from '../../components/stranka/Oddil.astro';
 import Prameny from '../../components/osobnost/Prameny.astro';
+import DoKarticek from '../../components/denik/DoKarticek.svelte';
 import { obdobiPodleId } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
 import { adresaVyskytu, nazevPojmu, oddilyPojmu, ODDILY_POJMU } from '../../lib/pojmy';
@@ -62,6 +63,9 @@ const stranka = `/pojem/${zaznam.id}/`;
 >
   <article class={`pojem-stranka stranka obdobi-${obdobi.id}`} data-navsteva={stranka} data-nazev={nazev}>
     <HlavickaStranky obdobi={obdobi.id} nadtitulek={`Pojem · ${obdobi.nazev}`} titulek={nazev} perex={p.vysvetleni} />
+    <div class="pojem-stranka__karticky">
+      <DoKarticek client:idle zdroj="pojem" ref={zaznam.id} popis={nazev} />
+    </div>
 
     {oddily.has(ODDILY_POJMU.puvod.kotva) && (
       <Oddil kotva={ODDILY_POJMU.puvod.kotva} nazev={ODDILY_POJMU.puvod.nazev}>
@@ -103,6 +107,8 @@ const stranka = `/pojem/${zaznam.id}/`;
 
 <style>
   .pojem-stranka { padding-bottom: var(--s-8); }
+  /* Pod perexem hlavičky, ve stejném sloupci (HlavickaStranky: text do 960 px). */
+  .pojem-stranka__karticky { max-width: 960px; margin: var(--s-4) auto var(--s-2); }
   .pojem-stranka :global(.ctenarsky) { max-width: var(--ctenarsky-sloupec); margin-inline: auto; }
   .pojem-stranka p,
   .pojem-stranka li { margin: 0; font-size: var(--fs-text); line-height: var(--lh-text); }

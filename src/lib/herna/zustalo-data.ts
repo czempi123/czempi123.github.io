@@ -3,13 +3,13 @@
 // Kontrola (chybyZustalo) zastaví sestavení dřív, než se otázka dostane ke studentovi.
 import { parse } from 'yaml';
 import { osoby, citatyPodleId } from '../data';
-import { tvaryJmena } from '../pojmy';
+import { nazevPojmu, tvaryJmena } from '../pojmy';
 import { adresaOtazky } from '../otazky';
 import { adresaCesty, adresaKroku } from '../cesty';
 import { NAZVY_KRESEB, VETY_KRESEB } from '../kresby';
 import { duvodZMyslenky } from '../tvoje-obdobi';
 import {
-  chybyZustalo, otazkyHlasu, otazkyKreseb, otazkyPojmu, pripadZTextu, vetaPredKresbou,
+  chybyZustalo, klicVyskytu, otazkyHlasu, otazkyKreseb, otazkyPojmu, pripadZTextu, vetaPredKresbou,
   type KatalogZustalo, type KresbaVstup, type OdkazZustalo, type OtazkaVstup, type PojemVstup, type ParyVstup,
 } from './zustalo';
 
@@ -151,4 +151,25 @@ export function katalogZustalo(obdobi: readonly number[]): KatalogZustalo {
       return { slug: c.slug, nazev: c.nazev, adresa: adresaCesty(c.slug), pocet: c.pocet, ...(o ? { otazka: o.adresa } : {}) };
     }),
   };
+}
+
+/**
+ * Pojmy pro kartičky v deníku (denik-v2, K3): název, vysvětlení, příklad a místa, kde pojem stojí, s odkazem zpět
+ * stejně jako v kvízu („Zpátky do kroku 3 cesty …“). Místa bere ze všech období, aby kartička pojmu z kterékoli
+ * stránky pojmu měla kam vést.
+ */
+export function pojmyKarticek(): { id: string; nazev: string; vysvetleni: string; priklad: string; obdobi?: number; mista: { klic: string; href: string; text: string }[] }[] {
+  const v = vstupZustalo([1, 2, 3, 4, 5, 6, 7, 8]);
+  return v.pojmy.map((p) => ({
+    id: p.id,
+    nazev: nazevPojmu(p.pojem),
+    vysvetleni: p.vysvetleni,
+    priklad: p.priklad,
+    ...(p.obdobi[0] ? { obdobi: p.obdobi[0] } : {}),
+    mista: p.vyskyty.flatMap((x) => {
+      const klic = klicVyskytu(x);
+      const o = odkazNaMisto(klic, v);
+      return o ? [{ klic, ...o }] : [];
+    }),
+  }));
 }

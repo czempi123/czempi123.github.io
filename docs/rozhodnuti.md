@@ -4,6 +4,16 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 22. 11. 2026: Kartičky v deníku (denik-v2 K3)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Hromádka na dnes si pamatuje, které kartičky student dostal (`bloky['karticky/dnes']`); obnovení stránky nerozdá novou pětku, vyndaná kartička se do pětky počítá dál. Menší hromádka (víc nebylo na řadě) se doplní kartičkou přidanou během dne | Pětka je strop na den, ne na jedno otevření stránky; tlačítko obnovit by jinak bylo nekonečné Ještě pět |
+| Do kartiček má zápis jen s vlastními slovy studenta: odpověď, pravidlo, sebehodnocení, důvod volby („Proč:“), důvod ve Sporu. Volba bez důvodu, Změň jednu věc a Roztřiď (jen volby a karty) ho nemají (`zapisSTextem`) | Plán: ne u Volby bez důvodu (otázka na bolestnou chvíli); kartička bez vlastních slov by se ptala na volbu, ne na myšlenku |
+| Kartička z vlastního zápisu má Vím a Zopakuj si jako ostatní | Otázka 2 pro autora zůstala bez odpovědi = souhlas s doporučením |
+| Tečka na ikoně Deníku svítí dál jen pro Návrat | Otázka 1 pro autora zůstala bez odpovědi = souhlas s doporučením |
+| Na stránku deníku jdou z kvízu jen id, podnět (případ hlasů téže otázky jednou), zadání, text správné možnosti, vysvětlení a odkaz zpět; z pojmů název, vysvětlení, příklad a místa výskytů (`src/components/denik/_karticky-data.ts`) | Celý katalog kvízu má 77 kB; data kartiček asi 57 kB JSON |
+
 ## 21. 11. 2026: Opravy po revizi větve herna-v1 (O)
 
 | Rozhodnutí | Důvod |

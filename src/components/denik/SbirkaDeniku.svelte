@@ -5,6 +5,7 @@
   // <SbirkaDeniku potkani={['sokrates']} razitka={…} osoby={…} pahyly={…} citaty={…} />
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
   import { zrusCitat, type CitatVDeniku } from '../../lib/denik';
+  import DoKarticek from './DoKarticek.svelte';
   import type { PahylCesty } from '../../lib/zapisnik';
   import type { UdajeRazitka } from '../ostrovy/bloky-typy';
 
@@ -64,7 +65,10 @@
           <li class="sb-citat">
             <blockquote><p>„{c.text}“</p></blockquote>
             <p class="t-popisek sb-citat__kde"><a href={c.odkaz}>{c.kde}</a></p>
-            <button class="blok__tl blok__tl--tiche sb-citat__vratit" type="button" onclick={() => zrusCitat(c.id)}>Vyndat ze sbírky<span class="vizualne-skryte">{`: ${c.kde}`}</span></button>
+            <div class="blok__akce sb-citat__akce">
+              <DoKarticek zdroj="citat" ref={c.id} popis={c.kde} />
+              <button class="blok__tl blok__tl--tiche sb-citat__vratit" type="button" onclick={() => zrusCitat(c.id)}>Vyndat ze sbírky<span class="vizualne-skryte">{`: ${c.kde}`}</span></button>
+            </div>
           </li>
         {/each}
       </ul>
@@ -125,5 +129,5 @@
   .sb-citat blockquote p { margin: 0 0 var(--s-2); font-size: 19px; line-height: 1.45; }
   .sb-citat__kde { margin: 0; color: var(--ink-2); }
   .sb-citat__kde a { color: inherit; display: inline-flex; min-height: 24px; align-items: center; }
-  .sb-citat__vratit { margin-top: var(--s-1); }
+  .sb-citat__akce { margin-top: var(--s-2); }
 </style>
