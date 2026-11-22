@@ -73,8 +73,8 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
 | Plán | Plán větve | Opus 5.5 · high | hotovo 22. 11. 2026 |
-| K1 | Kontroly na GitHubu (limit času, test Kde to bylo? na telefonu); data deníku: kartičky a rozestup, poznámka a limit citátů, spojení a export | Opus 5.5 · high | **na řadě** (Zadání K1) |
-| K2 | Co ti zůstalo?: skladatel otázek z dat, ostrov, oddíl v Tvoje antika, dílna | Opus 5.5 · high | čeká na K1 |
+| K1 | Kontroly na GitHubu (limit času, test Kde to bylo? na telefonu); data deníku: kartičky a rozestup, poznámka a limit citátů, spojení a export | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K1) |
+| K2 | Co ti zůstalo?: skladatel otázek z dat, ostrov, oddíl v Tvoje antika, dílna | Opus 5.5 · high | **na řadě** (Zadání K2) |
 | K3 | Kartičky v deníku: hromádka, otočení, Vím a Zopakuj si, tlačítka Do kartiček u zdrojů | Opus 5.5 · high | čeká na K2 |
 | K4 | Vystřižené citáty: nůžky na dalších místech, výstřižek s poznámkou, Moje sbírka, tisk a text | Opus 5.5 · medium | čeká na K3 |
 | P6 | Podklady, jen když T narazí na tvrzení, které v ověřených datech není | Sonnet 5.5 · high s vyhledáváním | jen při potřebě |
@@ -186,7 +186,7 @@ Opus 5.5 · high, nový chat.
 Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md (oddíly Bloky, Student, kterého se téma bolestně týká, a Technika) a v docs/plany/denik-v2.md oddíly Co platí, 2, Formáty, Otázky pro autora a Po K2. Načti skill atlas-komponenta. Z kódu čti jen src/components/ostrovy/Denik.svelte (rozvržení oddílů), lístek zápisu v kapitole, src/components/denik/SbirkaDeniku.svelte a stránku pojmu /pojem/<id>/.
 
 Postav kartičky v deníku podle oddílu 2:
-1. Oddíl Kartičky v Můj deník pod Návratem, jen když student kartičky má: hromádka na dnes (nejvýš pět), kartička s lícem a rubem podle tabulky zdrojů, otočení (tlačítko, ne jen klepnutí na kartu; při omezeném pohybu bez animace), Vím, Zopakuj si a Vyndat z kartiček, po hromádce Na dnes stačí a nepovinně Ještě pět. Nikde počet čekajících, datum dalšího opakování ani zameškané dny. Prázdný stav s tlačítkem Přidat pojmy, které jsi potkal (pojmy z vyskyty, které student navštívil).
+1. Oddíl Kartičky v Můj deník pod Návratem, jen když student kartičky má: hromádka na dnes (nejvýš pět), kartička s lícem a rubem podle tabulky zdrojů, otočení (tlačítko, ne jen klepnutí na kartu; při omezeném pohybu bez animace), Vím, Zopakuj si a Vyndat z kartiček, po hromádce Na dnes stačí a nepovinně Ještě pět. Nikde počet čekajících, datum dalšího opakování ani zameškané dny. Funkce bere z K1 (hromadka s parametrem zdrojExistuje z dat: pojmy a otázky kvízu, které existují; Po K1). Prázdný stav s tlačítkem Přidat pojmy, které jsi potkal (pojmy z vyskyty, které student navštívil).
 2. Tlačítko Do kartiček (stisknuté = kartička existuje, druhý stisk ji vyndá) u výstřižku ve sbírce, u lístku zápisu s textem (pravidlo, odpověď Teď, sebehodnocení; ne u Volby bez důvodu) a na stránce pojmu. Konec kola Co ti zůstalo? už kartičky přidává z K2.
 3. Když otázka 2 pro autora dopadla ne, kartička z vlastního zápisu nemá Vím a Zopakuj si, jen Vrátit za čas a Stačí; jinak podle Formátů.
 4. Tečka na ikoně Deníku podle otázky 1 pro autora (výchozí: kartičky ji nerozsvítí).
@@ -269,6 +269,34 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 
 - **GitHub:** po výslovném povolení autora poslán `main` z cloudu přes git bundle (`d68e6ec..fd86def`; balíček přes složku `Claude outputs`, ke které autor dal přístup). Stejnou cestou poslat `main` i v Uzavření.
 - **Kontrola nasazení herna-v1** (zapsaná v `docs/archiv/plany/herna-v1.md` › Po Uzavření, bod 3): zveřejnění prošlo a nasazený web herna-v1 ukazuje (`Claude outputs/nasazeni-herna-v1/`). Sestavení a kontroly ale skončily zrušením: spadl `herna-k2.spec.ts:278` (dotyk do slepé mapy na telefonu) a limit 20 minut nestačil na 902 testů. Oprava je první část K1.
+
+## Po K1 (22. 11. 2026)
+
+**Kontroly na GitHubu.**
+- Log běhu přes API stáhnout nejde (403, chce administrátorská práva k repozitáři) a připojení repozitáře z cloudu automatická kontrola oprávnění znovu zamítla. Chybu ale ukázaly veřejné anotace běhu (`api.github.com/repos/czempi123/czempi123.github.io/check-runs/137191863017/annotations`): `herna-k2.spec.ts:306`, po `tap()` do `.slepa` žádný `.spendlik`, v prvním i opakovaném pokusu; testy pak po 18,5 minuty zrušil limit 20 minut.
+- **Příčina:** komponenta je v pořádku. Klepnutí krátce po dotykovém tažení na téže stránce (lístek v Doplň citát) Chromium na Linuxu za klepnutí nepovažuje a `click` nevznikne. V cloudu (Linux, `CI=true`, klon `main`) to jde vyvolat: bez čekání i s čekáním 150 a 300 ms test padl čtyřikrát ze čtyř, s 500 ms prošel; GitHub je pomalejší a 500 ms mu nestačilo. Na Macu se klepnutí rozpozná hned.
+- **Oprava v testu:** Kde to bylo? se klepe na nové stránce téhož kontextu, čekání 500 ms je pryč. V cloudu 12 z 12 při čtyřech souběžných bězích, na Macu celý `herna-k2.spec.ts` 19 z 19. Limit v `.github/workflows/kontroly.yml` je 30 minut. Věta o příčině je v `docs/pouceni.md` › Technika.
+- Zelené kontroly se ukážou až po sloučení do `main` v Uzavření; na GitHub se v K1 nic neposlalo.
+
+**Datový základ v `src/lib/denik.ts`** (bez UI):
+- Typy `Karticka`, `ZdrojKarticky`, pole `karticky` v deníku podle Formátů; konstanty `ROZESTUP` (0, 1, 3, 7, 16, 35), `PRIHRADKA_NEJVYS`, `HROMADKA` (5).
+- Čisté funkce: `sKartickou`, `bezKarticky`, `sHodnocenim` (Vím o přihrádku dál, nejvýš pátá; Zopakuj si do první), `naRade(d, dnes, zdrojExistuje?)`, `hromadka(d, dnes, 5, zdrojExistuje?)`, `naRadeOd`, `jeNaRade`, `maZdroj`, `klicKarticky`, `mistniDatum`, `posunDatum`. Pro ostrovy: `pridatKarticku`, `vyndatKarticku`, `ohodnotitKarticku`, `maKarticku`.
+- Citáty: `poznamka` a `upraveno` u `CitatVDeniku`, `CITATY_NEJVYS = 300`, `sbirkaPlna`. `sCitatem` vrací `null`, když je sbírka plná a citát v ní není; `vystrihniCitat` vrací `false`. `sPoznamkouCitatu` a `ulozPoznamkuCitatu` (prázdná poznámka se smaže).
+- `rozeberDenik` pročistí kartičky (zdroj, přihrádka 0–5, datum RRRR-MM-DD, klíč se složí znovu) i poznámky; `spojDeniky` spojí kartičky (vyhraje novější `kdy`) a poznámky citátů (vyhraje novější `upraveno`, i smazaná). Export je JSON celého deníku, takže obojí obsahuje beze změny `exportuj`.
+
+**Testy.** Nový `tests/data/karticky.test.ts` (rozestup přes všech pět přihrádek, Zopakuj si, hromádka a Ještě pět, zdroj, který zmizel, týden a měsíc bez návštěvy, půlnoc a změna času, spojení dvou deníků, poškozený soubor, starý deník bez polí, plná sbírka, uložení a export). Ve čtyřech časových pásmech (UTC, Praha, Auckland, Los Angeles) prošel spolu s `denik.test.ts` a `zapisnik.test.ts`: 67 z 67. Test stropu sbírky v `zapisnik.test.ts` hlídá nové chování (plná sbírka citát nepřijme). Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1613 z 1613, Playwright 902 z 902 (10,5 min). Commit `e51262b`.
+
+Pro kontrolu jako na GitHubu běželo celé `npm test` i v cloudu (Linux, `CI=true`, jeden pracovník, 38 min): 899 prošlo, dva testy napodruhé (`denik-kapitoly.spec.ts:101`, `mapa.spec.ts:448` na 1280 px) a jeden spadl i napodruhé: `mapa.spec.ts:448` na 1440 px (názvy událostí na posuvníku se potkají). Ten padá v cloudu asi jednou ze tří i na čistém `main` bez změn K1, takže ho K1 nezpůsobil. Na GitHubu se v běhu 45017169458 nehlásil; kdyby po sloučení spadl tam, patří do Uzavření jako samostatná oprava (měření šířky názvů v Linuxu).
+
+**Nad čím jsem váhal.**
+- *Kartička bez zdroje se neukáže, ale nesmaže.* Plán říká „tiše zmizí“. Smazání by ale vzalo i přihrádku pokaždé, když student v bloku dá Začít znovu a napíše odpověď znovu (Začít znovu zápis maže). Kartička bez citátu nebo bez zápisu s textem se proto v hromádce neukáže a vrátí se, když se zdroj vrátí. Pojmy a otázky kvízu deník nezná: `hromadka` bere `zdrojExistuje` od volajícího (K2 a K3 předají seznam z dat); bez něj je bere jako existující. Kdyby se tichá kartička někde ukázala (stisknuté Do kartiček u smazaného zápisu), K3 ji může mazat při Vyndat ze sbírky a Začít znovu.
+- *Test, nebo komponenta?* Komponenta by se dala přepsat na `pointerup` místo `click` a na rychlosti by nezávisela. Změnila by ale chování: klepnutí, které jen zastaví dojíždějící posun stránky, by zapíchlo špendlík. Skutečný student lístek nepřetáhne a do mapy neklepne do půl sekundy; problém je jen v testu, a tak se opravil test.
+- *Spojení deníků bez stropu.* Dvě sbírky dohromady můžou mít víc než 300 citátů. Spojení nic nevyhodí (s citátem by zmizela poznámka a kartička); plná sbírka jen nepřijme další vystřižení.
+- *Znovu vystřižený citát* se posune navrch a poznámku si nechá; jde to i v plné sbírce, protože nic nepřibývá.
+- *„Ještě pět“* nepotřebuje vlastní funkci: kartičky ohodnocené dnes už na řadě nejsou, takže další `hromadka` vrátí dalších pět. Hranici „Na dnes stačí“ po první pětce drží ostrov (K3).
+- *Datum.* Dnešek je místní datum (`mistniDatum`), rozestup se přičítá k datu v UTC (`posunDatum`), aby změna času den neposunula. Kartička ohodnocená ve 23:59 je na řadě další den ráno, ne o 24 hodin později.
+- *Přihrádka ze souboru mimo 0–5* se ořízne; přihrádka bez data posledního opakování se bere jako nová kartička.
+- `vystrihniCitat` už pozná plnou sbírku, ale `src/scripts/vystrihnout.ts` výsledek zatím nečte; hláška „sbírka je plná“ patří do K4.
 
 ## Co zůstává na později
 
