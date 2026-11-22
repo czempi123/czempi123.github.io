@@ -36,6 +36,22 @@ export const NADTITULKY_KRESEB = {
 } as const satisfies Record<Kresba, string>;
 
 /**
+ * Co student v kresbě dělal nebo viděl, pro otázku Obraz a otázka v Co ti zůstalo? (denik-v2, K2): úsek textu kroku
+ * cesty, kde kresba stojí, doslova (první písmeno smí být velké). Kde chybí, vezme se věta nad kresbou sama
+ * (`vetaPredKresbou`). Že úsek v kroku opravdu stojí, hlídá tests/data/zustalo.test.ts.
+ */
+export const VETY_KRESEB: Partial<Record<Kresba, string>> = {
+  Jeskyne: 'Vězni z toho všeho vidí jen stíny, které oheň vrhá na stěnu.',
+  JeskyneVen: 'Nejdřív rozezná stíny, potom odrazy ve vodě, pak věci samé. Nebe snese nejdřív v noci. Slunce uvidí až nakonec.',
+  KdeJeStred: 'Na břehu stojí člověk. Co je pro něj odvaha? Zkus měnit, kdo to je a jaká je voda.',
+  Maska: 'Pod první maskou byla tvář menší, než se zdálo. Pod druhou ale byla skoro stejně velká.',
+  PresypaciHodiny: 'Rozděl jeho hodiny podle toho, kdo o nich rozhodl: spánek, škola a rodina, tvoje volba, někdo nebo něco jiného. Co nerozdělíš, proteklo.',
+  Saty: 'Šaty na ní mají pořád stejné dvě barvy, modrou a hnědou, jako body na té fotce. Posuvník mění jen světlo v místnosti.',
+  TretiCara: 'Každý měl nahlas říct, která ze tří je stejně dlouhá jako ta první.',
+  Zrcadlo: 'Je rok 1914 a začíná světová válka. Kde jsi byl? Vadilo ti, že u toho nejsi?',
+};
+
+/**
  * Natržený pruh papíru (koláž kreseb, design-v2 K7b): zem, horizont, břeh. Horní hrana je natržená, zbytek rovný.
  * Zuby jsou pseudonáhodné, ale pro stejné `semeno` vždy stejné, takže se kresba při každém vykreslení nemění
  * a sestavená stránka se shoduje s hydratovanou.

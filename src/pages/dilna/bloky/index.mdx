@@ -8,6 +8,7 @@ import GrafKrivek from '../../../components/ui/GrafKrivek.astro';
 import HraOsoby from '../../../components/osobnost/HraOsoby.astro';
 import MiniMapa from '../../../components/osobnost/MiniMapa.astro';
 import Sebehodnoceni from '../../../components/ostrovy/Sebehodnoceni.svelte';
+import CoTiZustalo from '../../../components/denik/CoTiZustalo.astro';
 import { osoba } from '../../../lib/data';
 
 <section class="ukazka" aria-labelledby="h-pribeh">
@@ -181,6 +182,12 @@ Pod Závěrem cesty stojí v každé cestě stejné dvě nepovinné poznámky. U
 <h2 class="t-h2" id="h-navrat">Návrat</h2>
 
 <Navrat id="cesta1-navrat" ukazka="Věřím tomu, co obstojí, i když hledám, co by to vyvrátilo." />
+</section>
+
+<section class="ukazka" aria-labelledby="h-zustalo">
+<h2 class="t-h2" id="h-zustalo">Co ti zůstalo?</h2>
+
+<CoTiZustalo obdobi={[1, 2]} barva={2} klic="co-ti-zustalo/dilna" ukazkaCesty={['kolik-je-dost', 'co-mam-ve-svych-rukou']} />
 </section>
 
 <section class="ukazka" aria-labelledby="h-graf">

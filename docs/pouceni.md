@@ -122,6 +122,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Odkrytí hry z dat řekne, o čem věta je (`oCem` u citátu), ne jen vztah: rub „Theofrastos se učil u Aristotela“ učil hádat podle stránky, ne podle myšlenky (herna-v1, R).
 - Hra z dat bez vztahu (Tipni si z dlouhého života, Sókratova věta o soudci u Parmenida) je kvíz o letech nebo o jménu: výsledek výběru si u každé stránky přečti jako stránku, ne jako počty druhů (herna-v1, R).
 - Pravidlo výběru, které jednomu druhu hry vezme kandidáty, přeskládá celou řadu sousedů, a nový požadavek na data (oCem) jako filtr nabídky taky, protože do `pouzite` jdou citáty všech kandidátů: výpis aktivit před a po změně porovnej `diff` a požadavek na vybranou hru hlídej kontrolou při sestavení (herna-v1, O).
+- Věta „co v kresbě děláš“ vybraná skriptem z odstavce nad kresbou sedla u tří kreseb z jedenácti: nad kresbou bývá konec vyprávění („Nebe snese nejdřív v noci.“) nebo věta, která uvádí citát dvojtečkou. Kde se úsek textu skládá do hry, vyber ho ručně doslova z kroku a test ať hlídá, že tam stojí (`VETY_KRESEB`; denik-v2, K2).
 - Prameny stránky z textu (`pramenyZTextu`) vidí jen citáty a bloky. Pramen výkladu v próze nebo v Odkryj patří do `zdroje` ve frontmatteru, jinak v Pramenech chybí (antika-doplnky, O).
 
 ## Technika

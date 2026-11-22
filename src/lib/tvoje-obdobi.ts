@@ -155,6 +155,11 @@ export const TVOJE_ANTIKA = {
   odkaz: 'Co sis myslel o velkých otázkách a kdo z antiky to viděl podobně.',
   /** řádek s volbou na ose hlasů: „Na stránce otázky je ti nejblíž Epikúros.“ (odkaz na osu a na stránku osoby) */
   nejbliz: { pred: 'Na ', odkaz: 'stránce otázky', po: ' je ti nejblíž ' },
+  /** oddíl Co ti zůstalo? pod přehledem (denik-v2, K2; texty učeše krok T) */
+  zustalo: {
+    nadpis: 'Co ti zůstalo?',
+    uvod: 'Pár otázek na to, co jsi v antice potkal: myšlenku v obyčejné situaci, radu filozofa, obraz z cesty. Co si vybavíš i po týdnu, to ti zůstane.',
+  },
 } as const;
 
 /** Text zápisu z deníku, nebo undefined (prázdný, chybějící, poškozený). */
