@@ -299,15 +299,17 @@ test('Kde to bylo? a Doplň citát: dotyk přes CDP na telefonu, cíle 44 px', a
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expect(doplnit.getByRole('region', { name: 'Celý citát' })).toBeVisible();
 
-  // Kde to bylo?: klepnutí prstem položí špendlík.
-  await page.waitForTimeout(500);
-  const kde = await priprav(page, KDE, 'KdeToBylo');
+  // Kde to bylo?: klepnutí prstem položí špendlík. Na nové stránce: klepnutí krátce po dotykovém tažení na téže
+  // stránce Chromium na Linuxu za klepnutí nepovažuje (žádný click) a jak dlouho to trvá, záleží na rychlosti stroje.
+  const druha = await ctx.newPage();
+  await druha.goto(STRANKA);
+  const kde = await priprav(druha, KDE, 'KdeToBylo');
   await kde.locator('.slepa').tap({ position: { x: 60, y: 60 } });
   await expect(kde.locator('.spendlik')).toHaveCount(1);
 
   // Cíle aspoň 44 px ve všech třech hrách.
-  const tipni = await priprav(page, TIPNI, 'TipniSi');
-  for (const b of [tipni, kde, await priprav(page, DOPLNIT, 'DoplnCitat')]) {
+  const tipni = await priprav(druha, TIPNI, 'TipniSi');
+  for (const b of [tipni, kde, await priprav(druha, DOPLNIT, 'DoplnCitat')]) {
     const male = await b.evaluate((e) => [...e.querySelectorAll('button, a, input')]
       .filter((x) => { const r = x.getBoundingClientRect(); return r.width > 1 && (r.height < 44 || r.width < 44); })
       .map((x) => x.textContent?.trim().slice(0, 30) || x.className));
