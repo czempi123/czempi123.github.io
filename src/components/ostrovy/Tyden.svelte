@@ -7,6 +7,7 @@
   import { onMount, tick } from 'svelte';
   import { nacti, prijmiVyzvu, stavTydne, ulozTyden, ulozPoznamkuVyzvy } from '../../lib/denik';
   import { cisteDny, denKOtevreni, idVyzvyTydne, kotvaDne, oznacDen } from '../../lib/tydny';
+  import Nuzky from '../ui/Nuzky.svelte';
 
   interface DenUI {
     cislo: number;
@@ -16,7 +17,8 @@
     doba: string;
     /** odstavce textu jako HTML (radek: kurzíva, nezlomitelné mezery) */
     text: string[];
-    citat?: { cesky: string; autor: string; dilo: string; misto: string };
+    /** citát dne; id a surové znění pro nůžky (denik-v2, K4) */
+    citat?: { id: string; cesky: string; text: string; autor: string; dilo: string; misto: string };
     /** odstavce za citátem jako HTML */
     poCitatu?: string[];
     /** mez jako HTML */
@@ -146,6 +148,7 @@
             <figure class="den__citat">
               <blockquote><p>„{d.citat.cesky}“</p></blockquote>
               <figcaption class="t-popisek">{d.citat.autor}, <cite>{d.citat.dilo}</cite> {d.citat.misto}</figcaption>
+              <Nuzky id={d.citat.id} text={d.citat.text} kde={`${d.citat.autor}, ${d.citat.dilo} ${d.citat.misto}`} kompaktni />
             </figure>
             {#each d.poCitatu ?? [] as o}<p>{@html o}</p>{/each}
           {/if}
@@ -217,10 +220,10 @@
   .den--otevreny .den__sipka { rotate: 180deg; }
   .den__obsah { padding: 0 var(--s-5) var(--s-5); }
   .den__obsah > p { margin: 0 0 var(--s-3); }
-  .den__citat { margin: var(--s-4) 0; padding: var(--s-4) 0 var(--s-3); border-top: 1px solid var(--linka); border-bottom: 1px solid var(--linka); }
+  .den__citat { position: relative; margin: var(--s-4) 0; padding: var(--s-4) 0 var(--s-3); border-top: 1px solid var(--linka); border-bottom: 1px solid var(--linka); }
   .den__citat blockquote { margin: 0; }
   .den__citat blockquote p { margin: 0 0 var(--s-2); font-size: var(--fs-text); line-height: 1.5; }
-  .den__citat figcaption { color: var(--ink-3); }
+  .den__citat figcaption { padding-right: 44px; color: var(--ink-3); }
   .den__citat cite { font-style: italic; }
   /* Kdy přestat: lepicí lístek na listu dne, s proužkem lepidla nahoře v papíru období. */
   .den__mez {

@@ -1,0 +1,43 @@
+{
+ "atlas-denik": {
+  "verze": 1,
+  "zapisy": [],
+  "vyzvy": [],
+  "navstivene": [],
+  "bloky": {},
+  "aktivita": [],
+  "cesty": {},
+  "citaty": [
+   {
+    "id": "seneca-ira-iii-36-otazky",
+    "text": "Kterou svou chybu jsi dnes vyléčil? Které špatnosti ses postavil? V čem jsi lepší?",
+    "kde": "Seneca, O hněvu III, 36, 1",
+    "odkaz": "/osobnost/seneca/",
+    "kdy": "2026-11-21T18:00:00.000Z",
+    "poznamka": "Na večer, než usnu."
+   },
+   {
+    "id": "obrana-38a",
+    "text": "Život, který nezkoumáme, nestojí za to, aby ho člověk žil.",
+    "kde": "Platón, Obrana Sókratova 38a",
+    "odkaz": "/osobnost/sokrates/#myslenky",
+    "kdy": "2026-11-22T09:00:00.000Z"
+   },
+   {
+    "id": "rozpravy-i-16-20",
+    "text": "Co jiného mohu já, chromý stařec, než zpívat chválu bohu?",
+    "kde": "Epiktétos, Rozpravy I, 16, 20",
+    "odkaz": "/otazka/jak-zit/",
+    "kdy": "2026-11-20T12:00:00.000Z"
+   },
+   {
+    "id": "etika-1156a",
+    "text": "Taková přátelství se snadno rozpadají, když ti dva nezůstanou stejní: jakmile si přestanou být příjemní nebo užiteční, přestanou se mít rádi.",
+    "kde": "Aristotelés, Etika Nikomachova VIII, 3, 1156a19–21",
+    "odkaz": "/osobnost/aristoteles/",
+    "kdy": "2026-11-19T12:00:00.000Z",
+    "poznamka": "Já a Tom?"
+   }
+  ]
+ }
+}

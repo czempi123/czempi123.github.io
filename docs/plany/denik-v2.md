@@ -76,9 +76,9 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | K1 | Kontroly na GitHubu (limit času, test Kde to bylo? na telefonu); data deníku: kartičky a rozestup, poznámka a limit citátů, spojení a export | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K1) |
 | K2 | Co ti zůstalo?: skladatel otázek z dat, ostrov, oddíl v Tvoje antika, dílna | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K2) |
 | K3 | Kartičky v deníku: hromádka, otočení, Vím a Zopakuj si, tlačítka Do kartiček u zdrojů | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K3) |
-| K4 | Vystřižené citáty: nůžky na dalších místech, výstřižek s poznámkou, Moje sbírka, tisk a text | Opus 5.5 · medium | **na řadě** (Zadání K4) |
+| K4 | Vystřižené citáty: nůžky na dalších místech, výstřižek s poznámkou, Moje sbírka, tisk a text | Opus 5.5 · medium | hotovo 22. 11. 2026 (Po K4) |
 | P6 | Podklady, jen když T narazí na tvrzení, které v ověřených datech není | Sonnet 5.5 · high s vyhledáváním | jen při potřebě |
-| T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | čeká na K4 |
+| T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | **na řadě** (Zadání T) |
 | R | Revize větve se skillem `atlas-revize` | Opus 5.5 · high | čeká na T |
 | O | Opravy po revizi | Opus 5.5 · high | čeká na R |
 | Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | čeká na O |
@@ -164,33 +164,47 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 
 ## Průběh
 
-Zápisy Po Plán, Po K1 a Po K2 jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
+Zápisy Po Plán až Po K3 jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
 
-## Po K3 (22. 11. 2026)
+## Po K4 (22. 11. 2026)
 
-**Oddíl Kartičky** (`src/components/denik/Karticky.svelte`, logika `src/lib/karticky.ts`) v Můj deník hned pod Návratem, nad připomenutím zálohy a Moje filozofie. Ukáže se, jen když student kartičky má, nebo když je nemá, ale potkal pojmy (prázdné kartičky s tlačítkem Přidat pojmy, které jsi potkal: pojmy z `vyskyty`, kde student byl, podle `potkaneZDeniku` z K2). Deník, který má jen kartičky, už není prázdný.
-- *Hromádka na dnes:* nejvýš pět kartiček na řadě od té, která čeká nejdéle (`hromadka` z K1 se `zdrojExistuje` z dat). Deník si ji pamatuje pro den (`bloky['karticky/dnes'] = { den, klice }`), takže obnovení stránky nerozdá novou pětku; vyndaná kartička se do pětky počítá dál. Menší hromádka se doplní kartičkou přidanou během dne. Kdo kartičky nemá, tomu se nic nezapisuje.
-- *Kartička:* líc (nadtitulek zdroje, název, otázka, tlačítko Otočit; klepnutí na líc taky otočí), rub (Vím, Zopakuj si, Vyndat z kartiček). Rub nahradí líc a přetočí se k divákovi (`karta-otoceni`, tokeny `--d-listek`, `--k-papir`); při omezeném pohybu je tam hned. Fokus jde na rub a po hodnocení na líc další kartičky, nebo na Na dnes stačí. Líc i rub jsou `role="group"` s popisem pro čtečku. Barva horního okraje podle období zdroje; když za kartičkou v dnešní hromádce leží další, vykoukne pod ní okraj druhé (jen ano, nebo ne).
-- *Na dnes stačí* a Ještě pět, jen když je na řadě ještě něco mimo dnešní hromádku. „Dnes žádná. Kartičky se ozvou samy…“, když hromádka byla prázdná. Nikde počet, datum ani zameškané dny (test hlídá, že v oddílu není číslice).
-- *Líc a rub podle tabulky zdrojů* (`obsahKarticky`): pojem (název; vysvětlení, příklad, odkaz na první místo, kde ho student potkal, jinak stránka pojmu), citát (autor, dílo, místo a „stránka: …“; znění a poznámka perem, odkaz zpět), zápis (otázka zápisu; odpověď perem, Platí to pro tebe pořád?, Přepsat odpověď), Co ti zůstalo? (podnět a zadání bez možností a bez názvu, který by u pojmu prozradil odpověď; správná odpověď tučně, vysvětlení, odkaz zpět z katalogu).
-- *Data* (`src/components/denik/_karticky-data.ts`, `pojmyKarticek` v `zustalo-data.ts`): pojmy 26 (asi 21 kB JSON), z kvízu 68 otázek s podnětem jednou na případ (35 podnětů; asi 36 kB). Celý katalog kvízu má 77 kB.
+**Výpis míst, kde se kreslí citát ze `zdroje.yaml`** (grep `citatyPodleId`, `.cesky`, `<Citat`, `blockquote`):
 
-**Do kartiček** (`src/components/denik/DoKarticek.svelte`, `aria-pressed`, znak + / ✓, popis pro čtečku v `aria-label`; skrytý text by se v deníku zdvojil s otázkou zápisu a `getByText` v `sloz-argument.spec.ts` by našel dvě místa): u výstřižku ve sbírce vedle Vyndat ze sbírky, u lístku zápisu v obou výpisech (podle cest i podle data) a na stránce pojmu pod perexem. Zápis ho dostane jen s vlastními slovy (`zapisSTextem`): odpověď, pravidlo, sebehodnocení, důvod volby („Proč:“), důvod ve Sporu; Volba bez důvodu, Změň jednu věc a Roztřiď ne. Konec kola Co ti zůstalo? přidává kartičky beze změny z K2.
+| Místo | Kde | Nůžky před K4 | Po K4 |
+| --- | --- | --- | --- |
+| Citát na listu (`ui/Citat.astro`) | profily, kroky cest, úvody, směry, období, tradice, pokusy; i uvnitř Kdo je na tvé straně (`Strany`, sbalené „Kdo hájil jiné odpovědi“) | ano | ano (značka `ui/Nuzky.svelte`) |
+| Kompaktní citát (`Citat.astro kompaktni`) | hlasy na stránce otázky (`otazka/HlasyOsa.astro`, 42 citátů na 8 otázkách), námitka Stoického týdne | ne | ano |
+| Den týdne (`ostrovy/Tyden.svelte`) | Stoický týden, citát dne | ne | ano |
+| Rub Kdo to řekl? (`KdoToRekl.svelte`) | dílna, cesty, hry na stránkách osob (`HraOsoby.astro`) | ne | až po otočení |
+| Hotový Doplň citát (`DoplnCitat.svelte`, oblast Celý citát) | dílna, cesty, hry osob | ne | až se správným slovem |
+| Hlas her (`HlasHerny.svelte`) | Kdo by to řekl? (Atlas by vybral, Kdo by odmítl), Najdi slabé místo (Kdo stál s tebou) | ne | až po zapsání |
+| Původ v Pravý, nebo podvržený? (`.puvod__citat`) | dílna, hry osob | ne | po verdiktu, když pramen citát má |
+| Líc Kdo to řekl?, ústřižek Pravého, souhrn série | hry | ne | ne: líc a ústřižek by prozradily odpověď, souhrn opakuje ruby |
+| Vysvětlení Co ti zůstalo? a jeho kartička | Tvoje antika, deník | ne | ne: citát je součást věty vysvětlení; jeho stránka otázky nůžky má |
+| Kartička citátu, výstřižek, Prameny | deník, konec stránek | ne | ne: už ve sbírce, nebo jen údaje bez znění |
 
-**Otázky pro autora** zůstaly bez odpovědi: kartička z vlastního zápisu má Vím a Zopakuj si (2), tečka na ikoně Deníku svítí jen pro Návrat (1, test). Zapsáno v `docs/rozhodnuti.md`.
+Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, citát nevykreslují: citát hlasu stojí pod osou v `HlasyOsa.astro`.
 
-**Testy.** `tests/data/karticky-obsah.test.ts` (14: zápis s textem, líc a rub všech zdrojů, chybějící zdroj, hromádka dne a obnovení, doplnění, Ještě pět, po týdnu, potkané pojmy, data antiky včetně „líc kvízu neprozradí odpověď“). `tests/e2e/karticky.spec.ts` (11: přidání ze stránky pojmu, z výstřižku, z lístku zápisu a z konce kola; Volba bez důvodu bez tlačítka; hodnocení klávesnicí s Vím, Zopakuj si, Vyndat, Na dnes stačí, obnovením a Ještě pět; deník po týdnu s posunutým datem `page.clock`; prázdné kartičky; axe ve světlém i tmavém režimu na lícu i rubu; omezený pohyb, 44 px a přetečení na 390 px; tečka Deníku). `scripts/kontrola-fokus.mjs` na `/denik/` s kartičkami a na `/pojem/klid/`: bez nálezu na 390 i 1440 px. Referenční snímek `denik-kapitoly-390-noc` obnoven (tlačítka u lístků a výstřižku); `snimky.spec.ts` ve snímcích prvků schovává i odkaz Přeskočit na obsah, který se ve vysokém snímku objevil. Snímky: `Claude outputs/snimky-karticky/` (prázdné kartičky, hromádka, rub každého zdroje, Na dnes stačí, tlačítka u zdrojů; 390 a 1440 px, světlý i tmavý; přehledové listy `list-*.jpg`), skript `scripts/snimky-karticky.mjs`. Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1647 z 1647, Playwright 919 z 919 (11,0 min). Předtím jeden běh spadl na `sloz-argument.spec.ts:365` (popis tlačítka Do kartiček jako skrytý text zdvojil otázku zápisu); popis je teď v `aria-label` a druhý běh prošel celý.
+**Nůžky všude stejně.** `ui/Nuzky.svelte` je jen značka (`data-vystrihnout`, `data-text`, `data-kde` s autorem, dílem a místem z `udajeCitatu`); v Astru bez `client:`, v ostrovech až po odkrytí. `src/scripts/vystrihnout.ts` drží stav (`aria-pressed`) a nůžky z ostrovů najde pozorovatelem změn; pro hlasy her přibylo `id` a `udaje` v `HlasHerny`, pro původ v Pravém `id`. Na rubu Kdo to řekl? stojí nůžky v řádku s Otevřít stránku (`vRadku`), protože pravý dolní roh patří otisku „sedí“; ostatní sedí vpravo dole u údajů. Plná sbírka: nůžky nic nevystřihnou, pod citátem se objeví věta s odkazem Moje sbírka (`role="status"`) a zmizí, jakmile se místo uvolní.
+
+**Výstřižek** (`denik/Vystrizek.svelte`): lístek v papíru období stránky, odkud citát je (`obdobiVystrizku`; v kapitole deníku barvu dá kapitola), střih nůžkami (rovné šikmé hrany se dvěma zoubky, stín filtrem obalu), citát v Newsreaderu, údaje jako odkaz zpět. Poznámka: tiché tlačítko Proč sis ho vystřihl? otevře pole (Enter uloží, Escape zruší, fokus zpět na Přepsat), poznámka pak perem (Kalam, `--pero`); na rubu kartičky citátu ji ukazuje už K3. Pod lístkem Do kartiček a Vyndat ze sbírky (kartička zůstane schovaná). Páska jen u prvního výstřižku na stránce Moje sbírka; v kapitole deníku žádná (páska v deníku patří Návratu). Pod výstřižky v kapitole odkaz Celá sbírka.
+
+**Moje sbírka** (`src/pages/denik/sbirka.astro`, ostrov `denik/MojeSbirka.svelte`, logika `src/lib/sbirka.ts`, texty `src/lib/sbirka-texty.ts`): titulek s pruhem, perex, Vytisknout a Stáhnout jako text, výstřižky od nejnovějšího ve sloupcích po 300 px (na telefonu jeden), prázdný stav, věta o plné sbírce. Tisk (`html[data-tisk='sbirka']`): jen titulek a lístky po dvou na A4, čárkovaný střih, bez lišt, tlačítek a pásky. Text podle Formátů (`sbirkaJakoText`, soubor `atlas-citaty-RRRR-MM-DD.txt`).
+
+**Texty** jsou pracovní a stojí v `TEXTY_SBIRKY`; učeše je T (mužský rod „vystřihl“, „zastavil“ zatím všude).
+
+**Testy.** `tests/data/sbirka.test.ts` (7: pořadí, údaje, období stránky, jméno souboru, text s poznámkou i bez, prázdná sbírka, plná sbírka v `sCitatem`). `tests/e2e/sbirka.spec.ts` (9: nůžky v pěti hrách až po odkrytí a po obnovení stisknuté, kompaktní citát a den týdne, plná sbírka klávesnicí a po uvolnění místa, Moje sbírka s pořadím, páskou, poznámkou klávesnicí, staženým textem, Do kartiček, Vyndat a tiskem, prázdná a bez localStorage, odkaz z kapitoly, axe, 44 px a přetečení na 390 a 1440 px ve dne i v noci). `karticky.spec.ts` hledá výstřižek novou třídou `.vyst-citat`. `scripts/kontrola-fokus.mjs` s plnou sbírkou (300) na `/denik/sbirka/` a `/denik/` a s `tests/e2e/data/sbirka.json`: bez nálezu na 390 i 1440 px. Referenční snímek `denik-kapitoly-390-noc` obnoven s `--update-snapshots=all` a prohlédnut (nový výstřižek, odkaz Celá sbírka). Snímky a PDF tisku: `Claude outputs/snimky-sbirka/` (skript `scripts/snimky-sbirka.mjs`, data `tests/e2e/data/sbirka.json`). Nůžky na nových místech: `scripts/snimky-nuzky.mjs`, listy `list-nuzky-*.jpg`.
+
+**Nestálý test kapitol vyřešen.** `denik-kapitoly.spec.ts:101` (Po K1 a Po K2: po obnovení otevřená i Helenismus) po K4 padal pokaždé. Příčina není zápis času v deníku: událost `toggle` u `<details>` přijde jako samostatná úloha a test stránku obnovil dřív, než se zavření kapitoly uložilo (měřeno 24 ms). Test teď před obnovením počká, až je stav v úložišti; 30 z 30 při trojím opakování. Věta v `docs/pouceni.md` › Technika.
 
 **Nad čím jsem váhal.**
-- *Hromádka pro den, ne pro otevření stránky.* Bez zapamatování by obnovení stránky bylo nekonečné Ještě pět. Vyndaná kartička se do pětky počítá, jinak by vyndání přivolalo další.
-- *Ještě pět jen, když je co.* Tlačítko, které nic nepřinese, by mátlo; prozradí jen, že něco čeká, ne kolik.
-- *Otočení.* Dvě strany v 3D by potřebovaly obě v DOM (čtečka by četla rub dřív, než se student rozhodne). Rub proto nahradí líc a jen se přetočí k divákovi.
-- *Název na rubu.* Pojem a otázka zápisu stojí malým písmem i na rubu, ať student ví, co hodnotí; u kvízu název není ani na lícu (u pojmu by byl odpovědí).
-- *Odkaz zpět u kartičky kvízu* je výchozí z katalogu (stránka pojmu, otázka, krok kresby), ne „kde jsi to potkal“: to by na stránku deníku přidalo mapu míst. U pojmů místo, kde ho student potkal, je (stačí výskyty pojmu).
-- *Citát* má na lícu „stránka: Epikúros“ a zpět „Zpátky tam, kde sis ho vystřihl“: jméno z dat je v 1. pádě a „ze stránky Epikúros“ zní špatně. Učeše T.
-- *Váha dat.* Asi 57 kB JSON na stránce deníku i pro studenta bez kartiček. Šlo by je dát do sdíleného souboru (jako `/dva-zivoty.json`) a načíst jen tomu, kdo kartičky má; nechal jsem je na stránce podle zadání.
-- *Zápis s textem.* Roztřiď s vlastní kartou a Změň jednu věc tlačítko nemají: v zápisu jsou volby a karty, ne myšlenka, kterou by si student vybavoval. Spor jen s důvodem.
-- *Prázdné kartičky jen s potkanými pojmy.* Bez nich by tlačítko Přidat pojmy nic nepřidalo, a oddíl se proto neukáže.
+- *Páska v deníku.* Zadání chce u výstřižku pásku, design (revize R) ji v deníku nechává jen Návratu. V kapitole proto žádná, na Moje sbírka jen první: tím platí střídmost na každé obrazovce. Šlo by dát pásku prvnímu výstřižku každé kapitoly.
+- *Barva papíru.* Podle stránky, odkud student citát vystřihl (stejně jako rozdělení do kapitol), ne podle autora; citát ze stránky otázky je tak bez období. Druhá cesta: období autora z `lide.yaml`.
+- *Střih.* Rovné šikmé hrany se zoubkem, kde se střih navázal, ne zubatý okraj: vytržený okraj má titulek a zubatý ústřižek Doplň citát. Je nenápadný; R řekne, jestli stačí.
+- *Jeden skript pro nůžky.* Ostrov jen vykreslí značku, stav drží `vystrihnout.ts` s pozorovatelem změn na celé stránce. Pozorovatel reaguje jen na přidané prvky a hned končí, když v nich nůžky nejsou.
+- *Poznámka za tlačítkem.* Čtyři prázdná pole pod sebou by vypadala jako formulář. Pole má 200 znaků; delší myšlenka patří do zápisu.
+- *Hlasy her.* Nůžky u každého hlasu (Kdo by odmítl, Kdo stál s tebou), i když jich je v bloku víc: jsou celé a nic už neskrývají. Kdyby rušily, šlo by je nechat jen u Atlas by vybral.
+- *Tisk bez `@page`.* Okraje A4 dává prohlížeč; `@page` by platilo i pro tisk Moje filozofie.
 
 ## Co zůstává na později
 

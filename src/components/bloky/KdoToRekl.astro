@@ -3,6 +3,7 @@
 // Použití v MDX: <KdoToRekl id="dilna-kdo-rekl" />  (volitelně dal={{ href, text }})
 import Ostrov from '../ostrovy/KdoToRekl.svelte';
 import { citatyPodleId, data, osoba } from '../../lib/data';
+import { udajeCitatu } from '../../lib/sbirka';
 import { moznostiCitatu, puvodCitatu, chybyKdoRekl, chybyVetKdoRekl, prvniVeta } from '../../lib/herna';
 import { adresaStranekOsob } from '../../lib/stranky-osob';
 import { nezlomitelne } from '../../lib/sazba.js';
@@ -26,6 +27,8 @@ const karty = blok.karty.map((k) => {
   return {
     citat: k.citat,
     veta: c.cesky,
+    // Nůžky na rubu (denik-v2, K4): autor, dílo a místo, jak je uloží sbírka.
+    udaje: udajeCitatu(c),
     spravna,
     jmeno: kdo.jmeno,
     puvod: puvodCitatu(c, kdo.jmeno),

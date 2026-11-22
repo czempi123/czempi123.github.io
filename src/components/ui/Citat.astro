@@ -1,11 +1,14 @@
 ---
 // Citát z pramene: ležící list s páskou v papíru období (design-v2, K3), Newsreader, pod ním autor, dílo, místo.
 // Kompaktní citát (uvnitř karty, na časové ose otázky, v týdnu) zůstává bez listu: linka v inkoustu nad ním.
+// Nůžky (Vystřihnout do deníku, ui/Nuzky.svelte) má každý citát, i kompaktní (denik-v2, K4).
 // Na stránkách osob se citáty nelepí stejně (K3 dodatek, bod 7): třídu citat--sponka, --spendlik, --roh nebo --okraj
 // jim podle pořadí na stránce doplní ListyProfilu.astro (uchytCitaty v src/lib/listy.ts); páska pak patří listu.
 // Znění a údaje bere z src/data/zdroje.yaml, aby každý citát měl ověřený pramen a překlad.
 import { citatyPodleId } from '../../lib/data';
 import { nezlomitelne } from '../../lib/sazba.js';
+import { udajeCitatu } from '../../lib/sbirka';
+import Nuzky from './Nuzky.svelte';
 
 /** kompaktni: menší okraje, pro citát uvnitř karty nebo na časové ose */
 interface Props { id: string; velky?: boolean; kompaktni?: boolean }
@@ -17,20 +20,7 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
   {!kompaktni && <span class="paska paska--nahore" aria-hidden="true"></span>}
   <blockquote><p>„{nezlomitelne(c.cesky)}“</p></blockquote>
   <figcaption class="t-popisek">{c.autor}, <cite>{c.dilo}</cite> {c.misto}</figcaption>
-  {!kompaktni && (
-    <button
-      class="citat__nuzky"
-      type="button"
-      aria-pressed="false"
-      aria-label="Vystřihnout do deníku"
-      title="Vystřihnout do deníku"
-      data-vystrihnout={id}
-      data-text={c.cesky}
-      data-kde={`${c.autor}, ${c.dilo} ${c.misto}`}
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12" /></svg>
-    </button>
-  )}
+  <Nuzky id={id} text={c.cesky} kde={udajeCitatu(c)} kompaktni={kompaktni} />
 </figure>
 <style>
   .citat {
@@ -57,10 +47,11 @@ if (!c) throw new Error(`Citát „${id}“ není v zdroje.yaml`);
     rotate: 0deg;
     border-top: 1px solid var(--linka);
   }
+  .citat--kompaktni figcaption { min-height: 24px; }
   .citat--kompaktni blockquote p { font-size: var(--fs-text); line-height: 1.5; }
   figcaption { color: var(--ink-3); }
   /* Místo pro nůžky vpravo dole (Vystřihnout do deníku). */
-  .citat:not(.citat--kompaktni) figcaption { padding-right: 44px; }
+  figcaption { padding-right: 44px; }
   /* Citát uvnitř jiného přilepeného papíru (myšlenka, Zkus to žít, blok, lístek): druhá páska přes pásku
      nevypadá dobře (autor 9. 11. 2026). Vnořený citát je proto lepicí lístek v barvě období: světlý papír
      tónovaný papírem období, nahoře o stupeň tmavší lepicí proužek, bez pásky, s rohem nadzvednutým stínem. */

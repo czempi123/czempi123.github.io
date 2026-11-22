@@ -15,12 +15,15 @@
   import RamAktivity from './RamAktivity.svelte';
   import BlokDal from './BlokDal.svelte';
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
+  import Nuzky from '../ui/Nuzky.svelte';
   import type { ClovekBloku, Dal } from './bloky-typy';
 
   interface KartaKdoRekl {
     /** id citátu ze zdroje.yaml */
     citat: string;
     veta: string;
+    /** autor, dílo a místo pro nůžky na rubu */
+    udaje: string;
     /** id osoby, která větu řekla */
     spravna: string;
     jmeno: string;
@@ -171,9 +174,14 @@
             {#if k.vztah}<p class="kartka__vztah">{@html radek(k.vztah)}</p>{/if}
             <p class="kartka__veta">„{@html radek(k.veta)}“</p>
             <p class="kartka__kdo"><span class="kartka__jmeno">{k.jmeno}</span> <span class="kartka__puvod">{k.puvod}</span></p>
-            {#if k.adresa}
-              <a class="kartka__odkaz" href={k.adresa} aria-label={`Otevřít stránku: ${k.jmeno}`}>Otevřít stránku</a>
-            {/if}
+            <!-- Nůžky až na rubu: výstřižek v deníku nese autora, na lícu by prozradil odpověď (denik-v2, K4).
+                 Stojí v řádku s odkazem, protože pravý dolní roh patří otisku „sedí“. -->
+            <div class="kartka__akce">
+              {#if k.adresa}
+                <a class="kartka__odkaz" href={k.adresa} aria-label={`Otevřít stránku: ${k.jmeno}`}>Otevřít stránku</a>
+              {/if}
+              {#if vyreseno}<Nuzky id={k.citat} text={k.veta} kde={k.udaje} vRadku />{/if}
+            </div>
           </div>
         </div>
         {#if vyreseno}<span class={['herni-otisk', 'kartka__otisk', cerstve && 'otisk']} aria-hidden="true">sedí</span>{/if}
@@ -241,6 +249,8 @@
   .kartka__pointa { margin: 0 0 var(--s-3); font-family: var(--font-serif); font-size: var(--fs-perex); line-height: 1.35; color: var(--ink); text-wrap: pretty; }
   .kartka__vztah { margin: calc(-1 * var(--s-2)) 0 var(--s-3); font-family: var(--font-sans); font-size: var(--fs-popisek); line-height: 1.35; color: var(--ink-2); }
   .kartka__veta { margin: 0 0 var(--s-2); font-style: italic; font-size: calc(var(--meritko) * 16px); line-height: 1.45; color: var(--ink-2); }
+  .kartka__akce { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-1); }
+  .kartka__akce .kartka__odkaz { margin-top: 0; }
   .kartka__kdo { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); margin: 0; }
   .kartka__jmeno { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; color: var(--ink); }
   .kartka__puvod { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }

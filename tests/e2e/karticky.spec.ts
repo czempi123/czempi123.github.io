@@ -70,8 +70,8 @@ test('citát a zápis: Do kartiček u výstřižku a u lístku s textem; Volba b
   await expect(listky.filter({ hasText: 'Koupím si to' }).getByRole('button', { name: /^Do kartiček/ })).toHaveCount(1);
   await expect(listky.filter({ hasText: 'Když jsem byl sám' }).getByRole('button', { name: /Do kartiček/ })).toHaveCount(0);
   await listky.filter({ hasText: 'Koupím si to' }).getByRole('button', { name: /^Do kartiček/ }).click();
-  await page.locator('.sb-citat').getByRole('button', { name: /^Do kartiček/ }).click();
-  await expect(page.locator('.sb-citat').getByRole('button', { name: /^Do kartiček/ })).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('.vyst-citat').getByRole('button', { name: /^Do kartiček/ }).click();
+  await expect(page.locator('.vyst-citat').getByRole('button', { name: /^Do kartiček/ })).toHaveAttribute('aria-pressed', 'true');
   const k = (await ulozeny(page)).karticky;
   expect(Object.keys(k).sort()).toEqual(['citat:epikuros-dost', 'zapis:cesta6/pravidlo']);
 
@@ -92,7 +92,7 @@ test('citát a zápis: Do kartiček u výstřižku a u lístku s textem; Volba b
   await expect(rub(page).locator('.karta__pero')).toHaveText('Platí na nákupy.');
 
   // Vyndaný citát: kartička se neukáže, i když v deníku zůstala.
-  await page.locator('.sb-citat').getByRole('button', { name: /Vyndat ze sbírky/ }).click();
+  await page.locator('.vyst-citat').getByRole('button', { name: /Vyndat ze sbírky/ }).click();
   await expect(sekce(page).locator('.karta')).toHaveCount(0);
   await expect(sekce(page)).toContainText('Na dnes stačí.');
 });
