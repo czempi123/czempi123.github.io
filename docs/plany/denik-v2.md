@@ -73,7 +73,7 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
 | Plán | Plán větve | Opus 5.5 · high | hotovo 22. 11. 2026 |
-| K1 | Data deníku: kartičky a rozestup, poznámka a limit citátů, spojení a export; push main a kontrola nasazení herna-v1 | Opus 5.5 · high | **na řadě** (Zadání K1) |
+| K1 | Kontroly na GitHubu (limit času, test Kde to bylo? na telefonu); data deníku: kartičky a rozestup, poznámka a limit citátů, spojení a export | Opus 5.5 · high | **na řadě** (Zadání K1) |
 | K2 | Co ti zůstalo?: skladatel otázek z dat, ostrov, oddíl v Tvoje antika, dílna | Opus 5.5 · high | čeká na K1 |
 | K3 | Kartičky v deníku: hromádka, otočení, Vím a Zopakuj si, tlačítka Do kartiček u zdrojů | Opus 5.5 · high | čeká na K2 |
 | K4 | Vystřižené citáty: nůžky na dalších místech, výstřižek s poznámkou, Moje sbírka, tisk a text | Opus 5.5 · medium | čeká na K3 |
@@ -152,11 +152,11 @@ https://czempi123.github.io<stránka, odkud citát je>
 Opus 5.5 · high, nový chat.
 
 ```
-Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2 (git switch denik-v2). Nejdřív git fetch a git status: když je main pořád napřed před origin/main a autor v docs/plany/denik-v2.md › Otázky pro autora nechal otázku 3 prázdnou nebo odpověděl ano, autor tím povoluje připojit repozitář czempi123/czempi123.github.io v cloudu s právem zápisu a poslat main na GitHub: na Macu git bundle create "Claude outputs/main.bundle" origin/main..main, bundle přenes do cloudu (device_stage_files, jinak base64 přes Desktop Commander), v klonu git fetch z bundlu do main a git push origin main. Když main na GitHubu je, udělej kontrolu z docs/archiv/plany/herna-v1.md › Po Uzavření, bod 3 (běh kontrol přes api.github.com/repos/czempi123/czempi123.github.io/actions/runs, protože gh na Macu není; nasazený web na 390 a 1440 px, snímky do Claude outputs/) a výsledek dopiš tamtéž. Když push nejde, nic dalšího nezkoušej a napiš to do Po K1.
+Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2 (git switch denik-v2). Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md (oddíl Technika celý) a v docs/plany/denik-v2.md oddíly Co platí, 2, 3, Formáty, Otázky pro autora a Po Plán. Načti skill atlas-komponenta. V src/lib/denik.ts čti jen typy, sCitatem, rozeberDenik a spojDeniky.
 
-Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md (oddíl Technika celý) a v docs/plany/denik-v2.md oddíly Co platí, 2, 3, Formáty a Otázky pro autora. Načti skill atlas-komponenta. V src/lib/denik.ts čti jen typy, sCitatem, rozeberDenik a spojDeniky.
+Nejdřív kontroly na GitHubu (Po Plán): běh 45017169458 po pushi herna-v1 spadl na tests/e2e/herna-k2.spec.ts:278 (po klepnutí do slepé mapy Kde to bylo? na 390 px žádný .spendlik; na Macu test prochází) a pak ho zrušil limit 20 minut v .github/workflows/kontroly.yml. Log si stáhni (curl na api.github.com/repos/czempi123/czempi123.github.io/actions/jobs/137191863017/logs, nebo gh run view --log z cloudu), najdi, proč dotyk na GitHubu nezapíchne špendlík (pomalejší stroj, načtení mapy, pozice klepnutí), a oprav test nebo komponentu tak, aby nebyl závislý na rychlosti. Limit zvedni na 30 minut. Do docs/pouceni.md › Technika jedna věta o příčině.
 
-Postav datový základ větve, bez UI:
+Pak postav datový základ větve, bez UI:
 1. Kartičky v deníku podle Formátů: typ Karticka, pole karticky, funkce přidat, vyndat, ohodnotit (Vím, Zopakuj si), naRade(d, dnes) a hromadka(d, dnes, 5), místní datum bez hodin. Kartička, jejíž zdroj v deníku ani v datech už není, se v hromádce neukáže.
 2. Citáty: poznamka a upraveno u CitatVDeniku, CITATY_NEJVYS 300 bez tichého výpadku (nad limitem se citát nepřidá a volající to pozná), ulozPoznamkuCitatu.
 3. rozeberDenik a spojDeniky znají karticky (vyhraje novější kdy) a poznámku citátu (vyhraje novější upraveno); export je obsahuje beze změny exportuj.
@@ -249,9 +249,9 @@ Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Pře�
 Opus 5.5 · medium, nový chat.
 
 ```
-Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md a v docs/plany/denik-v2.md oddíly Kroky, Otázky pro autora, Po K1, Po O (s odpovědí autora) a Co zůstává na později. Nejdřív se autora zeptej, jestli je u Macu: když ano, projdi s ním VoiceOverem postup z docs/archiv/plany/herna-v1.md › Po O (design-v2, herna-v1) a k němu Co ti zůstalo?, kartičky a Moje sbírku; nálezy oprav, nebo zapiš na později. Když ne, VoiceOver vynech a zapiš to.
+Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md a v docs/plany/denik-v2.md oddíly Kroky, Otázky pro autora, Po Plán, Po O (s odpovědí autora) a Co zůstává na později. Nejdřív se autora zeptej, jestli je u Macu: když ano, projdi s ním VoiceOverem postup z docs/archiv/plany/herna-v1.md › Po O (design-v2, herna-v1) a k němu Co ti zůstalo?, kartičky a Moje sbírku; nálezy oprav, nebo zapiš na později. Když ne, VoiceOver vynech a zapiš to.
 
-Když autor v Po O větev schválil (prázdná odpověď = souhlas): git merge --no-ff denik-v2 do main, celé npm test na main na pozadí. Push: git fetch; main pošli na GitHub způsobem, který fungoval v K1 (Po K1), podle otázky 3 pro autora; když push nejde, nic dalšího nezkoušej a zapiš to. Po pushi kontrola nasazení: běh kontrol přes api.github.com/repos/czempi123/czempi123.github.io/actions/runs a nasazený web na 390 a 1440 px (ZAKLAD=https://czempi123.github.io node scripts/snimky-listy.mjs pro /denik/antika/, /denik/sbirka/, /denik/ a jednu stránku pojmu) do Claude outputs/; když dosud neproběhla kontrola z herna-v1, udělej ji taky a dopiš ji tamtéž. Plán větve přesuň do docs/archiv/plany/denik-v2.md, záznam revize do docs/archiv/revize/, oprav odkazy (grep), řádek denik-v2 v docs/plan-vetve.md, dopiš Po Uzavření. V Projektu Claude nahraď plán větve plánem další větve film-0 (docs/plany/film-0.md s prvním zadáním podle po-auditu.md › Větve) a nahraj docs/plan-vetve.md. Ve zprávě autorovi: co se sloučilo a nasadilo, co zůstalo na později a celý prompt prvního kroku film-0 s modelem a úsilím. Zastav se.
+Když autor v Po O větev schválil (prázdná odpověď = souhlas): git merge --no-ff denik-v2 do main, celé npm test na main na pozadí. Push: git fetch; main pošli na GitHub stejně jako v Po Plán (git bundle přes Claude outputs, push z cloudu; autor to výslovně povolil, otázka 3); když push nejde, nic dalšího nezkoušej a zapiš to. Po pushi kontrola nasazení: běh kontrol přes api.github.com/repos/czempi123/czempi123.github.io/actions/runs a nasazený web na 390 a 1440 px (ZAKLAD=https://czempi123.github.io node scripts/snimky-listy.mjs pro /denik/antika/, /denik/sbirka/, /denik/ a jednu stránku pojmu) do Claude outputs/; když dosud neproběhla kontrola z herna-v1, udělej ji taky a dopiš ji tamtéž. Plán větve přesuň do docs/archiv/plany/denik-v2.md, záznam revize do docs/archiv/revize/, oprav odkazy (grep), řádek denik-v2 v docs/plan-vetve.md, dopiš Po Uzavření. V Projektu Claude nahraď plán větve plánem další větve film-0 (docs/plany/film-0.md s prvním zadáním podle po-auditu.md › Větve) a nahraj docs/plan-vetve.md. Ve zprávě autorovi: co se sloučilo a nasadilo, co zůstalo na později a celý prompt prvního kroku film-0 s modelem a úsilím. Zastav se.
 ```
 
 ## Otázky pro autora
@@ -263,7 +263,12 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 2. **Kartička z vlastního zápisu s „Vím“ a „Zopakuj si“?** Líc se zeptá „Vybavíš si, co jsi napsal?“ a rub ukáže tvé pravidlo. Hodnotí se jen to, jestli si vlastní pravidlo pamatuješ, nikdy pravidlo samo; pravidlo, které si nepamatuješ, tě nevede. Doporučuji ano. Když ne, dostane taková kartička jen „Vrátit za čas“ a „Stačí“.
    Odpověď:
 3. **GitHub z cloudu.** Na Macu git přihlášení ke GitHubu nemá a připojení repozitáře s právem zápisu z cloudu dnes zamítla automatická kontrola oprávnění. Smí Claude v K1 a v Uzavření připojit repozitář czempi123/czempi123.github.io s právem zápisu a poslat `main` sám? Doporučuji ano (zadání K1 to povolení obsahuje). Druhá možnost bez Terminálu: aplikace GitHub Desktop, v ní jednou otevřít složku Atlas a klepnout na Push origin.
-   Odpověď:
+   Odpověď: ano, výslovně povoleno (22. 11. 2026); `main` poslaný týž den z cloudu přes git bundle (Po Plán).
+
+## Po Plán (22. 11. 2026)
+
+- **GitHub:** po výslovném povolení autora poslán `main` z cloudu přes git bundle (`d68e6ec..fd86def`; balíček přes složku `Claude outputs`, ke které autor dal přístup). Stejnou cestou poslat `main` i v Uzavření.
+- **Kontrola nasazení herna-v1** (zapsaná v `docs/archiv/plany/herna-v1.md` › Po Uzavření, bod 3): zveřejnění prošlo a nasazený web herna-v1 ukazuje (`Claude outputs/nasazeni-herna-v1/`). Sestavení a kontroly ale skončily zrušením: spadl `herna-k2.spec.ts:278` (dotyk do slepé mapy na telefonu) a limit 20 minut nestačil na 902 testů. Oprava je první část K1.
 
 ## Co zůstává na později
 
@@ -271,4 +276,4 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 - Kartičky z dalších zdrojů (hlas, který byl studentovi nejblíž, Návrat), až je student bude chtít.
 - Lístek z cesty pro učitele a odevzdání sbírky ve třídě: `trida-v1` (kurikulum, odpověď 4).
 - VoiceOver s autorem z herna-v1 a design-v2 (postup v `docs/archiv/plany/herna-v1.md` › Po O): připojí se k Uzavření této větve, když bude autor u Macu.
-- Kontrola nasazení herna-v1 (`docs/archiv/plany/herna-v1.md` › Po Uzavření, bod 3): v K1, jakmile bude `main` na GitHubu, nejpozději v Uzavření.
+- Kontroly na GitHubu po opravě v K1 zezelenají až po sloučení větve v Uzavření; do té doby je poslední běh na `main` zrušený.
