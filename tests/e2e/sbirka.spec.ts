@@ -165,7 +165,7 @@ test('Moje sbírka: pořadí, páska jednou, poznámka klávesnicí, Do kartiče
   expect(stazeni.suggestedFilename()).toMatch(/^atlas-citaty-\d{4}-\d{2}-\d{2}\.txt$/);
   const text = readFileSync(await stazeni.path(), 'utf8');
   const radky = text.split('\n');
-  expect(radky[0]).toMatch(/^Moje sbírka citátů z Atlasu myšlení \(\d{1,2}\. \d{1,2}\. \d{4}\)$/);
+  expect(radky[0]).toMatch(/^Moje sbírka citátů z Agory \(\d{1,2}\. \d{1,2}\. \d{4}\)$/);
   expect(radky.slice(1, 6)).toEqual(['', '„Život, který nezkoumáme, nestojí za to, aby ho člověk žil.“', 'Platón, Obrana Sókratova 38a', 'Proč zrovna tenhle: Zkoumám, co dělám.', 'https://czempi123.github.io/osobnost/sokrates/#myslenky']);
   expect(text).toContain('Proč zrovna tenhle: Na večer, než usnu.');
   expect(text.match(/Proč zrovna tenhle/g)).toHaveLength(3);

@@ -35,7 +35,7 @@ describe('sbírka citátů', () => {
       c('b', '2026-11-05T10:00:00Z', { text: 'Uber\u00a0si.', kde: 'Seneca, Listy 1, 1', odkaz: '/cesta/kam-mi-mizi-cas/2/', poznamka: '  Na ráno. ' }),
     ], new Date(2026, 10, 22));
     expect(text).toBe([
-      'Moje sbírka citátů z Atlasu myšlení (22. 11. 2026)',
+      'Moje sbírka citátů z Agory (22. 11. 2026)',
       '',
       '„Uber si.“',
       'Seneca, Listy 1, 1',
@@ -50,7 +50,7 @@ describe('sbírka citátů', () => {
   });
 
   it('prázdná sbírka: jen hlavička', () => {
-    expect(sbirkaJakoText([], new Date(2026, 0, 5))).toBe('Moje sbírka citátů z Atlasu myšlení (5. 1. 2026)\n');
+    expect(sbirkaJakoText([], new Date(2026, 0, 5))).toBe('Moje sbírka citátů z Agory (5. 1. 2026)\n');
   });
 
   it('plná sbírka nový citát nevezme, už vystřižený posune navrch', () => {

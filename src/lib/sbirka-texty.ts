@@ -22,7 +22,7 @@ export const TEXTY_SBIRKY = {
   ulozit: 'Uložit',
   zrusit: 'Zrušit',
   prepsat: 'Přepsat',
-  hlavickaTextu: 'Moje sbírka citátů z Atlasu myšlení',
+  hlavickaTextu: 'Moje sbírka citátů z Agory',
   procVTextu: 'Proč zrovna tenhle:',
 } as const;
 

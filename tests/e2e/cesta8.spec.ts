@@ -86,7 +86,7 @@ test('cesta 8: celý průchod jen klávesnicí na telefonu, zápisy v deníku', 
   expect(scena.match(/nemoc/g)).toHaveLength(1);
   await expect(pribeh.locator('.citat')).toHaveCount(3);
   await expect(pribeh.locator('.citat').first()).toContainText('ve šťastný a zároveň poslední den svého života');
-  await expect(pribeh.locator('.citat figcaption').first()).toHaveText(/Epikúros,\s+Dopis z\s+posledního dne\s+Diogenés Laertios X,\s+22/);
+  await expect(pribeh.locator('.citat figcaption').first()).toHaveText(/Epikúros,\s+Dopis z\s+posledního dne\s+u\s+Diogena Laertia X,\s+22/);
   await expect(pribeh).toContainText('Dva týdny byl těžce nemocný a bolest už podle něj nemohla být větší.');
   await expect(pribeh.locator('.citat').nth(2)).toContainText('postarej o Métrodórovy děti');
   await expect(pribeh).toContainText('Tím dopis končí.');

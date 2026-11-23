@@ -125,3 +125,40 @@ Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, ci
 - *Poznámka za tlačítkem.* Čtyři prázdná pole pod sebou by vypadala jako formulář. Pole má 200 znaků; delší myšlenka patří do zápisu.
 - *Hlasy her.* Nůžky u každého hlasu (Kdo by odmítl, Kdo stál s tebou), i když jich je v bloku víc: jsou celé a nic už neskrývají. Kdyby rušily, šlo by je nechat jen u Atlas by vybral.
 - *Tisk bez `@page`.* Okraje A4 dává prohlížeč; `@page` by platilo i pro tisk Moje filozofie.
+
+## Po T (23. 11. 2026)
+
+**Co ti zůstalo?** Texty kvízu stojí pohromadě v `TEXTY_ZUSTALO` (`src/lib/herna/zustalo.ts`), ostrov je bere odtud.
+- *Úvod oddílu* (`TVOJE_ANTIKA.zustalo.uvod`): „Poznáš Epikúrův klid, když pípne mobil, a víš, co by ti po hádce s kamarádem řekl Epiktétos? Tady zjistíš, co ti z antiky zůstalo a kde najdeš to, co ti vypadlo.“ Mobil je z `priklad` pojmu klid, hádka je případ otázky Jsem svobodný?, na kterou odpovídá i Epiktétos.
+- *Zadání:* „Který pojem v tom poznáš?“ (věštírna, tyran ani religionistika nejsou myšlenky; nadtitulek druhu je „Pojem v životě“), „Co by ti na to řekl X?“ beze změny, „Ke které velké otázce ta kresba patří?“ (kresba na otázku neodpovídá).
+- *Pozvánka:* „Otázky se tu ptají jen na to, co už z antiky znáš. Zatím by jich bylo málo.“ a odkaz „Projdi cestu …“ (sedí prázdnému deníku i rozjeté cestě). Konec kola beze změny.
+
+**Výpis všech otázek** (`Claude outputs/zustalo-antika.md`) přečtený jako text. Opravy:
+- *Situace patří jednomu pojmu.* `blizkePojmy`: pojem, který vysvětlení správného jmenuje, nebo naopak, mezi možnostmi není (slast „je to klid“, v naší moci „naše soudy“). Dřív stál klid se slastí v jedné otázce a soud s v naší moci. Pravidlo jde z dat, takže platí i pro další období.
+- *Vysvětlení pojmu* je celé `vysvetleni` (dvě věty) místo první věty a „Najdeš ho u: …“: u slasti teprve druhá věta říká, proč je situace po tréninku slast, a „Najdeš ho u:“ mělo rod pojmu a jména v 1. pádě.
+- *Kresby:* `BLIZKE_OTAZKY_KRESEB` (`src/lib/kresby.ts`, s důvodem u každé) drží velké otázky, na které by obraz poctivě odpovídal taky; mezi možnostmi nejsou (jeskyně a Jak poznám, co je pravda?, Třetí čára a Jsem svobodný?…). Strhni masku do kvízu nepřišla: tvář pod maskou svádí ke čtyřem otázkám z pěti. Antika má 67 otázek (kresby 10).
+- *Podnět kresby* má název na vlastním řádku („Kresba „Kde je střed?““ bez tečky za uvozovkou). Úseky kroku u Přesýpacích hodin, Třetí čáry, Cesty ven a Roztrhni kartu začínají o větu dřív (doslova z kroku), ať „jeho hodiny“, „každý“ a „každou“ mají k čemu patřit.
+- *Vysvětlení kresby:* „Kresba patří k cestě *Kolik je dost?*, která hledá odpověď na otázku *Jak mám žít?*“; krok nese odkaz zpět. Kartička teď vykresluje odstavce přes `radek` (kurzíva).
+- *Hlasy, kde citát mluví o jiné části myšlenky než odpověď* (`VYSVETLENI_HLASU`, `zustalo-data.ts`): Parmenidés u duhy dostal B8, 38–41 (`parmenides-b8-jmena`, odpověď je jeho převod), Marcus u Kdo tě zná líp?, Epikúros a Aristotelés u Sklad, nebo tábor? důvod z myšlenky. Ostatní citáty odpovídají.
+- *Údaj citátu:* závorka v místě jde do hranatých („Hlavní myšlenky 37 [Diogenés Laertios X, 152]“). Dopis Hérodotovi má v `zdroje.yaml` místo „64 (Diogenés Laertios X, 64)“ jako Dopis Menoikeovi; dřív se četl „Dopis Hérodotovi Diogenés Laertios X, 64“ i na stránce otázky.
+- *Hlasy se liší myšlenkou:* prošel jsem všech 41. Nejblíž jsou Seneca a Epikúros u fotky z roku 1926 („s jakou myslí“ × „příjemně a beze strachu“) a Platón a Aristotelés u Kdo tě zná líp? (rozdíl nese přítel); nechal jsem.
+
+**Kartičky** (`TEXTY_KARTICEK`): „Nejdřív si odpověz v duchu, pak kartičku otoč.“; prázdné „Do kartiček si můžeš dát pojem, vystřižený citát nebo vlastní odpověď z cesty. Za pár dní se ti vrátí a uvidíš, co ti z nich zůstalo.“; „Přidat pojmy, které už znáš“; líc citátu „Co v té větě říká? Stačí myšlenka, přesná slova ne.“ a pod údajem „Stránka Epikúros“ (jméno z dat jako přístavek v 1. pádě); „Vybavíš si svou odpověď?“; „Zpátky na místo, odkud je“. Na dnes stačí, Dnes žádná a tlačítka beze změny.
+
+**Sbírka** (`TEXTY_SBIRKY`): pruh „Věty, které tě zastavily.“; perex „Citáty z celého atlasu pohromadě, nejnovější nahoře. Ke každému si můžeš připsat, co pro tebe znamená, a celou sbírku vytisknout nebo stáhnout jako text.“ (věta o prohlížeči pryč, ukládání řeší deník); prázdná „Zatím tu nic není. Až tě v atlasu nějaká věta zastaví, vystřihni ji nůžkami pod citátem.“; poznámka „Proč zrovna tenhle?“, ve staženém textu „Proč zrovna tenhle:“; plná u nůžek „Do sbírky se vejde 300 citátů a teď je plná. Než vystřihneš další, některý z ní vyndej:“ s odkazem, na stránce „Sbírka je plná, vejde se do ní 300 citátů. …“. Titulek, Vytisknout, Stáhnout jako text, Přepsat, Celá sbírka a hlavička textu beze změny.
+
+**Rod.** Mužský tvar zůstal jen v doslovném úseku kroku (Zrcadlo: „Kde jsi byl?“); jinde formulace bez rodu.
+
+**Pro P6: nic.** Žádná věta nepotřebovala nové tvrzení: všechno je z pojmů, hlasů, `zdroje.yaml` a textu kroků.
+
+**Mimo větev, pro R:** mužský rod v textech deníku, které větev nepsala („Koho jsem potkal“ v `SbirkaDeniku`, „Co sis myslel a kdo s tebou stál.“ na Tvoje antika, `PrenosDeniku`); údaj „Dopis z posledního dne Diogenés Laertios X, 22“ má stejný tvar jako Hérodotovi dřív; hlavička staženého textu říká „Atlas myšlení“, záhlaví webu „Agora“.
+
+**Testy.** `zustalo.test.ts` (+5: blízké pojmy, blízké otázky kresby, data antiky bez blízkých dvojic, kresby s blízkými otázkami, vysvětlení hlasu z citátu odpovědi nebo z myšlenky; podnět a vysvětlení kresby), nové znění v `karticky-obsah.test.ts`, `sbirka.test.ts`, `karticky.spec.ts`, `sbirka.spec.ts`, `co-ti-zustalo.spec.ts` a `scripts/snimky-sbirka.mjs`. Vitest 1659 z 1659, dotčené Playwright (co-ti-zustalo, karticky, sbirka, tvoje-antika, denik-kapitoly, snimky) 60 z 60. Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1659 z 1659, Playwright 928 z 928 (9,2 min). Snímky 390 a 1440 px ve světlém i tmavém režimu: `Claude outputs/denik-v2-T/` (přehledové listy `list-*-390.jpg`).
+
+**Nad čím jsem váhal.**
+- *Blízké pojmy z dat, ne ze seznamu.* Vyřadí i dvojice, které by snesly (ctnost a vědění), ale kandidátů je dost a pravidlo se nezapomene. U kreseb to z dat nejde, proto ruční seznam s důvody.
+- *Strhni masku mimo kvíz.* Šlo by jí dát jiný úsek kroku, ale obraz sám otázku Má život smysl? nenese.
+- *Vysvětlení z myšlenky místo citátu* u tří hlasů: přijde se o živý hlas, ale vysvětlí se odpověď. U Parmenida citát zůstal, jen ten, ze kterého odpověď je.
+- *„Proč zrovna tenhle?“* místo „Proč sis ho vystřihl?“: bez rodu a kratší; perex říká „co pro tebe znamená“, aby student nemusel psát jen důvod.
+- *„Stránka Epikúros“* místo „stránka: Epikúros“: přístavek v 1. pádě sedí i na cestu („Stránka Kolik je dost?“). „Ze stránky Epikúra“ by potřebovalo pády jmen stránek, které data nemají.
+- *Úvod jmenuje Epikúra a Epiktéta:* je to pozvánka, ne slib, že otázky budou o nich.

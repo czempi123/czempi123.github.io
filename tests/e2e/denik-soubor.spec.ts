@@ -61,7 +61,7 @@ test('cizí soubor deník nezmění; tlačítka jdou klávesnicí a stránka pro
   const cizi = join(tmpdir(), 'atlas-cizi-soubor.json');
   writeFileSync(cizi, '{"jine": true}');
   await nahraj(page, cizi);
-  await expect(page.getByRole('status')).toHaveText('Tenhle soubor deník z atlasu není. Vyber soubor, který jsi stáhl tady v deníku.');
+  await expect(page.getByRole('status')).toHaveText('Tenhle soubor deník z atlasu není. Vyber soubor stažený tady v deníku.');
   await expect(page.locator('.seznam--zapisy li')).toHaveCount(1);
   // Výběr souboru se otevře i z klávesnice; samotné pole pro soubor do pořadí tabulátoru nepatří.
   await page.getByRole('button', { name: 'Stáhnout deník do souboru' }).focus();

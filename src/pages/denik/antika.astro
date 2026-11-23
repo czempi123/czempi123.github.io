@@ -23,7 +23,7 @@ const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
     <header class="hlava">
       <p class="t-nadtitulek nadtitulek">Můj deník · období 1 a 2</p>
       <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">{TVOJE_ANTIKA.nazev}.</h1></div></div>
-      <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">Co sis myslel a kdo s tebou stál.</span></p></div></div>
+      <div><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">Tvoje odpovědi, kdo s tebou stál a co ti zůstalo.</span></p></div></div>
       <p class="t-perex perex">{nezlomitelne(TVOJE_ANTIKA.uvod)}</p>
     </header>
     <TvojeObdobi client:load katalog={katalog} obdobi={2} prvniCesta={prvniCesta} />

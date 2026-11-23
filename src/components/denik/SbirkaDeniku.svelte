@@ -35,7 +35,7 @@
   <svelte:element this={klic ? 'div' : 'section'} class={['sbirka', { 'sbirka--kapitola': uroven > 2 }]} aria-labelledby={klic ? undefined : idNadpisu}>
     <svelte:element this={`h${uroven}`} class={uroven > 2 ? 't-h3 sbirka__nadpis' : 't-h2 sbirka__nadpis'} id={idNadpisu}>Sbírka</svelte:element>
     {#if lide.length}
-      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Koho jsem potkal</svelte:element>
+      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Koho už znám</svelte:element>
       <ul class="sb-razitka">
         {#each lide as id (id)}
           <li>
