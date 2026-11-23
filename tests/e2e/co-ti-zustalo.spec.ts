@@ -40,7 +40,7 @@ test('prázdný deník: místo kvízu pozvánka do první nedokončené cesty', 
   await otevri(page, null);
   await expect(kviz(page).getByRole('heading', { level: 2 })).toHaveText('Co ti zůstalo?');
   await expect(kviz(page).locator('.zustalo__pozvanka')).toBeVisible();
-  await expect(kviz(page).getByRole('link', { name: /Pokračuj cestou Kdy mám dobrý důvod věřit\?/ })).toHaveAttribute('href', '/cesta/kdy-mam-dobry-duvod-verit/');
+  await expect(kviz(page).getByRole('link', { name: /Projdi cestu Kdy mám dobrý důvod věřit\?/ })).toHaveAttribute('href', '/cesta/kdy-mam-dobry-duvod-verit/');
   await expect(kviz(page).locator('.zustalo__moznost')).toHaveCount(0);
 });
 

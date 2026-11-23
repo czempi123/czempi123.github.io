@@ -49,12 +49,12 @@ export const NADTITULKY: Record<ZdrojKarticky, string> = {
   zustalo: 'co ti zůstalo',
 };
 
-/** Pracovní texty kartiček (učeše T). */
+/** Texty kartiček (denik-v2, T; skill atlas-psani). Tvary bez rodu, kde to jde. */
 export const TEXTY_KARTICEK = {
   nadpis: 'Kartičky',
-  uvod: 'Nejdřív si odpověz sám, pak kartičku otoč.',
-  prazdne: 'Do kartiček si dáš pojem, citát nebo vlastní odpověď. Po čase se ti vrátí a zjistíš, co ti zůstalo.',
-  pridatPojmy: 'Přidat pojmy, které jsi potkal',
+  uvod: 'Nejdřív si odpověz v duchu, pak kartičku otoč.',
+  prazdne: 'Do kartiček si můžeš dát pojem, vystřižený citát nebo vlastní odpověď z cesty. Za pár dní se ti vrátí a uvidíš, co ti z nich zůstalo.',
+  pridatPojmy: 'Přidat pojmy, které už znáš',
   zadna: 'Dnes žádná. Kartičky se ozvou samy, až přijde jejich čas.',
   stacilo: 'Na dnes stačí.',
   jestePet: 'Ještě pět',
@@ -64,11 +64,13 @@ export const TEXTY_KARTICEK = {
   vyndat: 'Vyndat z kartiček',
   doKarticek: 'Do kartiček',
   licPojem: 'Co to znamená? Řekni si to vlastními slovy.',
-  licCitat: 'Co v té větě říká? Stačí myšlenka.',
-  licZapis: 'Vybavíš si, co jsi napsal?',
+  licCitat: 'Co v té větě říká? Stačí myšlenka, přesná slova ne.',
+  licZapis: 'Vybavíš si svou odpověď?',
   rubZapis: 'Platí to pro tebe pořád?',
   prepsat: 'Přepsat odpověď',
-  zpetCitat: 'Zpátky tam, kde sis ho vystřihl',
+  zpetCitat: 'Zpátky na místo, odkud je',
+  /** pod názvem citátu na lícu: stránka, odkud je; jméno z dat stojí v 1. pádě jako přístavek */
+  stranka: 'Stránka',
 } as const;
 
 export interface ObsahKarticky {
@@ -170,7 +172,7 @@ export function obsahKarticky(
     const s = stranky[strankaOdkazu(c.odkaz)];
     return {
       ...zaklad, obdobi: s?.obdobi,
-      lic: { nazev: c.kde, ...(s ? { pod: `stránka: ${s.nazev}` } : {}), odstavce: [], otazka: TEXTY_KARTICEK.licCitat },
+      lic: { nazev: c.kde, ...(s ? { pod: `${TEXTY_KARTICEK.stranka} ${s.nazev}` } : {}), odstavce: [], otazka: TEXTY_KARTICEK.licCitat },
       rub: { citat: c.text, ...(c.poznamka ? { pero: c.poznamka } : {}), odstavce: [], zpet: { href: c.odkaz, text: TEXTY_KARTICEK.zpetCitat } },
     };
   }

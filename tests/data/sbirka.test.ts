@@ -39,7 +39,7 @@ describe('sbírka citátů', () => {
       '',
       '„Uber si.“',
       'Seneca, Listy 1, 1',
-      'Proč jsem si ho vystřihl: Na ráno.',
+      'Proč zrovna tenhle: Na ráno.',
       'https://czempi123.github.io/cesta/kam-mi-mizi-cas/2/',
       '',
       '„Komu je málo dost, tomu není dost nic.“',

@@ -108,7 +108,7 @@ test('plná sbírka: nůžky citát nevystřihnou a řeknou proč', async ({ pag
   await n.focus();
   await page.keyboard.press('Enter');
   await expect(n).toHaveAttribute('aria-pressed', 'false');
-  const zprava = page.getByRole('status').filter({ hasText: 'Sbírka je plná' });
+  const zprava = page.getByRole('status').filter({ hasText: 'je plná' });
   await expect(zprava).toBeVisible();
   await expect(zprava.getByRole('link', { name: 'Moje sbírka' })).toHaveAttribute('href', '/denik/sbirka/');
   const d = await ulozeny(page);
@@ -144,14 +144,14 @@ test('Moje sbírka: pořadí, páska jednou, poznámka klávesnicí, Do kartiče
 
   // Poznámka jen klávesnicí: otevřít, napsat, Enter uloží a fokus se vrátí na Přepsat; Escape nic nezmění.
   const prvni = listky.first();
-  await prvni.getByRole('button', { name: 'Proč sis ho vystřihl?' }).focus();
+  await prvni.getByRole('button', { name: 'Proč zrovna tenhle?' }).focus();
   await page.keyboard.press('Enter');
-  const pole = prvni.getByLabel('Proč sis ho vystřihl?', { exact: true });
+  const pole = prvni.getByLabel('Proč zrovna tenhle?', { exact: true });
   await expect(pole).toBeFocused();
   await page.keyboard.type('Zkoumám, co dělám.');
   await page.keyboard.press('Enter');
   await expect(prvni.locator('.vyst-citat__pero')).toHaveText('Zkoumám, co dělám.');
-  await expect(prvni.getByRole('button', { name: 'Přepsat: Proč sis ho vystřihl?' })).toBeFocused();
+  await expect(prvni.getByRole('button', { name: 'Přepsat: Proč zrovna tenhle?' })).toBeFocused();
   expect((await ulozeny(page)).citaty.find((c: { id: string }) => c.id === 'obrana-38a').poznamka).toBe('Zkoumám, co dělám.');
   await page.keyboard.press('Enter');
   await page.keyboard.type(' Navíc.');
@@ -166,9 +166,9 @@ test('Moje sbírka: pořadí, páska jednou, poznámka klávesnicí, Do kartiče
   const text = readFileSync(await stazeni.path(), 'utf8');
   const radky = text.split('\n');
   expect(radky[0]).toMatch(/^Moje sbírka citátů z Atlasu myšlení \(\d{1,2}\. \d{1,2}\. \d{4}\)$/);
-  expect(radky.slice(1, 6)).toEqual(['', '„Život, který nezkoumáme, nestojí za to, aby ho člověk žil.“', 'Platón, Obrana Sókratova 38a', 'Proč jsem si ho vystřihl: Zkoumám, co dělám.', 'https://czempi123.github.io/osobnost/sokrates/#myslenky']);
-  expect(text).toContain('Proč jsem si ho vystřihl: Na večer, než usnu.');
-  expect(text.match(/Proč jsem si ho vystřihl/g)).toHaveLength(3);
+  expect(radky.slice(1, 6)).toEqual(['', '„Život, který nezkoumáme, nestojí za to, aby ho člověk žil.“', 'Platón, Obrana Sókratova 38a', 'Proč zrovna tenhle: Zkoumám, co dělám.', 'https://czempi123.github.io/osobnost/sokrates/#myslenky']);
+  expect(text).toContain('Proč zrovna tenhle: Na večer, než usnu.');
+  expect(text.match(/Proč zrovna tenhle/g)).toHaveLength(3);
 
   // Do kartiček a Vyndat ze sbírky: kartička zůstane v deníku, jen schovaná.
   const seneca = page.locator('.vyst-citat[data-citat="seneca-ira-iii-36-otazky"]');
@@ -219,7 +219,7 @@ for (const sirka of [390, 1440]) {
       await otevri(page, '/denik/sbirka/', DENIK);
       await page.waitForSelector('astro-island[component-url*="MojeSbirka"]:not([ssr])', { state: 'attached' });
       await axe(page, '.moje-sbirka');
-      await page.locator('.vyst-citat').nth(2).getByRole('button', { name: 'Proč sis ho vystřihl?' }).click();
+      await page.locator('.vyst-citat').nth(2).getByRole('button', { name: 'Proč zrovna tenhle?' }).click();
       await axe(page, '.moje-sbirka');
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
       const male = await page.locator('.moje-sbirka button').evaluateAll((b) => b.filter((x) => x.getBoundingClientRect().height < 44).map((x) => x.textContent?.trim()));

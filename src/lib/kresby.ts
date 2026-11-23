@@ -41,14 +41,34 @@ export const NADTITULKY_KRESEB = {
  * (`vetaPredKresbou`). Že úsek v kroku opravdu stojí, hlídá tests/data/zustalo.test.ts.
  */
 export const VETY_KRESEB: Partial<Record<Kresba, string>> = {
+  DvePulky: 'Tady jsou tři karty z koše Zčásti. Každou roztrhni a pak zkoušej, co všechno se může stát na druhé půlce.',
   Jeskyne: 'Vězni z toho všeho vidí jen stíny, které oheň vrhá na stěnu.',
-  JeskyneVen: 'Nejdřív rozezná stíny, potom odrazy ve vodě, pak věci samé. Nebe snese nejdřív v noci. Slunce uvidí až nakonec.',
+  JeskyneVen: 'Musí si zvykat. Nejdřív rozezná stíny, potom odrazy ve vodě, pak věci samé. Nebe snese nejdřív v noci. Slunce uvidí až nakonec.',
   KdeJeStred: 'Na břehu stojí člověk. Co je pro něj odvaha? Zkus měnit, kdo to je a jaká je voda.',
   Maska: 'Pod první maskou byla tvář menší, než se zdálo. Pod druhou ale byla skoro stejně velká.',
-  PresypaciHodiny: 'Rozděl jeho hodiny podle toho, kdo o nich rozhodl: spánek, škola a rodina, tvoje volba, někdo nebo něco jiného. Co nerozdělíš, proteklo.',
+  PresypaciHodiny: 'Zkus to na jednom obyčejném všedním dni. Rozděl jeho hodiny podle toho, kdo o nich rozhodl: spánek, škola a rodina, tvoje volba, někdo nebo něco jiného. Co nerozdělíš, proteklo.',
   Saty: 'Šaty na ní mají pořád stejné dvě barvy, modrou a hnědou, jako body na té fotce. Posuvník mění jen světlo v místnosti.',
-  TretiCara: 'Každý měl nahlas říct, která ze tří je stejně dlouhá jako ta první.',
+  TretiCara: 'Na tabuli visela karta s jednou čárou a vedle ní karta se třemi. Každý měl nahlas říct, která ze tří je stejně dlouhá jako ta první.',
   Zrcadlo: 'Je rok 1914 a začíná světová válka. Kde jsi byl? Vadilo ti, že u toho nejsi?',
+};
+
+/**
+ * Velké otázky, na které by obraz poctivě odpovídal taky, i když jeho cesta patří k jiné (denik-v2, T): v Co ti
+ * zůstalo? nejsou mezi možnostmi, aby správná odpověď byla jen jedna. Když po nich nezbudou dvě jiné otázky, kresba
+ * do kvízu nepřijde (Maska: tvář pod maskou svádí ke skutečnosti, k pravdě i k tomu, kdo jsem). Čísla otázek: 1 Jak mám žít?, 3 Má život
+ * smysl?, 4 Jsem svobodný?, 5 Kdo vlastně jsem?, 6 Co je skutečné?, 7 Jak poznám, co je pravda?
+ */
+export const BLIZKE_OTAZKY_KRESEB: Partial<Record<Kresba, number[]>> = {
+  DvePulky: [1], // co je v mých rukou, je i rada, jak žít
+  Jeskyne: [7, 4], // stíny jsou i otázka poznání; vězni v poutech svádějí ke svobodě
+  JeskyneVen: [7, 4],
+  KolikJeDost: [4], // kdo chce pořád víc, je otrokem svých tužeb
+  Lod: [6], // totožnost lodi je i otázka, co je skutečné
+  Maska: [6, 1, 7, 5], // tvář pod maskou svádí ke skutečnosti, k pravdě i k sobě; strach z nejhoršího k tomu, jak žít
+  PresypaciHodiny: [4, 3], // kdo o hodinách rozhodl, je otázka svobody; promrhaný čas i smyslu
+  Saty: [6], // barvy, které nejsou, jsou i otázka skutečnosti
+  TretiCara: [4, 5, 7], // podřídit se skupině je otázka svobody i toho, kdo jsem; vlastní oči proti většině i pravdy
+  Zrcadlo: [5, 1], // čas před narozením svádí k otázce, kdo jsem; strach ze smrti k tomu, jak žít
 };
 
 /**

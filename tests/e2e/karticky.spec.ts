@@ -204,10 +204,10 @@ test('deník po týdnu: hromádka začne tou, která čeká nejdéle; týž den 
   await expect(sekce(page)).toContainText('Dnes žádná. Kartičky se ozvou samy, až přijde jejich čas.');
 });
 
-test('prázdné kartičky: Přidat pojmy, které jsi potkal; bez potkaných pojmů oddíl není', async ({ page }) => {
+test('prázdné kartičky: Přidat pojmy, které už znáš; bez potkaných pojmů oddíl není', async ({ page }) => {
   await otevri(page, '/denik/', denik({ cesty: { 'kolik-je-dost': { nazev: 'Kolik je dost?', pocet: 7, krok: 7, navstivene: [1, 2, 3, 4, 5, 6, 7], kdy: T } } }));
-  await expect(sekce(page)).toContainText('Do kartiček si dáš pojem, citát nebo vlastní odpověď.');
-  await stiskni(page, 'Přidat pojmy, které jsi potkal');
+  await expect(sekce(page)).toContainText('Do kartiček si můžeš dát pojem, vystřižený citát nebo vlastní odpověď z cesty.');
+  await stiskni(page, 'Přidat pojmy, které už znáš');
   const pridane = Object.keys((await ulozeny(page)).karticky).sort();
   expect(pridane).toContain('pojem:klid');
   expect(pridane).toContain('pojem:slast');

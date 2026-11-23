@@ -60,10 +60,27 @@ export interface KatalogZustalo {
 }
 
 export const NAZVY_DRUHU: Record<DruhZustalo, string> = {
-  pojem: 'Myšlenka v situaci',
+  pojem: 'Pojem v životě',
   hlas: 'Hlas k případu',
   kresba: 'Obraz a otázka',
 };
+
+/** Texty kvízu pro studenta na jednom místě (denik-v2, T; skill atlas-psani). Úvod oddílu je v TVOJE_ANTIKA. */
+export const TEXTY_ZUSTALO = {
+  zadaniPojmu: 'Který pojem v tom poznáš?',
+  zadaniKresby: 'Ke které velké otázce ta kresba patří?',
+  /** pod čtyři otázky: místo kola věta a odkaz do první nedokončené cesty */
+  malo: 'Otázky se tu ptají jen na to, co už z antiky znáš. Zatím by jich bylo málo.',
+  pozvanka: 'Projdi cestu',
+  dalsi: 'Další otázka',
+  konec: 'Konec kola',
+  zopakuj: 'Tohle si zopakuj',
+  vse: 'Z tohohle kola ti zůstalo všechno.',
+  doKarticek: 'Dát do kartiček',
+  vKartickach: 'V kartičkách',
+  hlaseniKarticky: 'Otázky jsou v kartičkách.',
+  noveKolo: 'Nové kolo',
+} as const;
 
 /** Kolo má nejvýš osm otázek, nejvýš čtyři jednoho druhu; pod čtyři se kvíz neotevře. */
 export const ZUSTALO_KOLO = 8;
@@ -150,6 +167,8 @@ export interface KresbaVstup {
   veta?: string;
   cesta: { slug: string; nazev: string; otazka: number };
   krok: { n: number; nazev: string };
+  /** čísla velkých otázek, na které by obraz poctivě odpovídal taky: nejsou mezi možnostmi */
+  blizke?: number[];
 }
 
 const pojemKlic = (p: PojemVstup) => [p.pojem, ...p.tvary];
@@ -161,9 +180,19 @@ function dvaDalsi<T>(kandidati: readonly T[], klic: string, vynech: (k: T) => bo
 }
 
 /**
- * Myšlenka v situaci. Situace z Párů (bloky mimo dílnu přednost, ty prošly revizí i s pastmi); jinak příklad pojmu,
+ * Jsou dva pojmy tak blízko, že by situace jednoho poctivě patřila i druhému? Pozná se z dat: vysvětlení jednoho
+ * jmenuje druhý (slast „je to klid“, v naší moci „naše soudy“). V Párech je student rozliší, protože páruje všechny
+ * naráz; v jedné otázce o třech možnostech by správná odpověď byly dvě (denik-v2, T).
+ */
+export function blizkePojmy(a: PojemVstup, b: PojemVstup): boolean {
+  return jmenuje(a.vysvetleni, pojemKlic(b)) || jmenuje(b.vysvetleni, pojemKlic(a));
+}
+
+/**
+ * Pojem v životě. Situace z Párů (bloky mimo dílnu přednost, ty prošly revizí i s pastmi); jinak příklad pojmu,
  * jen když pojem nejmenuje. Další dvě možnosti jsou pojmy z téhož bloku Párů (prověřené proti sobě), jinak pojmy
- * téhož období; nikdy pojem, který situace jmenuje.
+ * téhož období; nikdy pojem, který situace jmenuje, ani pojem blízký správnému (`blizkePojmy`). Vysvětlení je celé
+ * `vysvetleni` pojmu (dvě věty): první říká, co pojem je, druhá u koho a jak, a teprve obě vysvětlí situaci.
  */
 export function otazkyPojmu(pojmy: readonly PojemVstup[], pary: readonly ParyVstup[], obdobi: readonly number[]): OtazkaZustalo[] {
   const vObdobi = pojmy.filter((p) => p.obdobi.some((o) => obdobi.includes(o)));
@@ -174,25 +203,23 @@ export function otazkyPojmu(pojmy: readonly PojemVstup[], pary: readonly ParyVst
     const blok = bloky.find((b) => b.pary.some((x) => x.pojem === p.id));
     const situace = blok?.pary.find((x) => x.pojem === p.id)?.situace ?? (jmenuje(p.priklad, pojemKlic(p)) ? undefined : p.priklad);
     if (!situace) continue;
-    const nejmenuje = (k: PojemVstup) => jmenuje(situace, pojemKlic(k));
+    const vynech = (k: PojemVstup) => jmenuje(situace, pojemKlic(k)) || blizkePojmy(p, k);
     const klic = `pojem:${p.id}`;
-    let jine = blok ? dvaDalsi(blok.pary.map((x) => podleId.get(x.pojem)).filter((x): x is PojemVstup => !!x && x.id !== p.id), klic, nejmenuje) : [];
+    let jine = blok ? dvaDalsi(blok.pary.map((x) => podleId.get(x.pojem)).filter((x): x is PojemVstup => !!x && x.id !== p.id), klic, vynech) : [];
     if (jine.length < 2) {
-      const doplnit = dvaDalsi(vObdobi.filter((k) => k.id !== p.id && !jine.includes(k)), `${klic}:obdobi`, nejmenuje);
+      const doplnit = dvaDalsi(vObdobi.filter((k) => k.id !== p.id && !jine.includes(k)), `${klic}:obdobi`, vynech);
       jine = [...jine, ...doplnit].slice(0, 2);
     }
-    const prvni = vetyTextu(p.vysvetleni)[0] ?? p.vysvetleni;
-    const uKoho = p.uKoho.map((u) => u.kdo);
     const potkal = [...p.vyskyty.map(klicVyskytu), `/pojem/${p.id}/`];
     ven.push({
       id: klic,
       druh: 'pojem',
       nazev: velke(p.pojem),
       podnet: situace.trim(),
-      zadani: 'Která myšlenka se v té situaci ukazuje?',
+      zadani: TEXTY_ZUSTALO.zadaniPojmu,
       moznosti: zamichej([p, ...jine].map((k) => ({ id: k.id, text: velke(k.pojem) })), klic),
       spravna: p.id,
-      vysvetleni: uKoho.length ? `${prvni} Najdeš ho u: ${uKoho.join(', ')}.` : prvni,
+      vysvetleni: p.vysvetleni.trim(),
       zpet: { href: `/pojem/${p.id}/`, text: `Zpátky k pojmu ${p.pojem}` },
       potkal,
     });
@@ -245,8 +272,10 @@ export function otazkyHlasu(otazky: readonly OtazkaVstup[]): OtazkaZustalo[] {
 }
 
 /**
- * Obraz a otázka. Název kresby a věta, co v ní student dělal; volí, na kterou velkou otázku obraz odpovídá.
- * Další dvě možnosti jsou velké otázky, ke kterým v období vede cesta (student je potkal).
+ * Obraz a otázka. Název kresby a úsek textu kroku, co v ní student dělal; volí, ke které velké otázce obraz patří.
+ * Další dvě možnosti jsou velké otázky, ke kterým v období vede cesta (student je potkal), kromě těch, na které by
+ * obraz poctivě odpovídal taky (`blizke`: jeskyně a Jak poznám, co je pravda?, Třetí čára a Jsem svobodný?).
+ * Název kresby stojí v podnětu jako samostatný řádek: „Kresba „Kde je střed?“.“ by měla dvě interpunkce za sebou.
  */
 export function otazkyKreseb(kresby: readonly KresbaVstup[], velke: readonly { cislo: number; otazka: string }[]): OtazkaZustalo[] {
   const podleCisla = new Map(velke.map((o) => [o.cislo, o]));
@@ -255,17 +284,18 @@ export function otazkyKreseb(kresby: readonly KresbaVstup[], velke: readonly { c
     const spravna = podleCisla.get(k.cesta.otazka);
     if (!spravna || !k.veta) continue;
     const klic = `kresba:${k.komponenta}`;
-    const jine = dvaDalsi(velke.filter((o) => o.cislo !== spravna.cislo), klic);
+    const jine = dvaDalsi(velke.filter((o) => o.cislo !== spravna.cislo), klic, (o) => !!k.blizke?.includes(o.cislo));
+    if (jine.length < 2) continue;
     const adresa = `/cesta/${k.cesta.slug}/${k.krok.n}/`;
     ven.push({
       id: klic,
       druh: 'kresba',
       nazev: k.nazev,
-      podnet: `Kresba „${k.nazev}“. ${k.veta}`,
-      zadani: 'Na kterou velkou otázku ta kresba odpovídá?',
+      podnet: `Kresba „${k.nazev}“\n\n${k.veta}`,
+      zadani: TEXTY_ZUSTALO.zadaniKresby,
       moznosti: zamichej([spravna, ...jine].map((o) => ({ id: String(o.cislo), text: o.otazka })), klic),
       spravna: String(spravna.cislo),
-      vysvetleni: `Kresba stojí v kroku ${k.krok.n} cesty ${k.cesta.nazev} (${k.krok.nazev}), která hledá odpověď na otázku ${spravna.otazka}`,
+      vysvetleni: `Kresba patří k cestě *${k.cesta.nazev}*, která hledá odpověď na otázku *${spravna.otazka}*`,
       zpet: { href: adresa, text: `Zpátky do kroku ${k.krok.n} cesty ${k.cesta.nazev}` },
       potkal: [`cesta/${k.cesta.slug}/${k.krok.n}`],
     });

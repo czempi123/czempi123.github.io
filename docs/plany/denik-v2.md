@@ -25,9 +25,9 @@ Tahle větev dá deníku tři věci, které mají jeden smysl. Student si vybav�
 
 **Z čeho se otázky skládají.** Tři druhy, všechny z hotových a ověřených dat, nic se nepíše nově:
 
-1. **Myšlenka v situaci** (pojmy, `src/content/pojmy/`, podklady `docs/podklady/pojmy-antika.md`). Situace ze života šestnáctiletého, student volí ze tří pojmů téhož období, která myšlenka se v ní ukazuje. Situace bere z Párů (herna-v1, `src/lib/herna/pary.ts`, už revidované i s pastmi), jinak z pole `priklad` pojmu, ale jen když pojem nejmenuje (kontrola tvarů z pole `tvary`, stejně jako `prozrazuje` v `src/lib/herna/citaty.ts`). Vysvětlení: první věta `vysvetleni` a u koho ten pojem stojí (`uKoho`).
+1. **Pojem v životě** (pojmy, `src/content/pojmy/`, podklady `docs/podklady/pojmy-antika.md`). Situace ze života šestnáctiletého, student volí ze tří pojmů téhož období, který pojem v ní pozná (bez pojmů blízkých správnému, Po T). Situace bere z Párů (herna-v1, `src/lib/herna/pary.ts`, už revidované i s pastmi), jinak z pole `priklad` pojmu, ale jen když pojem nejmenuje (kontrola tvarů z pole `tvary`, stejně jako `prozrazuje` v `src/lib/herna/citaty.ts`). Vysvětlení: celé `vysvetleni` pojmu (Po T).
 2. **Hlas k případu** (hlasy na stránkách velkých otázek, `src/content/otazky/`). Úvodní případ otázky a jméno filozofa; student volí ze tří odpovědí hlasů téže otázky, jak by s případem naložil právě on. Nehádá se jméno ani citát: jméno stojí v zadání, rozhoduje porozumění myšlence. Vysvětlení: citát hlasu s údajem (z `zdroje.yaml`).
-3. **Obraz a otázka** (kresby, `src/lib/kresby.ts`, a cesty, ve kterých stojí). Název kresby a jedna věta, co v ní student dělal (z kroku cesty); volí, na kterou velkou otázku obraz odpovídá. Vysvětlení: cesta a krok, kde kresbu potkal. Jiný druh paměti než slova (pravidlo pestrosti 5).
+3. **Obraz a otázka** (kresby, `src/lib/kresby.ts`, a cesty, ve kterých stojí). Název kresby a jedna věta, co v ní student dělal (z kroku cesty); volí, ke které velké otázce obraz patří (bez otázek, na které by odpovídal taky, Po T). Vysvětlení: cesta a její otázka, odkaz zpět do kroku. Jiný druh paměti než slova (pravidlo pestrosti 5).
 
 **Které otázky dostane.** Jen z toho, co student opravdu prošel: z kroků cest v deníku (`cesty[slug].navstivene`) a z navštívených stránek (`navstivene`, `prectene`). Kolo má osm otázek, nejvýš čtyři jednoho druhu, dvě stejného druhu nikdy po sobě. Pořadí je pevné ze semínka (číslo kola), po obnovení stránky stejné. Když prošel méně, kolo je kratší; pod čtyři otázky se kvíz neotevře a místo něj stojí jedna věta s pozváním do první cesty antiky, kterou student nedokončil.
 
@@ -41,9 +41,9 @@ Tahle větev dá deníku tři věci, které mají jeden smysl. Student si vybav�
 
 | Zdroj | Kde se přidá | Líc | Rub |
 | --- | --- | --- | --- |
-| Pojem | stránka pojmu `/pojem/<id>/`; v prázdných kartičkách jedno tlačítko „Přidat pojmy, které jsi potkal“ | pojem a otázka „Co to znamená? Řekni si to vlastními slovy.“ | vysvětlení, příklad, odkaz na místo, kde ho potkal |
-| Vystřižený citát | sbírka citátů | autor, dílo a místo, stránka odkud; „Co v té větě říká? Stačí myšlenka.“ | citát a studentova poznámka |
-| Vlastní zápis | lístek zápisu v kapitole deníku (pravidlo z cesty, odpověď Teď, sebehodnocení) | otázka zápisu; „Vybavíš si, co jsi napsal?“ | studentova odpověď a „Platí to pro tebe pořád?“ s odkazem, kde ji jde přepsat |
+| Pojem | stránka pojmu `/pojem/<id>/`; v prázdných kartičkách jedno tlačítko „Přidat pojmy, které už znáš“ | pojem a otázka „Co to znamená? Řekni si to vlastními slovy.“ | vysvětlení, příklad, odkaz na místo, kde ho potkal |
+| Vystřižený citát | sbírka citátů | autor, dílo a místo, stránka odkud; „Co v té větě říká? Stačí myšlenka, přesná slova ne.“ | citát a studentova poznámka |
+| Vlastní zápis | lístek zápisu v kapitole deníku (pravidlo z cesty, odpověď Teď, sebehodnocení) | otázka zápisu; „Vybavíš si svou odpověď?“ | studentova odpověď a „Platí to pro tebe pořád?“ s odkazem, kde ji jde přepsat |
 | Co ti zůstalo? | konec kola kvízu | podnět a zadání bez možností | správná odpověď, vysvětlení, odkaz zpět |
 
 Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když student zdroj smaže (vyndá citát, smaže zápis), kartička tiše zmizí.
@@ -62,7 +62,7 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 
 **Odkud se dají vystřihnout nově.** Pravidlo: nůžky má každý citát ze `zdroje.yaml`, který student vidí celý a který už nic neskrývá. Přibudou u kompaktního citátu (časová osa otázky `HlasyOsa.astro`, Stoický týden), v ostrovech, které citát vykreslí samy (osa hlasů `OsaHlasu.svelte`, strany Sporu), a ve hrách až po odkrytí (rub Kdo to řekl?, hotový Doplň citát). Před odkrytím nůžky nejsou, prozradily by odpověď. Krok K4 nejdřív vypíše všechna místa, kde se citát vykresluje, a k nim, jestli nůžky má.
 
-**Jak vypadají ve sbírce.** Výstřižek: lístek v papíru období, odkud citát je, se střiženým okrajem a páskou (vzor `docs/design.md` › páska), citát v Newsreaderu, pod ním autor, dílo, místo jako odkaz na stránku, odkud ho student vystřihl. Nově **poznámka**: jeden řádek „Proč sis ho vystřihl?“, nepovinný, studentovým perem. U každého výstřižku „Do kartiček“ a „Vyndat ze sbírky“. V kapitole období zůstává část sbírky z toho období; nová stránka **Moje sbírka** (`/denik/sbirka/`) ukáže všechny výstřižky pohromadě, nejnovější nahoře.
+**Jak vypadají ve sbírce.** Výstřižek: lístek v papíru období, odkud citát je, se střiženým okrajem a páskou (vzor `docs/design.md` › páska), citát v Newsreaderu, pod ním autor, dílo, místo jako odkaz na stránku, odkud ho student vystřihl. Nově **poznámka**: jeden řádek „Proč zrovna tenhle?“, nepovinný, studentovým perem. U každého výstřižku „Do kartiček“ a „Vyndat ze sbírky“. V kapitole období zůstává část sbírky z toho období; nová stránka **Moje sbírka** (`/denik/sbirka/`) ukáže všechny výstřižky pohromadě, nejnovější nahoře.
 
 **Limit.** Tichý výpadek nejstaršího citátu se ruší (vzal by s sebou i kartičku). Sbírka drží 300 citátů; když je plná, nůžky citát nevystřihnou a řeknou proč.
 
@@ -77,16 +77,16 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | K2 | Co ti zůstalo?: skladatel otázek z dat, ostrov, oddíl v Tvoje antika, dílna | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K2) |
 | K3 | Kartičky v deníku: hromádka, otočení, Vím a Zopakuj si, tlačítka Do kartiček u zdrojů | Opus 5.5 · high | hotovo 22. 11. 2026 (Po K3) |
 | K4 | Vystřižené citáty: nůžky na dalších místech, výstřižek s poznámkou, Moje sbírka, tisk a text | Opus 5.5 · medium | hotovo 22. 11. 2026 (Po K4) |
-| P6 | Podklady, jen když T narazí na tvrzení, které v ověřených datech není | Sonnet 5.5 · high s vyhledáváním | jen při potřebě |
-| T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | **na řadě** (Zadání T) |
-| R | Revize větve se skillem `atlas-revize` | Opus 5.5 · high | čeká na T |
+| P6 | Podklady, jen když T narazí na tvrzení, které v ověřených datech není | Sonnet 5.5 · high s vyhledáváním | nebyl potřeba (Po T) |
+| T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | hotovo 23. 11. 2026 (Po T) |
+| R | Revize větve se skillem `atlas-revize` | Opus 5.5 · high | **na řadě** (Zadání R) |
 | O | Opravy po revizi | Opus 5.5 · high | čeká na R |
 | Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | čeká na O |
 
 **Nad čím jsem váhal.**
 - *Kvíz jen z prošlého, nebo z celé antiky?* Zvolil jsem prošlé: kvíz se jmenuje „Co ti zůstalo?“ a otázka na něco, co student nepotkal, by ho jen zkoušela. Jinak by šlo doplňovat kolo z celé antiky s větou „tohle tě teprve čeká“.
 - *Třetí druh otázky.* Zvažoval jsem vztahy („na koho navázal“) a Kdo by to řekl?. Vztahy vedou k učení jmen a let, Kdo by to řekl? nemá správnou odpověď, jen „Atlas by vybral“. Obraz a otázka cvičí jinou paměť a stojí jen na struktuře atlasu.
-- *Automatické kartičky.* Kartičky ze všeho, co student potkal, by narostly v povinnost. Jen klepnutím studenta, s jedinou výjimkou tlačítka „Přidat pojmy, které jsi potkal“ v prázdném stavu.
+- *Automatické kartičky.* Kartičky ze všeho, co student potkal, by narostly v povinnost. Jen klepnutím studenta, s jedinou výjimkou tlačítka „Přidat pojmy, které už znáš“ v prázdném stavu.
 - *Hromádka po pěti.* Menší číslo působí jako hra, větší jako úkol. „Ještě pět“ nechává víc tomu, kdo chce.
 - *Celá sbírka na vlastní stránce.* Sbírka po kapitolách období zůstává; pro tisk a export je potřeba jedno místo se vším.
 - *P6 předem?* Kvíz ani kartičky nové tvrzení nepotřebují (pojmy mají podklady, hlasy citáty z `zdroje.yaml`, kresby jen strukturu atlasu). P6 proto jen při potřebě, kdyby ho T přece jen našel.
@@ -127,7 +127,7 @@ interface OtazkaZustalo {
   zadani: string;        // věta nad možnostmi
   moznosti: { id: string; text: string }[]; // tři, pořadí ze semínka
   spravna: string;
-  vysvetleni: string;    // z dat: první věta vysvětlení pojmu, citát hlasu s údajem, cesta a krok
+  vysvetleni: string;    // z dat: vysvětlení pojmu, citát hlasu s údajem (nebo důvod z myšlenky), cesta a otázka
   zpet: { href: string; text: string };
   /** kde to student potkal: adresy stránek a „cesta/<slug>/<krok>“ (výběr podle deníku) */
   potkal: string[];
@@ -143,7 +143,7 @@ Moje sbírka citátů z Atlasu myšlení (<datum stažení>)
 
 „<znění ze zdroje.yaml>“
 <autor>, <dílo> <místo>
-Proč jsem si ho vystřihl: <poznámka, jen když ji student napsal>
+Proč zrovna tenhle: <poznámka, jen když ji student napsal>
 https://czempi123.github.io<stránka, odkud citát je>
 ```
 
@@ -164,47 +164,44 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 
 ## Průběh
 
-Zápisy Po Plán až Po K3 jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
+Zápisy Po Plán až Po K4 jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
 
-## Po K4 (22. 11. 2026)
+## Po T (23. 11. 2026)
 
-**Výpis míst, kde se kreslí citát ze `zdroje.yaml`** (grep `citatyPodleId`, `.cesky`, `<Citat`, `blockquote`):
+**Co ti zůstalo?** Texty kvízu stojí pohromadě v `TEXTY_ZUSTALO` (`src/lib/herna/zustalo.ts`), ostrov je bere odtud.
+- *Úvod oddílu* (`TVOJE_ANTIKA.zustalo.uvod`): „Poznáš Epikúrův klid, když pípne mobil, a víš, co by ti po hádce s kamarádem řekl Epiktétos? Tady zjistíš, co ti z antiky zůstalo a kde najdeš to, co ti vypadlo.“ Mobil je z `priklad` pojmu klid, hádka je případ otázky Jsem svobodný?, na kterou odpovídá i Epiktétos.
+- *Zadání:* „Který pojem v tom poznáš?“ (věštírna, tyran ani religionistika nejsou myšlenky; nadtitulek druhu je „Pojem v životě“), „Co by ti na to řekl X?“ beze změny, „Ke které velké otázce ta kresba patří?“ (kresba na otázku neodpovídá).
+- *Pozvánka:* „Otázky se tu ptají jen na to, co už z antiky znáš. Zatím by jich bylo málo.“ a odkaz „Projdi cestu …“ (sedí prázdnému deníku i rozjeté cestě). Konec kola beze změny.
 
-| Místo | Kde | Nůžky před K4 | Po K4 |
-| --- | --- | --- | --- |
-| Citát na listu (`ui/Citat.astro`) | profily, kroky cest, úvody, směry, období, tradice, pokusy; i uvnitř Kdo je na tvé straně (`Strany`, sbalené „Kdo hájil jiné odpovědi“) | ano | ano (značka `ui/Nuzky.svelte`) |
-| Kompaktní citát (`Citat.astro kompaktni`) | hlasy na stránce otázky (`otazka/HlasyOsa.astro`, 42 citátů na 8 otázkách), námitka Stoického týdne | ne | ano |
-| Den týdne (`ostrovy/Tyden.svelte`) | Stoický týden, citát dne | ne | ano |
-| Rub Kdo to řekl? (`KdoToRekl.svelte`) | dílna, cesty, hry na stránkách osob (`HraOsoby.astro`) | ne | až po otočení |
-| Hotový Doplň citát (`DoplnCitat.svelte`, oblast Celý citát) | dílna, cesty, hry osob | ne | až se správným slovem |
-| Hlas her (`HlasHerny.svelte`) | Kdo by to řekl? (Atlas by vybral, Kdo by odmítl), Najdi slabé místo (Kdo stál s tebou) | ne | až po zapsání |
-| Původ v Pravý, nebo podvržený? (`.puvod__citat`) | dílna, hry osob | ne | po verdiktu, když pramen citát má |
-| Líc Kdo to řekl?, ústřižek Pravého, souhrn série | hry | ne | ne: líc a ústřižek by prozradily odpověď, souhrn opakuje ruby |
-| Vysvětlení Co ti zůstalo? a jeho kartička | Tvoje antika, deník | ne | ne: citát je součást věty vysvětlení; jeho stránka otázky nůžky má |
-| Kartička citátu, výstřižek, Prameny | deník, konec stránek | ne | ne: už ve sbírce, nebo jen údaje bez znění |
+**Výpis všech otázek** (`Claude outputs/zustalo-antika.md`) přečtený jako text. Opravy:
+- *Situace patří jednomu pojmu.* `blizkePojmy`: pojem, který vysvětlení správného jmenuje, nebo naopak, mezi možnostmi není (slast „je to klid“, v naší moci „naše soudy“). Dřív stál klid se slastí v jedné otázce a soud s v naší moci. Pravidlo jde z dat, takže platí i pro další období.
+- *Vysvětlení pojmu* je celé `vysvetleni` (dvě věty) místo první věty a „Najdeš ho u: …“: u slasti teprve druhá věta říká, proč je situace po tréninku slast, a „Najdeš ho u:“ mělo rod pojmu a jména v 1. pádě.
+- *Kresby:* `BLIZKE_OTAZKY_KRESEB` (`src/lib/kresby.ts`, s důvodem u každé) drží velké otázky, na které by obraz poctivě odpovídal taky; mezi možnostmi nejsou (jeskyně a Jak poznám, co je pravda?, Třetí čára a Jsem svobodný?…). Strhni masku do kvízu nepřišla: tvář pod maskou svádí ke čtyřem otázkám z pěti. Antika má 67 otázek (kresby 10).
+- *Podnět kresby* má název na vlastním řádku („Kresba „Kde je střed?““ bez tečky za uvozovkou). Úseky kroku u Přesýpacích hodin, Třetí čáry, Cesty ven a Roztrhni kartu začínají o větu dřív (doslova z kroku), ať „jeho hodiny“, „každý“ a „každou“ mají k čemu patřit.
+- *Vysvětlení kresby:* „Kresba patří k cestě *Kolik je dost?*, která hledá odpověď na otázku *Jak mám žít?*“; krok nese odkaz zpět. Kartička teď vykresluje odstavce přes `radek` (kurzíva).
+- *Hlasy, kde citát mluví o jiné části myšlenky než odpověď* (`VYSVETLENI_HLASU`, `zustalo-data.ts`): Parmenidés u duhy dostal B8, 38–41 (`parmenides-b8-jmena`, odpověď je jeho převod), Marcus u Kdo tě zná líp?, Epikúros a Aristotelés u Sklad, nebo tábor? důvod z myšlenky. Ostatní citáty odpovídají.
+- *Údaj citátu:* závorka v místě jde do hranatých („Hlavní myšlenky 37 [Diogenés Laertios X, 152]“). Dopis Hérodotovi má v `zdroje.yaml` místo „64 (Diogenés Laertios X, 64)“ jako Dopis Menoikeovi; dřív se četl „Dopis Hérodotovi Diogenés Laertios X, 64“ i na stránce otázky.
+- *Hlasy se liší myšlenkou:* prošel jsem všech 41. Nejblíž jsou Seneca a Epikúros u fotky z roku 1926 („s jakou myslí“ × „příjemně a beze strachu“) a Platón a Aristotelés u Kdo tě zná líp? (rozdíl nese přítel); nechal jsem.
 
-Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, citát nevykreslují: citát hlasu stojí pod osou v `HlasyOsa.astro`.
+**Kartičky** (`TEXTY_KARTICEK`): „Nejdřív si odpověz v duchu, pak kartičku otoč.“; prázdné „Do kartiček si můžeš dát pojem, vystřižený citát nebo vlastní odpověď z cesty. Za pár dní se ti vrátí a uvidíš, co ti z nich zůstalo.“; „Přidat pojmy, které už znáš“; líc citátu „Co v té větě říká? Stačí myšlenka, přesná slova ne.“ a pod údajem „Stránka Epikúros“ (jméno z dat jako přístavek v 1. pádě); „Vybavíš si svou odpověď?“; „Zpátky na místo, odkud je“. Na dnes stačí, Dnes žádná a tlačítka beze změny.
 
-**Nůžky všude stejně.** `ui/Nuzky.svelte` je jen značka (`data-vystrihnout`, `data-text`, `data-kde` s autorem, dílem a místem z `udajeCitatu`); v Astru bez `client:`, v ostrovech až po odkrytí. `src/scripts/vystrihnout.ts` drží stav (`aria-pressed`) a nůžky z ostrovů najde pozorovatelem změn; pro hlasy her přibylo `id` a `udaje` v `HlasHerny`, pro původ v Pravém `id`. Na rubu Kdo to řekl? stojí nůžky v řádku s Otevřít stránku (`vRadku`), protože pravý dolní roh patří otisku „sedí“; ostatní sedí vpravo dole u údajů. Plná sbírka: nůžky nic nevystřihnou, pod citátem se objeví věta s odkazem Moje sbírka (`role="status"`) a zmizí, jakmile se místo uvolní.
+**Sbírka** (`TEXTY_SBIRKY`): pruh „Věty, které tě zastavily.“; perex „Citáty z celého atlasu pohromadě, nejnovější nahoře. Ke každému si můžeš připsat, co pro tebe znamená, a celou sbírku vytisknout nebo stáhnout jako text.“ (věta o prohlížeči pryč, ukládání řeší deník); prázdná „Zatím tu nic není. Až tě v atlasu nějaká věta zastaví, vystřihni ji nůžkami pod citátem.“; poznámka „Proč zrovna tenhle?“, ve staženém textu „Proč zrovna tenhle:“; plná u nůžek „Do sbírky se vejde 300 citátů a teď je plná. Než vystřihneš další, některý z ní vyndej:“ s odkazem, na stránce „Sbírka je plná, vejde se do ní 300 citátů. …“. Titulek, Vytisknout, Stáhnout jako text, Přepsat, Celá sbírka a hlavička textu beze změny.
 
-**Výstřižek** (`denik/Vystrizek.svelte`): lístek v papíru období stránky, odkud citát je (`obdobiVystrizku`; v kapitole deníku barvu dá kapitola), střih nůžkami (rovné šikmé hrany se dvěma zoubky, stín filtrem obalu), citát v Newsreaderu, údaje jako odkaz zpět. Poznámka: tiché tlačítko Proč sis ho vystřihl? otevře pole (Enter uloží, Escape zruší, fokus zpět na Přepsat), poznámka pak perem (Kalam, `--pero`); na rubu kartičky citátu ji ukazuje už K3. Pod lístkem Do kartiček a Vyndat ze sbírky (kartička zůstane schovaná). Páska jen u prvního výstřižku na stránce Moje sbírka; v kapitole deníku žádná (páska v deníku patří Návratu). Pod výstřižky v kapitole odkaz Celá sbírka.
+**Rod.** Mužský tvar zůstal jen v doslovném úseku kroku (Zrcadlo: „Kde jsi byl?“); jinde formulace bez rodu.
 
-**Moje sbírka** (`src/pages/denik/sbirka.astro`, ostrov `denik/MojeSbirka.svelte`, logika `src/lib/sbirka.ts`, texty `src/lib/sbirka-texty.ts`): titulek s pruhem, perex, Vytisknout a Stáhnout jako text, výstřižky od nejnovějšího ve sloupcích po 300 px (na telefonu jeden), prázdný stav, věta o plné sbírce. Tisk (`html[data-tisk='sbirka']`): jen titulek a lístky po dvou na A4, čárkovaný střih, bez lišt, tlačítek a pásky. Text podle Formátů (`sbirkaJakoText`, soubor `atlas-citaty-RRRR-MM-DD.txt`).
+**Pro P6: nic.** Žádná věta nepotřebovala nové tvrzení: všechno je z pojmů, hlasů, `zdroje.yaml` a textu kroků.
 
-**Texty** jsou pracovní a stojí v `TEXTY_SBIRKY`; učeše je T (mužský rod „vystřihl“, „zastavil“ zatím všude).
+**Mimo větev, pro R:** mužský rod v textech deníku, které větev nepsala („Koho jsem potkal“ v `SbirkaDeniku`, „Co sis myslel a kdo s tebou stál.“ na Tvoje antika, `PrenosDeniku`); údaj „Dopis z posledního dne Diogenés Laertios X, 22“ má stejný tvar jako Hérodotovi dřív; hlavička staženého textu říká „Atlas myšlení“, záhlaví webu „Agora“.
 
-**Testy.** `tests/data/sbirka.test.ts` (7: pořadí, údaje, období stránky, jméno souboru, text s poznámkou i bez, prázdná sbírka, plná sbírka v `sCitatem`). `tests/e2e/sbirka.spec.ts` (9: nůžky v pěti hrách až po odkrytí a po obnovení stisknuté, kompaktní citát a den týdne, plná sbírka klávesnicí a po uvolnění místa, Moje sbírka s pořadím, páskou, poznámkou klávesnicí, staženým textem, Do kartiček, Vyndat a tiskem, prázdná a bez localStorage, odkaz z kapitoly, axe, 44 px a přetečení na 390 a 1440 px ve dne i v noci). `karticky.spec.ts` hledá výstřižek novou třídou `.vyst-citat`. `scripts/kontrola-fokus.mjs` s plnou sbírkou (300) na `/denik/sbirka/` a `/denik/` a s `tests/e2e/data/sbirka.json`: bez nálezu na 390 i 1440 px. Referenční snímek `denik-kapitoly-390-noc` obnoven s `--update-snapshots=all` a prohlédnut (nový výstřižek, odkaz Celá sbírka). Snímky a PDF tisku: `Claude outputs/snimky-sbirka/` (skript `scripts/snimky-sbirka.mjs`, data `tests/e2e/data/sbirka.json`). Nůžky na nových místech: `scripts/snimky-nuzky.mjs`, listy `list-nuzky-*.jpg`.
-
-**Nestálý test kapitol vyřešen.** `denik-kapitoly.spec.ts:101` (Po K1 a Po K2: po obnovení otevřená i Helenismus) po K4 padal pokaždé. Příčina není zápis času v deníku: událost `toggle` u `<details>` přijde jako samostatná úloha a test stránku obnovil dřív, než se zavření kapitoly uložilo (měřeno 24 ms). Test teď před obnovením počká, až je stav v úložišti; 30 z 30 při trojím opakování. Věta v `docs/pouceni.md` › Technika.
+**Testy.** `zustalo.test.ts` (+5: blízké pojmy, blízké otázky kresby, data antiky bez blízkých dvojic, kresby s blízkými otázkami, vysvětlení hlasu z citátu odpovědi nebo z myšlenky; podnět a vysvětlení kresby), nové znění v `karticky-obsah.test.ts`, `sbirka.test.ts`, `karticky.spec.ts`, `sbirka.spec.ts`, `co-ti-zustalo.spec.ts` a `scripts/snimky-sbirka.mjs`. Vitest 1659 z 1659, dotčené Playwright (co-ti-zustalo, karticky, sbirka, tvoje-antika, denik-kapitoly, snimky) 60 z 60. Celé `npm test` na Macu: kontrola typů bez chyb, Vitest 1659 z 1659, Playwright 928 z 928 (9,2 min). Snímky 390 a 1440 px ve světlém i tmavém režimu: `Claude outputs/denik-v2-T/` (přehledové listy `list-*-390.jpg`).
 
 **Nad čím jsem váhal.**
-- *Páska v deníku.* Zadání chce u výstřižku pásku, design (revize R) ji v deníku nechává jen Návratu. V kapitole proto žádná, na Moje sbírka jen první: tím platí střídmost na každé obrazovce. Šlo by dát pásku prvnímu výstřižku každé kapitoly.
-- *Barva papíru.* Podle stránky, odkud student citát vystřihl (stejně jako rozdělení do kapitol), ne podle autora; citát ze stránky otázky je tak bez období. Druhá cesta: období autora z `lide.yaml`.
-- *Střih.* Rovné šikmé hrany se zoubkem, kde se střih navázal, ne zubatý okraj: vytržený okraj má titulek a zubatý ústřižek Doplň citát. Je nenápadný; R řekne, jestli stačí.
-- *Jeden skript pro nůžky.* Ostrov jen vykreslí značku, stav drží `vystrihnout.ts` s pozorovatelem změn na celé stránce. Pozorovatel reaguje jen na přidané prvky a hned končí, když v nich nůžky nejsou.
-- *Poznámka za tlačítkem.* Čtyři prázdná pole pod sebou by vypadala jako formulář. Pole má 200 znaků; delší myšlenka patří do zápisu.
-- *Hlasy her.* Nůžky u každého hlasu (Kdo by odmítl, Kdo stál s tebou), i když jich je v bloku víc: jsou celé a nic už neskrývají. Kdyby rušily, šlo by je nechat jen u Atlas by vybral.
-- *Tisk bez `@page`.* Okraje A4 dává prohlížeč; `@page` by platilo i pro tisk Moje filozofie.
+- *Blízké pojmy z dat, ne ze seznamu.* Vyřadí i dvojice, které by snesly (ctnost a vědění), ale kandidátů je dost a pravidlo se nezapomene. U kreseb to z dat nejde, proto ruční seznam s důvody.
+- *Strhni masku mimo kvíz.* Šlo by jí dát jiný úsek kroku, ale obraz sám otázku Má život smysl? nenese.
+- *Vysvětlení z myšlenky místo citátu* u tří hlasů: přijde se o živý hlas, ale vysvětlí se odpověď. U Parmenida citát zůstal, jen ten, ze kterého odpověď je.
+- *„Proč zrovna tenhle?“* místo „Proč sis ho vystřihl?“: bez rodu a kratší; perex říká „co pro tebe znamená“, aby student nemusel psát jen důvod.
+- *„Stránka Epikúros“* místo „stránka: Epikúros“: přístavek v 1. pádě sedí i na cestu („Stránka Kolik je dost?“). „Ze stránky Epikúra“ by potřebovalo pády jmen stránek, které data nemají.
+- *Úvod jmenuje Epikúra a Epiktéta:* je to pozvánka, ne slib, že otázky budou o nich.
 
 ## Co zůstává na později
 

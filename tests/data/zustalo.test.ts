@@ -1,12 +1,12 @@
 // Co ti zůstalo? (denik-v2, K2): skládání otázek z dat, kontrola, výběr kola podle deníku a stav kola.
 import { describe, it, expect } from 'vitest';
 import {
-  chybyZustalo, dalsiOtazka, jmenuje, konecKola, kZopakovani, noveKolo, odpovez, otazkyHlasu, otazkyKreseb, otazkyPojmu,
+  blizkePojmy, chybyZustalo, dalsiOtazka, jmenuje, konecKola, kZopakovani, noveKolo, odpovez, otazkyHlasu, otazkyKreseb, otazkyPojmu,
   platnyStavZustalo, potkaneZDeniku, pozvanka, pripadZTextu, vetaPredKresbou, vyberKola, zpetPro,
   ZUSTALO_DRUHU_NEJVYS, ZUSTALO_KOLO, type OtazkaZustalo, type PojemVstup,
 } from '../../src/lib/herna/zustalo';
 import { katalogZustalo, vstupZustalo } from '../../src/lib/herna/zustalo-data';
-import { VETY_KRESEB } from '../../src/lib/kresby';
+import { BLIZKE_OTAZKY_KRESEB, VETY_KRESEB } from '../../src/lib/kresby';
 import { prostyText } from '../../src/lib/tvoje-obdobi';
 import { VIS, ZOPAKUJ_SI, vybaveni } from '../../src/lib/herna/verdikt';
 
@@ -52,6 +52,23 @@ describe('skládání', () => {
     expect(o.some((x) => x.id === 'pojem:osud')).toBe(false);
     expect(o.find((x) => x.id === 'pojem:soud')!.moznosti).toHaveLength(3);
     expect(klid.potkal).toContain('/pojem/klid/');
+    expect(klid.vysvetleni).toBe('klid je první věta. Druhá věta.');
+    expect(klid.zadani).toBe('Který pojem v tom poznáš?');
+  });
+  it('pojem: pojem, který vysvětlení správného jmenuje (nebo naopak), mezi možnostmi není', () => {
+    const slast = pojem('slast', { vysvetleni: 'Slast je cílem. Je to klid těla a mysli.' });
+    const klid = pojem('klid', { tvary: ['klidu'] });
+    expect(blizkePojmy(slast, klid)).toBe(true);
+    expect(blizkePojmy(klid, slast)).toBe(true);
+    expect(blizkePojmy(klid, pojem('stesti'))).toBe(false);
+    const pojmy = [klid, slast, pojem('stesti'), pojem('soud'), pojem('osud')];
+    const pary = [{ id: 'epikureismus-pary', pary: [{ pojem: 'klid', situace: 'Boty tě netahají.' }, { pojem: 'slast', situace: 'Nic tě nebolí.' }, { pojem: 'stesti', situace: 'Celý život.' }] }];
+    const o = otazkyPojmu(pojmy, pary, ANTIKA);
+    for (const id of ['pojem:klid', 'pojem:slast']) {
+      const x = o.find((y) => y.id === id)!;
+      expect(x.moznosti, id).toHaveLength(3);
+      expect(x.moznosti.map((m) => m.id).filter((m) => ['klid', 'slast'].includes(m)), id).toHaveLength(1);
+    }
   });
   it('hlas: tři odpovědi téže otázky, přednostně jiného směru; odpověď se jménem mluvčího vypadne', () => {
     const h = (osoba: string, smer: string, odpoved = `Rada číslo ${osoba.length}${smer}.`) => ({ osoba, jmeno: osoba, tvaryJmena: [osoba], smer, odpoved, vysvetleni: `„${osoba}“` });
@@ -68,6 +85,15 @@ describe('skládání', () => {
     expect(o[0].spravna).toBe('5');
     expect(o[0].moznosti).toHaveLength(3);
     expect(o[0].potkal).toEqual(['cesta/c/4']);
+    expect(o[0].podnet).toBe('Kresba „Loď“\n\nVyměň prkna.');
+    expect(o[0].vysvetleni).toBe('Kresba patří k cestě *Cesta*, která hledá odpověď na otázku *Kdo vlastně jsem?*');
+  });
+  it('kresba: otázka, na kterou by obraz poctivě odpovídal taky, mezi možnostmi není', () => {
+    const velke = [1, 3, 4, 5, 6, 7].map((cislo) => ({ cislo, otazka: `Otázka ${cislo}?` }));
+    const o = otazkyKreseb([{ komponenta: 'Jeskyne', nazev: 'Jeskyně', veta: 'Stíny.', cesta: { slug: 'c', nazev: 'Cesta', otazka: 6 }, krok: { n: 1, nazev: 'Jeskyně' }, blizke: [7, 4] }], velke);
+    expect(o[0].moznosti.map((m) => m.id)).not.toContain('7');
+    expect(o[0].moznosti.map((m) => m.id)).not.toContain('4');
+    expect(o[0].moznosti).toHaveLength(3);
   });
   it('kontrola najde situaci se jménem pojmu, dvě stejné možnosti a chybějící vysvětlení', () => {
     const spatna = { ...otazka('pojem:klid', 'pojem'), spravna: 'klid', podnet: 'To je klid.', moznosti: [{ id: 'klid', text: 'Klid' }, { id: 'b', text: 'Klid' }, { id: 'c', text: 'C' }], vysvetleni: ' ' };
@@ -85,6 +111,30 @@ describe('data antiky', () => {
     for (const d of ['pojem', 'hlas', 'kresba'] as const) expect(k.otazky.filter((o) => o.druh === d).length).toBeGreaterThanOrEqual(4);
     expect(chybyZustalo(k.otazky, v.pojmy)).toEqual([]);
     for (const o of k.otazky) for (const p of o.potkal.filter((x) => !x.startsWith('cesta/') || /\/\d+$/.test(x))) expect(k.mista[p], `${o.id} → ${p}`).toBeDefined();
+  });
+  it('blízké otázky kreseb nejsou mezi možnostmi; kresba, které nezbudou dvě jiné otázky, v kvízu není', () => {
+    for (const [komponenta, blizke] of Object.entries(BLIZKE_OTAZKY_KRESEB)) {
+      expect(v.kresby.some((x) => x.komponenta === komponenta), komponenta).toBe(true);
+      const o = k.otazky.find((x) => x.id === `kresba:${komponenta}`);
+      const zbude = v.velke.length - 1 - blizke!.length;
+      expect(!!o, komponenta).toBe(zbude >= 2);
+      if (!o) continue;
+      for (const c of blizke!) expect(o!.moznosti.map((m) => m.id), komponenta).not.toContain(String(c));
+    }
+  });
+  it('žádná dvojice blízkých pojmů (slast a klid, soud a v naší moci) není v jedné otázce', () => {
+    for (const o of k.otazky.filter((x) => x.druh === 'pojem')) {
+      const p = v.pojmy.find((x) => x.id === o.spravna)!;
+      for (const m of o.moznosti.filter((x) => x.id !== p.id)) expect(blizkePojmy(p, v.pojmy.find((x) => x.id === m.id)!), `${o.id} × ${m.id}`).toBe(false);
+    }
+    const klid = k.otazky.find((x) => x.id === 'pojem:klid')!;
+    expect(klid.moznosti.map((m) => m.id)).not.toContain('slast');
+    const soud = k.otazky.find((x) => x.id === 'pojem:soud')!;
+    expect(soud.moznosti.map((m) => m.id)).not.toContain('v-nasi-moci');
+  });
+  it('hlas, u kterého citát mluví o jiné části myšlenky, má vysvětlení z citátu odpovědi nebo z myšlenky', () => {
+    expect(k.otazky.find((x) => x.id === 'hlas:co-je-skutecne:parmenides')!.vysvetleni).toMatch(/^„Proto je jen jménem všechno/);
+    expect(k.otazky.find((x) => x.id === 'hlas:kdo-vlastne-jsem:marcus-aurelius')!.vysvetleni).toMatch(/mínění o sobě si cení méně než cizího\.$/);
   });
   it('žádná situace nejmenuje svůj pojem', () => {
     for (const o of k.otazky.filter((x) => x.druh === 'pojem')) {

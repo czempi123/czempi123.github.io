@@ -2,7 +2,7 @@
   // Kartičky v Můj deník (denik-v2, K3; plán › 2): hromádka na dnes (nejvýš pět), kartička s lícem a rubem podle
   // zdroje, otočení tlačítkem (i klepnutím na líc), Vím, Zopakuj si a Vyndat z kartiček, po hromádce Na dnes stačí
   // a nepovinně Ještě pět. Nikde počet čekajících, datum dalšího opakování ani zameškané dny. Bez kartiček jen
-  // pozvánka s tlačítkem Přidat pojmy, které jsi potkal (když nějaké potkal). Logika v src/lib/karticky.ts.
+  // pozvánka s tlačítkem Přidat pojmy, které už znáš (když nějaké potkal). Logika v src/lib/karticky.ts.
   //   <Karticky denik={denik} data={karticky} stranky={stranky} />   (uvnitř Denik.svelte; deník předává živý)
   import { onMount, tick } from 'svelte';
   import { nacti, mistniDatum, ulozStavBloku, ohodnotitKarticku, vyndatKarticku, pridatKarticku, type Denik, type HodnoceniKarticky } from '../../lib/denik';
@@ -11,6 +11,7 @@
     zdrojExistuje, KLIC_HROMADKY, TEXTY_KARTICEK as T, type DataKarticek, type StavHromadky, type StrankaKarticky,
   } from '../../lib/karticky';
   import { potkaneZDeniku } from '../../lib/herna/zustalo';
+  import { radek } from '../../lib/bloky';
 
   interface Props {
     denik: Denik;
@@ -108,7 +109,7 @@
               <p class="karta__nad">{o.nadtitulek}</p>
               {#if o.lic.nazev}<p class="karta__nazev">{o.lic.nazev}</p>{/if}
               {#if o.lic.pod}<p class="t-popisek karta__pod">{o.lic.pod}</p>{/if}
-              {#each o.lic.odstavce as odst, i (i)}<p class="karta__podnet">{odst}</p>{/each}
+              {#each o.lic.odstavce as odst, i (i)}<p class="karta__podnet">{@html radek(odst)}</p>{/each}
               <p class="karta__otazka">{o.lic.otazka}</p>
               <div class="blok__akce"><button class="blok__tl blok__tl--hlavni" type="button" onclick={otoc}>{T.otocit}</button></div>
             </div>
@@ -119,9 +120,9 @@
               {#if o.rub.odpoved}<p class="karta__odpoved">{o.rub.odpoved}</p>{/if}
               {#if o.rub.citat}<blockquote class="karta__citat"><p>„{o.rub.citat}“</p></blockquote>{/if}
               {#if o.rub.pero}<p class="karta__pero">{o.rub.pero}</p>{/if}
-              {#each o.rub.odstavce as odst, i (i)}<p class="karta__text">{odst}</p>{/each}
+              {#each o.rub.odstavce as odst, i (i)}<p class="karta__text">{@html radek(odst)}</p>{/each}
               {#if o.rub.dotaz}<p class="karta__otazka">{o.rub.dotaz}</p>{/if}
-              {#if o.rub.zpet}<p class="karta__zpet"><a href={o.rub.zpet.href}>{o.rub.zpet.text}</a></p>{/if}
+              {#if o.rub.zpet}<p class="karta__zpet"><a href={o.rub.zpet.href}>{@html radek(o.rub.zpet.text)}</a></p>{/if}
               <div class="blok__akce">
                 <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={() => hodnot('vim')}>{T.vim}</button>
                 <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={() => hodnot('zopakuj')}>{T.zopakuj}</button>

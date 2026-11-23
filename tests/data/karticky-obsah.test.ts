@@ -59,7 +59,7 @@ describe('líc a rub', () => {
     const d = sKartickou(prazdny({ citaty: [{ id: 'c1', text: 'Věta.', kde: 'Seneca, Dopisy 1', odkaz: '/osobnost/seneca/#cas', kdy: T, poznamka: 'Proto.' }] }), 'citat', 'c1', T);
     const o = obsahKarticky(d.karticky!['citat:c1'], d, DATA, potkane, { '/osobnost/seneca/': { nazev: 'Seneca', obdobi: 2 } })!;
     expect(o.lic.nazev).toBe('Seneca, Dopisy 1');
-    expect(o.lic.pod).toBe('stránka: Seneca');
+    expect(o.lic.pod).toBe('Stránka Seneca');
     expect(o.rub.citat).toBe('Věta.');
     expect(o.rub.pero).toBe('Proto.');
     expect(o.rub.zpet?.href).toBe('/osobnost/seneca/#cas');
@@ -67,7 +67,7 @@ describe('líc a rub', () => {
   it('zápis: otázka zápisu na lícu, odpověď a Platí to pro tebe pořád? s odkazem na rubu', () => {
     const d = sKartickou(prazdny({ zapisy: [zapis({})] }), 'zapis', 'z', T);
     const o = obsahKarticky(d.karticky!['zapis:z'], d, DATA, potkane, { '/cesta/kolik-je-dost/': { nazev: 'Kolik je dost?', obdobi: 2 } })!;
-    expect(o.lic).toMatchObject({ nazev: 'Jaké je tvoje pravidlo?', otazka: 'Vybavíš si, co jsi napsal?' });
+    expect(o.lic).toMatchObject({ nazev: 'Jaké je tvoje pravidlo?', otazka: 'Vybavíš si svou odpověď?' });
     expect(o.rub).toMatchObject({ pero: 'Nejdřív se zeptám.', dotaz: 'Platí to pro tebe pořád?', zpet: { href: '/cesta/kolik-je-dost/7/' } });
     expect(o.obdobi).toBe(2);
   });

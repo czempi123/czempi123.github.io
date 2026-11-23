@@ -20,11 +20,12 @@ r.push('Správná možnost je označená ✓. „Potká“ říká, kde student 
 
 const bezOtazky = v.pojmy.filter((p) => p.obdobi.some((o) => OBDOBI.includes(o)) && !k.otazky.some((o) => o.id === `pojem:${p.id}`));
 const hlasyBez = v.otazky.flatMap((o) => (o.hlasy.length >= 3 ? o.hlasy.filter((h) => !k.otazky.some((x) => x.id === `hlas:${o.slug}:${h.osoba}`)).map((h) => `${h.jmeno} (${o.otazka})`) : []));
-const kresbyBez = v.kresby.filter((x) => !k.otazky.some((o) => o.id === `kresba:${x.komponenta}`)).map((x) => x.nazev);
+const kresbyBez = v.kresby.filter((x) => !x.veta && !k.otazky.some((o) => o.id === `kresba:${x.komponenta}`)).map((x) => x.nazev);
 r.push('## Co do kvízu nepřišlo', '');
 r.push(`- Pojmy bez situace (příklad pojem jmenuje a v Párech není): ${bezOtazky.map((p) => p.pojem).join(', ') || 'žádné'}`);
 r.push(`- Hlasy, jejichž odpověď jmenuje některého z mluvčích: ${hlasyBez.join('; ') || 'žádné'}`);
 r.push(`- Kresby bez věty nad sebou: ${kresbyBez.join(', ') || 'žádné'}`);
+r.push(`- Kresby, ke kterým by poctivě patřilo víc otázek (BLIZKE_OTAZKY_KRESEB): ${v.kresby.filter((x) => x.veta && !k.otazky.some((o) => o.id === `kresba:${x.komponenta}`)).map((x) => x.nazev).join(', ') || 'žádné'}`);
 r.push(`- Otázky s méně než třemi hlasy z antiky: ${v.otazky.filter((o) => o.hlasy.length < 3).map((o) => o.otazka).join(', ')}`, '');
 
 for (const d of ['pojem', 'hlas', 'kresba'] as DruhZustalo[]) {

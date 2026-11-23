@@ -6,7 +6,7 @@ import { osoby, citatyPodleId } from '../data';
 import { nazevPojmu, tvaryJmena } from '../pojmy';
 import { adresaOtazky } from '../otazky';
 import { adresaCesty, adresaKroku } from '../cesty';
-import { NAZVY_KRESEB, VETY_KRESEB } from '../kresby';
+import { BLIZKE_OTAZKY_KRESEB, NAZVY_KRESEB, VETY_KRESEB } from '../kresby';
 import { duvodZMyslenky } from '../tvoje-obdobi';
 import {
   chybyZustalo, klicVyskytu, otazkyHlasu, otazkyKreseb, otazkyPojmu, pripadZTextu, vetaPredKresbou,
@@ -27,6 +27,26 @@ function rozeber(text: string): { fm: Record<string, unknown>; body: string } {
   const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   return m ? { fm: (parse(m[1]) ?? {}) as Record<string, unknown>, body: m[2] } : { fm: {}, body: text };
 }
+
+/**
+ * Vysvětlení hlasu tam, kde citát u hlasu na stránce otázky mluví o jiné části myšlenky než odpověď (denik-v2, T):
+ * citát, ze kterého odpověď je (ověřený v `zdroje.yaml`), nebo důvod z myšlenky hlasu. Klíč „otázka:osoba“.
+ */
+const VYSVETLENI_HLASU: Record<string, { citat: string } | 'myslenka'> = {
+  // odpověď převádí B8, 38–41 („jen jménem“), citát u hlasu je B8, 9–10 o vzniku z ničeho
+  'co-je-skutecne:parmenides': { citat: 'parmenides-b8-jmena' },
+  // odpověď je o cizím mínění (myšlenka, Hovory XII, 4), citát o třech částech člověka
+  'kdo-vlastne-jsem:marcus-aurelius': 'myslenka',
+  // odpověď „spočítej, kolik opravdu potřebuješ“ je z myšlenky; citát je o příjemném a spravedlivém životě
+  'jak-zit:epikuros': 'myslenka',
+  // odpověď „štěstí je činnost, ne pocit“ je z myšlenky; citát o vlaštovce je o celém životě
+  'jak-zit:aristoteles': 'myslenka',
+};
+const vysvetleniCitatem = (id: string | undefined) => {
+  const c = id ? citatyPodleId.get(id) : undefined;
+  // závorka v místě („Hlavní myšlenky 37 (Diogenés Laertios X, 152)“) jde do hranatých, ať se závorky nevnořují
+  return c ? `„${c.cesky.trim()}“ (${c.autor}, ${c.dilo} ${c.misto.replace(/\(([^()]*)\)/g, '[$1]')})` : undefined;
+};
 
 export interface VstupZustalo {
   pojmy: PojemVstup[];
@@ -78,8 +98,8 @@ export function vstupZustalo(obdobi: readonly number[]): VstupZustalo {
     hlasy: (o.fm.hlasy ?? []).flatMap((h) => {
       const os = osoby.get(h.osoba);
       if (!os || !obdobi.includes(os.obdobi)) return [];
-      const c = h.citat ? citatyPodleId.get(h.citat) : undefined;
-      const vysvetleni = c ? `„${c.cesky.trim()}“ (${c.autor}, ${c.dilo} ${c.misto})` : (duvodZMyslenky(h.myslenka) ?? '');
+      const jine = VYSVETLENI_HLASU[`${o.slug}:${h.osoba}`];
+      const vysvetleni = (jine === 'myslenka' ? undefined : vysvetleniCitatem(jine?.citat ?? h.citat)) ?? duvodZMyslenky(h.myslenka) ?? '';
       return [{
         osoba: h.osoba, jmeno: os.jmeno, tvaryJmena: [os.jmeno, ...os.jmeno.split(' ').filter((s) => s.length > 3), ...(os.jmeno2 ? [os.jmeno2] : []), ...tvaryJmena(os.jmeno, os.jmeno2)],
         ...(os.zena ? { zena: true } : {}), ...(os.smery?.[0] ? { smer: os.smery[0] } : {}), odpoved: h.odpoved, vysvetleni,
@@ -95,7 +115,8 @@ export function vstupZustalo(obdobi: readonly number[]): VstupZustalo {
     const c = k && cesty.find((x) => x.slug === k.cesta);
     if (!k || !c) continue;
     const veta = VETY_KRESEB[komponenta] ?? vetaPredKresbou(k.body, komponenta);
-    kresby.push({ komponenta, nazev: NAZVY_KRESEB[komponenta], ...(veta ? { veta } : {}), cesta: { slug: c.slug, nazev: c.nazev, otazka: c.otazka }, krok: { n: k.krok, nazev: k.nazev } });
+    const blizke = BLIZKE_OTAZKY_KRESEB[komponenta];
+    kresby.push({ komponenta, nazev: NAZVY_KRESEB[komponenta], ...(veta ? { veta } : {}), cesta: { slug: c.slug, nazev: c.nazev, otazka: c.otazka }, krok: { n: k.krok, nazev: k.nazev }, ...(blizke ? { blizke } : {}) });
   }
 
   const nazvy = new Map<string, string>();

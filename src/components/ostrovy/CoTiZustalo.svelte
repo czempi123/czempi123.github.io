@@ -12,7 +12,7 @@
   import { vybaveni } from '../../lib/herna/verdikt';
   import {
     dalsiOtazka, kZopakovani, konecKola, noveKolo, odpovez, platnyStavZustalo, potkaneZDeniku, pozvanka, zpetPro,
-    NAZVY_DRUHU, ZUSTALO_NEJMENE, type CestaZustalo, type KatalogZustalo, type StavZustalo,
+    NAZVY_DRUHU, TEXTY_ZUSTALO as T, ZUSTALO_NEJMENE, type CestaZustalo, type KatalogZustalo, type StavZustalo,
   } from '../../lib/herna/zustalo';
   import RamAktivity from './RamAktivity.svelte';
 
@@ -79,7 +79,7 @@
     await tick();
     if (konecKola(stav)) {
       obnovKarticky();
-      hlaseni = 'Konec kola.';
+      hlaseni = `${T.konec}.`;
       prvek('.zustalo__konec')?.focus();
     } else {
       hlaseni = `Otázka ${stav.pozice + 1} z ${stav.poradi.length}.`;
@@ -100,7 +100,7 @@
   async function doKarticek() {
     for (const o of zopakuj) pridatKarticku('zustalo', o.id);
     obnovKarticky();
-    hlaseni = 'Otázky jsou v kartičkách.';
+    hlaseni = T.hlaseniKarticky;
     // Tlačítko zmizelo: fokus na Nové kolo, ať se klávesnice neztratí na začátek stránky.
     await tick();
     prvek('.zustalo__nove')?.focus();
@@ -118,7 +118,7 @@
 
 {#snippet akceOtazky()}
   <button class="blok__tl blok__tl--hlavni zustalo__dalsi" type="button" onclick={dalsi}>
-    {stav && stav.pozice >= stav.poradi.length - 1 ? 'Konec kola' : 'Další otázka'}
+    {stav && stav.pozice >= stav.poradi.length - 1 ? T.konec : T.dalsi}
   </button>
 {/snippet}
 
@@ -126,25 +126,25 @@
   <div class="zustalo__akce">
     {#if zopakuj.length}
       {#if vseVKartickach}
-        <p class="zustalo__ulozeno t-popisek"><span aria-hidden="true">✓ </span>V kartičkách</p>
+        <p class="zustalo__ulozeno t-popisek"><span aria-hidden="true">✓ </span>{T.vKartickach}</p>
       {:else}
-        <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={doKarticek}>Dát do kartiček</button>
+        <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={doKarticek}>{T.doKarticek}</button>
       {/if}
     {/if}
-    <button class="blok__tl blok__tl--hlavni zustalo__nove" type="button" onclick={() => stav && zacit(stav.kolo + 1)}>Nové kolo</button>
+    <button class="blok__tl blok__tl--hlavni zustalo__nove" type="button" onclick={() => stav && zacit(stav.kolo + 1)}>{T.noveKolo}</button>
   </div>
 {/snippet}
 
 {#if pripraveno && stav}
   {#if malo}
     <div class="zustalo__pozvanka" id={uid}>
-      <p>{@html radek('Otázky se skládají jen z toho, co jsi v antice prošel, a zatím je jich málo.')}</p>
-      {#if pozvani}<p class="t-ovladani"><a href={pozvani.adresa}>{@html radek(`Pokračuj cestou ${pozvani.nazev}`)}</a></p>{/if}
+      <p>{@html radek(T.malo)}</p>
+      {#if pozvani}<p class="t-ovladani"><a href={pozvani.adresa}>{@html radek(`${T.pozvanka} ${pozvani.nazev}`)}</a></p>{/if}
     </div>
   {:else if konec}
-    <RamAktivity id={uid} {obdobi} trida="zustalo" nadtitulek="Konec kola" labelledby={`${uid}-konec`} hlavni={akceKonce}>
+    <RamAktivity id={uid} {obdobi} trida="zustalo" nadtitulek={T.konec} labelledby={`${uid}-konec`} hlavni={akceKonce}>
       <h3 class="t-h3 blok__otazka blok__otazka--mala zustalo__konec" id={`${uid}-konec`} tabindex="-1">
-        {zopakuj.length ? 'Tohle si zopakuj' : 'Z tohohle kola ti zůstalo všechno.'}
+        {zopakuj.length ? T.zopakuj : T.vse}
       </h3>
       {#if zopakuj.length}
         <ul class="zustalo__zopakuj">

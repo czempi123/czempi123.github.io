@@ -31,7 +31,7 @@ for (const sirka of [390, 1440]) {
     // Poznámka při psaní (u druhého výstřižku, který ji nemá).
     if (rezim === 'light') {
       const druhy = page.locator('.vyst-citat').nth(1);
-      await druhy.getByRole('button', { name: 'Proč sis ho vystřihl?' }).click();
+      await druhy.getByRole('button', { name: 'Proč zrovna tenhle?' }).click();
       await page.keyboard.type('Ptám se tak sám sebe');
       await druhy.screenshot({ path: `${VEN}/sbirka-poznamka-psani-${sirka}.png` });
     }

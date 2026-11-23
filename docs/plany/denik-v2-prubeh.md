@@ -85,3 +85,43 @@ Pro kontrolu jako na GitHubu běželo celé `npm test` i v cloudu (Linux, `CI=tr
 - *Váha dat.* Asi 57 kB JSON na stránce deníku i pro studenta bez kartiček. Šlo by je dát do sdíleného souboru (jako `/dva-zivoty.json`) a načíst jen tomu, kdo kartičky má; nechal jsem je na stránce podle zadání.
 - *Zápis s textem.* Roztřiď s vlastní kartou a Změň jednu věc tlačítko nemají: v zápisu jsou volby a karty, ne myšlenka, kterou by si student vybavoval. Spor jen s důvodem.
 - *Prázdné kartičky jen s potkanými pojmy.* Bez nich by tlačítko Přidat pojmy nic nepřidalo, a oddíl se proto neukáže.
+
+## Po K4 (22. 11. 2026)
+
+**Výpis míst, kde se kreslí citát ze `zdroje.yaml`** (grep `citatyPodleId`, `.cesky`, `<Citat`, `blockquote`):
+
+| Místo | Kde | Nůžky před K4 | Po K4 |
+| --- | --- | --- | --- |
+| Citát na listu (`ui/Citat.astro`) | profily, kroky cest, úvody, směry, období, tradice, pokusy; i uvnitř Kdo je na tvé straně (`Strany`, sbalené „Kdo hájil jiné odpovědi“) | ano | ano (značka `ui/Nuzky.svelte`) |
+| Kompaktní citát (`Citat.astro kompaktni`) | hlasy na stránce otázky (`otazka/HlasyOsa.astro`, 42 citátů na 8 otázkách), námitka Stoického týdne | ne | ano |
+| Den týdne (`ostrovy/Tyden.svelte`) | Stoický týden, citát dne | ne | ano |
+| Rub Kdo to řekl? (`KdoToRekl.svelte`) | dílna, cesty, hry na stránkách osob (`HraOsoby.astro`) | ne | až po otočení |
+| Hotový Doplň citát (`DoplnCitat.svelte`, oblast Celý citát) | dílna, cesty, hry osob | ne | až se správným slovem |
+| Hlas her (`HlasHerny.svelte`) | Kdo by to řekl? (Atlas by vybral, Kdo by odmítl), Najdi slabé místo (Kdo stál s tebou) | ne | až po zapsání |
+| Původ v Pravý, nebo podvržený? (`.puvod__citat`) | dílna, hry osob | ne | po verdiktu, když pramen citát má |
+| Líc Kdo to řekl?, ústřižek Pravého, souhrn série | hry | ne | ne: líc a ústřižek by prozradily odpověď, souhrn opakuje ruby |
+| Vysvětlení Co ti zůstalo? a jeho kartička | Tvoje antika, deník | ne | ne: citát je součást věty vysvětlení; jeho stránka otázky nůžky má |
+| Kartička citátu, výstřižek, Prameny | deník, konec stránek | ne | ne: už ve sbírce, nebo jen údaje bez znění |
+
+Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, citát nevykreslují: citát hlasu stojí pod osou v `HlasyOsa.astro`.
+
+**Nůžky všude stejně.** `ui/Nuzky.svelte` je jen značka (`data-vystrihnout`, `data-text`, `data-kde` s autorem, dílem a místem z `udajeCitatu`); v Astru bez `client:`, v ostrovech až po odkrytí. `src/scripts/vystrihnout.ts` drží stav (`aria-pressed`) a nůžky z ostrovů najde pozorovatelem změn; pro hlasy her přibylo `id` a `udaje` v `HlasHerny`, pro původ v Pravém `id`. Na rubu Kdo to řekl? stojí nůžky v řádku s Otevřít stránku (`vRadku`), protože pravý dolní roh patří otisku „sedí“; ostatní sedí vpravo dole u údajů. Plná sbírka: nůžky nic nevystřihnou, pod citátem se objeví věta s odkazem Moje sbírka (`role="status"`) a zmizí, jakmile se místo uvolní.
+
+**Výstřižek** (`denik/Vystrizek.svelte`): lístek v papíru období stránky, odkud citát je (`obdobiVystrizku`; v kapitole deníku barvu dá kapitola), střih nůžkami (rovné šikmé hrany se dvěma zoubky, stín filtrem obalu), citát v Newsreaderu, údaje jako odkaz zpět. Poznámka: tiché tlačítko Proč sis ho vystřihl? otevře pole (Enter uloží, Escape zruší, fokus zpět na Přepsat), poznámka pak perem (Kalam, `--pero`); na rubu kartičky citátu ji ukazuje už K3. Pod lístkem Do kartiček a Vyndat ze sbírky (kartička zůstane schovaná). Páska jen u prvního výstřižku na stránce Moje sbírka; v kapitole deníku žádná (páska v deníku patří Návratu). Pod výstřižky v kapitole odkaz Celá sbírka.
+
+**Moje sbírka** (`src/pages/denik/sbirka.astro`, ostrov `denik/MojeSbirka.svelte`, logika `src/lib/sbirka.ts`, texty `src/lib/sbirka-texty.ts`): titulek s pruhem, perex, Vytisknout a Stáhnout jako text, výstřižky od nejnovějšího ve sloupcích po 300 px (na telefonu jeden), prázdný stav, věta o plné sbírce. Tisk (`html[data-tisk='sbirka']`): jen titulek a lístky po dvou na A4, čárkovaný střih, bez lišt, tlačítek a pásky. Text podle Formátů (`sbirkaJakoText`, soubor `atlas-citaty-RRRR-MM-DD.txt`).
+
+**Texty** jsou pracovní a stojí v `TEXTY_SBIRKY`; učeše je T (mužský rod „vystřihl“, „zastavil“ zatím všude).
+
+**Testy.** `tests/data/sbirka.test.ts` (7: pořadí, údaje, období stránky, jméno souboru, text s poznámkou i bez, prázdná sbírka, plná sbírka v `sCitatem`). `tests/e2e/sbirka.spec.ts` (9: nůžky v pěti hrách až po odkrytí a po obnovení stisknuté, kompaktní citát a den týdne, plná sbírka klávesnicí a po uvolnění místa, Moje sbírka s pořadím, páskou, poznámkou klávesnicí, staženým textem, Do kartiček, Vyndat a tiskem, prázdná a bez localStorage, odkaz z kapitoly, axe, 44 px a přetečení na 390 a 1440 px ve dne i v noci). `karticky.spec.ts` hledá výstřižek novou třídou `.vyst-citat`. `scripts/kontrola-fokus.mjs` s plnou sbírkou (300) na `/denik/sbirka/` a `/denik/` a s `tests/e2e/data/sbirka.json`: bez nálezu na 390 i 1440 px. Referenční snímek `denik-kapitoly-390-noc` obnoven s `--update-snapshots=all` a prohlédnut (nový výstřižek, odkaz Celá sbírka). Snímky a PDF tisku: `Claude outputs/snimky-sbirka/` (skript `scripts/snimky-sbirka.mjs`, data `tests/e2e/data/sbirka.json`). Nůžky na nových místech: `scripts/snimky-nuzky.mjs`, listy `list-nuzky-*.jpg`.
+
+**Nestálý test kapitol vyřešen.** `denik-kapitoly.spec.ts:101` (Po K1 a Po K2: po obnovení otevřená i Helenismus) po K4 padal pokaždé. Příčina není zápis času v deníku: událost `toggle` u `<details>` přijde jako samostatná úloha a test stránku obnovil dřív, než se zavření kapitoly uložilo (měřeno 24 ms). Test teď před obnovením počká, až je stav v úložišti; 30 z 30 při trojím opakování. Věta v `docs/pouceni.md` › Technika.
+
+**Nad čím jsem váhal.**
+- *Páska v deníku.* Zadání chce u výstřižku pásku, design (revize R) ji v deníku nechává jen Návratu. V kapitole proto žádná, na Moje sbírka jen první: tím platí střídmost na každé obrazovce. Šlo by dát pásku prvnímu výstřižku každé kapitoly.
+- *Barva papíru.* Podle stránky, odkud student citát vystřihl (stejně jako rozdělení do kapitol), ne podle autora; citát ze stránky otázky je tak bez období. Druhá cesta: období autora z `lide.yaml`.
+- *Střih.* Rovné šikmé hrany se zoubkem, kde se střih navázal, ne zubatý okraj: vytržený okraj má titulek a zubatý ústřižek Doplň citát. Je nenápadný; R řekne, jestli stačí.
+- *Jeden skript pro nůžky.* Ostrov jen vykreslí značku, stav drží `vystrihnout.ts` s pozorovatelem změn na celé stránce. Pozorovatel reaguje jen na přidané prvky a hned končí, když v nich nůžky nejsou.
+- *Poznámka za tlačítkem.* Čtyři prázdná pole pod sebou by vypadala jako formulář. Pole má 200 znaků; delší myšlenka patří do zápisu.
+- *Hlasy her.* Nůžky u každého hlasu (Kdo by odmítl, Kdo stál s tebou), i když jich je v bloku víc: jsou celé a nic už neskrývají. Kdyby rušily, šlo by je nechat jen u Atlas by vybral.
+- *Tisk bez `@page`.* Okraje A4 dává prohlížeč; `@page` by platilo i pro tisk Moje filozofie.
