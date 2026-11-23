@@ -23,6 +23,8 @@ export const TEXTY_SBIRKY = {
   zrusit: 'Zrušit',
   prepsat: 'Přepsat',
   hlavickaTextu: 'Moje sbírka citátů z Agory',
+  /** v tiskové hlavičce za datem, pak linka na jméno (denik-v2, O) */
+  jmenoTisk: 'Jméno:',
   procVTextu: 'Proč zrovna tenhle:',
 } as const;
 

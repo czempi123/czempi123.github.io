@@ -1,6 +1,8 @@
 // Revize větve denik-v2 (krok R): deník po třech týdnech se zápisem z cesty o smrti, kartičky po týdnu a po měsíci
 // (hledá číslice a slova odpočtu v oddílu), Co ti zůstalo? s chybnou odpovědí, Moje sbírka na obrazovce i v tisku
 // a stažený text. Snímky na 390 a 1440 px ve světlém i tmavém režimu do Claude outputs/denik-v2-R/.
+// Krok O přidal hlas se jmény po chybné odpovědi, Obraz a otázka s náhledem kresby a kartičku kresby
+// (VEN='Claude outputs/denik-v2-O').
 // node scripts/revize-denik-v2.mjs   (ZAKLAD: běžící web, výchozí npm run dev na portu 4321)
 import { chromium } from '@playwright/test';
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
@@ -100,6 +102,37 @@ for (const sirka of [390, 1440]) {
     await page.waitForTimeout(200);
     await z.screenshot({ path: `${VEN}/zustalo-rub-${sirka}-${rezim}.png` });
     if (sirka === 390 && rezim === 'light') zprava.push(`Co ti zůstalo?, rub: ${(await z.innerText()).replace(/\s+/g, ' ')}`);
+    await page.close();
+
+    // 3b (O): hlas s chybnou odpovědí (jména u možností) a obraz s náhledem kresby, před odpovědí i po ní.
+    const kolo = { kolo: 1, poradi: ['hlas:jsem-svobodny:aristoteles', 'kresba:DvePulky', 'hlas:ma-zivot-smysl:seneca', 'kresba:Zrcadlo'], pozice: 0, odpovedi: {}, volby: {} };
+    page = await stranka(sirka, rezim, { ...zaklad, bloky: { 'co-ti-zustalo/antika': kolo } }, '2026-11-23T16:00:00');
+    await page.goto(`${ZAKLAD}/denik/antika/`);
+    await page.waitForSelector('.zustalo__moznost', { timeout: 60000 });
+    await page.evaluate(() => document.fonts.ready);
+    await skryjLisy(page);
+    const zh = page.locator('.zustalo').first();
+    await page.locator('.zustalo__moznost').filter({ hasNotText: /^Může\. Výbušným/ }).first().click();
+    await page.waitForTimeout(200);
+    await zh.screenshot({ path: `${VEN}/hlas-jmena-${sirka}-${rezim}.png` });
+    if (sirka === 390 && rezim === 'light') zprava.push(`Hlas po chybné odpovědi: ${(await zh.innerText()).replace(/\s+/g, ' ')}`);
+    await page.getByRole('button', { name: 'Další otázka' }).click();
+    await page.waitForSelector('.zustalo__obraz img', { timeout: 20000 });
+    await page.waitForFunction(() => [...document.querySelectorAll('.zustalo__obraz img')].every((i) => i.complete && i.naturalWidth > 0));
+    await zh.screenshot({ path: `${VEN}/obraz-otazka-${sirka}-${rezim}.png` });
+    await page.locator('.zustalo__moznost').first().click();
+    await page.waitForTimeout(200);
+    await zh.screenshot({ path: `${VEN}/obraz-rub-${sirka}-${rezim}.png` });
+    if (sirka === 390 && rezim === 'light') zprava.push(`Obraz a otázka, rub: ${(await zh.innerText()).replace(/\s+/g, ' ')}`);
+    await page.close();
+
+    // 3c (O): kartička z kvízu s kresbou, líc.
+    page = await stranka(sirka, rezim, { ...zaklad, karticky: karta('zustalo', 'kresba:DvePulky') }, '2026-11-23T16:00:00');
+    await page.goto(`${ZAKLAD}/denik/`);
+    await page.waitForSelector('section.karticky .karta__obraz img', { timeout: 60000 });
+    await page.waitForFunction(() => [...document.querySelectorAll('.karta__obraz img')].every((i) => i.complete && i.naturalWidth > 0));
+    await skryjLisy(page);
+    await page.locator('section.karticky').screenshot({ path: `${VEN}/karticka-kresba-lic-${sirka}-${rezim}.png` });
     await page.close();
 
     // 4. Moje sbírka: obrazovka a tisk.

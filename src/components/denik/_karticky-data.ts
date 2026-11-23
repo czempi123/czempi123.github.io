@@ -28,6 +28,7 @@ export function dataKarticek(obdobi: number[], barva: number): DataKarticek {
       spravna: n(o.moznosti.find((m) => m.id === o.spravna)?.text ?? ''),
       vysvetleni: n(o.vysvetleni),
       zpet: { href: o.zpet.href, text: n(o.zpet.text) },
+      ...(o.obraz ? { obraz: o.obraz } : {}),
     };
   }
   return { pojmy, zustalo, podnety, obdobiZustalo: barva };

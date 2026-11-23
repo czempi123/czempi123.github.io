@@ -80,8 +80,8 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | P6 | Podklady, jen když T narazí na tvrzení, které v ověřených datech není | Sonnet 5.5 · high s vyhledáváním | nebyl potřeba (Po T) |
 | T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | hotovo 23. 11. 2026 (Po T) |
 | R | Revize větve se skillem `atlas-revize` | Opus 5.5 · high | hotovo 23. 11. 2026 (Po R) |
-| O | Opravy po revizi | Opus 5.5 · high | **na řadě** (Zadání O) |
-| Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | čeká na O |
+| O | Opravy po revizi | Opus 5.5 · high | hotovo 23. 11. 2026 (Po O) |
+| Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | **na řadě** (Zadání Uzavření) |
 
 **Nad čím jsem váhal.**
 - *Kvíz jen z prošlého, nebo z celé antiky?* Zvolil jsem prošlé: kvíz se jmenuje „Co ti zůstalo?“ a otázka na něco, co student nepotkal, by ho jen zkoušela. Jinak by šlo doplňovat kolo z celé antiky s větou „tohle tě teprve čeká“.
@@ -125,9 +125,10 @@ interface OtazkaZustalo {
   druh: 'pojem' | 'hlas' | 'kresba';
   podnet: string;        // situace / případ a jméno filozofa / název kresby a co v ní student dělal
   zadani: string;        // věta nad možnostmi
-  moznosti: { id: string; text: string }[]; // tři, pořadí ze semínka
+  moznosti: { id: string; text: string; kdo?: string; zena?: boolean }[]; // tři, pořadí ze semínka; kdo u hlasu (O)
   spravna: string;
   vysvetleni: string;    // z dat: vysvětlení pojmu, citát hlasu s údajem (nebo důvod z myšlenky), cesta a otázka
+  obraz?: { svetly: string; tmavy: string; alt: string }; // náhled kresby (O)
   zpet: { href: string; text: string };
   /** kde to student potkal: adresy stránek a „cesta/<slug>/<krok>“ (výběr podle deníku) */
   potkal: string[];
@@ -164,56 +165,49 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 
 ## Průběh
 
-Zápisy Po Plán až Po T jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
+Zápisy Po Plán až Po R jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
 
-## Po R (23. 11. 2026)
+## Po O (23. 11. 2026)
 
-Revize skillem `atlas-revize` (s `atlas-psani`), záznam `docs/revize/denik-v2-2026-11-23.md`. **Verdikt: po opravách.** Kartičky působí jako hra a nůžky nic neprozradí; kvíz potřebuje opravit hlasy a kresby a kartička ze zápisu o smrti nesmí přijít bez varování.
+Opravy šesti nálezů revize (`docs/revize/denik-v2-2026-11-23.md`). Obě otázky po R zůstaly bez odpovědi, platí doporučení: tlačítko Do kartiček u zápisů z cest Proč se bát smrti? a Co když přijde to nejhorší? zůstává (s opravou nálezu 4) a stažený text má hlavičku „z Agory“. Zápis Po R a otázky po R jsou v `docs/plany/denik-v2-prubeh.md`.
 
-**Jak se zkoušelo.** Celý výpis 67 otázek; `scripts/revize-denik-v2.mjs` (nový): deník po třech týdnech se zápisy z cest o smrti a o nejhorším, dvanáct kartiček po týdnu a po měsíci (v oddílu žádná číslice mimo údaje citátů a „krok 3“, žádné slovo odpočtu), Co ti zůstalo? s chybnou odpovědí, Moje sbírka na obrazovce, v tisku a jako text. Snímky 390 a 1440 px, světlý i tmavý: `Claude outputs/denik-v2-R/`. `kontrola-fokus.mjs` s plným deníkem na čtyřech stránkách bez nálezu. Celé `npm test`: viz níž.
+**Co se opravilo.**
+1. *Blízké hlasy.* `BLIZKE_HLASY` v `src/lib/herna/zustalo-data.ts` s důvodem u každé dvojice: Platón × Aristotelés (Kdo tě zná líp?, oba: jsem to, co ve mně myslí), Aristotelés × Epikúros (Může za to?, oba: chvála a trest předpokládají, že je to na nás), Seneca × Epikúros (fotka z roku 1926, oba: délka života nerozhoduje). `otazkyHlasu` blízký hlas vyřadí oběma směry. Výpis znovu: na uvolněná místa přišly jiné hlasy téže stránky (u Aristotela Chrýsippos a Epiktétos) a žádná z nových trojic nemá dvě obhajitelné odpovědi.
+2. *Kdo to říká.* Možnost hlasu nese `kdo` (a `zena`). Po odpovědi stojí pod každou možností drobně jméno (popisek, `--ink-2`); u zvolené cizí odpovědi slyší čtečka „(tvoje odpověď, takhle by odpověděl Chrýsippos)“ a viditelné jméno přeskočí. Před odpovědí jména nejsou.
+3. *Obraz a otázka.* Náhled kresby v klidovém stavu nad podnětem: dvacet WebP (deset kreseb, světlý a tmavý, 480 px, dohromady 180 kB) v `public/kresby/nahled/`, vyrábí je nový `scripts/nahledy-kreseb.mjs` přes `scripts/snimky-prvek.mjs` (nová proměnná `WEBP`); `<picture>` s `prefers-color-scheme`, `alt` je název kresby. Týž náhled má i líc kartičky z kvízu. Věta, proč obraz k otázce patří, stojí před větou o cestě u sedmi kreseb (`PROC_KRESEB` v `src/lib/kresby.ts`, doslova z kroku nebo závěru cesty; test hlídá, že tam stojí). Kdy je dost?, Loď po prknech a Zrcadlo času ji nemají: v kroku ani v závěru není věta, která by bez okolí obstála.
+4. *Kartička ze zápisu.* Na lícu pod otázkou drobně, odkud je („Cesta Proč se bát smrti?“, mimo cestu „Stránka …“), vedle Otočit tiché Vyndat z kartiček (jen u zápisů) a otázka bez posledního pokynu „Napiš…“ (`otazkaBezPokynu` v `src/lib/karticky.ts`).
+5. *Platónovy hlasy.* `VYSVETLENI_HLASU` dostal u pěti Platónových hlasů `uvod` z jejich `myslenka`: „V Platónově Faidónu to říká Sókratés v den své smrti:“ (Kdo vlastně jsem?, Má život smysl?), „V Platónově Tímaiovi to říká Tímaios:“, „V Platónově Ústavě to říká Sókratés:“, „V Platónově Ústavě přirovnává Sókratés obec k lodi:“.
+6. *Tisk sbírky.* Jen na papíře nad výstřižky „Moje sbírka citátů z Agory · 23. 11. 2026 · Jméno: ________“ (datum tisku, `beforeprint`); „Jméno:“ a linka drží spolu.
 
-**Nálezy** (podrobně a s hotovou opravou v záznamu revize):
-1. *Tři otázky hlasů mají dvě obhajitelné odpovědi* (Platón × Aristotelés, Aristotelés × Epikúros, Seneca × Epikúros): ruční `BLIZKE_HLASY` s důvodem.
-2. *Rub hlasu neřekne, čí odpověď student zvolil:* po odpovědi jméno u každé možnosti.
-3. *Obraz a otázka nemá obraz ani důvod:* náhled kresby a věta proč doslova z kroku (`PROC_KRESEB`).
-4. *Kartička ze zápisu o smrti přijde bez varování:* na lícu odkud, tiché Vyndat, bez pokynu „Napiš…“ (otázka 1).
-5. *Vysvětlení Platónových hlasů mluví ústy jiných postav* („já jsem tenhle Sókratés“ pod Platónem): uvozovací věta z `myslenka`.
-6. *Tisk sbírky pro učitele bez jména a data* (drobné): tisková hlavička.
+Poučení z revize je v `docs/pouceni.md` › Co se skládá z dat. Testy upravené v témže commitu: `zustalo.test.ts` (blízké hlasy, jména, Platón, věta proč, náhledy), `karticky-obsah.test.ts` (zápis odkud a bez pokynu, náhled kresby), `co-ti-zustalo.spec.ts` (jména po odpovědi, čtečka), `karticky.spec.ts` (zápis o smrti: odkud, bez Napiš, Vyndat bez otočení), `sbirka.spec.ts` (tisková hlavička).
 
-**Opraveno rovnou.** Hlavička staženého textu „z Agory“ (otázka 2); Dopis z posledního dne s místem „u Diogena Laertia X, 22“; rod v textech deníku, které student čte o sobě („Koho už znám“, pruh a perex Tvoje antika, `PrenosDeniku`); odkaz na Tvoje antika v Můj deník zmíní, co ti z antiky zůstalo (dřív o kvízu nic).
-
-**Mimo větev z Po T, rozhodnuto.** Mužský rod: v textech deníku opraven, v ostatním atlasu patří do revize obsahu (fáze 5) jako jedno rozhodnutí. Údaj Dopisu z posledního dne a Agora v hlavičce: opraveno v R.
-
-**Testy.** Celé `npm test` s opravami z Opraveno rovnou (kromě odkazu a perexu Tvoje antika): kontrola typů bez chyb, Vitest 1659 z 1659, Playwright 928 z 928 (9,2 min). Po odkazu a perexu znovu Vitest 1659 z 1659 a dotčené Playwright (tvoje-antika, denik-kapitoly, denik-soubor, snímky) 60 z 60.
+**Jak se zkoušelo.** Snímky 390 a 1440 px, světlý i tmavý: `Claude outputs/denik-v2-O/` (`scripts/revize-denik-v2.mjs` rozšířený o hlas se jmény, Obraz a otázka před odpovědí i po ní a kartičku kresby; `snimky-zustalo.mjs`, `snimky-karticky.mjs`), prohlédnuté. `scripts/kontrola-fokus.mjs` s plným deníkem (kapitoly, kartičky zápisu, citátu, pojmu a kresby, kolo s kresbou) na /denik/, /denik/antika/ a /denik/sbirka/, 390 i 1440 px: bez nálezu. Celé `npm test`: kontrola typů bez chyb, Vitest 1666 z 1666, Playwright 930 z 930 (9,3 min).
 
 **Nad čím jsem váhal.**
-- *Blízké hlasy ručně, ne z dat.* U pojmů pozná blízkost vysvětlení, které jmenuje druhý pojem; u hlasů je společná myšlenka schovaná v jiných slovech. Ruční seznam s důvodem jako u kreseb; tři dvojice z 41 otázek.
-- *Jména pod možnostmi.* Prozradí po odpovědi, kdo co říká, a to je cíl: z jedné otázky tři myslitelé. Před odpovědí jména nejsou.
-- *Náhled kresby jako obrázek, ne ostrov.* Deset ostrovů kreseb na stránce Tvoje antika by ji zatížilo; snímek v klidovém stavu stačí na vybavení a nehýbe se.
-- *Kartička ze zápisu o smrti ano.* Student si ji dal do kartiček sám a tentýž zápis vidí v kapitole deníku. Varování odkud a Vyndat bez otáčení mu nechá volbu; zakázat tlačítko by rozhodlo za něj.
-- *Agora ve staženém textu.* Rozhodnutí, kam až přejmenování sahá, je otevřené; učitel ale vidí Agoru v záložce i na tisku hodiny, a soubor s jiným jménem by mátl.
-- *Hlavička tisku s linkou na jméno* místo pole na jméno na obrazovce: jméno do deníku nepatří.
+- *Blízké hlasy oběma směry.* Revize jmenovala jen otázku jednoho z dvojice. Když Platón a Aristotelés říkají totéž, platí to i v Aristotelově otázce, a tak tam Platónova odpověď taky není.
+- *Věta proč u Roztrhni kartu má dvě věty* („Otrok a císař se shodli… Epiktétos v tom viděl svobodu, Marcus pevnost.“): svoboda, kvůli které obraz k otázce patří, stojí až ve druhé. U Cesty ven věta začíná „Někdo mu říká…“; podnět mluví o témž vězni taky bez jména, a tak obstojí.
+- *Bez věty proč nechávám tři kresby.* Loď by unesla „Loď je věc… U člověka na téže otázce záleží víc.“, ta ale stojí v pátém kroku, ne v kroku kresby ani v závěru. U Zrcadla času by každá věta z kroku byla o smrti vytržená z okolí. Kdy je dost? má jen věty s „podle něj“ bez jména.
+- *Náhled i na kartičce.* Revize vytkla, že „tři karty z koše Zčásti“ po týdnech bez obrazu nedávají smysl; kartička kresby z kvízu má proto týž náhled.
+- *Vyndat na lícu jen u zápisů.* U pojmu a citátu není co minout; víc tlačítek na lícu by z kartičky dělalo formulář.
+- *„Cesta …“ jen u zápisu.* Citát vystřižený v kroku cesty má dál „Stránka Proč se bát smrti?“. Sjednotit by šlo jedním řádkem, ale revize to nežádala a test citátu drží dnešní znění.
+- *Náhled z telefonu.* Plátno je vyfocené na 390 px, kde má kresba největší popisky, a zmenšené na 480 px; na stránce je nejvýš 20 rem široké. Ostrov kresby by stránku zatížil (rozhodnutí z R).
 
-## Zadání O (další krok)
-
-Opus 5.5 · high, nový chat.
-
-```
-Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md, v docs/plany/denik-v2.md oddíly Co platí, Formáty a Po R s Otázkami pro autora (po R; prázdná odpověď = souhlas s doporučením) a záznam revize docs/revize/denik-v2-2026-11-23.md. Načti skilly atlas-komponenta a atlas-psani. Spusť npm run dev na pozadí podle CLAUDE.md.
-
-Oprav šest nálezů revize podle odpovědí autora, znění a zásahy jsou v záznamu revize: (1) BLIZKE_HLASY v src/lib/herna/zustalo-data.ts s důvodem u každé dvojice (Platón × Aristotelés u Kdo tě zná líp?, Aristotelés × Epikúros u Může za to?, Seneca × Epikúros u fotky z roku 1926), otazkyHlasu je mezi možnostmi nemá; (2) po odpovědi u každé možnosti hlasu jméno toho, kdo ji říká, u zvolené i pro čtečku; (3) Obraz a otázka: náhled kresby v klidovém stavu nad podnětem (WebP světlý a tmavý v public/kresby/nahled/ ze scripts/snimky-prvek.mjs, alt je název kresby) a věta, proč obraz k otázce patří, doslova z textu kroku nebo závěru cesty (PROC_KRESEB v src/lib/kresby.ts, test hlídá, že tam stojí; kde taková věta není, zůstane jen věta o cestě); (4) kartička ze zápisu: pod otázkou drobně, z které stránky je, tiché Vyndat z kartiček na lícu, bez poslední věty s pokynem „Napiš…“, a podle odpovědi 1 případně bez Do kartiček u zápisů cest proc-se-bat-smrti a co-kdyz-prijde-to-nejhorsi; (5) uvozovací věta u pěti Platónových hlasů ve VYSVETLENI_HLASU; (6) tisková hlavička Moje sbírky s datem a linkou na jméno; podle odpovědi 2 případně vrať hlavičku staženého textu na „z Atlasu myšlení“. Každou studentskou větu nejdřív najdi v tests/ (grep) a test uprav v tomtéž commitu. Vypiš otázky znovu (npx vite-node scripts/zustalo-vypis.ts) a přečti ty, kterých se oprava týká. Poučení z revize (záznam › Poučení) připiš jednou větou do docs/pouceni.md › Co se skládá z dat.
-
-Snímky opravených míst (scripts/revize-denik-v2.mjs, scripts/snimky-zustalo.mjs, scripts/snimky-karticky.mjs) na 390 a 1440 px ve světlém i tmavém režimu do Claude outputs/denik-v2-O/ a prohlédni je; scripts/kontrola-fokus.mjs s plným deníkem na /denik/, /denik/antika/ a /denik/sbirka/; celé npm test na pozadí. Commit ve větvi denik-v2, na GitHub nic. Do plánu Po O s otázkou jen pro autora, jestli větev schvaluje ke sloučení (prázdná odpověď = souhlas), tabulka Kroky; Po R přesuň do docs/plany/denik-v2-prubeh.md; nahraj plán do Projektu Claude. Ve zprávě autorovi: co se opravilo, nad čím jsi váhal, otázka a celý prompt Uzavření (docs/plany/denik-v2-zadani.md › Zadání Uzavření) s modelem a úsilím. Zastav se.
-```
-
-## Otázky pro autora (po R)
+## Otázky pro autora (po O)
 
 Prázdná odpověď znamená souhlas s doporučením.
 
-1. **Kartičky ze zápisů v cestách Proč se bát smrti? a Co když přijde to nejhorší?** Po třech týdnech přijde na lícu třeba „Je rozumné bát se smrti?“ a na rubu vlastní věta o strachu. Doporučuji tlačítko Do kartiček nechat s opravou nálezu 4: na lícu, z které cesty kartička je, a Vyndat z kartiček bez otáčení. Druhá možnost: u zápisů těch dvou cest tlačítko nebude.
+1. **Schvaluješ větev denik-v2 ke sloučení do main a poslání na GitHub?** Doporučuji ano; Uzavření pak větev sloučí, pošle `main` na GitHub, zkontroluje nasazení a plán přesune do archivu.
    Odpověď:
-2. **„Moje sbírka citátů z Agory“ ve staženém textu** (dřív „z Atlasu myšlení“). Učitel vidí Agoru v záložce prohlížeče i na tisku hodiny. Doporučuji nechat Agoru. Druhá možnost: vrátit „z Atlasu myšlení“.
-   Odpověď:
+
+## Zadání Uzavření (další krok)
+
+Opus 5.5 · medium, nový chat.
+
+```
+Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md a v docs/plany/denik-v2.md oddíly Kroky, Otázky pro autora, Po O (s odpovědí autora) a Co zůstává na později, v docs/plany/denik-v2-prubeh.md oddíl Po Plán. Nejdřív se autora zeptej, jestli je u Macu: když ano, projdi s ním VoiceOverem postup z docs/archiv/plany/herna-v1.md › Po O (design-v2, herna-v1) a k němu Co ti zůstalo?, kartičky a Moje sbírku; nálezy oprav, nebo zapiš na později. Když ne, VoiceOver vynech a zapiš to.
+
+Když autor v Po O větev schválil (prázdná odpověď = souhlas): git merge --no-ff denik-v2 do main, celé npm test na main na pozadí. Push: git fetch; main pošli na GitHub stejně jako v Po Plán (git bundle přes Claude outputs, push z cloudu; autor to výslovně povolil, otázka 3); když push nejde, nic dalšího nezkoušej a zapiš to. Po pushi kontrola nasazení: běh kontrol přes api.github.com/repos/czempi123/czempi123.github.io/actions/runs a nasazený web na 390 a 1440 px (ZAKLAD=https://czempi123.github.io node scripts/snimky-listy.mjs pro /denik/antika/, /denik/sbirka/, /denik/ a jednu stránku pojmu) do Claude outputs/; když dosud neproběhla kontrola z herna-v1, udělej ji taky a dopiš ji tamtéž. Plán větve přesuň do docs/archiv/plany/denik-v2.md (i se zadáním a průběhem: denik-v2-zadani.md, denik-v2-prubeh.md), záznam revize do docs/archiv/revize/, oprav odkazy (grep), řádek denik-v2 v docs/plan-vetve.md, dopiš Po Uzavření. V Projektu Claude nahraď plán větve plánem další větve film-0 (docs/plany/film-0.md s prvním zadáním podle po-auditu.md › Větve) a nahraj docs/plan-vetve.md. Ve zprávě autorovi: co se sloučilo a nasadilo, co zůstalo na později a celý prompt prvního kroku film-0 s modelem a úsilím. Zastav se.
+```
 
 ## Co zůstává na později
 
@@ -223,4 +217,5 @@ Prázdná odpověď znamená souhlas s doporučením.
 - VoiceOver s autorem z herna-v1 a design-v2 (postup v `docs/archiv/plany/herna-v1.md` › Po O): připojí se k Uzavření této větve, když bude autor u Macu.
 - Mužský rod v ostatních textech atlasu (oslovení, zpětné vazby, kroky): revize obsahu (fáze 5), jedno rozhodnutí pro celý atlas (R).
 - Trvalá stopa stránek otázek v deníku (Po K2) a data kartiček ve sdíleném souboru místo na stránce deníku (Po K3): až budou vadit, nejpozději `uklid-v1` (R).
+- Věta, proč obraz k otázce patří, u kreseb Kdy je dost?, Loď po prknech a Zrcadlo času (`PROC_KRESEB`): v kroku ani v závěru cesty taková věta není. Až se budou cesty revidovat (fáze 5), stojí za to ji tam napsat (O).
 - Kontroly na GitHubu po opravě v K1 zezelenají až po sloučení větve v Uzavření; do té doby je poslední běh na `main` zrušený.

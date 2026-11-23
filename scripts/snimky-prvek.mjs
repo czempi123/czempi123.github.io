@@ -39,7 +39,15 @@ await page.waitForTimeout(Number(process.env.CEKEJ ?? 300));
 // Pevné lišty by ležely přes prvek.
 // Spodní lišta telefonu má odkazy viditelné i ve skryté liště; pevná je, takže display: none nic neposune.
 await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .cesta-lista, .cesta-hlavicka, .obsah-lista { visibility: hidden !important; } nav.lista { display: none !important; } .blok__pata { position: static !important; }' });
-const soubor = `${VEN}/${nazev}-${sirka}-${rezim}.png`;
-await prvek.screenshot({ path: soubor });
-console.log(soubor);
+// WEBP=480 uloží místo PNG WebP té šířky přesně pod jménem `nazev` (náhledy kreseb: scripts/nahledy-kreseb.mjs).
+if (process.env.WEBP) {
+  const { default: sharp } = await import('sharp');
+  const soubor = `${VEN}/${nazev}.webp`;
+  await sharp(await prvek.screenshot()).resize({ width: Number(process.env.WEBP) }).webp({ quality: 82 }).toFile(soubor);
+  console.log(soubor);
+} else {
+  const soubor = `${VEN}/${nazev}-${sirka}-${rezim}.png`;
+  await prvek.screenshot({ path: soubor });
+  console.log(soubor);
+}
 await browser.close();

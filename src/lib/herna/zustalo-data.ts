@@ -6,7 +6,7 @@ import { osoby, citatyPodleId } from '../data';
 import { nazevPojmu, tvaryJmena } from '../pojmy';
 import { adresaOtazky } from '../otazky';
 import { adresaCesty, adresaKroku } from '../cesty';
-import { BLIZKE_OTAZKY_KRESEB, NAZVY_KRESEB, VETY_KRESEB } from '../kresby';
+import { BLIZKE_OTAZKY_KRESEB, NAZVY_KRESEB, PROC_KRESEB, VETY_KRESEB, nahledKresby } from '../kresby';
 import { duvodZMyslenky } from '../tvoje-obdobi';
 import {
   chybyZustalo, klicVyskytu, otazkyHlasu, otazkyKreseb, otazkyPojmu, pripadZTextu, vetaPredKresbou,
@@ -32,9 +32,16 @@ function rozeber(text: string): { fm: Record<string, unknown>; body: string } {
  * Vysvětlení hlasu tam, kde citát u hlasu na stránce otázky mluví o jiné části myšlenky než odpověď (denik-v2, T):
  * citát, ze kterého odpověď je (ověřený v `zdroje.yaml`), nebo důvod z myšlenky hlasu. Klíč „otázka:osoba“.
  */
-const VYSVETLENI_HLASU: Record<string, { citat: string } | 'myslenka'> = {
+export const VYSVETLENI_HLASU: Record<string, { citat?: string; uvod?: string } | 'myslenka'> = {
   // odpověď převádí B8, 38–41 („jen jménem“), citát u hlasu je B8, 9–10 o vzniku z ničeho
   'co-je-skutecne:parmenides': { citat: 'parmenides-b8-jmena' },
+  // Platón píše dialogy: citát říká postava, a bez uvozovací věty by pod „Co by ti na to řekl Platón?“ stálo
+  // „já jsem tenhle Sókratés“ (denik-v2, O). Uvozovací věta je z `myslenka` hlasu na stránce otázky.
+  'kdo-vlastne-jsem:platon': { uvod: 'V Platónově Faidónu to říká Sókratés v den své smrti:' },
+  'ma-zivot-smysl:platon': { uvod: 'V Platónově Faidónu to říká Sókratés v den své smrti:' },
+  'co-je-skutecne:platon': { uvod: 'V Platónově Tímaiovi to říká Tímaios:' },
+  'co-je-spravne:platon': { uvod: 'V Platónově Ústavě to říká Sókratés:' },
+  'jak-spolu-mame-zit:platon': { uvod: 'V Platónově Ústavě přirovnává Sókratés obec k lodi:' },
   // odpověď je o cizím mínění (myšlenka, Hovory XII, 4), citát o třech částech člověka
   'kdo-vlastne-jsem:marcus-aurelius': 'myslenka',
   // odpověď „spočítej, kolik opravdu potřebuješ“ je z myšlenky; citát je o příjemném a spravedlivém životě
@@ -42,6 +49,21 @@ const VYSVETLENI_HLASU: Record<string, { citat: string } | 'myslenka'> = {
   // odpověď „štěstí je činnost, ne pocit“ je z myšlenky; citát o vlaštovce je o celém životě
   'jak-zit:aristoteles': 'myslenka',
 };
+
+/**
+ * Hlasy téže stránky, jejichž odpovědi by si poctivě mohly vyměnit mluvčího (denik-v2, O; vzor `BLIZKE_OTAZKY_KRESEB`):
+ * dva myslitelé, kteří se liší jinde, tu říkají totéž. Klíč „otázka:osoba“; v otázce toho hlasu ani v otázce blízkého
+ * hlasu druhá odpověď mezi možnostmi není. Z dat se blízkost nepozná, protože společná myšlenka stojí v jiných slovech.
+ */
+export const BLIZKE_HLASY: Record<string, string[]> = {
+  // Kdo tě zná líp?: oba říkají, že jsem to, co ve mně myslí (Faidón 115c; Etika Nikomachova IX, 4)
+  'kdo-vlastne-jsem:platon': ['aristoteles'],
+  // Může za to?: oba říkají, že chvála a trest předpokládají, že je to na nás (Etika Nikomachova III, 5; Dopis Menoikeovi 133–134)
+  'jsem-svobodny:aristoteles': ['epikuros'],
+  // fotka z roku 1926: oba říkají, že délka života nerozhoduje (Dopisy Luciliovi 61, 4; Hlavní myšlenky 19)
+  'ma-zivot-smysl:seneca': ['epikuros'],
+};
+
 const vysvetleniCitatem = (id: string | undefined) => {
   const c = id ? citatyPodleId.get(id) : undefined;
   // závorka v místě („Hlavní myšlenky 37 (Diogenés Laertios X, 152)“) jde do hranatých, ať se závorky nevnořují
@@ -99,10 +121,14 @@ export function vstupZustalo(obdobi: readonly number[]): VstupZustalo {
       const os = osoby.get(h.osoba);
       if (!os || !obdobi.includes(os.obdobi)) return [];
       const jine = VYSVETLENI_HLASU[`${o.slug}:${h.osoba}`];
-      const vysvetleni = (jine === 'myslenka' ? undefined : vysvetleniCitatem(jine?.citat ?? h.citat)) ?? duvodZMyslenky(h.myslenka) ?? '';
+      const citat = jine === 'myslenka' ? undefined : vysvetleniCitatem(jine?.citat ?? h.citat);
+      const uvod = jine !== 'myslenka' ? jine?.uvod : undefined;
+      const vysvetleni = (citat && uvod ? `${uvod} ${citat}` : citat) ?? duvodZMyslenky(h.myslenka) ?? '';
+      const blizke = BLIZKE_HLASY[`${o.slug}:${h.osoba}`];
       return [{
         osoba: h.osoba, jmeno: os.jmeno, tvaryJmena: [os.jmeno, ...os.jmeno.split(' ').filter((s) => s.length > 3), ...(os.jmeno2 ? [os.jmeno2] : []), ...tvaryJmena(os.jmeno, os.jmeno2)],
         ...(os.zena ? { zena: true } : {}), ...(os.smery?.[0] ? { smer: os.smery[0] } : {}), odpoved: h.odpoved, vysvetleni,
+        ...(blizke ? { blizke } : {}),
       }];
     }),
   }));
@@ -116,7 +142,12 @@ export function vstupZustalo(obdobi: readonly number[]): VstupZustalo {
     if (!k || !c) continue;
     const veta = VETY_KRESEB[komponenta] ?? vetaPredKresbou(k.body, komponenta);
     const blizke = BLIZKE_OTAZKY_KRESEB[komponenta];
-    kresby.push({ komponenta, nazev: NAZVY_KRESEB[komponenta], ...(veta ? { veta } : {}), cesta: { slug: c.slug, nazev: c.nazev, otazka: c.otazka }, krok: { n: k.krok, nazev: k.nazev }, ...(blizke ? { blizke } : {}) });
+    const proc = PROC_KRESEB[komponenta];
+    kresby.push({
+      komponenta, nazev: NAZVY_KRESEB[komponenta], ...(veta ? { veta } : {}), cesta: { slug: c.slug, nazev: c.nazev, otazka: c.otazka },
+      krok: { n: k.krok, nazev: k.nazev }, ...(blizke ? { blizke } : {}), ...(proc ? { proc } : {}),
+      obraz: { ...nahledKresby(komponenta), alt: NAZVY_KRESEB[komponenta] },
+    });
   }
 
   const nazvy = new Map<string, string>();

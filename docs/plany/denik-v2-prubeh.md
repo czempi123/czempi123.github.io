@@ -162,3 +162,40 @@ Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, ci
 - *„Proč zrovna tenhle?“* místo „Proč sis ho vystřihl?“: bez rodu a kratší; perex říká „co pro tebe znamená“, aby student nemusel psát jen důvod.
 - *„Stránka Epikúros“* místo „stránka: Epikúros“: přístavek v 1. pádě sedí i na cestu („Stránka Kolik je dost?“). „Ze stránky Epikúra“ by potřebovalo pády jmen stránek, které data nemají.
 - *Úvod jmenuje Epikúra a Epiktéta:* je to pozvánka, ne slib, že otázky budou o nich.
+
+## Po R (23. 11. 2026)
+
+Revize skillem `atlas-revize` (s `atlas-psani`), záznam `docs/revize/denik-v2-2026-11-23.md`. **Verdikt: po opravách.** Kartičky působí jako hra a nůžky nic neprozradí; kvíz potřebuje opravit hlasy a kresby a kartička ze zápisu o smrti nesmí přijít bez varování.
+
+**Jak se zkoušelo.** Celý výpis 67 otázek; `scripts/revize-denik-v2.mjs` (nový): deník po třech týdnech se zápisy z cest o smrti a o nejhorším, dvanáct kartiček po týdnu a po měsíci (v oddílu žádná číslice mimo údaje citátů a „krok 3“, žádné slovo odpočtu), Co ti zůstalo? s chybnou odpovědí, Moje sbírka na obrazovce, v tisku a jako text. Snímky 390 a 1440 px, světlý i tmavý: `Claude outputs/denik-v2-R/`. `kontrola-fokus.mjs` s plným deníkem na čtyřech stránkách bez nálezu. Celé `npm test`: viz níž.
+
+**Nálezy** (podrobně a s hotovou opravou v záznamu revize):
+1. *Tři otázky hlasů mají dvě obhajitelné odpovědi* (Platón × Aristotelés, Aristotelés × Epikúros, Seneca × Epikúros): ruční `BLIZKE_HLASY` s důvodem.
+2. *Rub hlasu neřekne, čí odpověď student zvolil:* po odpovědi jméno u každé možnosti.
+3. *Obraz a otázka nemá obraz ani důvod:* náhled kresby a věta proč doslova z kroku (`PROC_KRESEB`).
+4. *Kartička ze zápisu o smrti přijde bez varování:* na lícu odkud, tiché Vyndat, bez pokynu „Napiš…“ (otázka 1).
+5. *Vysvětlení Platónových hlasů mluví ústy jiných postav* („já jsem tenhle Sókratés“ pod Platónem): uvozovací věta z `myslenka`.
+6. *Tisk sbírky pro učitele bez jména a data* (drobné): tisková hlavička.
+
+**Opraveno rovnou.** Hlavička staženého textu „z Agory“ (otázka 2); Dopis z posledního dne s místem „u Diogena Laertia X, 22“; rod v textech deníku, které student čte o sobě („Koho už znám“, pruh a perex Tvoje antika, `PrenosDeniku`); odkaz na Tvoje antika v Můj deník zmíní, co ti z antiky zůstalo (dřív o kvízu nic).
+
+**Mimo větev z Po T, rozhodnuto.** Mužský rod: v textech deníku opraven, v ostatním atlasu patří do revize obsahu (fáze 5) jako jedno rozhodnutí. Údaj Dopisu z posledního dne a Agora v hlavičce: opraveno v R.
+
+**Testy.** Celé `npm test` s opravami z Opraveno rovnou (kromě odkazu a perexu Tvoje antika): kontrola typů bez chyb, Vitest 1659 z 1659, Playwright 928 z 928 (9,2 min). Po odkazu a perexu znovu Vitest 1659 z 1659 a dotčené Playwright (tvoje-antika, denik-kapitoly, denik-soubor, snímky) 60 z 60.
+
+**Nad čím jsem váhal.**
+- *Blízké hlasy ručně, ne z dat.* U pojmů pozná blízkost vysvětlení, které jmenuje druhý pojem; u hlasů je společná myšlenka schovaná v jiných slovech. Ruční seznam s důvodem jako u kreseb; tři dvojice z 41 otázek.
+- *Jména pod možnostmi.* Prozradí po odpovědi, kdo co říká, a to je cíl: z jedné otázky tři myslitelé. Před odpovědí jména nejsou.
+- *Náhled kresby jako obrázek, ne ostrov.* Deset ostrovů kreseb na stránce Tvoje antika by ji zatížilo; snímek v klidovém stavu stačí na vybavení a nehýbe se.
+- *Kartička ze zápisu o smrti ano.* Student si ji dal do kartiček sám a tentýž zápis vidí v kapitole deníku. Varování odkud a Vyndat bez otáčení mu nechá volbu; zakázat tlačítko by rozhodlo za něj.
+- *Agora ve staženém textu.* Rozhodnutí, kam až přejmenování sahá, je otevřené; učitel ale vidí Agoru v záložce i na tisku hodiny, a soubor s jiným jménem by mátl.
+- *Hlavička tisku s linkou na jméno* místo pole na jméno na obrazovce: jméno do deníku nepatří.
+
+### Otázky pro autora (po R)
+
+Prázdná odpověď znamená souhlas s doporučením.
+
+1. **Kartičky ze zápisů v cestách Proč se bát smrti? a Co když přijde to nejhorší?** Po třech týdnech přijde na lícu třeba „Je rozumné bát se smrti?“ a na rubu vlastní věta o strachu. Doporučuji tlačítko Do kartiček nechat s opravou nálezu 4: na lícu, z které cesty kartička je, a Vyndat z kartiček bez otáčení. Druhá možnost: u zápisů těch dvou cest tlačítko nebude.
+   Odpověď: bez odpovědi = doporučení (O: tlačítko zůstává, na lícu odkud a Vyndat z kartiček).
+2. **„Moje sbírka citátů z Agory“ ve staženém textu** (dřív „z Atlasu myšlení“). Učitel vidí Agoru v záložce prohlížeče i na tisku hodiny. Doporučuji nechat Agoru. Druhá možnost: vrátit „z Atlasu myšlení“.
+   Odpověď: bez odpovědi = doporučení (O: Agora zůstává).

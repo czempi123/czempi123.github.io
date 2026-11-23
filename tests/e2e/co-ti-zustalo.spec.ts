@@ -108,6 +108,28 @@ test('průchod kolem klávesnicí: jedna odpověď, rub s odkazem zpět, konec b
   expect(druhe.poradi).not.toEqual(prvniKolo);
 });
 
+test('hlas: po odpovědi stojí u každé možnosti, kdo ji říká; u zvolené cizí odpovědi to slyší i čtečka', async ({ page }) => {
+  const poradi = ['hlas:jsem-svobodny:aristoteles', 'hlas:jsem-svobodny:epikuros', 'hlas:jak-zit:epikuros', 'hlas:jak-zit:aristoteles'];
+  const d = JSON.parse(PROSLE_DVE);
+  d.bloky[KLIC] = { kolo: 1, poradi, pozice: 0, odpovedi: {}, volby: {} };
+  await otevri(page, JSON.stringify(d));
+  await expect(kviz(page).locator('h3[id$="-zadani"]')).toHaveText('Co by ti na to řekl Aristotelés?');
+  // Před odpovědí jména nejsou.
+  await expect(kviz(page).locator('.zustalo__kdo')).toHaveCount(0);
+  await expect(kviz(page).locator('.zustalo__moznosti')).not.toContainText('Epikúros');
+  await kviz(page).locator('.zustalo__moznost').filter({ hasNotText: /^Může\. Výbušným/ }).first().click();
+  const kdo = kviz(page).locator('.zustalo__kdo');
+  await expect(kdo).toHaveCount(3);
+  expect((await kdo.allTextContents()).map((t) => t.trim())).toContain('Aristotelés');
+  // Blízký hlas (Epikúros: chvála a trest předpokládají, že je to na nás) mezi možnostmi není.
+  expect((await kdo.allTextContents()).map((t) => t.trim())).not.toContain('Epikúros');
+  await expect(kviz(page).locator('.zustalo__hotova--spravna .zustalo__kdo')).toHaveText('Aristotelés');
+  const zvolena = kviz(page).locator('.zustalo__hotova--zvolena');
+  const jmeno = (await zvolena.locator('.zustalo__kdo').textContent())!.trim();
+  await expect(zvolena.locator('.zustalo__kdo')).toHaveAttribute('aria-hidden', 'true');
+  await expect(zvolena.locator('.vizualne-skryte')).toHaveText(` (tvoje odpověď, takhle by odpověděl ${jmeno})`);
+});
+
 test('Začít znovu smaže odpovědi kola', async ({ page }) => {
   await otevri(page, PROSLE_DVE);
   await odpovezKlavesnici(page);

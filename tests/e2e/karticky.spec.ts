@@ -131,6 +131,25 @@ test('Co ti zůstalo?: konec kola dá kartičky; líc bez možností, rub se spr
   expect(odpoved.length).toBeGreaterThan(0);
 });
 
+test('zápis o smrti: na lícu, z které cesty je, bez pokynu Napiš a s Vyndat bez otočení', async ({ page }) => {
+  const id = 'cesta8-moje-pravidlo';
+  await otevri(page, '/denik/', denik({
+    zapisy: [{ id, otazka: 'Je rozumné bát se smrti? A co se strachem, který zbude? Napiš svoje pravidlo.', odpoved: 'Bojím se hlavně o babičku.', odkaz: '/cesta/proc-se-bat-smrti/7/', kdy: T }],
+    karticky: karta('zapis', id),
+  }));
+  await expect(lic(page).locator('.karta__nazev')).toHaveText('Je rozumné bát se smrti? A co se strachem, který zbude?');
+  await expect(lic(page).locator('.karta__pod')).toHaveText('Cesta Proč se bát smrti?');
+  await expect(lic(page)).not.toContainText('Napiš');
+  // Vlastní odpověď na lícu není; vyndat ji jde dřív, než ji student uvidí.
+  await expect(lic(page)).not.toContainText('babičku');
+  await expect(lic(page).getByRole('button')).toHaveText(['Vyndat z kartiček', 'Otočit']);
+  await stiskni(page, 'Vyndat z kartiček');
+  await expect(page.locator('section.karticky .karta')).toHaveCount(0);
+  expect((await ulozeny(page)).karticky[`zapis:${id}`]).toBeUndefined();
+  // Zápis sám v deníku zůstal.
+  expect((await ulozeny(page)).zapisy.map((z: { id: string }) => z.id)).toContain(id);
+});
+
 test('hodnocení klávesnicí: otočit, Vím, Zopakuj si, Vyndat, Na dnes stačí, obnovení a Ještě pět', async ({ page }) => {
   await otevri(page, '/denik/', sPojmy(POJMY));
   await expect(sekce(page).getByRole('heading', { level: 2 })).toHaveText('Kartičky');

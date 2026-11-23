@@ -180,8 +180,14 @@ test('Moje sbírka: pořadí, páska jednou, poznámka klávesnicí, Do kartiče
   expect(d.citaty.map((c: { id: string }) => c.id)).not.toContain('seneca-ira-iii-36-otazky');
   expect(Object.keys(d.karticky)).toContain('citat:seneca-ira-iii-36-otazky');
 
+  // Tisková hlavička s datem a linkou na jméno: na obrazovce není, na papíře ano.
+  const hlavicka = page.locator('.moje-sbirka__tisk');
+  await expect(hlavicka).toBeHidden();
   // Tisková podoba: bez lišt, tlačítek a pásky.
   await page.emulateMedia({ media: 'print' });
+  await expect(hlavicka).toBeVisible();
+  await expect(hlavicka).toHaveText(/^Moje sbírka citátů z Agory\s*·\s*\d{1,2}\. \d{1,2}\. \d{4}\s*·\s*Jméno:$/);
+  expect((await hlavicka.locator('.moje-sbirka__linka').boundingBox())!.width).toBeGreaterThan(150);
   for (const l of [page.locator('header.hlavicka'), page.locator('nav.lista'), page.getByRole('button', { name: 'Vytisknout' }), page.locator('.vyst-citat__akce').first(), page.locator('.moje-sbirka .paska'), page.locator('.citat__nuzky')]) {
     if (await l.count()) await expect(l.first()).toBeHidden();
   }

@@ -1010,6 +1010,11 @@ html.prichod--po-listu { --prichod-start: calc(var(--d-otoceni) - 300ms); }
   html[data-tisk='sbirka'] .vyst-citat__kde { font-size: 9pt; }
   html[data-tisk='sbirka'] .vyst-citat__kde a { color: #333; text-decoration: none; }
   html[data-tisk='sbirka'] .vyst-citat__pero { font-size: 12pt; }
+  /* Hlavička jen na papíře: učitel pozná, čí sbírka je a z kdy (denik-v2, O). Na obrazovce není. */
+  html[data-tisk='sbirka'] .moje-sbirka__tisk { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 3mm; margin: 0 0 6mm; font-size: 10pt; color: #000; }
+  /* „Jméno:“ a linka drží spolu; když se nevejdou za datum, jdou na další řádek celé. */
+  html[data-tisk='sbirka'] .moje-sbirka__jmeno { white-space: nowrap; }
+  html[data-tisk='sbirka'] .moje-sbirka__linka { display: inline-block; width: 50mm; height: 1em; margin-left: 2mm; border-bottom: .6pt solid #000; vertical-align: baseline; }
 }
 
 /* ─── Vystřihnout citát do sbírky v deníku (Citat.astro, src/scripts/vystrihnout.ts; K6) ────────────────── */

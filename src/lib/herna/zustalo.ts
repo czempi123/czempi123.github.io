@@ -9,7 +9,18 @@ import { prostyText } from '../tvoje-obdobi';
 import { cestaHotova } from '../cesty';
 
 export type DruhZustalo = 'pojem' | 'hlas' | 'kresba';
-export interface MoznostZustalo { id: string; text: string }
+export interface MoznostZustalo {
+  id: string;
+  text: string;
+  /** u hlasu: kdo tu odpověď dává (jméno z dat); ukáže se až po odpovědi (denik-v2, O) */
+  kdo?: string;
+  zena?: boolean;
+}
+
+/** Pro čtečku u zvolené možnosti hlasu, která není správná: čí odpověď student zvolil. */
+export const volbaHlasuProCtecku = (m: Pick<MoznostZustalo, 'kdo' | 'zena'>) =>
+  ` (tvoje odpověď, takhle by ${m.zena ? 'odpověděla' : 'odpověděl'} ${m.kdo})`;
+
 export interface OdkazZustalo { href: string; text: string }
 
 /** Otázka kvízu (plán › Formáty); skládá se při sestavení, ostrov ji dostane hotovou. */
@@ -28,6 +39,8 @@ export interface OtazkaZustalo {
   spravna: string;
   /** z dat: první věta vysvětlení pojmu, citát hlasu s údajem, cesta a krok kresby */
   vysvetleni: string;
+  /** u kresby: náhled v klidovém stavu nad podnětem */
+  obraz?: ObrazZustalo;
   /** výchozí odkaz zpět; ostrov vezme první místo z `potkal`, které student opravdu prošel */
   zpet: OdkazZustalo;
   /** kde to student potkal: adresy stránek („/osobnost/epikuros/“) a „cesta/<slug>/<krok>“ nebo „cesta/<slug>“ */
@@ -159,6 +172,11 @@ export interface HlasVstup {
   odpoved: string;
   /** citát hlasu s údajem, nebo důvod z myšlenky, když hlas citát nemá */
   vysvetleni: string;
+  /**
+   * osoby téže stránky, jejichž odpověď by poctivě platila i za tenhle hlas (`BLIZKE_HLASY`): v otázce tohoto hlasu
+   * ani v jejich otázce mezi možnostmi nejsou
+   */
+  blizke?: string[];
 }
 export interface OtazkaVstup { slug: string; cislo: number; otazka: string; adresa: string; pripad?: string; pripadText: string; hlasy: HlasVstup[] }
 export interface KresbaVstup {
@@ -169,7 +187,12 @@ export interface KresbaVstup {
   krok: { n: number; nazev: string };
   /** čísla velkých otázek, na které by obraz poctivě odpovídal taky: nejsou mezi možnostmi */
   blizke?: number[];
+  /** proč obraz k otázce patří: úsek doslova z kroku nebo závěru cesty (`PROC_KRESEB`) */
+  proc?: string;
+  /** náhled kresby v klidovém stavu (`nahledKresby`) */
+  obraz?: ObrazZustalo;
 }
+export interface ObrazZustalo { svetly: string; tmavy: string; alt: string }
 
 const pojemKlic = (p: PojemVstup) => [p.pojem, ...p.tvary];
 const velke = (s: string) => s.charAt(0).toLocaleUpperCase('cs') + s.slice(1);
@@ -238,7 +261,8 @@ export function klicVyskytu(v: string): string {
 /**
  * Hlas k případu. Úvodní případ stránky otázky a jméno filozofa; možnosti jsou odpovědi tří hlasů téže otázky.
  * Další dvě odpovědi přednostně od lidí jiného směru (dva stoikové radí podobně) a nikdy odpověď, která jméno
- * některého z nich vysloví. Otázka potřebuje aspoň tři hlasy.
+ * některého z nich vysloví, ani odpověď blízkého hlasu (`blizke`, oběma směry: Platón a Aristotelés o tom, co v nás
+ * myslí). Otázka potřebuje aspoň tři hlasy. Možnost nese jméno toho, kdo ji říká; ostrov ho ukáže až po odpovědi.
  */
 export function otazkyHlasu(otazky: readonly OtazkaVstup[]): OtazkaZustalo[] {
   const ven: OtazkaZustalo[] = [];
@@ -248,7 +272,8 @@ export function otazkyHlasu(otazky: readonly OtazkaVstup[]): OtazkaZustalo[] {
     for (const h of o.hlasy) {
       if (jmenuje(h.odpoved, jmena)) continue;
       const klic = `hlas:${o.slug}:${h.osoba}`;
-      const kandidati = zamichej(o.hlasy.filter((x) => x.osoba !== h.osoba && !jmenuje(x.odpoved, jmena)), klic);
+      const blizky = (x: HlasVstup) => !!h.blizke?.includes(x.osoba) || !!x.blizke?.includes(h.osoba);
+      const kandidati = zamichej(o.hlasy.filter((x) => x.osoba !== h.osoba && !jmenuje(x.odpoved, jmena) && !blizky(x)), klic);
       const jiny = (x: HlasVstup, proti: (string | undefined)[]) => !x.smer || !proti.includes(x.smer);
       const prvni = kandidati.find((x) => jiny(x, [h.smer])) ?? kandidati[0];
       const zbytek = kandidati.filter((x) => x !== prvni);
@@ -260,7 +285,7 @@ export function otazkyHlasu(otazky: readonly OtazkaVstup[]): OtazkaZustalo[] {
         nazev: `${h.jmeno}: ${o.pripad ?? o.otazka}`,
         podnet: o.pripadText,
         zadani: `Co by ti na to ${h.zena ? 'řekla' : 'řekl'} ${h.jmeno}?`,
-        moznosti: zamichej([h, prvni, druhy].map((x) => ({ id: x.osoba, text: x.odpoved.trim() })), klic),
+        moznosti: zamichej([h, prvni, druhy].map((x) => ({ id: x.osoba, text: x.odpoved.trim(), kdo: x.jmeno, ...(x.zena ? { zena: true } : {}) })), klic),
         spravna: h.osoba,
         vysvetleni: h.vysvetleni,
         zpet: { href: o.adresa, text: `Zpátky k otázce ${o.otazka}` },
@@ -295,7 +320,8 @@ export function otazkyKreseb(kresby: readonly KresbaVstup[], velke: readonly { c
       zadani: TEXTY_ZUSTALO.zadaniKresby,
       moznosti: zamichej([spravna, ...jine].map((o) => ({ id: String(o.cislo), text: o.otazka })), klic),
       spravna: String(spravna.cislo),
-      vysvetleni: `Kresba patří k cestě *${k.cesta.nazev}*, která hledá odpověď na otázku *${spravna.otazka}*`,
+      ...(k.obraz ? { obraz: k.obraz } : {}),
+      vysvetleni: `${k.proc ? `${k.proc} ` : ''}Kresba patří k cestě *${k.cesta.nazev}*, která hledá odpověď na otázku *${spravna.otazka}*`,
       zpet: { href: adresa, text: `Zpátky do kroku ${k.krok.n} cesty ${k.cesta.nazev}` },
       potkal: [`cesta/${k.cesta.slug}/${k.krok.n}`],
     });

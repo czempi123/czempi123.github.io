@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 import { klicKarticky, sKartickou, sHodnocenim, posunDatum, type Denik, type Zapis } from '../../src/lib/denik';
 import {
   zapisSTextem, obsahKarticky, zdrojExistuje, hromadkaDne, aktualniKarticka, zbyvaNaRade, jestePet, dalsiVHromadce,
-  potkanePojmy, platnaHromadka, mistoPojmu, type DataKarticek,
+  potkanePojmy, platnaHromadka, mistoPojmu, otazkaBezPokynu, type DataKarticek,
 } from '../../src/lib/karticky';
 import { potkaneZDeniku } from '../../src/lib/herna/zustalo';
 import { dataKarticek } from '../../src/components/denik/_karticky-data';
@@ -67,9 +67,21 @@ describe('líc a rub', () => {
   it('zápis: otázka zápisu na lícu, odpověď a Platí to pro tebe pořád? s odkazem na rubu', () => {
     const d = sKartickou(prazdny({ zapisy: [zapis({})] }), 'zapis', 'z', T);
     const o = obsahKarticky(d.karticky!['zapis:z'], d, DATA, potkane, { '/cesta/kolik-je-dost/': { nazev: 'Kolik je dost?', obdobi: 2 } })!;
-    expect(o.lic).toMatchObject({ nazev: 'Jaké je tvoje pravidlo?', otazka: 'Vybavíš si svou odpověď?' });
+    expect(o.lic).toMatchObject({ nazev: 'Jaké je tvoje pravidlo?', pod: 'Cesta Kolik je dost?', otazka: 'Vybavíš si svou odpověď?' });
     expect(o.rub).toMatchObject({ pero: 'Nejdřív se zeptám.', dotaz: 'Platí to pro tebe pořád?', zpet: { href: '/cesta/kolik-je-dost/7/' } });
     expect(o.obdobi).toBe(2);
+  });
+  it('zápis: na lícu bez pokynu k psaní; stránka mimo cestu je Stránka', () => {
+    const smrt = 'Je rozumné bát se smrti? A co se strachem, který zbude? Napiš svoje pravidlo.';
+    const d = sKartickou(prazdny({ zapisy: [zapis({ otazka: smrt, odkaz: '/cesta/proc-se-bat-smrti/7/' }), zapis({ id: 'p', otazka: 'Co ti chybí?', odkaz: '/osobnost/seneca/#cas' })] }), 'zapis', 'z', T);
+    const stranky = { '/cesta/proc-se-bat-smrti/': { nazev: 'Proč se bát smrti?', obdobi: 2 }, '/osobnost/seneca/': { nazev: 'Seneca', obdobi: 2 } };
+    const o = obsahKarticky(d.karticky!['zapis:z'], d, DATA, potkane, stranky)!;
+    expect(o.lic).toMatchObject({ nazev: 'Je rozumné bát se smrti? A co se strachem, který zbude?', pod: 'Cesta Proč se bát smrti?' });
+    const p = obsahKarticky({ ...d.karticky!['zapis:z'], ref: 'p' }, d, DATA, potkane, stranky)!;
+    expect(p.lic.pod).toBe('Stránka Seneca');
+    expect(otazkaBezPokynu('Platí Hérakleitova věta i o lodi z prvního kroku? Napiš, v čem je loď jako řeka a v čem ne.')).toBe('Platí Hérakleitova věta i o lodi z prvního kroku?');
+    expect(otazkaBezPokynu('Napiš svoje pravidlo.')).toBe('Napiš svoje pravidlo.');
+    expect(otazkaBezPokynu('Co máš ve svých rukou?')).toBe('Co máš ve svých rukou?');
   });
   it('Co ti zůstalo?: podnět a zadání bez možností, na rubu správná odpověď, vysvětlení a zpět', () => {
     const d = sKartickou(prazdny(), 'zustalo', 'hlas:jak-zit:epiktetos', T);
@@ -165,6 +177,13 @@ describe('data kartiček z atlasu (antika)', () => {
       expect(p.vysvetleni && p.priklad, p.id).toBeTruthy();
       expect(p.mista.length, p.id).toBeGreaterThan(0);
       for (const m of p.mista) expect(m.href.startsWith('/'), `${p.id} ${m.klic}`).toBe(true);
+    }
+  });
+  it('kartička kresby má na lícu náhled kresby, ostatní ne', () => {
+    for (const [id, o] of Object.entries(data.zustalo)) {
+      expect(!!o.obraz, id).toBe(id.startsWith('kresba:'));
+      const d = sKartickou(prazdny(), 'zustalo', id, T);
+      expect(obsahKarticky(d.karticky![`zustalo:${id}`], d, data, new Set())!.lic.obraz, id).toEqual(o.obraz);
     }
   });
   it('na stránku deníku jde výrazně méně než celý katalog kvízu', () => {

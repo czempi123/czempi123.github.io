@@ -6,6 +6,7 @@ import {
   HROMADKA, hromadka, klicKarticky, maZdroj, naRade,
   type Denik, type Karticka, type Zapis, type ZdrojKarticky,
 } from './denik';
+import type { ObrazZustalo } from './herna/zustalo';
 
 export interface OdkazKarticky { href: string; text: string }
 /** Místo, kde pojem v atlasu stojí: klíč jako v potkaneZDeniku („cesta/kolik-je-dost/3“, „/osobnost/epikuros/“). */
@@ -31,6 +32,8 @@ export interface OtazkaKarticky {
   spravna: string;
   vysvetleni: string;
   zpet: OdkazKarticky;
+  /** u kresby: náhled nad podnětem (denik-v2, O) */
+  obraz?: ObrazZustalo;
 }
 
 export interface DataKarticek {
@@ -71,7 +74,19 @@ export const TEXTY_KARTICEK = {
   zpetCitat: 'Zpátky na místo, odkud je',
   /** pod názvem citátu na lícu: stránka, odkud je; jméno z dat stojí v 1. pádě jako přístavek */
   stranka: 'Stránka',
+  /** pod otázkou zápisu z cesty: „Cesta Proč se bát smrti?“ */
+  cesta: 'Cesta',
 } as const;
+
+/**
+ * Otázka zápisu bez pokynu k psaní na konci („… Napiš svoje pravidlo.“): na kartičce student nepíše, vybavuje si,
+ * a pokyn by stál nad „Vybavíš si svou odpověď?“ (denik-v2, O). Když by nezbylo nic, zůstane otázka celá.
+ */
+export function otazkaBezPokynu(otazka: string): string {
+  const t = otazka.trim();
+  // \b za „š“ nefunguje (není to písmeno ASCII): za pokynem čeká mezera, čárka nebo konec.
+  return t.replace(/\s+Napiš(?=[\s,.!?]|$)[^.!?]*[.!?]?\s*$/u, '').trim() || t;
+}
 
 export interface ObsahKarticky {
   klic: string;
@@ -81,8 +96,10 @@ export interface ObsahKarticky {
   lic: {
     /** pojem, otázka zápisu, odkud je citát */
     nazev?: string;
-    /** pod názvem drobně (stránka, odkud je citát) */
+    /** pod názvem drobně (stránka, odkud je citát nebo zápis) */
     pod?: string;
+    /** náhled kresby (Obraz a otázka) */
+    obraz?: ObrazZustalo;
     /** podnět kvízu po odstavcích */
     odstavce: string[];
     otazka: string;
@@ -179,10 +196,13 @@ export function obsahKarticky(
   if (k.zdroj === 'zapis') {
     const z = d.zapisy.find((x) => x.id === k.ref);
     if (!z || !z.odpoved.trim()) return null;
-    const s = stranky[strankaOdkazu(z.odkaz)];
+    const stranka = strankaOdkazu(z.odkaz);
+    const s = stranky[stranka];
+    // Odkud zápis je, stojí na lícu (jako u citátu): kartička z cesty o smrti nepřijde bez varování (denik-v2, O).
+    const pod = s ? `${stranka.startsWith('/cesta/') ? TEXTY_KARTICEK.cesta : TEXTY_KARTICEK.stranka} ${s.nazev}` : undefined;
     return {
       ...zaklad, obdobi: s?.obdobi,
-      lic: { nazev: z.otazka, odstavce: [], otazka: TEXTY_KARTICEK.licZapis },
+      lic: { nazev: otazkaBezPokynu(z.otazka), ...(pod ? { pod } : {}), odstavce: [], otazka: TEXTY_KARTICEK.licZapis },
       rub: { pero: z.odpoved.trim(), odstavce: [], dotaz: TEXTY_KARTICEK.rubZapis, zpet: { href: z.odkaz, text: TEXTY_KARTICEK.prepsat } },
     };
   }
@@ -190,7 +210,7 @@ export function obsahKarticky(
   if (!o) return null;
   return {
     ...zaklad, obdobi: data.obdobiZustalo,
-    lic: { odstavce: (data.podnety[o.podnet] ?? '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean), otazka: o.zadani },
+    lic: { ...(o.obraz ? { obraz: o.obraz } : {}), odstavce: (data.podnety[o.podnet] ?? '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean), otazka: o.zadani },
     rub: { odpoved: o.spravna, odstavce: [o.vysvetleni], zpet: o.zpet },
   };
 }

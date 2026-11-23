@@ -109,9 +109,19 @@
               <p class="karta__nad">{o.nadtitulek}</p>
               {#if o.lic.nazev}<p class="karta__nazev">{o.lic.nazev}</p>{/if}
               {#if o.lic.pod}<p class="t-popisek karta__pod">{o.lic.pod}</p>{/if}
+              {#if o.lic.obraz}
+                <picture class="karta__obraz">
+                  <source srcset={o.lic.obraz.tmavy} media="(prefers-color-scheme: dark)" />
+                  <img src={o.lic.obraz.svetly} alt={o.lic.obraz.alt} width="480" decoding="async" />
+                </picture>
+              {/if}
               {#each o.lic.odstavce as odst, i (i)}<p class="karta__podnet">{@html radek(odst)}</p>{/each}
               <p class="karta__otazka">{o.lic.otazka}</p>
-              <div class="blok__akce"><button class="blok__tl blok__tl--hlavni" type="button" onclick={otoc}>{T.otocit}</button></div>
+              <div class="blok__akce">
+                <!-- Vlastní zápis jde vyndat bez otočení: kdo ho dnes číst nechce, nemusí (denik-v2, O). -->
+                {#if o.zdroj === 'zapis'}<button class="blok__tl blok__tl--tiche" type="button" onclick={(e) => { e.stopPropagation(); vyndat(); }}>{T.vyndat}</button>{/if}
+                <button class="blok__tl blok__tl--hlavni" type="button" onclick={otoc}>{T.otocit}</button>
+              </div>
             </div>
           {:else}
             <div class="karta__strana karta__rub" role="group" aria-label={`Kartička, rub: ${o.nadtitulek}`} tabindex="-1" bind:this={rubEl}>
@@ -168,6 +178,8 @@
   .karta__nazev { font-family: var(--font-serif); font-weight: 500; font-size: 26px; line-height: 1.2; color: var(--ink); }
   .karta__nazev--rub { font-size: 19px; }
   .karta__pod { color: var(--ink-2); }
+  .karta__obraz { display: block; max-width: 20rem; margin: var(--s-2) 0 var(--s-3); }
+  .karta__obraz img { display: block; width: 100%; height: auto; box-shadow: var(--lezi); }
   .karta__podnet, .karta__text { font-size: 19px; line-height: 1.5; }
   .karta__otazka { margin-top: var(--s-3) !important; font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani); }
   .karta__odpoved { font-family: var(--font-serif); font-weight: 600; font-size: 21px; line-height: 1.35; }

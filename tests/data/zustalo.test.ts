@@ -3,10 +3,12 @@ import { describe, it, expect } from 'vitest';
 import {
   blizkePojmy, chybyZustalo, dalsiOtazka, jmenuje, konecKola, kZopakovani, noveKolo, odpovez, otazkyHlasu, otazkyKreseb, otazkyPojmu,
   platnyStavZustalo, potkaneZDeniku, pozvanka, pripadZTextu, vetaPredKresbou, vyberKola, zpetPro,
-  ZUSTALO_DRUHU_NEJVYS, ZUSTALO_KOLO, type OtazkaZustalo, type PojemVstup,
+  volbaHlasuProCtecku, ZUSTALO_DRUHU_NEJVYS, ZUSTALO_KOLO, type OtazkaZustalo, type PojemVstup,
 } from '../../src/lib/herna/zustalo';
-import { katalogZustalo, vstupZustalo } from '../../src/lib/herna/zustalo-data';
-import { BLIZKE_OTAZKY_KRESEB, VETY_KRESEB } from '../../src/lib/kresby';
+import { BLIZKE_HLASY, katalogZustalo, vstupZustalo } from '../../src/lib/herna/zustalo-data';
+import { BLIZKE_OTAZKY_KRESEB, PROC_KRESEB, VETY_KRESEB } from '../../src/lib/kresby';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { prostyText } from '../../src/lib/tvoje-obdobi';
 import { VIS, ZOPAKUJ_SI, vybaveni } from '../../src/lib/herna/verdikt';
 
@@ -136,6 +138,40 @@ describe('data antiky', () => {
     expect(k.otazky.find((x) => x.id === 'hlas:co-je-skutecne:parmenides')!.vysvetleni).toMatch(/^„Proto je jen jménem všechno/);
     expect(k.otazky.find((x) => x.id === 'hlas:kdo-vlastne-jsem:marcus-aurelius')!.vysvetleni).toMatch(/mínění o sobě si cení méně než cizího\.$/);
   });
+  it('blízké hlasy: seznam platí a blízká odpověď není v otázce ani jednoho z nich', () => {
+    expect(Object.keys(BLIZKE_HLASY).sort()).toEqual(['jsem-svobodny:aristoteles', 'kdo-vlastne-jsem:platon', 'ma-zivot-smysl:seneca']);
+    for (const [klic, blizke] of Object.entries(BLIZKE_HLASY)) {
+      const [slug, osoba] = klic.split(':');
+      const ot = v.otazky.find((x) => x.slug === slug);
+      expect(ot?.hlasy.some((h) => h.osoba === osoba), klic).toBe(true);
+      for (const b of blizke) {
+        expect(ot!.hlasy.some((h) => h.osoba === b), `${klic} × ${b}`).toBe(true);
+        const tam = k.otazky.find((x) => x.id === `hlas:${slug}:${osoba}`);
+        const zpet = k.otazky.find((x) => x.id === `hlas:${slug}:${b}`);
+        expect(tam, klic).toBeDefined();
+        expect(tam!.moznosti.map((m) => m.id), klic).not.toContain(b);
+        if (zpet) expect(zpet.moznosti.map((m) => m.id), `${slug}:${b}`).not.toContain(osoba);
+      }
+    }
+  });
+  it('hlas: každá možnost nese jméno toho, kdo ji říká', () => {
+    for (const o of k.otazky.filter((x) => x.druh === 'hlas')) {
+      for (const m of o.moznosti) expect(m.kdo, `${o.id} › ${m.id}`).toBe(v.otazky.flatMap((x) => x.hlasy).find((h) => h.osoba === m.id)!.jmeno);
+    }
+    for (const o of k.otazky.filter((x) => x.druh !== 'hlas')) expect(o.moznosti.some((m) => m.kdo), o.id).toBe(false);
+    expect(volbaHlasuProCtecku({ kdo: 'Aristotelés' })).toBe(' (tvoje odpověď, takhle by odpověděl Aristotelés)');
+    expect(volbaHlasuProCtecku({ kdo: 'Hipparchia', zena: true })).toBe(' (tvoje odpověď, takhle by odpověděla Hipparchia)');
+  });
+  it('Platónovo vysvětlení s citátem z dialogu řekne, kdo v dialogu mluví', () => {
+    const platon = k.otazky.filter((x) => x.id.startsWith('hlas:') && x.spravna === 'platon');
+    expect(platon.map((x) => x.id.split(':')[1]).sort()).toEqual(['co-je-skutecne', 'co-je-spravne', 'jak-spolu-mame-zit', 'kdo-vlastne-jsem', 'ma-zivot-smysl']);
+    for (const o of platon) {
+      expect(o.vysvetleni, o.id).toMatch(/^V Platónově \S+ [^„]+: „/);
+      expect(o.vysvetleni, o.id).toMatch(/\(Platón, /);
+    }
+    expect(k.otazky.find((x) => x.id === 'hlas:kdo-vlastne-jsem:platon')!.vysvetleni).toMatch(/^V Platónově Faidónu to říká Sókratés v den své smrti: „Nedaří se mi/);
+    expect(k.otazky.find((x) => x.id === 'hlas:co-je-skutecne:platon')!.vysvetleni).toMatch(/^V Platónově Tímaiovi to říká Tímaios: „/);
+  });
   it('žádná situace nejmenuje svůj pojem', () => {
     for (const o of k.otazky.filter((x) => x.druh === 'pojem')) {
       const p = v.pojmy.find((x) => x.id === o.spravna)!;
@@ -162,6 +198,28 @@ describe('data antiky', () => {
       expect(soubor, kr.komponenta).toBeDefined();
       const text = prostyText(soubor![1]).toLocaleLowerCase('cs');
       expect(text.includes(veta.toLocaleLowerCase('cs')), `${kr.komponenta}: ${veta}`).toBe(true);
+    }
+  });
+  it('věta, proč obraz k otázce patří, stojí doslova v kroku kresby nebo v závěru cesty a jde před větu o cestě', () => {
+    const raw = import.meta.glob('../../src/content/cesty/*/*.mdx', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+    expect(Object.keys(PROC_KRESEB).length).toBeGreaterThanOrEqual(5);
+    for (const [komponenta, proc] of Object.entries(PROC_KRESEB)) {
+      const kr = v.kresby.find((x) => x.komponenta === komponenta)!;
+      expect(kr, komponenta).toBeDefined();
+      const kroky = Object.entries(raw).filter(([c]) => c.includes(`/cesty/${kr.cesta.slug}/`));
+      const posledni = Math.max(...kroky.map(([c]) => Number(c.match(/\/(\d+)-[^/]*\.mdx$/)![1])));
+      const mista = kroky.filter(([c, t]) => (c.includes(`/${kr.krok.n}-`) && t.includes(`<${komponenta}`)) || c.includes(`/${posledni}-`));
+      const najde = mista.some(([, t]) => prostyText(t).toLocaleLowerCase('cs').includes(proc!.toLocaleLowerCase('cs')));
+      expect(najde, `${komponenta}: ${proc}`).toBe(true);
+      const o = k.otazky.find((x) => x.id === `kresba:${komponenta}`);
+      if (o) expect(o.vysvetleni.startsWith(`${proc} Kresba patří k cestě *`), komponenta).toBe(true);
+    }
+  });
+  it('každá kresba v kvízu má náhled ve světlém i tmavém režimu a alt je její název', () => {
+    for (const o of k.otazky.filter((x) => x.druh === 'kresba')) {
+      expect(o.obraz, o.id).toBeDefined();
+      expect(o.obraz!.alt, o.id).toBe(o.nazev);
+      for (const s of [o.obraz!.svetly, o.obraz!.tmavy]) expect(existsSync(join('public', s)), s).toBe(true);
     }
   });
 });

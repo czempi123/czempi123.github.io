@@ -12,7 +12,7 @@
   import { vybaveni } from '../../lib/herna/verdikt';
   import {
     dalsiOtazka, kZopakovani, konecKola, noveKolo, odpovez, platnyStavZustalo, potkaneZDeniku, pozvanka, zpetPro,
-    NAZVY_DRUHU, TEXTY_ZUSTALO as T, ZUSTALO_NEJMENE, type CestaZustalo, type KatalogZustalo, type StavZustalo,
+    volbaHlasuProCtecku, NAZVY_DRUHU, TEXTY_ZUSTALO as T, ZUSTALO_NEJMENE, type CestaZustalo, type KatalogZustalo, type StavZustalo,
   } from '../../lib/herna/zustalo';
   import RamAktivity from './RamAktivity.svelte';
 
@@ -170,6 +170,13 @@
       hlavni={odpoved ? akceOtazky : undefined}
     >
       <p class="zustalo__postup t-popisek" tabindex="-1">{@html radek(`Otázka ${stav.pozice + 1} z ${stav.poradi.length}`)}</p>
+      {#if otazka.obraz}
+        <!-- Obraz a otázka: náhled kresby v klidovém stavu, ať si student vybaví obraz, ne jen slova (denik-v2, O). -->
+        <picture class="zustalo__obraz">
+          <source srcset={otazka.obraz.tmavy} media="(prefers-color-scheme: dark)" />
+          <img src={otazka.obraz.svetly} alt={otazka.obraz.alt} width="480" decoding="async" />
+        </picture>
+      {/if}
       <div class={['zustalo__podnet', otazka.druh === 'pojem' && 'zustalo__podnet--situace']} data-cast="scena">
         {#each odstavce(otazka.podnet) as o, i (i)}<p class="blok__scena">{@html o}</p>{/each}
       </div>
@@ -185,8 +192,14 @@
           {#each otazka.moznosti as m (m.id)}
             <li class={['zustalo__hotova', m.id === volba && 'zustalo__hotova--zvolena', m.id === otazka.spravna && 'zustalo__hotova--spravna']}>
               <span class="zustalo__znacka" aria-hidden="true">{m.id === otazka.spravna ? '✓' : ''}</span>
-              <span class="zustalo__text">{@html radek(m.text)}</span>
-              {#if m.id === volba}<span class="vizualne-skryte">{' (tvoje odpověď)'}</span>{/if}
+              <span class="zustalo__text">
+                {@html radek(m.text)}
+                <!-- Jméno až po odpovědi: z jedné otázky se student dozví o třech myslitelích (denik-v2, O). U zvolené
+                     špatné ho čtečka uslyší ve větě „takhle by odpověděl…“, proto tam viditelné jméno přeskočí. -->
+                {#if m.kdo}<span class="zustalo__kdo" aria-hidden={m.id === volba && m.id !== otazka.spravna ? 'true' : undefined}>{m.kdo}</span>{/if}
+              </span>
+              {#if m.id === volba && m.kdo && m.id !== otazka.spravna}<span class="vizualne-skryte">{volbaHlasuProCtecku(m)}</span>
+              {:else if m.id === volba}<span class="vizualne-skryte">{' (tvoje odpověď)'}</span>{/if}
               {#if m.id === otazka.spravna}<span class="vizualne-skryte">{' (správná odpověď)'}</span>{/if}
             </li>
           {/each}
@@ -200,6 +213,9 @@
 <style>
   .zustalo__postup { margin: 0 0 var(--s-3); color: var(--ink-2); }
   .zustalo__postup:focus-visible, .zustalo__konec:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  /* Náhled kresby leží na stránce jako vytištěný obrázek; větší než 20 rem nemusí být, jde jen o vybavení. */
+  .zustalo__obraz { display: block; max-width: 20rem; margin: 0 0 var(--s-3); }
+  .zustalo__obraz img { display: block; width: 100%; height: auto; box-shadow: var(--lezi); }
   /* Situace a případ čte student jako scénu: okraj tužkou vlevo ji oddělí od zadání. */
   .zustalo__podnet { margin: 0 0 var(--s-2); padding-left: var(--s-4); border-left: 2px solid var(--tuzka); }
 
@@ -241,6 +257,8 @@
   .zustalo__hotova--zvolena { box-shadow: var(--vtla); background: var(--plocha); color: var(--ink); }
   .zustalo__hotova--spravna { color: var(--ink); font-weight: 600; }
   .zustalo__hotova:not(.zustalo__hotova--zvolena):not(.zustalo__hotova--spravna) { border-color: var(--tuzka); }
+  /* Kdo odpověď říká: popisek pod textem možnosti, bez tučného řezu správné. */
+  .zustalo__kdo { display: block; margin-top: var(--s-1); font-family: var(--font-sans); font-size: var(--fs-popisek); font-weight: 400; color: var(--ink-2); }
   .zustalo__znacka { flex: none; min-width: 1ch; font-family: var(--font-sans); font-weight: 700; color: var(--p); }
   .zustalo__moznosti--kratke .zustalo__znacka:empty { display: none; }
 

@@ -53,6 +53,28 @@ export const VETY_KRESEB: Partial<Record<Kresba, string>> = {
 };
 
 /**
+ * Proč obraz k velké otázce patří, pro rub otázky Obraz a otázka v Co ti zůstalo? (denik-v2, O): úsek doslova z textu
+ * kroku, kde kresba stojí, nebo ze závěru cesty (poslední krok). Stojí před větou o cestě. Nic nového se nepíše:
+ * kde taková věta v kroku ani v závěru není, nebo by bez okolí nedávala smysl („podle něj“ bez jména), kresba zůstane
+ * jen s větou o cestě (Kdy je dost?, Loď po prknech, Zrcadlo času). Že úsek opravdu stojí v kroku nebo v závěru,
+ * hlídá tests/data/zustalo.test.ts.
+ */
+export const PROC_KRESEB: Partial<Record<Kresba, string>> = {
+  // závěr cesty Co mám ve svých rukou?
+  DvePulky: 'Otrok a císař se shodli: ve tvých rukou je to, co si myslíš, co chceš a co uděláš. Epiktétos v tom viděl svobodu, Marcus pevnost.',
+  Jeskyne: 'Kdyby spolu mohli mluvit, měli by stíny za skutečné věci.',
+  JeskyneVen: 'Někdo mu říká, že teprve teď je blíž skutečnosti, a ptá se, co která věc je.',
+  KdeJeStred: 'Dobrým se podle Aristotela člověk stává tím, že dobře jedná.',
+  PresypaciHodiny: 'Čas není vidět, a proto se s ním podle Seneky zachází, jako by byl zadarmo.',
+  Saty: 'Fotka byla jedna, a lidé na ní přesto viděli různé barvy.',
+  // závěr cesty Čí život vlastně žiju?
+  TretiCara: 'Aschův pokus zkoušel, jak snadno člověk pustí, co sám viděl, když skoro všichni před ním řeknou něco jiného.',
+};
+
+/** Náhled kresby v klidovém stavu (Co ti zůstalo?, kartička): WebP ve světlém a tmavém režimu, vyrábí ho scripts/nahledy-kreseb.mjs (přes scripts/snimky-prvek.mjs). */
+export const nahledKresby = (k: string) => ({ svetly: `/kresby/nahled/${k}-svetly.webp`, tmavy: `/kresby/nahled/${k}-tmavy.webp` });
+
+/**
  * Velké otázky, na které by obraz poctivě odpovídal taky, i když jeho cesta patří k jiné (denik-v2, T): v Co ti
  * zůstalo? nejsou mezi možnostmi, aby správná odpověď byla jen jedna. Když po nich nezbudou dvě jiné otázky, kresba
  * do kvízu nepřijde (Maska: tvář pod maskou svádí ke skutečnosti, k pravdě i k tomu, kdo jsem). Čísla otázek: 1 Jak mám žít?, 3 Má život
