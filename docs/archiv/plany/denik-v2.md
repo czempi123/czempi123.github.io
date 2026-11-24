@@ -81,7 +81,7 @@ Zápis z Volby s `bezDuvodu: true` a zápisy bez textu tlačítko nemají. Když
 | T | Texty větve se skillem `atlas-psani` | Opus 5.5 · high | hotovo 23. 11. 2026 (Po T) |
 | R | Revize větve se skillem `atlas-revize` | Opus 5.5 · high | hotovo 23. 11. 2026 (Po R) |
 | O | Opravy po revizi | Opus 5.5 · high | hotovo 23. 11. 2026 (Po O) |
-| Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | **na řadě** (Zadání Uzavření) |
+| Uzavření | VoiceOver s autorem (je-li u Macu), sloučení, GitHub, kontrola nasazení, plán do archivu | Opus 5.5 · medium | hotovo 24. 11. 2026 (Po Uzavření) |
 
 **Nad čím jsem váhal.**
 - *Kvíz jen z prošlého, nebo z celé antiky?* Zvolil jsem prošlé: kvíz se jmenuje „Co ti zůstalo?“ a otázka na něco, co student nepotkal, by ho jen zkoušela. Jinak by šlo doplňovat kolo z celé antiky s větou „tohle tě teprve čeká“.
@@ -150,7 +150,7 @@ https://czempi123.github.io<stránka, odkud citát je>
 
 ## Zadání kroků
 
-Celá zadání kroků K1 až Uzavření, s modelem a úsilím, jsou v `docs/plany/denik-v2-zadani.md`. Krok, který zadání upraví, upraví ho tam.
+Celá zadání kroků K1 až Uzavření, s modelem a úsilím, jsou v `docs/archiv/plany/denik-v2-zadani.md`. Krok, který zadání upraví, upraví ho tam.
 
 ## Otázky pro autora
 
@@ -165,11 +165,11 @@ Jen to, co smí rozhodnout jen autor. Prázdná odpověď znamená souhlas s dop
 
 ## Průběh
 
-Zápisy Po Plán až Po R jsou v `docs/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
+Zápisy Po Plán až Po R jsou v `docs/archiv/plany/denik-v2-prubeh.md`; sem patří jen poslední zápis, starší se při dalším kroku přesunou tam.
 
 ## Po O (23. 11. 2026)
 
-Opravy šesti nálezů revize (`docs/revize/denik-v2-2026-11-23.md`). Obě otázky po R zůstaly bez odpovědi, platí doporučení: tlačítko Do kartiček u zápisů z cest Proč se bát smrti? a Co když přijde to nejhorší? zůstává (s opravou nálezu 4) a stažený text má hlavičku „z Agory“. Zápis Po R a otázky po R jsou v `docs/plany/denik-v2-prubeh.md`.
+Opravy šesti nálezů revize (`docs/archiv/revize/denik-v2-2026-11-23.md`). Obě otázky po R zůstaly bez odpovědi, platí doporučení: tlačítko Do kartiček u zápisů z cest Proč se bát smrti? a Co když přijde to nejhorší? zůstává (s opravou nálezu 4) a stažený text má hlavičku „z Agory“. Zápis Po R a otázky po R jsou v `docs/archiv/plany/denik-v2-prubeh.md`.
 
 **Co se opravilo.**
 1. *Blízké hlasy.* `BLIZKE_HLASY` v `src/lib/herna/zustalo-data.ts` s důvodem u každé dvojice: Platón × Aristotelés (Kdo tě zná líp?, oba: jsem to, co ve mně myslí), Aristotelés × Epikúros (Může za to?, oba: chvála a trest předpokládají, že je to na nás), Seneca × Epikúros (fotka z roku 1926, oba: délka života nerozhoduje). `otazkyHlasu` blízký hlas vyřadí oběma směry. Výpis znovu: na uvolněná místa přišly jiné hlasy téže stránky (u Aristotela Chrýsippos a Epiktétos) a žádná z nových trojic nemá dvě obhajitelné odpovědi.
@@ -197,25 +197,33 @@ Poučení z revize je v `docs/pouceni.md` › Co se skládá z dat. Testy uprave
 Prázdná odpověď znamená souhlas s doporučením.
 
 1. **Schvaluješ větev denik-v2 ke sloučení do main a poslání na GitHub?** Doporučuji ano; Uzavření pak větev sloučí, pošle `main` na GitHub, zkontroluje nasazení a plán přesune do archivu.
-   Odpověď:
+   Odpověď: bez odpovědi = souhlas (Uzavření 24. 11. 2026).
 
 ## Zadání Uzavření (další krok)
 
 Opus 5.5 · medium, nový chat.
 
 ```
-Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md a v docs/plany/denik-v2.md oddíly Kroky, Otázky pro autora, Po O (s odpovědí autora) a Co zůstává na později, v docs/plany/denik-v2-prubeh.md oddíl Po Plán. Nejdřív se autora zeptej, jestli je u Macu: když ano, projdi s ním VoiceOverem postup z docs/archiv/plany/herna-v1.md › Po O (design-v2, herna-v1) a k němu Co ti zůstalo?, kartičky a Moje sbírku; nálezy oprav, nebo zapiš na později. Když ne, VoiceOver vynech a zapiš to.
+Na Macu (/Users/vojtechczempka/Atlas, Desktop Commander), větev denik-v2. Přečti CLAUDE.md a v docs/archiv/plany/denik-v2.md oddíly Kroky, Otázky pro autora, Po O (s odpovědí autora) a Co zůstává na později, v docs/archiv/plany/denik-v2-prubeh.md oddíl Po Plán. Nejdřív se autora zeptej, jestli je u Macu: když ano, projdi s ním VoiceOverem postup z docs/archiv/plany/herna-v1.md › Po O (design-v2, herna-v1) a k němu Co ti zůstalo?, kartičky a Moje sbírku; nálezy oprav, nebo zapiš na později. Když ne, VoiceOver vynech a zapiš to.
 
 Když autor v Po O větev schválil (prázdná odpověď = souhlas): git merge --no-ff denik-v2 do main, celé npm test na main na pozadí. Push: git fetch; main pošli na GitHub stejně jako v Po Plán (git bundle přes Claude outputs, push z cloudu; autor to výslovně povolil, otázka 3); když push nejde, nic dalšího nezkoušej a zapiš to. Po pushi kontrola nasazení: běh kontrol přes api.github.com/repos/czempi123/czempi123.github.io/actions/runs a nasazený web na 390 a 1440 px (ZAKLAD=https://czempi123.github.io node scripts/snimky-listy.mjs pro /denik/antika/, /denik/sbirka/, /denik/ a jednu stránku pojmu) do Claude outputs/; když dosud neproběhla kontrola z herna-v1, udělej ji taky a dopiš ji tamtéž. Plán větve přesuň do docs/archiv/plany/denik-v2.md (i se zadáním a průběhem: denik-v2-zadani.md, denik-v2-prubeh.md), záznam revize do docs/archiv/revize/, oprav odkazy (grep), řádek denik-v2 v docs/plan-vetve.md, dopiš Po Uzavření. V Projektu Claude nahraď plán větve plánem další větve film-0 (docs/plany/film-0.md s prvním zadáním podle po-auditu.md › Větve) a nahraj docs/plan-vetve.md. Ve zprávě autorovi: co se sloučilo a nasadilo, co zůstalo na později a celý prompt prvního kroku film-0 s modelem a úsilím. Zastav se.
 ```
+
+## Po Uzavření (24. 11. 2026)
+
+1. **VoiceOver:** neproběhl. Autor nebyl u Macu (odpověď „Ne, vynech VoiceOver“). Postup z `docs/archiv/plany/herna-v1.md` › Po O spolu s Co ti zůstalo?, kartičkami a Moje sbírkou zůstává na později (Co zůstává na později).
+2. **Sloučení:** odpověď na otázku po O zůstala prázdná, tedy souhlas. `git merge --no-ff denik-v2` do `main` (commit `cb4a57e` „Sloučení větve denik-v2: deník se sbírkou a kvízem“). Celé `npm test` na `main`: kontrola typů bez chyb, Vitest 1 666 z 1 666, Playwright 930 z 930 (10,0 min).
+3. **GitHub:** `main` poslaný z cloudu stejně jako v Po Plán (git bundle přes složku `Claude outputs`, push z cloudové kopie); na GitHubu byl předtím `fd86def`. Výsledek kontrol a nasazení je v bodě 5.
+4. **Archiv:** plán, zadání a průběh v `docs/archiv/plany/denik-v2.md`, `denik-v2-zadani.md` a `denik-v2-prubeh.md`, záznam revize v `docs/archiv/revize/denik-v2-2026-11-23.md`; odkazy v nich a v `docs/archiv/plany/herna-v1.md` opravené, řádek v `docs/plan-vetve.md`. Kontrola nasazení herna-v1 proběhla už 22. 11. 2026 (Po Plán), znovu se nedělala.
+5. **Nasazení:** doplní se po pushi.
+6. **Další větev:** `film-0` (`docs/plany/po-auditu.md` › Větve), soubor `docs/plany/film-0.md` se zadáním prvního kroku (Plán).
 
 ## Co zůstává na později
 
 - Co ti zůstalo? a kartičky pro další období: každé období dostane svou stránku Tvoje <období> s kvízem ze svých pojmů, hlasů a kreseb. Do skillu `atlas-obdobi` to zapíše `uklid-v1` (spolu s pravidly pestrosti).
 - Kartičky z dalších zdrojů (hlas, který byl studentovi nejblíž, Návrat), až je student bude chtít.
 - Lístek z cesty pro učitele a odevzdání sbírky ve třídě: `trida-v1` (kurikulum, odpověď 4).
-- VoiceOver s autorem z herna-v1 a design-v2 (postup v `docs/archiv/plany/herna-v1.md` › Po O): připojí se k Uzavření této větve, když bude autor u Macu.
+- VoiceOver s autorem z herna-v1, design-v2 a denik-v2 (postup v `docs/archiv/plany/herna-v1.md` › Po O, k němu Co ti zůstalo?, kartičky a Moje sbírka): neproběhl ani v Uzavření denik-v2. Připojí se k Uzavření `film-0`, když bude autor u Macu.
 - Mužský rod v ostatních textech atlasu (oslovení, zpětné vazby, kroky): revize obsahu (fáze 5), jedno rozhodnutí pro celý atlas (R).
 - Trvalá stopa stránek otázek v deníku (Po K2) a data kartiček ve sdíleném souboru místo na stránce deníku (Po K3): až budou vadit, nejpozději `uklid-v1` (R).
 - Věta, proč obraz k otázce patří, u kreseb Kdy je dost?, Loď po prknech a Zrcadlo času (`PROC_KRESEB`): v kroku ani v závěru cesty taková věta není. Až se budou cesty revidovat (fáze 5), stojí za to ji tam napsat (O).
-- Kontroly na GitHubu po opravě v K1 zezelenají až po sloučení větve v Uzavření; do té doby je poslední běh na `main` zrušený.

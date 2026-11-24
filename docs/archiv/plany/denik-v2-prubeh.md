@@ -1,6 +1,6 @@
 # Větev denik-v2: průběh kroků
 
-Zápisy „Po …“ starších kroků větve `denik-v2` (výsledky, nad čím krok váhal). Plán, formáty, tabulka kroků a poslední zápis jsou v `docs/plany/denik-v2.md`, zadání kroků v `docs/plany/denik-v2-zadani.md`. Rozděleno 22. 11. 2026 v K3, aby plán zůstal pod 35 kB pro Projekt.
+Zápisy „Po …“ starších kroků větve `denik-v2` (výsledky, nad čím krok váhal). Plán, formáty, tabulka kroků a poslední zápis jsou v `docs/archiv/plany/denik-v2.md`, zadání kroků v `docs/archiv/plany/denik-v2-zadani.md`. Rozděleno 22. 11. 2026 v K3, aby plán zůstal pod 35 kB pro Projekt.
 
 ## Po Plán (22. 11. 2026)
 
@@ -165,7 +165,7 @@ Osa hlasů (`OsaHlasu.svelte`) a Spor (`Spor.svelte`), které plán jmenoval, ci
 
 ## Po R (23. 11. 2026)
 
-Revize skillem `atlas-revize` (s `atlas-psani`), záznam `docs/revize/denik-v2-2026-11-23.md`. **Verdikt: po opravách.** Kartičky působí jako hra a nůžky nic neprozradí; kvíz potřebuje opravit hlasy a kresby a kartička ze zápisu o smrti nesmí přijít bez varování.
+Revize skillem `atlas-revize` (s `atlas-psani`), záznam `docs/archiv/revize/denik-v2-2026-11-23.md`. **Verdikt: po opravách.** Kartičky působí jako hra a nůžky nic neprozradí; kvíz potřebuje opravit hlasy a kresby a kartička ze zápisu o smrti nesmí přijít bez varování.
 
 **Jak se zkoušelo.** Celý výpis 67 otázek; `scripts/revize-denik-v2.mjs` (nový): deník po třech týdnech se zápisy z cest o smrti a o nejhorším, dvanáct kartiček po týdnu a po měsíci (v oddílu žádná číslice mimo údaje citátů a „krok 3“, žádné slovo odpočtu), Co ti zůstalo? s chybnou odpovědí, Moje sbírka na obrazovce, v tisku a jako text. Snímky 390 a 1440 px, světlý i tmavý: `Claude outputs/denik-v2-R/`. `kontrola-fokus.mjs` s plným deníkem na čtyřech stránkách bez nálezu. Celé `npm test`: viz níž.
 
