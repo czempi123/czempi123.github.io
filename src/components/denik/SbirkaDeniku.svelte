@@ -1,10 +1,13 @@
 <script lang="ts">
   // Sbírka v deníku (design-v2, K6): razítka filozofů, které student potkal, odtržené pahýly lístků prošlých cest
   // (K5: cesty[slug].pahyl) a citáty, které si na stránkách vystřihl. Odměna bez bodů: nic se nepočítá a nic
-  // nechybí; prázdná část se neukáže. Logika v src/lib/zapisnik.ts.
+  // nechybí; prázdná část se neukáže. Logika v src/lib/zapisnik.ts. Výstřižky z období (denik-v2, K4: Vystrizek.svelte)
+  // a pod nimi odkaz na celou sbírku /denik/sbirka/.
   // <SbirkaDeniku potkani={['sokrates']} razitka={…} osoby={…} pahyly={…} citaty={…} />
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
-  import { zrusCitat, type CitatVDeniku } from '../../lib/denik';
+  import type { CitatVDeniku } from '../../lib/denik';
+  import { ADRESA_SBIRKY, TEXTY_SBIRKY } from '../../lib/sbirka-texty';
+  import Vystrizek from './Vystrizek.svelte';
   import type { PahylCesty } from '../../lib/zapisnik';
   import type { UdajeRazitka } from '../ostrovy/bloky-typy';
 
@@ -32,7 +35,7 @@
   <svelte:element this={klic ? 'div' : 'section'} class={['sbirka', { 'sbirka--kapitola': uroven > 2 }]} aria-labelledby={klic ? undefined : idNadpisu}>
     <svelte:element this={`h${uroven}`} class={uroven > 2 ? 't-h3 sbirka__nadpis' : 't-h2 sbirka__nadpis'} id={idNadpisu}>Sbírka</svelte:element>
     {#if lide.length}
-      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Koho jsem potkal</svelte:element>
+      <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Koho už znám</svelte:element>
       <ul class="sb-razitka">
         {#each lide as id (id)}
           <li>
@@ -59,15 +62,11 @@
     {/if}
     {#if citaty.length}
       <svelte:element this={`h${uroven + 1}`} class="t-ovladani-l sbirka__cast">Vystřižené citáty</svelte:element>
-      <ul class="sb-citaty">
-        {#each citaty as c (c.id)}
-          <li class="sb-citat">
-            <blockquote><p>„{c.text}“</p></blockquote>
-            <p class="t-popisek sb-citat__kde"><a href={c.odkaz}>{c.kde}</a></p>
-            <button class="blok__tl blok__tl--tiche sb-citat__vratit" type="button" onclick={() => zrusCitat(c.id)}>Vyndat ze sbírky<span class="vizualne-skryte">{`: ${c.kde}`}</span></button>
-          </li>
-        {/each}
+      <!-- V kapitole deníku bez pásky: páska v deníku patří Návratu (design-v2, R); páska je na stránce Moje sbírka. -->
+      <ul class="vystrizky">
+        {#each citaty as c (c.id)}<Vystrizek {c} />{/each}
       </ul>
+      <p class="sb-cela"><a href={ADRESA_SBIRKY}>{TEXTY_SBIRKY.celaSbirka}</a></p>
     {/if}
   </svelte:element>
 {/if}
@@ -116,14 +115,9 @@
   .sb-pahyl__kdy { margin-top: var(--s-1); color: var(--ink-3); }
   .sb-pahyl:hover .sb-pahyl__nazev { text-decoration: underline; text-decoration-color: var(--tuzka); text-underline-offset: 3px; }
   .sb-pahyl:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  /* Vystřižený citát: ústřižek lístku s rovnými střihy, bez pásky. */
-  .sb-citaty { display: grid; gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
-  @media (min-width: 700px) { .sb-citaty { grid-template-columns: 1fr 1fr; } }
-  .sb-citat { padding: 20px 20px 10px; background: var(--listek); box-shadow: var(--lezi); }
-  .sb-citat:nth-child(2n) { rotate: calc(.5deg * var(--natoceni)); }
-  .sb-citat blockquote { margin: 0; }
-  .sb-citat blockquote p { margin: 0 0 var(--s-2); font-size: 19px; line-height: 1.45; }
-  .sb-citat__kde { margin: 0; color: var(--ink-2); }
-  .sb-citat__kde a { color: inherit; display: inline-flex; min-height: 24px; align-items: center; }
-  .sb-citat__vratit { margin-top: var(--s-1); }
+  /* Vystřižené citáty (denik-v2, K4): výstřižky z Vystrizek.svelte, pod nimi odkaz na celou sbírku. */
+  /* Dva sloupce jen tam, kde se do sloupce vejde lístek i s tlačítky pod ním (kapitola je užší než stránka). */
+  .vystrizky { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); align-items: start; gap: var(--s-5) var(--s-4); margin: 0; padding: 0; list-style: none; }
+  .sb-cela { margin: var(--s-4) 0 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); }
+  .sb-cela a { display: inline-flex; align-items: center; min-height: var(--dotyk); color: var(--ink); font-weight: 600; text-decoration-color: var(--tuzka); text-underline-offset: 5px; }
 </style>

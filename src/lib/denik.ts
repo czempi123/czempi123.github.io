@@ -62,6 +62,11 @@ export interface Denik {
    * Znění a údaje se ukládají s citátem, aby sbírka stála i bez stránky. Nejnovější první; nepovinné, součást exportu.
    */
   citaty?: CitatVDeniku[];
+  /**
+   * Kartičky s rozestupem (denik-v2, K1): co si student sám dal do kartiček, podle klíče `${zdroj}:${ref}`
+   * (např. „pojem:klid“, „zapis:<id zápisu>“). Nepovinné (starší deníky ho nemají), součást exportu.
+   */
+  karticky?: Record<string, Karticka>;
   /** Kdy si student deník naposledy zazálohoval (stáhl soubor, poslal odkazem); podle toho deník připomene zálohu. */
   zaloha?: string;
 }
@@ -75,6 +80,31 @@ export interface CitatVDeniku {
   kde: string;
   /** stránka, odkud ho student vystřihl */
   odkaz: string;
+  kdy: string;
+  /** studentova poznámka „Proč sis ho vystřihl?“ (denik-v2); nepovinná */
+  poznamka?: string;
+  /** kdy se naposledy změnila poznámka; jen pro spojení deníku ze souboru (vyhraje novější), nikde se neukazuje */
+  upraveno?: string;
+}
+
+/** Odkud kartička je: pojem, vystřižený citát, vlastní zápis v deníku, otázka Co ti zůstalo? */
+export type ZdrojKarticky = 'pojem' | 'citat' | 'zapis' | 'zustalo';
+
+/**
+ * Kartička s rozestupem (denik-v2, Formáty). Pět přihrádek (Leitner): „Vím“ posune o přihrádku dál, „Zopakuj si“
+ * vrátí do první. Žádné odpočty ani série: kartička nese jen přihrádku a místní datum posledního opakování.
+ */
+export interface Karticka {
+  zdroj: ZdrojKarticky;
+  /** id ve zdroji: pojem, citát ze zdroje.yaml, zápis v deníku, otázka kvízu */
+  ref: string;
+  /** 0 = nová, 1–5 = přihrádka */
+  prihradka: number;
+  /** místní datum posledního opakování (RRRR-MM-DD); nová ho nemá */
+  naposledy?: string;
+  /** kdy ji student přidal (ISO) */
+  pridano: string;
+  /** poslední změna (ISO); při spojení deníku ze souboru vyhraje novější */
   kdy: string;
 }
 
@@ -239,7 +269,11 @@ function rozeber(t: string | null): Denik | null {
         }
         if (plny.citaty !== undefined) {
           if (!Array.isArray(plny.citaty)) delete plny.citaty;
-          else plny.citaty = plny.citaty.filter(jeCitat);
+          else plny.citaty = cisteCitaty(plny.citaty);
+        }
+        if (plny.karticky !== undefined) {
+          if (!objekt(plny.karticky)) delete plny.karticky;
+          else plny.karticky = cisteKarticky(plny.karticky);
         }
         if (plny.zaloha !== undefined && typeof plny.zaloha !== 'string') delete plny.zaloha;
         return plny;
@@ -480,22 +514,53 @@ export function prijmiVyzvu(v: Omit<Vyzva, 'prijato'>): void {
   uloz(d);
 }
 
-// ─── Sbírka a záloha (design-v2, K6) ─────────────────────────────────────────
+// ─── Sbírka a záloha (design-v2, K6; poznámka a limit denik-v2, K1) ──────────
 
 const jeCitat = (c: unknown): c is CitatVDeniku =>
   !!c && typeof c === 'object' && (['id', 'text', 'kde', 'odkaz', 'kdy'] as const).every((p) => typeof (c as Record<string, unknown>)[p] === 'string');
 
-/** Nejvýš tolik vystřižených citátů drží sbírka (nejstarší vypadne). */
-export const CITATY_NEJVYS = 60;
-
-/** Deník s vystřiženým citátem navrchu sbírky; tentýž citát podruhé nepřibude. */
-export function sCitatem(d: Denik, c: Omit<CitatVDeniku, 'kdy'>, kdy: string): Denik {
-  const citaty = (d.citaty ?? []).filter((x) => x.id !== c.id);
-  return { ...d, citaty: [{ ...c, kdy }, ...citaty].slice(0, CITATY_NEJVYS) };
+/** Citát se jen známými poli; poznámka a čas její změny zůstanou, jen když jsou to texty. */
+function cistyCitat(c: CitatVDeniku): CitatVDeniku {
+  const { id, text, kde, odkaz, kdy, poznamka, upraveno } = c;
+  return {
+    id, text, kde, odkaz, kdy,
+    ...(typeof poznamka === 'string' && poznamka.trim() ? { poznamka: poznamka.trim() } : {}),
+    ...(typeof upraveno === 'string' ? { upraveno } : {}),
+  };
 }
 
-export function vystrihniCitat(c: Omit<CitatVDeniku, 'kdy'>): void {
-  uloz(sCitatem(nacti(), c, new Date().toISOString()));
+/** Platné citáty z neznámého pole (soubor, úložiště); jiné vypadnou. */
+const cisteCitaty = (x: unknown): CitatVDeniku[] => (Array.isArray(x) ? x.filter(jeCitat).map(cistyCitat) : []);
+
+/**
+ * Nejvýš tolik vystřižených citátů drží sbírka. Když je plná, další citát se nevystřihne (sCitatem vrátí null);
+ * nic tiše nevypadne, protože s citátem by zmizela i jeho poznámka a kartička.
+ */
+export const CITATY_NEJVYS = 300;
+
+/** Je sbírka plná (nový citát už se nevystřihne)? */
+export function sbirkaPlna(d: Denik): boolean {
+  return (d.citaty?.length ?? 0) >= CITATY_NEJVYS;
+}
+
+/**
+ * Deník s vystřiženým citátem navrchu sbírky, nebo null, když je sbírka plná a citát v ní ještě není.
+ * Tentýž citát podruhé nepřibude: posune se navrch a poznámku si nechá.
+ */
+export function sCitatem(d: Denik, c: Omit<CitatVDeniku, 'kdy'>, kdy: string): Denik | null {
+  const puvodni = d.citaty ?? [];
+  const pred = puvodni.find((x) => x.id === c.id);
+  if (!pred && puvodni.length >= CITATY_NEJVYS) return null;
+  const novy = cistyCitat({ ...c, kdy, ...(pred?.poznamka ? { poznamka: pred.poznamka } : {}), ...(pred?.upraveno ? { upraveno: pred.upraveno } : {}) });
+  return { ...d, citaty: [novy, ...puvodni.filter((x) => x.id !== c.id)] };
+}
+
+/** Vystřihne citát do sbírky. Vrací false, když je sbírka plná a citát se nevystřihl. */
+export function vystrihniCitat(c: Omit<CitatVDeniku, 'kdy'>): boolean {
+  const d = sCitatem(nacti(), c, new Date().toISOString());
+  if (!d) return false;
+  uloz(d);
+  return true;
 }
 
 export function zrusCitat(id: string): void {
@@ -507,6 +572,162 @@ export function zrusCitat(id: string): void {
 
 export function maCitat(id: string, d: Denik = nacti()): boolean {
   return !!d.citaty?.some((x) => x.id === id);
+}
+
+/**
+ * Deník s poznámkou k vystřiženému citátu (prázdná poznámku smaže). Citát, který ve sbírce není, nezaloží;
+ * když se poznámka nemění, vrátí týž deník.
+ */
+export function sPoznamkouCitatu(d: Denik, id: string, poznamka: string, kdy: string): Denik {
+  const c = d.citaty?.find((x) => x.id === id);
+  if (!c) return d;
+  const text = poznamka.trim();
+  if ((c.poznamka ?? '') === text) return d;
+  const { poznamka: _stara, ...bez } = c;
+  const novy: CitatVDeniku = { ...bez, ...(text ? { poznamka: text } : {}), upraveno: kdy };
+  return { ...d, citaty: d.citaty!.map((x) => (x.id === id ? novy : x)) };
+}
+
+/** Uloží poznámku „Proč sis ho vystřihl?“ k citátu ve sbírce. */
+export function ulozPoznamkuCitatu(id: string, poznamka: string): void {
+  const d = nacti();
+  const novy = sPoznamkouCitatu(d, id, poznamka, new Date().toISOString());
+  if (novy !== d) uloz(novy);
+}
+
+// ─── Kartičky s rozestupem (denik-v2, K1) ────────────────────────────────────
+// Všechno se počítá v místních datech (RRRR-MM-DD), ne v hodinách: kartička z pondělního večera je na řadě
+// ve středu ráno, i když od opakování neuplynulo 48 hodin. Žádné odpočty ani série; kdo nepřijde, nic neztratí.
+
+/** Dny od posledního opakování podle přihrádky (index = přihrádka, 0 = nová kartička je na řadě hned). */
+export const ROZESTUP = [0, 1, 3, 7, 16, 35] as const;
+/** Poslední přihrádka; „Vím“ v ní kartičku nechá. */
+export const PRIHRADKA_NEJVYS = ROZESTUP.length - 1;
+/** Kolik kartiček má hromádka na dnes. */
+export const HROMADKA = 5;
+const ZDROJE_KARTICEK: readonly ZdrojKarticky[] = ['pojem', 'citat', 'zapis', 'zustalo'];
+const DATUM = /^\d{4}-\d{2}-\d{2}$/;
+
+export const klicKarticky = (zdroj: ZdrojKarticky, ref: string): string => `${zdroj}:${ref}`;
+
+/** Místní datum (RRRR-MM-DD) okamžiku; bez argumentu dnešek. */
+export function mistniDatum(t: Date | string = new Date()): string {
+  const d = typeof t === 'string' ? new Date(t) : t;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/** Datum o `dny` později. Počítá v UTC nad samotným datem, takže přechod na letní čas den neposune. */
+export function posunDatum(datum: string, dny: number): string {
+  const [r, m, d] = datum.split('-').map(Number);
+  return new Date(Date.UTC(r, m - 1, d + dny)).toISOString().slice(0, 10);
+}
+
+/** Od kterého místního data je kartička na řadě: nová ode dne přidání, jinak poslední opakování + rozestup. */
+export function naRadeOd(k: Karticka): string {
+  return k.naposledy ? posunDatum(k.naposledy, ROZESTUP[k.prihradka] ?? ROZESTUP[PRIHRADKA_NEJVYS]) : mistniDatum(k.pridano);
+}
+
+/** Je kartička dnes na řadě? Nová (bez opakování) je na řadě vždy. */
+export const jeNaRade = (k: Karticka, dnes: string): boolean => !k.naposledy || naRadeOd(k) <= dnes;
+
+/** Kartička s neznámým polem z úložiště nebo souboru, nebo null; klíč se z ní skládá znovu. */
+function cistaKarticka(x: unknown): Karticka | null {
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return null;
+  const k = x as Record<string, unknown>;
+  if (!ZDROJE_KARTICEK.includes(k.zdroj as ZdrojKarticky) || typeof k.ref !== 'string' || !k.ref) return null;
+  if (typeof k.pridano !== 'string' || typeof k.kdy !== 'string') return null;
+  const prihradka = Number.isInteger(k.prihradka) ? Math.min(PRIHRADKA_NEJVYS, Math.max(0, k.prihradka as number)) : 0;
+  const naposledy = typeof k.naposledy === 'string' && DATUM.test(k.naposledy) ? k.naposledy : undefined;
+  return { zdroj: k.zdroj as ZdrojKarticky, ref: k.ref, prihradka: naposledy ? prihradka : 0, ...(naposledy ? { naposledy } : {}), pridano: k.pridano, kdy: k.kdy };
+}
+
+/** Jen platné kartičky, každá pod svým klíčem (ruční úprava souboru nesmí rozbít deník). */
+function cisteKarticky(x: unknown): Record<string, Karticka> {
+  const ven: Record<string, Karticka> = {};
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return ven;
+  for (const v of Object.values(x)) {
+    const k = cistaKarticka(v);
+    if (k) ven[klicKarticky(k.zdroj, k.ref)] = k;
+  }
+  return ven;
+}
+
+/** Deník s novou kartičkou. Kartička, která už existuje, zůstane, jak je (přihrádka se nevynuluje). */
+export function sKartickou(d: Denik, zdroj: ZdrojKarticky, ref: string, kdy: string): Denik {
+  const klic = klicKarticky(zdroj, ref);
+  if (d.karticky?.[klic]) return d;
+  return { ...d, karticky: { ...(d.karticky ?? {}), [klic]: { zdroj, ref, prihradka: 0, pridano: kdy, kdy } } };
+}
+
+/** Deník bez kartičky. */
+export function bezKarticky(d: Denik, klic: string): Denik {
+  if (!d.karticky?.[klic]) return d;
+  const { [klic]: _pryc, ...zbytek } = d.karticky;
+  return { ...d, karticky: zbytek };
+}
+
+/** Hodnocení na rubu kartičky. */
+export type HodnoceniKarticky = 'vim' | 'zopakuj';
+
+/** Deník s ohodnocenou kartičkou: „Vím“ o přihrádku dál (nejvýš pátá), „Zopakuj si“ do první; dnes je poslední opakování. */
+export function sHodnocenim(d: Denik, klic: string, hodnoceni: HodnoceniKarticky, dnes: string, kdy: string): Denik {
+  const k = d.karticky?.[klic];
+  if (!k) return d;
+  const prihradka = hodnoceni === 'vim' ? Math.min(PRIHRADKA_NEJVYS, k.prihradka + 1) : 1;
+  return { ...d, karticky: { ...d.karticky, [klic]: { ...k, prihradka, naposledy: dnes, kdy } } };
+}
+
+/**
+ * Má kartička ještě svůj zdroj? Citát musí být ve sbírce a zápis v deníku s textem. Pojem a otázku kvízu deník
+ * nezná: o nich rozhoduje volající (`zdrojExistuje`, z dat atlasu); bez něj se berou jako existující.
+ * Kartička bez zdroje se nemaže, jen se neukazuje: vrátí se, když se zdroj vrátí (nové vystřižení, nová odpověď).
+ */
+export function maZdroj(d: Denik, k: Karticka, zdrojExistuje?: (k: Karticka) => boolean): boolean {
+  if (k.zdroj === 'citat') return !!d.citaty?.some((c) => c.id === k.ref);
+  if (k.zdroj === 'zapis') return d.zapisy.some((z) => z.id === k.ref && z.odpoved.trim() !== '');
+  return zdrojExistuje ? zdrojExistuje(k) : true;
+}
+
+/** Má student kartičku z tohoto zdroje (stisknuté „Do kartiček“)? */
+export function maKarticku(zdroj: ZdrojKarticky, ref: string, d: Denik = nacti()): boolean {
+  return !!d.karticky?.[klicKarticky(zdroj, ref)];
+}
+
+/**
+ * Kartičky na řadě, které mají zdroj, od té, která čeká nejdéle (podle dne, kdy na řadu přišla), pak podle přidání.
+ * Kdo týden nepřijde, nic neztratí: čekající kartičky tu jsou všechny, jen v pořadí.
+ */
+export function naRade(d: Denik, dnes: string, zdrojExistuje?: (k: Karticka) => boolean): Karticka[] {
+  return Object.values(d.karticky ?? {})
+    .filter((k) => jeNaRade(k, dnes) && maZdroj(d, k, zdrojExistuje))
+    .sort((a, b) => naRadeOd(a).localeCompare(naRadeOd(b)) || a.pridano.localeCompare(b.pridano) || klicKarticky(a.zdroj, a.ref).localeCompare(klicKarticky(b.zdroj, b.ref)));
+}
+
+/** Hromádka na dnes: prvních `kolik` kartiček na řadě (výchozí pět). Počet čekajících se nikde neukazuje. */
+export function hromadka(d: Denik, dnes: string, kolik: number = HROMADKA, zdrojExistuje?: (k: Karticka) => boolean): Karticka[] {
+  return naRade(d, dnes, zdrojExistuje).slice(0, Math.max(0, kolik));
+}
+
+/** Přidá kartičku (tlačítko „Do kartiček“). */
+export function pridatKarticku(zdroj: ZdrojKarticky, ref: string): void {
+  const d = nacti();
+  const novy = sKartickou(d, zdroj, ref, new Date().toISOString());
+  if (novy !== d) uloz(novy);
+}
+
+/** Vyndá kartičku (druhý stisk „Do kartiček“, „Vyndat z kartiček“). */
+export function vyndatKarticku(klic: string): void {
+  const d = nacti();
+  const novy = bezKarticky(d, klic);
+  if (novy !== d) uloz(novy);
+}
+
+/** Zapíše „Vím“ nebo „Zopakuj si“ s dnešním místním datem. */
+export function ohodnotitKarticku(klic: string, hodnoceni: HodnoceniKarticky): void {
+  const ted = new Date();
+  const d = nacti();
+  const novy = sHodnocenim(d, klic, hodnoceni, mistniDatum(ted), ted.toISOString());
+  if (novy !== d) uloz(novy);
 }
 
 /** Zapíše čas zálohy (stažený soubor, odkaz nebo kód QR); připomenutí zálohy v deníku pak zmizí. */
@@ -561,7 +782,8 @@ function spojPodle<T>(a: T[], b: T[], klic: (x: T) => string, kdy: (x: T) => str
  * Spojí deník v prohlížeči (`ten`) s deníkem ze souboru (`soubor`). Nic se neztratí: co je jen v jednom, zůstane.
  * Když je totéž v obou (odpověď ve stejném bloku, postup v téže cestě), vyhraje novější podle času; stav bloku jde
  * s časem jeho poslední aktivity, a když ho nezná ani jeden, zůstane ten z prohlížeče. Postup v cestě sečte
- * otevřené kroky a čas dokončení vezme ten dřívější. Vrací nový objekt.
+ * otevřené kroky a čas dokončení vezme ten dřívější. Kartička jde s časem poslední změny (`kdy`), poznámka citátu
+ * s časem své úpravy (`upraveno`); sbírka citátů se při spojení nezkracuje. Vrací nový objekt.
  */
 export function spojDeniky(ten: Denik, soubor: Denik): Denik {
   // Ze souboru jen záznamy s poli, podle kterých se spojuje a řadí; ruční úprava souboru nesmí rozbít deník.
@@ -620,9 +842,12 @@ export function spojDeniky(ten: Denik, soubor: Denik): Denik {
   if (!ten.pero && jePero(novy.pero)) vysledek.pero = novy.pero;
   else if (!jePero(vysledek.pero)) delete vysledek.pero;
   if (ten.hodiny || novy.hodiny) vysledek.hodiny = spojPodle(ten.hodiny ?? [], novy.hodiny ?? [], (h) => h.adresa, (h) => h.kdy).slice(0, HODINY_NEJVYS);
-  if (ten.citaty || novy.citaty) {
-    const ze = (x: unknown) => (Array.isArray(x) ? x.filter(jeCitat) : []);
-    vysledek.citaty = spojPodle(ze(ten.citaty), ze(novy.citaty), (c) => c.id, (c) => c.kdy).slice(0, CITATY_NEJVYS);
+  // Citáty bez stropu: spojení nesmí nic vyhodit; plná sbírka jen nepřijme další vystřižení.
+  if (ten.citaty || novy.citaty) vysledek.citaty = spojCitaty(cisteCitaty(ten.citaty), cisteCitaty(novy.citaty));
+  if (ten.karticky || novy.karticky) {
+    const karticky = cisteKarticky(novy.karticky);
+    for (const [klic, k] of Object.entries(cisteKarticky(ten.karticky))) if (!karticky[klic] || novejsi(k.kdy, karticky[klic].kdy)) karticky[klic] = k;
+    vysledek.karticky = karticky;
   }
   // Záloha: deník v prohlížeči zálohovaný není jen proto, že se do něj nahrál soubor; zůstává jeho vlastní čas.
   if (typeof ten.zaloha === 'string') vysledek.zaloha = ten.zaloha;
@@ -651,6 +876,23 @@ function spojVyzvy(ten: Vyzva[], soubor: Vyzva[]): Vyzva[] {
     };
   });
   return [...vysledek, ...soubor.filter((v) => !ten.some((x) => x.id === v.id))];
+}
+
+/**
+ * Citáty z obou deníků bez opakování, nejnovější první. U téhož citátu zůstane znění z novějšího vystřižení (`kdy`)
+ * a poznámka z té strany, kde se měnila později (`upraveno`); smazaná poznámka s novějším časem zůstane smazaná.
+ */
+function spojCitaty(ten: CitatVDeniku[], soubor: CitatVDeniku[]): CitatVDeniku[] {
+  return spojPodle(ten, soubor, (c) => c.id, (c) => c.kdy).map((c) => {
+    const t = ten.find((x) => x.id === c.id);
+    const s = soubor.find((x) => x.id === c.id);
+    if (!t || !s) return c;
+    const [nov, star] = (s.upraveno ?? '') > (t.upraveno ?? '') ? [s, t] : [t, s];
+    const poznamka = nov.upraveno ? nov.poznamka : (nov.poznamka ?? star.poznamka);
+    const upraveno = nov.upraveno ?? star.upraveno;
+    const { poznamka: _p, upraveno: _u, ...zaklad } = c;
+    return { ...zaklad, ...(poznamka ? { poznamka } : {}), ...(upraveno ? { upraveno } : {}) };
+  });
 }
 
 /** Nahraje deník ze souboru a přidá ho k deníku v prohlížeči. Vrací false, když text deník atlasu není. */

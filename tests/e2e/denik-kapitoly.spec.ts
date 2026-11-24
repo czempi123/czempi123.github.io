@@ -118,6 +118,8 @@ test('klávesnice: kapitola se rozbalí Enterem i mezerníkem, Esc nic nerozbije
   await expect(helenismus).not.toHaveAttribute('open', '');
   await page.keyboard.press('Escape');
   await expect(helenismus).not.toHaveAttribute('open', '');
+  // Událost toggle u <details> přijde jako samostatná úloha: obnovit až po uložení stavu (jinak závod s reload).
+  await expect.poll(() => page.evaluate((k) => localStorage.getItem(k) ?? '', KLIC_KAPITOL)).not.toContain('obdobi-2');
 
   await page.reload();
   await page.waitForSelector('astro-island[component-url*="Denik"]:not([ssr])', { state: 'attached' });

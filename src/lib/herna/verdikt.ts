@@ -17,3 +17,11 @@ export function verdikt(sedi: boolean, kamSePodivat?: string): Verdikt {
   const veta = kamSePodivat?.trim();
   return veta ? { sedi, slovo: ZKUS_JINAK, veta } : { sedi, slovo: ZKUS_JINAK };
 }
+
+// Vybavení (denik-v2, K2; plán Co platí): v kvízu Co ti zůstalo? a v kartičkách s rozestupem jde o to, co si student
+// vybaví, ne o hádání. Druhý pokus není, a proto ne „zkus to jinak“, ale jen tahle dvojice; bez bodů a bez počtu.
+export const VIS = 'Víš.';
+export const ZOPAKUJ_SI = 'Zopakuj si.';
+
+/** „Víš.“, nebo „Zopakuj si.“ */
+export const vybaveni = (vis: boolean) => (vis ? VIS : ZOPAKUJ_SI);

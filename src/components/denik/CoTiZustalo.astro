@@ -1,0 +1,21 @@
+---
+// Co ti zůstalo? (denik-v2, K2): katalog otázek období se složí při sestavení (src/lib/herna/zustalo-data.ts,
+// i s kontrolou) a ostrov ho dostane hotový. Na stránce Tvoje antika z deníku studenta; v dílně s připraveným
+// deníkem: `ukazkaCesty` jsou cesty, které „student prošel“, a stav se ukládá pod vlastním klíčem.
+//   <CoTiZustalo obdobi={[1, 2]} barva={2} klic="co-ti-zustalo/antika" />
+//   <CoTiZustalo obdobi={[1, 2]} barva={2} klic="co-ti-zustalo/dilna" ukazkaCesty={['kolik-je-dost', 'co-mam-ve-svych-rukou']} />
+import Ostrov from '../ostrovy/CoTiZustalo.svelte';
+import { katalogZustalo } from '../../lib/herna/zustalo-data';
+import { prosleCesty } from '../../lib/herna/zustalo';
+
+interface Props {
+  obdobi: number[];
+  barva: number;
+  klic: string;
+  ukazkaCesty?: string[];
+}
+const { obdobi, barva, klic, ukazkaCesty } = Astro.props;
+const katalog = katalogZustalo(obdobi);
+const ukazka = ukazkaCesty ? prosleCesty(katalog.cesty, ukazkaCesty) : undefined;
+---
+<Ostrov client:load katalog={katalog} klic={klic} obdobi={barva} ukazka={ukazka} />

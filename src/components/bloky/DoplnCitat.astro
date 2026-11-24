@@ -4,6 +4,7 @@
 // Použití v MDX: <DoplnCitat id="dilna-doplnit-reka" />  (volitelně dal={{ href, text }})
 import Ostrov from '../ostrovy/DoplnCitat.svelte';
 import { citatyPodleId } from '../../lib/data';
+import { udajeCitatu } from '../../lib/sbirka';
 import { rozdelCitat, listkyDoplnit, chybyDoplnit, puvodCitatu } from '../../lib/herna';
 import { VYCHOZI_NADTITULKY } from '../../lib/nadtitulky';
 import { nactiBlok, odkazNaBlok, kamDal, clovek } from './_kontrola';
@@ -33,6 +34,10 @@ const proOstrov = {
   // Kdo a odkud: „Hérakleitos“ a „zlomek B12, u Eusebia…“, u postavy dialogu „Zapsal Platón: …“.
   kdo: kdo?.jmeno ?? c.autor,
   puvod: puvodCitatu(c, kdo?.jmeno ?? c.autor),
+  // Nůžky u celého citátu po správném slově (denik-v2, K4).
+  citat: blok.citat,
+  cesky: c.cesky,
+  udaje: udajeCitatu(c),
 };
 ---
 <Ostrov client:visible id={id} blok={proOstrov} odkaz={odkazNaBlok(Astro.url.pathname, id)} dal={dalsi} />

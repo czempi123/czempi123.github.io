@@ -45,8 +45,9 @@ async function pripravit(page: Page, o: Obrazovka) {
   await page.evaluate(() => document.fonts.ready);
   // Ostrovy se hydratují, až jsou vidět; prvek dole na stránce se před snímkem posune do okna.
   if (o.prvek) {
-    // Snímek prvku: pevné lišty by ležely přes jeho střed (docs/pouceni.md), proto se schovají.
-    await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .cesta-lista { visibility: hidden !important; }' });
+    // Snímek prvku: pevné lišty by ležely přes jeho střed (docs/pouceni.md), proto se schovají. Odkaz Přeskočit na obsah
+    // (pevně vůči oknu) se ve snímku prvku vyššího než okno objevil uprostřed (denik-v2, K3), i když fokus neměl.
+    await page.addStyleTag({ content: 'header.hlavicka, nav.lista, .cesta-lista, .preskocit { visibility: hidden !important; }' });
     await page.locator(o.prvek).first().scrollIntoViewIfNeeded();
   }
   await page.waitForTimeout(400);

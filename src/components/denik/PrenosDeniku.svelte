@@ -44,7 +44,7 @@
     try { text = await soubor.text(); } catch { /* nečitelný soubor */ }
     zpravaSouboru = nahrajDenik(text)
       ? 'Deník ze souboru je přidaný k tomuto. Nic se nesmazalo.'
-      : 'Tenhle soubor deník z atlasu není. Vyber soubor, který jsi stáhl tady v deníku.';
+      : 'Tenhle soubor deník z atlasu není. Vyber soubor stažený tady v deníku.';
     if (vyberSouboru) vyberSouboru.value = '';
   }
 
@@ -64,7 +64,7 @@
       zpravaOdkazu = 'Odkaz je zkopírovaný. Pošli si ho třeba do zpráv.';
     } catch {
       poleOdkazu?.select();
-      zpravaOdkazu = 'Zkopírovat se nepovedlo. Odkaz je označený, zkopíruj si ho sám.';
+      zpravaOdkazu = 'Zkopírovat se nepovedlo. Odkaz je označený, zkopíruj si ho ručně.';
     }
   }
 

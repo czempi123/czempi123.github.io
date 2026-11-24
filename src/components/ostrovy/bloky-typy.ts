@@ -35,5 +35,6 @@ export interface HlasHerny {
   clovek: ClovekBloku;
   /** proč, jedna až dvě věty; často končí dvojtečkou a uvádí citát */
   proc: string;
-  citat: { text: string; kde: string };
+  /** id citátu ze zdroje.yaml a údaje (autor, dílo, místo) pro nůžky (denik-v2, K4) */
+  citat: { id: string; text: string; kde: string; udaje: string };
 }

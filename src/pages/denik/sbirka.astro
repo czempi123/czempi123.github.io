@@ -1,0 +1,30 @@
+---
+// Moje sbírka (denik-v2, K4; plán › 3): všechny vystřižené citáty pohromadě, s tiskem a stažením jako text.
+// Výstřižky skládá ostrov MojeSbirka.svelte z deníku; stránka mu dá jen období stránek atlasu (barva papíru).
+// Tisk: <html data-tisk="sbirka"> pošle na papír jen lístky, bez lišt a tlačítek (global.css › Tisk sbírky).
+import Zakladni from '../../layouts/Zakladni.astro';
+import MojeSbirka from '../../components/denik/MojeSbirka.svelte';
+import { dataZapisniku } from '../../components/denik/_zapisnik-data';
+import { TEXTY_SBIRKY } from '../../lib/sbirka-texty';
+
+const { stranky } = await dataZapisniku([]);
+const obdobiStranek: Record<string, number> = {};
+for (const [adresa, s] of Object.entries(stranky)) if (s.obdobi) obdobiStranek[adresa] = s.obdobi;
+---
+<Zakladni titulek="Moje sbírka" sekce="denik" drobecky={[{ text: 'Můj deník', href: '/denik/' }, { text: 'Moje sbírka' }]} hledat={false}>
+  <script is:inline>document.documentElement.dataset.tisk = 'sbirka';</script>
+  <div class="stranka ctenarsky bez-obdobi">
+    <header class="hlava">
+      <div class="titulek"><div class="titulek__list"><h1 class="titulek__jmeno">{TEXTY_SBIRKY.nadpis}</h1></div></div>
+      <div class="netisk"><div class="titulek-pruh"><p class="titulek-pruh__papir"><span class="titulek-pruh__text">{TEXTY_SBIRKY.pruh}</span></p></div></div>
+      <p class="t-perex perex netisk">{TEXTY_SBIRKY.perex}</p>
+    </header>
+    <MojeSbirka client:load obdobiStranek={obdobiStranek} />
+  </div>
+</Zakladni>
+
+<style>
+  .stranka { padding-bottom: var(--s-8); }
+  .hlava { padding: var(--s-6) 0 var(--s-2); }
+  .perex { margin: var(--s-5) 0 0; }
+</style>

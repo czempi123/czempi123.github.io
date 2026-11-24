@@ -4,6 +4,28 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 22. 11. 2026: Vystřižené citáty (denik-v2 K4)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Nůžky má každý citát ze `zdroje.yaml`, který student vidí celý: list i kompaktní citát (`Citat.astro`), den týdne, rub Kdo to řekl?, hotový Doplň citát, hlasy her po zapsání, původ v Pravý, nebo podvržený? po verdiktu. Všude stejná značka `ui/Nuzky.svelte` s `data-vystrihnout`; stav a uložení řeší jeden skript `src/scripts/vystrihnout.ts`, který nůžky z ostrovů najde pozorovatelem změn | Plán › 3; jedno místo logiky, ostrov jen vykreslí tlačítko až po odkrytí |
+| Bez nůžek zůstává líc Kdo to řekl?, ústřižek Pravého, souhrn série, vysvětlení a kartička Co ti zůstalo?, kartička citátu a Prameny | Líc a ústřižek by prozradily odpověď; v kvízu je citát součást věty vysvětlení; ostatní jsou už ve sbírce, nebo nejsou znění |
+| V kapitole deníku nemá výstřižek pásku, na stránce Moje sbírka jen první (nejnovější) | Páska v deníku patří Návratu (design-v2, R); pravidlo střídmosti: nejvýš jedna na obrazovce telefonu |
+| Papír výstřižku má barvu období stránky, odkud student citát vystřihl (jako kapitoly deníku), ne období autora | Výstřižek nese i odkaz zpět na tu stránku; citát ze stránky otázky je bez období |
+| Poznámka „Proč sis ho vystřihl?“ se otevře tlačítkem (Enter uloží, Escape zruší), nejvýš 200 znaků | Stále otevřená pole by ze sbírky udělala formulář |
+| Plná sbírka (300): nůžky nic nevystřihnou a pod citátem řeknou proč s odkazem na Moje sbírka; věta zmizí, jakmile se místo uvolní | Plán › 3 Limit; tichý výpadek nejstaršího zrušil už K1 |
+| Tisk sbírky: lístky po dvou na A4, čárkovaný střih místo stínu a papíru období, poznámka perem v barvě, bez lišt, drobečků, pásky a tlačítek (`html[data-tisk='sbirka']`); žádné `@page` | Tiskárna šetří barvu; `@page` by platilo i pro tisk Moje filozofie |
+
+## 22. 11. 2026: Kartičky v deníku (denik-v2 K3)
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Hromádka na dnes si pamatuje, které kartičky student dostal (`bloky['karticky/dnes']`); obnovení stránky nerozdá novou pětku, vyndaná kartička se do pětky počítá dál. Menší hromádka (víc nebylo na řadě) se doplní kartičkou přidanou během dne | Pětka je strop na den, ne na jedno otevření stránky; tlačítko obnovit by jinak bylo nekonečné Ještě pět |
+| Do kartiček má zápis jen s vlastními slovy studenta: odpověď, pravidlo, sebehodnocení, důvod volby („Proč:“), důvod ve Sporu. Volba bez důvodu, Změň jednu věc a Roztřiď (jen volby a karty) ho nemají (`zapisSTextem`) | Plán: ne u Volby bez důvodu (otázka na bolestnou chvíli); kartička bez vlastních slov by se ptala na volbu, ne na myšlenku |
+| Kartička z vlastního zápisu má Vím a Zopakuj si jako ostatní | Otázka 2 pro autora zůstala bez odpovědi = souhlas s doporučením |
+| Tečka na ikoně Deníku svítí dál jen pro Návrat | Otázka 1 pro autora zůstala bez odpovědi = souhlas s doporučením |
+| Na stránku deníku jdou z kvízu jen id, podnět (případ hlasů téže otázky jednou), zadání, text správné možnosti, vysvětlení a odkaz zpět; z pojmů název, vysvětlení, příklad a místa výskytů (`src/components/denik/_karticky-data.ts`) | Celý katalog kvízu má 77 kB; data kartiček asi 57 kB JSON |
+
 ## 21. 11. 2026: Opravy po revizi větve herna-v1 (O)
 
 | Rozhodnutí | Důvod |

@@ -150,11 +150,16 @@ export const NEJBLIZ = 3;
 export const TVOJE_ANTIKA = {
   adresa: '/denik/antika/',
   nazev: 'Tvoje antika',
-  uvod: 'Tvoje odpovědi na velké otázky a vedle nich filozofové, kteří to viděli podobně jako ty. Je tu jen to, co jsi v atlasu sám napsal a zvolil, a svou odpověď můžeš kdykoli přepsat.',
+  uvod: 'Tvoje odpovědi na velké otázky a vedle nich filozofové, kteří to viděli podobně jako ty. Je tu jen to, co máš v atlasu napsané a zvolené, a svou odpověď můžeš kdykoli přepsat.',
   /** popisek odkazu v Můj deník */
-  odkaz: 'Co sis myslel o velkých otázkách a kdo z antiky to viděl podobně.',
+  odkaz: 'Tvoje odpovědi na velké otázky, kdo z antiky to viděl podobně a co ti z ní zůstalo.',
   /** řádek s volbou na ose hlasů: „Na stránce otázky je ti nejblíž Epikúros.“ (odkaz na osu a na stránku osoby) */
   nejbliz: { pred: 'Na ', odkaz: 'stránce otázky', po: ' je ti nejblíž ' },
+  /** oddíl Co ti zůstalo? pod přehledem (denik-v2, K2; texty T) */
+  zustalo: {
+    nadpis: 'Co ti zůstalo?',
+    uvod: 'Poznáš Epikúrův klid, když pípne mobil, a víš, co by ti po hádce s kamarádem řekl Epiktétos? Tady zjistíš, co ti z antiky zůstalo a kde najdeš to, co ti vypadlo.',
+  },
 } as const;
 
 /** Text zápisu z deníku, nebo undefined (prázdný, chybějící, poškozený). */

@@ -12,6 +12,7 @@
   import { platnyStavDoplnit, verdikt as verdiktHry, SEDI } from '../../lib/herna';
   import { omezenyPohyb } from '../../lib/pohyb';
   import RamAktivity from './RamAktivity.svelte';
+  import Nuzky from '../ui/Nuzky.svelte';
   import BlokDal from './BlokDal.svelte';
   import type { Dal } from './bloky-typy';
 
@@ -30,6 +31,10 @@
     pointa: string;
     kdo: string;
     puvod: string;
+    /** id citátu, celé znění a údaje pro nůžky (až u hotového citátu) */
+    citat: string;
+    cesky: string;
+    udaje: string;
   }
   interface Props { id: string; blok: BlokDoplnit; odkaz: string; dal?: Dal }
   let { id, blok, odkaz, dal }: Props = $props();
@@ -123,7 +128,7 @@
   {#if hotovo}
     <p class="blok__zpetna-titulek">{SEDI}</p>
     <p>{@html radek(blok.pointa)}</p>
-    <p class="cely"><span class="cely__veta">„{@html radek(blok.pred + blok.slovo + blok.po)}“</span> <span class="cely__kdo">{blok.kdo}, {blok.puvod}</span></p>
+    <p class="cely"><span class="cely__veta">„{@html radek(blok.pred + blok.slovo + blok.po)}“</span> <span class="cely__kdo">{blok.kdo}, {blok.puvod}</span><Nuzky id={blok.citat} text={blok.cesky} kde={blok.udaje} kompaktni /></p>
     <p class="kdyby__titulek">A kdyby tam stálo…</p>
     <ul class="kdyby">
       {#each blok.zameny as z (z.slovo)}<li><span class="kdyby__slovo">{z.slovo}</span> {@html radek(z.vazba)}</li>{/each}
@@ -243,7 +248,7 @@
   .vystrizek--vlozeny { box-shadow: none; rotate: 0deg; cursor: default; clip-path: none; min-height: 0; min-width: 0; padding: 0 .15em; font-size: inherit; }
   .vystrizek--vlozeny.vystrizek--1 { font-size: .82em; }
 
-  .cely { margin: var(--s-3) 0; }
+  .cely { position: relative; margin: var(--s-3) 0; padding-right: 44px; }
   .cely__veta { font-style: italic; }
   .cely__kdo { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
   .kdyby__titulek { margin: var(--s-3) 0 var(--s-1); font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; }

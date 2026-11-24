@@ -6,6 +6,7 @@ import Denik from '../../components/ostrovy/Denik.svelte';
 import { nactiNavraty } from '../../components/bloky/_navraty';
 import { katalogObdobi } from '../../components/denik/_katalog-obdobi';
 import { dataZapisniku } from '../../components/denik/_zapisnik-data';
+import { dataKarticek } from '../../components/denik/_karticky-data';
 import { getCollection } from 'astro:content';
 import { adresaTydne } from '../../lib/tydny';
 import { TVOJE_ANTIKA } from '../../lib/tvoje-obdobi';
@@ -18,6 +19,8 @@ const tydny = (await getCollection('tydny')).map((t) => ({ id: t.id, nazev: t.da
 // Moje filozofie stojí na katalogu Tvoje antika (otázky, cesty, zastánci odpovědí); další období ho rozšíří.
 const { katalog, prvniCesta } = await katalogObdobi([1, 2]);
 const zapisnik = await dataZapisniku(Object.keys(katalog.osoby));
+// Kartičky: pojmy a z kvízu Co ti zůstalo? jen to, co je na lícu a na rubu (src/components/denik/_karticky-data.ts).
+const karticky = dataKarticek([1, 2], 2);
 ---
 <Zakladni titulek="Můj deník" sekce="denik" drobecky={[{ text: 'Můj deník' }]} hledat={false}>
   <div class="stranka ctenarsky bez-obdobi">
@@ -39,6 +42,7 @@ const zapisnik = await dataZapisniku(Object.keys(katalog.osoby));
       stranky={zapisnik.stranky}
       obdobi={zapisnik.obdobi}
       prvniCesta={prvniCesta}
+      karticky={karticky}
     />
   </div>
 </Zakladni>

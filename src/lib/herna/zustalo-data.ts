@@ -1,0 +1,227 @@
+// Co ti zůstalo? z dat (denik-v2, K2): čte pojmy, Páry, stránky velkých otázek a kroky cest jako text (import.meta.glob),
+// takže totéž skládání běží při sestavení stránky, ve Vitestu i ve výpisu pro autora (scripts/zustalo-vypis.ts).
+// Kontrola (chybyZustalo) zastaví sestavení dřív, než se otázka dostane ke studentovi.
+import { parse } from 'yaml';
+import { osoby, citatyPodleId } from '../data';
+import { nazevPojmu, tvaryJmena } from '../pojmy';
+import { adresaOtazky } from '../otazky';
+import { adresaCesty, adresaKroku } from '../cesty';
+import { BLIZKE_OTAZKY_KRESEB, NAZVY_KRESEB, PROC_KRESEB, VETY_KRESEB, nahledKresby } from '../kresby';
+import { duvodZMyslenky } from '../tvoje-obdobi';
+import {
+  chybyZustalo, klicVyskytu, otazkyHlasu, otazkyKreseb, otazkyPojmu, pripadZTextu, vetaPredKresbou,
+  type KatalogZustalo, type KresbaVstup, type OdkazZustalo, type OtazkaVstup, type PojemVstup, type ParyVstup,
+} from './zustalo';
+
+const surove = (g: Record<string, unknown>) => Object.entries(g).map(([cesta, text]) => ({ cesta, text: String(text) }));
+const POJMY = surove(import.meta.glob('../../content/pojmy/[^_]*.md', { query: '?raw', import: 'default', eager: true }));
+const BLOKY = surove(import.meta.glob('../../content/bloky/*.yaml', { query: '?raw', import: 'default', eager: true }));
+const OTAZKY = surove(import.meta.glob('../../content/otazky/[^_]*.{md,mdx}', { query: '?raw', import: 'default', eager: true }));
+const CESTY = surove(import.meta.glob('../../content/cesty/[^_]*.mdx', { query: '?raw', import: 'default', eager: true }));
+const KROKY = surove(import.meta.glob('../../content/cesty/*/[^_]*.mdx', { query: '?raw', import: 'default', eager: true }));
+const NAZVY = surove(import.meta.glob('../../content/{smery,pokusy,obdobi,nabozenstvi,uvody}/[^_]*.{md,mdx}', { query: '?raw', import: 'default', eager: true }));
+
+const jmenoSouboru = (c: string) => c.split('/').pop()!.replace(/\.(mdx?|yaml)$/, '');
+/** Frontmatter a tělo souboru MD/MDX. */
+function rozeber(text: string): { fm: Record<string, unknown>; body: string } {
+  const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  return m ? { fm: (parse(m[1]) ?? {}) as Record<string, unknown>, body: m[2] } : { fm: {}, body: text };
+}
+
+/**
+ * Vysvětlení hlasu tam, kde citát u hlasu na stránce otázky mluví o jiné části myšlenky než odpověď (denik-v2, T):
+ * citát, ze kterého odpověď je (ověřený v `zdroje.yaml`), nebo důvod z myšlenky hlasu. Klíč „otázka:osoba“.
+ */
+export const VYSVETLENI_HLASU: Record<string, { citat?: string; uvod?: string } | 'myslenka'> = {
+  // odpověď převádí B8, 38–41 („jen jménem“), citát u hlasu je B8, 9–10 o vzniku z ničeho
+  'co-je-skutecne:parmenides': { citat: 'parmenides-b8-jmena' },
+  // Platón píše dialogy: citát říká postava, a bez uvozovací věty by pod „Co by ti na to řekl Platón?“ stálo
+  // „já jsem tenhle Sókratés“ (denik-v2, O). Uvozovací věta je z `myslenka` hlasu na stránce otázky.
+  'kdo-vlastne-jsem:platon': { uvod: 'V Platónově Faidónu to říká Sókratés v den své smrti:' },
+  'ma-zivot-smysl:platon': { uvod: 'V Platónově Faidónu to říká Sókratés v den své smrti:' },
+  'co-je-skutecne:platon': { uvod: 'V Platónově Tímaiovi to říká Tímaios:' },
+  'co-je-spravne:platon': { uvod: 'V Platónově Ústavě to říká Sókratés:' },
+  'jak-spolu-mame-zit:platon': { uvod: 'V Platónově Ústavě přirovnává Sókratés obec k lodi:' },
+  // odpověď je o cizím mínění (myšlenka, Hovory XII, 4), citát o třech částech člověka
+  'kdo-vlastne-jsem:marcus-aurelius': 'myslenka',
+  // odpověď „spočítej, kolik opravdu potřebuješ“ je z myšlenky; citát je o příjemném a spravedlivém životě
+  'jak-zit:epikuros': 'myslenka',
+  // odpověď „štěstí je činnost, ne pocit“ je z myšlenky; citát o vlaštovce je o celém životě
+  'jak-zit:aristoteles': 'myslenka',
+};
+
+/**
+ * Hlasy téže stránky, jejichž odpovědi by si poctivě mohly vyměnit mluvčího (denik-v2, O; vzor `BLIZKE_OTAZKY_KRESEB`):
+ * dva myslitelé, kteří se liší jinde, tu říkají totéž. Klíč „otázka:osoba“; v otázce toho hlasu ani v otázce blízkého
+ * hlasu druhá odpověď mezi možnostmi není. Z dat se blízkost nepozná, protože společná myšlenka stojí v jiných slovech.
+ */
+export const BLIZKE_HLASY: Record<string, string[]> = {
+  // Kdo tě zná líp?: oba říkají, že jsem to, co ve mně myslí (Faidón 115c; Etika Nikomachova IX, 4)
+  'kdo-vlastne-jsem:platon': ['aristoteles'],
+  // Může za to?: oba říkají, že chvála a trest předpokládají, že je to na nás (Etika Nikomachova III, 5; Dopis Menoikeovi 133–134)
+  'jsem-svobodny:aristoteles': ['epikuros'],
+  // fotka z roku 1926: oba říkají, že délka života nerozhoduje (Dopisy Luciliovi 61, 4; Hlavní myšlenky 19)
+  'ma-zivot-smysl:seneca': ['epikuros'],
+};
+
+const vysvetleniCitatem = (id: string | undefined) => {
+  const c = id ? citatyPodleId.get(id) : undefined;
+  // závorka v místě („Hlavní myšlenky 37 (Diogenés Laertios X, 152)“) jde do hranatých, ať se závorky nevnořují
+  return c ? `„${c.cesky.trim()}“ (${c.autor}, ${c.dilo} ${c.misto.replace(/\(([^()]*)\)/g, '[$1]')})` : undefined;
+};
+
+export interface VstupZustalo {
+  pojmy: PojemVstup[];
+  pary: ParyVstup[];
+  otazky: OtazkaVstup[];
+  kresby: KresbaVstup[];
+  velke: { cislo: number; otazka: string }[];
+  cesty: { slug: string; nazev: string; cislo: number; otazka: number; pocet: number }[];
+  kroky: { cesta: string; krok: number; nazev: string }[];
+  nazvy: Map<string, string>;
+}
+
+/** Vstup pro skládání z textu kolekcí, jen pro dané období (antika: 1 a 2). */
+export function vstupZustalo(obdobi: readonly number[]): VstupZustalo {
+  const pojmy: PojemVstup[] = POJMY.map(({ cesta, text }) => {
+    const fm = rozeber(text).fm as Record<string, never>;
+    return {
+      id: jmenoSouboru(cesta), pojem: fm.pojem, vysvetleni: fm.vysvetleni, uKoho: fm.uKoho ?? [], priklad: fm.priklad,
+      vyskyty: fm.vyskyty ?? [], obdobi: fm.obdobi ?? [], tvary: fm.tvary ?? [],
+    };
+  });
+  const pary: ParyVstup[] = BLOKY.flatMap(({ cesta, text }) => {
+    const b = parse(text) as { druh?: string; obdobi?: number; pary?: { pojem: string; situace: string }[] };
+    return b?.druh === 'pary' && (!b.obdobi || obdobi.includes(b.obdobi)) ? [{ id: jmenoSouboru(cesta), pary: b.pary ?? [] }] : [];
+  });
+
+  const cestyVse = CESTY.map(({ cesta, text }) => ({ slug: jmenoSouboru(cesta), fm: rozeber(text).fm as { cislo: number; nazev: string; obdobi: number; otazka: number } }));
+  const kroky = KROKY.map(({ text }) => {
+    const { fm, body } = rozeber(text);
+    return { cesta: fm.cesta as string, krok: fm.krok as number, nazev: fm.nazev as string, body };
+  });
+  const cesty = cestyVse
+    .filter((c) => obdobi.includes(c.fm.obdobi))
+    .sort((a, b) => a.fm.cislo - b.fm.cislo)
+    .map((c) => ({ slug: c.slug, nazev: c.fm.nazev, cislo: c.fm.cislo, otazka: c.fm.otazka, pocet: kroky.filter((k) => k.cesta === c.slug).length }));
+  const slugyCest = new Set(cesty.map((c) => c.slug));
+
+  const otazkyVse = OTAZKY.map(({ cesta, text }) => {
+    const { fm, body } = rozeber(text);
+    return { slug: jmenoSouboru(cesta), fm: fm as { cislo: number; otazka: string; pripad?: string; hlasy?: { osoba: string; odpoved: string; myslenka: string; citat?: string }[] }, body };
+  });
+  const otazky: OtazkaVstup[] = otazkyVse.map((o) => ({
+    slug: o.slug,
+    cislo: o.fm.cislo,
+    otazka: o.fm.otazka,
+    adresa: adresaOtazky(o.slug, { hlasy: o.fm.hlasy as never }),
+    ...(o.fm.pripad ? { pripad: o.fm.pripad } : {}),
+    pripadText: pripadZTextu(o.body),
+    hlasy: (o.fm.hlasy ?? []).flatMap((h) => {
+      const os = osoby.get(h.osoba);
+      if (!os || !obdobi.includes(os.obdobi)) return [];
+      const jine = VYSVETLENI_HLASU[`${o.slug}:${h.osoba}`];
+      const citat = jine === 'myslenka' ? undefined : vysvetleniCitatem(jine?.citat ?? h.citat);
+      const uvod = jine !== 'myslenka' ? jine?.uvod : undefined;
+      const vysvetleni = (citat && uvod ? `${uvod} ${citat}` : citat) ?? duvodZMyslenky(h.myslenka) ?? '';
+      const blizke = BLIZKE_HLASY[`${o.slug}:${h.osoba}`];
+      return [{
+        osoba: h.osoba, jmeno: os.jmeno, tvaryJmena: [os.jmeno, ...os.jmeno.split(' ').filter((s) => s.length > 3), ...(os.jmeno2 ? [os.jmeno2] : []), ...tvaryJmena(os.jmeno, os.jmeno2)],
+        ...(os.zena ? { zena: true } : {}), ...(os.smery?.[0] ? { smer: os.smery[0] } : {}), odpoved: h.odpoved, vysvetleni,
+        ...(blizke ? { blizke } : {}),
+      }];
+    }),
+  }));
+  const cislaCest = new Set(cesty.map((c) => c.otazka));
+  const velke = otazkyVse.filter((o) => cislaCest.has(o.fm.cislo)).sort((a, b) => a.fm.cislo - b.fm.cislo).map((o) => ({ cislo: o.fm.cislo, otazka: o.fm.otazka }));
+
+  const kresby: KresbaVstup[] = [];
+  for (const komponenta of Object.keys(NAZVY_KRESEB) as (keyof typeof NAZVY_KRESEB)[]) {
+    const k = kroky.filter((x) => slugyCest.has(x.cesta)).sort((a, b) => a.cesta.localeCompare(b.cesta) || a.krok - b.krok).find((x) => new RegExp(`<${komponenta}[\\s/>]`).test(x.body));
+    const c = k && cesty.find((x) => x.slug === k.cesta);
+    if (!k || !c) continue;
+    const veta = VETY_KRESEB[komponenta] ?? vetaPredKresbou(k.body, komponenta);
+    const blizke = BLIZKE_OTAZKY_KRESEB[komponenta];
+    const proc = PROC_KRESEB[komponenta];
+    kresby.push({
+      komponenta, nazev: NAZVY_KRESEB[komponenta], ...(veta ? { veta } : {}), cesta: { slug: c.slug, nazev: c.nazev, otazka: c.otazka },
+      krok: { n: k.krok, nazev: k.nazev }, ...(blizke ? { blizke } : {}), ...(proc ? { proc } : {}),
+      obraz: { ...nahledKresby(komponenta), alt: NAZVY_KRESEB[komponenta] },
+    });
+  }
+
+  const nazvy = new Map<string, string>();
+  for (const { cesta, text } of NAZVY) {
+    const druh = { smery: 'smer', pokusy: 'pokus', obdobi: 'obdobi', nabozenstvi: 'nabozenstvi', uvody: 'uvod' }[cesta.split('/').at(-2)!];
+    const n = rozeber(text).fm.nazev;
+    if (druh && typeof n === 'string') nazvy.set(`${druh}/${jmenoSouboru(cesta)}`, n);
+  }
+  return { pojmy, pary, otazky, kresby, velke, cesty, kroky: kroky.map(({ cesta, krok, nazev }) => ({ cesta, krok, nazev })), nazvy };
+}
+
+/** Odkaz zpět pro klíč „potkal“: krok cesty, cesta, nebo stránka (profil, pojem, otázka, směr…). */
+function odkazNaMisto(klic: string, v: VstupZustalo): OdkazZustalo | undefined {
+  const cesta = klic.match(/^cesta\/([a-z0-9-]+)(?:\/(\d+))?$/);
+  if (cesta) {
+    const c = v.cesty.find((x) => x.slug === cesta[1]);
+    if (!c) return undefined;
+    return cesta[2] ? { href: adresaKroku(c.slug, Number(cesta[2])), text: `Zpátky do kroku ${cesta[2]} cesty ${c.nazev}` } : { href: adresaCesty(c.slug), text: `Zpátky do cesty ${c.nazev}` };
+  }
+  const [, druh, id] = klic.split('/');
+  if (druh === 'osobnost') {
+    const o = osoby.get(id);
+    return o ? { href: klic, text: `Zpátky na stránku ${o.jmeno2 ?? o.jmeno}` } : undefined;
+  }
+  if (druh === 'otazka') {
+    const o = v.otazky.find((x) => x.slug === id);
+    return o ? { href: klic, text: `Zpátky k otázce ${o.otazka}` } : undefined;
+  }
+  if (druh === 'pojem') {
+    const p = v.pojmy.find((x) => x.id === id);
+    return p ? { href: klic, text: `Zpátky k pojmu ${p.pojem}` } : undefined;
+  }
+  const n = v.nazvy.get(`${druh}/${id}`) ?? (druh === 'nabozenstvi' && !id ? v.nazvy.get('uvod/co-je-nabozenstvi') : undefined);
+  return n ? { href: klic, text: `Zpátky na stránku ${n}` } : undefined;
+}
+
+/** Katalog kvízu pro období; chyby kontroly vyhodí výjimku (zastaví sestavení). */
+export function katalogZustalo(obdobi: readonly number[]): KatalogZustalo {
+  const v = vstupZustalo(obdobi);
+  const otazky = [...otazkyPojmu(v.pojmy, v.pary, obdobi), ...otazkyHlasu(v.otazky), ...otazkyKreseb(v.kresby, v.velke)];
+  const chyby = chybyZustalo(otazky, v.pojmy);
+  if (chyby.length) throw new Error(`Co ti zůstalo? neprošlo kontrolou:\n- ${chyby.join('\n- ')}`);
+  const mista: Record<string, OdkazZustalo> = {};
+  for (const k of new Set(otazky.flatMap((o) => o.potkal))) {
+    const odkaz = odkazNaMisto(k, v);
+    if (odkaz) mista[k] = odkaz;
+  }
+  return {
+    otazky,
+    mista,
+    cesty: v.cesty.map((c) => {
+      const o = v.otazky.find((x) => x.cislo === c.otazka);
+      return { slug: c.slug, nazev: c.nazev, adresa: adresaCesty(c.slug), pocet: c.pocet, ...(o ? { otazka: o.adresa } : {}) };
+    }),
+  };
+}
+
+/**
+ * Pojmy pro kartičky v deníku (denik-v2, K3): název, vysvětlení, příklad a místa, kde pojem stojí, s odkazem zpět
+ * stejně jako v kvízu („Zpátky do kroku 3 cesty …“). Místa bere ze všech období, aby kartička pojmu z kterékoli
+ * stránky pojmu měla kam vést.
+ */
+export function pojmyKarticek(): { id: string; nazev: string; vysvetleni: string; priklad: string; obdobi?: number; mista: { klic: string; href: string; text: string }[] }[] {
+  const v = vstupZustalo([1, 2, 3, 4, 5, 6, 7, 8]);
+  return v.pojmy.map((p) => ({
+    id: p.id,
+    nazev: nazevPojmu(p.pojem),
+    vysvetleni: p.vysvetleni,
+    priklad: p.priklad,
+    ...(p.obdobi[0] ? { obdobi: p.obdobi[0] } : {}),
+    mista: p.vyskyty.flatMap((x) => {
+      const klic = klicVyskytu(x);
+      const o = odkazNaMisto(klic, v);
+      return o ? [{ klic, ...o }] : [];
+    }),
+  }));
+}

@@ -22,7 +22,8 @@ export interface PuvodKarty {
   /** první věta lístku podle druhu: „Řekl to.“, „Takhle to neřekl.“, „Napsal opak.“ */
   titulek: string;
   /** co doopravdy stojí v pramenu (skutečný citát, nebo citát původu), když ho data mají */
-  citat?: { text: string; kde: string };
+  /** citát z pramene s id (nůžky po verdiktu, denik-v2, K4) */
+  citat?: { id: string; text: string; kde: string };
   /** kdo větu napsal, když to nebyl on: „Will Durant, The Story of Philosophy, 1926“ */
   autor?: string;
   /** popis původu z dat */
@@ -46,16 +47,16 @@ export function puvodPripsani(p: TPripsani, citaty: Map<string, CitatDat>, zena?
   const zaklad = { popis: p.puvod.popis, koluje: p.koluje.kde };
   switch (p.druh) {
     case 'pravy':
-      return { ...zaklad, titulek: `${tvar(zena, 'Řekl to', 'Řekla to')}.`, citat: skutecne && { text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${tvar(zena, 'Řekl to', 'Řekla to')} · ${skutecne ? `${skutecne.dilo} ${skutecne.misto}` : 'pramen v datech'}` };
+      return { ...zaklad, titulek: `${tvar(zena, 'Řekl to', 'Řekla to')}.`, citat: skutecne && { id: p.skutecne!, text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${tvar(zena, 'Řekl to', 'Řekla to')} · ${skutecne ? `${skutecne.dilo} ${skutecne.misto}` : 'pramen v datech'}` };
     case 'prepsany':
-      return { ...zaklad, titulek: `Takhle to ${tvar(zena, 'neřekl', 'neřekla')}.`, citat: skutecne && { text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${neRekl} takhle · ${skutecne ? `${skutecne.dilo} ${skutecne.misto}` : 'jinými slovy'}` };
+      return { ...zaklad, titulek: `Takhle to ${tvar(zena, 'neřekl', 'neřekla')}.`, citat: skutecne && { id: p.skutecne!, text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${neRekl} takhle · ${skutecne ? `${skutecne.dilo} ${skutecne.misto}` : 'jinými slovy'}` };
     case 'obraceny':
-      return { ...zaklad, titulek: `${tvar(zena, 'Napsal', 'Napsala')} opak.`, citat: skutecne && { text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${neRekl} · ${tvar(zena, 'napsal', 'napsala')} opak${skutecne ? `, ${skutecne.dilo} ${skutecne.misto}` : ''}` };
+      return { ...zaklad, titulek: `${tvar(zena, 'Napsal', 'Napsala')} opak.`, citat: skutecne && { id: p.skutecne!, text: skutecne.cesky, kde: kdeCitatu(skutecne) }, oprava: `${neRekl} · ${tvar(zena, 'napsal', 'napsala')} opak${skutecne ? `, ${skutecne.dilo} ${skutecne.misto}` : ''}` };
     case 'cizi': {
       const rok = p.puvod.rok === undefined ? undefined : p.puvod.rok < 0 ? `${-p.puvod.rok} př. n. l.` : String(p.puvod.rok);
       const autor = [p.puvod.autor, p.puvod.dilo && `${p.puvod.dilo}${p.puvod.misto ? ` ${p.puvod.misto}` : ''}`, rok].filter(Boolean).join(', ');
       const kratce = [p.puvod.autor, rok ?? (p.puvod.misto && `${p.puvod.dilo} ${p.puvod.misto}`)].filter(Boolean).join(', ');
-      return { ...zaklad, titulek: `${neRekl}. Je to věta jiného autora.`, autor, citat: puvodni && { text: puvodni.cesky, kde: kdeCitatu(puvodni) }, oprava: `${neRekl} · ${kratce}` };
+      return { ...zaklad, titulek: `${neRekl}. Je to věta jiného autora.`, autor, citat: puvodni && { id: p.puvod.citat!, text: puvodni.cesky, kde: kdeCitatu(puvodni) }, oprava: `${neRekl} · ${kratce}` };
     }
     case 'neznamy':
       return { ...zaklad, titulek: `${neRekl}. Odkud věta je, nevíme.`, oprava: `${neRekl} · původ neznámý` };

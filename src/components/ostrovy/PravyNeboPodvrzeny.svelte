@@ -15,6 +15,7 @@
   import RamAktivity from './RamAktivity.svelte';
   import BlokDal from './BlokDal.svelte';
   import RazitkoCloveka from '../ui/RazitkoCloveka.svelte';
+  import Nuzky from '../ui/Nuzky.svelte';
   import type { ClovekBloku, Dal } from './bloky-typy';
 
   interface KartaPravy {
@@ -103,7 +104,7 @@
     <p class={sedi ? 'puvod__titulek' : 'blok__zpetna-titulek'}>{k.puvod.titulek}</p>
     {#if k.puvod.autor}<p class="puvod__autor">{k.puvod.autor}</p>{/if}
     {#if k.puvod.citat}
-      <blockquote class="puvod__citat"><p>„{@html radek(k.puvod.citat.text)}“</p><footer>{k.puvod.citat.kde}</footer></blockquote>
+      <blockquote class="puvod__citat"><p>„{@html radek(k.puvod.citat.text)}“</p><footer>{k.puvod.citat.kde}</footer><Nuzky id={k.puvod.citat.id} text={k.puvod.citat.text} kde={k.puvod.citat.kde} kompaktni /></blockquote>
     {/if}
     <p>{@html radek(k.puvod.popis)}</p>
     <p class="puvod__koluje"><span class="puvod__stitek">Kde koluje:</span> {@html radek(k.puvod.koluje)}.</p>
@@ -293,9 +294,9 @@
 
   .puvod__titulek { margin: 0 0 var(--s-2); font-weight: 600; }
   .puvod__autor { margin: 0 0 var(--s-2); font-family: var(--font-sans); font-size: var(--fs-ovladani); color: var(--ink-2); }
-  .puvod__citat { margin: 0 0 var(--s-3); padding-left: var(--s-3); border-left: 2px solid var(--tuzka); }
+  .puvod__citat { position: relative; margin: 0 0 var(--s-3); padding-left: var(--s-3); border-left: 2px solid var(--tuzka); }
   .puvod__citat p { margin: 0; font-style: italic; }
-  .puvod__citat footer { font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
+  .puvod__citat footer { padding-right: 44px; min-height: 24px; font-family: var(--font-sans); font-size: var(--fs-popisek); color: var(--ink-2); }
   .puvod__stitek { font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 600; }
   .puvod__overeni { margin-bottom: 0; }
 

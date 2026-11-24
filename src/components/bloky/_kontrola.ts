@@ -1,6 +1,7 @@
 // Společná kontrola bloků z YAML při sestavení: druh, odkazy na data a obsah čekající na ověření.
 import { getEntry, getCollection } from 'astro:content';
 import { data, osoba, mistaPodleId, citatyPodleId } from '../../lib/data';
+import { udajeCitatu } from '../../lib/sbirka';
 import { puvodCitatu } from '../../lib/herna/citaty';
 import { zivot } from '../../lib/casy';
 import { stredRazitka } from '../../lib/razitko';
@@ -64,7 +65,7 @@ export function clovek(id: string): ClovekBloku {
 export function hlasHerny(h: { osoba: string; citat: string; proc: string }): HlasHerny {
   const c = citatyPodleId.get(h.citat)!;
   const kdo = clovek(h.osoba);
-  return { osoba: h.osoba, clovek: kdo, proc: h.proc, citat: { text: c.cesky, kde: puvodCitatu(c, kdo.jmeno) } };
+  return { osoba: h.osoba, clovek: kdo, proc: h.proc, citat: { id: h.citat, text: c.cesky, kde: puvodCitatu(c, kdo.jmeno), udaje: udajeCitatu(c) } };
 }
 
 /** Kam dál po bloku: vlastní odkaz, jinak v kroku cesty další krok (nebo dokončení cesty). */

@@ -20,6 +20,9 @@
   import MojeFilozofie from '../denik/MojeFilozofie.svelte';
   import SbirkaDeniku from '../denik/SbirkaDeniku.svelte';
   import PrenosDeniku from '../denik/PrenosDeniku.svelte';
+  import Karticky from '../denik/Karticky.svelte';
+  import DoKarticek from '../denik/DoKarticek.svelte';
+  import { zapisSTextem, type DataKarticek } from '../../lib/karticky';
   import { cisteDny, hotoveDnyText, idVyzvyTydne } from '../../lib/tydny';
 
   interface Props {
@@ -39,8 +42,10 @@
     /** stránky atlasu s obdobím (kapitoly) a období se stránkou */
     stranky?: MapaStranek;
     obdobi?: ObdobiZapisniku[];
+    /** kartičky (denik-v2, K3): pojmy a otázky Co ti zůstalo?, ze kterých se skládá líc a rub */
+    karticky?: DataKarticek;
   }
-  let { navraty = [], tydny = [], konecObdobi, katalog, razitka = {}, osoby = {}, potkani = { stranky: {}, cesty: {} }, obdobiCest = {}, prvniCesta, stranky = {}, obdobi = [] }: Props = $props();
+  let { navraty = [], tydny = [], konecObdobi, katalog, razitka = {}, osoby = {}, potkani = { stranky: {}, cesty: {} }, obdobiCest = {}, prvniCesta, stranky = {}, obdobi = [], karticky }: Props = $props();
 
   let denik = $state<Denik | null>(null);
   // Nabídka se určí jednou při otevření deníku: po odložení nebo skrytí se hned nenabídne další.
@@ -64,7 +69,12 @@
   let klicKonce = $derived([...kapitoly].reverse().find((k) => k.obdobi !== null && konecObdobi?.obdobi?.includes(k.obdobi))?.klic);
   const DRUH_SKUPINY: Record<SkupinaZaznamu['druh'], string> = { cesta: 'cesta', otazka: 'otázka', stranka: 'stránka' };
   let zaloha = $derived(denik ? pripomenutiZalohy(denik) : null);
-  let prazdny = $derived(!!denik && denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0 && !denik.citaty?.length);
+  let prazdny = $derived(!!denik && denik.zapisy.length === 0 && denik.vyzvy.length === 0 && cesty.length === 0 && rozpracovane.length === 0 && hodiny.length === 0 && !denik.citaty?.length && !Object.keys(denik.karticky ?? {}).length);
+  /** Zápis s vlastním textem studenta (ne Volba bez důvodu): jen ten dostane Do kartiček. */
+  const zapisKarticky = (id: string) => {
+    const z = denik?.zapisy.find((x) => x.id === id);
+    return z && zapisSTextem(z) ? z : undefined;
+  };
   const tydenVyzvy = (id: string) => tydny.find((t) => idVyzvyTydne(t.id) === id);
   const datum = (iso: string) => new Date(iso).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
   const trida = (slug: string) => (obdobiCest[slug] ? `obdobi-${obdobiCest[slug]}` : 'bez-obdobi');
@@ -151,6 +161,8 @@
     {:else if zprava}
       <p class="navrat-zprava t-ovladani" role="status" tabindex="-1" bind:this={zpravaPrvek}>{zprava}</p>
     {/if}
+
+    {#if karticky}<Karticky {denik} data={karticky} {stranky} />{/if}
 
     {#if zaloha}
       <div class="zaloha">
@@ -241,6 +253,7 @@
                               {/if}
                               {#if z.volba}<p class="zaznam__volba"><span class="vizualne-skryte">{'Tvoje volba: '}</span>{z.volba}</p>{/if}
                               {#if z.odpoved}<p class="odpoved">{z.odpoved}</p>{/if}
+                              {#if zapisKarticky(z.id)}<div class="zaznam__akce"><DoKarticek zdroj="zapis" ref={z.id} popis={z.otazka || DRUH_SKUPINY[s.druh]} /></div>{/if}
                             </li>
                           {/each}
                         </ul>
@@ -253,6 +266,7 @@
                           <p class="t-popisek zaznam__kde">{datum(z.kdy)} · <a href={z.odkaz}>zpět ke stránce</a></p>
                           <p class="otazka">{z.otazka}</p>
                           <p class="odpoved">{z.odpoved}</p>
+                          {#if zapisKarticky(z.id)}<div class="zaznam__akce"><DoKarticek zdroj="zapis" ref={z.id} popis={z.otazka} /></div>{/if}
                         </li>
                       {/each}
                     </ul>
@@ -446,6 +460,7 @@
   .listek-zaznamu p { margin: 0 0 var(--s-1); }
   .zaznam__kde { color: var(--ink-2); }
   .zaznam__kde a { color: inherit; }
+  .zaznam__akce { margin-top: var(--s-2); }
   .zaznam__volba { font-family: var(--font-ruka); font-size: var(--fs-ruka); color: var(--pero); }
   .otazka { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-ovladani); }
   .otazka a { display: inline-block; min-height: 24px; }

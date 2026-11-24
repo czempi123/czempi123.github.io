@@ -100,11 +100,13 @@ describe('sbírka', () => {
   });
   it('vystřižený citát se nezdvojí, nejnovější je první a sbírka má strop', () => {
     let d = prazdny();
-    d = sCitatem(d, { id: 'a', text: 'A', kde: 'X', odkaz: '/' }, '2026-11-01T00:00:00Z');
-    d = sCitatem(d, { id: 'b', text: 'B', kde: 'X', odkaz: '/' }, '2026-11-02T00:00:00Z');
-    d = sCitatem(d, { id: 'a', text: 'A', kde: 'X', odkaz: '/' }, '2026-11-03T00:00:00Z');
+    d = sCitatem(d, { id: 'a', text: 'A', kde: 'X', odkaz: '/' }, '2026-11-01T00:00:00Z')!;
+    d = sCitatem(d, { id: 'b', text: 'B', kde: 'X', odkaz: '/' }, '2026-11-02T00:00:00Z')!;
+    d = sCitatem(d, { id: 'a', text: 'A', kde: 'X', odkaz: '/' }, '2026-11-03T00:00:00Z')!;
     expect(d.citaty!.map((c) => c.id)).toEqual(['a', 'b']);
-    for (let i = 0; i < CITATY_NEJVYS + 5; i++) d = sCitatem(d, { id: `c${i}`, text: '', kde: '', odkaz: '/' }, T);
+    for (let i = 0; d.citaty!.length < CITATY_NEJVYS; i++) d = sCitatem(d, { id: `c${i}`, text: '', kde: '', odkaz: '/' }, T)!;
+    // Plná sbírka další citát nepřijme a nic z ní nevypadne (denik-v2, K1).
+    expect(sCitatem(d, { id: 'navic', text: '', kde: '', odkaz: '/' }, T)).toBeNull();
     expect(d.citaty!.length).toBe(CITATY_NEJVYS);
   });
   it('spojení deníků drží citáty z obou a čas zálohy jen z prohlížeče; poškozený citát vypadne', () => {
