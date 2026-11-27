@@ -6,7 +6,7 @@
   // S `rozbalene` je pole vidět hned a zápis se do deníku ukládá sám během psaní (závěr cesty).
   // `popisek` je text nad polem, když se liší od otázky zápisu v deníku; `nepovinne` k němu přidá „Nepovinné“.
   // Pole je studentova ruka (K4b): Kalam perem na linkách (.blok__pole), tlačítka rámu aktivity.
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { nacti, ulozZapis, smazZapis, type Zapis } from '../../lib/denik';
   import { nezlomitelne } from '../../lib/sazba.js';
 
@@ -17,6 +17,22 @@
   let text = $state('');
   let ulozeno = $state(false);
   let casovac: ReturnType<typeof setTimeout> | undefined;
+  // Tlačítko a pole se střídají na stejném místě: fokus jde po otevření do pole a po zavření zpět na tlačítko,
+  // jinak by z klávesnice spadl na začátek stránky (zkouška skillů, sokrates-opravy, bod 4).
+  let tlacitko = $state<HTMLButtonElement>();
+  let pole = $state<HTMLTextAreaElement>();
+
+  async function otevri() {
+    otevreno = true;
+    await tick();
+    pole?.focus();
+  }
+
+  async function zavri() {
+    otevreno = false;
+    await tick();
+    tlacitko?.focus();
+  }
 
   onMount(() => {
     const z = nacti().zapisy.find((x) => x.id === id);
@@ -32,7 +48,7 @@
     if (!text.trim()) return;
     ulozZapis({ id, otazka, odpoved: text.trim(), odkaz, ...(druh ? { druh } : {}) });
     ulozeno = true;
-    otevreno = false;
+    zavri();
   }
 
   function ulozSamo() {
@@ -58,16 +74,16 @@
     <textarea class={['blok__pole', nepovinne && 'blok__pole--kratke']} id={`${id}-stanovisko`} rows={nepovinne ? 2 : 3} bind:value={text} oninput={piseSe} onblur={ulozSamo} aria-describedby={`${id}-stav`}></textarea>
     <p class="t-popisek stav" id={`${id}-stav`} aria-live="polite">{ulozeno ? 'Uloženo v deníku.' : 'Ukládá se samo do deníku.'}</p>
   {:else if !otevreno}
-    <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={() => (otevreno = true)} aria-expanded="false">
+    <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={otevri} bind:this={tlacitko}>
       {ulozeno ? 'Upravit stanovisko v deníku' : 'Moje stanovisko'}
     </button>
     {#if ulozeno}<span class="t-popisek">Uloženo v deníku.</span>{/if}
   {:else}
     <label class="t-ovladani" for={`${id}-stanovisko`}>{nezlomitelne(otazka)}</label>
-    <textarea class="blok__pole" id={`${id}-stanovisko`} rows="3" bind:value={text}></textarea>
+    <textarea class="blok__pole" id={`${id}-stanovisko`} rows="3" bind:value={text} bind:this={pole}></textarea>
     <div class="akce">
       <button class="blok__tl blok__tl--hlavni" type="button" onclick={uloz}>Uložit do deníku</button>
-      <button class="blok__tl blok__tl--tiche" type="button" onclick={() => (otevreno = false)}>Zrušit</button>
+      <button class="blok__tl blok__tl--tiche" type="button" onclick={zavri}>Zrušit</button>
     </div>
   {/if}
 </div>

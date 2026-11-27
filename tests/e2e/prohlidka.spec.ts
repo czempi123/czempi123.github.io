@@ -146,7 +146,7 @@ test('Nejdřív sám: odpověď se odkryje až po pokusu a uloží do deníku', 
   const blok = page.locator('#sokrates-kdo-je-moudry');
   // Ostrov se hydratuje, až je vidět; bez čekání by klik mohl přijít dřív než skript.
   await blok.scrollIntoViewIfNeeded();
-  await page.waitForSelector('astro-island[component-url*="NejdrivSam"]:not([ssr])', { state: 'attached' });
+  await expect(page.locator('astro-island[component-url*="Odkryj"]').filter({ has: blok })).not.toHaveAttribute('ssr', /.*/);
   await expect(blok.getByRole('region', { name: 'Srovnání' })).toHaveCount(0);
   await blok.locator('textarea').fill('Moudrý je ten, kdo umí přiznat chybu.');
   await blok.getByRole('button', { name: 'Porovnat se Sókratem' }).click();

@@ -445,15 +445,17 @@ test('Kdo žil dřív?: odkaz otevře mapu ve správném roce se srovnáním', a
   await expect(page.getByRole('slider', { name: 'Rok' })).toHaveAttribute('aria-valuenow', '-399');
 });
 
-test('Sókratův profil: Nejdřív sám beze změny textu a odpověď vydrží obnovení', async ({ page }) => {
+test('Sókratův profil: Odkryj (dřív Nejdřív sám) beze změny textu a odpověď vydrží obnovení', async ({ page }) => {
   await page.goto('/osobnost/sokrates/');
-  const blok = await pripravBlok(page, 'sokrates-kdo-je-moudry', 'NejdrivSam');
-  await expect(blok.getByRole('button', { name: 'Porovnat se Sókratem' })).toBeVisible();
+  const blok = await pripravBlok(page, 'sokrates-kdo-je-moudry', 'Odkryj');
+  // Prázdné pole: odklopit jde jen vedlejším tlačítkem; po prvním znaku je hlavní „Porovnat se Sókratem“.
+  await expect(blok.getByRole('button', { name: 'Odklopit bez odpovědi' })).toBeVisible();
   await blok.locator('textarea').fill('Kdo umí říct: nevím.');
+  await expect(blok.getByRole('button', { name: 'Porovnat se Sókratem' })).toBeVisible();
   await blok.getByRole('button', { name: 'Porovnat se Sókratem' }).click();
   await expect(blok.getByRole('region', { name: 'Srovnání' })).toContainText('Napsal jsi znak, podle kterého moudrost poznáš');
   await page.reload();
-  const znovu = await pripravBlok(page, 'sokrates-kdo-je-moudry', 'NejdrivSam');
+  const znovu = await pripravBlok(page, 'sokrates-kdo-je-moudry', 'Odkryj');
   await expect(znovu.locator('textarea')).toHaveValue('Kdo umí říct: nevím.');
   await expect(znovu.getByRole('region', { name: 'Srovnání' })).toBeVisible();
 });

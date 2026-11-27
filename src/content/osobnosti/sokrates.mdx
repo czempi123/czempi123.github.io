@@ -28,7 +28,6 @@ kapitoly:
 ---
 import Kapitola from '../../components/osobnost/Kapitola.astro';
 import Citat from '../../components/ui/Citat.astro';
-import NejdrivSam from '../../components/ostrovy/NejdrivSam.svelte';
 import DobaALide from '../../components/osobnost/DobaALide.astro';
 import Myslenky from '../../components/osobnost/Myslenky.astro';
 import Myslenka from '../../components/osobnost/Myslenka.astro';
@@ -57,13 +56,13 @@ Sókratés tomu nevěřil a šel věštbu prověřit: za politikem, za básníky
 
 Z hledání <Pojem id="protipriklad">protipříkladu</Pojem> se stalo jeho celoživotní řemeslo. A nakonec i důvod, proč ho Athény poslaly na smrt.
 
-<NejdrivSam client:visible id="sokrates-kdo-je-moudry" otazka="Koho považuješ za moudrého člověka? Podle čeho to poznáš?" tlacitko="Porovnat se Sókratem" odkaz="/osobnost/sokrates/#delfy">
+<Odkryj id="sokrates-kdo-je-moudry" filozof="sokrates" otazka="Koho považuješ za moudrého člověka? Podle čeho to poznáš?" tlacitko="Porovnat se Sókratem">
 
 Sókratés by se tě nejdřív zeptal, jestli ten člověk ví, kde jeho vědění končí. Politik si jen myslel, že ví. Básníci psali krásně, ale nevěděli, co říkají. A řemeslníci, kteří svému řemeslu opravdu rozuměli, si mysleli, že rozumějí všemu.
 
 Podívej se na svou odpověď. Napsal jsi znak, podle kterého moudrost poznáš, nebo jen jméno? Poznal bys podle něj moudrého člověka, kterého vůbec neznáš?
 
-</NejdrivSam>
+</Odkryj>
 
 </Kapitola>
 
@@ -205,13 +204,13 @@ Přátelé se rozplakali, jeden z nich nahlas. Sókratés je okřikl: kvůli tom
 Asklépios byl pro Řeky zakladatel lékařství. Co tím Sókratés myslel, už neřekl. Kritón mu zavřel ústa a oči.
 </Kapitola>
 
+<div class="ctenarsky"><KdoZilDriv a="sokrates" b="platon" druh="vzdalenost" /></div>
+
 <DobaALide osoba={props.osoba}>
 
 Z Athén vycházel skoro jen do války. Třikrát: k Potidaii, k Déliu a k Amfipoli.
 
 </DobaALide>
-
-<div class="ctenarsky"><KdoZilDriv a="sokrates" b="platon" druh="vzdalenost" /></div>
 
 <Myslenky>
   <Myslenka cislo={1} disciplina="Poznání">

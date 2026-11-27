@@ -111,7 +111,12 @@
 
 {#snippet akce()}
   {#if !odkryto}
-    <button class="blok__tl blok__tl--hlavni" type="button" onclick={porovnej}>{tlacitko}</button>
+    <!-- Prázdné pole: odklopit jde, ale ne jako hlavní čin (student první; sokrates-opravy, bod 6, návrh k rozhodnutí autora). -->
+    {#if odpoved.trim()}
+      <button class="blok__tl blok__tl--hlavni" type="button" onclick={porovnej}>{tlacitko}</button>
+    {:else}
+      <button class="blok__tl blok__tl--vedlejsi" type="button" onclick={porovnej}>Odklopit bez odpovědi</button>
+    {/if}
   {:else if upravuji}
     <button class="blok__tl blok__tl--hlavni" type="button" onclick={ulozUpravu}>Uložit do deníku</button>
   {:else}

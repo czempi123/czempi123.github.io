@@ -140,10 +140,12 @@ Všechny dialogy jsou Platónovy (Xenofónta jsem pro tyto kapitoly nepoužil). 
 1. Co se jeví mně, je pro mě; co tobě, je pro tebe. Když jednomu je zima a druhému ne, nemá smysl ptát se, jaký je vítr „sám o sobě“ (Theaitétos 152a–b). — výklad
 2. Moudrý nemění nepravdivé názory v pravdivé, protože nepravdivý názor neexistuje. Mění horší stav v lepší, jako lékař: nemocnému chutná jídlo hořce a lékař ho nepřesvědčuje, ale léčí. Učitel totéž dělá slovy (Theaitétos 166d–167b). — výklad; **tohle je jeho nejsilnější tah**, protože odpovídá na námitku „proč by tedy byl Prótagorás moudřejší než pulec“ (161c–d).
 3. Totéž platí pro obce: co obci připadá spravedlivé, je pro ni spravedlivé, dokud to tak vidí; moudrý řečník ji vede k lepšímu (Theaitétos 167c). — výklad
+4. Odpověď na sebevyvrácení (doplněno 27. 11. 2026, větev sokrates-opravy): námitka vynechává výhrady „pro mě“ a „pro tebe“, na kterých jeho věta stojí. Že se Prótagorás mýlí, je pravda pro ty, kdo to soudí, ne pro něj. SEP, Protagoras, 2.2 („the criticism omits the qualifiers ‚for me‘ and ‚for you‘, which are crucial to his thesis“, s odkazem na Theaitéta 161d2–3, Metafyziku IV, 6, 1011a19–20 a Sexta). U Platóna to Sókratés sám tuší v 171d (vystrčená hlava). — výklad (SEP), ne Prótagorova slova
 
 **Sókratova strana v nejsilnější verzi**
 
 1. Sebevyvrácení: Prótagorás říká, že každý názor je pravdivý. Většina lidí si ale myslí, že Prótagorás nemá pravdu. Pak musí sám přiznat, že jejich názor je pravdivý, tedy že jeho věta je nepravdivá (Theaitétos 170a–171c). — výklad
+   Celý krok, ověřený 27. 11. 2026 ve Fowlerově překladu (Loeb 1921, Perseus 1999.01.0172): Prótagorás uznává za pravdivé mínění těch, kdo si myslí, že se mýlí (171a–b); oni mu ale nepřiznají, že se mýlí sami (171b); jeho „Pravda“ je tedy všemi popírána a „would be true to nobody, neither to anyone else nor to him“ (171c). Do Sporu patří až tenhle závěr: samotné „musí jim to uznat“ relativista s výhradou „pro ně“ uzná bez ztráty.
 2. Budoucnost: o tom, jestli dostanu horečku, rozhodne lékař lépe než já; o víně vinař, o hudbě hudebník, o hostině kuchař. A Prótagorás sám tvrdil, že líp než kdokoli jiný ví, co u soudu zapůsobí. Aspoň o budoucnosti tedy není každý stejné měřítko (Theaitétos 178b–179b). — výklad; **nejsilnější tah**, protože nepotřebuje logický trik, jen běžnou zkušenost.
 3. Posměšek: proč ne prase nebo pavián jako měřítko všech věcí (Theaitétos 161c). — literární; jen jako barva, ne jako argument.
 

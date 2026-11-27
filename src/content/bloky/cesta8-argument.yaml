@@ -27,7 +27,7 @@ skryty:
 napadnout:
   karta: vnimani
   proc: "Věta o vnímání je první důvod a říká, že zlé může být jen to, co někdo zakouší. Kdo s ní nesouhlasí, nepotřebuje k tomu víru v nic po smrti. Stačí mu jediný případ, kdy je pro člověka něco zlé, i když to nikdy nepocítí."
-zpetna: "Závěr z obou důvodů plyne, ale ne sám od sebe. Druhý důvod říká, že smrt bere vnímání. Kolik toho bere, už neříká. Přidal bys k argumentu větu, kterou k tomu potřebuje?"
+zpetna: "Z obou důvodů závěr ještě neplyne. Druhý důvod říká, že smrt bere vnímání. Kolik toho bere, už neříká. Přidal bys k argumentu větu, kterou k tomu potřebuje?"
 # Bez pole „Proč právě tahle?“: námitku student napíše hned pod blokem v Odkryj (revize R, nález 6).
 bezDuvodu: true
 zadnou: "Argument ti drží, i s větou, kterou Epikúros v dopise nenapsal. Stačí to, aby zmizel strach, nebo něco zůstane? A na který koš z druhého kroku by mířilo to, co zůstane?"

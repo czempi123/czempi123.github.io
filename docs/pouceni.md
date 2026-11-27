@@ -42,6 +42,7 @@ Co se v hotových celcích nepovedlo a nemá se opakovat. Výtah ze záznamů re
 - Otázka na vlastní selhání nebo bolestnou chvíli nemá pole na psaní: Volba s `bezDuvodu: true` uloží jen zvolenou možnost a text kroku říká „Nikam ji nepiš“.
 - Vlastní karta v Roztřiď: zpětná vazba se ptá, proč ji student dal do koše, ne jak moc si jí je jistý. U karty s něčím bolestným to zní jako pochybnost o tom, co zažil.
 - Kde by vlastní karta byla zpověď (strachy ze smrti), blok ji nemá: student třídí cizí věty a text to říká.
+- Kdo žil dřív? pod Dobou a lidmi vyzradí odpověď (Dva životy, Současníci a Žáci ukazují roky druhé osoby): hra stojí nad tím oddílem a druhou osobou není člověk stránky (sokrates-opravy).
 - Hra, která se ptá, kdo koho učil, dá ty vztahy na kartu od začátku: napověda až po chybě nutila opisovat roky z oddílu nad hrou (Seřaď na ose, herna-v1, R).
 - Situaci v Párech čti proti vysvětlení sousedních pojmů a hlasům téže stránky: slast „nic tě nebolí a ničeho se nebojíš“ byla i klidem a správná úvaha dostala „zkus to jinak“ (herna-v1, R).
 - Hlas ve hře čti očima studenta, kterému se druzí smějí: „mladé, kteří se stydí, chválíme“ bez věty, že jde o stud za vlastní špatný čin, zní jako „máš se stydět“ (herna-v1, R).
