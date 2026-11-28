@@ -31,6 +31,8 @@
 <style>
   .prijato { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); margin: 0; font-family: var(--font-sans); font-size: var(--fs-ovladani); font-weight: 500; color: var(--ink); }
   /* Razítko v inkoustu (bez barvy pro správně a špatně): dvojitý rámeček jako razítko místa, natočené. */
+  /* Fokus po přijetí: rámeček nesmí ležet na textu. */
+  .prijato:focus-visible { outline-offset: 6px; border-radius: var(--r-ovladani); }
   .prijato__razitko {
     display: inline-block;
     padding: 4px 12px 5px;

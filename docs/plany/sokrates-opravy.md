@@ -16,8 +16,8 @@ Další body se týkají ovládání: fokus z klávesnice, Odkryj naprázdno a s
 | Krok | Co | Model · úsilí | Stav |
 | --- | --- | --- | --- |
 | O | Opravy bodů 1–7 ze zkoušky (P3 jen když zbude čas) | Opus 5.5 · high | hotovo 27. 11. 2026 |
-| R | Revize změn skillem `atlas-revize` | Opus 5.5 · high | **na řadě** (Zadání R) |
-| Uzavření | Schválení autorem, sloučení do `main` | Opus 5.5 · medium | čeká |
+| R | Revize změn skillem `atlas-revize` | Opus 5.5 · high | hotovo 28. 11. 2026 |
+| Uzavření | Schválení autorem, sloučení do `main` | Opus 5.5 · medium | **na řadě** (Zadání Uzavření) |
 
 ## Po O (27. 11. 2026)
 
@@ -68,4 +68,40 @@ Projdi skillem atlas-revize jen to, co větev změnila (`git diff main...sokrate
 3. Zpětná vazba cesta8-argument a nové tlačítko Odkryj „Odklopit bez odpovědi“ (atlas-psani: zní jako pokyn, ne jako výčitka?).
 4. Fokus v Moje stanovisko a Zkus to žít: klávesnicí a s VoiceOverem na 390 i 1440 px, světlý i tmavý režim.
 Drobnosti oprav rovnou, zásadní nálezy seřaď podle dopadu s návrhem opravy. Snímky přes scripts/snimky-listy.mjs a scripts/snimky-cesta.mjs. Na konci zapiš Po R do plánu větve a připrav prompt kroku Uzavření (schválení autorem, sloučení do main; na GitHub jen s pokynem autora).
+```
+
+## Po R (28. 11. 2026)
+
+Záznam revize: `docs/revize/sokrates-opravy-2026-11-28.md`. Verdikt: připraveno ke schválení.
+
+**Opraveno v R**
+
+- **Razítka ve hře Kdo žil dřív?** nesla po obvodu roky obou lidí, takže odpověď stála přímo v hlavičce hry (na portrétech i v cestách). Do odhalení teď razítka nesou jen jméno a atribut; roky se ukážou s odhalením (`KdoZilDriv.svelte`). Zapsáno do `docs/pouceni.md`.
+- Osa odhadu vzdálenosti: první letopočet na 390 px už nepřetéká z rámu.
+- Spor: Prótagorova odpověď bez zdvojené věty („Jenže to, že se mýlí, je pravda pro ně, ne pro něj.“).
+- Zkus to žít: rámeček fokusu na potvrzení má odstup od textu.
+
+**Ověřeno:** hra na devíti portrétech nad Dobou a lidmi a bez let druhé osoby nad sebou; Marcus a Seneca s prohozenými osobami čtou správně („Seneca žil asi 65 let“, „Dělí je asi 56 let.“). Spor drží obě strany a Prótagorás odpovídá dřív, než student Sókratovu námitku přečte. Fokus Moje stanovisko a Zkus to žít klávesnicí na 390 i 1440 px, světlý i tmavý režim; strom přístupnosti přes Playwright. VoiceOver sám spuštěný nebyl.
+
+**Testy:** celé `npm test` prošlo (kontrola typů, 1666 testů ve Vitestu, 933 v Playwrightu).
+
+**K rozhodnutí autora**
+
+1. **Tlačítko „Odklopit bez odpovědi“** v Odkryj (návrh z kroku O, bod 6): platí pro všechny bloky Odkryj v atlasu.
+2. **Hra pod Linkou bezpečí na Senekově stránce:** nechat, nebo tam hru vrátit pod Dobu a lidi (Sókratés v tom oddílu není)? Doporučuji nechat.
+3. **Smazání `NejdrivSam.svelte`** (beze změny z Po O).
+4. **Skill `atlas-osobnost` v účtu Claude:** přenést pravidlo o místě hry Kdo žil dřív? (beze změny z Po O).
+
+## Zadání Uzavření
+
+Model Opus 5.5, úsilí medium.
+
+```
+Krok Uzavření větve sokrates-opravy. Přečti CLAUDE.md, docs/pouceni.md a v docs/plany/sokrates-opravy.md tabulku kroků a oddíly Po O a Po R; záznam revize je v docs/revize/sokrates-opravy-2026-11-28.md.
+
+1. Předlož autorovi čtyři body „K rozhodnutí autora“ z Po R (Odklopit bez odpovědi, hra pod Linkou bezpečí u Seneky, smazání NejdrivSam.svelte, přenos pravidla do skillu atlas-osobnost v účtu Claude) a proveď, co rozhodne. Smazání jen s jeho výslovným souhlasem.
+2. Po schválení: celé npm test, plán větve přesuň do docs/archiv/plany/, v docs/plan-vetve.md větev označ jako hotovou, a sluč sokrates-opravy do main (git merge --no-ff, česká zpráva „Sloučení větve sokrates-opravy: …“).
+3. Na GitHub (git push origin main) pošli jen na výslovný pokyn autora; po pushi ověř, že workflow Pages doběhl.
+4. Pokud se v repozitáři změnil soubor, který je v Projektu Claude (docs/plan.md, docs/plan-vetve.md, docs/architektura.md, docs/plany/kurikulum.md), aktualizuj ho tam.
+Na konci napiš prompt dalšího kroku podle docs/plan-vetve.md (pořadí větví) a ulož ho i do plánu té větve.
 ```
