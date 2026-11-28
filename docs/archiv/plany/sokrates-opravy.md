@@ -115,6 +115,8 @@ Na konci napiš prompt dalšího kroku podle docs/plan-vetve.md (pořadí větv�
 3. `NejdrivSam.svelte` zůstává v repozitáři.
 4. Pravidlo o místě hry Kdo žil dřív? přenese autor do skillu `atlas-osobnost` v účtu Claude sám; znění je v posledním bodě šablony v `skills/atlas-osobnost/SKILL.md` a ve zprávě kroku Uzavření.
 
-**Sloučení:** celé `npm test` prošlo, větev sloučená do `main` (`git merge --no-ff`). Na GitHub jen na pokyn autora.
+**Sloučení:** celé `npm test` prošlo (kontrola typů, Vitest, 933 testů v Playwrightu), větev sloučená do `main` (`git merge --no-ff`, `bf59828`).
+
+**GitHub:** autor push povolil, ale z Claude Code na Macu neprošel: git nemá přihlášení ke GitHubu (`could not read Username`), `gh` není nainstalované a GitHub Desktop taky ne. `main` je 19 commitů před `origin/main`. Pošle ho autor (Terminál `git push origin main` s tokenem, který si uloží Klíčenka, nebo GitHub Desktop › Push origin) nebo další krok z cloudu; po pushi zkontrolovat běh Pages přes `api.github.com/repos/czempi123/czempi123.github.io/actions/runs`.
 
 **Na později:** VoiceOver s autorem (dvojí ohlášení potvrzení Zkus to žít, záznam revize); popisky MiniMapy na 390 px a hygiena Svelte (P3, body 9 a 10).
