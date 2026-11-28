@@ -316,6 +316,9 @@ export function katalogZastaveni(v: VstupKatalogu): Zastaveni[] {
       else if (z.jmeno === 'ZkusToZitKarta') oddil(ODDILY.zkus.kotva, 'oddil', a.nazev ? `${ODDILY.zkus.nazev}: ${a.nazev}` : ODDILY.zkus.nazev);
       else if (z.jmeno === 'KamDal') rodic = idStranky;
       else {
+        // Kdo žil dřív? stojí jako hra z dat za poslední kapitolou a před Dobou a lidmi, kde by roky druhé osoby
+        // prozradily odpověď (sokrates-opravy, bod 1): patří celé stránce, ne poslední kapitole.
+        if (z.jmeno === 'KdoZilDriv') rodic = idStranky;
         const cast = castZeZnacky(z, stranka);
         if (cast) vse.push({ ...cast, adresa: adresa(stranka, cast.kotva), rodic, poradi: ++poradi, ...spolecne });
       }

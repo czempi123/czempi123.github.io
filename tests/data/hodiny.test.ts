@@ -83,7 +83,7 @@ describe('katalog zastavení z obsahu a dat', () => {
     expect(z('b:sokrates-navrh-trestu').rodic).toBe('o:sokrates/soud');
     expect(z('b:utek-z-vezeni').rodic).toBe('o:sokrates/posledni-den');
     // Kdo žil dřív? skládá id i otázku stejně jako blok.
-    expect(z('b:kdo-sokrates-platon-vzdalenost')).toMatchObject({ nazev: 'Jak daleko od sebe žili Sókratés a Platón?', rodic: 'o:sokrates/doba-a-lide' });
+    expect(z('b:kdo-sokrates-platon-vzdalenost')).toMatchObject({ nazev: 'Jak daleko od sebe žili Sókratés a Platón?', rodic: 'o:sokrates' });
     // Pořadí na stránce roste tak, jak části za sebou stojí.
     const naStrance = katalog.filter((x) => x.stranka === '/osobnost/sokrates/').map((x) => x.poradi);
     expect(naStrance).toEqual([...naStrance].sort((a, b) => a - b));
@@ -93,7 +93,7 @@ describe('katalog zastavení z obsahu a dat', () => {
     expect(z('b:cesta1-jak-zjistit').nadtitulek).toBe('Tvůj tah');
     expect(z('b:cesta1-podle-ceho-poznas').nadtitulek).toBe('Nejdřív sám');
     expect(z('b:sokrates-co-je-odvaha').nadtitulek).toBe('Než budeš číst dál');
-    expect(z('b:sokrates-kdo-je-moudry')).toMatchObject({ typ: 'NejdrivSam', nadtitulek: 'Než budeš číst dál' });
+    expect(z('b:sokrates-kdo-je-moudry')).toMatchObject({ typ: 'Odkryj', nadtitulek: 'Než budeš číst dál' });
     expect(z('b:kdo-sokrates-platon-vzdalenost').nadtitulek).toBe('Kdo žil dřív?');
     expect(z('b:lod-po-prknech').nadtitulek).toBe('Zkus si to');
     // Závěr cesty nadtitulek nemá; ostatní části (kroky, kapitoly, hlasy) taky ne.

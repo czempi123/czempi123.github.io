@@ -4,6 +4,14 @@ Zásadní rozhodnutí projektu, nejnovější nahoře. Každé má datum, rozhod
 
 Starší záznamy (29. 9. – 3. 10. 2026: základ projektu a celky 1 až 3) jsou v `docs/archiv/rozhodnuti-2026-09-29-az-2026-10-03.md`. Co z nich platí pořád, drží `CLAUDE.md`, `docs/styl.md`, `docs/design.md`, `docs/pouceni.md` a skilly.
 
+## 28. 11. 2026: Uzavření větve sokrates-opravy
+
+| Rozhodnutí | Důvod |
+| --- | --- |
+| Odkryj s prázdným polem má vedlejší tlačítko „Odklopit bez odpovědi“; po prvním znaku je hlavní tlačítko s původním textem. Platí pro všechny bloky Odkryj | Autor schválil návrh z kroku O; revize ho četla jako pokyn bez výčitky |
+| Kdo žil dřív? stojí na všech devíti portrétech nad Dobou a lidmi, i na Senekově stránce hned pod řádkem s Linkou bezpečí | Autor: nechat podle doporučení; stejné místo na všech portrétech |
+| `NejdrivSam.svelte` zůstává v repozitáři, i když ho nic nepoužívá | Autor: nechat; smazání smí rozhodnout jen on |
+
 ## 22. 11. 2026: Vystřižené citáty (denik-v2 K4)
 
 | Rozhodnutí | Důvod |

@@ -46,6 +46,11 @@
   let oblast = $state<HTMLElement>();
   let cerstve = $state(false);
 
+  // Razítka v hlavičce nesou po obvodu roky (a bez atributu rok narození uprostřed): do odhalení by prozradila
+  // odpověď, proto se roky ukážou až s ní (revize R, sokrates-opravy).
+  const bezLet = (r: UdajeRazitka | undefined) =>
+    !r || odkryto ? r : { ...r, roky: '', stred: r.stred ? { ...r.stred, rok: undefined, era: undefined } : undefined };
+
   let odhadVzd = $derived(odhadZPolohy(tahOsa, start));
   let hotovyOdhad = $derived(druh === 'poradi' ? poradi !== null : pohnuto);
   let vyhodnoceni = $derived(
@@ -199,7 +204,7 @@
   obdobi={a.obdobi}
   trida="kdo-zil"
   nadtitulek={VYCHOZI_NADTITULKY.KdoZilDriv}
-  lide={[{ jmeno: a.jmeno, obdobi: a.obdobi, ikona: a.ikona, razitko: a.razitko }, { jmeno: b.jmeno, obdobi: b.obdobi, ikona: b.ikona, razitko: b.razitko }]}
+  lide={[{ jmeno: a.jmeno, obdobi: a.obdobi, ikona: a.ikona, razitko: bezLet(a.razitko) }, { jmeno: b.jmeno, obdobi: b.obdobi, ikona: b.ikona, razitko: bezLet(b.razitko) }]}
   labelledby={`${id}-otazka`}
   vazba={odkryto ? odhaleni : undefined}
   vazbaPopisek="Odhalení"
@@ -267,7 +272,7 @@
         </div>
       </div>
       <div class="tah__osa t-popisek t-letopocet" aria-hidden="true">
-        {#each znacky as z (z)}<span style={`left:${pct(z)}%`}>{popisZnacky(z)}</span>{/each}
+        {#each znacky as z (z)}<span class={[pct(z) < 12 && 'u-kraje-l', pct(z) > 88 && 'u-kraje-p']} style={`left:${pct(z)}%`}>{popisZnacky(z)}</span>{/each}
         {#if krajniEra}<span class="tah__era">{krajniEra}</span>{/if}
       </div>
     </div>
@@ -367,6 +372,9 @@
   .tah__popis .t-letopocet, .tah__popis > span { color: var(--ink-2); }
   .tah__osa { position: relative; height: 22px; border-top: 1.5px solid var(--tuzka); color: var(--ink-2); }
   .tah__osa span { position: absolute; top: 4px; transform: translateX(-50%); white-space: nowrap; }
+  /* Popisek u kraje osy by na telefonu přetekl ven z rámu („00 př. n. l.“): zarovná se ke značce dovnitř. */
+  .tah__osa span.u-kraje-l { transform: none; }
+  .tah__osa span.u-kraje-p { transform: translateX(-100%); }
   .tah__osa .tah__era { right: 0; left: auto; transform: none; top: 22px; }
   .tah__odhad { margin: var(--s-5) 0 var(--s-4); color: var(--ink-2); }
   @media (max-width: 599px) {

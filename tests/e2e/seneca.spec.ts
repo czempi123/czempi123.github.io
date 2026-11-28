@@ -158,7 +158,7 @@ test('Seneca: text drží pravidla celku (smrt na rozkaz, kdo co vypráví, co p
 
   const kamDal = page.getByRole('navigation', { name: 'Kam dál' });
   await expect(kamDal.getByRole('link')).toHaveText([/Cesta\s*Proč se bát smrti\?/, /Cesta\s*Co když přijde to nejhorší\?/, /Cesta\s*Kam mi mizí čas\?/, /Zkus to žít · 7 dní\s*Stoický týden/, /Směr\s*Stoicismus/, /Epiktétos/, /Marcus Aurelius/, /Velká otázka 1\s*Jak mám žít\?/]);
-  await expect(page.locator('[id="kdo-sokrates-seneca-vzdalenost"]')).toContainText('Sókratés a Seneca');
+  await expect(page.locator('[id="kdo-seneca-sokrates-vzdalenost"]')).toContainText('Seneca a Sókratés');
 });
 
 test('Seneca: deska s hermou, licence v Pramenech a Doba a lidé', async ({ page }) => {

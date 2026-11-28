@@ -1,6 +1,9 @@
 # Spor · cesta 1, krok 5: Prótagorás × Sókratés o měřítku pravdy, jak si ho představil Platón v Theaitétovi.
 # Podklad: docs/podklady/celek-1-pravda.md › Spor Sókratés × Prótagorás. Rámec Theaitétos 164e–165a, 171c–d;
 # Prótagorova strana 152a–b, 166d–167b a odpověď na sebevyvrácení (171a–d, výklad); Sókratova strana 178b–179b, 170e–171c.
+# Na telefonu stojí Prótagorás nad Sókratem: jeho třetí argument proto začíná Sókratovou námitkou. Sókratův druhý
+# argument jde až do konce 171a–c („true to nobody, neither to anyone else nor to him“), ne jen „musí jim to uznat“,
+# které relativista s výhradou „pro ně“ uzná bez ztráty (zkouška skillů, sokrates-opravy, bod 2–3).
 druh: spor
 obdobi: 1
 nadtitulek: Spor
@@ -26,7 +29,10 @@ strany:
 
         Dělá to jako lékař: nemocnému chutná jídlo hořce a lékař ho nepřemlouvá, ale léčí. Učitel totéž dělá slovy.
       - >-
-        Že se Prótagorás mýlí, je pravda pro ty, kdo si to myslí. Pro něj samotného ne.
+        Sókratés namítá, že Prótagorás musí dát za pravdu i těm, kdo si myslí, že se mýlí, a tím popírá sám sebe.
+        Jenže to, že se mýlí, je pravda pro ně, ne pro něj.
+
+
         Kdo z jeho věty vynechá „pro toho, kdo ho má“, nevyvrací Prótagora, ale někoho jiného.
   - osoba: sokrates
     postoj: Ne každý názor obstojí.
@@ -35,6 +41,10 @@ strany:
         Jestli dostaneš zítra horečku, pozná lékař líp než ty. O víně rozhodne líp vinař, o hostině kuchař.
         A sám Prótagorás tvrdil, že líp než kdokoli ví, co zapůsobí u soudu. Aspoň o budoucnosti tedy není každý stejné měřítko.
       - >-
-        Podle Prótagora je každý názor pravdivý pro toho, kdo ho má. Většina lidí má ale názor, že Prótagorás pravdu nemá.
-        Pro ně je tedy pravda, že se mýlí. A podle vlastní věty jim to musí uznat.
+        Podle Prótagora je každý názor pravdivý pro toho, kdo ho má. Většina lidí si ale myslí, že se Prótagorás mýlí.
+        Musí jim to tedy uznat: pravdivý je i názor, podle kterého se mýlí.
+
+
+        Oni mu jeho větu neuznají, on jim jejich ano. Jeho Pravdu tak popírají všichni, nakonec i on sám.
+        Není pravdou pro nikoho.
 zdroje: [platon-theaitetos, sep-protagoras]
