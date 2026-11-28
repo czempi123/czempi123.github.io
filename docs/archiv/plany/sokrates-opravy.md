@@ -17,7 +17,7 @@ Další body se týkají ovládání: fokus z klávesnice, Odkryj naprázdno a s
 | --- | --- | --- | --- |
 | O | Opravy bodů 1–7 ze zkoušky (P3 jen když zbude čas) | Opus 5.5 · high | hotovo 27. 11. 2026 |
 | R | Revize změn skillem `atlas-revize` | Opus 5.5 · high | hotovo 28. 11. 2026 |
-| Uzavření | Schválení autorem, sloučení do `main` | Opus 5.5 · medium | **na řadě** (Zadání Uzavření) |
+| Uzavření | Schválení autorem, sloučení do `main` | Opus 5.5 · medium | hotovo 28. 11. 2026 (Po Uzavření) |
 
 ## Po O (27. 11. 2026)
 
@@ -60,7 +60,7 @@ Další body se týkají ovládání: fokus z klávesnice, Odkryj naprázdno a s
 Model Opus 5.5, úsilí high.
 
 ```
-Krok R větve sokrates-opravy: revize oprav po zkušební jízdě skillů. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v docs/plany/sokrates-opravy.md tabulku kroků a oddíl Po O. Nálezy zkoušky jsou v „Claude outputs/zkouska-skillu-sokrates.md“.
+Krok R větve sokrates-opravy: revize oprav po zkušební jízdě skillů. Přečti CLAUDE.md, docs/styl.md, docs/pouceni.md a v docs/archiv/plany/sokrates-opravy.md tabulku kroků a oddíl Po O. Nálezy zkoušky jsou v „Claude outputs/zkouska-skillu-sokrates.md“.
 
 Projdi skillem atlas-revize jen to, co větev změnila (`git diff main...sokrates-opravy`), očima studenta na telefonu, učitele a filozofa:
 1. Kdo žil dřív? na devíti portrétech: hra stojí nad Dobou a lidmi; navazuje poslední kapitola na hru a hra na Dobu a lidi bez skoku? Na Marcově a Senekově stránce prohozené osoby: dává otázka i odkrytí smysl (věta s pádem, „žil asi N let“)?
@@ -97,7 +97,7 @@ Záznam revize: `docs/revize/sokrates-opravy-2026-11-28.md`. Verdikt: připraven
 Model Opus 5.5, úsilí medium.
 
 ```
-Krok Uzavření větve sokrates-opravy. Přečti CLAUDE.md, docs/pouceni.md a v docs/plany/sokrates-opravy.md tabulku kroků a oddíly Po O a Po R; záznam revize je v docs/revize/sokrates-opravy-2026-11-28.md.
+Krok Uzavření větve sokrates-opravy. Přečti CLAUDE.md, docs/pouceni.md a v docs/archiv/plany/sokrates-opravy.md tabulku kroků a oddíly Po O a Po R; záznam revize je v docs/revize/sokrates-opravy-2026-11-28.md.
 
 1. Předlož autorovi čtyři body „K rozhodnutí autora“ z Po R (Odklopit bez odpovědi, hra pod Linkou bezpečí u Seneky, smazání NejdrivSam.svelte, přenos pravidla do skillu atlas-osobnost v účtu Claude) a proveď, co rozhodne. Smazání jen s jeho výslovným souhlasem.
 2. Po schválení: celé npm test, plán větve přesuň do docs/archiv/plany/, v docs/plan-vetve.md větev označ jako hotovou, a sluč sokrates-opravy do main (git merge --no-ff, česká zpráva „Sloučení větve sokrates-opravy: …“).
@@ -105,3 +105,16 @@ Krok Uzavření větve sokrates-opravy. Přečti CLAUDE.md, docs/pouceni.md a v 
 4. Pokud se v repozitáři změnil soubor, který je v Projektu Claude (docs/plan.md, docs/plan-vetve.md, docs/architektura.md, docs/plany/kurikulum.md), aktualizuj ho tam.
 Na konci napiš prompt dalšího kroku podle docs/plan-vetve.md (pořadí větví) a ulož ho i do plánu té větve.
 ```
+
+## Po Uzavření (28. 11. 2026)
+
+**Rozhodnutí autora** (zapsaná v `docs/rozhodnuti.md`, 28. 11. 2026):
+
+1. „Odklopit bez odpovědi“ v Odkryj zůstává.
+2. Hra na Senekově stránce zůstává pod Linkou bezpečí, nad Dobou a lidmi jako na ostatních portrétech.
+3. `NejdrivSam.svelte` zůstává v repozitáři.
+4. Pravidlo o místě hry Kdo žil dřív? přenese autor do skillu `atlas-osobnost` v účtu Claude sám; znění je v posledním bodě šablony v `skills/atlas-osobnost/SKILL.md` a ve zprávě kroku Uzavření.
+
+**Sloučení:** celé `npm test` prošlo, větev sloučená do `main` (`git merge --no-ff`). Na GitHub jen na pokyn autora.
+
+**Na později:** VoiceOver s autorem (dvojí ohlášení potvrzení Zkus to žít, záznam revize); popisky MiniMapy na 390 px a hygiena Svelte (P3, body 9 a 10).
